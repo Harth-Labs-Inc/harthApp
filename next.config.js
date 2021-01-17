@@ -11,3 +11,8 @@ module.exports = {
     includePaths: [path.join(__dirname, "styles")],
   },
 };
+
+module.exports = {
+  // Target must be serverless
+  target: "serverless",
+};
