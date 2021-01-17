@@ -13,10 +13,6 @@ module.exports = {
 };
 
 module.exports = {
-  target: "experimental-serverless-trace",
-};
-
-module.exports = {
   async headers() {
     return [
       {
