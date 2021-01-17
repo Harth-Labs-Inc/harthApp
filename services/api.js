@@ -3,7 +3,7 @@ import Axios from "axios";
 let urls = {
   test: `http://localhost:3000`,
   development: "http://localhost:3000/",
-  production: "https://poject-blarg-9a9aeb.netlify.app/",
+  production: "https://project-blarg-next-71o8krgzu.vercel.app/",
 };
 const api = Axios.create({
   baseURL: urls[process.env.NODE_ENV],
