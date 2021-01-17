@@ -3,7 +3,7 @@ import api from "../services/api";
 
 export const login = async ({ email, password }) => {
   try {
-    const res = await api.post(`/api/login`, {
+    const res = await api.post(`next_api_login/next_api_login.js`, {
       email,
       password,
     });
