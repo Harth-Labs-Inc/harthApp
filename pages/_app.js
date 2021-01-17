@@ -1,6 +1,7 @@
 import "../styles/Styles.modules.scss";
 import { AuthProvider, ProtectRoute } from "../contexts/auth";
 import Layout from "../components/layout";
+import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
