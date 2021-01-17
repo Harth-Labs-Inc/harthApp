@@ -42,7 +42,7 @@
   ],
   "start_url": "https://project-blarg-next.vercel.app/?source=pwa",
   "background_color": "#000000",
-  "display": "standalone",
+  "display": "minimal-ui",
   "scope": "/",
   "theme_color": "#FFFFFF"
 }

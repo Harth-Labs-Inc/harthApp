@@ -13,7 +13,7 @@ const TopNav = (props) => {
         <span className="line"></span>
       </button>
       <p id="channel">Moving Targets</p>
-      <div class="top-buttons">
+      <div className="top-buttons">
         <button id="messages" aria-label="Messages">
           <i className="material-icons white">forum</i>
         </button>
