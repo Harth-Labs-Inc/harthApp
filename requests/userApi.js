@@ -15,7 +15,10 @@ export const login = async ({ email, password }) => {
 
 export const addUser = async (formData) => {
   try {
-    const res = await api.post("/api/adduser", formData);
+    const res = await api.post(
+      "next_api_adduser/next_api_adduser.js",
+      formData
+    );
     return res.data;
   } catch (error) {
     console.log(error);
