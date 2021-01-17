@@ -13,5 +13,5 @@ module.exports = {
 };
 
 module.exports = {
-  target: "serverless",
+  target: "experimental-serverless-trace",
 };
