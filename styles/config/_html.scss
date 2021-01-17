@@ -1,0 +1,30 @@
+html,
+body {
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  font-family: $font-family-1;
+  font-size: 16px;
+  overflow: hidden;
+  background-color: $bg-purple;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  display: block;
+  color: $dark-grey;
+  font-size: 10px;
+  text-decoration: none;
+  transition: color 0.5s;
+
+  &:hover {
+    color: $pink;
+  }
+}
+
+#__next {
+  overflow: hidden;
+}

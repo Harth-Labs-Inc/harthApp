@@ -1,0 +1,76 @@
+#dash-header {
+  display: flex;
+  grid-area: header;
+  background-color: $blarg-purple;
+}
+
+#menu-toggle {
+  height: 56px;
+  width: 56px;
+  text-align: center;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: $bg-purple;
+  }
+
+  .line {
+    display: block;
+    height: 2px;
+    width: 18px;
+    margin: 3px auto;
+    background-color: $white;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .menu-open & {
+    background-color: $white;
+    .line {
+      background-color: $blarg-purple;
+      &:first-child {
+        transform: translateY(5px) rotate(45deg);
+      }
+      &:nth-of-type(2) {
+        opacity: 0;
+      }
+      &:last-child {
+        transform: translateY(-5px) rotate(-45deg);
+      }
+    }
+  }
+}
+
+#channel {
+  padding: 0 8px;
+  color: $white;
+  line-height: 25px;
+}
+
+.top-buttons {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+  margin-left: auto;
+  button {
+    position: relative;
+    height: 40px;
+    width: 40px;
+    margin-left: 24px;
+    background-color: transparent;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:last-of-type {
+      padding: 4px;
+    }
+
+    &:hover {
+      background-color: $bg-purple;
+    }
+  }
+}

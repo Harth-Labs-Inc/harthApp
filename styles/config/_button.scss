@@ -1,0 +1,17 @@
+.btn {
+  padding: 9.5px 13.5px;
+  color: $white;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  line-height: 16px;
+  text-transform: uppercase;
+  background-color: $blarg-purple;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: color 0.5s;
+
+  &:hover {
+    color: $pink;
+  }
+}

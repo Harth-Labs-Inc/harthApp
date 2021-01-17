@@ -1,0 +1,18 @@
+@import "./globals";
+
+//utility
+@import "./utility/ui-mixins";
+
+//config
+@import "./config/html", "./config/button", "./config/forms",
+  "./config/config-type", "./config/icons";
+
+//layouts
+@import "./layouts/header", "./layouts/sidedash";
+
+//navigation
+@import "./navigation/main";
+
+//pages
+@import "./pages/login", "./pages/createAccount", "./pages/resetPwd",
+  "./pages/dashboard";

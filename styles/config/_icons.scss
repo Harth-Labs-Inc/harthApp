@@ -1,0 +1,10 @@
+.material-icons {
+  @include x-y-center;
+  transition: all 0.3s;
+  &.white {
+    color: $white;
+  }
+  &.grey {
+    color: $icon-grey;
+  }
+}

@@ -1,0 +1,55 @@
+#main-menu {
+  position: fixed;
+  top: 56px;
+  left: -304px;
+  height: calc(100vh - 56px);
+  width: 100%;
+  max-width: 304px;
+  background-color: $white;
+
+  .menu-closed & {
+    animation-name: flyin;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+
+  .menu-open & {
+    animation-name: flyout;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes flyin {
+  0% {
+    left: 0px;
+    z-index: 999;
+  }
+  50% {
+    left: 60px;
+  }
+  75% {
+    z-index: 0;
+  }
+  100% {
+    left: -304px;
+    z-index: 0;
+  }
+}
+
+@keyframes flyout {
+  0% {
+    left: -304px;
+    z-index: 0;
+  }
+  50% {
+    left: 60px;
+  }
+  75% {
+    z-index: 999;
+  }
+  100% {
+    left: 0px;
+    z-index: 999;
+  }
+}

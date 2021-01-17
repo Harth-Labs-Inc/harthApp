@@ -1,0 +1,49 @@
+label,
+input {
+  display: block;
+}
+fieldset {
+  position: relative;
+  label {
+    @include y-center;
+    left: 10px;
+    z-index: 0;
+    padding: 0 5px;
+    font-size: 16px;
+    line-height: 21px;
+    background-color: $white;
+    transition: all 0.6s;
+  }
+
+  &:focus-within,
+  &.content {
+    label {
+      top: 0%;
+      z-index: 2;
+      font-size: 14px;
+    }
+  }
+}
+
+input {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 17.5px 16.5px;
+  font-size: 16px;
+  background-color: transparent;
+  border: 1px solid $black;
+  border-radius: 3px;
+
+  &:-webkit-autofill {
+    background-color: transparent;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2pt $blarg-purple;
+    border-color: transparent;
+    // border-width: 2px;
+    // outline: 1px solid $blarg-purple;
+    outline: 0;
+  }
+}
