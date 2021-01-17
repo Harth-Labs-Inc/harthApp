@@ -3,7 +3,7 @@ import api from "../services/api";
 
 export const login = async ({ email, password }) => {
   try {
-    const res = await api.post(`next_api_login/next_api_login.js`, {
+    const res = await api.post(`/api/login`, {
       email,
       password,
     });
@@ -15,10 +15,7 @@ export const login = async ({ email, password }) => {
 
 export const addUser = async (formData) => {
   try {
-    const res = await api.post(
-      "next_api_adduser/next_api_adduser.js",
-      formData
-    );
+    const res = await api.post("/api/adduser", formData);
     return res.data;
   } catch (error) {
     console.log(error);
