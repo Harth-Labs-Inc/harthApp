@@ -7,6 +7,10 @@
     "build": "next build",
     "start": "next start"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Project-Blarg/Project-Blarg-next.git"
+  },
   "dependencies": {
     "aws-sdk": "^2.828.0",
     "axios": "^0.21.1",
