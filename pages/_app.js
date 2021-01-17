@@ -20,11 +20,6 @@ function MyApp({ Component, pageProps }) {
         );
       });
     }
-    if ("setAppBadge" in navigator) {
-      canvas.addEventListener("pointerdown", () => {
-        navigator.setAppBadge(1);
-      });
-    }
   }, []);
   return (
     <AuthProvider>
