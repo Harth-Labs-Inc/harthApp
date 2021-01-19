@@ -2,10 +2,10 @@
   @include x-center;
   top: 140px;
   height: 195px;
-  width: 380px;
-  padding: 27px 40px 20px;
-  background-color: #f3f3f3;
-  border-radius: 12px;
+  width: 360px;
+  padding: 21px 16px 24px;
+  background-color: $white;
+  border-radius: 5px;
 
   transform: translateX(-100vw);
   transition: transform 0.7s;
@@ -21,9 +21,10 @@
   }
 
   #return-login {
-    display: block;
+    display: inline-block;
     color: $dark-grey;
-    font-size: 10px;
+    font-size: 12px;
+    line-height: 40px;
     text-decoration: none;
     cursor: pointer;
     &:hover {

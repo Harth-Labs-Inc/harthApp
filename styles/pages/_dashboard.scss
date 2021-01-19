@@ -16,7 +16,7 @@
     @include cover;
     content: "";
     background-color: transparent;
-    transition: background-color 0.3s;
+    transition: background-color 0.5s;
   }
 
   .menu-open & {

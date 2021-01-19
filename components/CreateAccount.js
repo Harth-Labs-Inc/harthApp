@@ -98,19 +98,24 @@ const CreateAccount = (props) => {
       )}
 
       <form id="login" onSubmit={submitHandler}>
-        <fieldset>
+        <fieldset className={formData.email ? "content" : ""}>
           <label>Email</label>
-          <input name="email" type="email" onChange={handleInputChange} />
+          <input
+            name="email"
+            type="email"
+            onChange={handleInputChange}
+            autoComplete="off"
+          />
         </fieldset>
         <p className={errorData["email"] ? "error" : ""}>Field Required</p>
 
-        <fieldset>
+        <fieldset className={formData.password ? "content" : ""}>
           <label>Password</label>
           <input name="password" type="password" onChange={handleInputChange} />
         </fieldset>
         <p className={errorData["password"] ? "error" : ""}>Field Required</p>
 
-        <fieldset>
+        <fieldset className={formData.conf_password ? "content" : ""}>
           <label>Confirm Password</label>
           <input
             name="conf_password"
@@ -130,9 +135,14 @@ const CreateAccount = (props) => {
             : ""}
         </p>
 
-        <fieldset>
+        <fieldset className={formData.access_code ? "content" : ""}>
           <label>Access Code</label>
-          <input name="access_code" type="text" onChange={handleInputChange} />
+          <input
+            name="access_code"
+            type="text"
+            onChange={handleInputChange}
+            autoComplete="off"
+          />
         </fieldset>
         <p className={errorData["access_code"] ? "error" : ""}>
           Field Required

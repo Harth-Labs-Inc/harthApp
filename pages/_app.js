@@ -20,6 +20,14 @@ function MyApp({ Component, pageProps }) {
         );
       });
     }
+    //disable right click
+    // window.addEventListener(
+    //   "contextmenu",
+    //   function (e) {
+    //     e.preventDefault();
+    //   },
+    //   false
+    // );
   }, []);
   return (
     <AuthProvider>

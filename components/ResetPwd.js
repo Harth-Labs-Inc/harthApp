@@ -3,6 +3,7 @@ import Link from "next/link";
 import Button from "./Button";
 
 const ResetPwd = (props) => {
+  const [emailExists, setEmailExists] = useState();
   const [transitionClass, setTransitionClass] = useState();
   useEffect(() => {
     setTimeout(() => {
@@ -14,12 +15,10 @@ const ResetPwd = (props) => {
       <h2>Forgot Password</h2>
       <form id="reset-password">
         <fieldset>
-          <label>
-            Email
-            <input name="email" type="text" />
-          </label>
-          <p className="error">Field Required</p>
+          <label>Email</label>
+          <input name="email" type="text" />
         </fieldset>
+        <p className="error">Field Required</p>
         <fieldset>
           <div className="form-bottom">
             <div>

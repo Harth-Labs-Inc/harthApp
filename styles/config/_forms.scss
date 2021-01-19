@@ -1,7 +1,23 @@
+form {
+  p {
+    height: 11px;
+    margin: 0 0 30px;
+    font-size: 10px;
+    color: $pink;
+    opacity: 0;
+    visibility: hidden;
+
+    &.error {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
 label,
 input {
   display: block;
 }
+
 fieldset {
   position: relative;
   label {

@@ -31,12 +31,12 @@ export default async (req, res) => {
   const { db } = await connectToDatabase();
   let user = await findUser(db, obj.email);
   if (!user) {
-    return res.json({ msg: "No user Found" });
+    return res.json({ msg: "No User Found" });
   }
   console.log(user);
   let isEqual = await comparePwd(user.password, obj.password);
   if (!isEqual) {
-    return res.json({ msg: "passwords do not match", ok: 0 });
+    return res.json({ msg: "Passwords Do Not Match", ok: 0 });
   }
   console.log(process.env.MONGODB_DB);
   let token = jwt.sign(

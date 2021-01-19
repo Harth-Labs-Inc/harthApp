@@ -5,50 +5,88 @@ import Cookies from "js-cookie";
 import { login } from "../requests/userApi";
 
 const Login = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [errorData, setErrorData] = useState({
+    email: false,
+    password: false,
+    conf_password: false,
+    access_code: false,
+  });
 
-  const emailChangeHandler = (e) => {
-    const { value } = e.target;
-    setEmail(value);
+  const checkMissingInputFields = () => {
+    let missingFields = [];
+    for (let [key, value] of Object.entries(formData)) {
+      if (!value.trim()) {
+        missingFields.push(key);
+      }
+    }
+    return missingFields;
   };
-  const passwordChangeHandler = (e) => {
-    const { value } = e.target;
-    setPassword(value);
-  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(email, password);
-    const data = await login({ email, password });
-    if (data.tkn) {
-      Cookies.set("token", data.tkn, { expires: 365 });
-      window.location.pathname = "/";
+    setErrorMessage("");
+    let tempErrorData = { ...errorData };
+    let missing = checkMissingInputFields();
+    if (missing.length > 0) {
+      missing.forEach((mInput) => {
+        tempErrorData[mInput] = true;
+      });
+      setErrorData(tempErrorData);
+    } else {
+      const data = await login(formData);
+      const { ok, msg, tkn } = data;
+
+      if (ok) {
+        Cookies.set("token", tkn, { expires: 365 });
+        window.location.pathname = "/";
+      } else {
+        setErrorMessage(msg);
+      }
+      console.log(data);
     }
-    console.log(data);
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setErrorData({
+      ...errorData,
+      [name]: false,
+    });
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // const submitHandler = async (e) => {
+  //   e.preventDefault();
+
+  //
+  // };
   return (
     <div className={props.animationClass} id="login-module">
       <h2>Project Blarg</h2>
       <form id="login" onSubmit={submitHandler}>
-        <fieldset className={email ? "content" : ""}>
+        <fieldset className={formData.email ? "content" : ""}>
           <label htmlFor="email">Login</label>
           <input
             name="email"
             type="email"
-            required
-            onChange={emailChangeHandler}
+            onChange={handleInputChange}
+            autoComplete="off"
           />
         </fieldset>
-        <fieldset className={password ? "content" : ""}>
+        <p className={errorData["email"] ? "error" : ""}>Field Required</p>
+        <fieldset className={formData.password ? "content" : ""}>
           <label htmlFor="password">Password</label>
-          <input
-            name="password"
-            type="password"
-            required
-            onChange={passwordChangeHandler}
-          />
+          <input name="password" type="password" onChange={handleInputChange} />
         </fieldset>
+        <p className={errorData["password"] ? "error" : ""}>Field Required</p>
         <fieldset>
           <div className="form-bottom">
             <div>
@@ -71,7 +109,9 @@ const Login = (props) => {
             </div>
             <div>
               <Button id="login-submit" type="submit" text="Sign In"></Button>
-              <p id="login-error">{errorMessage ? errorMessage : ""}</p>
+              <p className={errorMessage ? "error" : ""} id="login-error">
+                {errorMessage ? errorMessage : ""}
+              </p>
             </div>
           </div>
         </fieldset>
