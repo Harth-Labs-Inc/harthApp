@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../util/mongodb";
+import { connectToDatabase } from "../../../util/mongodb";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -39,10 +39,7 @@ export default async (req, res) => {
     return res.json({ msg: "Passwords Do Not Match", ok: 0 });
   }
   console.log(process.env.MONGODB_DB);
-  let token = jwt.sign(
-    { userId: user._id.toString() },
-    "alakjsdhfklajdhfluaiwehyrjasbdfclnbclvbjlsadhfliashyriuewhasjkdfskfhalksdhbflahlajdbflaksjdfhlasfheaihalsjdhsjfhfhaiwhfljfsdlkfjhaslfhweuilhjdflawhefliuwhsdfljhsflhweslfhwlifglfhlawjhfliuawehugflasjbxbcxxbvnmcbvsjdkfhgsliudtyreioudfjg"
-  );
+  let token = jwt.sign({ userId: user._id.toString() }, process.env.SECRET);
   console.log(token);
   return res.json({ msg: "login successful", tkn: token, ok: 1 });
 };

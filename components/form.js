@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-const Form = ({ props, children }) => {
-  const [formData, setFormData] = useState({});
-  const [errorData, setErrorData] = useState({});
-
-  useEffect(() => {
-    console.log(props);
-  }, [props]);
+const Form = (props) => {
+  const { children, data, on_submit, on_missing, id, errorData } = props;
 
   const checkMissingInputFields = () => {
     let missingFields = [];
-    for (let [key, value] of Object.entries(formData)) {
+    for (let [key, value] of Object.entries(data)) {
       if (!value.trim()) {
         missingFields.push(key);
       }
@@ -19,33 +14,22 @@ const Form = ({ props, children }) => {
   };
 
   const submitHandler = async (e) => {
+    console.log("made it to fomrn");
     e.preventDefault();
-    let tempErrorData = { ...errorData };
     let missing = checkMissingInputFields();
     if (missing.length > 0) {
+      let tempErrorData = { ...errorData };
       missing.forEach((mInput) => {
         tempErrorData[mInput] = true;
       });
-      setErrorData(tempErrorData);
+      on_missing(tempErrorData);
     } else {
-      props.on_submit();
+      on_submit();
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setErrorData({
-      ...errorData,
-      [name]: false,
-    });
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
   return (
-    <form {...props} onSubmit={submitHandler}>
+    <form id={id} onSubmit={submitHandler}>
       {children}
     </form>
   );

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import Cookies from "js-cookie";
-
 import { login } from "../requests/userApi";
+import Form from "./form";
+import Input from "./Input";
 
 const Login = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,76 +18,63 @@ const Login = (props) => {
     access_code: false,
   });
 
-  const checkMissingInputFields = () => {
-    let missingFields = [];
-    for (let [key, value] of Object.entries(formData)) {
-      if (!value.trim()) {
-        missingFields.push(key);
-      }
-    }
-    return missingFields;
+  const inputChangeHandler = (eData, data) => {
+    setErrorData(eData);
+    setFormData(data);
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const setMissing = (missing) => {
+    setErrorData(missing);
+  };
+
+  const submitHandler = async () => {
     setErrorMessage("");
-    let tempErrorData = { ...errorData };
-    let missing = checkMissingInputFields();
-    if (missing.length > 0) {
-      missing.forEach((mInput) => {
-        tempErrorData[mInput] = true;
-      });
-      setErrorData(tempErrorData);
+
+    const data = await login(formData);
+    const { ok, msg, tkn } = data;
+
+    if (ok) {
+      Cookies.set("token", tkn, { expires: 365 });
+      window.location.pathname = "/";
     } else {
-      const data = await login(formData);
-      const { ok, msg, tkn } = data;
-
-      if (ok) {
-        Cookies.set("token", tkn, { expires: 365 });
-        window.location.pathname = "/";
-      } else {
-        setErrorMessage(msg);
-      }
-      console.log(data);
+      setErrorMessage(msg);
     }
+    console.log(data);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setErrorData({
-      ...errorData,
-      [name]: false,
-    });
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  // const submitHandler = async (e) => {
-  //   e.preventDefault();
-
-  //
-  // };
   return (
     <div className={props.animationClass} id="login-module">
       <h2>Project Blarg</h2>
-      <form id="login" onSubmit={submitHandler}>
-        <fieldset className={formData.email ? "content" : ""}>
-          <label htmlFor="email">Login</label>
-          <input
-            name="email"
-            type="email"
-            onChange={handleInputChange}
-            autoComplete="off"
-          />
-        </fieldset>
-        <p className={errorData["email"] ? "error" : ""}>Field Required</p>
-        <fieldset className={formData.password ? "content" : ""}>
-          <label htmlFor="password">Password</label>
-          <input name="password" type="password" onChange={handleInputChange} />
-        </fieldset>
-        <p className={errorData["password"] ? "error" : ""}>Field Required</p>
+      <Form
+        id="login"
+        on_submit={submitHandler}
+        on_missing={setMissing}
+        data={formData}
+        errorData={errorData}
+      >
+        <Input
+          title="Email"
+          name="email"
+          type="text"
+          empty={formData.email}
+          value={formData.email}
+          valid={errorData["email"]}
+          changeHandler={inputChangeHandler}
+          data={formData}
+          errorData={errorData}
+        />
+        <Input
+          title="Password"
+          name="password"
+          type="password"
+          empty={formData.password}
+          value={formData.password}
+          valid={errorData["password"]}
+          changeHandler={inputChangeHandler}
+          data={formData}
+          errorData={errorData}
+        />
+
         <fieldset>
           <div className="form-bottom">
             <div>
@@ -115,7 +103,7 @@ const Login = (props) => {
             </div>
           </div>
         </fieldset>
-      </form>
+      </Form>
     </div>
   );
 };

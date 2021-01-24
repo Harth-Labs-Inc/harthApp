@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../util/mongodb";
+import { connectToDatabase } from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
 
 export default async (req, res) => {
@@ -8,7 +8,7 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  console.log("obj", obj);
+
   const findUser = (db, id) => {
     return new Promise((resolve, reject) => {
       let mongo = require("mongodb");
@@ -28,12 +28,7 @@ export default async (req, res) => {
   };
   const decode = (tokn) => {
     return new Promise((resolve, reject) => {
-      resolve(
-        jwt.verify(
-          tokn,
-          "alakjsdhfklajdhfluaiwehyrjasbdfclnbclvbjlsadhfliashyriuewhasjkdfskfhalksdhbflahlajdbflaksjdfhlasfheaihalsjdhsjfhfhaiwhfljfsdlkfjhaslfhweuilhjdflawhefliuwhsdfljhsflhweslfhwlifglfhlawjhfliuawehugflasjbxbcxxbvnmcbvsjdkfhgsliudtyreioudfjg"
-        )
-      );
+      resolve(jwt.verify(tokn, process.env.SECRET));
     });
   };
 

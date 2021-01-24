@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Button from "./Button";
-
-import { Router } from "next/router";
+import Cookies from "js-cookie";
+import { login } from "../requests/userApi";
 import { addUser } from "../requests/userApi";
+import Button from "./Button";
+import Form from "./form";
+import Input from "./Input";
 
 const CreateAccount = (props) => {
   const [transitionClass, setTransitionClass] = useState();
+  const [submissionType, setSubmissionType] = useState();
   const [accountCreationStatus, setAccountCreationStatus] = useState(false);
   const [matchingPwdStatus, setMatchingPwdStatus] = useState(true);
   const [existsError, setExistsError] = useState(false);
@@ -28,15 +31,10 @@ const CreateAccount = (props) => {
     }, 4);
   }, []);
 
-  const checkMissingInputFields = () => {
-    let missingFields = [];
-    for (let [key, value] of Object.entries(formData)) {
-      if (!value.trim()) {
-        missingFields.push(key);
-      }
-    }
-    return missingFields;
-  };
+  useEffect(() => {
+    let matching = checkMatchingPwFields();
+    setMatchingPwdStatus(matching);
+  }, [formData]);
 
   const checkMatchingPwFields = () => {
     let valid;
@@ -50,17 +48,8 @@ const CreateAccount = (props) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    let tempErrorData = { ...errorData };
-    let missing = checkMissingInputFields();
-    let matching = checkMatchingPwFields();
-    setMatchingPwdStatus(matching);
-    if (missing.length > 0) {
-      missing.forEach((mInput) => {
-        tempErrorData[mInput] = true;
-      });
-      setErrorData(tempErrorData);
-    } else {
-      if (matching) {
+    if (submissionType == "create") {
+      if (matchingPwdStatus) {
         const data = await addUser(formData);
         const { exists } = data;
         if (exists) {
@@ -70,18 +59,30 @@ const CreateAccount = (props) => {
         }
       }
     }
+    if (submissionType == "login") {
+      loginHandler();
+    }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setErrorData({
-      ...errorData,
-      [name]: false,
-    });
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const inputChangeHandler = (eData, data) => {
+    setErrorData(eData);
+    setFormData(data);
+  };
+
+  const setMissing = (missing) => {
+    setErrorData(missing);
+  };
+
+  const loginHandler = async () => {
+    const data = await login(formData);
+    const { ok, msg, tkn } = data;
+    if (ok) {
+      Cookies.set("token", tkn, { expires: 365 });
+      window.location.pathname = "/";
+    } else {
+      console.log(msg);
+    }
+    console.log(data);
   };
 
   return (
@@ -96,57 +97,58 @@ const CreateAccount = (props) => {
       ) : (
         <h2>Create an Account</h2>
       )}
-
-      <form id="login" onSubmit={submitHandler}>
-        <fieldset className={formData.email ? "content" : ""}>
-          <label>Email</label>
-          <input
-            name="email"
-            type="email"
-            onChange={handleInputChange}
-            autoComplete="off"
-          />
-        </fieldset>
-        <p className={errorData["email"] ? "error" : ""}>Field Required</p>
-
-        <fieldset className={formData.password ? "content" : ""}>
-          <label>Password</label>
-          <input name="password" type="password" onChange={handleInputChange} />
-        </fieldset>
-        <p className={errorData["password"] ? "error" : ""}>Field Required</p>
-
-        <fieldset className={formData.conf_password ? "content" : ""}>
-          <label>Confirm Password</label>
-          <input
-            name="conf_password"
-            type="password"
-            onChange={handleInputChange}
-          />
-        </fieldset>
-        <p
-          className={
-            errorData["conf_password"] || !matchingPwdStatus ? "error" : ""
-          }
-        >
-          {errorData["conf_password"]
-            ? "Field Required"
-            : !matchingPwdStatus
-            ? "Passwords Do Not Match"
-            : ""}
-        </p>
-
-        <fieldset className={formData.access_code ? "content" : ""}>
-          <label>Access Code</label>
-          <input
-            name="access_code"
-            type="text"
-            onChange={handleInputChange}
-            autoComplete="off"
-          />
-        </fieldset>
-        <p className={errorData["access_code"] ? "error" : ""}>
-          Field Required
-        </p>
+      <Form
+        id="login"
+        on_submit={submitHandler}
+        on_missing={setMissing}
+        data={formData}
+        errorData={errorData}
+      >
+        <Input
+          title="Email"
+          name="email"
+          type="text"
+          empty={formData.email}
+          value={formData.email}
+          valid={errorData["email"]}
+          changeHandler={inputChangeHandler}
+          data={formData}
+          errorData={errorData}
+        />
+        <Input
+          title="Password"
+          name="password"
+          type="password"
+          empty={formData.password}
+          value={formData.password}
+          valid={errorData["password"]}
+          changeHandler={inputChangeHandler}
+          data={formData}
+          errorData={errorData}
+        />
+        <Input
+          title="Confirm Password"
+          name="conf_password"
+          type="password"
+          empty={formData.conf_password}
+          value={formData.conf_password}
+          valid={errorData["conf_password"]}
+          matching={matchingPwdStatus}
+          changeHandler={inputChangeHandler}
+          data={formData}
+          errorData={errorData}
+        />
+        <Input
+          title="Access Code"
+          name="access_code"
+          type="text"
+          empty={formData.access_code}
+          value={formData.access_code}
+          valid={errorData["access_code"]}
+          changeHandler={inputChangeHandler}
+          data={formData}
+          errorData={errorData}
+        />
         <fieldset>
           <div className="form-bottom">
             <div>
@@ -164,10 +166,9 @@ const CreateAccount = (props) => {
               <Button
                 id="account-create-submit"
                 text="Go to dashboard"
+                type="submit"
                 onClick={() => {
-                  console.log("clicked");
-                  window.location.pathname = "/dashboard";
-                  Router.push("/dashboard");
+                  setSubmissionType("login");
                 }}
               ></Button>
             ) : (
@@ -175,12 +176,15 @@ const CreateAccount = (props) => {
                 id="account-create-submit"
                 type="submit"
                 text="Create Account"
+                onClick={() => {
+                  setSubmissionType("create");
+                }}
               ></Button>
             )}
             <p className={existsError ? "error" : ""}>Email Already Exists</p>
           </div>
         </fieldset>
-      </form>
+      </Form>
       <div></div>
     </div>
   );

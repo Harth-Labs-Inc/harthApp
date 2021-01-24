@@ -1,4 +1,3 @@
-import Head from "next/head";
 import TopNav from "./TopNav";
 import SideNav from "./SideNav";
 import { useState } from "react";
