@@ -6,7 +6,6 @@ import { ChatProvider } from "../../contexts/chat";
 const dashboard = ({ props, children }) => {
   const { user, loading } = useAuth();
   if (user) {
-    console.log("user", user);
   }
 
   return (

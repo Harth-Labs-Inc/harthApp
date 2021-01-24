@@ -24,18 +24,15 @@ export const ChatProvider = ({ children }) => {
     socket.emit("login", "test");
     // list of connected users
     socket.on("users", (data) => {
-      console.log(data);
       setUserList({ usersList: JSON.parse(data) });
     });
     // get the logged user
     socket.on("connecteduser", (data) => {
-      console.log(data);
       setLoggedUser(JSON.parse(data));
     });
 
     // we get the messages
     socket.on("getMsg", (data) => {
-      console.log(data);
       let listMessages = recMsg.listMsg;
       listMessages.push(JSON.parse(data));
       setRecMsg({ listMsg: listMessages });

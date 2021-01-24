@@ -1,6 +1,6 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
-import Form from "./form";
+import Form from "./Form";
 import Input from "./Input";
 import { updatePassword } from "../requests/userApi";
 

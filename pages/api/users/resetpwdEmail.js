@@ -9,7 +9,6 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  console.log(obj);
 
   const findUser = (db, email) => {
     return new Promise((resolve, reject) => {
@@ -17,7 +16,7 @@ export default async (req, res) => {
         .find({ email: email })
         .toArray(function (err, results) {
           if (err) {
-            console.log(err);
+            resolve(false);
           }
           resolve(results[0]);
         });
@@ -59,7 +58,7 @@ export default async (req, res) => {
 
       const mailOptions = {
         from: process.env.GMAIL_EMAIL,
-        to: `projectblarg@gmail.com`,
+        to: email,
         subject: "reset pasword",
         html: `
         <p>You recently requested to reset your password for your Blarg account. Use the button below to reset it. <b>This password reset is only valid for the next hour</b></p>

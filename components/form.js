@@ -14,7 +14,6 @@ const Form = (props) => {
   };
 
   const submitHandler = async (e) => {
-    console.log("made it to fomrn");
     e.preventDefault();
     let missing = checkMissingInputFields();
     if (missing.length > 0) {

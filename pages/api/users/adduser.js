@@ -8,7 +8,7 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  console.log(obj);
+
   const createUser = (db, email, password) => {
     return new Promise((resolve, reject) => {
       bcrypt.hash(password, 12, function (err, hash) {
@@ -16,7 +16,6 @@ export default async (req, res) => {
           { email, password: hash },
           function (err, userCreated) {
             if (err) {
-              console.log(err);
             }
             resolve(userCreated);
           }
@@ -31,7 +30,6 @@ export default async (req, res) => {
         .find({ email: email })
         .toArray(function (err, results) {
           if (err) {
-            console.log(err);
           }
           resolve(results);
         });

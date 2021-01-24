@@ -8,7 +8,6 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  console.log(obj);
 
   const findUser = (db, tkn) => {
     return new Promise((resolve, reject) => {
@@ -19,7 +18,7 @@ export default async (req, res) => {
         })
         .toArray(function (err, results) {
           if (err) {
-            console.log(err);
+            resolve(false);
           }
           resolve(results[0]);
         });
@@ -43,7 +42,6 @@ export default async (req, res) => {
           newValues,
           function (err, res) {
             if (err) {
-              console.log(err);
               resolve(false);
             } else {
               resolve(true);
@@ -59,7 +57,6 @@ export default async (req, res) => {
   if (!user) {
     return res.json({ msg: "token has expired or invalid token", ok: 0 });
   }
-  console.log("teset", user);
   let update = await updateUser(db, user, obj.password);
   if (!update) {
     return res.json({ msg: "something went wrong", ok: 0 });

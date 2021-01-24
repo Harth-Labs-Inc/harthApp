@@ -80,9 +80,7 @@ const CreateAccount = (props) => {
       Cookies.set("token", tkn, { expires: 365 });
       window.location.pathname = "/";
     } else {
-      console.log(msg);
     }
-    console.log(data);
   };
 
   return (

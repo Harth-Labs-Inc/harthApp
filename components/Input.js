@@ -28,8 +28,6 @@ const Input = (props) => {
     changeHandler(tempErrorData, tempData);
   };
 
-  console.log(props);
-
   return (
     <>
       <fieldset className={empty ? "content" : ""}>

@@ -7,7 +7,7 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  console.log(obj);
+
   const findUser = (db, tkn) => {
     return new Promise((resolve, reject) => {
       db.collection("users")
@@ -17,7 +17,7 @@ export default async (req, res) => {
         })
         .toArray(function (err, results) {
           if (err) {
-            console.log(err);
+            resolve(false);
           }
           resolve(results[0]);
         });

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 const SideNav = () => {
   const { pathname } = useRouter();
-  console.log(pathname);
+
   return (
     <aside id="dash-side">
       <Link href="/chat">

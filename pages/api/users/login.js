@@ -9,14 +9,14 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  console.log(obj);
+
   const findUser = (db, email) => {
     return new Promise((resolve, reject) => {
       db.collection("users")
         .find({ email: email })
         .toArray(function (err, results) {
           if (err) {
-            console.log(err);
+            resolve(false);
           }
           resolve(results[0]);
         });
@@ -31,15 +31,15 @@ export default async (req, res) => {
   const { db } = await connectToDatabase();
   let user = await findUser(db, obj.email);
   if (!user) {
-    return res.json({ msg: "No User Found" });
+    return res.json({ msg: "No User Found", ok: 0 });
   }
-  console.log(user);
+
   let isEqual = await comparePwd(user.password, obj.password);
   if (!isEqual) {
     return res.json({ msg: "Passwords Do Not Match", ok: 0 });
   }
-  console.log(process.env.MONGODB_DB);
+
   let token = jwt.sign({ userId: user._id.toString() }, process.env.SECRET);
-  console.log(token);
+
   return res.json({ msg: "login successful", tkn: token, ok: 1 });
 };

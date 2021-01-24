@@ -5,7 +5,6 @@ import Dashboad from "../dashboard/index";
 const Game = (props) => {
   const { user, loading } = useAuth();
   if (user) {
-    console.log(user);
   }
 
   return (

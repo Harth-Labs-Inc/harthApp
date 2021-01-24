@@ -13,15 +13,13 @@ export default async (req, res) => {
     return new Promise((resolve, reject) => {
       let mongo = require("mongodb");
       let o_id = new mongo.ObjectID(id);
-      console.log(o_id);
       db.collection("users")
         .find({ _id: o_id })
         .project({ password: 0 })
         .toArray(function (err, results) {
           if (err) {
-            console.log(err);
+            resolve(false);
           }
-          console.log(results);
           resolve(results[0]);
         });
     });
@@ -33,13 +31,15 @@ export default async (req, res) => {
   };
 
   let decodedToken = await decode(obj.token);
-  if (!decodedToken) res.json({ msg: "invalid token", ok: 0 });
+  if (!decodedToken) res.json({ msg: "Invalid Token", ok: 0 });
 
   let { userId } = decodedToken;
-  if (!userId) res.json({ msg: "invalid token", ok: 0 });
+  if (!userId) res.json({ msg: "Invalid Token", ok: 0 });
 
   const { db } = await connectToDatabase();
   let user = await findUser(db, userId);
-  console.log(user);
+  if (!user) {
+    return res.json({ msg: "No User Found", ok: 0 });
+  }
   return res.json({ msg: "user found", user, ok: 1 });
 };

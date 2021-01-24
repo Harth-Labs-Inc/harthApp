@@ -39,7 +39,6 @@ const Login = (props) => {
     } else {
       setErrorMessage(msg);
     }
-    console.log(data);
   };
 
   return (
