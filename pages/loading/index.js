@@ -1,4 +1,4 @@
-import { useAuth } from "../contexts/auth";
+import { useAuth } from "../../contexts/auth";
 import React, { useEffect } from "react";
 
 const Loading = (props) => {

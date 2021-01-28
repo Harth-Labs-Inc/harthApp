@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/auth";
 import { useRouter } from "next/router";
 import { verifyResetTkn } from "../../requests/userApi";
-import InvalidReset from "../../components/InvalidReset";
-import ChangePassword from "../../components/changePassword";
-import Login from "../../components/Login";
-import ResetPwd from "../../components/ResetPwd";
-import CreateAccount from "../../components/CreateAccount";
+import InvalidReset from "./invalidReset";
+import ChangePassword from "../auth/changePassword";
+import Login from "../auth/login";
+import ResetPwd from "../auth/forgotPassword";
+import CreateAccount from "../auth/createAccount";
 
 const authIndexPage = () => {
   const [currentPage, setCurrentPage] = useState("login");

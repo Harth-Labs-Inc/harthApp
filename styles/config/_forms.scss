@@ -1,65 +1,228 @@
 form {
   p {
     height: 11px;
-    margin: 0 0 30px;
+    margin: 3px 0 19px;
+    padding-left: 14px;
     font-size: 10px;
-    color: $pink;
+    color: $red;
     opacity: 0;
     visibility: hidden;
+  }
+
+  label,
+  input {
+    display: block;
+  }
+
+  fieldset {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    label {
+      @include y-center;
+      top: calc(50% - 17px);
+      left: 10px;
+      z-index: 0;
+      padding: 0 5px;
+      color: rgba($black, 0.6);
+      font-size: 16px;
+      line-height: 21px;
+      // background-color: $white;
+      transition: all 0.6s;
+    }
+
+    .border-wrapper {
+      #input-top,
+      #input-center,
+      #input-bottom {
+        display: flex;
+      }
+      #input-center {
+        margin: -2px 0;
+      }
+      #border-1,
+      #border-2,
+      #border-3,
+      #border-6,
+      #border-7,
+      #border-8 {
+        display: inline-block;
+        width: 100px;
+        height: 10px;
+        margin: 0 -1px;
+      }
+      #input {
+        width: calc(100% - 4px);
+      }
+      #border-4,
+      #border-5 {
+        display: inline-block;
+        height: 38px;
+        width: 2px;
+        margin: 0 -1px;
+      }
+      #border-6,
+      #border-7,
+      #border-8 {
+        width: calc(100% / 3 + (2px / 3));
+      }
+
+      #border-1 {
+        width: 10px;
+        box-shadow: -1px -1px 0 0 $black;
+        border-top-left-radius: 5px;
+      }
+      #border-2 {
+        opacity: 1;
+        box-shadow: 0px -1px 0 0 $black;
+        transition: opacity 0.3s;
+      }
+      #border-3 {
+        box-shadow: 1px -1px 0 0 $black;
+        border-top-right-radius: 5px;
+      }
+      #border-4 {
+        box-shadow: -1px 0 0 0 $black;
+      }
+      #border-5 {
+        box-shadow: 1px 0 0 0 $black;
+      }
+      #border-6 {
+        box-shadow: -1px 1px 0 0 $black;
+        border-bottom-left-radius: 5px;
+      }
+      #border-7 {
+        box-shadow: 0px 1px 0 0 $black;
+      }
+      #border-8 {
+        box-shadow: 1px 1px 0 0 $black;
+        border-bottom-right-radius: 5px;
+      }
+    }
+
+    input {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding: 7.5px 16.5px;
+      color: rgba($black, 0.74);
+      font-size: 16px;
+      background-color: transparent;
+      border: 0;
+      // box-shadow: 0 0 0 1pt $black;
+      border-radius: 3px;
+      transition: box-shadow 0.3s;
+
+      &:-webkit-autofill {
+        background-color: transparent;
+      }
+    }
+
+    .form-bottom {
+      .btn {
+        width: 100%;
+        margin-bottom: 8px;
+      }
+      a {
+        color: rgba($black, 0.6);
+        font-size: 12px;
+        line-height: 14px;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+          color: $blarg-purple;
+        }
+      }
+
+      a + a {
+        margin-top: 5px;
+      }
+    }
+
+    &:focus-within,
+    &.content {
+      label {
+        top: 0%;
+        z-index: 2;
+        font-size: 14px;
+      }
+      #border-2 {
+        opacity: 0;
+      }
+    }
+
+    &:focus-within {
+      label {
+        color: $blarg-purple;
+      }
+      input {
+        outline: 0;
+      }
+      #border-1 {
+        box-shadow: -2px -2px 0 0 $blarg-purple;
+      }
+      #border-2 {
+        box-shadow: 0px -2px 0 0 $blarg-purple;
+      }
+      #border-3 {
+        box-shadow: 2px -2px 0 0 $blarg-purple;
+      }
+      #border-4 {
+        box-shadow: -2px 0 0 0 $blarg-purple;
+      }
+      #border-5 {
+        box-shadow: 2px 0 0 0 $blarg-purple;
+      }
+      #border-6 {
+        box-shadow: -2px 2px 0 0 $blarg-purple;
+      }
+      #border-7 {
+        box-shadow: 0px 2px 0 0 $blarg-purple;
+      }
+      #border-8 {
+        box-shadow: 2px 2px 0 0 $blarg-purple;
+      }
+    }
+    &.content {
+      label {
+        color: $black;
+      }
+    }
 
     &.error {
-      opacity: 1;
-      visibility: visible;
+      label {
+        color: $red;
+      }
+      #border-1 {
+        box-shadow: -2px -2px 0 0 $red;
+      }
+      #border-2 {
+        box-shadow: 0px -2px 0 0 $red;
+      }
+      #border-3 {
+        box-shadow: 2px -2px 0 0 $red;
+      }
+      #border-4 {
+        box-shadow: -2px 0 0 0 $red;
+      }
+      #border-5 {
+        box-shadow: 2px 0 0 0 $red;
+      }
+      #border-6 {
+        box-shadow: -2px 2px 0 0 $red;
+      }
+      #border-7 {
+        box-shadow: 0px 2px 0 0 $red;
+      }
+      #border-8 {
+        box-shadow: 2px 2px 0 0 $red;
+      }
+      p {
+        opacity: 1;
+        visibility: visible;
+      }
     }
-  }
-}
-label,
-input {
-  display: block;
-}
-
-fieldset {
-  position: relative;
-  label {
-    @include y-center;
-    left: 10px;
-    z-index: 0;
-    padding: 0 5px;
-    font-size: 16px;
-    line-height: 21px;
-    background-color: $white;
-    transition: all 0.6s;
-  }
-
-  &:focus-within,
-  &.content {
-    label {
-      top: 0%;
-      z-index: 2;
-      font-size: 14px;
-    }
-  }
-}
-
-input {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  padding: 17.5px 16.5px;
-  font-size: 16px;
-  background-color: transparent;
-  border: 1px solid $black;
-  border-radius: 3px;
-
-  &:-webkit-autofill {
-    background-color: transparent;
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 2pt $blarg-purple;
-    border-color: transparent;
-    // border-width: 2px;
-    // outline: 1px solid $blarg-purple;
-    outline: 0;
   }
 }

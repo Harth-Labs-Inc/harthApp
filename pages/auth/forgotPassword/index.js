@@ -1,8 +1,8 @@
 import React, { useState, useEffect, use } from "react";
-import Button from "./Button";
-import Form from "./form";
-import Input from "./Input";
-import { reset } from "../requests/userApi";
+import { reset } from "../../../requests/userApi";
+import Form from "../../../components/Form";
+import Input from "../../../components/Input";
+import { Button } from "../../../components/Button";
 
 const ResetPwd = (props) => {
   const [errorMessage, setErrorMessage] = useState();
@@ -31,8 +31,10 @@ const ResetPwd = (props) => {
   };
 
   const submitHandler = async () => {
+    console.log("poop");
     const data = await reset(formData.email);
     const { ok, msg } = data;
+    console.log(data);
     if (ok) {
       setEmailSent(true);
     } else {
@@ -42,7 +44,28 @@ const ResetPwd = (props) => {
 
   return (
     <>
-      {emailSent ? <></> : ""}
+      {emailSent ? (
+        <aside id="email-sent">
+          <div>
+            <h2>Password Reset</h2>
+            <p>
+              Password reset instrtuctions have been sent to {formData.email}.
+              If you do not see the email in you inbox please check your spam
+              folder.
+            </p>
+            <Button
+              onClick={() => {
+                setEmailSent(false);
+                setTransitionClass("");
+                props.changePage("login");
+              }}
+              text="Okay"
+            ></Button>
+          </div>
+        </aside>
+      ) : (
+        ""
+      )}
       <div className={transitionClass} id="forgot-password">
         <h2>Forgot Password</h2>
         <Form
@@ -63,8 +86,16 @@ const ResetPwd = (props) => {
             data={formData}
             errorData={errorData}
           />
-          <fieldset>
+          <fieldset className={errorMessage ? "error" : ""}>
             <div className="form-bottom">
+              <p id="email-error" id="login-error">
+                {errorMessage ? errorMessage : ""}
+              </p>
+              <Button
+                id="password-reset-submit"
+                type="submit"
+                text="Reset Password"
+              ></Button>
               <div>
                 <a
                   id="return-login"
@@ -76,14 +107,6 @@ const ResetPwd = (props) => {
                   Return to Login
                 </a>
               </div>
-              <Button
-                id="password-reset-submit"
-                type="submit"
-                text="Reset Password"
-              ></Button>
-              <p className={errorMessage ? "error" : ""} id="login-error">
-                {errorMessage ? errorMessage : ""}
-              </p>
             </div>
           </fieldset>
         </Form>

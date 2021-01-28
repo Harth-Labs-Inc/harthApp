@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { login } from "../requests/userApi";
-import { addUser } from "../requests/userApi";
-import Button from "./Button";
-import Form from "./form";
-import Input from "./Input";
+import { login, addUser } from "../../../requests/userApi";
+import Form from "../../../components/Form";
+import Input from "../../../components/Input";
+import { Button } from "../../../components/Button";
 
 const CreateAccount = (props) => {
   const [transitionClass, setTransitionClass] = useState();
@@ -16,13 +15,13 @@ const CreateAccount = (props) => {
     email: "",
     password: "",
     conf_password: "",
-    access_code: "",
+    dob: "",
   });
   const [errorData, setErrorData] = useState({
     email: false,
     password: false,
     conf_password: false,
-    access_code: false,
+    dob: false,
   });
 
   useEffect(() => {
@@ -46,8 +45,7 @@ const CreateAccount = (props) => {
     return valid;
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const submitHandler = async () => {
     if (submissionType == "create") {
       if (matchingPwdStatus) {
         const data = await addUser(formData);
@@ -56,11 +54,9 @@ const CreateAccount = (props) => {
           setExistsError(true);
         } else {
           setAccountCreationStatus(true);
+          loginHandler();
         }
       }
-    }
-    if (submissionType == "login") {
-      loginHandler();
     }
   };
 
@@ -78,7 +74,7 @@ const CreateAccount = (props) => {
     const { ok, msg, tkn } = data;
     if (ok) {
       Cookies.set("token", tkn, { expires: 365 });
-      window.location.pathname = "/";
+      window.location.pathname = "/auth/createAccount/initialCom";
     } else {
     }
   };
@@ -137,29 +133,19 @@ const CreateAccount = (props) => {
           errorData={errorData}
         />
         <Input
-          title="Access Code"
-          name="access_code"
-          type="text"
-          empty={formData.access_code}
-          value={formData.access_code}
-          valid={errorData["access_code"]}
+          title="Date of Birth"
+          name="dob"
+          type="date"
+          empty={true}
+          value={formData.dob}
+          valid={errorData["dob"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
         />
-        <fieldset>
+        <fieldset className={existsError ? "error" : ""}>
           <div className="form-bottom">
-            <div>
-              <a
-                id="return-login"
-                onClick={() => {
-                  setTransitionClass("");
-                  props.changePage("login");
-                }}
-              >
-                Already have an account?
-              </a>
-            </div>
+            <p id="email-exists">Email Already Exists</p>
             {accountCreationStatus ? (
               <Button
                 id="account-create-submit"
@@ -173,13 +159,24 @@ const CreateAccount = (props) => {
               <Button
                 id="account-create-submit"
                 type="submit"
-                text="Create Account"
+                text="Continue"
                 onClick={() => {
                   setSubmissionType("create");
                 }}
               ></Button>
             )}
-            <p className={existsError ? "error" : ""}>Email Already Exists</p>
+
+            <div>
+              <a
+                id="return-login"
+                onClick={() => {
+                  setTransitionClass("");
+                  props.changePage("login");
+                }}
+              >
+                Already have an account?
+              </a>
+            </div>
           </div>
         </fieldset>
       </Form>

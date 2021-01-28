@@ -1,0 +1,160 @@
+#login-module,
+#create-module,
+#forgot-password,
+#select-initial-com,
+#create-community {
+  @include x-center;
+  @include glassmorphism(rgba($white, 0.7), $blarg-purple, 9px);
+  top: 72px;
+  width: 400px;
+  padding: 32px 36px 31px;
+  border-radius: 5px;
+}
+
+#login-module {
+  transition: transform 0.7s;
+  &.center-left {
+    transform: translate3d(calc(-50% - 100vw), 0, 0);
+  }
+  &.center-right {
+    transform: translate3d(calc(-50% + 100vw), 0, 0);
+  }
+
+  #login-error {
+    margin: 2px 0;
+  }
+}
+
+//==================================
+//Forgot Password Page
+//==================================
+#forgot-password {
+  transform: translate3d(calc(-50% - 100vw), 0, 0);
+  transition: transform 0.7s;
+
+  &.left-center {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  #login-error {
+    margin: 2px;
+  }
+}
+
+#email-sent {
+  @include glassmorphism(rgba($black, 0.4));
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: 3;
+
+  div {
+    @include x-center;
+    @include glassmorphism(rgba($white, 0.9), $blarg-purple, 8px);
+    top: 110px;
+    padding: 20px 36px 30px;
+    text-align: center;
+
+    h2 {
+      margin-bottom: 24px;
+    }
+
+    p {
+      width: 299px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .btn {
+      padding: 13.5px 39.5px;
+    }
+  }
+}
+
+//==================================
+//Create Account Page
+//==================================
+#create-module {
+  transform: translate3d(calc(-50% + 100vw), 0, 0);
+  transition: transform 0.5s, max-height 0.7s;
+
+  &.right-center {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  &.account-created {
+    max-height: 160px;
+    fieldset {
+      &:not(:last-of-type) {
+        opacity: 0;
+        max-height: 0px;
+      }
+      .form-bottom {
+        > div {
+          opacity: 0;
+          visibility: hidden;
+        }
+        #account-create-submit {
+          right: 50%;
+          transform: translateX(50%);
+        }
+      }
+    }
+  }
+
+  #email-exists {
+    margin: 2px 0;
+  }
+}
+
+//Initial Create Community
+//==================================
+#create-community {
+  #community-image {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 0 40px;
+    font-size: 14px;
+    text-align: center;
+
+    span {
+      max-width: 112px;
+    }
+
+    #drop-zone {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      height: 96px;
+      width: 96px;
+      padding: 10px;
+      background-color: $medium-grey;
+      border: 1px dashed $black50;
+      cursor: pointer;
+
+      span {
+        font-size: 10px;
+      }
+
+      input {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+      }
+    }
+  }
+
+  .form-bottom {
+    span {
+      color: $black60;
+      font-size: 12px;
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Button from "./Button";
-import Form from "./Form";
-import Input from "./Input";
-import { updatePassword } from "../requests/userApi";
+import { updatePassword } from "../../../requests/userApi";
+import Form from "../../../components/Form";
+import Input from "../../../components/Input";
+import { Button } from "../../../components/Button";
 
 const ChangePassword = (props) => {
   const [errorMessage, setErrorMessage] = useState();
@@ -93,6 +93,15 @@ const ChangePassword = (props) => {
         />
         <fieldset>
           <div className="form-bottom">
+            <p className={errorMessage ? "error" : ""} id="change-pwd-error">
+              {errorMessage ? errorMessage : ""}
+            </p>
+            <Button
+              id="password-reset-submit"
+              type="submit"
+              text="Update Password"
+            ></Button>
+
             <div>
               <a
                 id="return-login"
@@ -104,14 +113,6 @@ const ChangePassword = (props) => {
                 Return to Login
               </a>
             </div>
-            <Button
-              id="password-reset-submit"
-              type="submit"
-              text="Update Password"
-            ></Button>
-            <p className={errorMessage ? "error" : ""} id="change-pwd-error">
-              {errorMessage ? errorMessage : ""}
-            </p>
           </div>
         </fieldset>
       </Form>

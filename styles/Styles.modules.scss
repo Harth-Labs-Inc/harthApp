@@ -14,5 +14,4 @@
 @import "./navigation/main";
 
 //pages
-@import "./pages/login", "./pages/createAccount", "./pages/resetPwd",
-  "./pages/dashboard";
+@import "./pages/auth", "./pages/dashboard";

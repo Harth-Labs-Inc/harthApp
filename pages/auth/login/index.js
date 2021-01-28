@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import Button from "./Button";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { login } from "../requests/userApi";
-import Form from "./form";
-import Input from "./Input";
+import { login } from "../../../requests/userApi";
+import Form from "../../../components/Form";
+import Input from "../../../components/Input";
+import { Button } from "../../../components/Button";
+import { useRouter, Router } from "next/router";
 
 const Login = (props) => {
+  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -17,6 +19,10 @@ const Login = (props) => {
     conf_password: false,
     access_code: false,
   });
+
+  useEffect(() => {
+    router.prefetch("/dashboard");
+  }, []);
 
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
@@ -76,6 +82,10 @@ const Login = (props) => {
 
         <fieldset>
           <div className="form-bottom">
+            <p className={errorMessage ? "error" : ""} id="login-error">
+              {errorMessage ? errorMessage : ""}
+            </p>
+            <Button id="login-submit" type="submit" text="Sign In"></Button>
             <div>
               <a
                 id="forgot-password-link"
@@ -83,7 +93,7 @@ const Login = (props) => {
                   props.changePage("resetpwd");
                 }}
               >
-                Trouble logging in?
+                Forgot your password?
               </a>
               <a
                 id="sign-up-link"
@@ -93,12 +103,6 @@ const Login = (props) => {
               >
                 Need an account?
               </a>
-            </div>
-            <div>
-              <Button id="login-submit" type="submit" text="Sign In"></Button>
-              <p className={errorMessage ? "error" : ""} id="login-error">
-                {errorMessage ? errorMessage : ""}
-              </p>
             </div>
           </div>
         </fieldset>

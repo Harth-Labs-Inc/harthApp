@@ -1,5 +1,6 @@
 html,
 body {
+  height: 100vh;
   width: 100vw;
   padding: 0;
   margin: 0;
@@ -7,6 +8,9 @@ body {
   font-size: 16px;
   overflow: hidden;
   background-color: $bg-purple;
+  background-image: url("../../public/images/background.jpg");
+  background-position: center;
+  background-size: cover;
 }
 
 * {
@@ -21,7 +25,7 @@ a {
   transition: color 0.5s;
 
   &:hover {
-    color: $pink;
+    color: $red;
   }
 }
 
