@@ -1,7 +1,7 @@
 import React, { useState, useEffect, use } from "react";
 import { reset } from "../../requests/userApi";
 import Input from "../../components/Input";
-import Form from "../../components/Form";
+import Form from "../../components/Form-comp";
 import { Button } from "../../components/Button";
 
 const ResetPwd = (props) => {

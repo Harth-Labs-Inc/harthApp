@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { login, addUser } from "../../requests/userApi";
 import Input from "../../components/Input";
-import Form from "../../components/Form";
+import Form from "../../components/Form-comp";
 import { Button } from "../../components/Button";
 
 const CreateAccount = (props) => {

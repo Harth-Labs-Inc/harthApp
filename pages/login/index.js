@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { login } from "../../requests/userApi";
-import Form from "../../components/Form";
+import Form from "../../components/Form-comp";
 import Input from "../../components/Input";
 import { Button } from "../../components/Button";
 import { useRouter, Router } from "next/router";
