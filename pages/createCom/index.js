@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "../../components/Input";
-import Form from "../../components/Form";
+import Form from "../../components/Form-comp";
 import { Button } from "../../components/Button";
 import { getUploadURL, putImageInBucket } from "../../requests/s3";
 import {

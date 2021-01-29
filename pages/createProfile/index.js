@@ -1,4 +1,4 @@
-import Form from "../../components/Form";
+import Form from "../../components/Form-comp";
 import Input from "../../components/Input";
 import ToggleSwitch from "../../components/Toggle";
 import { Button } from "../../components/Button";
