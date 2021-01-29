@@ -8,7 +8,7 @@ import {
   checkForFolder,
   checkForBadFile,
   generateID,
-} from "../../services/helper";
+} from "../../../services/helper";
 
 const CreateProfile = () => {
   const [errorMessage, setErrorMessage] = useState();
