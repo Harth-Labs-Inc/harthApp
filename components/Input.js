@@ -45,17 +45,17 @@ const Input = (props) => {
           {title}
         </label>
         <div className="border-wrapper">
-          <div id="input-top">
-            <span id="border-1"></span>
-            <span id="border-2" style={{ width: labelWidth }}></span>
+          <div className="input-top">
+            <span className="border-1"></span>
+            <span className="border-2" style={{ width: labelWidth }}></span>
             <span
-              id="border-3"
+              className="border-3"
               style={{ width: `calc(100% - (${labelWidth + 8}px))` }}
             ></span>
           </div>
-          <div id="input-center">
-            <span id="border-4"></span>
-            <span id="input">
+          <div className="input-center">
+            <span className="border-4"></span>
+            <span className="input">
               <input
                 className="form-input"
                 id={name}
@@ -67,16 +67,16 @@ const Input = (props) => {
                 autoComplete="off"
               />
             </span>
-            <span id="border-5"></span>
+            <span className="border-5"></span>
           </div>
-          <div id="input-bottom">
-            <span id="border-6"></span>
-            <span id="border-7"></span>
-            <span id="border-8"></span>
+          <div className="input-bottom">
+            <span className="border-6"></span>
+            <span className="border-7"></span>
+            <span className="border-8"></span>
           </div>
         </div>
 
-        <p>
+        <p className="error-message">
           {valid
             ? "Field Required"
             : matching == false

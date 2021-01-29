@@ -2,9 +2,10 @@
 #create-module,
 #forgot-password,
 #select-initial-com,
-#create-community {
+#create-community,
+#create-profile {
   @include x-center;
-  @include glassmorphism(rgba($white, 0.7), $blarg-purple, 9px);
+  @include glassmorphism(rgba($white, 0.8), $blarg-purple, 9px);
   top: 72px;
   width: 400px;
   padding: 32px 36px 31px;
@@ -154,6 +155,30 @@
       font-size: 12px;
       a {
         text-decoration: underline;
+      }
+    }
+  }
+}
+
+#create-profile {
+  #toggle-field {
+    > div {
+      display: flex;
+      align-items: center;
+
+      + div {
+        margin-top: 16px;
+      }
+
+      p {
+        margin: 0 0 0 16px;
+        font-size: 18px;
+        font-weight: 500;
+        span {
+          display: block;
+          color: $black60;
+          font-size: 12px;
+        }
       }
     }
   }

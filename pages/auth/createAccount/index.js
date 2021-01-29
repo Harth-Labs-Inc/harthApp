@@ -145,7 +145,9 @@ const CreateAccount = (props) => {
         />
         <fieldset className={existsError ? "error" : ""}>
           <div className="form-bottom">
-            <p id="email-exists">Email Already Exists</p>
+            <p className="error-message" id="email-exists">
+              Email Already Exists
+            </p>
             {accountCreationStatus ? (
               <Button
                 id="account-create-submit"

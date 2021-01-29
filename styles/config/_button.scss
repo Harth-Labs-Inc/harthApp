@@ -6,8 +6,8 @@
   letter-spacing: 0.1em;
   line-height: 16px;
   text-transform: uppercase;
-  background-color: $blarg-purple;
-  border: 1px solid $blarg-purple;
+  background-color: $bg-purple;
+  border: 1px solid $bg-purple;
   border-radius: 5px;
   box-shadow: rgba($black, 0.2) 0 2px 2px;
   outline: 0;
@@ -15,7 +15,7 @@
   transition: all 0.3s;
 
   &:hover {
-    color: $blarg-purple;
+    color: $bg-purple;
     background-color: $white;
   }
 

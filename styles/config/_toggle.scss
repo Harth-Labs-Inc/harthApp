@@ -1,0 +1,77 @@
+.toggle {
+  height: 14px;
+  width: 34px;
+  &_container {
+    position: relative;
+    cursor: pointer;
+
+    &_bg {
+      height: 14px;
+      width: 34px;
+      margin: 0;
+      background-color: $black38;
+      border-radius: 7px;
+      transition: background-color 0.5s;
+    }
+
+    &_circle {
+      @include y-center;
+      left: 0%;
+      height: 20px;
+      width: 20px;
+      transition: left 0.5s;
+
+      &:before {
+        @include x-y-center;
+        height: 0px;
+        width: 0px;
+        content: "";
+        background-color: rgba($black, 0.04);
+        border-radius: 50%;
+        transition: all 0.5s;
+      }
+
+      span {
+        @include x-y-center;
+        z-index: 2;
+        height: 100%;
+        width: 100%;
+        background-color: $white;
+        border-radius: 50%;
+        box-shadow: 0 3px 3px rgba($black, 0.16);
+        transition: background-color 0.5s;
+      }
+
+      &:hover {
+        &:before {
+          height: 40px;
+          width: 40px;
+        }
+      }
+    }
+
+    &_input {
+      position: absolute;
+      // top: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+    }
+
+    .toggle--checked & {
+      &_bg {
+        background-color: $bg-purple30;
+      }
+      &_circle {
+        left: calc(100% - 20px);
+        span {
+          background-color: $bg-purple;
+        }
+
+        &:before {
+          background-color: rgba($bg-purple, 0.12);
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 form {
-  p {
+  .error-message {
     height: 11px;
     margin: 3px 0 19px;
     padding-left: 14px;
@@ -33,69 +33,69 @@ form {
     }
 
     .border-wrapper {
-      #input-top,
-      #input-center,
-      #input-bottom {
+      .input-top,
+      .input-center,
+      .input-bottom {
         display: flex;
       }
-      #input-center {
+      .input-center {
         margin: -2px 0;
       }
-      #border-1,
-      #border-2,
-      #border-3,
-      #border-6,
-      #border-7,
-      #border-8 {
+      .border-1,
+      .border-2,
+      .border-3,
+      .border-6,
+      .border-7,
+      .border-8 {
         display: inline-block;
         width: 100px;
         height: 10px;
         margin: 0 -1px;
       }
-      #input {
+      .input {
         width: calc(100% - 4px);
       }
-      #border-4,
-      #border-5 {
+      .border-4,
+      .border-5 {
         display: inline-block;
         height: 38px;
         width: 2px;
         margin: 0 -1px;
       }
-      #border-6,
-      #border-7,
-      #border-8 {
+      .border-6,
+      .border-7,
+      .border-8 {
         width: calc(100% / 3 + (2px / 3));
       }
 
-      #border-1 {
+      .border-1 {
         width: 10px;
         box-shadow: -1px -1px 0 0 $black;
         border-top-left-radius: 5px;
       }
-      #border-2 {
+      .border-2 {
         opacity: 1;
         box-shadow: 0px -1px 0 0 $black;
         transition: opacity 0.3s;
       }
-      #border-3 {
+      .border-3 {
         box-shadow: 1px -1px 0 0 $black;
         border-top-right-radius: 5px;
       }
-      #border-4 {
+      .border-4 {
         box-shadow: -1px 0 0 0 $black;
       }
-      #border-5 {
+      .border-5 {
         box-shadow: 1px 0 0 0 $black;
       }
-      #border-6 {
+      .border-6 {
         box-shadow: -1px 1px 0 0 $black;
         border-bottom-left-radius: 5px;
       }
-      #border-7 {
+      .border-7 {
         box-shadow: 0px 1px 0 0 $black;
       }
-      #border-8 {
+      .border-8 {
         box-shadow: 1px 1px 0 0 $black;
         border-bottom-right-radius: 5px;
       }
@@ -148,7 +148,7 @@ form {
         z-index: 2;
         font-size: 14px;
       }
-      #border-2 {
+      .border-2 {
         opacity: 0;
       }
     }
@@ -160,28 +160,28 @@ form {
       input {
         outline: 0;
       }
-      #border-1 {
+      .border-1 {
         box-shadow: -2px -2px 0 0 $blarg-purple;
       }
-      #border-2 {
+      .border-2 {
         box-shadow: 0px -2px 0 0 $blarg-purple;
       }
-      #border-3 {
+      .border-3 {
         box-shadow: 2px -2px 0 0 $blarg-purple;
       }
-      #border-4 {
+      .border-4 {
         box-shadow: -2px 0 0 0 $blarg-purple;
       }
-      #border-5 {
+      .border-5 {
         box-shadow: 2px 0 0 0 $blarg-purple;
       }
-      #border-6 {
+      .border-6 {
         box-shadow: -2px 2px 0 0 $blarg-purple;
       }
-      #border-7 {
+      .border-7 {
         box-shadow: 0px 2px 0 0 $blarg-purple;
       }
-      #border-8 {
+      .border-8 {
         box-shadow: 2px 2px 0 0 $blarg-purple;
       }
     }
@@ -195,28 +195,28 @@ form {
       label {
         color: $red;
       }
-      #border-1 {
+      .border-1 {
         box-shadow: -2px -2px 0 0 $red;
       }
-      #border-2 {
+      .border-2 {
         box-shadow: 0px -2px 0 0 $red;
       }
-      #border-3 {
+      .border-3 {
         box-shadow: 2px -2px 0 0 $red;
       }
-      #border-4 {
+      .border-4 {
         box-shadow: -2px 0 0 0 $red;
       }
-      #border-5 {
+      .border-5 {
         box-shadow: 2px 0 0 0 $red;
       }
-      #border-6 {
+      .border-6 {
         box-shadow: -2px 2px 0 0 $red;
       }
-      #border-7 {
+      .border-7 {
         box-shadow: 0px 2px 0 0 $red;
       }
-      #border-8 {
+      .border-8 {
         box-shadow: 2px 2px 0 0 $red;
       }
       p {
