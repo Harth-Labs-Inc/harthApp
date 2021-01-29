@@ -1,7 +1,7 @@
-import Form from "../../components/Form-comp";
-import Input from "../../components/Input";
-import ToggleSwitch from "../../components/Toggle";
-import { Button } from "../../components/Button";
+import Form from "../../../components/Form-comp";
+import Input from "../../../components/Input";
+import ToggleSwitch from "../../../components/Toggle";
+import { Button } from "../../../components/Button";
 import { useState } from "react";
 import { getUploadURL, putImageInBucket } from "../../requests/s3";
 import {
