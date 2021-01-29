@@ -1,5 +1,6 @@
 import { useAuth } from "../contexts/auth";
-import Auth from "./auth/index";
+
+import Auth from "../pages/auth/index";
 import Dashboard from "./dashboard/index";
 
 const IndexPage = () => {
@@ -7,6 +8,7 @@ const IndexPage = () => {
 
   const AuthOrDashboard = () => {
     if (loading) return null;
+    // console.log(pathname);
     if (user) return <Dashboard></Dashboard>;
     if (!user) return <Auth></Auth>;
   };

@@ -1,4 +1,4 @@
-import { Choice } from "../../components/Button";
+import { Choice } from "../../../components/Button";
 
 const InitialCom = () => {
   return (

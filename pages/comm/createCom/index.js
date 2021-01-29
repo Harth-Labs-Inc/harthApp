@@ -1,13 +1,13 @@
 import { useState } from "react";
-import Input from "../../components/Input";
-import Form from "../../components/Form-comp";
-import { Button } from "../../components/Button";
-import { getUploadURL, putImageInBucket } from "../../requests/s3";
+import Input from "../../../components/Input";
+import Form from "../../../components/Form-comp";
+import { Button } from "../../../components/Button";
+import { getUploadURL, putImageInBucket } from "../../../requests/s3";
 import {
   checkForFolder,
   checkForBadFile,
   generateID,
-} from "../../services/helper";
+} from "../../../services/helper";
 
 const CreateCom = () => {
   const [errorMessage, setErrorMessage] = useState();
