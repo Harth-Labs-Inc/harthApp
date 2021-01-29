@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
+@font-face {
+  font-family: "IcoMoon";
+  src: url(../../fonts/icomoon.eot);
+  src: url(../../fonts/icomoon.woff) format("woff2"),
+    url(../../fonts/icomoon.ttf) format("truetype"),
+    url(../../fonts/icomoon.svg#svgFontName) format("svg");
+}
+
 h2 {
   margin: 0 0 32px;
   color: $dark-grey;
