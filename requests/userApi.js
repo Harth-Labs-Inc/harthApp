@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "../services/api";
 
 export const login = async ({ email, password }) => {
@@ -34,7 +33,7 @@ export const getUserFromToken = async (token) => {
 
 export const logout = async () => {
   try {
-    await axios.get(`/api/users/logout`);
+    await api.get(`/api/users/logout`);
   } catch (error) {
     console.log(error);
   }

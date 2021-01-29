@@ -2,6 +2,12 @@ import { useState } from "react";
 import Form from "../../../../components/Form";
 import Input from "../../../../components/Input";
 import { Button } from "../../../../components/Button";
+import { getUploadURL, putImageInBucket } from "../../../../requests/s3";
+import {
+  checkForFolder,
+  checkForBadFile,
+  generateID,
+} from "../../../../services/helper";
 
 const CreateCom = () => {
   const [errorMessage, setErrorMessage] = useState();
@@ -28,7 +34,39 @@ const CreateCom = () => {
   };
 
   const dropHandler = (e) => {
-    console.log(e.dataTransfer.files);
+    let isFolder = checkForFolder(e);
+    let { file, folder } = isFolder;
+    if (!folder && file) {
+      uploadFile(file);
+    }
+  };
+  const uploadFile = async (file) => {
+    console.log(file);
+    let isBadFile = checkForBadFile(file);
+    if (isBadFile) {
+    } else {
+      let extention = file.name.split(".").pop();
+      let id = generateID();
+      let name = `${id}.${extention}`;
+
+      const data = await getUploadURL(
+        name,
+        file.type,
+        "community-profile-images"
+      );
+      const { ok, msg, uploadURL } = data;
+
+      if (ok) {
+        let reader = new FileReader();
+        reader.addEventListener("loadend", async (event) => {
+          let result = await putImageInBucket(uploadURL, reader, file.type);
+          let { status } = result;
+          if (status == 200) {
+          }
+        });
+        reader.readAsArrayBuffer(file);
+      }
+    }
   };
 
   return (
@@ -73,7 +111,8 @@ const CreateCom = () => {
                 name="image-uploader"
                 id="image-uploader"
                 onChange={(e) => {
-                  dropHandler(e);
+                  let file = e.target.files[0];
+                  uploadFile(file);
                 }}
               ></input>
             </div>
