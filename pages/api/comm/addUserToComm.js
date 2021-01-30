@@ -10,7 +10,7 @@ export default async (req, res) => {
 
   console.log(obj);
 
-  const createProf = (db, id, data) => {
+  const pushUserToComm = (db, id, data) => {
     return new Promise((resolve, reject) => {
       let mongo = require("mongodb");
       let o_id = new mongo.ObjectID(id);
@@ -26,10 +26,31 @@ export default async (req, res) => {
     });
   };
 
+  const pushCommToUser = (db, userId, commId) => {
+    return new Promise((resolve, reject) => {
+      let mongo = require("mongodb");
+      let o_id = new mongo.ObjectID(userId);
+      db.collection("users").updateOne(
+        { _id: o_id },
+        { $push: { comms: commId } },
+        function (err, profCreated) {
+          if (err) {
+          }
+          resolve(profCreated);
+        }
+      );
+    });
+  };
+
   const { db } = await connectToDatabase();
-  let getProfResult = await createProf(db, obj.id, obj.prof);
+  let getProfResult = await pushUserToComm(db, obj.id, obj.prof);
   if (!getProfResult) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
+  if (!getProfResult.modifiedCount) {
+    return res.json({ ok: 0, msg: "something went wrong" });
+  }
+  let getuserResult = await pushCommToUser(db, obj.prof.userId, obj.id);
+  console.log(getuserResult);
   return res.json({ ok: 1, msg: "success" });
 };

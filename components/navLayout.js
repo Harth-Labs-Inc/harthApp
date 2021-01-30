@@ -3,17 +3,20 @@ import SideNav from "./SideNav";
 import { useState } from "react";
 import MainMenu from "./MainMenu";
 
-const Layout = ({ title, children }) => {
+const Layout = (props) => {
   const [menuActive, setmenuActive] = useState(false);
+
+  const { children, comms } = props;
+  console.log(props);
 
   const toggleMenu = () => {
     setmenuActive(!menuActive);
   };
   return (
     <main className={menuActive ? "menu-open" : ""} id="dashboard">
-      <MainMenu />
-      <TopNav onToggleMenu={toggleMenu} />
-      <SideNav />
+      <MainMenu comms={comms} />
+      <TopNav comms={comms} onToggleMenu={toggleMenu} />
+      <SideNav comms={comms} />
       <section id="main-content">{children}</section>
     </main>
   );

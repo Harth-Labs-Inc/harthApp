@@ -4,7 +4,7 @@ import { login } from "../../../requests/userApi";
 import Form from "../../../components/Form-comp";
 import Input from "../../../components/Input";
 import { Button } from "../../../components/Button";
-import { useRouter, Router } from "next/router";
+import { useRouter } from "next/router";
 
 const Login = (props) => {
   const router = useRouter();
@@ -19,10 +19,6 @@ const Login = (props) => {
     conf_password: false,
     access_code: false,
   });
-
-  useEffect(() => {
-    router.prefetch("/dashboard");
-  }, []);
 
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);

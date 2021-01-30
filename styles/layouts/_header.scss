@@ -4,6 +4,8 @@
   justify-content: space-between;
   grid-area: header;
 
+  padding: 0 16px;
+
   background-color: $medium-grey;
 }
 
@@ -93,11 +95,13 @@
 
   height: 40px;
   width: 40px;
+  padding: 0;
 
   background-color: transparent;
   border: 0;
   border-radius: 50%;
 
+  object-fit: cover;
   cursor: pointer;
 
   &:before {
@@ -107,5 +111,19 @@
     font-family: IcoMoon;
     font-size: 40px;
     line-height: 40px;
+  }
+
+  &.hasImage {
+    &:before {
+      display: none;
+    }
+  }
+
+  img {
+    display: block;
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
   }
 }

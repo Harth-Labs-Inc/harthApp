@@ -8,16 +8,19 @@ import { Button } from "../../../components/Button";
 const CreateAccount = (props) => {
   const [transitionClass, setTransitionClass] = useState();
   const [submissionType, setSubmissionType] = useState();
-  const [accountCreationStatus, setAccountCreationStatus] = useState(false);
   const [matchingPwdStatus, setMatchingPwdStatus] = useState(true);
   const [existsError, setExistsError] = useState(false);
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     conf_password: "",
     dob: "",
   });
   const [errorData, setErrorData] = useState({
+    firstName: "",
+    lastName: "",
     email: false,
     password: false,
     conf_password: false,
@@ -53,7 +56,6 @@ const CreateAccount = (props) => {
         if (exists) {
           setExistsError(true);
         } else {
-          setAccountCreationStatus(true);
           loginHandler();
         }
       }
@@ -74,23 +76,13 @@ const CreateAccount = (props) => {
     const { ok, msg, tkn } = data;
     if (ok) {
       Cookies.set("token", tkn, { expires: 365 });
-      window.location.pathname = "/auth/createAccount/initialCom";
+      window.location.pathname = "/comm";
     } else {
     }
   };
 
   return (
-    <div
-      className={`${transitionClass} ${
-        accountCreationStatus ? "account-created" : ""
-      }`}
-      id="create-module"
-    >
-      {accountCreationStatus ? (
-        <h2>Account Creation Successful</h2>
-      ) : (
-        <h2>Create an Account</h2>
-      )}
+    <div className={transitionClass} id="create-module">
       <Form
         id="login"
         on_submit={submitHandler}
@@ -98,6 +90,28 @@ const CreateAccount = (props) => {
         data={formData}
         errorData={errorData}
       >
+        <Input
+          title="First Name"
+          name="firstName"
+          type="text"
+          empty={formData.firstName}
+          value={formData.firstName}
+          valid={errorData["firstName"]}
+          changeHandler={inputChangeHandler}
+          data={formData}
+          errorData={errorData}
+        />
+        <Input
+          title="Last Name"
+          name="lastName"
+          type="text"
+          empty={formData.lastName}
+          value={formData.lastName}
+          valid={errorData["lastName"]}
+          changeHandler={inputChangeHandler}
+          data={formData}
+          errorData={errorData}
+        />
         <Input
           title="Email"
           name="email"
@@ -148,25 +162,15 @@ const CreateAccount = (props) => {
             <p className="error-message" id="email-exists">
               Email Already Exists
             </p>
-            {accountCreationStatus ? (
-              <Button
-                id="account-create-submit"
-                text="Go to dashboard"
-                type="submit"
-                onClick={() => {
-                  setSubmissionType("login");
-                }}
-              ></Button>
-            ) : (
-              <Button
-                id="account-create-submit"
-                type="submit"
-                text="Continue"
-                onClick={() => {
-                  setSubmissionType("create");
-                }}
-              ></Button>
-            )}
+
+            <Button
+              id="account-create-submit"
+              type="submit"
+              text="Continue"
+              onClick={() => {
+                setSubmissionType("create");
+              }}
+            ></Button>
 
             <div>
               <a

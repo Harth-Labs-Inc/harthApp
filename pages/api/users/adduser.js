@@ -9,11 +9,13 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  const createUser = (db, email, password) => {
+  const createUser = (db, data) => {
     return new Promise((resolve, reject) => {
-      bcrypt.hash(password, 12, function (err, hash) {
+      bcrypt.hash(data.password, 12, function (err, hash) {
+        delete data.password;
+        delete data.conf_password;
         db.collection("users").insertOne(
-          { email, password: hash },
+          { ...data, password: hash, comms: [] },
           function (err, userCreated) {
             if (err) {
             }
@@ -41,7 +43,7 @@ export default async (req, res) => {
   if (chkExistingUserResult && chkExistingUserResult.length > 0) {
     res.json({ exists: true });
   } else {
-    let getUserResult = await createUser(db, obj.email, obj.password);
+    let getUserResult = await createUser(db, obj);
     res.json({ exists: false });
   }
 };

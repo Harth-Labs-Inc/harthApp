@@ -21,7 +21,7 @@ const CreateProfile = (props) => {
     bday: false,
   });
 
-  const { user, onProfChange, commData, changePage } = props;
+  const { user, onProfChange, onPersChange, commData, changePage } = props;
 
   const setMissing = (missing) => {
     setErrorData(missing);
@@ -36,7 +36,8 @@ const CreateProfile = (props) => {
   };
 
   const submitHandler = () => {
-    onProfChange({ ...formData, ...toggleData });
+    onProfChange(formData);
+    onPersChange(toggleData);
     changePage("submit");
   };
 

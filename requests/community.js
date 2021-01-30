@@ -33,3 +33,14 @@ export const addUserToComm = async (id, prof) => {
     console.log(error);
   }
 };
+
+export const getComms = async (user) => {
+  try {
+    const res = await api.post(`/api/comm/getComms`, {
+      user,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

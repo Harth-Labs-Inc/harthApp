@@ -1,24 +1,38 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import Router, { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../contexts/auth";
 import Modal from "./Modal";
 
 const TopNav = (props) => {
   const [modal, setModal] = useState();
+  const [communityName, setCommunityName] = useState();
+  const [profileIcon, setProfileIcon] = useState();
   const { pathname } = useRouter();
 
-  const { onModalChange, toggleModal } = props;
+  const { onModalChange, toggleModal, comms } = props;
+  const { user } = useAuth();
 
   const showModal = () => {
     setModal(!modal);
   };
 
-  console.log(modal);
+  useEffect(() => {
+    if (comms && comms.length > 0) {
+      setCommunityName(comms[0].name);
+      comms[0].users.forEach((usr) => {
+        if (usr.userId === user._id) {
+          setProfileIcon(usr.iconKey);
+        }
+      });
+      console.log(user._id);
+    }
+  }, [comms]);
 
   return (
     <header id="dash-header">
       <button id="channel" onClick={showModal}>
-        Moving Targets
+        {communityName}
       </button>
       <div role="nav" className="top-buttons">
         <Link href="/chat">
@@ -54,7 +68,13 @@ const TopNav = (props) => {
           ></a>
         </Link>
       </div>
-      <button id="account-btn" aria-label="My Account"></button>
+      <button
+        id="account-btn"
+        aria-label="My Account"
+        className={profileIcon ? "hasImage" : ""}
+      >
+        {profileIcon ? <img src={profileIcon} /> : ""}
+      </button>
 
       {modal ? (
         <Modal
