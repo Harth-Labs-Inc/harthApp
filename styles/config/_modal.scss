@@ -1,0 +1,43 @@
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  height: 100vh;
+  width: 100vw;
+
+  background-color: $black80;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: opacity 0.3s;
+
+  section {
+    @include x-y-center;
+    background-color: $white;
+    border-radius: 4px;
+
+    transform: translate3d(-50%, -50%, 0) scale(0, 0);
+    transform-origin: center;
+
+    transition: transform 0.3s 0.2s;
+
+    .modal_top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-bottom: 1px solid $border-grey;
+    }
+  }
+
+  &_open {
+    opacity: 1;
+    visibility: visible;
+
+    section {
+      transform: translate3d(-50%, -50%, 0) scale(1, 1);
+    }
+  }
+}

@@ -1,13 +1,25 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import Modal from "./Modal";
 
 const TopNav = (props) => {
+  const [modal, setModal] = useState();
   const { pathname } = useRouter();
+
+  const { onModalChange, toggleModal } = props;
+
+  const showModal = () => {
+    setModal(!modal);
+  };
+
+  console.log(modal);
 
   return (
     <header id="dash-header">
-      <button id="channel">Moving Targets</button>
+      <button id="channel" onClick={showModal}>
+        Moving Targets
+      </button>
       <div role="nav" className="top-buttons">
         <Link href="/chat">
           <a
@@ -43,6 +55,21 @@ const TopNav = (props) => {
         </Link>
       </div>
       <button id="account-btn" aria-label="My Account"></button>
+
+      {modal ? (
+        <Modal
+          id="community-preferences"
+          show={modal}
+          onToggleModal={showModal}
+        >
+          <div className="modal_top">
+            <p>[Community Name] Preferences</p>
+            <button aria-label="Close Modal" onClick={showModal}></button>
+          </div>
+        </Modal>
+      ) : (
+        ""
+      )}
     </header>
   );
 };
