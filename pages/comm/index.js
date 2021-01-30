@@ -57,7 +57,7 @@ const CommIndexPage = () => {
 
           const data = await getUploadURL(name, file.type, bucket);
           const { ok, msg, uploadURL } = data;
-
+          console.log(uploadURL);
           if (ok) {
             let reader = new FileReader();
             reader.addEventListener("loadend", async (event) => {
