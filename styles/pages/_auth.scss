@@ -3,7 +3,8 @@
 #forgot-password,
 #select-initial-com,
 #create-community,
-#create-profile {
+#create-profile,
+#submit-community {
   @include x-center;
   @include glassmorphism(rgba($white, 0.8), $blarg-purple, 9px);
   top: 72px;

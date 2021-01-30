@@ -10,3 +10,26 @@ export const checkForExistingComm = async (name) => {
     console.log(error);
   }
 };
+
+export const saveCommunity = async (comm) => {
+  try {
+    const res = await api.post(`/api/comm/saveCommunity`, {
+      comm,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addUserToComm = async (id, prof) => {
+  try {
+    const res = await api.post(`/api/comm/addUserToComm`, {
+      id,
+      prof,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

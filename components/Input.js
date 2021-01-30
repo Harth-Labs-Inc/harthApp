@@ -18,7 +18,11 @@ const Input = (props) => {
   } = props;
 
   useEffect(() => {
-    setlabelWidth(labelEl.current.clientWidth);
+    if (title) {
+      setlabelWidth(labelEl.current.clientWidth);
+    } else {
+      setlabelWidth(0);
+    }
   }, [labelEl.current]);
 
   const inputChangeHandler = (e) => {

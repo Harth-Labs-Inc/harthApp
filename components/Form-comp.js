@@ -6,7 +6,7 @@ const Form = (props) => {
   const checkMissingInputFields = () => {
     let missingFields = [];
     for (let [key, value] of Object.entries(data)) {
-      if (!value.trim()) {
+      if (typeof value == "string" && !value.trim()) {
         missingFields.push(key);
       }
     }

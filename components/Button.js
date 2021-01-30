@@ -11,15 +11,9 @@ export const Button = (props) => {
 
 export const Choice = (props) => {
   return (
-    <button
-      onClick={() => {
-        Router.push(props.route);
-      }}
-      className="choice-btn"
-      {...props}
-    >
+    <button className="choice-btn" {...props}>
       {props.text}
-      <span class="material-icons">keyboard_arrow_right</span>
+      <span className="material-icons">keyboard_arrow_right</span>
     </button>
   );
 };

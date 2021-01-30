@@ -1,35 +1,60 @@
+import { useState } from "react";
+import { Button } from "../../../components/Button";
+import { checkForFolder, checkForBadFile } from "../../../services/helper";
 import Form from "../../../components/Form-comp";
 import Input from "../../../components/Input";
 import ToggleSwitch from "../../../components/Toggle";
-import { Button } from "../../../components/Button";
-import { useState } from "react";
-import { getUploadURL, putImageInBucket } from "../../../requests/s3";
-import {
-  checkForFolder,
-  checkForBadFile,
-  generateID,
-} from "../../../services/helper";
 
-const CreateProfile = () => {
+const CreateProfile = (props) => {
   const [errorMessage, setErrorMessage] = useState();
   const [formData, setFormData] = useState({
-    image: "",
+    image: {},
     profName: "",
   });
   const [errorData, setErrorData] = useState({
     image: false,
     profName: false,
   });
+  const [toggleData, setToggleData] = useState({
+    name: false,
+    email: false,
+    bday: false,
+  });
 
-  const submitHandler = async () => {
-    return false;
+  const { user, onProfChange, commData, changePage } = props;
+
+  const setMissing = (missing) => {
+    setErrorData(missing);
   };
+
+  const saveFile = (file) => {
+    let isBadFile = checkForBadFile(file);
+    if (isBadFile) {
+    } else {
+      setFormData({ ...formData, image: file });
+    }
+  };
+
+  const submitHandler = () => {
+    onProfChange({ ...formData, ...toggleData });
+    changePage("submit");
+  };
+
+  const dropHandler = (e) => {
+    let isFolder = checkForFolder(e);
+    let { file, folder } = isFolder;
+    if (!folder && file) {
+      saveFile(file);
+    }
+  };
+
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
     setFormData(data);
   };
-  const setMissing = (missing) => {
-    setErrorData(missing);
+
+  const toggleHandler = (toggle, status) => {
+    setToggleData({ ...toggleData, [toggle]: status });
   };
 
   return (
@@ -40,7 +65,7 @@ const CreateProfile = () => {
       data={formData}
       errorData={errorData}
     >
-      <h2>Set Your Profile for [Community Name]</h2>
+      <h2>Set Your Profile for {commData.comName}</h2>
       <fieldset>
         <div id="profile_image">
           <span>Select a profile picture</span>
@@ -74,7 +99,8 @@ const CreateProfile = () => {
                 name="image-uploader"
                 id="image-uploader"
                 onChange={(e) => {
-                  dropHandler(e);
+                  let file = e.target.files[0];
+                  saveFile(file);
                 }}
               ></input>
             </div>
@@ -95,22 +121,31 @@ const CreateProfile = () => {
       <fieldset id="toggle-field">
         <p>
           Select the personal information you would like to share with
-          [Community Name]
+          <span> {commData.comName}</span>
         </p>
         <div>
-          <ToggleSwitch></ToggleSwitch>
+          <ToggleSwitch
+            onToggleChange={toggleHandler}
+            toggleName="name"
+          ></ToggleSwitch>
           <p>
-            John Smith <span>Real Name</span>
+            John Doe <span>Real Name</span>
           </p>
         </div>
         <div>
-          <ToggleSwitch></ToggleSwitch>
+          <ToggleSwitch
+            onToggleChange={toggleHandler}
+            toggleName="email"
+          ></ToggleSwitch>
           <p>
-            abc@email.com <span>Email</span>
+            {user.email} <span>Email</span>
           </p>
         </div>
         <div>
-          <ToggleSwitch></ToggleSwitch>
+          <ToggleSwitch
+            onToggleChange={toggleHandler}
+            toggleName="bday"
+          ></ToggleSwitch>
           <p>
             05/31 <span>Birthday (only month and day)</span>
           </p>

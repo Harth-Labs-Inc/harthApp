@@ -1,17 +1,21 @@
 import { Choice } from "../../../components/Button";
 
-const InitialCom = () => {
+const InitialCom = (props) => {
   return (
     <div id="select-initial-com">
       <h2>Select a Community</h2>
       <div id="initialCom">
         <Choice
           text="Create Your Own"
-          route="/auth/createAccount/createCom"
+          onClick={() => {
+            props.changePage("create");
+          }}
         ></Choice>
         <Choice
           text="Have An Invite?"
-          route="/auth/createAccount/joinCom"
+          onClick={() => {
+            props.changePage("invite");
+          }}
         ></Choice>
       </div>
     </div>

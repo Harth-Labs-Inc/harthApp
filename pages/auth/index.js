@@ -92,7 +92,7 @@ const authIndexPage = () => {
       break;
   }
 
-  return <>{page}</>;
+  return page;
 };
 
 export default authIndexPage;

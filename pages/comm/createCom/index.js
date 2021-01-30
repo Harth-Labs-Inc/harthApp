@@ -2,23 +2,20 @@ import { useState } from "react";
 import Input from "../../../components/Input";
 import Form from "../../../components/Form-comp";
 import { Button } from "../../../components/Button";
-import { getUploadURL, putImageInBucket } from "../../../requests/s3";
-import {
-  checkForFolder,
-  checkForBadFile,
-  generateID,
-} from "../../../services/helper";
+import { checkForFolder, checkForBadFile } from "../../../services/helper";
 
-const CreateCom = () => {
+const CreateCom = (props) => {
   const [errorMessage, setErrorMessage] = useState();
   const [formData, setFormData] = useState({
-    image: "",
+    image: {},
     comName: "",
   });
   const [errorData, setErrorData] = useState({
     image: false,
     comName: false,
   });
+
+  const { changePage, onCommChange } = props;
 
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
@@ -29,43 +26,24 @@ const CreateCom = () => {
     setErrorData(missing);
   };
 
-  const submitHandler = async () => {
-    console.log("poop");
+  const submitHandler = () => {
+    onCommChange(formData);
+    changePage("profile");
   };
 
   const dropHandler = (e) => {
     let isFolder = checkForFolder(e);
     let { file, folder } = isFolder;
     if (!folder && file) {
-      uploadFile(file);
+      saveFile(file);
     }
   };
-  const uploadFile = async (file) => {
-    console.log(file);
+
+  const saveFile = (file) => {
     let isBadFile = checkForBadFile(file);
     if (isBadFile) {
     } else {
-      let extention = file.name.split(".").pop();
-      let id = generateID();
-      let name = `${id}.${extention}`;
-
-      const data = await getUploadURL(
-        name,
-        file.type,
-        "community-profile-images"
-      );
-      const { ok, msg, uploadURL } = data;
-
-      if (ok) {
-        let reader = new FileReader();
-        reader.addEventListener("loadend", async (event) => {
-          let result = await putImageInBucket(uploadURL, reader, file.type);
-          let { status } = result;
-          if (status == 200) {
-          }
-        });
-        reader.readAsArrayBuffer(file);
-      }
+      setFormData({ ...formData, image: file });
     }
   };
 
@@ -112,7 +90,7 @@ const CreateCom = () => {
                 id="image-uploader"
                 onChange={(e) => {
                   let file = e.target.files[0];
-                  uploadFile(file);
+                  saveFile(file);
                 }}
               ></input>
             </div>
@@ -136,13 +114,7 @@ const CreateCom = () => {
           <div>
             <span>
               By creating a Community, you agree to follow Project Blarg's
-              <a
-                id="return-login"
-                // onClick={() => {
-                //   props.changePage("login");
-                // }}
-                target="_blank"
-              >
+              <a id="return-login" target="_blank">
                 Guidelines
               </a>
             </span>

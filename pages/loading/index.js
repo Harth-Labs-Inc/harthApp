@@ -12,11 +12,7 @@ const Loading = (props) => {
     if (!user) window.location.pathname = "/";
   }, [loading]);
 
-  return (
-    <>
-      <h1>loading...</h1>
-    </>
-  );
+  return <></>;
 };
 
 export default Loading;

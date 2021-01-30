@@ -1,9 +1,12 @@
 import { useState } from "react";
 
-const ToggleSwitch = () => {
+const ToggleSwitch = (props) => {
   const [toggle, setToggle] = useState(false);
 
+  const { onToggleChange, toggleName } = props;
+
   const triggerToggle = () => {
+    onToggleChange(toggleName, !toggle);
     setToggle(!toggle);
   };
 
