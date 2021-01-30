@@ -2,10 +2,10 @@ const MainMenu = () => {
   return (
     <nav id="main-menu">
       <li role="menuitem">
-        <button>Preferences</button>
+        <button>Account Settings</button>
       </li>
       <li role="menuitem">
-        <button>Switch Channel</button>
+        <button>Devices</button>
       </li>
       <li role="menuitem">
         <button>Sign Out</button>

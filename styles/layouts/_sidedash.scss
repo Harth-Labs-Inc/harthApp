@@ -1,11 +1,51 @@
-#dash-side {
+#nav_topics {
   display: flex;
   align-items: center;
   flex-direction: column;
   grid-area: aside;
   position: relative;
   z-index: 1;
+  width: 56px;
   background-color: $medium-grey;
+
+  #menu-toggle {
+    height: 56px;
+    width: 56px;
+    text-align: center;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $bg-purple;
+    }
+
+    .line {
+      display: block;
+      height: 2px;
+      width: 18px;
+      margin: 3px auto;
+      background-color: $white;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .menu-open & {
+      background-color: $white;
+      .line {
+        background-color: $blarg-purple;
+        &:first-child {
+          transform: translateY(5px) rotate(45deg);
+        }
+        &:nth-of-type(2) {
+          opacity: 0;
+        }
+        &:last-child {
+          transform: translateY(-5px) rotate(-45deg);
+        }
+      }
+    }
+  }
 
   a {
     position: relative;
@@ -13,8 +53,7 @@
     width: 40px;
     margin-top: 16px;
     background-color: $white;
-    border-radius: 50%;
-    box-shadow: rgba($black, 0.2) 0 2px 2px;
+    border-radius: 8px;
     transition: all 0.3s;
 
     &:hover {

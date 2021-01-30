@@ -79,9 +79,9 @@ const Layout = ({ title, children }) => {
         />
         <link rel="manifest" href="/manifest.json" />
         <link
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet"
-        ></link>
+          href="https://i.icomoon.io/public/temp/f193848006/ProjectBlarg/style.css"
+        />
         <meta name="msapplication-TileColor" content="#202340" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
         <meta name="theme-color" content="#202340" />

@@ -1,76 +1,111 @@
 #dash-header {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   grid-area: header;
-  background-color: $blarg-purple;
-}
 
-#menu-toggle {
-  height: 56px;
-  width: 56px;
-  text-align: center;
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: $bg-purple;
-  }
-
-  .line {
-    display: block;
-    height: 2px;
-    width: 18px;
-    margin: 3px auto;
-    background-color: $white;
-    transition: all 0.3s ease-in-out;
-  }
-
-  .menu-open & {
-    background-color: $white;
-    .line {
-      background-color: $blarg-purple;
-      &:first-child {
-        transform: translateY(5px) rotate(45deg);
-      }
-      &:nth-of-type(2) {
-        opacity: 0;
-      }
-      &:last-child {
-        transform: translateY(-5px) rotate(-45deg);
-      }
-    }
-  }
+  background-color: $medium-grey;
 }
 
 #channel {
   padding: 0 8px;
-  color: $white;
+
+  color: $black60;
+  font-size: 16px;
+  font-weight: 500;
   line-height: 25px;
+
+  background-color: transparent;
+  border: 0;
+
+  cursor: pointer;
 }
 
 .top-buttons {
   display: flex;
   align-items: center;
   margin-right: 16px;
-  margin-left: auto;
-  button {
+  a {
     position: relative;
-    height: 40px;
-    width: 40px;
-    margin-left: 24px;
+    height: 56px;
+    width: 72px;
     background-color: transparent;
     border: 0;
-    border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s;
 
-    &:last-of-type {
-      padding: 4px;
+    &:before {
+      @include x-y-center;
+      color: $black50;
+      font-family: $font-icon;
+      font-size: 24px;
+      transition: color 0.3s;
+    }
+    &:after {
+      @include x-center;
+      bottom: 0;
+      height: 2px;
+      width: 0%;
+      content: "";
+      background-color: $bg-purple;
+      transition: width 0.3s;
+    }
+
+    &#chat {
+      &:before {
+        content: $icon-books;
+      }
+    }
+    &#notifications {
+      &:before {
+        content: $icon-chat;
+      }
+    }
+    &#games {
+      &:before {
+        content: $icon-game;
+      }
+    }
+    &#calendar {
+      &:before {
+        content: $icon-calendar;
+      }
     }
 
     &:hover {
-      background-color: $bg-purple;
+      &:before {
+        color: $bg-purple;
+      }
     }
+    &.active {
+      &:before {
+        color: $bg-purple;
+      }
+      &:after {
+        width: 100%;
+      }
+    }
+  }
+}
+
+#account-btn {
+  position: relative;
+
+  height: 40px;
+  width: 40px;
+
+  background-color: transparent;
+  border: 0;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  &:before {
+    @include x-y-center;
+
+    content: $icon-user;
+    font-family: IcoMoon;
+    font-size: 40px;
+    line-height: 40px;
   }
 }
