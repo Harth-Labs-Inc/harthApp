@@ -8,8 +8,6 @@ import { Button } from "../../../components/Button";
 const CreateAccount = (props) => {
   const [transitionClass, setTransitionClass] = useState();
   const [submissionType, setSubmissionType] = useState();
-  const [matchingPwdStatus, setMatchingPwdStatus] = useState(true);
-  const [continueError, setContinueError] = useState();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -38,31 +36,14 @@ const CreateAccount = (props) => {
     }, 4);
   }, []);
 
-  useEffect(() => {
-    let matching = checkMatchingPwFields();
-    setMatchingPwdStatus(matching);
-  }, [formData]);
-
-  const checkMatchingPwFields = () => {
-    let valid;
-    if (formData.password.trim() === formData.conf_password.trim()) {
-      valid = true;
-    } else {
-      valid = false;
-    }
-    return valid;
-  };
-
   const submitHandler = async () => {
     if (submissionType == "create") {
-      if (matchingPwdStatus) {
-        const data = await addUser(formData);
-        const { ok, errors } = data;
-        if (!ok) {
-          setCustomErrors(errors);
-        } else {
-          loginHandler();
-        }
+      const data = await addUser(formData);
+      const { ok, errors } = data;
+      if (!ok) {
+        setCustomErrors(errors);
+      } else {
+        loginHandler();
       }
     }
   };
@@ -96,28 +77,6 @@ const CreateAccount = (props) => {
         errorData={errorData}
       >
         <Input
-          title="First Name"
-          name="firstName"
-          type="text"
-          empty={formData.firstName}
-          value={formData.firstName}
-          valid={errorData["firstName"]}
-          changeHandler={inputChangeHandler}
-          data={formData}
-          errorData={errorData}
-        />
-        <Input
-          title="Last Name"
-          name="lastName"
-          type="text"
-          empty={formData.lastName}
-          value={formData.lastName}
-          valid={errorData["lastName"]}
-          changeHandler={inputChangeHandler}
-          data={formData}
-          errorData={errorData}
-        />
-        <Input
           title="Email"
           name="email"
           type="text"
@@ -144,13 +103,23 @@ const CreateAccount = (props) => {
           errorData={errorData}
         />
         <Input
-          title="Confirm Password"
-          name="conf_password"
-          type="password"
-          empty={formData.conf_password}
-          value={formData.conf_password}
-          valid={errorData["conf_password"]}
-          matching={matchingPwdStatus}
+          title="First Name"
+          name="firstName"
+          type="text"
+          empty={formData.firstName}
+          value={formData.firstName}
+          valid={errorData["firstName"]}
+          changeHandler={inputChangeHandler}
+          data={formData}
+          errorData={errorData}
+        />
+        <Input
+          title="Last Name"
+          name="lastName"
+          type="text"
+          empty={formData.lastName}
+          value={formData.lastName}
+          valid={errorData["lastName"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
