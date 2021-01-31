@@ -81,7 +81,7 @@ const ResetPwd = (props) => {
             type="text"
             empty={formData.email}
             value={formData.email}
-            valid={errorData["email"]}
+            required={errorData["email"]}
             changeHandler={inputChangeHandler}
             data={formData}
             errorData={errorData}

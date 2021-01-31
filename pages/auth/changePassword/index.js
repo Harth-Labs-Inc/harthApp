@@ -74,7 +74,7 @@ const ChangePassword = (props) => {
           type="password"
           empty={formData.pwd}
           value={formData.pwd}
-          valid={errorData["pwd"]}
+          required={errorData["pwd"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -85,7 +85,7 @@ const ChangePassword = (props) => {
           type="password"
           empty={formData.conf_pwd}
           value={formData.conf_pwd}
-          valid={errorData["conf_pwd"]}
+          required={errorData["conf_pwd"]}
           matching={matchingPwdStatus}
           changeHandler={inputChangeHandler}
           data={formData}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../components/Button";
 import { checkForFolder, checkForBadFile } from "../../../services/helper";
 import Form from "../../../components/Form-comp";
@@ -6,6 +6,7 @@ import Input from "../../../components/Input";
 import ToggleSwitch from "../../../components/Toggle";
 
 const CreateProfile = (props) => {
+  const [bday, setBday] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [formData, setFormData] = useState({
     image: {},
@@ -22,6 +23,19 @@ const CreateProfile = (props) => {
   });
 
   const { user, onProfChange, onPersChange, commData, changePage } = props;
+
+  useEffect(() => {
+    if (user && user.dob) {
+      let date = new Date(`${user.dob}T00:00:00`).toLocaleDateString("en-GB", {
+        year: "numeric",
+        day: "2-digit",
+        month: "2-digit",
+      });
+      let seperatedDate = date.split("/");
+      seperatedDate.pop();
+      setBday(seperatedDate.reverse().join("/"));
+    }
+  }, [user]);
 
   const setMissing = (missing) => {
     setErrorData(missing);
@@ -114,7 +128,7 @@ const CreateProfile = (props) => {
         type="text"
         empty={formData.profName}
         value={formData.profName}
-        valid={errorData["profName"]}
+        required={errorData["profName"]}
         changeHandler={inputChangeHandler}
         data={formData}
         errorData={errorData}
@@ -130,7 +144,7 @@ const CreateProfile = (props) => {
             toggleName="name"
           ></ToggleSwitch>
           <p>
-            John Doe <span>Real Name</span>
+            {user.firstName} {user.lastName} <span>Real Name</span>
           </p>
         </div>
         <div>
@@ -148,7 +162,8 @@ const CreateProfile = (props) => {
             toggleName="bday"
           ></ToggleSwitch>
           <p>
-            05/31 <span>Birthday (only month and day)</span>
+            {bday}
+            <span>Birthday (only month and day)</span>
           </p>
         </div>
       </fieldset>

@@ -33,8 +33,13 @@ export default async (req, res) => {
         .find({ email: email })
         .toArray(function (err, results) {
           if (err) {
+            resolve(false);
           }
-          resolve(results);
+          if (results.length > 0) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
         });
     });
   };
@@ -55,10 +60,10 @@ export default async (req, res) => {
 
   const { db } = await connectToDatabase();
   let chkExistingUserResult = await chkExistingUser(db, obj.email);
-  if (chkExistingUserResult && chkExistingUserResult.length > 0) {
-    return res.json({ ok: 1, msg: "" });
+  if (chkExistingUserResult) {
+    return res.json({ ok: 0, errors: { match: "Email Already Exists" } });
   } else {
     let getUserResult = await createUser(db, obj);
-    return res.json({ ok: 0, errors: { match: "Email Already Exists" } });
+    return res.json({ ok: 1, msg: "" });
   }
 };

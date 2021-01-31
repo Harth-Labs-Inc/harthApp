@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import { getComms } from "../../requests/community";
 import { useAuth } from "../../contexts/auth";
 import NavLayout from "../../components/navLayout";
+
+import Modal from "../../components/Modal";
+import { Button } from "../../components/Button";
 
 import Chat from "./chat";
 import Game from "./game";
 import Events from "./events";
 
 const dashboard = (props) => {
+  const [modal, setModal] = useState();
   const [currentPage, setCurrentPage] = useState("chat");
   const [comms, setComms] = useState(null);
 
@@ -15,7 +20,6 @@ const dashboard = (props) => {
 
   useEffect(() => {
     if (user) {
-      console.log(user);
       if (user.comms.length > 0) {
         (async () => {
           let result = await getComms(user);
@@ -28,8 +32,22 @@ const dashboard = (props) => {
     }
   }, [user]);
 
+  useEffect(() => {
+    let ck = Cookies.get("showComCreatedModal");
+    if (ck) setModal(true);
+  }, []);
+
   const changePageHandler = (pg) => {
     setCurrentPage(pg);
+  };
+
+  const showModal = () => {
+    setModal(!modal);
+  };
+
+  const removeCookie = () => {
+    Cookies.remove("showComCreatedModal");
+    showModal();
   };
 
   let page;
@@ -50,6 +68,20 @@ const dashboard = (props) => {
     //   <NavLayout>{children}</NavLayout>
     // </SocketProvider>
     <NavLayout comms={comms} changePage={changePageHandler}>
+      {modal ? (
+        <Modal
+          id="community-preferences"
+          show={modal}
+          onToggleModal={showModal}
+        >
+          <h1>Success!!</h1>
+          <p>Welcome to your new community.</p>
+          <p>We hope you have a great time</p>
+          <Button text="let's go" onClick={removeCookie}></Button>
+        </Modal>
+      ) : (
+        ""
+      )}
       {page}
     </NavLayout>
   );
