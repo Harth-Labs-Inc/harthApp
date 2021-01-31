@@ -1,4 +1,5 @@
 import { connectToDatabase } from "../../../util/mongodb";
+import { Validator } from "node-input-validator";
 import bcrypt from "bcrypt";
 
 export default async (req, res) => {
@@ -38,12 +39,26 @@ export default async (req, res) => {
     });
   };
 
+  const v = new Validator(obj, {
+    email: "required|email",
+    password: "required|minLength:8",
+  });
+
+  const matched = await v.check();
+  if (!matched) {
+    let errors = {};
+    for (let [key, value] of Object.entries(v.errors)) {
+      errors[key] = value.message;
+    }
+    return res.json({ ok: 0, errors });
+  }
+
   const { db } = await connectToDatabase();
   let chkExistingUserResult = await chkExistingUser(db, obj.email);
   if (chkExistingUserResult && chkExistingUserResult.length > 0) {
-    res.json({ exists: true });
+    return res.json({ ok: 1, msg: "" });
   } else {
     let getUserResult = await createUser(db, obj);
-    res.json({ exists: false });
+    return res.json({ ok: 0, errors: { match: "Email Already Exists" } });
   }
 };

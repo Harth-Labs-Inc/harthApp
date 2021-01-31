@@ -15,7 +15,10 @@ const Input = (props) => {
     data,
     errorData,
     matching,
+    customError,
   } = props;
+
+  console.log(props);
 
   useEffect(() => {
     if (title) {
@@ -79,14 +82,8 @@ const Input = (props) => {
             <span className="border-8"></span>
           </div>
         </div>
-
-        <p className="error-message">
-          {valid
-            ? "Field Required"
-            : matching == false
-            ? "Passwords Do Not Match"
-            : ""}
-        </p>
+        <p className="error-message">{valid ? "Field Required" : ""}</p>
+        <p className="error-message">{customError ? customError : ""}</p>
       </fieldset>
     </>
   );

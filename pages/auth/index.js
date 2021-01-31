@@ -35,10 +35,6 @@ const authIndexPage = () => {
     }
   }, [tkn]);
 
-  useEffect(() => {
-    if (user) window.location.pathname = "/dashboard";
-  }, [user]);
-
   const changePageHandler = (pg) => {
     if (currentPage == "login" && pg == "createaccount") {
       setAnimationState("center-left");

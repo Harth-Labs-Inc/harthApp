@@ -9,7 +9,7 @@ const CreateAccount = (props) => {
   const [transitionClass, setTransitionClass] = useState();
   const [submissionType, setSubmissionType] = useState();
   const [matchingPwdStatus, setMatchingPwdStatus] = useState(true);
-  const [existsError, setExistsError] = useState(false);
+  const [continueError, setContinueError] = useState();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -19,12 +19,17 @@ const CreateAccount = (props) => {
     dob: "",
   });
   const [errorData, setErrorData] = useState({
-    firstName: "",
-    lastName: "",
+    firstName: false,
+    lastName: false,
     email: false,
     password: false,
     conf_password: false,
     dob: false,
+  });
+  const [customErrors, setCustomErrors] = useState({
+    email: "",
+    password: "",
+    match: "",
   });
 
   useEffect(() => {
@@ -52,16 +57,16 @@ const CreateAccount = (props) => {
     if (submissionType == "create") {
       if (matchingPwdStatus) {
         const data = await addUser(formData);
-        const { exists } = data;
-        if (exists) {
-          setExistsError(true);
+        const { ok, errors } = data;
+        if (!ok) {
+          setCustomErrors(errors);
         } else {
           loginHandler();
         }
       }
     }
   };
-
+  console.log(customErrors);
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
     setFormData(data);
@@ -120,6 +125,7 @@ const CreateAccount = (props) => {
           value={formData.email}
           valid={errorData["email"]}
           changeHandler={inputChangeHandler}
+          customError={customErrors["email"] ? "Not A Valid Email" : ""}
           data={formData}
           errorData={errorData}
         />
@@ -131,6 +137,9 @@ const CreateAccount = (props) => {
           value={formData.password}
           valid={errorData["password"]}
           changeHandler={inputChangeHandler}
+          customError={
+            customErrors["password"] ? "Must Be Over 8 Characters" : ""
+          }
           data={formData}
           errorData={errorData}
         />
@@ -157,10 +166,10 @@ const CreateAccount = (props) => {
           data={formData}
           errorData={errorData}
         />
-        <fieldset className={existsError ? "error" : ""}>
+        <fieldset className={customErrors["match"] ? "error" : ""}>
           <div className="form-bottom">
             <p className="error-message" id="email-exists">
-              Email Already Exists
+              {customErrors["match"]}
             </p>
 
             <Button

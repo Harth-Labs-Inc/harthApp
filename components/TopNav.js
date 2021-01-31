@@ -10,7 +10,7 @@ const TopNav = (props) => {
   const [profileIcon, setProfileIcon] = useState();
   const { pathname } = useRouter();
 
-  const { onModalChange, toggleModal, comms } = props;
+  const { changePage, onModalChange, toggleModal, comms } = props;
   const { user } = useAuth();
 
   const showModal = () => {
@@ -35,38 +35,42 @@ const TopNav = (props) => {
         {communityName}
       </button>
       <div role="nav" className="top-buttons">
-        <Link href="/chat">
-          <a
-            role="nav-item"
-            id="chat"
-            aria-label="Community Topics"
-            className={pathname == "/chat" ? "active" : ""}
-          ></a>
-        </Link>
-        <Link href="/notifications">
-          <a
-            role="nav-item"
-            id="notifications"
-            aria-label="Notifications"
-            className={pathname == "/notifications" ? "active" : ""}
-          ></a>
-        </Link>
-        <Link href="/game">
-          <a
-            role="nav-item"
-            id="games"
-            aria-label="Games"
-            className={pathname == "/game" ? "active" : ""}
-          ></a>
-        </Link>
-        <Link href="/events">
-          <a
-            role="nav-item"
-            id="calendar"
-            aria-label="Community Events Calendar"
-            className={pathname == "/events" ? "active" : ""}
-          ></a>
-        </Link>
+        <button
+          role="nav-item"
+          id="chat"
+          aria-label="Community Topics"
+          className={pathname == "/chat" ? "active" : ""}
+          onClick={() => {
+            changePage("chat");
+          }}
+        ></button>
+
+        <button
+          role="nav-item"
+          id="notifications"
+          aria-label="Notifications"
+          className={pathname == "/notifications" ? "active" : ""}
+        ></button>
+
+        <button
+          role="nav-item"
+          id="games"
+          aria-label="Games"
+          className={pathname == "/game" ? "active" : ""}
+          onClick={() => {
+            changePage("game");
+          }}
+        ></button>
+
+        <button
+          role="nav-item"
+          id="calendar"
+          aria-label="Community Events Calendar"
+          className={pathname == "/events" ? "active" : ""}
+          onClick={() => {
+            changePage("events");
+          }}
+        ></button>
       </div>
       <button
         id="account-btn"
@@ -83,7 +87,19 @@ const TopNav = (props) => {
           onToggleModal={showModal}
         >
           <div className="modal_top">
-            <p>[Community Name] Preferences</p>
+            <p>{communityName} Preferences</p>
+            <button aria-label="Close Modal" onClick={showModal}></button>
+          </div>
+          <div className="modal_left">
+            <ul>
+              <li>My Profile</li>
+              <li>Premium</li>
+              <li>Invites</li>
+              <li>Admin</li>
+            </ul>
+          </div>
+          <div className="modal_right">
+            <p>send invitation to join {communityName}</p>
             <button aria-label="Close Modal" onClick={showModal}></button>
           </div>
         </Modal>

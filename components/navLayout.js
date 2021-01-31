@@ -6,7 +6,7 @@ import MainMenu from "./MainMenu";
 const Layout = (props) => {
   const [menuActive, setmenuActive] = useState(false);
 
-  const { children, comms } = props;
+  const { changePage, children, comms } = props;
   console.log(props);
 
   const toggleMenu = () => {
@@ -15,7 +15,7 @@ const Layout = (props) => {
   return (
     <main className={menuActive ? "menu-open" : ""} id="dashboard">
       <MainMenu comms={comms} />
-      <TopNav comms={comms} onToggleMenu={toggleMenu} />
+      <TopNav comms={comms} onToggleMenu={toggleMenu} changePage={changePage} />
       <SideNav comms={comms} />
       <section id="main-content">{children}</section>
     </main>
