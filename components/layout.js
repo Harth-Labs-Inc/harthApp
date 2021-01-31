@@ -78,10 +78,10 @@ const Layout = ({ title, children }) => {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/manifest.json" />
-        <link
+        {/* <link
           rel="stylesheet"
           href="https://i.icomoon.io/public/temp/f193848006/ProjectBlarg/style.css"
-        />
+        /> */}
         <meta name="msapplication-TileColor" content="#202340" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
         <meta name="theme-color" content="#202340" />

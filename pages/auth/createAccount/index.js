@@ -81,7 +81,7 @@ const CreateAccount = (props) => {
           type="text"
           empty={formData.email}
           value={formData.email}
-          valid={errorData["email"]}
+          required={errorData["email"]}
           changeHandler={inputChangeHandler}
           customError={customErrors["email"] ? "Not A Valid Email" : ""}
           data={formData}
@@ -93,7 +93,7 @@ const CreateAccount = (props) => {
           type="password"
           empty={formData.password}
           value={formData.password}
-          valid={errorData["password"]}
+          required={errorData["password"]}
           changeHandler={inputChangeHandler}
           customError={
             customErrors["password"] ? "Must Be Over 8 Characters" : ""
@@ -107,7 +107,7 @@ const CreateAccount = (props) => {
           type="text"
           empty={formData.firstName}
           value={formData.firstName}
-          valid={errorData["firstName"]}
+          required={errorData["firstName"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -118,7 +118,7 @@ const CreateAccount = (props) => {
           type="text"
           empty={formData.lastName}
           value={formData.lastName}
-          valid={errorData["lastName"]}
+          required={errorData["lastName"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -129,7 +129,7 @@ const CreateAccount = (props) => {
           type="date"
           empty={true}
           value={formData.dob}
-          valid={errorData["dob"]}
+          required={errorData["dob"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}

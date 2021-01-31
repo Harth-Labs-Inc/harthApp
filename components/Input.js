@@ -6,7 +6,7 @@ const Input = (props) => {
   const {
     name,
     title,
-    valid,
+    required,
     placeholder,
     changeHandler,
     value,
@@ -43,7 +43,9 @@ const Input = (props) => {
     <>
       <fieldset
         className={`${empty ? "content" : ""} ${
-          valid || matching == false ? "error" : ""
+          matching ? "error_matching" : ""
+        } ${required ? "error_required" : ""} ${
+          customError ? "error_custom" : ""
         }`}
       >
         <label htmlFor={name} className="form-label" ref={labelEl}>
@@ -80,8 +82,10 @@ const Input = (props) => {
             <span className="border-8"></span>
           </div>
         </div>
-        <p className="error-message">{valid ? "Field Required" : ""}</p>
-        <p className="error-message">{customError ? customError : ""}</p>
+        <p className="empty_error_message">
+          {required ? "Field Required" : ""}
+        </p>
+        <p className="custom_error_message">{customError ? customError : ""}</p>
       </fieldset>
     </>
   );
