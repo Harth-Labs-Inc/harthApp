@@ -10,6 +10,7 @@ import InitialCom from "./initialCom";
 import CreateCom from "./createCom";
 import CreateProf from "./createProfile";
 import SubmitCom from "./submitCom";
+import JoinCom from "./joinCom";
 
 const CommIndexPage = () => {
   const [currentPage, setCurrentPage] = useState("initial");
@@ -140,7 +141,7 @@ const CommIndexPage = () => {
       );
       break;
     case "invite":
-      page = <CreateProf changePage={changePageHandler}></CreateProf>;
+      page = <JoinCom changePage={changePageHandler}></JoinCom>;
       break;
     case "profile":
       page = (

@@ -4,13 +4,34 @@
 #select-initial-com,
 #create-community,
 #create-profile,
-#submit-community {
+#submit-community,
+#join-community {
   @include x-center;
   @include glassmorphism(rgba($white, 0.8), $blarg-purple, 9px);
   top: 72px;
   width: 400px;
   padding: 32px 36px 31px;
   border-radius: 5px;
+
+  #go-back {
+    position: absolute;
+    top: 32px;
+    left: 24px;
+    height: 32px;
+    width: 32px;
+
+    background-color: rgba($black, 0.04);
+    border: 0;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    &:before {
+      @include x-y-center;
+      @include font-icon($icon-caret-right);
+      transform: translate3d(-50%, -50%, 0) rotate(180deg);
+    }
+  }
 }
 
 #login-module {
@@ -161,8 +182,66 @@
   }
 }
 
+//Initial Create Profile
+//==================================
 #create-profile {
+  h2 {
+    margin: 0 0 24px;
+  }
+  fieldset {
+    &:last-of-type {
+      margin: -16px 0 0;
+      padding: 0;
+
+      .btn {
+        margin: 0;
+      }
+    }
+  }
+  #profile_image {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: -16px;
+    padding: 0 40px;
+    font-size: 14px;
+    text-align: center;
+
+    span {
+      max-width: 138px;
+    }
+
+    #drop-zone {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      height: 96px;
+      width: 96px;
+      padding: 10px;
+      background-color: $medium-grey;
+      border: 1px dashed $black50;
+      border-radius: 50%;
+      cursor: pointer;
+
+      span {
+        font-size: 10px;
+      }
+
+      input {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+      }
+    }
+  }
   #toggle-field {
+    margin-top: -16px;
+    > p {
+      margin: 0 0 16px;
+      font-size: 12px;
+    }
     > div {
       display: flex;
       align-items: center;
@@ -181,6 +260,44 @@
           font-size: 12px;
         }
       }
+    }
+  }
+}
+
+//Join Existing Community
+//==================================
+#join-community {
+  .form-bottom {
+    span {
+      color: $black60;
+      font-size: 12px;
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+//Community Successfully Created/Joined
+//==================================
+#community_success {
+  .modal_main {
+    padding: 32px 36px;
+    text-align: center;
+
+    h2 {
+      margin-bottom: 16px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 12px;
+    }
+
+    .btn {
+      width: 328px;
+      min-width: 100%;
+      margin-top: 32px;
     }
   }
 }

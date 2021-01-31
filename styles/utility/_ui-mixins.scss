@@ -45,3 +45,9 @@
   backdrop-filter: blur($blur);
   -webkit-backdrop-filter: blur($blur);
 }
+
+@mixin font-icon($icon) {
+  content: $icon;
+  font-family: IcoMoon;
+  speak: none;
+}

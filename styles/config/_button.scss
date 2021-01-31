@@ -39,6 +39,14 @@
   cursor: pointer;
   transition: all 0.3s;
 
+  &:after {
+    @include y-center;
+    right: 16px;
+    content: $icon-caret-right;
+    font-family: IcoMoon;
+    font-size: 7.5px;
+  }
+
   &:hover {
     background-color: $medium-grey;
   }

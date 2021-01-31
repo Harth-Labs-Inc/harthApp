@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../../components/Button";
+import { Button, BackBtn } from "../../../components/Button";
 import { checkForFolder, checkForBadFile } from "../../../services/helper";
 import Form from "../../../components/Form-comp";
 import Input from "../../../components/Input";
@@ -80,7 +80,14 @@ const CreateProfile = (props) => {
       data={formData}
       errorData={errorData}
     >
-      <h2>Set Your Profile for {commData.comName}</h2>
+      <h2>
+        <BackBtn
+          onClick={() => {
+            changePage("create");
+          }}
+        ></BackBtn>
+        Set Your Profile for {commData.comName}
+      </h2>
       <fieldset>
         <div id="profile_image">
           <span>Select a profile picture</span>
