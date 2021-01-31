@@ -108,6 +108,7 @@ const CommIndexPage = () => {
           ? `https://community-profile-images.s3.us-east-2.amazonaws.com/${comms3Upload.name}`
           : "",
       users: [],
+      invites: [],
     });
     console.log(commDbUpload);
     if (commDbUpload.ok) {

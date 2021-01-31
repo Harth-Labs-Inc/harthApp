@@ -44,3 +44,15 @@ export const getComms = async (user) => {
     console.log(error);
   }
 };
+
+export const sendInvite = async (email, id) => {
+  try {
+    const res = await api.post(`/api/comm/sendInvite`, {
+      email,
+      id,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

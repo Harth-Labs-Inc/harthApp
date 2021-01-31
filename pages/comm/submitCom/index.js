@@ -28,8 +28,6 @@ const SubmitCom = (props) => {
     onCreate();
   };
 
-  console.log(formData.interests);
-
   return (
     <Form
       id="submit-community"

@@ -5,6 +5,7 @@ let urls = {
   development: "http://localhost:3000/",
   production: "https://project-blarg-next.vercel.app/",
 };
+console.log(process.env.NODE_ENV);
 const api = Axios.create({
   baseURL: urls[process.env.NODE_ENV],
   headers: {

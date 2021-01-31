@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Router, { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { getComms } from "../../requests/community";
 import { useAuth } from "../../contexts/auth";
@@ -12,11 +13,24 @@ import Game from "./game";
 import Events from "./events";
 
 const dashboard = (props) => {
+  const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState();
   const [currentPage, setCurrentPage] = useState("chat");
   const [comms, setComms] = useState(null);
 
   const { user } = useAuth();
+  const router = useRouter();
+  const {
+    query: { tkn },
+  } = router;
+
+  useEffect(() => {
+    if (tkn) {
+      Router.push("/comm");
+    } else {
+      setLoading(false);
+    }
+  }, [tkn]);
 
   useEffect(() => {
     if (user) {
@@ -64,26 +78,29 @@ const dashboard = (props) => {
   }
 
   return (
-    // <SocketProvider>
-    //   <NavLayout>{children}</NavLayout>
-    // </SocketProvider>
-    <NavLayout comms={comms} changePage={changePageHandler}>
-      {modal ? (
-        <Modal
-          id="community-preferences"
-          show={modal}
-          onToggleModal={showModal}
-        >
-          <h1>Success!!</h1>
-          <p>Welcome to your new community.</p>
-          <p>We hope you have a great time</p>
-          <Button text="let's go" onClick={removeCookie}></Button>
-        </Modal>
-      ) : (
+    <>
+      {loading ? (
         ""
+      ) : (
+        <NavLayout comms={comms} changePage={changePageHandler}>
+          {modal ? (
+            <Modal
+              id="community-preferences"
+              show={modal}
+              onToggleModal={showModal}
+            >
+              <h1>Success!!</h1>
+              <p>Welcome to your new community.</p>
+              <p>We hope you have a great time</p>
+              <Button text="let's go" onClick={removeCookie}></Button>
+            </Modal>
+          ) : (
+            ""
+          )}
+          {page}
+        </NavLayout>
       )}
-      {page}
-    </NavLayout>
+    </>
   );
 };
 

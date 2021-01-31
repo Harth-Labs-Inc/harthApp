@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import OusideClick from "./OutsideClick";
 
 const Modal = (props) => {
   const [transitionClass, setTransitionClass] = useState();
   const { show, children, id, onToggleModal } = props;
+
+  const ref = useRef();
 
   useEffect(() => {
     setTimeout(() => {
@@ -10,9 +13,15 @@ const Modal = (props) => {
     }, 4);
   }, [show]);
 
+  OusideClick(ref, () => {
+    onToggleModal();
+  });
+
   return (
-    <div id={id} className={`modal ${transitionClass}`} onClick={onToggleModal}>
-      <section className="modal_main">{children}</section>
+    <div id={id} className={`modal ${transitionClass}`}>
+      <section ref={ref} className="modal_main">
+        {children}
+      </section>
     </div>
   );
 };
