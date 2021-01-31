@@ -18,8 +18,6 @@ const Input = (props) => {
     customError,
   } = props;
 
-  console.log(props);
-
   useEffect(() => {
     if (title) {
       setlabelWidth(labelEl.current.clientWidth);

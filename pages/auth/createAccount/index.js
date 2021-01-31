@@ -13,7 +13,6 @@ const CreateAccount = (props) => {
     lastName: "",
     email: "",
     password: "",
-    conf_password: "",
     dob: "",
   });
   const [errorData, setErrorData] = useState({
@@ -21,7 +20,6 @@ const CreateAccount = (props) => {
     lastName: false,
     email: false,
     password: false,
-    conf_password: false,
     dob: false,
   });
   const [customErrors, setCustomErrors] = useState({
@@ -40,6 +38,7 @@ const CreateAccount = (props) => {
     if (submissionType == "create") {
       const data = await addUser(formData);
       const { ok, errors } = data;
+      console.log(data);
       if (!ok) {
         setCustomErrors(errors);
       } else {
@@ -47,7 +46,7 @@ const CreateAccount = (props) => {
       }
     }
   };
-  console.log(customErrors);
+
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
     setFormData(data);
