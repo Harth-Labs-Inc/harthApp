@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../../../components/Button";
+import { Button, BackBtn } from "../../../components/Button";
 import Form from "../../../components/Form-comp";
 import Input from "../../../components/Input";
 
@@ -13,6 +13,8 @@ const SubmitCom = (props) => {
   });
 
   const { onCreate, onIntChange } = props;
+
+  const { changePage, onCommChange } = props;
 
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
@@ -38,7 +40,14 @@ const SubmitCom = (props) => {
       data={formData}
       errorData={errorData}
     >
-      <h2>Almost Done</h2>
+      <h2>
+        <BackBtn
+          onClick={() => {
+            changePage("profile");
+          }}
+        ></BackBtn>
+        Almost Done
+      </h2>
       <p>
         What are some of the things you and your community like to chat about?
       </p>

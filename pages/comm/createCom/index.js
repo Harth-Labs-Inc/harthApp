@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Input from "../../../components/Input";
 import Form from "../../../components/Form-comp";
-import { Button } from "../../../components/Button";
+import { Button, BackBtn } from "../../../components/Button";
 import { checkForFolder, checkForBadFile } from "../../../services/helper";
 
 const CreateCom = (props) => {
@@ -55,7 +55,14 @@ const CreateCom = (props) => {
       data={formData}
       errorData={errorData}
     >
-      <h2>Create Your Community</h2>
+      <h2>
+        <BackBtn
+          onClick={() => {
+            changePage("initial");
+          }}
+        ></BackBtn>
+        Create Your Community
+      </h2>
       <fieldset>
         <div id="community-image">
           <span>Select a picture to represent your community</span>

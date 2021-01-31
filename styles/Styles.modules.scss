@@ -4,8 +4,8 @@
 @import "./utility/ui-mixins";
 
 //config
-@import "./config/html", "./config/button", "./config/forms",
-  "./config/config-type", "./config/icons", "./config/modal", "./config/toggle";
+@import "./config/html", "./config/config-type", "./config/button",
+  "./config/forms", "./config/icons", "./config/modal", "./config/toggle";
 
 //layouts
 @import "./layouts/header", "./layouts/sidedash";

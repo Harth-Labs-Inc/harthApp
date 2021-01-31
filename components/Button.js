@@ -13,7 +13,16 @@ export const Choice = (props) => {
   return (
     <button className="choice-btn" {...props}>
       {props.text}
-      <span className="material-icons">keyboard_arrow_right</span>
     </button>
+  );
+};
+
+export const BackBtn = (props) => {
+  return (
+    <button
+      id="go-back"
+      aria-label="Return to previous page"
+      {...props}
+    ></button>
   );
 };

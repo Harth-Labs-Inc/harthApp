@@ -69,12 +69,8 @@ const dashboard = (props) => {
     // </SocketProvider>
     <NavLayout comms={comms} changePage={changePageHandler}>
       {modal ? (
-        <Modal
-          id="community-preferences"
-          show={modal}
-          onToggleModal={showModal}
-        >
-          <h1>Success!!</h1>
+        <Modal id="community_success" show={modal} onToggleModal={showModal}>
+          <h2>Success!!</h2>
           <p>Welcome to your new community.</p>
           <p>We hope you have a great time</p>
           <Button text="let's go" onClick={removeCookie}></Button>
