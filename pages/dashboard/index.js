@@ -26,7 +26,7 @@ const dashboard = (props) => {
 
   useEffect(() => {
     if (tkn) {
-      Router.push("/comm");
+      Router.push(`/comm?tkn=${tkn}`);
     } else {
       setLoading(false);
     }

@@ -13,6 +13,7 @@ import SubmitCom from "./submitCom";
 import JoinCom from "./joinCom";
 
 const CommIndexPage = () => {
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState("initial");
   const [community, setCommunity] = useState({ comIcon: {}, comName: "" });
   const [profile, setProfile] = useState({ profIcon: {}, profName: "" });
@@ -23,8 +24,16 @@ const CommIndexPage = () => {
   const { user } = useAuth();
 
   const {
-    query: {},
+    query: { tkn },
   } = router;
+
+  useEffect(() => {
+    if (tkn) {
+      setCurrentPage("profile");
+    } else {
+      setLoading(false);
+    }
+  }, [tkn]);
 
   useEffect(() => {
     Router.prefetch("/");
