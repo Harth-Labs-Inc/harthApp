@@ -5,13 +5,13 @@
 
 //config
 @import "./config/html", "./config/config-type", "./config/button",
-  "./config/forms", "./config/icons", "./config/modal", "./config/toggle";
+  "./config/forms", "./config/modal", "./config/toggle";
 
 //layouts
 @import "./layouts/header", "./layouts/sidedash";
 
 //navigation
-@import "./navigation/main";
+@import "./navigation/main", "./navigation/comm-preferences";
 
 //pages
 @import "./pages/auth", "./pages/dashboard";

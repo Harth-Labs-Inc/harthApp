@@ -1,0 +1,50 @@
+#nav_comm_preferences {
+  margin: 0;
+  padding: 0;
+  li {
+    position: relative;
+    list-style: none;
+
+    &:after {
+      @include y-center;
+      right: 0;
+      height: 100%;
+      width: 0px;
+
+      content: "";
+
+      background-color: $bg-purple;
+
+      transition: width 0.3s;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+
+      text-align: left;
+
+      background-color: transparent;
+      border: 0;
+
+      cursor: pointer;
+
+      &:hover {
+        background-color: $medium-grey;
+      }
+    }
+
+    &.active {
+      &:after {
+        width: 2px;
+      }
+
+      button {
+        color: $bg-purple;
+
+        background-color: $medium-grey;
+      }
+    }
+  }
+}

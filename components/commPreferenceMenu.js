@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/auth";
 import { sendInvite } from "../requests/community";
-import { Button } from "./Button";
+import { Button, CloseBtn } from "./Button";
 import Form from "./Form-comp";
 import Input from "./Input";
 
@@ -58,18 +58,26 @@ const CommIndexPage = (props) => {
           data={formData}
           errorData={errorData}
         >
-          <Input
-            title="To:  "
-            name="email"
-            type="text"
-            empty={true}
-            value={formData.email}
-            required={errorData["email"]}
-            changeHandler={inputChangeHandler}
-            customError={customErrors["email"] ? "Not A Valid Email" : ""}
-            data={formData}
-            errorData={errorData}
-          />
+          <fieldset>
+            <p>Send an invitation to join {communityName}</p>
+            <Input
+              title="To:  "
+              name="email"
+              type="email"
+              autofocus
+              placeholder="email@example.com, another@email.com"
+              empty={true}
+              value={formData.email}
+              required={errorData["email"]}
+              changeHandler={inputChangeHandler}
+              customError={customErrors["email"] ? "Not A Valid Email" : ""}
+              data={formData}
+              errorData={errorData}
+            />
+          </fieldset>
+          <fieldset>
+            <p>Include a note (optional)</p>
+          </fieldset>
           <fieldset className={customErrors["match"] ? "error" : ""}>
             <div className="form-bottom">
               <p className="error-message" id="email-exists">
@@ -84,47 +92,65 @@ const CommIndexPage = (props) => {
   }
 
   return (
-    <div style={{ display: "flex" }}>
-      <aside
-        style={{
-          borderRight: "1px solid",
-          padding: "20px",
-          marginRight: "20px",
-        }}
-      >
-        <ul>
+    <>
+      <div className="modal_top">
+        <p>{communityName}</p>
+        <CloseBtn></CloseBtn>
+      </div>
+      <aside className="modal_left">
+        <ul id="nav_comm_preferences" role="nav">
           <li
-            onClick={() => {
-              changePageHandler("profile");
-            }}
+            className={currentPage == "profile" ? "active" : ""}
+            role="nav-item"
           >
-            My Profile
+            <button
+              onClick={() => {
+                changePageHandler("profile");
+              }}
+            >
+              My Profile
+            </button>
           </li>
           <li
-            onClick={() => {
-              changePageHandler("premium");
-            }}
+            className={currentPage == "premium" ? "active" : ""}
+            role="nav-item"
           >
-            Premium
+            <button
+              onClick={() => {
+                changePageHandler("premium");
+              }}
+            >
+              Premium
+            </button>
           </li>
           <li
-            onClick={() => {
-              changePageHandler("invites");
-            }}
+            className={currentPage == "invites" ? "active" : ""}
+            role="nav-item"
           >
-            Invites
+            <button
+              onClick={() => {
+                changePageHandler("invites");
+              }}
+            >
+              Invites
+            </button>
           </li>
           <li
-            onClick={() => {
-              changePageHandler("admin");
-            }}
+            className={currentPage == "admin" ? "active" : ""}
+            role="nav-item"
           >
-            Admin
+            <button
+              onClick={() => {
+                changePageHandler("admin");
+              }}
+            >
+              Admin
+            </button>
           </li>
         </ul>
       </aside>
-      <div style={{ padding: "20px" }}>{page}</div>
-    </div>
+      <div className="modal_right">{page}</div>
+    </>
   );
 };
 

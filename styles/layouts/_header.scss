@@ -39,7 +39,6 @@
     &:before {
       @include x-y-center;
       color: $black50;
-      font-family: $font-icon;
       font-size: 24px;
       transition: color 0.3s;
     }
@@ -55,36 +54,33 @@
 
     &#chat {
       &:before {
-        content: $icon-books;
+        @include font-icon($icon-books);
       }
     }
     &#notifications {
       &:before {
-        content: $icon-chat;
+        @include font-icon($icon-chat);
       }
     }
     &#games {
       &:before {
-        content: $icon-game;
+        @include font-icon($icon-game);
       }
     }
     &#calendar {
       &:before {
-        content: $icon-calendar;
+        @include font-icon($icon-calendar);
       }
     }
 
     &:hover {
-      &:before {
-        color: $bg-purple;
+      &:after {
+        width: 100%;
       }
     }
     &.active {
       &:before {
         color: $bg-purple;
-      }
-      &:after {
-        width: 100%;
       }
     }
   }

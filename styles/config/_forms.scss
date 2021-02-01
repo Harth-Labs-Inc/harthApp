@@ -16,6 +16,10 @@ form {
     display: block;
   }
 
+  textarea {
+    resize: none;
+  }
+
   fieldset {
     position: relative;
     margin: 0 0 26px;

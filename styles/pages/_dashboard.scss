@@ -27,7 +27,31 @@
 }
 
 #community-preferences {
-  section {
-    width: 560px;
+  .modal_main {
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "nav body";
+
+    width: 90vw;
+    max-width: 560px;
+  }
+  .modal_top {
+    grid-area: header;
+    padding: 20px 16px;
+    p {
+      margin: 0;
+    }
+  }
+  .modal_left {
+    grid-area: nav;
+
+    width: 143px;
+
+    border-right: 1px solid $border-grey;
+  }
+  .modal_right {
+    grid-area: body;
+    padding: 16px 24px 19px;
   }
 }

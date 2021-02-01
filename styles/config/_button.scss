@@ -66,3 +66,28 @@
     color: $black50;
   }
 }
+
+.close-modal {
+  position: relative;
+
+  height: 32px;
+  width: 32px;
+
+  background-color: transparent;
+  border: 0;
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:before {
+    @include x-y-center;
+    @include font-icon($icon-close);
+    color: $black80;
+    font-size: 14px;
+  }
+
+  &:hover {
+    background-color: $black04;
+  }
+}
