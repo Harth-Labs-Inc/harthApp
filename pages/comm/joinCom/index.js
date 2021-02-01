@@ -23,8 +23,13 @@ const JoinCom = (props) => {
     setFormData(data);
   };
 
+  const submitHandler = () => {
+    onCommChange(formData);
+    changePage("profile");
+  };
+
   return (
-    <Form id="join-community" on_missing={setMissing}>
+    <Form id="join-community" on_submit={submitHandler} on_missing={setMissing}>
       <h2>
         <BackBtn
           onClick={() => {
