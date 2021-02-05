@@ -54,14 +54,16 @@ const Input = (props) => {
         <div className="border-wrapper">
           <div className="input-top">
             <span className="border-1"></span>
-            <span className="border-2" style={{ width: labelWidth }}></span>
+            <span
+              className="border-2"
+              style={{ width: `${labelWidth + 2}px` }}
+            ></span>
             <span
               className="border-3"
               style={{ width: `calc(100% - (${labelWidth + 8}px))` }}
             ></span>
           </div>
           <div className="input-center">
-            <span className="border-4"></span>
             <span className="input">
               <input
                 className="form-input"
@@ -72,14 +74,9 @@ const Input = (props) => {
                 onChange={inputChangeHandler}
                 placeholder={placeholder}
                 autoComplete="off"
+                {...props}
               />
             </span>
-            <span className="border-5"></span>
-          </div>
-          <div className="input-bottom">
-            <span className="border-6"></span>
-            <span className="border-7"></span>
-            <span className="border-8"></span>
           </div>
         </div>
         <p className="empty_error_message">

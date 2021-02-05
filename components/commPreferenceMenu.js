@@ -7,21 +7,22 @@ import Input from "./Input";
 
 const CommIndexPage = (props) => {
   const [currentPage, setCurrentPage] = useState("invites");
-  const [formData, setFormData] = useState({ email: "" });
+  const [inputData, setInputData] = useState({ email: "" });
   const [errorData, setErrorData] = useState({ email: false });
   const [customErrors, setCustomErrors] = useState({ email: "" });
-
+  const [emailList, setEmailList] = useState([]);
   const { user } = useAuth();
   const { communityName, communityId } = props;
 
+  console.log(inputData);
+
   const changePageHandler = (pg) => {
-    console.log(pg);
     setCurrentPage(pg);
   };
 
   const submitHandler = async () => {
-    console.log(formData);
-    const data = await sendInvite(formData.email, communityId);
+    console.log(inputData);
+    const data = await sendInvite(inputData.email, communityId);
     const { ok, errors } = data;
     console.log(data);
     if (!ok) {
@@ -31,11 +32,25 @@ const CommIndexPage = (props) => {
 
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
-    setFormData(data);
+    setInputData(data);
   };
 
   const setMissing = (missing) => {
     setErrorData(missing);
+  };
+
+  const handleKeyDown = (evt) => {
+    console.log(evt);
+    if (["Enter", "Tab", ","].includes(evt.key)) {
+      evt.preventDefault();
+
+      setEmailList([...emailList, inputData.email]);
+      setInputData({ email: "" });
+    }
+  };
+  const handleDelete = (toDelete) => {
+    emailList.splice(toDelete, 1);
+    console.log(emailList);
   };
 
   let page;
@@ -52,31 +67,47 @@ const CommIndexPage = (props) => {
     default:
       page = (
         <Form
-          id="login"
+          id="invite"
           on_submit={submitHandler}
           on_missing={setMissing}
-          data={formData}
+          data={inputData}
           errorData={errorData}
         >
           <fieldset>
             <p>Send an invitation to join {communityName}</p>
+            <div className="email_wrapper">
+              {emailList.map((email, index) => (
+                <span className="email_chip" key={index}>
+                  {email}
+                  <button
+                    type="button"
+                    className="email_delete"
+                    onClick={() => {
+                      handleDelete(index);
+                    }}
+                  ></button>
+                </span>
+              ))}
+            </div>
             <Input
               title="To:  "
               name="email"
               type="email"
               autofocus
               placeholder="email@example.com, another@email.com"
-              empty={true}
-              value={formData.email}
+              empty="true"
+              value={inputData.email}
               required={errorData["email"]}
               changeHandler={inputChangeHandler}
+              onKeyDown={handleKeyDown}
               customError={customErrors["email"] ? "Not A Valid Email" : ""}
-              data={formData}
+              data={inputData}
               errorData={errorData}
             />
           </fieldset>
           <fieldset>
             <p>Include a note (optional)</p>
+            <textarea placeholder="add a note..." rows="10"></textarea>
           </fieldset>
           <fieldset className={customErrors["match"] ? "error" : ""}>
             <div className="form-bottom">

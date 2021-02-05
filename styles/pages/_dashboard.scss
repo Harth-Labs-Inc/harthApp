@@ -54,4 +54,22 @@
     grid-area: body;
     padding: 16px 24px 19px;
   }
+
+  #invite {
+    fieldset {
+      margin: 0 0 2px;
+
+      > p[class*="_error_message"] {
+        bottom: -14px;
+      }
+    }
+
+    .form-bottom {
+      text-align: right;
+    }
+
+    .btn {
+      width: auto;
+    }
+  }
 }
