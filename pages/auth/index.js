@@ -7,21 +7,31 @@ import ChangePassword from "./changePassword";
 import Login from "./login";
 import ResetPwd from "./forgotPassword";
 import CreateAccount from "./createAccount";
+import Loading from "../loading";
 
 const authIndexPage = () => {
-  const [currentPage, setCurrentPage] = useState("login");
+  const [currentPage, setCurrentPage] = useState();
   const [animationState, setAnimationState] = useState("");
+  const [inviteToken, setInviteToken] = useState();
 
   const router = useRouter();
   const { user } = useAuth();
 
   const {
-    query: { tkn },
+    query: { tkn, invite, reset },
   } = router;
 
   useEffect(() => {
     if (tkn) {
-      validate();
+      if (invite) {
+        setInviteToken(tkn);
+        setCurrentPage("login");
+      }
+      if (reset) {
+        validate();
+      }
+    } else {
+      setCurrentPage("login");
     }
 
     async function validate() {
@@ -64,8 +74,22 @@ const authIndexPage = () => {
     case "resetpwd":
       page = <ResetPwd changePage={changePageHandler}></ResetPwd>;
       break;
+    case "login":
+      page = (
+        <Login
+          animationClass={animationState}
+          changePage={changePageHandler}
+          inviteToken={inviteToken}
+        ></Login>
+      );
+      break;
     case "createaccount":
-      page = <CreateAccount changePage={changePageHandler}></CreateAccount>;
+      page = (
+        <CreateAccount
+          changePage={changePageHandler}
+          inviteToken={inviteToken}
+        ></CreateAccount>
+      );
       break;
     case "updatePwd":
       page = (
@@ -79,12 +103,7 @@ const authIndexPage = () => {
       page = <InvalidReset changePage={changePageHandler}></InvalidReset>;
       break;
     default:
-      page = (
-        <Login
-          animationClass={animationState}
-          changePage={changePageHandler}
-        ></Login>
-      );
+      page = <Loading></Loading>;
       break;
   }
 

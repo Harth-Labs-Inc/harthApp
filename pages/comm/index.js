@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { useAuth } from "../../contexts/auth";
 import Router, { useRouter } from "next/router";
+import { useAuth } from "../../contexts/auth";
 import { getUploadURL, putImageInBucket } from "../../requests/s3";
-import { saveCommunity, addUserToComm } from "../../requests/community";
+import {
+  saveCommunity,
+  addUserToComm,
+  getCommFromInvite,
+} from "../../requests/community";
 import { generateID } from "../../services/helper";
 
 import InitialCom from "./initialCom";
@@ -13,8 +17,8 @@ import SubmitCom from "./submitCom";
 import JoinCom from "./joinCom";
 
 const CommIndexPage = () => {
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState("initial");
+  const [comID, setcomID] = useState();
   const [community, setCommunity] = useState({ comIcon: {}, comName: "" });
   const [profile, setProfile] = useState({ profIcon: {}, profName: "" });
   const [personalInfo, setPersonalInfo] = useState({});
@@ -28,10 +32,17 @@ const CommIndexPage = () => {
   } = router;
 
   useEffect(() => {
+    let token = tkn;
     if (tkn) {
       setCurrentPage("profile");
-    } else {
-      setLoading(false);
+      (async () => {
+        const data = await getCommFromInvite(token);
+        console.log(data);
+        const { ok, msg, comm } = data;
+        if (ok) {
+          setcomID(comm._id);
+        }
+      })();
     }
   }, [tkn]);
 
@@ -57,7 +68,7 @@ const CommIndexPage = () => {
 
   const uploadFile = (file, bucket) => {
     return new Promise((resolve) => {
-      console.log(file.name);
+      console.log(file);
       if (file.name) {
         console.log("asdf");
         (async () => {
@@ -93,36 +104,59 @@ const CommIndexPage = () => {
   };
 
   const createComm = async () => {
-    console.log(community, profile, interests);
-    let comms3Upload;
-    let commDbUpload;
-    let profs3Upload;
-    let profDbUpload;
+    if (!comID) {
+      let comms3Upload;
+      let commDbUpload;
+      let profs3Upload;
+      let profDbUpload;
 
-    if (community.image.name) {
-      comms3Upload = await uploadFile(
-        community.image,
-        "community-profile-images"
-      );
-    }
-    if (profile.image.name) {
-      profs3Upload = await uploadFile(community.image, "community-user-images");
-      if (profs3Upload.ok) {
+      if (community.image.name) {
+        comms3Upload = await uploadFile(
+          community.image,
+          "community-profile-images"
+        );
       }
-    }
-    console.log(comms3Upload);
-    commDbUpload = await saveCommunity({
-      name: community.comName,
-      iconKey:
-        comms3Upload && comms3Upload.name
-          ? `https://community-profile-images.s3.us-east-2.amazonaws.com/${comms3Upload.name}`
-          : "",
-      users: [],
-      invites: [],
-    });
-    console.log(commDbUpload);
-    if (commDbUpload.ok) {
-      profDbUpload = await addUserToComm(commDbUpload.id, {
+      if (profile.image.name) {
+        profs3Upload = await uploadFile(profile.image, "community-user-images");
+        if (profs3Upload.ok) {
+        }
+      }
+      console.log(comms3Upload);
+      commDbUpload = await saveCommunity({
+        name: community.comName,
+        iconKey:
+          comms3Upload && comms3Upload.name
+            ? `https://community-profile-images.s3.us-east-2.amazonaws.com/${comms3Upload.name}`
+            : "",
+        users: [],
+        invites: [],
+      });
+      console.log(commDbUpload);
+      if (commDbUpload.ok) {
+        profDbUpload = await addUserToComm(commDbUpload.id, {
+          userId: user._id,
+          iconKey:
+            profs3Upload && profs3Upload.name
+              ? `https://community-user-images.s3.us-east-2.amazonaws.com/${profs3Upload.name}`
+              : "",
+          name: profile.profName,
+          personalInfo: personalInfo,
+        });
+        console.log(profDbUpload);
+        if (profDbUpload.ok) {
+          Cookies.set("showComCreatedModal", true);
+          window.location.pathname = "/";
+        }
+      }
+    } else {
+      let profs3Upload;
+      let profDbUpload;
+
+      if (profile.image.name) {
+        profs3Upload = await uploadFile(profile.image, "community-user-images");
+      }
+
+      profDbUpload = await addUserToComm(comID, {
         userId: user._id,
         iconKey:
           profs3Upload && profs3Upload.name

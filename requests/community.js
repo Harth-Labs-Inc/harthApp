@@ -56,3 +56,14 @@ export const sendInvite = async (email, id) => {
     console.log(error);
   }
 };
+
+export const getCommFromInvite = async (id) => {
+  try {
+    const res = await api.post(`/api/comm/getCommFromInvite`, {
+      id,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

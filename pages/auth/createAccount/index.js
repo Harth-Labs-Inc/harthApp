@@ -28,6 +28,8 @@ const CreateAccount = (props) => {
     match: "",
   });
 
+  const { changePage, inviteToken } = props;
+
   useEffect(() => {
     setTimeout(() => {
       setTransitionClass("right-center");
@@ -61,7 +63,11 @@ const CreateAccount = (props) => {
     const { ok, msg, tkn } = data;
     if (ok) {
       Cookies.set("token", tkn, { expires: 365 });
-      window.location.pathname = "/comm";
+      if (inviteToken) {
+        window.location.pathname = `/comm?tkn=${inviteToken}`;
+      } else {
+        window.location.pathname = "/comm";
+      }
     } else {
     }
   };
@@ -154,7 +160,7 @@ const CreateAccount = (props) => {
                 id="return-login"
                 onClick={() => {
                   setTransitionClass("");
-                  props.changePage("login");
+                  changePage("login");
                 }}
               >
                 Already have an account?

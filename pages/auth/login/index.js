@@ -20,6 +20,8 @@ const Login = (props) => {
     access_code: false,
   });
 
+  const { animationClass, changePage, inviteToken } = props;
+
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
     setFormData(data);
@@ -37,6 +39,9 @@ const Login = (props) => {
 
     if (ok) {
       Cookies.set("token", tkn, { expires: 365 });
+      if (inviteToken) {
+        window.location.pathname = `/comm?invite=true&tkn=${inviteToken}`;
+      }
       window.location.pathname = "/";
     } else {
       setErrorMessage(msg);
@@ -44,7 +49,7 @@ const Login = (props) => {
   };
 
   return (
-    <div className={props.animationClass} id="login-module">
+    <div className={animationClass} id="login-module">
       <h2>Project Blarg</h2>
       <Form
         id="login"
@@ -86,7 +91,7 @@ const Login = (props) => {
               <a
                 id="forgot-password-link"
                 onClick={() => {
-                  props.changePage("resetpwd");
+                  changePage("resetpwd");
                 }}
               >
                 Forgot your password?
@@ -94,7 +99,7 @@ const Login = (props) => {
               <a
                 id="sign-up-link"
                 onClick={() => {
-                  props.changePage("createaccount");
+                  changePage("createaccount");
                 }}
               >
                 Need an account?
