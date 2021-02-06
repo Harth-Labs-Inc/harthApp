@@ -62,7 +62,7 @@ export default async (req, res) => {
         subject: "reset pasword",
         html: `
         <p>You recently requested to reset your password for your Blarg account. Use the button below to reset it. <b>This password reset is only valid for the next hour</b></p>
-        <a href='http://localhost:3000/?reset=true&tkn=${token}'>Reset Your Password</a>
+        <a href='${process.env.NODE_ENV}/?reset=true&tkn=${token}'>Reset Your Password</a>
         `,
       };
       transporter.sendMail(mailOptions, function (err, res) {

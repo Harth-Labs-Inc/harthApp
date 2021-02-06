@@ -47,7 +47,7 @@ export default async (req, res) => {
         subject: "invite",
         html: `
         <p>you've been invited to a community</p>
-        <a href='http://localhost:3000/?invite=true&tkn=${token}'>Go to Project blarg</a>
+        <a href='${process.env.NODE_ENV}/?invite=true&tkn=${token}'>Go to Project blarg</a>
         `,
       };
       transporter.sendMail(mailOptions, function (err, res) {
