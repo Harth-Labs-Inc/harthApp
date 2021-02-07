@@ -12,7 +12,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       setSocket(
-        io.connect("http://localhost:3030", {
+        io.connect("https://project-blarg-socket.herokuapp.com", {
           secure: true,
           reconnection: true,
           rejectUnauthorized: false,
