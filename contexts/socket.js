@@ -13,9 +13,6 @@ export const SocketProvider = ({ children }) => {
     if (user) {
       setSocket(
         io.connect("https://project-blarg-socket.herokuapp.com", {
-          secure: true,
-          reconnection: true,
-          rejectUnauthorized: false,
           transports: ["websocket"],
         })
       );
