@@ -47,6 +47,7 @@ export default async (req, res) => {
         subject: "invite",
         html: `
         <p>you've been invited to a community</p>
+        <p>to join either copy and paste this <strong>${token}</strong> as the invite link or click link below</p>
         <a href='${process.env.NODE_ENV}/?invite=true&tkn=${token}'>Go to Project blarg</a>
         `,
       };

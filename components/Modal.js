@@ -14,7 +14,8 @@ const Modal = (props) => {
   }, [show]);
 
   OusideClick(ref, () => {
-    onToggleModal();
+    console.log("asdffffffffffaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    // onToggleModal();
   });
 
   return (

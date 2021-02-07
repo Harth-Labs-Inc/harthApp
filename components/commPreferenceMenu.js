@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useAuth } from "../contexts/auth";
 import { sendInvite } from "../requests/community";
+import { validateEmail } from "../services/helper";
 import { Button, CloseBtn } from "./Button";
 import Form from "./Form-comp";
 import Input from "./Input";
@@ -10,23 +10,38 @@ const CommIndexPage = (props) => {
   const [inputData, setInputData] = useState({ email: "" });
   const [errorData, setErrorData] = useState({ email: false });
   const [customErrors, setCustomErrors] = useState({ email: "" });
-  const [emailList, setEmailList] = useState([]);
-  const { user } = useAuth();
+  const [emailList, setEmailList] = useState(new Set());
   const { communityName, communityId } = props;
-
-  console.log(inputData);
 
   const changePageHandler = (pg) => {
     setCurrentPage(pg);
   };
 
   const submitHandler = async () => {
-    console.log(inputData);
-    const data = await sendInvite(inputData.email, communityId);
-    const { ok, errors } = data;
-    console.log(data);
-    if (!ok) {
-      setCustomErrors(errors);
+    console.log("inside");
+    if (emailList.size > 0) {
+      [...emailList].forEach(async (e) => {
+        const data = await sendInvite(e, communityId);
+        const { ok, errors } = data;
+        if (!ok) {
+          setCustomErrors(errors);
+        }
+      });
+    } else {
+      if (inputData.email) {
+        if (!validateEmail(inputData.email)) {
+          setCustomErrors({ email: "Email Is Not Valid" });
+        } else {
+          setCustomErrors({ email: "" });
+          const data = await sendInvite(inputData.email, communityId);
+          const { ok, errors } = data;
+          if (!ok) {
+            setCustomErrors(errors);
+          }
+        }
+      } else {
+        setCustomErrors({ email: "Field is Required" });
+      }
     }
   };
 
@@ -40,17 +55,20 @@ const CommIndexPage = (props) => {
   };
 
   const handleKeyDown = (evt) => {
-    console.log(evt);
-    if (["Enter", "Tab", ","].includes(evt.key)) {
+    if (["Enter", "Tab", ",", " "].includes(evt.key)) {
       evt.preventDefault();
-
-      setEmailList([...emailList, inputData.email]);
-      setInputData({ email: "" });
+      let valid = validateEmail(inputData.email);
+      if (valid) {
+        setEmailList(emailList.add(inputData.email));
+        setInputData({ email: "" });
+        setCustomErrors({ email: "" });
+      } else {
+        setCustomErrors({ email: "Email Is Not Valid" });
+      }
     }
   };
-  const handleDelete = (toDelete) => {
-    emailList.splice(toDelete, 1);
-    console.log(emailList);
+  const handleDelete = (email) => {
+    setEmailList(new Set([...emailList].filter((e) => e !== email)));
   };
 
   let page;
@@ -72,35 +90,37 @@ const CommIndexPage = (props) => {
           on_missing={setMissing}
           data={inputData}
           errorData={errorData}
+          ignoreMissing={true}
         >
           <fieldset>
             <p>Send an invitation to join {communityName}</p>
             <div className="email_wrapper">
-              {emailList.map((email, index) => (
-                <span className="email_chip" key={index}>
-                  {email}
-                  <button
-                    type="button"
-                    className="email_delete"
-                    onClick={() => {
-                      handleDelete(index);
-                    }}
-                  ></button>
-                </span>
-              ))}
+              {emailList && emailList.size > 0
+                ? [...emailList].map((email, index) => (
+                    <span className="email_chip" key={index}>
+                      {email}
+                      <button
+                        type="button"
+                        className="email_delete"
+                        onClick={() => {
+                          handleDelete(email);
+                        }}
+                      ></button>
+                    </span>
+                  ))
+                : ""}
             </div>
             <Input
               title="To:  "
               name="email"
-              type="email"
+              type="text"
               autofocus
               placeholder="email@example.com, another@email.com"
               empty="true"
               value={inputData.email}
-              required={errorData["email"]}
               changeHandler={inputChangeHandler}
               onKeyDown={handleKeyDown}
-              customError={customErrors["email"] ? "Not A Valid Email" : ""}
+              customError={customErrors["email"] ? customErrors["email"] : ""}
               data={inputData}
               errorData={errorData}
             />
