@@ -17,6 +17,7 @@ export default async (req, res) => {
       });
       db.collection("communities")
         .find({ _id: { $in: oids } })
+        .project({ invites: 0 })
         .toArray(function (err, results) {
           if (err) {
             resolve(false);

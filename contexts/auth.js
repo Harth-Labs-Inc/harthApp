@@ -11,8 +11,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(process.env.NODE_ENV);
-
   useEffect(async () => {
     const token = Cookies.get("token");
     if (token) {

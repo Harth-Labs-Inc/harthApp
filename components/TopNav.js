@@ -1,9 +1,9 @@
-import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/auth";
 import Modal from "./Modal";
 import CommPrefMenu from "./commPreferenceMenu";
+import { useComms } from "../contexts/comms";
 
 const TopNav = (props) => {
   const [modal, setModal] = useState();
@@ -12,15 +12,28 @@ const TopNav = (props) => {
   const [profileIcon, setProfileIcon] = useState();
   const { pathname } = useRouter();
 
-  const { changePage, onModalChange, toggleModal, comms } = props;
+  const { changePage, onModalChange, toggleModal } = props;
   const { user } = useAuth();
+  const { comms, selectedcomm } = useComms();
 
   const showModal = () => {
     setModal(!modal);
   };
 
   useEffect(() => {
-    if (comms && comms.length > 0) {
+    if (selectedcomm) {
+      setCommunityName(selectedcomm.name);
+      setCommunityId(selectedcomm._id);
+      selectedcomm.users.forEach((usr) => {
+        if (usr.userId === user._id) {
+          setProfileIcon(usr.iconKey);
+        }
+      });
+    }
+  }, [selectedcomm]);
+
+  useEffect(() => {
+    if (!selectedcomm && comms && comms.length > 0) {
       setCommunityName(comms[0].name);
       setCommunityId(comms[0]._id);
       comms[0].users.forEach((usr) => {
@@ -28,13 +41,11 @@ const TopNav = (props) => {
           setProfileIcon(usr.iconKey);
         }
       });
-      console.log(user._id);
     }
   }, [comms]);
 
   return (
     <>
-      {" "}
       {modal ? (
         <Modal
           id="community-preferences"
@@ -44,11 +55,12 @@ const TopNav = (props) => {
           <CommPrefMenu
             communityName={communityName}
             communityId={communityId}
+            onToggleModal={showModal}
           />
         </Modal>
       ) : (
         ""
-      )}{" "}
+      )}
       <header id="dash-header">
         <button id="channel" onClick={showModal}>
           {communityName}

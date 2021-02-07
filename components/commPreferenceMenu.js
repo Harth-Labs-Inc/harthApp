@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { sendInvite } from "../requests/community";
 import { validateEmail } from "../services/helper";
-import { Button, CloseBtn } from "./Button";
+import { Button, CloseBtn, BackBtn } from "./Button";
 import Form from "./Form-comp";
 import Input from "./Input";
 
 const CommIndexPage = (props) => {
   const [currentPage, setCurrentPage] = useState("invites");
-  const [inputData, setInputData] = useState({ email: "" });
-  const [errorData, setErrorData] = useState({ email: false });
   const [customErrors, setCustomErrors] = useState({ email: "" });
+  // invite page
+  const [inputData, setInputData] = useState({ email: "" });
+  const [noteData, setNotetData] = useState("");
+  const [errorData, setErrorData] = useState({ email: false });
   const [emailList, setEmailList] = useState(new Set());
-  const { communityName, communityId } = props;
+  const [invitesSent, setInvitesSent] = useState(false);
+
+  const { communityName, communityId, onToggleModal } = props;
 
   const changePageHandler = (pg) => {
     setCurrentPage(pg);
@@ -21,10 +25,12 @@ const CommIndexPage = (props) => {
     console.log("inside");
     if (emailList.size > 0) {
       [...emailList].forEach(async (e) => {
-        const data = await sendInvite(e, communityId);
+        const data = await sendInvite(e, communityId, noteData);
         const { ok, errors } = data;
-        if (!ok) {
-          setCustomErrors(errors);
+        if (ok) {
+          setInvitesSent(true);
+          setInputData({ email: "" });
+          setNotetData("");
         }
       });
     } else {
@@ -33,10 +39,12 @@ const CommIndexPage = (props) => {
           setCustomErrors({ email: "Email Is Not Valid" });
         } else {
           setCustomErrors({ email: "" });
-          const data = await sendInvite(inputData.email, communityId);
+          const data = await sendInvite(inputData.email, communityId, noteData);
           const { ok, errors } = data;
-          if (!ok) {
-            setCustomErrors(errors);
+          if (ok) {
+            setInvitesSent(true);
+            setInputData({ email: "" });
+            setNotetData("");
           }
         }
       } else {
@@ -48,6 +56,11 @@ const CommIndexPage = (props) => {
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
     setInputData(data);
+  };
+
+  const InviteNoteHandler = (e) => {
+    const { value } = e.target;
+    setNotetData(value);
   };
 
   const setMissing = (missing) => {
@@ -84,60 +97,83 @@ const CommIndexPage = (props) => {
       break;
     default:
       page = (
-        <Form
-          id="invite"
-          on_submit={submitHandler}
-          on_missing={setMissing}
-          data={inputData}
-          errorData={errorData}
-          ignoreMissing={true}
-        >
-          <fieldset>
-            <p>Send an invitation to join {communityName}</p>
-            <div className="email_wrapper">
-              {emailList && emailList.size > 0
-                ? [...emailList].map((email, index) => (
-                    <span className="email_chip" key={index}>
-                      {email}
-                      <button
-                        type="button"
-                        className="email_delete"
-                        onClick={() => {
-                          handleDelete(email);
-                        }}
-                      ></button>
-                    </span>
-                  ))
-                : ""}
-            </div>
-            <Input
-              title="To:  "
-              name="email"
-              type="text"
-              autofocus
-              placeholder="email@example.com, another@email.com"
-              empty="true"
-              value={inputData.email}
-              changeHandler={inputChangeHandler}
-              onKeyDown={handleKeyDown}
-              customError={customErrors["email"] ? customErrors["email"] : ""}
+        <>
+          {invitesSent ? (
+            <h2>
+              <BackBtn
+                onClick={() => {
+                  setInvitesSent(false);
+                }}
+              ></BackBtn>
+              Invites sent!
+            </h2>
+          ) : (
+            <Form
+              id="invite"
+              on_submit={submitHandler}
+              on_missing={setMissing}
               data={inputData}
               errorData={errorData}
-            />
-          </fieldset>
-          <fieldset>
-            <p>Include a note (optional)</p>
-            <textarea placeholder="add a note..." rows="10"></textarea>
-          </fieldset>
-          <fieldset className={customErrors["match"] ? "error" : ""}>
-            <div className="form-bottom">
-              <p className="error-message" id="email-exists">
-                {customErrors["custom"]}
-              </p>
-              <Button id="invites-submit" type="submit" text="invite"></Button>
-            </div>
-          </fieldset>
-        </Form>
+              ignoreMissing={true}
+            >
+              <fieldset>
+                <p>Send an invitation to join {communityName}</p>
+                <div className="email_wrapper">
+                  {emailList && emailList.size > 0
+                    ? [...emailList].map((email, index) => (
+                        <span className="email_chip" key={index}>
+                          {email}
+                          <button
+                            type="button"
+                            className="email_delete"
+                            onClick={() => {
+                              handleDelete(email);
+                            }}
+                          ></button>
+                        </span>
+                      ))
+                    : ""}
+                </div>
+                <Input
+                  title="To:  "
+                  name="email"
+                  type="text"
+                  autofocus
+                  placeholder="email@example.com, another@email.com"
+                  empty="true"
+                  value={inputData.email}
+                  changeHandler={inputChangeHandler}
+                  onKeyDown={handleKeyDown}
+                  customError={
+                    customErrors["email"] ? customErrors["email"] : ""
+                  }
+                  data={inputData}
+                  errorData={errorData}
+                />
+              </fieldset>
+              <fieldset>
+                <p>Include a note (optional)</p>
+                <textarea
+                  placeholder="add a note..."
+                  rows="10"
+                  onChange={InviteNoteHandler}
+                ></textarea>
+              </fieldset>
+              <fieldset className={customErrors["match"] ? "error" : ""}>
+                <div className="form-bottom">
+                  <p className="error-message" id="email-exists">
+                    {customErrors["custom"]}
+                  </p>
+                  <Button
+                    id="invites-submit"
+                    type="submit"
+                    text="invite"
+                  ></Button>
+                </div>
+              </fieldset>
+            </Form>
+          )}
+        </>
       );
       break;
   }
@@ -146,7 +182,7 @@ const CommIndexPage = (props) => {
     <>
       <div className="modal_top">
         <p>{communityName}</p>
-        <CloseBtn></CloseBtn>
+        <CloseBtn onClick={onToggleModal}></CloseBtn>
       </div>
       <aside className="modal_left">
         <ul id="nav_comm_preferences" role="nav">

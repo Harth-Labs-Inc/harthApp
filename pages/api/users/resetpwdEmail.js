@@ -48,6 +48,11 @@ export default async (req, res) => {
 
   const sendEmail = (email, token) => {
     return new Promise((resolve, reject) => {
+      let urls = {
+        test: `http://localhost:3000`,
+        development: "http://localhost:3000/",
+        production: "https://project-blarg-next.vercel.app/",
+      };
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -62,7 +67,9 @@ export default async (req, res) => {
         subject: "reset pasword",
         html: `
         <p>You recently requested to reset your password for your Blarg account. Use the button below to reset it. <b>This password reset is only valid for the next hour</b></p>
-        <a href='${process.env.NODE_ENV}/?reset=true&tkn=${token}'>Reset Your Password</a>
+        <a href='${
+          urls[process.env.NODE_ENV]
+        }?reset=true&tkn=${token}'>Reset Your Password</a>
         `,
       };
       transporter.sendMail(mailOptions, function (err, res) {

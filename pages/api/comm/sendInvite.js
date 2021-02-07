@@ -11,8 +11,6 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  console.log(obj);
-
   const pushInviteToComm = (db, id) => {
     return new Promise((resolve, reject) => {
       let mongo = require("mongodb");
@@ -31,8 +29,13 @@ export default async (req, res) => {
     });
   };
 
-  const sendEmail = (email, token) => {
+  const sendEmail = (email, token, note) => {
     return new Promise((resolve, reject) => {
+      let urls = {
+        test: `http://localhost:3000`,
+        development: "http://localhost:3000/",
+        production: "https://project-blarg-next.vercel.app/",
+      };
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -48,7 +51,10 @@ export default async (req, res) => {
         html: `
         <p>you've been invited to a community</p>
         <p>to join either copy and paste this <strong>${token}</strong> as the invite link or click link below</p>
-        <a href='${process.env.NODE_ENV}/?invite=true&tkn=${token}'>Go to Project blarg</a>
+        <a href='${
+          urls[process.env.NODE_ENV]
+        }?invite=true&tkn=${token}'>Go to Project blarg</a>
+        <p>${note}</P>
         `,
       };
       transporter.sendMail(mailOptions, function (err, res) {
@@ -83,7 +89,7 @@ export default async (req, res) => {
       errors: { custom: "Something Went Wrong, PLease try again" },
     });
   }
-  let email = await sendEmail(obj.email, tkn);
+  let email = await sendEmail(obj.email, tkn, obj.note);
   if (!email) {
     return res.json({
       ok: 0,

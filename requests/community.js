@@ -45,11 +45,12 @@ export const getComms = async (user) => {
   }
 };
 
-export const sendInvite = async (email, id) => {
+export const sendInvite = async (email, id, note) => {
   try {
     const res = await api.post(`/api/comm/sendInvite`, {
       email,
       id,
+      note,
     });
     return res.data;
   } catch (error) {
