@@ -11,7 +11,8 @@
 @import "./layouts/header", "./layouts/sidedash";
 
 //navigation
-@import "./navigation/main", "./navigation/comm-preferences";
+@import "./navigation/main", "./navigation/top", "./navigation/comm-menu",
+  "./navigation/comm-preferences";
 
 //pages
 @import "./pages/auth", "./pages/dashboard";

@@ -14,11 +14,11 @@
   transition: opacity 0.3s;
 
   section {
-    @include x-y-center;
+    @include x-center;
     background-color: $white;
     border-radius: 4px;
 
-    transform: translate3d(-50%, -50%, 0) scale(0, 0);
+    transform: scale(0, 0);
     transform-origin: center;
 
     transition: transform 0.3s 0.2s;
@@ -37,7 +37,7 @@
     visibility: visible;
 
     section {
-      transform: translate3d(-50%, -50%, 0) scale(1, 1);
+      transform: scale(1, 1);
     }
   }
 }

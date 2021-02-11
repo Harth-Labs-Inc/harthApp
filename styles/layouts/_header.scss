@@ -23,69 +23,6 @@
   cursor: pointer;
 }
 
-.top-buttons {
-  display: flex;
-  align-items: center;
-  margin-right: 16px;
-  button {
-    position: relative;
-    height: 56px;
-    width: 72px;
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-    transition: background-color 0.3s;
-
-    &:before {
-      @include x-y-center;
-      color: $black50;
-      font-size: 24px;
-      transition: color 0.3s;
-    }
-    &:after {
-      @include x-center;
-      bottom: 0;
-      height: 2px;
-      width: 0%;
-      content: "";
-      background-color: $bg-purple;
-      transition: width 0.3s;
-    }
-
-    &#chat {
-      &:before {
-        @include font-icon($icon-books);
-      }
-    }
-    &#notifications {
-      &:before {
-        @include font-icon($icon-chat);
-      }
-    }
-    &#games {
-      &:before {
-        @include font-icon($icon-game);
-      }
-    }
-    &#calendar {
-      &:before {
-        @include font-icon($icon-calendar);
-      }
-    }
-
-    &:hover {
-      &:after {
-        width: 100%;
-      }
-    }
-    &.active {
-      &:before {
-        color: $bg-purple;
-      }
-    }
-  }
-}
-
 #account-btn {
   position: relative;
 
@@ -101,12 +38,27 @@
   cursor: pointer;
 
   &:before {
+    @include font-icon($icon-user);
     @include x-y-center;
+    z-index: 2;
 
-    content: $icon-user;
-    font-family: IcoMoon;
+    color: $black50;
     font-size: 40px;
     line-height: 40px;
+  }
+
+  &:after {
+    @include x-y-center;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+
+    content: "";
+
+    border: 2px solid transparent;
+    border-radius: 50%;
+
+    transition: all 0.3s;
   }
 
   &.hasImage {
@@ -121,5 +73,14 @@
     width: 40px;
     object-fit: cover;
     border-radius: 50%;
+  }
+
+  &:hover {
+    &:after {
+      height: calc(100% + 4px);
+      width: calc(100% + 4px);
+
+      border-color: $blarg-purple;
+    }
   }
 }

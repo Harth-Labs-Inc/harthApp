@@ -22,7 +22,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (socket) {
       socket.on("time", function (timeString) {
-        console.log("time", timeString);
+        // console.log("time", timeString);
       });
     }
   }, [socket]);

@@ -138,7 +138,7 @@ const CommIndexPage = (props) => {
                   title="To:  "
                   name="email"
                   type="text"
-                  autofocus
+                  autoFocus
                   placeholder="email@example.com, another@email.com"
                   empty="true"
                   value={inputData.email}

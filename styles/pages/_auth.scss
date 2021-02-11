@@ -10,13 +10,14 @@
   @include glassmorphism(rgba($white, 0.8), $blarg-purple, 9px);
   top: 72px;
   width: 400px;
+  max-width: 95%;
   padding: 32px 36px 31px;
   border-radius: 5px;
 
   #go-back {
     position: absolute;
     top: 32px;
-    left: 24px;
+    left: 4%;
     height: 32px;
     width: 32px;
 

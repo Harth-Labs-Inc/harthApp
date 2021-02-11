@@ -68,7 +68,9 @@
 }
 
 .close-modal {
-  position: relative;
+  position: absolute;
+  top: 13px;
+  right: 10px;
 
   height: 32px;
   width: 32px;

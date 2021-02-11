@@ -24,33 +24,43 @@ const SideNav = (props) => {
       ) : (
         ""
       )}
-      <aside id="nav_topics">
-        {comms &&
-          comms.map((com) => {
-            return (
-              <button
-                style={{ height: "40px", width: "40px" }}
-                onClick={() => {
-                  changeSelectedCom(com);
-                }}
-              >
-                {com.iconKey ? (
-                  <img
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      objectFit: "cover",
+      <aside id="left_nav">
+        <ul id="left_nav_comms">
+          {comms &&
+            comms.map((com) => {
+              return (
+                <li
+                  className={setSelected ? "active" : ""}
+                  aria-label="nav-item"
+                  key={com._id}
+                >
+                  <button
+                    onClick={() => {
+                      changeSelectedCom(com);
                     }}
-                    src={com.iconKey}
-                  />
-                ) : (
-                  ""
-                )}
-              </button>
-            );
-          })}
+                    aria-label={com.name}
+                  >
+                    {com.iconKey ? (
+                      <img
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          objectFit: "cover",
+                        }}
+                        src={com.iconKey}
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          <li id="left_nav_comms_new" aria-label="nav-item">
+            <button onClick={openCreateComm}></button>
+          </li>
+        </ul>
 
-        <button onClick={openCreateComm}></button>
         <button
           onClick={props.onToggleMenu}
           aria-label="Toggle Main Menu"

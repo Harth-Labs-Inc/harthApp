@@ -32,6 +32,11 @@ a {
   }
 }
 
+img,
+video {
+  display: block;
+}
+
 #__next {
   overflow: hidden;
 }

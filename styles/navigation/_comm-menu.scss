@@ -1,0 +1,86 @@
+#left_nav_comms {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    height: 48px;
+    width: 56px;
+    padding: 4px 8px;
+    background-color: transparent;
+    transition: background-color 0.3s;
+
+    button {
+      height: 40px;
+      width: 40px;
+      padding: 0;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &.active {
+      background-color: $black04;
+      &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 2px;
+        content: "";
+        background-color: $blarg-purple;
+      }
+    }
+
+    &:hover {
+      background-color: $black04;
+    }
+
+    &#left_nav_comms_new {
+      button {
+        background-color: transparent;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+        &:before {
+          @include x-y-center;
+          @include font-icon($icon-plus);
+        }
+      }
+
+      &:hover {
+        background-color: transparent;
+        button {
+          background-color: $black04;
+        }
+      }
+    }
+  }
+}
+
+#menu-toggle {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  background-color: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:before {
+    @include x-y-center;
+    @include font-icon($icon-gear);
+  }
+
+  &:hover {
+    background-color: $black04;
+  }
+}

@@ -12,7 +12,7 @@ const TopNav = (props) => {
   const [profileIcon, setProfileIcon] = useState();
   const { pathname } = useRouter();
 
-  const { changePage, onModalChange, toggleModal } = props;
+  const { changePage, currentPage, onModalChange, toggleModal } = props;
   const { user } = useAuth();
   const { comms, selectedcomm } = useComms();
 
@@ -70,7 +70,7 @@ const TopNav = (props) => {
             role="nav-item"
             id="chat"
             aria-label="Community Topics"
-            className={pathname == "/chat" ? "active" : ""}
+            className={currentPage == "chat" ? "active" : ""}
             onClick={() => {
               changePage("chat");
             }}
@@ -80,14 +80,14 @@ const TopNav = (props) => {
             role="nav-item"
             id="notifications"
             aria-label="Notifications"
-            className={pathname == "/notifications" ? "active" : ""}
+            className={currentPage == "notifications" ? "active" : ""}
           ></button>
 
           <button
             role="nav-item"
             id="games"
             aria-label="Games"
-            className={pathname == "/game" ? "active" : ""}
+            className={currentPage == "game" ? "active" : ""}
             onClick={() => {
               changePage("game");
             }}
@@ -97,7 +97,7 @@ const TopNav = (props) => {
             role="nav-item"
             id="calendar"
             aria-label="Community Events Calendar"
-            className={pathname == "/events" ? "active" : ""}
+            className={currentPage == "events" ? "active" : ""}
             onClick={() => {
               changePage("events");
             }}
