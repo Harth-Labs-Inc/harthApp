@@ -3,24 +3,18 @@ import { useComms } from "../contexts/comms";
 import Modal from "./Modal";
 
 const TopicsNav = (props) => {
-  const { topics, setSelected, selectedtopic } = useComms();
+  const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
 
   const changeSelectedTopic = (topic) => {
     setSelected(topic);
   };
 
   const openCreateTopic = () => {
-    setOpenCommBuilder(true);
+    setOpenTopicBuilder(true);
   };
   return (
     <>
-      {openTopicBUilder ? (
-        <Modal>
-          <TopicBuilder />
-        </Modal>
-      ) : (
-        ""
-      )}
+      {openTopicBuilder ? <Modal></Modal> : ""}
       <aside id="left_nav">
         <header>
           <p>Topics</p>

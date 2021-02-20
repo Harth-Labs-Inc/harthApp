@@ -14,7 +14,7 @@ const TopNav = (props) => {
 
   const { changePage, currentPage, onModalChange, toggleModal } = props;
   const { user } = useAuth();
-  const { comms, selectedcomm } = useComms();
+  const { comms, setComm, selectedcomm } = useComms();
 
   const showModal = () => {
     setModal(!modal);
@@ -34,13 +34,7 @@ const TopNav = (props) => {
 
   useEffect(() => {
     if (!selectedcomm && comms && comms.length > 0) {
-      setCommunityName(comms[0].name);
-      setCommunityId(comms[0]._id);
-      comms[0].users.forEach((usr) => {
-        if (usr.userId === user._id) {
-          setProfileIcon(usr.iconKey);
-        }
-      });
+      setComm(comms[0]);
     }
   }, [comms]);
 

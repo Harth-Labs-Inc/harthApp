@@ -130,6 +130,7 @@ const CommIndexPage = () => {
             : "",
         users: [],
         invites: [],
+        topics: [],
       });
       console.log(commDbUpload);
       if (commDbUpload.ok) {

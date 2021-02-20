@@ -45,6 +45,17 @@ export const getComms = async (user) => {
   }
 };
 
+export const getTopics = async (topics) => {
+  try {
+    const res = await api.post(`/api/comm/getTopics`, {
+      topics,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const sendInvite = async (email, id, note) => {
   try {
     const res = await api.post(`/api/comm/sendInvite`, {

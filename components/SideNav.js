@@ -4,12 +4,12 @@ import Modal from "./Modal";
 import CommBuilder from "../pages/comm";
 
 const SideNav = (props) => {
-  const [openCommBUilder, setOpenCommBuilder] = useState(false);
+  const [openCommBuilder, setOpenCommBuilder] = useState(false);
 
-  const { comms, setSelected, selectedcomm } = useComms();
+  const { comms, setComm, selectedcomm } = useComms();
 
   const changeSelectedCom = (com) => {
-    setSelected(com);
+    setComm(com);
   };
 
   const openCreateComm = () => {
@@ -17,7 +17,7 @@ const SideNav = (props) => {
   };
   return (
     <>
-      {openCommBUilder ? (
+      {openCommBuilder ? (
         <Modal>
           <CommBuilder />
         </Modal>
@@ -30,7 +30,9 @@ const SideNav = (props) => {
             comms.map((com) => {
               return (
                 <li
-                  className={setSelected ? "active" : ""}
+                  className={
+                    selectedcomm && com._id === selectedcomm._id ? "active" : ""
+                  }
                   aria-label="nav-item"
                   key={com._id}
                 >
