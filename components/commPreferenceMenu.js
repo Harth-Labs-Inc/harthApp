@@ -58,6 +58,11 @@ const CommIndexPage = (props) => {
     setInputData(data);
   };
 
+  //Community Profile Settings
+
+  //Community Premium
+
+  //Community Invite
   const InviteNoteHandler = (e) => {
     const { value } = e.target;
     setNotetData(value);
@@ -83,6 +88,8 @@ const CommIndexPage = (props) => {
   const handleDelete = (email) => {
     setEmailList(new Set([...emailList].filter((e) => e !== email)));
   };
+
+  //Community Admin
 
   let page;
   switch (currentPage) {

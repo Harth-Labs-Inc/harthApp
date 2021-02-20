@@ -1,0 +1,11 @@
+#main-content {
+  display: grid;
+  grid-template-columns: 56px auto;
+  grid-template-rows: 56px auto;
+  grid-template-areas:
+    "aside header"
+    "aside content";
+  height: 100vh;
+  width: 100vw;
+  background-color: $white;
+}
