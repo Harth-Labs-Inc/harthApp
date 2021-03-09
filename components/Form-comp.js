@@ -18,7 +18,8 @@ const Form = (props) => {
         missingFields.push(key);
       }
     }
-    return missingFields;
+    // return missingFields;
+    return [];
   };
 
   const submitHandler = async (e) => {

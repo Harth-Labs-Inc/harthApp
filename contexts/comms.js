@@ -7,7 +7,7 @@ const CommsContext = createContext({});
 export const CommsProvider = ({ children }) => {
   const [comms, setComms] = useState(null);
   const [selectedcomm, setSelectedcomm] = useState(null);
-  const [topics, setTopics] = useState({});
+  const [topics, setTopics] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null);
 
   const { user } = useAuth();
@@ -16,39 +16,50 @@ export const CommsProvider = ({ children }) => {
     if (user) {
       if (user.comms.length > 0) {
         (async () => {
-          let commsResult = await getComms(user);
-          const { ok, comms } = commsResult;
+          let result = await getComms(user);
+          const { ok, comms } = result;
           if (ok) {
             setComms(comms);
-
-            let tempTopics = {};
-            comms.forEach((com) => {
-              if (!tempTopics[com._id]) {
-                tempTopics[com._id] = [];
-              }
-              tempTopics[com._id] = com.topics;
-            });
-            let topicsResult = await getTopics(tempTopics);
-            const { ok, topics } = topicsResult;
-            if (ok) {
-              setTopics(topics);
-            }
           }
         })();
       }
     }
   }, [user]);
 
+  useEffect(() => {
+    if (selectedcomm) {
+      (async () => {
+        let result = await getTopics(selectedcomm._id);
+        const { ok, topics } = result;
+        if (ok) {
+          setTopics(topics);
+          setSelectedTopic(null);
+        }
+      })();
+    }
+  }, [selectedcomm]);
+
   const setComm = async (comm) => {
     setSelectedcomm(comm);
   };
-  const setTopic = async (comm) => {
-    setSelectedTopic(comm);
+  const setTopic = async (topic) => {
+    setSelectedTopic(topic);
+  };
+  const addNewTopic = (newTopic) => {
+    setTopics([...topics, newTopic]);
   };
 
   return (
     <CommsContext.Provider
-      value={{ comms, setComm, selectedcomm, topics, setTopic, selectedTopic }}
+      value={{
+        comms,
+        setComm,
+        selectedcomm,
+        topics,
+        addNewTopic,
+        setTopic,
+        selectedTopic,
+      }}
     >
       {children}
     </CommsContext.Provider>

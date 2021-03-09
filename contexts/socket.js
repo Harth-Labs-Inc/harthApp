@@ -6,28 +6,49 @@ const SocketContext = createContext({});
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
+  const [incomingMsg, setIncomingMsg] = useState({});
 
   const { user } = useAuth();
 
   useEffect(() => {
     if (user) {
+      //-------------- dev ----------------------
       setSocket(
-        io.connect("https://project-blarg-socket.herokuapp.com", {
+        io.connect("http://localhost:3030", {
           transports: ["websocket"],
         })
       );
+
+      // -------------- production ----------------------
+      // setSocket(
+      //   io.connect("https://project-blarg-socket.herokuapp.com", {
+      //     transports: ["websocket"],
+      //   })
+      // );
     }
   }, [user]);
 
   useEffect(() => {
     if (socket) {
-      socket.on("time", function (timeString) {
-        // console.log("time", timeString);
+      join(user.rooms, (err, status) => {
+        let { ok } = status;
+        if (ok) {
+          console.log("connected");
+        }
+      });
+
+      socket.on("error", function (err) {
+        console.log("received socket error:");
+        console.log(err);
       });
     }
   }, [socket]);
 
-  console.log(socket);
+  socket &&
+    socket.on("new message", (msg) => {
+      console.log(msg);
+      setIncomingMsg(msg);
+    });
 
   const registerHandler = (onMessageReceived) => {
     socket.on("message", onMessageReceived);
@@ -37,46 +58,32 @@ export const SocketProvider = ({ children }) => {
     socket.off("message");
   };
 
-  //   socket.on("error", function (err) {
-  //     console.log("received socket error:");
-  //     console.log(err);
-  //   });
-
-  const register = (name, cb) => {
-    socket.emit("register", name, cb);
-  };
-
   const join = (chatroomName, cb) => {
-    socket.emit("join", chatroomName, cb);
+    socket.emit("joinRooms", chatroomName, cb);
   };
 
   const leave = (chatroomName, cb) => {
     socket.emit("leave", chatroomName, cb);
   };
 
-  const message = (chatroomName, msg, cb) => {
-    socket.emit("message", { chatroomName, message: msg }, cb);
+  const emitMessage = (chatroomName, msg, cb) => {
+    socket.emit("message", chatroomName, msg, cb);
   };
 
   const getChatrooms = (cb) => {
     socket.emit("chatrooms", null, cb);
   };
 
-  const getAvailableUsers = (cb) => {
-    socket.emit("availableUsers", null, cb);
-  };
-
   return (
     <SocketContext.Provider
       value={{
+        incomingMsg,
         registerHandler,
         unregisterHandler,
-        register,
         join,
         leave,
-        message,
+        emitMessage,
         getChatrooms,
-        getAvailableUsers,
       }}
     >
       {children}

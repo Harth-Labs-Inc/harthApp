@@ -3,6 +3,7 @@ import Router, { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { CommsProvider } from "contexts/comms";
 import { SocketProvider } from "contexts/socket";
+import { ChatProvider } from "contexts/chat";
 import NavLayout from "components/dashLayout";
 
 import Modal from "components/Modal";
@@ -68,23 +69,28 @@ const dashboard = (props) => {
       ) : (
         <SocketProvider>
           <CommsProvider>
-            <NavLayout changePage={changePageHandler} currentPage={currentPage}>
-              {modal ? (
-                <Modal
-                  id="community-preferences"
-                  show={modal}
-                  onToggleModal={showModal}
-                >
-                  <h1>Success!!</h1>
-                  <p>Welcome to your new community.</p>
-                  <p>We hope you have a great time</p>
-                  <Button text="let's go" onClick={removeCookie}></Button>
-                </Modal>
-              ) : (
-                ""
-              )}
-              {page}
-            </NavLayout>
+            <ChatProvider>
+              <NavLayout
+                changePage={changePageHandler}
+                currentPage={currentPage}
+              >
+                {modal ? (
+                  <Modal
+                    id="community-preferences"
+                    show={modal}
+                    onToggleModal={showModal}
+                  >
+                    <h1>Success!!</h1>
+                    <p>Welcome to your new community.</p>
+                    <p>We hope you have a great time</p>
+                    <Button text="let's go" onClick={removeCookie}></Button>
+                  </Modal>
+                ) : (
+                  ""
+                )}
+                {page}
+              </NavLayout>
+            </ChatProvider>
           </CommsProvider>
         </SocketProvider>
       )}

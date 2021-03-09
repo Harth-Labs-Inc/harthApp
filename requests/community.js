@@ -45,10 +45,44 @@ export const getComms = async (user) => {
   }
 };
 
-export const getTopics = async (topics) => {
+export const getCommFromInvite = async (id) => {
+  try {
+    const res = await api.post(`/api/comm/getCommFromInvite`, {
+      id,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getTopics = async (id) => {
   try {
     const res = await api.post(`/api/comm/getTopics`, {
-      topics,
+      id,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const saveTopics = async (topic) => {
+  try {
+    const res = await api.post(`/api/comm/saveTopics`, {
+      topic,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addRoomToUsers = async (id, room) => {
+  try {
+    const res = await api.post(`/api/comm/addRoomToUsers`, {
+      id,
+      room,
     });
     return res.data;
   } catch (error) {
@@ -62,17 +96,6 @@ export const sendInvite = async (email, id, note) => {
       email,
       id,
       note,
-    });
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getCommFromInvite = async (id) => {
-  try {
-    const res = await api.post(`/api/comm/getCommFromInvite`, {
-      id,
     });
     return res.data;
   } catch (error) {

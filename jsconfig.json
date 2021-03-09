@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "Project-Blarg-next"
+    "baseUrl": "project-blarg"
   },
-  "include": ["Project-Blarg-next"]
+  "include": ["project-blarg"]
 }

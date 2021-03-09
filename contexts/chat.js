@@ -1,49 +1,41 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { useAuth } from "../contexts/auth";
-import socketIOClient from "socket.io-client";
+import { useComms } from "./comms";
+import { getMessagesByTopic } from "../requests/chat";
 
 const ChatContext = createContext({});
 
 export const ChatProvider = ({ children }) => {
-  const [userList, setUserList] = useState({
-    usersList: null,
-  });
-  const [msg, setMsg] = useState("");
-  const [recMsg, setRecMsg] = useState({
-    listMsg: [],
-  });
-  const [loggedUser, setLoggedUser] = useState();
-
-  const { user, loading } = useAuth();
-
-  const ENDPOINT = "http://127.0.0.1:4001";
-  const socket = socketIOClient(ENDPOINT);
+  const [messages, setMessages] = useState({});
+  const { selectedTopic } = useComms();
 
   useEffect(() => {
-    // subscribe a new user
-    socket.emit("login", "test");
-    // list of connected users
-    socket.on("users", (data) => {
-      setUserList({ usersList: JSON.parse(data) });
-    });
-    // get the logged user
-    socket.on("connecteduser", (data) => {
-      setLoggedUser(JSON.parse(data));
-    });
+    if (selectedTopic) {
+      if (!(selectedTopic._id in messages)) {
+        messages[selectedTopic._id] = [];
 
-    // we get the messages
-    socket.on("getMsg", (data) => {
-      let listMessages = recMsg.listMsg;
-      listMessages.push(JSON.parse(data));
-      setRecMsg({ listMsg: listMessages });
-    });
-  }, []);
+        (async () => {
+          let data = await getMessagesByTopic(selectedTopic._id);
+          const { ok, fetchResults } = data;
+          if (ok) {
+            setMessages({ ...messages, [selectedTopic._id]: fetchResults });
+          }
+        })();
+      }
+    }
+  }, [selectedTopic]);
 
-  const sendMessage = () => {
-    socket.emit("sendMsg", JSON.stringify({ id: loggedUser.id, msg: msg }));
-  };
+  const setComm = async (comm) => {};
 
-  return <ChatContext.Provider value={{}}>{children}</ChatContext.Provider>;
+  return (
+    <ChatContext.Provider
+      value={{
+        setComm,
+        messages,
+      }}
+    >
+      {children}
+    </ChatContext.Provider>
+  );
 };
 
 export const useChat = () => useContext(ChatContext);

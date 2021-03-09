@@ -16,7 +16,7 @@ export default async (req, res) => {
         delete data.password;
         delete data.conf_password;
         db.collection("users").insertOne(
-          { ...data, password: hash, comms: [] },
+          { ...data, password: hash, comms: [], rooms: [] },
           function (err, userCreated) {
             if (err) {
             }

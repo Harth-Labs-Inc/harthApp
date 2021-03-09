@@ -121,7 +121,6 @@ const CommIndexPage = () => {
         if (profs3Upload.ok) {
         }
       }
-      console.log(comms3Upload);
       commDbUpload = await saveCommunity({
         name: community.comName,
         iconKey:
@@ -132,7 +131,6 @@ const CommIndexPage = () => {
         invites: [],
         topics: [],
       });
-      console.log(commDbUpload);
       if (commDbUpload.ok) {
         profDbUpload = await addUserToComm(commDbUpload.id, {
           userId: user._id,
@@ -143,7 +141,6 @@ const CommIndexPage = () => {
           name: profile.profName,
           personalInfo: personalInfo,
         });
-        console.log(profDbUpload);
         if (profDbUpload.ok) {
           Cookies.set("showComCreatedModal", true);
           window.location.pathname = "/";

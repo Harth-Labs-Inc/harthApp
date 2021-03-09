@@ -1,0 +1,32 @@
+import { connectToDatabase } from "../../../util/mongodb";
+
+export default async (req, res) => {
+  let obj;
+  try {
+    obj = JSON.parse(req.body);
+  } catch (e) {
+    obj = req.body;
+  }
+
+  console.log(obj);
+
+  const createMessage = (db, data) => {
+    return new Promise((resolve, reject) => {
+      db.collection("messages").insertOne(data, function (err, msgCreated) {
+        if (err) {
+        }
+        resolve(msgCreated);
+      });
+    });
+  };
+
+  const { db } = await connectToDatabase();
+  let insertResult = await createMessage(db, obj.msg);
+  if (!insertResult) {
+    return res.json({ ok: 0, msg: "something went wrong" });
+  }
+  if (!insertResult.insertedCount) {
+    return res.json({ ok: 0, msg: "something went wrong" });
+  }
+  return res.json({ ok: 1, msg: "success", id: insertResult.insertedId });
+};

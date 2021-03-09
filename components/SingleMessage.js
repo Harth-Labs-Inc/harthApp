@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useComms } from "../contexts/comms";
 import { useAuth } from "../contexts/auth";
 
-const TopicsMenu = (props) => {
+const Message = (props) => {
   const { user } = useAuth();
   const {
     comms,
@@ -14,11 +14,7 @@ const TopicsMenu = (props) => {
     selectedTopic,
   } = useComms();
 
-  return (
-    <>
-      <nav>{(selectedTopic || {}).title}</nav>
-    </>
-  );
+  return <></>;
 };
 
-export default TopicsMenu;
+export default Message;

@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import TopicsNav from "../../../components/TopicsMenu";
-import { useAuth } from "../../../contexts/auth";
+import TopicsSideNav from "../../../components/TopicsSideNav";
+import TopicsMenu from "../../../components/TopicsMenu";
+import MessagesWrapper from "../../../components/messagesWrapper";
+import ChatTextEntry from "../../../components/chatTextEntry";
 
 const Chat = (prop) => {
   return (
     <main>
-      <TopicsNav></TopicsNav>
+      <TopicsSideNav></TopicsSideNav>
+      <TopicsMenu></TopicsMenu>
+      <MessagesWrapper></MessagesWrapper>
+      <ChatTextEntry></ChatTextEntry>
     </main>
   );
 };

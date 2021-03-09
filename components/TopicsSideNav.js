@@ -1,0 +1,166 @@
+import React, { useState } from "react";
+import { useComms } from "../contexts/comms";
+import { useAuth } from "../contexts/auth";
+import { saveTopics, addRoomToUsers } from "../requests/community";
+import Modal from "./Modal";
+import Form from "./Form-comp";
+import Input from "./Input";
+import ToggleSwitch from "./Toggle";
+
+const TopicsNav = (props) => {
+  const [modal, setModal] = useState();
+  const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+  });
+  const [toggleData, setToggleData] = useState({
+    private: false,
+  });
+  const [errorData, setErrorData] = useState({
+    title: false,
+    description: false,
+  });
+
+  const { user } = useAuth();
+  const {
+    comms,
+    setComm,
+    selectedcomm,
+    topics,
+    addNewTopic,
+    setTopic,
+    selectedTopic,
+  } = useComms();
+
+  const showModal = () => {
+    setModal(!modal);
+  };
+
+  const changeSelectedTopic = (topic) => {
+    setTopic(topic);
+  };
+
+  const openCreateTopic = () => {
+    setOpenTopicBuilder(!openTopicBuilder);
+  };
+
+  const submitHandler = async () => {
+    const topic = {
+      comm_id: selectedcomm._id,
+      members: [{ user_id: user._id, admin: true, muted: false }],
+      title: formData.title,
+      description: formData.description,
+      private: toggleData.private,
+      invites: [],
+    };
+    const data = await saveTopics(topic);
+    const { ok, id } = data;
+    if (ok) {
+      addNewTopic(topic);
+      setOpenTopicBuilder(false);
+      if (id) {
+        const results = await addRoomToUsers(user._id, id);
+      }
+    }
+  };
+
+  const inputChangeHandler = (eData, data) => {
+    setErrorData(eData);
+    setFormData(data);
+  };
+
+  const toggleHandler = (toggle, status) => {
+    setToggleData({ ...toggleData, [toggle]: status });
+  };
+
+  const setMissing = (missing) => {
+    setErrorData(missing);
+  };
+
+  console.log(topics);
+
+  return (
+    <>
+      {openTopicBuilder ? (
+        <Modal id="topic-builder" show={modal} onToggleModal={showModal}>
+          <p>Add Topic</p>
+          <Form
+            id="topic-modal"
+            on_submit={submitHandler}
+            on_missing={setMissing}
+            data={formData}
+            errorData={errorData}
+          >
+            <Input
+              title="Title"
+              name="title"
+              type="text"
+              empty="true"
+              value={formData.title}
+              // isRequired={errorData["title"]}
+              changeHandler={inputChangeHandler}
+              data={formData}
+              errorData={errorData}
+            />
+            <Input
+              title="Description (optional)"
+              name="description"
+              type="text"
+              empty="true"
+              value={formData.description}
+              changeHandler={inputChangeHandler}
+              data={formData}
+              errorData={errorData}
+            />
+            <div>
+              <ToggleSwitch
+                onToggleChange={toggleHandler}
+                toggleName="private"
+              ></ToggleSwitch>
+              <p>
+                Setting this topic to private will hide it from the community.
+                You must invite people to the topic after it is created.
+              </p>
+            </div>
+            <fieldset>
+              <p onClick={openCreateTopic}>CANCEL</p>
+              <button type="submit">CREATE</button>
+            </fieldset>
+          </Form>
+        </Modal>
+      ) : (
+        ""
+      )}
+      <aside id="left_nav">
+        <header>
+          <p>Topics</p>
+          <button onClick={openCreateTopic}></button>
+        </header>
+        <ul id="left_nav_topics">
+          {topics &&
+            topics.map((topic) => {
+              return (
+                <li
+                  // className={selectedTopic._id == topic._id ? "active" : ""}
+                  aria-label="nav-item"
+                  key={topic._id}
+                >
+                  <button
+                    onClick={() => {
+                      changeSelectedTopic(topic);
+                    }}
+                    aria-label={topic.title}
+                  >
+                    {topic.title}
+                  </button>
+                </li>
+              );
+            })}
+        </ul>
+      </aside>
+    </>
+  );
+};
+
+export default TopicsNav;

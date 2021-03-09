@@ -8,12 +8,10 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  console.log(obj);
-
-  const getTopics = (db, id) => {
+  const getMsgs = (db, id) => {
     return new Promise((resolve, reject) => {
-      db.collection("topics")
-        .find({ comm_id: id })
+      db.collection("messages")
+        .find({ topic_id: id })
         .toArray(function (err, results) {
           if (err) {
             resolve(false);
@@ -24,8 +22,9 @@ export default async (req, res) => {
   };
 
   const { db } = await connectToDatabase();
-  let topics = await getTopics(db, obj.id);
-  console.log(topics);
-
-  return res.json({ msg: "topics found", ok: 1, topics: topics });
+  let fetchResults = await getMsgs(db, obj.id);
+  if (!fetchResults) {
+    return res.json({ msg: "Something Went Wrong", ok: 0 });
+  }
+  return res.json({ msg: "successful", ok: 1, fetchResults });
 };
