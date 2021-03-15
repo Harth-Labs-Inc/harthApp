@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { sendInvite } from "../requests/community";
-import { validateEmail } from "../services/helper";
-import { Button, CloseBtn, BackBtn } from "./Button";
+import { sendInvite } from "requests/community";
+import { validateEmail } from "services/helper";
+import { Button, CloseBtn, BackBtn } from "./Common/Button";
 import Form from "./Form-comp";
-import Input from "./Input";
+import Input from "./Common/Input";
 
 const CommIndexPage = (props) => {
   const [currentPage, setCurrentPage] = useState("invites");

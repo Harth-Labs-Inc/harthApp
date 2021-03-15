@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Form from "../../../components/Form-comp";
-import Input from "../../../components/Input";
-import { Button, BackBtn } from "../../../components/Button";
+import Form from "components/Form-comp";
+import Input from "components/Common/Input";
+import { Button, BackBtn } from "components/Common/Button";
 
 const JoinCom = (props) => {
   const { changePage, onCommChange } = props;

@@ -93,3 +93,26 @@
     background-color: $black04;
   }
 }
+
+.text-btn {
+  padding: 10px 8px;
+  color: $bg-purple;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.89px;
+  line-height: 16px;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  // &#*={_cancel} {
+  //   color: $black20;
+  // }
+
+  &:hover,
+  &:focus {
+    color: $bg-purple60;
+  }
+}

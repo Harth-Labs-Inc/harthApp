@@ -7,7 +7,7 @@ import { ChatProvider } from "contexts/chat";
 import NavLayout from "components/dashLayout";
 
 import Modal from "components/Modal";
-import { Button } from "components/Button";
+import { Button } from "components/Common/Button";
 
 import Chat from "./chat";
 import Game from "./game";

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useComms } from "../contexts/comms";
-import { useAuth } from "../contexts/auth";
-import { saveTopics, addRoomToUsers } from "../requests/community";
+import { useComms } from "contexts/comms";
+import { useAuth } from "contexts/auth";
+import { saveTopics, addRoomToUsers } from "requests/community";
 import Modal from "./Modal";
 import Form from "./Form-comp";
-import Input from "./Input";
-import ToggleSwitch from "./Toggle";
+import Input from "./Common/Input";
+import ToggleSwitch from "./Common/Toggle";
+import { TextBtn } from "./Common/Button";
 
 const TopicsNav = (props) => {
   const [modal, setModal] = useState();
@@ -82,7 +83,7 @@ const TopicsNav = (props) => {
 
   return (
     <>
-      {openTopicBuilder ? (
+      {openTopicBuilder && (
         <Modal id="topic-builder" show={modal} onToggleModal={showModal}>
           <p>Add Topic</p>
           <Form
@@ -113,7 +114,7 @@ const TopicsNav = (props) => {
               data={formData}
               errorData={errorData}
             />
-            <div>
+            <div id="topic_create_private">
               <ToggleSwitch
                 onToggleChange={toggleHandler}
                 toggleName="private"
@@ -124,25 +125,35 @@ const TopicsNav = (props) => {
               </p>
             </div>
             <fieldset>
-              <p onClick={openCreateTopic}>CANCEL</p>
-              <button type="submit">CREATE</button>
+              <TextBtn
+                text="Cancel"
+                id="topic_create_cancel"
+                onClick={openCreateTopic}
+              />
+              <TextBtn text="Create" id="topic_create_submit" type="submit" />
             </fieldset>
           </Form>
         </Modal>
-      ) : (
-        ""
       )}
-      <aside id="left_nav">
+      <aside id="topic_nav">
         <header>
           <p>Topics</p>
-          <button onClick={openCreateTopic}></button>
+          <button id="create-topic" onClick={openCreateTopic}></button>
         </header>
         <ul id="left_nav_topics">
           {topics &&
             topics.map((topic) => {
+              let classes = [];
+              if (selectedTopic._id == topic._id) {
+                classes.push("topic_active");
+              }
+              // if (selectedTopic._id == true) {
+              //   classes.push("topic_new_message");
+              // }
+              classes.push("topic_new_message");
               return (
                 <li
-                  // className={selectedTopic._id == topic._id ? "active" : ""}
+                  className={classes.join(" ")}
                   aria-label="nav-item"
                   key={topic._id}
                 >

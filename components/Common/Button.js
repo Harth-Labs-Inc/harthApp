@@ -36,3 +36,11 @@ export const CloseBtn = (props) => {
     ></button>
   );
 };
+
+export const TextBtn = (props) => {
+  return (
+    <button className="text-btn" {...props}>
+      {props.text}
+    </button>
+  );
+};

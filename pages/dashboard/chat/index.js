@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import TopicsSideNav from "../../../components/TopicsSideNav";
-import TopicsMenu from "../../../components/TopicsMenu";
-import MessagesWrapper from "../../../components/messagesWrapper";
-import ChatTextEntry from "../../../components/chatTextEntry";
+import TopicsSideNav from "components/TopicsSideNav";
+import TopicsMenu from "components/TopicsMenu";
+import MessagesWrapper from "components/messagesWrapper";
+import ChatTextEntry from "components/chatTextEntry";
 
 const Chat = (prop) => {
   return (

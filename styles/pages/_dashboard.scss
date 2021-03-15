@@ -17,19 +17,24 @@
     content: "";
     background-color: transparent;
     transition: background-color 0.5s;
+    visibility: hidden;
   }
 
   .menu-open & {
     &:before {
       background-color: rgba($black, 0.32);
+      visibility: visible;
     }
+  }
+
+  main {
+    display: flex;
+    height: 100%;
   }
 }
 
 #community-preferences {
   .modal_main {
-    @include x-center;
-    top: 72px;
     display: grid;
     grid-template-areas:
       "header header"

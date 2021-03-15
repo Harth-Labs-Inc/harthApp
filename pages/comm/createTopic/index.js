@@ -1,5 +1,5 @@
 import { useEffect, useStat } from "react";
-import { Button } from "../../../components/Button";
+import { Button } from "components/Common/Button";
 
 const CreateTopic = () => {};
 

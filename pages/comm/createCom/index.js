@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Input from "../../../components/Input";
-import Form from "../../../components/Form-comp";
-import { Button, BackBtn } from "../../../components/Button";
-import { checkForFolder, checkForBadFile } from "../../../services/helper";
+import Input from "components/Common/Input";
+import Form from "components/Form-comp";
+import { Button, BackBtn } from "components/Common/Button";
+import { checkForFolder, checkForBadFile } from "services/helper";
 
 const CreateCom = (props) => {
   const [errorMessage, setErrorMessage] = useState();

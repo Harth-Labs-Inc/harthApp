@@ -4,7 +4,6 @@ body {
   width: 100vw;
   padding: 0;
   margin: 0;
-  font-family: $font-family-1;
   font-size: 16px;
   overflow: hidden;
   background-color: $bg-purple;
@@ -14,6 +13,7 @@ body {
 }
 
 * {
+  font-family: $font-family-1;
   box-sizing: border-box;
   &:focus {
     outline: 0;
