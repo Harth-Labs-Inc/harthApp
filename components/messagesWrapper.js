@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useComms } from "../contexts/comms";
 import { useChat } from "../contexts/chat";
 import { useSocket } from "../contexts/socket";
+import ChatTextEntry from "components/chatTextEntry";
 
 const MessageWrapper = (props) => {
   const [currentMessages, setCurrentMessages] = useState([]);
@@ -29,9 +30,13 @@ const MessageWrapper = (props) => {
 
   return (
     <>
-      {(currentMessages || []).map((msg) => {
-        return <p>{msg.message}</p>;
-      })}
+      <div>
+        {(currentMessages || []).map((msg) => {
+          return <p>{msg.message}</p>;
+        })}
+      </div>
+
+      <ChatTextEntry></ChatTextEntry>
     </>
   );
 };

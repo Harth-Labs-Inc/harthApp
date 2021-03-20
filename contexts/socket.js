@@ -1,14 +1,17 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import io from "socket.io-client";
 import { useAuth } from "./auth";
+import { useComms } from "./comms";
 
 const SocketContext = createContext({});
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [incomingMsg, setIncomingMsg] = useState({});
+  const [unreadMsg, setUnreadMsg] = useState({});
 
   const { user } = useAuth();
+  const { selectedcomm, selectedTopic } = useComms();
 
   useEffect(() => {
     if (user) {
@@ -46,7 +49,7 @@ export const SocketProvider = ({ children }) => {
 
   socket &&
     socket.on("new message", (msg) => {
-      console.log(msg);
+      console.log(msg, selectedTopic, selectedcomm);
       setIncomingMsg(msg);
     });
 
@@ -78,6 +81,7 @@ export const SocketProvider = ({ children }) => {
     <SocketContext.Provider
       value={{
         incomingMsg,
+        unreadMsg,
         registerHandler,
         unregisterHandler,
         join,

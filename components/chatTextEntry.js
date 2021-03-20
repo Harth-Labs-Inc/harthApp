@@ -36,7 +36,6 @@ const chatTextEntry = (props) => {
           const data = await saveMessage(newMessage);
         }
       });
-      console.log(newMessage);
     }
   };
 
