@@ -21,7 +21,7 @@ const MessageWrapper = (props) => {
     if (incomingMsg && selectedTopic) {
       console.log(incomingMsg);
       if (incomingMsg.topic_id === selectedTopic._id) {
-        let tempMsgs = [...currentMessages, incomingMsg];
+        let tempMsgs = [...(currentMessages || []), incomingMsg];
         setCurrentMessages(tempMsgs);
       }
     }

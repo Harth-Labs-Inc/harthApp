@@ -144,7 +144,7 @@ const TopicsNav = (props) => {
           {topics &&
             topics.map((topic) => {
               let classes = [];
-              if (selectedTopic._id == topic._id) {
+              if ((selectedTopic || {})._id == topic._id) {
                 classes.push("topic_active");
               }
               // if (selectedTopic._id == true) {
