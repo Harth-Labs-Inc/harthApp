@@ -14,9 +14,9 @@ const Chat = (prop) => {
   return (
     <main>
       <TopicsSideNav></TopicsSideNav>
-      <section>
+      <section id="topic_active">
         <TopicsMenu on_toggle_panel={toggleEditPanel}></TopicsMenu>
-        <div>
+        <div id="topic_active_messages">
           <MessagesWrapper></MessagesWrapper>
         </div>
       </section>

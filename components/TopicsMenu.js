@@ -6,9 +6,9 @@ const TopicsMenu = (props) => {
   const { on_toggle_panel } = props;
 
   return (
-    <nav>
+    <header>
       {(selectedTopic || {}).title} <p onClick={on_toggle_panel}>menu</p>
-    </nav>
+    </header>
   );
 };
 

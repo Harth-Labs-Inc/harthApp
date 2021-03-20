@@ -3,6 +3,7 @@ import { useComms } from "../contexts/comms";
 import { useChat } from "../contexts/chat";
 import { useSocket } from "../contexts/socket";
 import ChatTextEntry from "components/chatTextEntry";
+import Message from "./Common/SingleMessage";
 
 const MessageWrapper = (props) => {
   const [currentMessages, setCurrentMessages] = useState([]);
@@ -30,11 +31,9 @@ const MessageWrapper = (props) => {
 
   return (
     <>
-      <div>
-        {(currentMessages || []).map((msg) => {
-          return <p>{msg.message}</p>;
-        })}
-      </div>
+      {(currentMessages || []).map((msg) => (
+        <Message msg={msg} />
+      ))}
 
       <ChatTextEntry></ChatTextEntry>
     </>
