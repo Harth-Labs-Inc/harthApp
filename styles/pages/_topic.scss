@@ -1,0 +1,14 @@
+#main-content {
+  display: flex;
+
+  #topic_active {
+    width: 100%;
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e0e0e0;
+    }
+  }
+}

@@ -5,7 +5,7 @@
 
 //config
 @import "./config/html", "./config/config-type", "./config/button",
-  "./config/forms", "./config/modal", "./config/toggle";
+  "./config/forms", "./config/modal", "./config/toggle", "./config/message";
 
 //layouts
 @import "./layouts/header", "./layouts/sidedash";
@@ -15,4 +15,4 @@
   "./navigation/comm-preferences", "./navigation/topic-nav";
 
 //pages
-@import "./pages/auth", "./pages/dashboard";
+@import "./pages/auth", "./pages/dashboard", "./pages/topic";

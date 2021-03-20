@@ -1,0 +1,50 @@
+.message {
+  display: flex;
+  padding-top: 12px;
+  padding-bottom: 6px;
+  img,
+  .message_no_image {
+    height: 40px;
+    width: 40px;
+    margin-right: 8px;
+  }
+
+  .message_no_image {
+    position: relative;
+    &:before {
+      @include font-icon($icon-user);
+      @include x-y-center;
+      z-index: 2;
+
+      color: $black50;
+      font-size: 40px;
+      line-height: 40px;
+    }
+  }
+
+  span {
+    display: flex;
+    .message_creator {
+      margin-right: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.316px;
+      line-height: 14px;
+    }
+    .message_timestamp {
+      margin-bottom: 3px;
+      color: $black60;
+      font-size: 11px;
+      line-height: 15px;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .message_content {
+    font-size: 14px;
+    line-height: 16px;
+  }
+}

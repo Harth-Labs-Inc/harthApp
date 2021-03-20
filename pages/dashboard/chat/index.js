@@ -12,7 +12,7 @@ const Chat = (prop) => {
   };
 
   return (
-    <main>
+    <>
       <TopicsSideNav></TopicsSideNav>
       <section id="topic_active">
         <TopicsMenu on_toggle_panel={toggleEditPanel}></TopicsMenu>
@@ -20,7 +20,7 @@ const Chat = (prop) => {
           <MessagesWrapper></MessagesWrapper>
         </div>
       </section>
-    </main>
+    </>
   );
 };
 
