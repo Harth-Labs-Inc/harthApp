@@ -40,12 +40,14 @@ const chatTextEntry = (props) => {
   };
 
   return (
-    <div style={{ position: "fixed", bottom: "3%", left: "50%" }}>
+    <div style={{ position: "fixed", bottom: "3%", width: "100%" }}>
       <input
         onInput={inputHandler}
         placeholder={`Message [${(selectedTopic || {}).title || ""}]`}
       />
-      <button onClick={sendMessagge}>send</button>
+      <div>
+        <button onClick={sendMessagge}>send</button>
+      </div>
     </div>
   );
 };
