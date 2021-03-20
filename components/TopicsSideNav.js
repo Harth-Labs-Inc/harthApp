@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useComms } from "contexts/comms";
-import { useAuth } from "contexts/auth";
-import { saveTopics, addRoomToUsers } from "requests/community";
+import { useComms } from "../contexts/comms";
+import { useAuth } from "../contexts/auth";
+import { saveTopics, addRoomToUsers } from "../requests/community";
 import Modal from "./Modal";
 import Form from "./Form-comp";
 import Input from "./Common/Input";

@@ -62,5 +62,13 @@
         }
       }
     }
+
+    #topic_active_messages {
+      display: flex;
+      flex-direction: column-reverse;
+      height: calc(86vh - 108px);
+      padding: 0 16px;
+      overflow: auto;
+    }
   }
 }

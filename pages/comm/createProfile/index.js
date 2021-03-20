@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, BackBtn } from "components/Common/Button";
-import { checkForFolder, checkForBadFile } from "services/helper";
-import Form from "components/Form-comp";
-import Input from "components/Common/Input";
-import ToggleSwitch from "components/Common/Toggle";
+import { Button, BackBtn } from "../../../components/Common/Button";
+import { checkForFolder, checkForBadFile } from "../../../services/helper";
+import Form from "../../../components/Form-comp";
+import Input from "../../../components/Common/Input";
+import ToggleSwitch from "../../../components/Common/Toggle";
 
 const CreateProfile = (props) => {
   const [bday, setBday] = useState();

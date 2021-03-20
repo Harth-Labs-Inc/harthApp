@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { sendInvite } from "requests/community";
-import { validateEmail } from "services/helper";
+import { sendInvite } from "../requests/community";
+import { validateEmail } from "../services/helper";
 import { Button, CloseBtn, BackBtn } from "./Common/Button";
 import Form from "./Form-comp";
 import Input from "./Common/Input";

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import { CommsProvider } from "contexts/comms";
-import { SocketProvider } from "contexts/socket";
-import { ChatProvider } from "contexts/chat";
-import NavLayout from "components/dashLayout";
+import { CommsProvider } from "../../contexts/comms";
+import { SocketProvider } from "../../contexts/socket";
+import { ChatProvider } from "../../contexts/chat";
+import NavLayout from "../../components/dashLayout";
 
-import Modal from "components/Modal";
-import { Button } from "components/Common/Button";
+import Modal from "../../components/Modal";
+import { Button } from "../../components/Common/Button";
 
 import Chat from "./chat";
 import Game from "./game";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useComms } from "contexts/comms";
+import { useComms } from "../contexts/comms";
 import Modal from "./Modal";
-import CommBuilder from "pages/comm";
+import CommBuilder from "../pages/comm";
 
 const SideNav = (props) => {
   const [openCommBuilder, setOpenCommBuilder] = useState(false);

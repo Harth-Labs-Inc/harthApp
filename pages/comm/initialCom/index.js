@@ -1,4 +1,4 @@
-import { Choice } from "components/Common/Button";
+import { Choice } from "../../../components/Common/Button";
 
 const InitialCom = (props) => {
   return (

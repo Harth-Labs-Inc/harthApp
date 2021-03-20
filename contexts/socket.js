@@ -54,9 +54,8 @@ export const SocketProvider = ({ children }) => {
       const { topic_id } = msg;
       let currentMsgs;
       if (messages) {
-        currentMsgs = [...messages[topic_id]];
+        currentMsgs = [...(messages[topic_id] || [])];
       }
-      // setIncomingMsg(msg);
 
       if (msg.topic_id !== (selectedTopic || {})._id) {
         setUnreadMsg(msg);
@@ -69,6 +68,7 @@ export const SocketProvider = ({ children }) => {
           [topic_id]: currentMsgs,
         });
       }
+      setIncomingMsg(msg);
     });
 
   const registerHandler = (onMessageReceived) => {

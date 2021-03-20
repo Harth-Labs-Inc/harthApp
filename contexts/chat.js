@@ -24,7 +24,7 @@ export const ChatProvider = ({ children }) => {
       }
     }
   }, [selectedTopic]);
-  console.log("messages: ", messages);
+
   const setComm = async (comm) => {};
 
   return (

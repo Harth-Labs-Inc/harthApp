@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useComms } from "../contexts/comms";
 import { useChat } from "../contexts/chat";
-import { useSocket } from "../contexts/socket";
-import ChatTextEntry from "components/chatTextEntry";
+
+import ChatTextEntry from "../components/chatTextEntry";
 import Message from "./Common/SingleMessage";
 
 const MessageWrapper = (props) => {
@@ -10,7 +10,6 @@ const MessageWrapper = (props) => {
 
   const { messages } = useChat();
   const { selectedTopic } = useComms();
-  const { incomingMsg } = useSocket();
 
   useEffect(() => {
     if (messages && selectedTopic) {
@@ -25,18 +24,18 @@ const MessageWrapper = (props) => {
   }, [messages]);
 
   // useEffect(() => {
-  //   if (incomingMsg && selectedTopic) {
-  //     console.log(incomingMsg);
-  //     if (incomingMsg.topic_id === selectedTopic._id) {
-  //       let tempMsgs = [...(currentMessages || []), incomingMsg];
-  //       setCurrentMessages(tempMsgs);
-  //     }
-  //   }
+  //   // if (incomingMsg && selectedTopic) {
+  //   //   console.log(incomingMsg);
+  //   //   if (incomingMsg.topic_id === selectedTopic._id) {
+  //   //     let tempMsgs = [...(currentMessages || []), incomingMsg];
+  //   //     setCurrentMessages(tempMsgs);
+  //   //   }
+  //   // }
   // }, [incomingMsg]);
 
   return (
     <>
-      {(currentMessages || []).map((msg, index) => (
+      {(currentMessages || []).reverse().map((msg, index) => (
         <Message msg={msg} key={index} />
       ))}
 
