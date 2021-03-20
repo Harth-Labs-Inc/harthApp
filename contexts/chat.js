@@ -15,6 +15,7 @@ export const ChatProvider = ({ children }) => {
 
         (async () => {
           let data = await getMessagesByTopic(selectedTopic._id);
+          console.log(data);
           const { ok, fetchResults } = data;
           if (ok) {
             setMessages({ ...messages, [selectedTopic._id]: fetchResults });
@@ -23,7 +24,7 @@ export const ChatProvider = ({ children }) => {
       }
     }
   }, [selectedTopic]);
-
+  console.log("messages: ", messages);
   const setComm = async (comm) => {};
 
   return (
@@ -31,6 +32,7 @@ export const ChatProvider = ({ children }) => {
       value={{
         setComm,
         messages,
+        setMessages,
       }}
     >
       {children}

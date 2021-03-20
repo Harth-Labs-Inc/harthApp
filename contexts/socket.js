@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import io from "socket.io-client";
 import { useAuth } from "./auth";
 import { useComms } from "./comms";
+import { useChat } from "./chat";
 
 const SocketContext = createContext({});
 
@@ -11,7 +12,8 @@ export const SocketProvider = ({ children }) => {
   const [unreadMsg, setUnreadMsg] = useState({});
 
   const { user } = useAuth();
-  const { selectedcomm, selectedTopic } = useComms();
+  const { selectedTopic } = useComms();
+  const { messages, setMessages } = useChat();
 
   useEffect(() => {
     if (user) {
@@ -49,8 +51,24 @@ export const SocketProvider = ({ children }) => {
 
   socket &&
     socket.on("new message", (msg) => {
-      console.log(msg, selectedTopic, selectedcomm);
-      setIncomingMsg(msg);
+      const { topic_id } = msg;
+      let currentMsgs;
+      if (messages) {
+        currentMsgs = [...messages[topic_id]];
+      }
+      // setIncomingMsg(msg);
+
+      if (msg.topic_id !== (selectedTopic || {})._id) {
+        setUnreadMsg(msg);
+      }
+
+      if (currentMsgs) {
+        currentMsgs.push(msg);
+        setMessages({
+          ...messages,
+          [topic_id]: currentMsgs,
+        });
+      }
     });
 
   const registerHandler = (onMessageReceived) => {

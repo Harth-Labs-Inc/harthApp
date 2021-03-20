@@ -19,20 +19,25 @@ const MessageWrapper = (props) => {
   }, [selectedTopic]);
 
   useEffect(() => {
-    console.log("asdfasd");
-    if (incomingMsg && selectedTopic) {
-      console.log(incomingMsg);
-      if (incomingMsg.topic_id === selectedTopic._id) {
-        let tempMsgs = [...(currentMessages || []), incomingMsg];
-        setCurrentMessages(tempMsgs);
-      }
+    if (messages && selectedTopic) {
+      setCurrentMessages(messages[selectedTopic._id]);
     }
-  }, [incomingMsg]);
+  }, [messages]);
+
+  // useEffect(() => {
+  //   if (incomingMsg && selectedTopic) {
+  //     console.log(incomingMsg);
+  //     if (incomingMsg.topic_id === selectedTopic._id) {
+  //       let tempMsgs = [...(currentMessages || []), incomingMsg];
+  //       setCurrentMessages(tempMsgs);
+  //     }
+  //   }
+  // }, [incomingMsg]);
 
   return (
     <>
-      {(currentMessages || []).map((msg) => (
-        <Message msg={msg} />
+      {(currentMessages || []).map((msg, index) => (
+        <Message msg={msg} key={index} />
       ))}
 
       <ChatTextEntry></ChatTextEntry>

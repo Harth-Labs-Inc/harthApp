@@ -67,9 +67,9 @@ const dashboard = (props) => {
       {loading ? (
         ""
       ) : (
-        <SocketProvider>
-          <CommsProvider>
-            <ChatProvider>
+        <CommsProvider>
+          <ChatProvider>
+            <SocketProvider>
               <NavLayout
                 changePage={changePageHandler}
                 currentPage={currentPage}
@@ -90,9 +90,9 @@ const dashboard = (props) => {
                 )}
                 {page}
               </NavLayout>
-            </ChatProvider>
-          </CommsProvider>
-        </SocketProvider>
+            </SocketProvider>
+          </ChatProvider>
+        </CommsProvider>
       )}
     </>
   );

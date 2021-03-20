@@ -79,8 +79,6 @@ const TopicsNav = (props) => {
     setErrorData(missing);
   };
 
-  console.log(topics);
-
   return (
     <>
       {openTopicBuilder && (
