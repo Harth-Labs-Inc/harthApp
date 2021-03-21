@@ -9,13 +9,13 @@ export const ChatProvider = ({ children }) => {
   const { selectedTopic } = useComms();
 
   useEffect(() => {
-    if (selectedTopic) {
+    if (selectedTopic && selectedTopic._id) {
       if (!(selectedTopic._id in messages)) {
         messages[selectedTopic._id] = [];
 
         (async () => {
           let data = await getMessagesByTopic(selectedTopic._id);
-          console.log(data);
+
           const { ok, fetchResults } = data;
           if (ok) {
             setMessages({ ...messages, [selectedTopic._id]: fetchResults });
@@ -24,7 +24,6 @@ export const ChatProvider = ({ children }) => {
       }
     }
   }, [selectedTopic]);
-  console.log("messages: ", messages);
   const setComm = async (comm) => {};
 
   return (

@@ -22,7 +22,6 @@ const CommIndexPage = (props) => {
   };
 
   const submitHandler = async () => {
-    console.log("inside");
     if (emailList.size > 0) {
       [...emailList].forEach(async (e) => {
         const data = await sendInvite(e, communityId, noteData);

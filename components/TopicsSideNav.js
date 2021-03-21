@@ -24,7 +24,7 @@ const TopicsNav = (props) => {
     description: false,
   });
 
-  const { join } = useSocket();
+  const { join, unreadMsg, unreadMsgs } = useSocket();
   const { user } = useAuth();
   const {
     comms,
@@ -154,10 +154,15 @@ const TopicsNav = (props) => {
               if ((selectedTopic || {})._id == topic._id) {
                 classes.push("topic_active");
               }
-              // if (selectedTopic._id == true) {
-              //   classes.push("topic_new_message");
-              // }
-              classes.push("topic_new_message");
+              unreadMsgs.forEach((msg) => {
+                if (
+                  msg.topic_id === topic._id &&
+                  (selectedTopic || {})._id !== msg.topic_id
+                ) {
+                  classes.push("topic_new_message");
+                }
+              });
+
               return (
                 <li
                   className={classes.join(" ")}

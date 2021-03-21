@@ -10,7 +10,7 @@ const SideNav = (props) => {
 
   const changeSelectedCom = (com) => {
     setComm(com);
-    setTopic(null);
+    setTopic({});
   };
 
   const openCreateComm = () => {

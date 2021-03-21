@@ -8,7 +8,7 @@ export const CommsProvider = ({ children }) => {
   const [comms, setComms] = useState(null);
   const [selectedcomm, setSelectedcomm] = useState(null);
   const [topics, setTopics] = useState(null);
-  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState({});
 
   const { user } = useAuth();
 
@@ -33,7 +33,7 @@ export const CommsProvider = ({ children }) => {
         const { ok, topics } = result;
         if (ok) {
           setTopics(topics);
-          setSelectedTopic(null);
+          setSelectedTopic({});
         }
       })();
     }
@@ -46,7 +46,6 @@ export const CommsProvider = ({ children }) => {
     setSelectedTopic(topic);
   };
   const addNewTopic = (newTopic) => {
-    console.log("new topic: ", newTopic);
     setTopics([...topics, newTopic]);
   };
 

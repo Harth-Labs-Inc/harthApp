@@ -40,7 +40,7 @@ const CreateAccount = (props) => {
     if (submissionType == "create") {
       const data = await addUser(formData);
       const { ok, errors } = data;
-      console.log(data);
+
       if (!ok) {
         setCustomErrors(errors);
       } else {

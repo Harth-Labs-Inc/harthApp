@@ -8,8 +8,6 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  console.log(obj);
-
   const createMessage = (db, data) => {
     return new Promise((resolve, reject) => {
       db.collection("messages").insertOne(data, function (err, msgCreated) {

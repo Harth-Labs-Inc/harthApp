@@ -8,8 +8,6 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  console.log(obj);
-
   const pushUserToComm = (db, id, data) => {
     return new Promise((resolve, reject) => {
       let mongo = require("mongodb");
@@ -51,6 +49,5 @@ export default async (req, res) => {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
   let getuserResult = await pushCommToUser(db, obj.prof.userId, obj.id);
-  console.log(getuserResult);
   return res.json({ ok: 1, msg: "success" });
 };

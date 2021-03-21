@@ -11,14 +11,25 @@ const MessageWrapper = (props) => {
 
   const { messages, setMessages } = useChat();
   const { selectedTopic, selectedcomm } = useComms();
-  const { incomingMsg } = useSocket();
+  const { incomingMsg, unreadMsg, unreadMsgs, setUnreadMsgs } = useSocket();
 
   useEffect(() => {
     if (messages && selectedTopic) {
-      console.log("topic:", selectedTopic);
-      setCurrentMessages(messages[selectedTopic._id]);
+      let tempMsgs = [...(messages[selectedTopic._id] || [])];
+      if (unreadMsgs.length && tempMsgs && tempMsgs.length) {
+        let readIds = [];
+        unreadMsgs.forEach((msg) => {
+          if (msg.topic_id == selectedTopic._id) {
+            readIds.push(msg._id);
+          }
+        });
+
+        let tempUnread = unreadMsgs.filter((msg) => !readIds.includes(msg._id));
+        setUnreadMsgs(tempUnread);
+      }
+      setCurrentMessages(tempMsgs);
     }
-  }, [selectedTopic]);
+  }, [selectedTopic, messages]);
 
   useEffect(() => {
     if (selectedcomm) {
@@ -27,32 +38,30 @@ const MessageWrapper = (props) => {
   }, [selectedcomm]);
 
   useEffect(() => {
-    if (messages && selectedTopic) {
-      setCurrentMessages(messages[selectedTopic._id]);
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    if (incomingMsg && selectedTopic) {
+    if (incomingMsg && messages) {
       const { topic_id } = incomingMsg;
-      let tempMsgs;
-      if (topic_id === selectedTopic._id) {
-        tempMsgs = [...(currentMessages || []), incomingMsg];
-        setCurrentMessages(tempMsgs);
+      let tempMsgs = messages[topic_id];
+      if (tempMsgs && topic_id) {
+        let msgs = [...tempMsgs, incomingMsg];
+        setMessages({
+          ...messages,
+          [topic_id]: msgs,
+        });
       }
-
-      setMessages({
-        ...messages,
-        [topic_id]: tempMsgs,
-      });
     }
   }, [incomingMsg]);
 
+  const sortMessages = (msgs) => {
+    return msgs.sort((a, b) => new Date(a.date) - new Date(b.date));
+  };
+
   return (
     <>
-      {(currentMessages || []).reverse().map((msg, index) => (
-        <Message msg={msg} key={index} />
-      ))}
+      {currentMessages &&
+        currentMessages.length > 0 &&
+        sortMessages(currentMessages || [])
+          .reverse()
+          .map((msg, index) => <Message msg={msg} key={index} />)}
 
       <ChatTextEntry></ChatTextEntry>
     </>

@@ -10,6 +10,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [incomingMsg, setIncomingMsg] = useState({});
   const [unreadMsg, setUnreadMsg] = useState({});
+  const [unreadMsgs, setUnreadMsgs] = useState([]);
 
   const { user } = useAuth();
   const { selectedTopic } = useComms();
@@ -55,30 +56,9 @@ export const SocketProvider = ({ children }) => {
 
       if (msg.topic_id !== (selectedTopic || {})._id) {
         setUnreadMsg(msg);
+        setUnreadMsgs([...unreadMsgs, msg]);
       }
     });
-
-  // socket &&
-  //   socket.on("new message", (msg) => {
-  //     const { topic_id } = msg;
-  //     let currentMsgs;
-  //     if (messages) {
-  //       currentMsgs = [...(messages[topic_id] || [])];
-  //     }
-
-  //     if (msg.topic_id !== (selectedTopic || {})._id) {
-  //       setUnreadMsg(msg);
-  //     }
-
-  //     if (currentMsgs) {
-  //       currentMsgs.push(msg);
-  //       setMessages({
-  //         ...messages,
-  //         [topic_id]: currentMsgs,
-  //       });
-  //     }
-  //     setIncomingMsg(msg);
-  //   });
 
   const registerHandler = (onMessageReceived) => {
     socket.on("message", onMessageReceived);
@@ -109,6 +89,8 @@ export const SocketProvider = ({ children }) => {
       value={{
         incomingMsg,
         unreadMsg,
+        unreadMsgs,
+        setUnreadMsgs,
         registerHandler,
         unregisterHandler,
         join,

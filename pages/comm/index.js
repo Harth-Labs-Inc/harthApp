@@ -37,7 +37,7 @@ const CommIndexPage = () => {
       setCurrentPage("profile");
       (async () => {
         const data = await getCommFromInvite(token);
-        console.log(data);
+
         const { ok, msg, comm } = data;
         if (ok) {
           setcomID(comm._id);
@@ -62,15 +62,12 @@ const CommIndexPage = () => {
   };
 
   const interestHandler = (data) => {
-    console.log("asdfafa", data);
     setInterests(data);
   };
 
   const uploadFile = (file, bucket) => {
     return new Promise((resolve) => {
-      console.log(file);
       if (file.name) {
-        console.log("asdf");
         (async () => {
           let extention = file.name.split(".").pop();
           let id = generateID();
@@ -99,7 +96,6 @@ const CommIndexPage = () => {
   };
 
   const changePageHandler = (pg) => {
-    console.log(pg);
     setCurrentPage(pg);
   };
 
@@ -163,7 +159,7 @@ const CommIndexPage = () => {
         name: profile.profName,
         personalInfo: personalInfo,
       });
-      console.log(profDbUpload);
+
       if (profDbUpload.ok) {
         Cookies.set("showComCreatedModal", true);
         window.location.pathname = "/";

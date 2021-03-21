@@ -11,7 +11,6 @@ const Chat = (prop) => {
 
   const toggleEditPanel = () => {
     setShowEditPanel(!showEditPanel);
-    console.log(showEditPanel);
   };
 
   return (

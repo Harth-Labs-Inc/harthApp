@@ -8,8 +8,6 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  console.log(obj);
-
   const createComm = (db, data) => {
     return new Promise((resolve, reject) => {
       db.collection("communities").insertOne(data, function (err, commCreated) {

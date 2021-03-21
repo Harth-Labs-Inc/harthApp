@@ -31,10 +31,9 @@ const ResetPwd = (props) => {
   };
 
   const submitHandler = async () => {
-    console.log("poop");
     const data = await reset(formData.email);
     const { ok, msg } = data;
-    console.log(data);
+
     if (ok) {
       setEmailSent(true);
     } else {

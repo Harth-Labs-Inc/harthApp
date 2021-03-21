@@ -43,7 +43,7 @@ export default async (req, res) => {
           pass: process.env.GMAIL_PWD,
         },
       });
-      console.log(email, process.env.GMAIL_EMAIL);
+
       const mailOptions = {
         from: process.env.GMAIL_EMAIL,
         to: email,
