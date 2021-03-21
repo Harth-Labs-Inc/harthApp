@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, BackBtn } from "components/Common/Button";
-import Form from "components/Form-comp";
-import Input from "components/Common/Input";
+import Form from "../../../components/Form-comp";
+import Input from "../../../components/Common/Input";
 
 const SubmitCom = (props) => {
   const [errorMessage, setErrorMessage] = useState();
