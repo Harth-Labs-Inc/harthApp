@@ -55,7 +55,6 @@ const SubmitCom = (props) => {
         placeholder="games, movies, food, ect."
         empty={formData.interests}
         value={formData.interests}
-        required={errorData["interests"]}
         changeHandler={inputChangeHandler}
         data={formData}
         errorData={errorData}

@@ -46,6 +46,7 @@ export const CommsProvider = ({ children }) => {
     setSelectedTopic(topic);
   };
   const addNewTopic = (newTopic) => {
+    console.log("new topic: ", newTopic);
     setTopics([...topics, newTopic]);
   };
 

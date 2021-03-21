@@ -6,10 +6,11 @@ import CommBuilder from "../pages/comm";
 const SideNav = (props) => {
   const [openCommBuilder, setOpenCommBuilder] = useState(false);
 
-  const { comms, setComm, selectedcomm } = useComms();
+  const { comms, setComm, selectedcomm, setTopic } = useComms();
 
   const changeSelectedCom = (com) => {
     setComm(com);
+    setTopic(null);
   };
 
   const openCreateComm = () => {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useComms } from "../contexts/comms";
 import { useAuth } from "../contexts/auth";
+import { useSocket } from "../contexts/socket";
 import { saveTopics, addRoomToUsers } from "../requests/community";
 import Modal from "./Modal";
 import Form from "./Form-comp";
@@ -23,6 +24,7 @@ const TopicsNav = (props) => {
     description: false,
   });
 
+  const { join } = useSocket();
   const { user } = useAuth();
   const {
     comms,
@@ -58,10 +60,17 @@ const TopicsNav = (props) => {
     const data = await saveTopics(topic);
     const { ok, id } = data;
     if (ok) {
+      topic._id = id;
       addNewTopic(topic);
       setOpenTopicBuilder(false);
       if (id) {
         const results = await addRoomToUsers(user._id, id);
+        join([...user.rooms, id], (err, status) => {
+          let { ok } = status;
+          if (ok) {
+            console.log("connected");
+          }
+        });
       }
     }
   };

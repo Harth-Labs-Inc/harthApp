@@ -10,14 +10,21 @@ const MessageWrapper = (props) => {
   const [currentMessages, setCurrentMessages] = useState([]);
 
   const { messages, setMessages } = useChat();
-  const { selectedTopic } = useComms();
+  const { selectedTopic, selectedcomm } = useComms();
   const { incomingMsg } = useSocket();
 
   useEffect(() => {
     if (messages && selectedTopic) {
+      console.log("topic:", selectedTopic);
       setCurrentMessages(messages[selectedTopic._id]);
     }
   }, [selectedTopic]);
+
+  useEffect(() => {
+    if (selectedcomm) {
+      setCurrentMessages([]);
+    }
+  }, [selectedcomm]);
 
   useEffect(() => {
     if (messages && selectedTopic) {
