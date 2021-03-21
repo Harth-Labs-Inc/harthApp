@@ -18,18 +18,18 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       //-------------- dev ----------------------
-      setSocket(
-        io.connect("http://localhost:3030", {
-          transports: ["websocket"],
-        })
-      );
-
-      // -------------- production ----------------------
       // setSocket(
-      //   io.connect("https://project-blarg-socket.herokuapp.com", {
+      //   io.connect("http://localhost:3030", {
       //     transports: ["websocket"],
       //   })
       // );
+
+      // -------------- production ----------------------
+      setSocket(
+        io.connect("https://project-blarg-socket.herokuapp.com", {
+          transports: ["websocket"],
+        })
+      );
     }
   }, [user]);
 
