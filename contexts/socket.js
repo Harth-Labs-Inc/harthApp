@@ -51,25 +51,34 @@ export const SocketProvider = ({ children }) => {
 
   socket &&
     socket.on("new message", (msg) => {
-      const { topic_id } = msg;
-      let currentMsgs;
-      if (messages) {
-        currentMsgs = [...(messages[topic_id] || [])];
-      }
+      setIncomingMsg(msg);
 
       if (msg.topic_id !== (selectedTopic || {})._id) {
         setUnreadMsg(msg);
       }
-
-      if (currentMsgs) {
-        currentMsgs.push(msg);
-        setMessages({
-          ...messages,
-          [topic_id]: currentMsgs,
-        });
-      }
-      setIncomingMsg(msg);
     });
+
+  // socket &&
+  //   socket.on("new message", (msg) => {
+  //     const { topic_id } = msg;
+  //     let currentMsgs;
+  //     if (messages) {
+  //       currentMsgs = [...(messages[topic_id] || [])];
+  //     }
+
+  //     if (msg.topic_id !== (selectedTopic || {})._id) {
+  //       setUnreadMsg(msg);
+  //     }
+
+  //     if (currentMsgs) {
+  //       currentMsgs.push(msg);
+  //       setMessages({
+  //         ...messages,
+  //         [topic_id]: currentMsgs,
+  //       });
+  //     }
+  //     setIncomingMsg(msg);
+  //   });
 
   const registerHandler = (onMessageReceived) => {
     socket.on("message", onMessageReceived);
