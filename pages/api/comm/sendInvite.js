@@ -1,6 +1,5 @@
 import { connectToDatabase } from "../../../util/mongodb";
 import { Validator } from "node-input-validator";
-import nodemailer from "nodemailer";
 import crypto from "crypto";
 
 export default async (req, res) => {
@@ -36,35 +35,32 @@ export default async (req, res) => {
         development: "http://localhost:3000/",
         production: "https://project-blarg-next.vercel.app/",
       };
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_EMAIL,
-          pass: process.env.GMAIL_PWD,
-        },
-      });
+      const sgMail = require("@sendgrid/mail");
+      sgMail.setApiKey(process.env.SENDGRID_API);
 
-      const mailOptions = {
-        from: process.env.GMAIL_EMAIL,
+      const msg = {
         to: email,
+        from: process.env.GMAIL_EMAIL,
         subject: "invite",
         html: `
-        <p>you've been invited to a community</p>
+         <p>you've been invited to a community</p>
         <p>to join either copy and paste this <strong>${token}</strong> as the invite link or click link below</p>
-        <a href='${
-          urls[process.env.NODE_ENV]
-        }?invite=true&tkn=${token}'>Go to Project blarg</a>
+       <a href='${
+         urls[process.env.NODE_ENV]
+       }?invite=true&tkn=${token}'>Go to Project blarg</a>
         <p>${note}</P>
         `,
       };
-      transporter.sendMail(mailOptions, function (err, res) {
-        if (err) {
-          console.log(err);
-          resolve(false);
-        } else {
+
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log("Email sent");
           resolve(true);
-        }
-      });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     });
   };
 

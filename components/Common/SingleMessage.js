@@ -24,6 +24,8 @@ const Message = (props) => {
       weekday: "long",
     })}, ${new Date(msg.date).toLocaleDateString("default", {
       month: "short",
+    })} ${new Date(msg.date).toLocaleDateString("default", {
+      day: "numeric",
     })} @ ${new Date(msg.date).toLocaleTimeString([], {
       timeStyle: "short",
     })}`;

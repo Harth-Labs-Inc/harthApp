@@ -1,5 +1,4 @@
 import { connectToDatabase } from "../../../util/mongodb";
-import nodemailer from "nodemailer";
 import crypto from "crypto";
 
 export default async (req, res) => {
@@ -53,17 +52,13 @@ export default async (req, res) => {
         development: "http://localhost:3000/",
         production: "https://project-blarg-next.vercel.app/",
       };
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_EMAIL,
-          pass: process.env.GMAIL_PWD,
-        },
-      });
 
-      const mailOptions = {
-        from: process.env.GMAIL_EMAIL,
+      const sgMail = require("@sendgrid/mail");
+      sgMail.setApiKey(process.env.SENDGRID_API);
+
+      const msg = {
         to: email,
+        from: process.env.GMAIL_EMAIL,
         subject: "reset pasword",
         html: `
         <p>You recently requested to reset your password for your Blarg account. Use the button below to reset it. <b>This password reset is only valid for the next hour</b></p>
@@ -72,13 +67,16 @@ export default async (req, res) => {
         }?reset=true&tkn=${token}'>Reset Your Password</a>
         `,
       };
-      transporter.sendMail(mailOptions, function (err, res) {
-        if (err) {
-          resolve(false);
-        } else {
+
+      sgMail
+        .send(msg)
+        .then(() => {
+          console.log("Email sent");
           resolve(true);
-        }
-      });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     });
   };
 

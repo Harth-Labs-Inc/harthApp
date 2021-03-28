@@ -22,6 +22,10 @@
     }
   }
 
+  > div {
+    max-width: calc(100% - 48px);
+  }
+
   span {
     display: flex;
     .message_creator {
