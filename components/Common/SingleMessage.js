@@ -34,7 +34,7 @@ const Message = (props) => {
   return (
     <div className="message">
       {msg.creator_image ? (
-        <img src={msg.creator_image} alt={msg.creator_name} />
+        <img src={msg.creator_image} alt={msg.creator_name} loading="lazy" />
       ) : (
         <span className="message_no_image"></span>
       )}

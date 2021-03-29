@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TopicsSideNav from "../../../components/TopicsSideNav";
 import TopicsMenu from "../../../components/TopicsMenu";
 import MessagesWrapper from "../../../components/messagesWrapper";
+import EditPanel from "../../../components/TopicEditPanel";
 import { useSocket } from "../../../contexts/socket";
 
 const Chat = (prop) => {
@@ -15,13 +16,14 @@ const Chat = (prop) => {
 
   return (
     <>
-      <TopicsSideNav></TopicsSideNav>
+      <TopicsSideNav />
       <section id="topic_active">
-        <TopicsMenu on_toggle_panel={toggleEditPanel}></TopicsMenu>
+        <TopicsMenu on_toggle_panel={toggleEditPanel} />
         <div id="topic_active_messages">
-          <MessagesWrapper></MessagesWrapper>
+          <MessagesWrapper />
         </div>
       </section>
+      {showEditPanel && <EditPanel />}
     </>
   );
 };
