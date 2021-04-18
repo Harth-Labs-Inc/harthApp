@@ -17,7 +17,10 @@ const Chat = (prop) => {
   return (
     <>
       <TopicsSideNav />
-      <section id="topic_active">
+      <section
+        id="topic_active"
+        className={showEditPanel && "topic-edit-active"}
+      >
         <TopicsMenu on_toggle_panel={toggleEditPanel} />
         <div id="topic_active_messages">
           <MessagesWrapper />

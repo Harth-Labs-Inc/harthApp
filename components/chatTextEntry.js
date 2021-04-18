@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { saveMessage } from "../requests/chat";
 import { useComms } from "../contexts/comms";
 import { useAuth } from "../contexts/auth";
@@ -9,6 +9,15 @@ const chatTextEntry = (props) => {
   const { user } = useAuth();
   const { selectedcomm, selectedTopic } = useComms();
   const { emitMessage } = useSocket();
+
+  const textRef = useRef();
+
+  const calcHeight = (value) => {
+    let numberOfLineBreaks = (value.match(/\n/g) || []).length;
+    // min-height + lines x line-height + padding + border
+    let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
+    return newHeight;
+  };
 
   const inputHandler = (e) => {
     const { value } = e.target;
@@ -48,17 +57,10 @@ const chatTextEntry = (props) => {
     console.log(e);
   };
   return (
-    <div
-      style={{
-        position: "fixed",
-        bottom: "3%",
-        width: "76%",
-        background: "white",
-        border: "1px solid",
-      }}
-    >
+    <div id="chat_input_container">
       <textarea
-        style={{ width: "100%", height: "50px" }}
+        ref={textRef}
+        style={{ height: "50px" }}
         onInput={inputHandler}
         placeholder={`Message ${(selectedTopic || {}).title || ""}`}
         onMouseUp={getSelectedText}
@@ -67,13 +69,24 @@ const chatTextEntry = (props) => {
             sendMessagge();
           }
         }}
+        onKeyUp={() => {
+          textRef.current.style.height =
+            calcHeight(textRef.current.value) + "px";
+        }}
         onPaste={getPastedData}
       ></textarea>
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <p>B</p>
-        <p>I</p>
-        <p>S</p>
-        <button onClick={sendMessagge}>send</button>
+      <div>
+        <div className="input-style-wrapper">
+          <button className="style-bold">B</button>
+          <button className="style-italic">I</button>
+          <button className="style-strike">S</button>
+        </div>
+        <div className="chat-insert-additional-wrapper">
+          <button className="attach-file">attach file</button>
+          <button className="attach-gif">attach gif</button>
+          <button className="attach-emoji">attach emoji</button>
+          <button onClick={sendMessagge}>send</button>
+        </div>
       </div>
     </div>
   );

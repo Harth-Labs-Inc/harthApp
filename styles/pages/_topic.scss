@@ -2,7 +2,11 @@
   display: flex;
 
   #topic_active {
-    width: 100%;
+    width: calc(100% - 296px);
+
+    &.topic-edit-active {
+      width: calc(100% - 596px);
+    }
 
     header {
       display: flex;
