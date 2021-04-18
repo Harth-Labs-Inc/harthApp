@@ -56,10 +56,11 @@ export const getCommFromInvite = async (id) => {
   }
 };
 
-export const getTopics = async (id) => {
+export const getTopics = async (commId, UserId) => {
   try {
     const res = await api.post(`/api/comm/getTopics`, {
-      id,
+      commId,
+      UserId,
     });
     return res.data;
   } catch (error) {
@@ -78,10 +79,10 @@ export const saveTopics = async (topic) => {
   }
 };
 
-export const addRoomToUsers = async (id, room) => {
+export const addRoomToUsers = async (ids, room) => {
   try {
     const res = await api.post(`/api/comm/addRoomToUsers`, {
-      id,
+      ids,
       room,
     });
     return res.data;

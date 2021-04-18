@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { getComms, getTopics } from "../requests/community";
 import { useAuth } from "./auth";
+import { useSocket } from "./socket";
 
 const CommsContext = createContext({});
 
@@ -11,6 +12,7 @@ export const CommsProvider = ({ children }) => {
   const [selectedTopic, setSelectedTopic] = useState({});
 
   const { user } = useAuth();
+  const { incomingTopic } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -27,17 +29,19 @@ export const CommsProvider = ({ children }) => {
   }, [user]);
 
   useEffect(() => {
-    if (selectedcomm) {
-      (async () => {
-        let result = await getTopics(selectedcomm._id);
-        const { ok, topics } = result;
-        if (ok) {
-          setTopics(topics);
-          setSelectedTopic({});
-        }
-      })();
+    if (selectedcomm && user) {
+      grabTopics(selectedcomm._id);
     }
   }, [selectedcomm]);
+
+  const grabTopics = async (comid) => {
+    let result = await getTopics(comid, user._id);
+    const { ok, topics } = result;
+    if (ok) {
+      setTopics(topics);
+      setSelectedTopic({});
+    }
+  };
 
   const setComm = async (comm) => {
     setSelectedcomm(comm);
@@ -52,6 +56,7 @@ export const CommsProvider = ({ children }) => {
   return (
     <CommsContext.Provider
       value={{
+        grabTopics,
         comms,
         setComm,
         selectedcomm,

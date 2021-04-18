@@ -28,6 +28,7 @@ const chatTextEntry = (props) => {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
 
       let newMessage = {
+        creator_id: user._id,
         creator_name: creator.name,
         creator_image: creator.iconKey,
         topic_id: selectedTopic._id,

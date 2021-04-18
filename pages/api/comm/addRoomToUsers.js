@@ -7,13 +7,19 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
+  let { ids, room } = obj;
 
-  const pushToRoom = (db, id, room) => {
+  const pushToRoom = (db, ids, room) => {
     return new Promise((resolve, reject) => {
       let mongo = require("mongodb");
-      let o_id = new mongo.ObjectID(id);
-      db.collection("users").updateOne(
-        { _id: o_id },
+      let objIds = [];
+      ids.forEach((id) => {
+        let o_id = new mongo.ObjectID(id);
+        objIds.push(o_id);
+      });
+      console.log(ids, room);
+      db.collection("users").updateMany(
+        { _id: { $in: objIds } },
         { $push: { rooms: room } },
         function (err, RoomAdded) {
           if (err) {
@@ -26,7 +32,7 @@ export default async (req, res) => {
   };
 
   const { db } = await connectToDatabase();
-  let getResult = await pushToRoom(db, obj.id, obj.room);
+  let getResult = await pushToRoom(db, ids, room);
   if (!getResult) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }

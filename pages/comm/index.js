@@ -137,8 +137,10 @@ const CommIndexPage = () => {
           name: profile.profName,
           personalInfo: personalInfo,
         });
+        console.log(profDbUpload);
         if (profDbUpload.ok) {
           Cookies.set("showComCreatedModal", true);
+          window.history.replaceState(null, "", "/");
           window.location.pathname = "/";
         }
       }
@@ -159,9 +161,10 @@ const CommIndexPage = () => {
         name: profile.profName,
         personalInfo: personalInfo,
       });
-
+      console.log(profDbUpload);
       if (profDbUpload.ok) {
         Cookies.set("showComCreatedModal", true);
+        window.history.replaceState(null, "", "/");
         window.location.pathname = "/";
       }
     }

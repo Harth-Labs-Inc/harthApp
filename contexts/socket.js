@@ -9,11 +9,12 @@ const SocketContext = createContext({});
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [incomingMsg, setIncomingMsg] = useState({});
+  const [incomingTopic, setIncomingTopic] = useState({});
   const [unreadMsg, setUnreadMsg] = useState({});
   const [unreadMsgs, setUnreadMsgs] = useState([]);
 
   const { user } = useAuth();
-  const { selectedTopic } = useComms();
+  const { selectedTopic, grabTopics, comms } = useComms();
   const { messages, setMessages } = useChat();
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (socket) {
-      join(user.rooms, (err, status) => {
+      join([...user.rooms, ...user.comms], (err, status) => {
         let { ok } = status;
         if (ok) {
           console.log("connected");
@@ -60,6 +61,17 @@ export const SocketProvider = ({ children }) => {
       }
     });
 
+  socket &&
+    socket.on("new Topic", (comid, newTopic) => {
+      setIncomingTopic(newTopic);
+      join(newTopic._id, (err, status) => {
+        let { ok } = status;
+        if (ok) {
+          console.log("connected to new Topic");
+        }
+      });
+    });
+
   const registerHandler = (onMessageReceived) => {
     socket.on("message", onMessageReceived);
   };
@@ -68,8 +80,15 @@ export const SocketProvider = ({ children }) => {
     socket.off("message");
   };
 
+  const newTopic = (id, topic, cb) => {
+    socket.emit("newTopic", id, topic, cb);
+  };
+
   const join = (chatroomName, cb) => {
     socket.emit("joinRooms", chatroomName, cb);
+  };
+  const joinComms = (chatroomName, cb) => {
+    socket.emit("joinComms", chatroomName, cb);
   };
 
   const leave = (chatroomName, cb) => {
@@ -87,6 +106,8 @@ export const SocketProvider = ({ children }) => {
   return (
     <SocketContext.Provider
       value={{
+        incomingTopic,
+        newTopic,
         incomingMsg,
         unreadMsg,
         unreadMsgs,

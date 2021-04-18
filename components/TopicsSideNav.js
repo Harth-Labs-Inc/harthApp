@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useComms } from "../contexts/comms";
 import { useAuth } from "../contexts/auth";
 import { useSocket } from "../contexts/socket";
@@ -11,6 +11,7 @@ import { TextBtn } from "./Common/Button";
 
 const TopicsNav = (props) => {
   const [modal, setModal] = useState();
+  const [topicsArr, setTopicsArr] = useState([]);
   const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -24,9 +25,10 @@ const TopicsNav = (props) => {
     description: false,
   });
 
-  const { join, unreadMsg, unreadMsgs } = useSocket();
+  const { join, unreadMsg, unreadMsgs, newTopic, incomingTopic } = useSocket();
   const { user } = useAuth();
   const {
+    grabTopics,
     comms,
     setComm,
     selectedcomm,
@@ -35,6 +37,16 @@ const TopicsNav = (props) => {
     setTopic,
     selectedTopic,
   } = useComms();
+
+  useEffect(() => {
+    setTopicsArr(topics);
+  }, [topics]);
+
+  useEffect(() => {
+    if (incomingTopic) {
+      setTopicsArr([...topicsArr, incomingTopic]);
+    }
+  }, [incomingTopic]);
 
   const showModal = () => {
     setModal(!modal);
@@ -49,14 +61,39 @@ const TopicsNav = (props) => {
   };
 
   const submitHandler = async () => {
-    const topic = {
-      comm_id: selectedcomm._id,
-      members: [{ user_id: user._id, admin: true, muted: false }],
-      title: formData.title,
-      description: formData.description,
-      private: toggleData.private,
-      invites: [],
-    };
+    console.log("selectedcom", selectedcomm);
+    let topic,
+      userIds = [];
+    if (toggleData.private) {
+      userIds.push(user._id);
+      topic = {
+        comm_id: selectedcomm._id,
+        members: [{ user_id: user._id, admin: true, muted: false }],
+        title: formData.title,
+        description: formData.description,
+        private: toggleData.private,
+        invites: [],
+      };
+    } else {
+      selectedcomm.users.forEach((usr) => {
+        userIds.push(usr.userId);
+      });
+      topic = {
+        comm_id: selectedcomm._id,
+        members: [
+          { user_id: user._id, admin: true, muted: false },
+          ...selectedcomm.users.map((usr) => {
+            if (usr.userId !== user._id) {
+              return { user_id: usr.userId, admin: false, muted: false };
+            }
+          }),
+        ],
+        title: formData.title,
+        description: formData.description,
+        private: toggleData.private,
+        invites: [],
+      };
+    }
     const data = await saveTopics(topic);
     const { ok, id } = data;
     if (ok) {
@@ -64,12 +101,12 @@ const TopicsNav = (props) => {
       addNewTopic(topic);
       setOpenTopicBuilder(false);
       if (id) {
-        const results = await addRoomToUsers(user._id, id);
-        join([...user.rooms, id], (err, status) => {
-          let { ok } = status;
-          if (ok) {
-            console.log("connected");
+        const results = await addRoomToUsers(userIds, id);
+        newTopic(selectedcomm._id, topic, async (err, status) => {
+          if (err) {
+            console.log(err);
           }
+          let { ok } = status;
         });
       }
     }
@@ -148,15 +185,21 @@ const TopicsNav = (props) => {
           <button id="create-topic" onClick={openCreateTopic}></button>
         </header>
         <ul id="left_nav_topics">
-          {topics &&
-            topics.map((topic) => {
+          {topicsArr &&
+            topicsArr.map((topic) => {
               let classes = [];
               if ((selectedTopic || {})._id == topic._id) {
                 classes.push("topic_active");
               }
               unreadMsgs.forEach((msg) => {
+                console.log(
+                  "affdasdfadsfdfsfdsafdsafdsafadsfadsfafafdsfadsfdsa",
+                  msg,
+                  user
+                );
                 if (
                   msg.topic_id === topic._id &&
+                  msg.creator_id !== user._id &&
                   (selectedTopic || {})._id !== msg.topic_id
                 ) {
                   classes.push("topic_new_message");
