@@ -162,16 +162,8 @@ const chatTextEntry = (props) => {
       <textarea
         ref={textRef}
         placeholder={`Say something...`}
-        onInput={inputHandler}
         onChange={inputHandler}
-        placeholder={`Say something...`}
-        onMouseUp={getSelectedText}
         value={message}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            sendMessagge();
-          }
-        }}
         onKeyUp={() => {
           textRef.current.style.height =
             calcHeight(textRef.current.value) + "px";
