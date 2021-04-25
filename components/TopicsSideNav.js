@@ -192,11 +192,6 @@ const TopicsNav = (props) => {
                 classes.push("topic_active");
               }
               unreadMsgs.forEach((msg) => {
-                console.log(
-                  "affdasdfadsfdfsfdsafdsafdsafadsfadsfafafdsfadsfdsa",
-                  msg,
-                  user
-                );
                 if (
                   msg.topic_id === topic._id &&
                   msg.creator_id !== user._id &&

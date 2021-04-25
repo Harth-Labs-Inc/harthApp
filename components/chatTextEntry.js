@@ -39,7 +39,7 @@ const chatTextEntry = (props) => {
         reactions: [],
         attachments: [],
       };
-
+      console.log("emit click");
       emitMessage(selectedTopic._id, newMessage, async (err, status) => {
         let { ok } = status;
         if (ok) {

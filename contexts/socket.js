@@ -48,29 +48,25 @@ export const SocketProvider = ({ children }) => {
         console.log("received socket error:");
         console.log(err);
       });
-    }
-  }, [socket]);
-
-  socket &&
-    socket.on("new message", (msg) => {
-      setIncomingMsg(msg);
-
-      if (msg.topic_id !== (selectedTopic || {})._id) {
-        setUnreadMsg(msg);
-        setUnreadMsgs([...unreadMsgs, msg]);
-      }
-    });
-
-  socket &&
-    socket.on("new Topic", (comid, newTopic) => {
-      setIncomingTopic(newTopic);
-      join(newTopic._id, (err, status) => {
-        let { ok } = status;
-        if (ok) {
-          console.log("connected to new Topic");
+      socket.on("new message", (msg) => {
+        setIncomingMsg(msg);
+        console.log("msg recieve");
+        if (msg.topic_id !== (selectedTopic || {})._id) {
+          setUnreadMsg(msg);
+          setUnreadMsgs([...unreadMsgs, msg]);
         }
       });
-    });
+      socket.on("new Topic", (comid, newTopic) => {
+        setIncomingTopic(newTopic);
+        join(newTopic._id, (err, status) => {
+          let { ok } = status;
+          if (ok) {
+            console.log("connected to new Topic");
+          }
+        });
+      });
+    }
+  }, [socket]);
 
   const registerHandler = (onMessageReceived) => {
     socket.on("message", onMessageReceived);
@@ -96,6 +92,7 @@ export const SocketProvider = ({ children }) => {
   };
 
   const emitMessage = (chatroomName, msg, cb) => {
+    console.log("emit function");
     socket.emit("message", chatroomName, msg, cb);
   };
 
