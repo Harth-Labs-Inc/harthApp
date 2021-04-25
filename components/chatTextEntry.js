@@ -61,9 +61,8 @@ const chatTextEntry = (props) => {
     <div id="chat_input_container">
       <textarea
         ref={textRef}
-        style={{ height: "50px" }}
         onInput={inputHandler}
-        placeholder={`Message ${(selectedTopic || {}).title || ""}`}
+        placeholder={`Say something...`}
         onMouseUp={getSelectedText}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
@@ -77,16 +76,19 @@ const chatTextEntry = (props) => {
         onPaste={getPastedData}
       ></textarea>
       <div>
-        <div className="input-style-wrapper">
-          <button className="style-bold">B</button>
-          <button className="style-italic">I</button>
-          <button className="style-strike">S</button>
-        </div>
         <div className="chat-insert-additional-wrapper">
-          <button className="attach-file">attach file</button>
-          <button className="attach-gif">attach gif</button>
           <button className="attach-emoji">attach emoji</button>
-          <button onClick={sendMessagge}>send</button>
+          <button className="attach-gif">attach gif</button>
+          <button className="attach-file">attach file</button>
+        </div>
+
+        <div className="chat-controls">
+          <button className="cancel-edit" onClick={sendMessagge}>
+            cancel
+          </button>
+          <button className="send-message" onClick={sendMessagge}>
+            send
+          </button>
         </div>
       </div>
     </div>

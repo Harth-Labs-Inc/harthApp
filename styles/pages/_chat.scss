@@ -11,10 +11,12 @@
 
   textarea {
     resize: none;
+    display: block;
     width: 100%;
     min-height: 25px;
     max-height: 50vh;
     padding: 8px 8px 0;
+    background-color: #f7f7f7;
     border: 0;
     border-radius: 4px;
   }
@@ -22,14 +24,50 @@
   > div {
     display: flex;
     justify-content: space-between;
+    padding: 0 4px;
     border-top: 1px solid $black60;
 
     button {
-      height: 32px;
-      width: 32px;
+      position: relative;
+      margin: 0 4px;
+      height: 36px;
+      width: 36px;
+      font-size: 0;
       background-color: transparent;
       border: 0;
+      border-radius: 50%;
       cursor: pointer;
+      &:before {
+        @include x-y-center;
+        color: #9a9a9a;
+        font-size: 16px;
+      }
+
+      &.attach-emoji {
+        &:before {
+          @include font-icon($icon-emoji);
+        }
+      }
+      &.attach-gif {
+        &:before {
+          @include font-icon($icon-gif);
+        }
+      }
+      &.attach-file {
+        &:before {
+          @include font-icon($icon-upload);
+        }
+      }
+      &.cancel-edit {
+        &:before {
+          @include font-icon($icon-cancel);
+        }
+      }
+      &.send-message {
+        &:before {
+          @include font-icon($icon-check);
+        }
+      }
     }
 
     .input-style-wrapper {
