@@ -24,3 +24,16 @@ export const putImageInBucket = async (url, reader, fileType) => {
     console.log(error);
   }
 };
+
+export const getDownloadURL = async (name, fileType, bucket) => {
+  try {
+    const res = await api.post(`/api/s3/getDownloadURL`, {
+      name,
+      fileType,
+      bucket,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -21,3 +21,16 @@ export const getMessagesByTopic = async (id) => {
     console.log(error);
   }
 };
+
+export const addKeyToDB = async (id, name, fileType) => {
+  try {
+    const res = await api.post(`/api/chat/addKeyToDB`, {
+      id,
+      name,
+      fileType,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

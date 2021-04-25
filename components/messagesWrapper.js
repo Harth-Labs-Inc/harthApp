@@ -27,6 +27,7 @@ const MessageWrapper = (props) => {
         let tempUnread = unreadMsgs.filter((msg) => !readIds.includes(msg._id));
         setUnreadMsgs(tempUnread);
       }
+
       setCurrentMessages(tempMsgs);
     }
   }, [selectedTopic, messages]);
@@ -51,6 +52,10 @@ const MessageWrapper = (props) => {
     }
   }, [incomingMsg]);
 
+  const getAttachments = (msgs) => {
+    console.log(msgs);
+    return sortMessages(msgs);
+  };
   const sortMessages = (msgs) => {
     return msgs.sort((a, b) => new Date(a.date) - new Date(b.date));
   };
@@ -59,7 +64,7 @@ const MessageWrapper = (props) => {
     <>
       {currentMessages &&
         currentMessages.length > 0 &&
-        sortMessages(currentMessages || [])
+        getAttachments(currentMessages || [])
           .reverse()
           .map((msg, index) => <Message msg={msg} key={index} />)}
 
