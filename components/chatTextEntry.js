@@ -5,10 +5,13 @@ import { useAuth } from "../contexts/auth";
 import { useSocket } from "../contexts/socket";
 import { getUploadURL, putImageInBucket } from "../requests/s3";
 import { addKeyToDB } from "../requests/chat";
+import { Picker } from "emoji-mart";
+import "emoji-mart/css/emoji-mart.css";
 
 const chatTextEntry = (props) => {
   const [message, setMessage] = useState("");
   const [attachments, setAttachments] = useState([]);
+  const [emojiPickerState, setEmojiPicker] = useState(false);
   const { user } = useAuth();
   const { selectedcomm, selectedTopic } = useComms();
   const { emitMessage } = useSocket();
@@ -30,6 +33,8 @@ const chatTextEntry = (props) => {
       });
     }
   }, [attachments]);
+
+  let emojiPicker;
 
   const calcHeight = (value) => {
     let numberOfLineBreaks = (value.match(/\n/g) || []).length;
@@ -122,6 +127,25 @@ const chatTextEntry = (props) => {
     });
     broadcastMessage(message);
   };
+  const addEmoji = (e) => {
+    setMessage(message + e.native);
+  };
+  if (emojiPickerState) {
+    emojiPicker = (
+      <Picker
+        className="attach-emoji"
+        native={true}
+        onSelect={addEmoji}
+        emoji=""
+        color="#1d0a6c"
+        autoFocus={true}
+      />
+    );
+  }
+  function triggerPicker(event) {
+    event.preventDefault();
+    setEmojiPicker(!emojiPickerState);
+  }
   return (
     <div id="chat_input_container">
       <div>
@@ -139,6 +163,15 @@ const chatTextEntry = (props) => {
         ref={textRef}
         placeholder={`Say something...`}
         onInput={inputHandler}
+        onChange={inputHandler}
+        placeholder={`Say something...`}
+        onMouseUp={getSelectedText}
+        value={message}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            sendMessagge();
+          }
+        }}
         onKeyUp={() => {
           textRef.current.style.height =
             calcHeight(textRef.current.value) + "px";
@@ -161,7 +194,10 @@ const chatTextEntry = (props) => {
       ></textarea>
       <div>
         <div className="chat-insert-additional-wrapper">
-          <button className="attach-emoji">attach emoji</button>
+          <button className="attach-emoji" onClick={triggerPicker}>
+            attach emoji
+          </button>
+          {emojiPicker}
           <button className="attach-gif">attach gif</button>
           <button onClick={openFileSelector} className="attach-file">
             attach file

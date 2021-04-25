@@ -87,6 +87,16 @@
     }
 
     .chat-insert-additional-wrapper {
+      position: relative;
+    }
+  }
+
+  .emoji-mart {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    .emoji-mart-title-label {
+      display: none;
     }
   }
 }
