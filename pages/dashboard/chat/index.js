@@ -22,7 +22,7 @@ const Chat = (prop) => {
         className={showEditPanel && "topic-edit-active"}
       >
         <TopicsMenu on_toggle_panel={toggleEditPanel} />
-        <div id="topic_active_messages">
+        <div id="topic_messages_container">
           <MessagesWrapper />
         </div>
       </section>

@@ -61,7 +61,6 @@ const TopicsNav = (props) => {
   };
 
   const submitHandler = async () => {
-    console.log("selectedcom", selectedcomm);
     let topic,
       userIds = [];
     if (toggleData.private) {

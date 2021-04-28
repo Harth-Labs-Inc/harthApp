@@ -5,8 +5,16 @@ import { useAuth } from "../contexts/auth";
 import { useSocket } from "../contexts/socket";
 import { getUploadURL, putImageInBucket } from "../requests/s3";
 import { addKeyToDB } from "../requests/chat";
+
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
+
+import { Grid } from "@giphy/react-components";
+import { GiphyFetch } from "@giphy/js-fetch-api";
+// use @giphy/js-fetch-api to fetch gifs, instantiate with your api key
+const gf = new GiphyFetch("WjzExVfWh0193VlCJbn1Z1L3tEG4Zrv0");
+// configure your fetch: fetch 10 gifs at a time as the user scrolls (offset is handled by the grid)
+const fetchGifs = (offset) => gf.trending({ offset, limit: 10 });
 
 const chatTextEntry = (props) => {
   const [message, setMessage] = useState("");
@@ -21,7 +29,6 @@ const chatTextEntry = (props) => {
   const attRefs = useRef([]);
 
   useEffect(() => {
-    console.log(attRefs);
     if (attachments.length > 0) {
       attachments.forEach((file, idx) => {
         var reader = new FileReader();
@@ -63,6 +70,8 @@ const chatTextEntry = (props) => {
       };
 
       const data = await saveMessage(newMessage);
+      setAttachments([]);
+      setMessage("");
       let { id, ok } = data;
       if (ok) {
         if (attachments.length > 0) {
@@ -99,6 +108,11 @@ const chatTextEntry = (props) => {
   const addAttachment = (file) => {
     setAttachments([...attachments, file]);
   };
+  const removeAttachment = (idx) => {
+    const tempAttachments = [...attachments];
+    tempAttachments.splice(idx, 1);
+    setAttachments([...tempAttachments]);
+  };
   const dropHandler = (e) => {
     e.preventDefault();
     const { files } = e.dataTransfer;
@@ -129,6 +143,7 @@ const chatTextEntry = (props) => {
   };
   const addEmoji = (e) => {
     setMessage(message + e.native);
+    setEmojiPicker(!emojiPickerState);
   };
   if (emojiPickerState) {
     emojiPicker = (
@@ -146,19 +161,40 @@ const chatTextEntry = (props) => {
     event.preventDefault();
     setEmojiPicker(!emojiPickerState);
   }
+
+  const ImageHolder = () => {
+    if (attachments.length > 0) {
+      return (
+        <div className="image-holder">
+          {(attachments || []).map((file, idx) => (
+            <div className="image-to-attach">
+              <img
+                id={file.name}
+                key={file.name}
+                ref={(el) => (attRefs.current[idx] = el)}
+                alt=""
+                style={{ height: "100px", width: "100px" }}
+              />
+              <button
+                className="remove-image"
+                onClick={() => {
+                  removeAttachment(idx);
+                }}
+              >
+                remove image
+              </button>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <div id="chat_input_container">
-      <div>
-        {(attachments || []).map((file, idx) => (
-          <img
-            id={file.name}
-            key={file.name}
-            ref={(el) => (attRefs.current[idx] = el)}
-            alt=""
-            style={{ height: "100px", width: "100px" }}
-          />
-        ))}
-      </div>
+      <ImageHolder />
       <textarea
         ref={textRef}
         placeholder={`Say something...`}
@@ -191,6 +227,7 @@ const chatTextEntry = (props) => {
           </button>
           {emojiPicker}
           <button className="attach-gif">attach gif</button>
+          {/* <Grid width={500} columns={3} fetchGifs={fetchGifs} /> */}
           <button onClick={openFileSelector} className="attach-file">
             attach file
           </button>

@@ -1,5 +1,6 @@
 #chat_input_container {
   position: fixed;
+  right: 16px;
   bottom: 25px;
   width: calc(100% - 328px);
   border: 1px solid $black50;
@@ -7,6 +8,28 @@
 
   .topic-edit-active & {
     width: calc(96% - 628px);
+  }
+
+  .image-holder {
+    display: flex;
+    justify-content: flex-start;
+    background-color: #f7f7f7;
+
+    .image-to-attach {
+      position: relative;
+      margin: 5px;
+      button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 20px;
+        width: 20px;
+        &:before {
+          @include x-y-center;
+          @include font-icon($icon-cancel);
+        }
+      }
+    }
   }
 
   textarea {
@@ -98,5 +121,13 @@
     .emoji-mart-title-label {
       display: none;
     }
+  }
+
+  .giphy-grid {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    max-height: 400px;
+    overflow-y: scroll;
   }
 }

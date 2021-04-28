@@ -3,9 +3,9 @@ import { getDownloadURL } from "../../requests/s3";
 
 const Message = (props) => {
   const [urls, setUrls] = useState([]);
+  const [showEditBar, setShowEditBar] = useState(false);
   const { date, creator_image, creator_name, message, attachments } = props.msg;
 
-  console.log(urls);
   useEffect(() => {
     (async () => {
       if (attachments.length > 0) {
@@ -28,6 +28,36 @@ const Message = (props) => {
       }
     })();
   }, [attachments]);
+
+  const toggleEdit = () => {
+    setShowEditBar(!showEditBar);
+  };
+
+  const EditBar = () => {
+    if (showEditBar) {
+      return (
+        <div className="message-edit-bar">
+          <button title="flame" className="flame">
+            flame
+          </button>
+          <button title="reaction" className="react">
+            react
+          </button>
+          <button title="share" className="share">
+            share
+          </button>
+          <button title="edit" className="edit">
+            edit
+          </button>
+          <button title="delete" className="delete">
+            delete
+          </button>
+        </div>
+      );
+    }
+
+    return null;
+  };
 
   let timeStamp;
   let today = new Date();
@@ -56,13 +86,18 @@ const Message = (props) => {
   }
 
   return (
-    <div className="message">
+    <div
+      className="message"
+      onMouseEnter={toggleEdit}
+      onMouseLeave={toggleEdit}
+    >
       {creator_image ? (
         <img src={creator_image} alt={creator_name} loading="lazy" />
       ) : (
         <span className="message_no_image"></span>
       )}
-      <div>
+      <EditBar />
+      <div className="message-body">
         <span>
           <p className="message_creator">{creator_name}</p>
 

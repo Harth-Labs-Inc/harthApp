@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useComms } from "../contexts/comms";
 import { useChat } from "../contexts/chat";
 import { useSocket } from "../contexts/socket";
@@ -9,6 +9,7 @@ import Message from "./Common/SingleMessage";
 const MessageWrapper = (props) => {
   const [currentMessages, setCurrentMessages] = useState([]);
 
+  const messageEl = useRef();
   const { messages, setMessages } = useChat();
   const { selectedTopic, selectedcomm } = useComms();
   const { incomingMsg, unreadMsg, unreadMsgs, setUnreadMsgs } = useSocket();
@@ -52,8 +53,18 @@ const MessageWrapper = (props) => {
     }
   }, [incomingMsg]);
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (messageEl && messageEl.current) {
+  //       messageEl.current.addEventListener("DOMNodeInserted", (event) => {
+  //         const { currentTarget: target } = event;
+  //         target.scroll({ top: target.scrollHeight, behavior: "auto" });
+  //       });
+  //     }
+  //   }, 1000);
+  // }, []);
+
   const getAttachments = (msgs) => {
-    console.log(msgs);
     return sortMessages(msgs);
   };
   const sortMessages = (msgs) => {
@@ -62,12 +73,13 @@ const MessageWrapper = (props) => {
 
   return (
     <>
-      {currentMessages &&
-        currentMessages.length > 0 &&
-        getAttachments(currentMessages || [])
-          .reverse()
-          .map((msg, index) => <Message msg={msg} key={index} />)}
-
+      <div id="topic_active_messages" ref={messageEl}>
+        {currentMessages &&
+          currentMessages.length > 0 &&
+          getAttachments(currentMessages || []).map((msg, index) => (
+            <Message msg={msg} key={index} />
+          ))}
+      </div>
       <ChatTextEntry></ChatTextEntry>
     </>
   );

@@ -67,12 +67,16 @@
       }
     }
 
+    #topic_messages_container {
+      position: relative;
+    }
+
     #topic_active_messages {
       display: flex;
-      flex-direction: column-reverse;
-      height: calc(86vh - 108px);
+      flex-direction: column;
+      height: 74vh;
       padding: 0 16px;
-      overflow: auto;
+      overflow-y: scroll;
     }
   }
 }

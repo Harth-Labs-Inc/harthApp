@@ -12,6 +12,8 @@
     "url": "https://github.com/Project-Blarg/Project-Blarg-next.git"
   },
   "dependencies": {
+    "@giphy/js-fetch-api": "^3.0.0",
+    "@giphy/react-components": "^2.4.0",
     "@sendgrid/mail": "^7.4.2",
     "aws-sdk": "^2.832.0",
     "axios": "^0.21.1",

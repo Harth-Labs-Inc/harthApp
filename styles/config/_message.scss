@@ -1,8 +1,10 @@
 .message {
-  display: flex;
+  display: inline-flex;
+  position: relative;
   padding-top: 12px;
   padding-bottom: 6px;
-  img,
+
+  > span img,
   .message_no_image {
     height: 40px;
     width: 40px;
@@ -19,6 +21,12 @@
       color: $black50;
       font-size: 40px;
       line-height: 40px;
+    }
+  }
+
+  .message-body {
+    img {
+      max-width: 100%;
     }
   }
 
@@ -50,5 +58,57 @@
   .message_content {
     font-size: 14px;
     line-height: 16px;
+  }
+
+  .message-edit-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    button {
+      position: relative;
+      height: 40px;
+      width: 40px;
+      margin: 0 4px;
+      padding: 0;
+      color: #fff;
+      font-size: 0;
+      background-color: #333;
+      border: 4px solid #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      &:before {
+        @include x-y-center;
+        font-size: 16px;
+      }
+
+      &.flame {
+        &:before {
+        }
+      }
+      &.react {
+        &:before {
+          @include font-icon($icon-emoji);
+        }
+      }
+      &.share {
+        &:before {
+        }
+      }
+      &.share {
+        &:before {
+        }
+      }
+      &.edit {
+        &:before {
+          @include font-icon($icon-edit);
+        }
+      }
+      &.delete {
+        &:before {
+          @include font-icon($icon-delete);
+        }
+      }
+    }
   }
 }
