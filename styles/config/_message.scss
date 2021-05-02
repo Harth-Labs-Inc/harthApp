@@ -31,7 +31,7 @@
   }
 
   > div {
-    max-width: calc(100% - 48px);
+    max-width: calc(100%);
   }
 
   span {
@@ -84,6 +84,7 @@
 
       &.flame {
         &:before {
+          @include font-icon($icon-fire);
         }
       }
       &.react {
@@ -93,10 +94,7 @@
       }
       &.share {
         &:before {
-        }
-      }
-      &.share {
-        &:before {
+          @include font-icon($icon-share);
         }
       }
       &.edit {

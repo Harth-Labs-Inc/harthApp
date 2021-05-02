@@ -8,11 +8,18 @@ import Message from "./Common/SingleMessage";
 
 const MessageWrapper = (props) => {
   const [currentMessages, setCurrentMessages] = useState([]);
+  const [editMessageObj, setEditMessageObj] = useState({});
 
   const messageEl = useRef();
   const { messages, setMessages } = useChat();
   const { selectedTopic, selectedcomm } = useComms();
-  const { incomingMsg, unreadMsg, unreadMsgs, setUnreadMsgs } = useSocket();
+  const {
+    incomingMsg,
+    unreadMsg,
+    unreadMsgs,
+    setUnreadMsgs,
+    incomingMsgUpdate,
+  } = useSocket();
 
   useEffect(() => {
     if (messages && selectedTopic) {
@@ -53,6 +60,40 @@ const MessageWrapper = (props) => {
     }
   }, [incomingMsg]);
 
+  useEffect(() => {
+    if (incomingMsgUpdate && messages) {
+      console.log(incomingMsgUpdate);
+      const { topic_id, action, _id } = incomingMsgUpdate;
+      let tempMsgs = messages[topic_id];
+      if (tempMsgs && topic_id) {
+        if (action == "delete") {
+          let filteredMsgs = tempMsgs.filter((msg) => msg._id !== _id);
+          setMessages({
+            ...messages,
+            [topic_id]: filteredMsgs,
+          });
+        }
+        if (action == "update") {
+          let index;
+          tempMsgs.forEach((msg, idx) => {
+            if (msg._id === _id) {
+              index = idx;
+            }
+
+            tempMsgs[index].reactions = incomingMsgUpdate.reactions;
+            tempMsgs[index].flames = incomingMsgUpdate.flames;
+            tempMsgs[index].message = incomingMsgUpdate.message;
+
+            setMessages({
+              ...messages,
+              [topic_id]: tempMsgs,
+            });
+          });
+        }
+      }
+    }
+  }, [incomingMsgUpdate]);
+
   // useEffect(() => {
   //   setTimeout(() => {
   //     if (messageEl && messageEl.current) {
@@ -70,6 +111,9 @@ const MessageWrapper = (props) => {
   const sortMessages = (msgs) => {
     return msgs.sort((a, b) => new Date(a.date) - new Date(b.date));
   };
+  const editMessage = (msg) => {
+    setEditMessageObj(msg);
+  };
 
   return (
     <>
@@ -77,10 +121,10 @@ const MessageWrapper = (props) => {
         {currentMessages &&
           currentMessages.length > 0 &&
           getAttachments(currentMessages || []).map((msg, index) => (
-            <Message msg={msg} key={index} />
+            <Message editMessageText={editMessage} msg={msg} key={index} />
           ))}
       </div>
-      <ChatTextEntry></ChatTextEntry>
+      <ChatTextEntry selectedEdit={editMessageObj}></ChatTextEntry>
     </>
   );
 };

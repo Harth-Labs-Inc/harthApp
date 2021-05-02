@@ -9,6 +9,7 @@ const SocketContext = createContext({});
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [incomingMsg, setIncomingMsg] = useState({});
+  const [incomingMsgUpdate, setIncomingMsgUpdate] = useState({});
   const [incomingTopic, setIncomingTopic] = useState({});
   const [unreadMsg, setUnreadMsg] = useState({});
   const [unreadMsgs, setUnreadMsgs] = useState([]);
@@ -65,6 +66,9 @@ export const SocketProvider = ({ children }) => {
           }
         });
       });
+      socket.on("new message update", (msg) => {
+        setIncomingMsgUpdate(msg);
+      });
     }
   }, [socket]);
 
@@ -92,8 +96,10 @@ export const SocketProvider = ({ children }) => {
   };
 
   const emitMessage = (chatroomName, msg, cb) => {
-    console.log("emit function");
     socket.emit("message", chatroomName, msg, cb);
+  };
+  const emitMessageUpdate = (chatroomName, msg, cb) => {
+    socket.emit("messageUpdate", chatroomName, msg, cb);
   };
 
   const getChatrooms = (cb) => {
@@ -103,6 +109,8 @@ export const SocketProvider = ({ children }) => {
   return (
     <SocketContext.Provider
       value={{
+        incomingMsgUpdate,
+        emitMessageUpdate,
         incomingTopic,
         newTopic,
         incomingMsg,

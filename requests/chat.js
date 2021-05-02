@@ -11,6 +11,28 @@ export const saveMessage = async (msg) => {
   }
 };
 
+export const deleteMessage = async (id) => {
+  try {
+    const res = await api.post(`/api/chat/deleteMessage`, {
+      id,
+    });
+    return res.data;
+  } catch (error) {
+    return { ok: 0 };
+  }
+};
+
+export const updateMessage = async (msg) => {
+  try {
+    const res = await api.post(`/api/chat/updateMessage`, {
+      msg,
+    });
+    return res.data;
+  } catch (error) {
+    return { ok: 0 };
+  }
+};
+
 export const getMessagesByTopic = async (id) => {
   try {
     const res = await api.post(`/api/chat/getMessagesByTopic`, {

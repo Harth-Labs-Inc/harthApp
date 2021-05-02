@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { saveMessage } from "../requests/chat";
+import { saveMessage, updateMessage } from "../requests/chat";
 import { useComms } from "../contexts/comms";
 import { useAuth } from "../contexts/auth";
 import { useSocket } from "../contexts/socket";
@@ -11,18 +11,20 @@ import "emoji-mart/css/emoji-mart.css";
 
 import { Grid } from "@giphy/react-components";
 import { GiphyFetch } from "@giphy/js-fetch-api";
-// use @giphy/js-fetch-api to fetch gifs, instantiate with your api key
 const gf = new GiphyFetch("WjzExVfWh0193VlCJbn1Z1L3tEG4Zrv0");
-// configure your fetch: fetch 10 gifs at a time as the user scrolls (offset is handled by the grid)
 const fetchGifs = (offset) => gf.trending({ offset, limit: 10 });
 
 const chatTextEntry = (props) => {
   const [message, setMessage] = useState("");
   const [attachments, setAttachments] = useState([]);
   const [emojiPickerState, setEmojiPicker] = useState(false);
+  const [selectedEditMsg, setSelectedEditMsg] = useState({});
+
   const { user } = useAuth();
   const { selectedcomm, selectedTopic } = useComms();
-  const { emitMessage } = useSocket();
+  const { emitMessage, emitMessageUpdate } = useSocket();
+
+  const { selectedEdit } = props;
 
   const textRef = useRef();
   const fileRef = useRef();
@@ -41,7 +43,10 @@ const chatTextEntry = (props) => {
     }
   }, [attachments]);
 
-  let emojiPicker;
+  useEffect(() => {
+    setMessage(selectedEdit.message);
+    setSelectedEditMsg(selectedEdit);
+  }, [selectedEdit]);
 
   const calcHeight = (value) => {
     let numberOfLineBreaks = (value.match(/\n/g) || []).length;
@@ -65,15 +70,19 @@ const chatTextEntry = (props) => {
         bookmarked: false,
         date: new Date(),
         message: message,
+        flames: [],
         reactions: [],
         attachments: [],
       };
 
       const data = await saveMessage(newMessage);
-      setAttachments([]);
+
       setMessage("");
       let { id, ok } = data;
       if (ok) {
+        if (id) {
+          newMessage._id = id;
+        }
         if (attachments.length > 0) {
           uploadAttacments(id, newMessage);
         } else {
@@ -83,6 +92,7 @@ const chatTextEntry = (props) => {
     }
   };
   const broadcastMessage = (message) => {
+    setAttachments([]);
     emitMessage(selectedTopic._id, message, async (err, status) => {
       if (err) {
         console.log(err);
@@ -118,50 +128,59 @@ const chatTextEntry = (props) => {
     const { files } = e.dataTransfer;
     addAttachment(files[0]);
   };
-  const uploadAttacments = (id, message) => {
-    attachments.forEach(async (file, idx) => {
-      let extention = file.name.split(".").pop();
-      let name = `${id}_${idx + 1}.${extention}`;
-
-      let bucket = "topic-message-attachments";
-      const data = await getUploadURL(name, file.type, bucket);
-      const { ok, msg, uploadURL } = data;
-      if (ok) {
-        let reader = new FileReader();
-        reader.addEventListener("loadend", async (event) => {
-          let result = await putImageInBucket(uploadURL, reader, file.type);
-          let { status } = result;
-          if (status == 200) {
-            let add = await addKeyToDB(id, name, file.type);
-            message.attachments.push(name);
+  const uploadAttacments = async (id, message) => {
+    let promises = [];
+    attachments.forEach((file, idx) => {
+      promises.push(
+        new Promise(async (res, rej) => {
+          let extention = file.name.split(".").pop();
+          let name = `${id}_${idx + 1}.${extention}`;
+          let bucket = "topic-message-attachments";
+          const data = await getUploadURL(name, file.type, bucket);
+          const { ok, msg, uploadURL } = data;
+          if (ok) {
+            let reader = new FileReader();
+            reader.addEventListener("loadend", async (event) => {
+              let result = await putImageInBucket(uploadURL, reader, file.type);
+              let { status } = result;
+              if (status == 200) {
+                let add = await addKeyToDB(id, name, file.type);
+                res({ name, fileType: file.type });
+              }
+            });
+            reader.readAsArrayBuffer(file);
           }
-        });
-        reader.readAsArrayBuffer(file);
-      }
+        })
+      );
     });
+
+    const outputs = await Promise.all(promises);
+    message.attachments = outputs;
     broadcastMessage(message);
   };
   const addEmoji = (e) => {
     setMessage(message + e.native);
     setEmojiPicker(!emojiPickerState);
   };
-  if (emojiPickerState) {
-    emojiPicker = (
-      <Picker
-        className="attach-emoji"
-        native={true}
-        onSelect={addEmoji}
-        emoji=""
-        color="#1d0a6c"
-        autoFocus={true}
-      />
-    );
-  }
-  function triggerPicker(event) {
+  const EmojiPicker = () => {
+    if (emojiPickerState) {
+      return (
+        <Picker
+          className="attach-emoji"
+          native={true}
+          onSelect={addEmoji}
+          emoji=""
+          color="#1d0a6c"
+          autoFocus={true}
+        />
+      );
+    }
+    return null;
+  };
+  const triggerPicker = (event) => {
     event.preventDefault();
     setEmojiPicker(!emojiPickerState);
-  }
-
+  };
   const ImageHolder = () => {
     if (attachments.length > 0) {
       return (
@@ -190,6 +209,48 @@ const chatTextEntry = (props) => {
     }
 
     return null;
+  };
+  const cancelEdit = () => {
+    setMessage("");
+    setSelectedEditMsg({});
+  };
+  const updateMsg = async () => {
+    let msg = selectedEditMsg;
+    msg.message = message;
+    const data = await updateMessage(msg);
+    msg.action = "update";
+    emitMessageUpdate(selectedEditMsg.topic_id, msg, async (err, status) => {
+      if (err) {
+        console.log(err);
+      }
+      let { ok } = status;
+      if (ok) {
+        console.log("message sent");
+        cancelEdit();
+      }
+    });
+  };
+  const MessageSubmits = () => {
+    if (Object.keys(selectedEditMsg).length > 0) {
+      return (
+        <div className="chat-controls">
+          <button className="cancel-edit" onClick={cancelEdit}>
+            cancel
+          </button>
+          <button className="send-message" onClick={updateMsg}>
+            send
+          </button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="chat-controls">
+          <button className="send-message" onClick={sendMessagge}>
+            send
+          </button>
+        </div>
+      );
+    }
   };
 
   return (
@@ -225,7 +286,7 @@ const chatTextEntry = (props) => {
           <button className="attach-emoji" onClick={triggerPicker}>
             attach emoji
           </button>
-          {emojiPicker}
+          <EmojiPicker />
           <button className="attach-gif">attach gif</button>
           {/* <Grid width={500} columns={3} fetchGifs={fetchGifs} /> */}
           <button onClick={openFileSelector} className="attach-file">
@@ -243,14 +304,7 @@ const chatTextEntry = (props) => {
           />
         </div>
 
-        <div className="chat-controls">
-          <button className="cancel-edit" onClick={sendMessagge}>
-            cancel
-          </button>
-          <button className="send-message" onClick={sendMessagge}>
-            send
-          </button>
-        </div>
+        <MessageSubmits />
       </div>
     </div>
   );

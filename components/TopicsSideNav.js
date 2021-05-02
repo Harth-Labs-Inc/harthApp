@@ -97,7 +97,6 @@ const TopicsNav = (props) => {
     const { ok, id } = data;
     if (ok) {
       topic._id = id;
-      addNewTopic(topic);
       setOpenTopicBuilder(false);
       if (id) {
         const results = await addRoomToUsers(userIds, id);
