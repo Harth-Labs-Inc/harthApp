@@ -9,6 +9,7 @@ import Message from "./Common/SingleMessage";
 const MessageWrapper = (props) => {
   const [currentMessages, setCurrentMessages] = useState([]);
   const [editMessageObj, setEditMessageObj] = useState({});
+  const [replyOwner, setReplyOwner] = useState({});
 
   const messageEl = useRef();
   const { messages, setMessages } = useChat();
@@ -80,9 +81,11 @@ const MessageWrapper = (props) => {
               index = idx;
             }
 
-            tempMsgs[index].reactions = incomingMsgUpdate.reactions;
-            tempMsgs[index].flames = incomingMsgUpdate.flames;
-            tempMsgs[index].message = incomingMsgUpdate.message;
+            if (tempMsgs[index]) {
+              tempMsgs[index].reactions = incomingMsgUpdate.reactions;
+              tempMsgs[index].flames = incomingMsgUpdate.flames;
+              tempMsgs[index].message = incomingMsgUpdate.message;
+            }
 
             setMessages({
               ...messages,
@@ -115,16 +118,43 @@ const MessageWrapper = (props) => {
     setEditMessageObj(msg);
   };
 
+  const DisplayedMessages = () => {
+    if (Object.keys(replyOwner).length > 0) {
+      console.log(replyOwner);
+      return getAttachments([
+        replyOwner,
+        ...(replyOwner.replies || []),
+      ]).map((msg, index) => (
+        <Message
+          editMessageText={editMessage}
+          msg={msg}
+          key={index}
+          setReplyOwner={setReplyOwner}
+        />
+      ));
+    }
+    return (
+      (currentMessages || []).length > 0 &&
+      getAttachments(currentMessages || []).map((msg, index) => (
+        <Message
+          editMessageText={editMessage}
+          msg={msg}
+          key={index}
+          setReplyOwner={setReplyOwner}
+        />
+      ))
+    );
+  };
+
   return (
     <>
       <div id="topic_active_messages" ref={messageEl}>
-        {currentMessages &&
-          currentMessages.length > 0 &&
-          getAttachments(currentMessages || []).map((msg, index) => (
-            <Message editMessageText={editMessage} msg={msg} key={index} />
-          ))}
+        <DisplayedMessages />
       </div>
-      <ChatTextEntry selectedEdit={editMessageObj}></ChatTextEntry>
+      <ChatTextEntry
+        selectedEdit={editMessageObj}
+        isReply={Object.keys(replyOwner).length > 0}
+      ></ChatTextEntry>
     </>
   );
 };

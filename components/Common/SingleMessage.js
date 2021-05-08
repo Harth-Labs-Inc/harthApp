@@ -26,7 +26,7 @@ const Message = (props) => {
     flames,
     topic_id,
   } = props.msg;
-  const { editMessageText } = props;
+  const { editMessageText, setReplyOwner } = props;
 
   const { user } = useAuth();
   const { emitMessageUpdate } = useSocket();
@@ -128,8 +128,19 @@ const Message = (props) => {
     return timeStamp;
   };
   const addFlame = () => {
-    let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
-    flames.push(creator.name);
+    let index;
+    flames.forEach((flame, idx) => {
+      if (flame.id == user._id) {
+        index = idx;
+      }
+    });
+    if (index >= 0) {
+      flames.splice(index, 1);
+    } else {
+      let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
+      flames.push({ name: creator.name, id: user._id });
+    }
+
     updateMsg();
   };
   const triggerPicker = (e) => {
@@ -140,6 +151,9 @@ const Message = (props) => {
     reactions.push(e.native);
     updateMsg();
     setEmojiPicker(!emojiPickerState);
+  };
+  const addReplyOwner = () => {
+    setReplyOwner(props.msg);
   };
   const EmojiPicker = () => {
     if (emojiPickerState) {
@@ -199,8 +213,13 @@ const Message = (props) => {
             >
               react
             </button>
-            <button value="share" title="share" className="share">
-              share
+            <button
+              value="reply"
+              title="reply"
+              className="reply"
+              onClick={addReplyOwner}
+            >
+              reply
             </button>
             <button
               value="edit"
@@ -239,8 +258,13 @@ const Message = (props) => {
             >
               react
             </button>
-            <button value="share" title="share" className="share">
-              share
+            <button
+              value="reply"
+              title="reply"
+              className="reply"
+              onClick={addReplyOwner}
+            >
+              reply
             </button>
           </div>
         );
@@ -271,8 +295,14 @@ const Message = (props) => {
           <img src={url} key={url} />
         ))}
         <p className="message_content">{message}</p>
-        {flames || [].map((flame) => <p title={flame}>flame</p>)}
-        {reactions || [].map((reaction) => <p>{reaction}</p>)}
+        <div className="message_reaction_wrapper">
+          {[...flames].map((flame) => (
+            <p className="message_reaction_flame" title={flame.name}></p>
+          ))}
+          {[...reactions].map((reaction) => (
+            <p>{reaction}</p>
+          ))}
+        </div>
       </div>
     </div>
   );

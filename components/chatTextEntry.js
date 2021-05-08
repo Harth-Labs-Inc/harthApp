@@ -24,7 +24,7 @@ const chatTextEntry = (props) => {
   const { selectedcomm, selectedTopic } = useComms();
   const { emitMessage, emitMessageUpdate } = useSocket();
 
-  const { selectedEdit } = props;
+  const { selectedEdit, isReply } = props;
 
   const textRef = useRef();
   const fileRef = useRef();
@@ -73,6 +73,7 @@ const chatTextEntry = (props) => {
         flames: [],
         reactions: [],
         attachments: [],
+        replies: [],
       };
 
       const data = await saveMessage(newMessage);

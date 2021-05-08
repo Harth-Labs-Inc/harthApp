@@ -56,6 +56,7 @@ const SideNav = (props) => {
                       ""
                     )}
                   </button>
+                  <span>{com.name}</span>
                 </li>
               );
             })}

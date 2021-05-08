@@ -69,14 +69,18 @@
 
     #topic_messages_container {
       position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: calc(100vh - 101px);
+      padding: 0 16px;
     }
 
     #topic_active_messages {
       display: flex;
       flex-direction: column;
-      height: 74vh;
-      padding: 0 16px;
-      overflow-y: scroll;
+      height: 100%;
+      overflow-y: auto;
     }
   }
 }

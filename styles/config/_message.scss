@@ -4,6 +4,13 @@
   padding-top: 12px;
   padding-bottom: 6px;
 
+  .emoji-mart {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    z-index: 999;
+  }
+
   > span img,
   .message_no_image {
     height: 40px;
@@ -27,6 +34,26 @@
   .message-body {
     img {
       max-width: 100%;
+    }
+
+    .message_reaction_wrapper {
+      display: flex;
+
+      .message_reaction_flame {
+        position: relative;
+        height: 32px;
+        width: 26px;
+        &:before {
+          @include x-y-center;
+          @include font-icon($icon-fire);
+          color: #ee5500;
+          font-size: 26px;
+        }
+
+        &:not(:first-of-type) {
+          margin-left: -10px;
+        }
+      }
     }
   }
 
@@ -65,7 +92,7 @@
     top: 0;
     right: 0;
 
-    button {
+    > button {
       position: relative;
       height: 40px;
       width: 40px;
@@ -77,6 +104,11 @@
       border: 4px solid #fff;
       border-radius: 50%;
       cursor: pointer;
+
+      &:hover {
+        background-color: #ee5500;
+      }
+
       &:before {
         @include x-y-center;
         font-size: 16px;
@@ -92,9 +124,9 @@
           @include font-icon($icon-emoji);
         }
       }
-      &.share {
+      &.reply {
         &:before {
-          @include font-icon($icon-share);
+          @include font-icon($icon-reply);
         }
       }
       &.edit {
@@ -103,6 +135,9 @@
         }
       }
       &.delete {
+        &:hover {
+          background-color: #b00020;
+        }
         &:before {
           @include font-icon($icon-delete);
         }

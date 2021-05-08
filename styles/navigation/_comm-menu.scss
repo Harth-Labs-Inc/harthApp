@@ -1,15 +1,28 @@
 #left_nav_comms {
+  width: 56px;
   margin: 0;
   padding: 0;
   list-style: none;
 
+  &:hover {
+    width: 176px;
+
+    li {
+      span {
+        width: calc(100% - 40px);
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
   li {
+    display: flex;
     position: relative;
     height: 48px;
-    width: 56px;
+    width: 100%;
     padding: 4px 8px;
     background-color: transparent;
-    transition: background-color 0.3s;
 
     button {
       height: 40px;
@@ -18,6 +31,7 @@
       border: 0;
       border-radius: 8px;
       cursor: pointer;
+      transition: border 0.3s;
 
       img {
         height: 100%;
@@ -26,38 +40,53 @@
       }
     }
 
+    span {
+      width: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s 0.3s;
+    }
+
     &.active {
-      background-color: $black04;
       &:before {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
+        @include y-center;
+        right: -1px;
+        height: 48px;
         width: 2px;
         content: "";
-        background-color: $blarg-purple;
+        background-color: #333;
+      }
+      button {
+        border: 3px solid #333;
       }
     }
 
     &:hover {
-      background-color: $black04;
+      button {
+        border: 3px solid #333;
+      }
     }
 
     &#left_nav_comms_new {
       button {
+        position: relative;
         background-color: transparent;
-        border-radius: 50%;
-        transition: background-color 0.3s;
+        border: 1px dashed #eaeaea;
+        transition: border 0.3s;
         &:before {
           @include x-y-center;
           @include font-icon($icon-plus);
+          color: #eaeaea;
+          transition: color 0.3s;
         }
       }
 
       &:hover {
-        background-color: transparent;
         button {
-          background-color: $black04;
+          border-color: #333;
+          &:before {
+            color: #333;
+          }
         }
       }
     }
