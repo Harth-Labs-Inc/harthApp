@@ -1,12 +1,14 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useComms } from "./comms";
-import { getMessagesByTopic } from "../requests/chat";
+import { getMessagesByTopic, getRepliesByOwner } from "../requests/chat";
 
 const ChatContext = createContext({});
 
 export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState({});
   const { selectedTopic } = useComms();
+  const [replies, setReplies] = useState({});
+  const [selectedReplyOwner, setSelectedReplyOwner] = useState({});
 
   useEffect(() => {
     if (selectedTopic && selectedTopic._id) {
@@ -24,6 +26,25 @@ export const ChatProvider = ({ children }) => {
       }
     }
   }, [selectedTopic]);
+
+  useEffect(() => {
+    if (selectedReplyOwner && selectedReplyOwner._id) {
+      console.log(selectedReplyOwner._id);
+      if (!(selectedReplyOwner._id in replies)) {
+        messages[selectedReplyOwner._id] = [];
+
+        (async () => {
+          let data = await getRepliesByOwner(selectedReplyOwner._id);
+
+          const { ok, fetchResults } = data;
+          if (ok) {
+            setReplies({ ...replies, [selectedReplyOwner._id]: fetchResults });
+          }
+        })();
+      }
+    }
+  }, [selectedReplyOwner]);
+
   const setComm = async (comm) => {};
 
   return (
@@ -32,6 +53,10 @@ export const ChatProvider = ({ children }) => {
         setComm,
         messages,
         setMessages,
+        setSelectedReplyOwner,
+        replies,
+        setReplies,
+        selectedReplyOwner,
       }}
     >
       {children}

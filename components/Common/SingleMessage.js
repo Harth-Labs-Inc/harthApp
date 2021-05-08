@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getDownloadURL } from "../../requests/s3";
-import { deleteMessage, updateMessage } from "../../requests/chat";
+import { deleteMessage, updateMessage, updateReply } from "../../requests/chat";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
+import { useChat } from "../../contexts/chat";
 import { useComms } from "../../contexts/comms";
 import Modal from "../Modal";
 import { Picker } from "emoji-mart";
@@ -21,16 +22,18 @@ const Message = (props) => {
     creator_id,
     creator_name,
     message,
-    attachments,
-    reactions,
-    flames,
+    attachments = [],
+    reactions = [],
+    flames = [],
+    replies = [],
     topic_id,
   } = props.msg;
-  const { editMessageText, setReplyOwner } = props;
+  const { editMessageText, isReply } = props;
 
   const { user } = useAuth();
   const { emitMessageUpdate } = useSocket();
   const { selectedcomm } = useComms();
+  const { setSelectedReplyOwner } = useChat();
 
   useEffect(() => {
     (async () => {
@@ -82,7 +85,12 @@ const Message = (props) => {
   };
   const updateMsg = async () => {
     let msg = props.msg;
-    const data = await updateMessage(msg);
+    if (isReply) {
+      const data = await updateReply(msg);
+    } else {
+      const data = await updateMessage(msg);
+    }
+
     msg.action = "update";
     emitMessageUpdate(topic_id, msg, async (err, status) => {
       if (err) {
@@ -153,7 +161,7 @@ const Message = (props) => {
     setEmojiPicker(!emojiPickerState);
   };
   const addReplyOwner = () => {
-    setReplyOwner(props.msg);
+    setSelectedReplyOwner(props.msg);
   };
   const EmojiPicker = () => {
     if (emojiPickerState) {
@@ -296,10 +304,11 @@ const Message = (props) => {
         ))}
         <p className="message_content">{message}</p>
         <div className="message_reaction_wrapper">
-          {[...flames].map((flame) => (
+          {[...(replies || [])].length > 0 ? <p>{replies.length}</p> : null}
+          {[...(flames || [])].map((flame) => (
             <p className="message_reaction_flame" title={flame.name}></p>
           ))}
-          {[...reactions].map((reaction) => (
+          {[...(reactions || [])].map((reaction) => (
             <p>{reaction}</p>
           ))}
         </div>

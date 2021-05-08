@@ -1,5 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { saveMessage, updateMessage } from "../requests/chat";
+import {
+  saveMessage,
+  updateMessage,
+  saveMessageReply,
+  addReplyID,
+} from "../requests/chat";
 import { useComms } from "../contexts/comms";
 import { useAuth } from "../contexts/auth";
 import { useSocket } from "../contexts/socket";
@@ -24,7 +29,7 @@ const chatTextEntry = (props) => {
   const { selectedcomm, selectedTopic } = useComms();
   const { emitMessage, emitMessageUpdate } = useSocket();
 
-  const { selectedEdit, isReply } = props;
+  const { selectedEdit, isReply, replyOwner } = props;
 
   const textRef = useRef();
   const fileRef = useRef();
@@ -83,6 +88,47 @@ const chatTextEntry = (props) => {
       if (ok) {
         if (id) {
           newMessage._id = id;
+        }
+        if (attachments.length > 0) {
+          uploadAttacments(id, newMessage);
+        } else {
+          broadcastMessage(newMessage);
+        }
+      }
+    }
+  };
+  const sendReply = async () => {
+    if (selectedTopic) {
+      let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
+
+      let newMessage = {
+        creator_id: user._id,
+        creator_name: creator.name,
+        creator_image: creator.iconKey,
+        topic_id: selectedTopic._id,
+        comm_id: selectedcomm._id,
+        bookmarked: false,
+        date: new Date(),
+        message: message,
+        owner_id: replyOwner._id,
+        flames: [],
+        reactions: [],
+        attachments: [],
+        replies: [],
+      };
+
+      const data = await saveMessageReply(newMessage);
+
+      setMessage("");
+      let { id, ok } = data;
+      if (ok) {
+        if (id) {
+          newMessage._id = id;
+          const addReply = await addReplyID(
+            id,
+            replyOwner._id,
+            replyOwner.owner_id ? true : false
+          );
         }
         if (attachments.length > 0) {
           uploadAttacments(id, newMessage);
@@ -246,7 +292,16 @@ const chatTextEntry = (props) => {
     } else {
       return (
         <div className="chat-controls">
-          <button className="send-message" onClick={sendMessagge}>
+          <button
+            className="send-message"
+            onClick={() => {
+              if (isReply) {
+                sendReply();
+              } else {
+                sendMessagge();
+              }
+            }}
+          >
             send
           </button>
         </div>
