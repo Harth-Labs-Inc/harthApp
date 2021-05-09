@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useComms } from "../contexts/comms";
 import { useChat } from "../contexts/chat";
 import { useSocket } from "../contexts/socket";
@@ -11,6 +11,10 @@ const MessageWrapper = (props) => {
   const [currentReplies, setCurrentReplies] = useState([]);
   const [topicInputs, setTopicInputs] = useState({});
   const [editMessageObj, setEditMessageObj] = useState({});
+  const [bottom, setBottom] = useState(null);
+  const [inview, setInview] = useState(null);
+  const [displayScrollButton, setDisplayScrollButton] = useState(false);
+  const bottomObserver = useRef(null);
   const {
     messages,
     setMessages,
@@ -26,6 +30,39 @@ const MessageWrapper = (props) => {
     incomingMsgUpdate,
   } = useSocket();
 
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+
+        if (entry.isIntersecting) {
+          console.log("in view");
+          setInview(true);
+          setDisplayScrollButton(false);
+        } else {
+          console.log("out of view");
+          setInview(false);
+        }
+      },
+      { threshold: 0.25, rootMargin: "50px" }
+    );
+    bottomObserver.current = observer;
+  }, []);
+
+  useEffect(() => {
+    const observer = bottomObserver.current;
+    if (bottom) {
+      observer.observe(bottom);
+    }
+    return () => {
+      if (bottom) {
+        observer.unobserve(bottom);
+      }
+    };
+  }, [bottom]);
+
   useEffect(() => {
     if (messages && selectedTopic) {
       let tempMsgs = [...(messages[selectedTopic._id] || [])];
@@ -39,6 +76,11 @@ const MessageWrapper = (props) => {
 
         let tempUnread = unreadMsgs.filter((msg) => !readIds.includes(msg._id));
         setUnreadMsgs(tempUnread);
+      }
+      if (inview) {
+        scrollToBottom("smooth");
+      } else {
+        setDisplayScrollButton(true);
       }
 
       setCurrentMessages(tempMsgs);
@@ -58,7 +100,7 @@ const MessageWrapper = (props) => {
         let tempReplyObj = {};
         let tempReplies = replies[owner_id];
         if (tempReplies) {
-          let msgs = [...tempReplies, incomingMsg];
+          let msgs = [incomingMsg, ...tempReplies];
           tempReplyObj = { ...replies, [owner_id]: msgs };
           for (let [owner, arr] of Object.entries(tempReplyObj || [])) {
             arr.forEach((rply) => {
@@ -102,7 +144,7 @@ const MessageWrapper = (props) => {
       } else {
         let tempMsgs = messages[topic_id];
         if (tempMsgs && topic_id) {
-          let msgs = [...tempMsgs, incomingMsg];
+          let msgs = [incomingMsg, ...tempMsgs];
           setMessages({
             ...messages,
             [topic_id]: msgs,
@@ -178,21 +220,35 @@ const MessageWrapper = (props) => {
     }
   }, [replies, selectedReplyOwner]);
 
-  const sortMessages = (msgs) => {
-    return msgs.sort((a, b) => new Date(a.date) - new Date(b.date));
-  };
   const editMessage = (msg) => {
     setEditMessageObj(msg);
   };
-
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+  const ScrollButton = () => {
+    if (displayScrollButton) {
+      return (
+        <button onClick={scrollToBottom} className="scroll-to-bottom">
+          New Message
+        </button>
+      );
+    }
+    return null;
+  };
   return (
     <>
       <div id="topic_active_messages">
+        <div ref={messagesEndRef} />
+        <div ref={setBottom} />
         {Object.keys(selectedReplyOwner).length > 0
-          ? sortMessages([
+          ? [
               selectedReplyOwner,
               ...(currentReplies || []),
-            ]).map((msg, index) => (
+            ].map((msg, index) => (
               <Message
                 editMessageText={editMessage}
                 msg={msg}
@@ -201,9 +257,10 @@ const MessageWrapper = (props) => {
               />
             ))
           : (currentMessages || []).length > 0 &&
-            sortMessages(currentMessages || []).map((msg, index) => (
+            (currentMessages || []).map((msg, index) => (
               <Message editMessageText={editMessage} msg={msg} key={msg._id} />
             ))}
+        <ScrollButton />
       </div>
       <ChatTextEntry
         selectedEdit={editMessageObj}

@@ -20,7 +20,10 @@ export const ChatProvider = ({ children }) => {
 
           const { ok, fetchResults } = data;
           if (ok) {
-            setMessages({ ...messages, [selectedTopic._id]: fetchResults });
+            setMessages({
+              ...messages,
+              [selectedTopic._id]: sortMessages(fetchResults),
+            });
           }
         })();
       }
@@ -46,6 +49,9 @@ export const ChatProvider = ({ children }) => {
   }, [selectedReplyOwner]);
 
   const setComm = async (comm) => {};
+  const sortMessages = (msgs) => {
+    return msgs.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
+  };
 
   return (
     <ChatContext.Provider

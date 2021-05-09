@@ -4,6 +4,16 @@
   #topic_active {
     width: calc(100% - 240px);
 
+    .scroll-to-bottom {
+      position: absolute;
+      right: 47%;
+      bottom: 15%;
+      z-index: 999;
+      color: $white;
+      background-color: #333;
+      border: 0;
+    }
+
     &.topic-edit-active {
       width: calc(100% - 596px);
     }
@@ -96,7 +106,7 @@
 
     #topic_active_messages {
       display: flex;
-      flex-direction: column;
+      flex-direction: column-reverse;
       height: 100%;
       overflow-y: auto;
     }
