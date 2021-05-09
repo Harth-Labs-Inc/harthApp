@@ -20,19 +20,16 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      //-------------- dev ----------------------
+      let urls = {
+        development: "http://localhost:3030",
+        production: "https://project-blarg-socket.herokuapp.com",
+      };
+
       setSocket(
-        io.connect("http://localhost:3030", {
+        io.connect(urls[process.env.NODE_ENV], {
           transports: ["websocket"],
         })
       );
-
-      // -------------- production ----------------------
-      // setSocket(
-      //   io.connect("https://project-blarg-socket.herokuapp.com", {
-      //     transports: ["websocket"],
-      //   })
-      // );
     }
   }, [user]);
 

@@ -291,7 +291,7 @@ const Message = (props) => {
       onMouseLeave={() => toggleEdit(false)}
     >
       <DeleteModal />
-      {/* <CreatorImage /> */}
+      <CreatorImage />
       <EmojiPicker />
       <EditBar />
       <div className="message-body">

@@ -11,11 +11,13 @@
     z-index: 999;
   }
 
-  > span img,
+  > img,
   .message_no_image {
     height: 40px;
     width: 40px;
     margin-right: 8px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .message_no_image {
