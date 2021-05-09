@@ -278,13 +278,18 @@ const chatTextEntry = (props) => {
     });
   };
   const MessageSubmits = () => {
+    const isDisabled = (message || "").trim().length === 0;
     if (Object.keys(selectedEditMsg).length > 0) {
       return (
         <div className="chat-controls">
           <button className="cancel-edit" onClick={cancelEdit}>
             cancel
           </button>
-          <button className="send-message" onClick={updateMsg}>
+          <button
+            className="send-message"
+            disabled={isDisabled}
+            onClick={updateMsg}
+          >
             send
           </button>
         </div>
@@ -294,6 +299,7 @@ const chatTextEntry = (props) => {
         <div className="chat-controls">
           <button
             className="send-message"
+            disabled={isDisabled}
             onClick={() => {
               if (isReply) {
                 sendReply();

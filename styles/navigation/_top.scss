@@ -3,62 +3,41 @@
   align-items: center;
   margin-right: 16px;
   button {
+    display: flex;
+    align-items: center;
     position: relative;
+    margin-right: 40px;
     height: 56px;
-    width: 72px;
+    color: #777;
+    font-size: 14px;
     background-color: transparent;
     border: 0;
     cursor: pointer;
-    transition: background-color 0.3s;
 
     &:before {
-      @include x-y-center;
-      color: $black50;
-      font-size: 24px;
-      transition: color 0.3s;
-    }
-    &:after {
-      @include x-center;
-      bottom: 0;
-      height: 2px;
-      width: 0%;
-      content: "";
-      background-color: $bg-purple;
-      transition: width 0.3s;
+      margin-right: 8px;
+      color: inherit;
+      font-size: 18px;
     }
 
     &#chat {
       &:before {
-        @include font-icon($icon-books);
-      }
-    }
-    &#notifications {
-      &:before {
         @include font-icon($icon-chat);
       }
     }
-    &#games {
+    &#notes {
+      &:before {
+        @include font-icon($icon-note);
+      }
+    }
+    &#gather {
       &:before {
         @include font-icon($icon-game);
       }
     }
-    &#calendar {
+    &#events {
       &:before {
         @include font-icon($icon-calendar);
-      }
-    }
-
-    &:hover {
-      &:after {
-        width: 100%;
-      }
-    }
-    &.active {
-      &:before {
-        color: $bg-purple;
-      }
-      &:after {
-        width: 100%;
       }
     }
   }

@@ -304,10 +304,14 @@ const Message = (props) => {
         ))}
         <p className="message_content">{message}</p>
         <div className="message_reaction_wrapper">
-          {[...(replies || [])].length > 0 ? <p>{replies.length}</p> : null}
-          {[...(flames || [])].map((flame) => (
-            <p className="message_reaction_flame" title={flame.name}></p>
-          ))}
+          {[...(replies || [])].length > 0 ? (
+            <p className="message_reply_count">{replies.length}</p>
+          ) : null}
+          <div className="message_flame_wrapper">
+            {[...(flames || [])].map((flame) => (
+              <p className="message_reaction_flame" title={flame.name}></p>
+            ))}
+          </div>
           {[...(reactions || [])].map((reaction) => (
             <p>{reaction}</p>
           ))}

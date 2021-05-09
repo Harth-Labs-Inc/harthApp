@@ -6,7 +6,13 @@
   grid-area: aside;
   position: relative;
   z-index: 1;
+  width: 56px;
   padding-bottom: 4px;
+  background-color: $white;
   border-right: 1px solid #e0e0e0;
   transition: width 0.3s;
+
+  &.expand {
+    width: 176px;
+  }
 }

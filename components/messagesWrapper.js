@@ -214,7 +214,6 @@ const MessageWrapper = (props) => {
     if (Object.keys(selectedReplyOwner).length > 0) {
       return (
         <>
-          <button onClick={removeReplyOwner}>back</button>
           {sortMessages([selectedReplyOwner, ...(currentReplies || [])]).map(
             (msg, index) => (
               <Message

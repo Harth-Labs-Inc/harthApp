@@ -68,34 +68,42 @@ const TopNav = (props) => {
             onClick={() => {
               changePage("chat");
             }}
-          ></button>
+          >
+            Chat
+          </button>
 
           <button
             role="nav-item"
-            id="notifications"
-            aria-label="Notifications"
-            className={currentPage == "notifications" ? "active" : ""}
-          ></button>
+            id="notes"
+            aria-label="Notes"
+            className={currentPage == "notes" ? "active" : ""}
+          >
+            Notes
+          </button>
 
           <button
             role="nav-item"
-            id="games"
-            aria-label="Games"
-            className={currentPage == "game" ? "active" : ""}
+            id="gather"
+            aria-label="Gather"
+            className={currentPage == "gather" ? "active" : ""}
             onClick={() => {
-              changePage("game");
+              changePage("gather");
             }}
-          ></button>
+          >
+            Gather
+          </button>
 
           <button
             role="nav-item"
-            id="calendar"
+            id="events"
             aria-label="Community Events Calendar"
             className={currentPage == "events" ? "active" : ""}
             onClick={() => {
               changePage("events");
             }}
-          ></button>
+          >
+            Events
+          </button>
         </div>
         <button
           id="account-btn"

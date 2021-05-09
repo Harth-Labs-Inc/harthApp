@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useComms } from "../contexts/comms";
 import Modal from "./Modal";
 import CommBuilder from "../pages/comm";
@@ -8,6 +8,8 @@ const SideNav = (props) => {
 
   const { comms, setComm, selectedcomm, setTopic } = useComms();
 
+  let leftNav = useRef();
+
   const changeSelectedCom = (com) => {
     setComm(com);
     setTopic({});
@@ -16,6 +18,14 @@ const SideNav = (props) => {
   const openCreateComm = () => {
     setOpenCommBuilder(true);
   };
+
+  const expandMenu = () => {
+    leftNav.current.className = "expand";
+  };
+  const collapseMenu = () => {
+    leftNav.current.className = "";
+  };
+
   return (
     <>
       {openCommBuilder ? (
@@ -25,8 +35,12 @@ const SideNav = (props) => {
       ) : (
         ""
       )}
-      <aside id="left_nav">
-        <ul id="left_nav_comms">
+      <aside id="left_nav" ref={leftNav}>
+        <ul
+          id="left_nav_comms"
+          onMouseOver={expandMenu}
+          onMouseLeave={collapseMenu}
+        >
           {comms &&
             comms.map((com) => {
               return (
@@ -42,21 +56,15 @@ const SideNav = (props) => {
                       changeSelectedCom(com);
                     }}
                     aria-label={com.name}
+                    className={com.iconKey ? "hasImage" : ""}
                   >
                     {com.iconKey ? (
-                      <img
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                          objectFit: "cover",
-                        }}
-                        src={com.iconKey}
-                      />
+                      <img className="comm-icon" src={com.iconKey} />
                     ) : (
-                      ""
+                      <span className="comm-icon"></span>
                     )}
+                    <span className="comm-name">{com.name}</span>
                   </button>
-                  <span>{com.name}</span>
                 </li>
               );
             })}
@@ -69,11 +77,7 @@ const SideNav = (props) => {
           onClick={props.onToggleMenu}
           aria-label="Toggle Main Menu"
           id="menu-toggle"
-        >
-          <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
-        </button>
+        ></button>
       </aside>
     </>
   );

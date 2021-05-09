@@ -1,14 +1,35 @@
 import React, { useState } from "react";
 import { useComms } from "../contexts/comms";
+import { useChat } from "../contexts/chat";
 
 const TopicsMenu = (props) => {
   const { selectedTopic } = useComms();
   const { on_toggle_panel } = props;
   const { on_bookmark } = props;
 
+  const { selectedReplyOwner, setSelectedReplyOwner } = useChat();
+
+  const removeReplyOwner = () => {
+    setSelectedReplyOwner({});
+  };
+
+  const TopicTitle = () => {
+    if (Object.keys(selectedReplyOwner).length > 0) {
+      return (
+        <>
+          <p id="topic_title">
+            <button onClick={removeReplyOwner}>back</button> Side Conversation
+          </p>
+        </>
+      );
+    } else {
+      return <p id="topic_title">{(selectedTopic || {}).title}</p>;
+    }
+  };
+
   return (
     <header>
-      <p id="topic_title">{(selectedTopic || {}).title}</p>{" "}
+      <TopicTitle />
       <span>
         <button id="topic_bookmark" onClick={on_bookmark}>
           bookmark

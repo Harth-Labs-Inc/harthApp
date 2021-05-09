@@ -87,6 +87,11 @@
         &:before {
           @include font-icon($icon-check);
         }
+        &:not(:disabled) {
+          &:before {
+            color: #ee5500;
+          }
+        }
       }
     }
 

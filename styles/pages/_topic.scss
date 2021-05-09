@@ -13,10 +13,28 @@
       align-items: center;
       justify-content: space-between;
       padding: 6px 16px;
-      border-bottom: 1px solid #e0e0e0;
 
       p {
+        display: flex;
+        align-items: center;
         margin: 0;
+        color: #9a9a9a9a;
+        font-size: 12px;
+        font-weight: bold;
+
+        button {
+          position: relative;
+          height: 40px;
+          width: 40px;
+          font-size: 0;
+          background-color: transparent;
+          border: 0;
+          &:before {
+            @include x-y-center;
+            @include font-icon($icon-back);
+            font-size: 14px;
+          }
+        }
       }
 
       #topic_bookmark {
