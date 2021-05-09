@@ -1,23 +1,40 @@
 .top-buttons {
   display: flex;
   align-items: center;
-  margin-right: 16px;
+  margin-right: $gutter * 2;
   button {
     display: flex;
     align-items: center;
     position: relative;
-    margin-right: 40px;
+    margin-right: $gutter * 5;
     height: 56px;
-    color: #777;
+    color: $icon-grey;
     font-size: 14px;
     background-color: transparent;
     border: 0;
     cursor: pointer;
+    transition: color 0.3s;
 
     &:before {
-      margin-right: 8px;
+      margin-right: $gutter;
       color: inherit;
       font-size: 18px;
+    }
+
+    &:hover {
+      color: $black;
+    }
+
+    &.active {
+      color: $black;
+      &:after {
+        @include x-center;
+        bottom: 0;
+        height: 2px;
+        width: 100%;
+        content: "";
+        background-color: $black;
+      }
     }
 
     &#chat {

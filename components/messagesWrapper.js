@@ -215,7 +215,11 @@ const MessageWrapper = (props) => {
   useEffect(() => {
     if (replies && selectedReplyOwner) {
       let tempReplies = [...(replies[selectedReplyOwner._id] || [])];
-
+      if (inview) {
+        scrollToBottom("smooth");
+      } else {
+        setDisplayScrollButton(true);
+      }
       setCurrentReplies(tempReplies);
     }
   }, [replies, selectedReplyOwner]);
@@ -246,8 +250,8 @@ const MessageWrapper = (props) => {
         <div ref={setBottom} />
         {Object.keys(selectedReplyOwner).length > 0
           ? [
-              selectedReplyOwner,
               ...(currentReplies || []),
+              selectedReplyOwner,
             ].map((msg, index) => (
               <Message
                 editMessageText={editMessage}

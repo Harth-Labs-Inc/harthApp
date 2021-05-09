@@ -41,7 +41,10 @@ export const ChatProvider = ({ children }) => {
 
           const { ok, fetchResults } = data;
           if (ok) {
-            setReplies({ ...replies, [selectedReplyOwner._id]: fetchResults });
+            setReplies({
+              ...replies,
+              [selectedReplyOwner._id]: fetchResults.reverse(),
+            });
           }
         })();
       }

@@ -15,7 +15,7 @@
   .message_no_image {
     height: 40px;
     width: 40px;
-    margin-right: 8px;
+    margin-right: $gutter;
     border-radius: 50%;
     object-fit: cover;
   }
@@ -34,6 +34,7 @@
   }
 
   .message-body {
+    max-width: calc(100% - 48px);
     img {
       max-width: 100%;
     }
@@ -43,7 +44,7 @@
       align-items: center;
 
       > * {
-        margin-right: 8px;
+        margin-right: $gutter;
       }
 
       .message_reply_count {
@@ -69,7 +70,7 @@
         }
 
         &:not(:first-of-type) {
-          margin-left: -10px;
+          margin-left: $gutter;
         }
       }
     }
@@ -101,7 +102,7 @@
   }
 
   .message_content {
-    margin-bottom: 4px;
+    margin-bottom: $gutter / 2;
     font-size: 14px;
     line-height: 16px;
   }
@@ -115,7 +116,7 @@
       position: relative;
       height: 40px;
       width: 40px;
-      margin: 0 4px;
+      margin: 0 $gutter / 2;
       padding: 0;
       color: #fff;
       font-size: 0;
