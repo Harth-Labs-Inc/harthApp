@@ -9,7 +9,7 @@ import Message from "./Common/SingleMessage";
 const MessageWrapper = (props) => {
   const [currentMessages, setCurrentMessages] = useState([]);
   const [currentReplies, setCurrentReplies] = useState([]);
-
+  const [topicInputs, setTopicInputs] = useState({});
   const [editMessageObj, setEditMessageObj] = useState({});
   const {
     messages,
@@ -209,6 +209,8 @@ const MessageWrapper = (props) => {
         selectedEdit={editMessageObj}
         isReply={Object.keys(selectedReplyOwner).length > 0}
         replyOwner={selectedReplyOwner}
+        topicInputs={topicInputs}
+        setTopicInputs={setTopicInputs}
       ></ChatTextEntry>
     </>
   );

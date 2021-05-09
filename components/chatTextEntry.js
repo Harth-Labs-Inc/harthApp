@@ -20,7 +20,6 @@ const gf = new GiphyFetch("WjzExVfWh0193VlCJbn1Z1L3tEG4Zrv0");
 const fetchGifs = (offset) => gf.trending({ offset, limit: 10 });
 
 const chatTextEntry = (props) => {
-  const [message, setMessage] = useState("");
   const [attachments, setAttachments] = useState([]);
   const [emojiPickerState, setEmojiPicker] = useState(false);
   const [selectedEditMsg, setSelectedEditMsg] = useState({});
@@ -29,7 +28,13 @@ const chatTextEntry = (props) => {
   const { selectedcomm, selectedTopic } = useComms();
   const { emitMessage, emitMessageUpdate } = useSocket();
 
-  const { selectedEdit, isReply, replyOwner } = props;
+  const {
+    selectedEdit,
+    isReply,
+    replyOwner,
+    topicInputs,
+    setTopicInputs,
+  } = props;
 
   const textRef = useRef();
   const fileRef = useRef();
@@ -49,7 +54,10 @@ const chatTextEntry = (props) => {
   }, [attachments]);
 
   useEffect(() => {
-    setMessage(selectedEdit.message);
+    setTopicInputs({
+      ...topicInputs,
+      [selectedTopic._id]: selectedEdit.message,
+    });
     setSelectedEditMsg(selectedEdit);
   }, [selectedEdit]);
 
@@ -60,7 +68,7 @@ const chatTextEntry = (props) => {
   };
   const inputHandler = (e) => {
     const { value } = e.target;
-    setMessage(value);
+    setTopicInputs({ ...topicInputs, [selectedTopic._id]: value });
   };
   const sendMessagge = async () => {
     if (selectedTopic) {
@@ -74,7 +82,7 @@ const chatTextEntry = (props) => {
         comm_id: selectedcomm._id,
         bookmarked: false,
         date: new Date(),
-        message: message,
+        message: topicInputs[selectedTopic._id],
         flames: [],
         reactions: [],
         attachments: [],
@@ -83,7 +91,6 @@ const chatTextEntry = (props) => {
 
       const data = await saveMessage(newMessage);
 
-      setMessage("");
       let { id, ok } = data;
       if (ok) {
         if (id) {
@@ -109,7 +116,7 @@ const chatTextEntry = (props) => {
         comm_id: selectedcomm._id,
         bookmarked: false,
         date: new Date(),
-        message: message,
+        message: topicInputs[selectedTopic._id],
         owner_id: replyOwner._id,
         flames: [],
         reactions: [],
@@ -119,7 +126,6 @@ const chatTextEntry = (props) => {
 
       const data = await saveMessageReply(newMessage);
 
-      setMessage("");
       let { id, ok } = data;
       if (ok) {
         if (id) {
@@ -140,6 +146,7 @@ const chatTextEntry = (props) => {
   };
   const broadcastMessage = (message) => {
     setAttachments([]);
+    setTopicInputs({ ...topicInputs, [selectedTopic._id]: "" });
     emitMessage(selectedTopic._id, message, async (err, status) => {
       if (err) {
         console.log(err);
@@ -206,7 +213,8 @@ const chatTextEntry = (props) => {
     broadcastMessage(message);
   };
   const addEmoji = (e) => {
-    setMessage(message + e.native);
+    let msg = topicInputs[selectedTopic._id] + e.native;
+    setTopicInputs({ ...topicInputs, [selectedTopic._id]: msg });
     setEmojiPicker(!emojiPickerState);
   };
   const EmojiPicker = () => {
@@ -258,12 +266,12 @@ const chatTextEntry = (props) => {
     return null;
   };
   const cancelEdit = () => {
-    setMessage("");
+    setTopicInputs({ ...topicInputs, [selectedTopic._id]: "" });
     setSelectedEditMsg({});
   };
   const updateMsg = async () => {
     let msg = selectedEditMsg;
-    msg.message = message;
+    msg.message = topicInputs[selectedTopic._id];
     const data = await updateMessage(msg);
     msg.action = "update";
     emitMessageUpdate(selectedEditMsg.topic_id, msg, async (err, status) => {
@@ -278,7 +286,9 @@ const chatTextEntry = (props) => {
     });
   };
   const MessageSubmits = () => {
-    const isDisabled = (message || "").trim().length === 0;
+    const isDisabled =
+      (topicInputs[selectedTopic._id] || "").trim().length === 0 &&
+      attachments.length == 0;
     if (Object.keys(selectedEditMsg).length > 0) {
       return (
         <div className="chat-controls">
@@ -314,7 +324,6 @@ const chatTextEntry = (props) => {
       );
     }
   };
-
   return (
     <div id="chat_input_container">
       <ImageHolder />
@@ -322,7 +331,7 @@ const chatTextEntry = (props) => {
         ref={textRef}
         placeholder={`Say something...`}
         onChange={inputHandler}
-        value={message}
+        value={topicInputs[selectedTopic._id] || ""}
         onKeyUp={() => {
           textRef.current.style.height =
             calcHeight(textRef.current.value) + "px";
