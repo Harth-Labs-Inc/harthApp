@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useComms } from "../contexts/comms";
 import { useAuth } from "../contexts/auth";
+import { useChat } from "../contexts/chat";
 import { useSocket } from "../contexts/socket";
 import { saveTopics, addRoomToUsers } from "../requests/community";
 import Modal from "./Modal";
@@ -37,6 +38,7 @@ const TopicsNav = (props) => {
     setTopic,
     selectedTopic,
   } = useComms();
+  const { setSelectedReplyOwner } = useChat();
 
   useEffect(() => {
     setTopicsArr(topics);
@@ -54,6 +56,7 @@ const TopicsNav = (props) => {
 
   const changeSelectedTopic = (topic) => {
     setTopic(topic);
+    setSelectedReplyOwner({});
   };
 
   const openCreateTopic = () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useComms } from "../contexts/comms";
 import { useChat } from "../contexts/chat";
 import { useSocket } from "../contexts/socket";
@@ -11,20 +11,16 @@ const MessageWrapper = (props) => {
   const [currentReplies, setCurrentReplies] = useState([]);
 
   const [editMessageObj, setEditMessageObj] = useState({});
-
-  const messageEl = useRef();
   const {
     messages,
     setMessages,
     replies,
     setReplies,
     selectedReplyOwner,
-    setSelectedReplyOwner,
   } = useChat();
   const { selectedTopic, selectedcomm } = useComms();
   const {
     incomingMsg,
-    unreadMsg,
     unreadMsgs,
     setUnreadMsgs,
     incomingMsgUpdate,
@@ -73,7 +69,6 @@ const MessageWrapper = (props) => {
                   if (msg._id === owner_id) {
                     index = idx;
                   }
-
                   if (index) {
                     temp[index].replies = [
                       ...new Set([...temp[index].replies, incomingMsg._id]),
@@ -93,7 +88,6 @@ const MessageWrapper = (props) => {
             if (msg._id === owner_id) {
               index = idx;
             }
-
             if (index) {
               tempMsgs[index].replies = [
                 ...new Set([...tempMsgs[index].replies, incomingMsg._id]),
@@ -120,7 +114,6 @@ const MessageWrapper = (props) => {
 
   useEffect(() => {
     if (incomingMsgUpdate && messages) {
-      console.log(incomingMsgUpdate);
       const { topic_id, action, _id, owner_id } = incomingMsgUpdate;
       if (owner_id) {
         let tempReplies = replies[owner_id];
@@ -135,14 +128,12 @@ const MessageWrapper = (props) => {
               if (msg._id === _id) {
                 index = idx;
               }
-
               if (tempReplies[index]) {
                 tempReplies[index].reactions = incomingMsgUpdate.reactions;
                 tempReplies[index].flames = incomingMsgUpdate.flames;
                 tempReplies[index].message = incomingMsgUpdate.message;
                 tempReplies[index].replies = incomingMsgUpdate.replies;
               }
-
               setReplies({ ...replies, [owner_id]: tempReplies });
             });
           }
@@ -163,13 +154,11 @@ const MessageWrapper = (props) => {
               if (msg._id === _id) {
                 index = idx;
               }
-
               if (tempMsgs[index]) {
                 tempMsgs[index].reactions = incomingMsgUpdate.reactions;
                 tempMsgs[index].flames = incomingMsgUpdate.flames;
                 tempMsgs[index].message = incomingMsgUpdate.message;
               }
-
               setMessages({
                 ...messages,
                 [topic_id]: tempMsgs,
@@ -189,56 +178,32 @@ const MessageWrapper = (props) => {
     }
   }, [replies, selectedReplyOwner]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (messageEl && messageEl.current) {
-  //       messageEl.current.addEventListener("DOMNodeInserted", (event) => {
-  //         const { currentTarget: target } = event;
-  //         target.scroll({ top: target.scrollHeight, behavior: "auto" });
-  //       });
-  //     }
-  //   }, 1000);
-  // }, []);
-
   const sortMessages = (msgs) => {
     return msgs.sort((a, b) => new Date(a.date) - new Date(b.date));
   };
   const editMessage = (msg) => {
     setEditMessageObj(msg);
   };
-  const removeReplyOwner = () => {
-    setSelectedReplyOwner({});
-  };
-
-  const DisplayedMessages = () => {
-    if (Object.keys(selectedReplyOwner).length > 0) {
-      return (
-        <>
-          {sortMessages([selectedReplyOwner, ...(currentReplies || [])]).map(
-            (msg, index) => (
-              <Message
-                editMessageText={editMessage}
-                msg={msg}
-                key={index}
-                isReply={true}
-              />
-            )
-          )}
-        </>
-      );
-    }
-    return (
-      (currentMessages || []).length > 0 &&
-      sortMessages(currentMessages || []).map((msg, index) => (
-        <Message editMessageText={editMessage} msg={msg} key={index} />
-      ))
-    );
-  };
 
   return (
     <>
-      <div id="topic_active_messages" ref={messageEl}>
-        <DisplayedMessages />
+      <div id="topic_active_messages">
+        {Object.keys(selectedReplyOwner).length > 0
+          ? sortMessages([
+              selectedReplyOwner,
+              ...(currentReplies || []),
+            ]).map((msg, index) => (
+              <Message
+                editMessageText={editMessage}
+                msg={msg}
+                key={msg._id}
+                isReply={true}
+              />
+            ))
+          : (currentMessages || []).length > 0 &&
+            sortMessages(currentMessages || []).map((msg, index) => (
+              <Message editMessageText={editMessage} msg={msg} key={msg._id} />
+            ))}
       </div>
       <ChatTextEntry
         selectedEdit={editMessageObj}
