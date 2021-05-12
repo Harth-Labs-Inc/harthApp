@@ -100,7 +100,7 @@ const MessageWrapper = (props) => {
         let tempReplyObj = {};
         let tempReplies = replies[owner_id];
         if (tempReplies) {
-          let msgs = [incomingMsg, ...tempReplies];
+          let msgs = [...tempReplies, incomingMsg];
           tempReplyObj = { ...replies, [owner_id]: msgs };
           for (let [owner, arr] of Object.entries(tempReplyObj || [])) {
             arr.forEach((rply) => {
@@ -215,11 +215,7 @@ const MessageWrapper = (props) => {
   useEffect(() => {
     if (replies && selectedReplyOwner) {
       let tempReplies = [...(replies[selectedReplyOwner._id] || [])];
-      if (inview) {
-        scrollToBottom("smooth");
-      } else {
-        setDisplayScrollButton(true);
-      }
+
       setCurrentReplies(tempReplies);
     }
   }, [replies, selectedReplyOwner]);
@@ -245,13 +241,21 @@ const MessageWrapper = (props) => {
   };
   return (
     <>
-      <div id="topic_active_messages">
+      <div
+        id="topic_active_messages"
+        style={{
+          justifyContent:
+            Object.keys(selectedReplyOwner).length > 0
+              ? "column"
+              : "column-reverse",
+        }}
+      >
         <div ref={messagesEndRef} />
         <div ref={setBottom} />
         {Object.keys(selectedReplyOwner).length > 0
           ? [
-              ...(currentReplies || []),
               selectedReplyOwner,
+              ...(currentReplies || []),
             ].map((msg, index) => (
               <Message
                 editMessageText={editMessage}

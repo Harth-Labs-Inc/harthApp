@@ -50,7 +50,8 @@ const Login = (props) => {
 
   return (
     <div className={animationClass} id="login-module">
-      <h2>Project Blarg</h2>
+      <img className="logo" src="../../../public/images/icon_harth.svg" />;
+      <h2>Welcome to H&auml;rth</h2>
       <Form
         id="login"
         on_submit={submitHandler}

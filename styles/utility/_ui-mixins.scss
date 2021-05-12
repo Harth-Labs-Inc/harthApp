@@ -35,17 +35,6 @@
   }
 }
 
-@mixin glassmorphism(
-  $background: rgba(white, 0.3),
-  $box-shadow: $blarg-purple,
-  $blur: 6px
-) {
-  background: $background;
-  box-shadow: 0 3px 8px 0 rgba($box-shadow, 0.37);
-  backdrop-filter: blur($blur);
-  -webkit-backdrop-filter: blur($blur);
-}
-
 @mixin font-icon($icon) {
   content: $icon;
   font-family: IcoMoon;

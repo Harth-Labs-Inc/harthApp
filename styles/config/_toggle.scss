@@ -60,16 +60,16 @@
 
     .toggle--checked & {
       &_bg {
-        background-color: $bg-purple30;
+        background-color: $placeholder-black;
       }
       &_circle {
         left: calc(100% - 20px);
         span {
-          background-color: $bg-purple;
+          background-color: $black;
         }
 
         &:before {
-          background-color: rgba($bg-purple, 0.12);
+          background-color: rgba($black, 0.1);
         }
       }
     }

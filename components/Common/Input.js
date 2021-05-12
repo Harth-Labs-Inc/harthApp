@@ -51,34 +51,17 @@ const Input = (props) => {
         <label htmlFor={name} className="form-label" ref={labelEl}>
           {title}
         </label>
-        <div className="border-wrapper">
-          <div className="input-top">
-            <span className="border-1"></span>
-            <span
-              className="border-2"
-              style={{ width: `${labelWidth + 2}px` }}
-            ></span>
-            <span
-              className="border-3"
-              style={{ width: `calc(100% - (${labelWidth + 8}px))` }}
-            ></span>
-          </div>
-          <div className="input-center">
-            <span className="input">
-              <input
-                className="form-input"
-                id={name}
-                name={name}
-                type={type}
-                value={value}
-                onChange={inputChangeHandler}
-                placeholder={placeholder}
-                autoComplete="off"
-                {...props}
-              />
-            </span>
-          </div>
-        </div>
+        <input
+          className="form-input"
+          id={name}
+          name={name}
+          type={type}
+          value={value}
+          onChange={inputChangeHandler}
+          placeholder={placeholder}
+          autoComplete="off"
+          {...props}
+        />
         <p className="empty_error_message">
           {required ? "Field Required" : ""}
         </p>

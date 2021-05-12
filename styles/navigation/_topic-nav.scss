@@ -51,13 +51,13 @@
 
       &.topic_active {
         button {
-          color: $bg-purple;
-          background-color: $bg-purple12;
+          color: $text-black;
+          background-color: rgba($text-black, 0.1);
         }
       }
       &.topic_new_message {
         button {
-          color: $bg-purple;
+          color: $text-black;
           font-weight: 700;
         }
       }

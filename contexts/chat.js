@@ -32,7 +32,6 @@ export const ChatProvider = ({ children }) => {
 
   useEffect(() => {
     if (selectedReplyOwner && selectedReplyOwner._id) {
-      console.log(selectedReplyOwner._id);
       if (!(selectedReplyOwner._id in replies)) {
         messages[selectedReplyOwner._id] = [];
 
@@ -43,7 +42,7 @@ export const ChatProvider = ({ children }) => {
           if (ok) {
             setReplies({
               ...replies,
-              [selectedReplyOwner._id]: fetchResults.reverse(),
+              [selectedReplyOwner._id]: fetchResults,
             });
           }
         })();

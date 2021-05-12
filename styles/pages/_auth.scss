@@ -6,9 +6,7 @@
 #create-profile,
 #submit-community,
 #join-community {
-  @include x-center;
-  @include glassmorphism(rgba($white, 0.8), $blarg-purple, 9px);
-  top: 72px;
+  @include x-y-center;
   width: 400px;
   max-width: 95vw;
   padding: 32px 36px 31px;
@@ -57,7 +55,7 @@
   transition: transform 0.7s;
 
   &.left-center {
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(-50%, -50%, 0);
   }
 
   #login-error {
@@ -66,7 +64,6 @@
 }
 
 #email-sent {
-  @include glassmorphism(rgba($black, 0.4));
   position: fixed;
   height: 100vh;
   width: 100vw;
@@ -74,7 +71,6 @@
 
   div {
     @include x-center;
-    @include glassmorphism(rgba($white, 0.9), $blarg-purple, 8px);
     top: 110px;
     padding: 20px 36px 30px;
     text-align: center;
@@ -103,7 +99,7 @@
   transition: transform 0.5s, max-height 0.7s;
 
   &.right-center {
-    transform: translate3d(-50%, 0, 0);
+    transform: translate3d(-50%, -50%, 0);
   }
 
   &.account-created {

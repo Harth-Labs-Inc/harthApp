@@ -13,7 +13,7 @@
 
       content: "";
 
-      background-color: $bg-purple;
+      background-color: $text-black;
 
       transition: width 0.3s;
     }
@@ -38,12 +38,6 @@
     &.active {
       &:after {
         width: 2px;
-      }
-
-      button {
-        color: $bg-purple;
-
-        background-color: $medium-grey;
       }
     }
   }
