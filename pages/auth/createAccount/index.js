@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { login, addUser } from "../../../requests/userApi";
 import Input from "../../../components/Common/Input";
@@ -6,18 +6,15 @@ import Form from "../../../components/Form-comp";
 import { Button } from "../../../components/Common/Button";
 
 const CreateAccount = (props) => {
-  const [transitionClass, setTransitionClass] = useState();
   const [submissionType, setSubmissionType] = useState();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
     password: "",
     dob: "",
   });
   const [errorData, setErrorData] = useState({
-    firstName: false,
-    lastName: false,
+    fullName: "",
     email: false,
     password: false,
     dob: false,
@@ -29,12 +26,6 @@ const CreateAccount = (props) => {
   });
 
   const { changePage, inviteToken } = props;
-
-  useEffect(() => {
-    setTimeout(() => {
-      setTransitionClass("right-center");
-    }, 4);
-  }, []);
 
   const submitHandler = async () => {
     if (submissionType == "create") {
@@ -73,7 +64,23 @@ const CreateAccount = (props) => {
   };
 
   return (
-    <div className={transitionClass} id="create-module">
+    <div id="create-module">
+      <svg
+        id="logo_large"
+        data-name="Logo Large"
+        xmlns="http://www.w3.org/2000/svg"
+        width="96"
+        height="99.001"
+        viewBox="0 0 96 99.001"
+      >
+        <path
+          id="Path_2099"
+          data-name="Path 2099"
+          d="M90,99V48A42,42,0,0,0,6,48V99H0V48a48,48,0,0,1,96,0V99ZM30.91,55a42.38,42.38,0,0,1,5.25-9.155c2.5-3.566,4.86-6.915,5.881-13.05a.747.747,0,0,1,.863-.612.709.709,0,0,1,.241.083c.909.436,14.975,7.379,17.957,22.279a8.072,8.072,0,0,0,.635-1.3,15.036,15.036,0,0,0,.914-4.174.745.745,0,0,1,.8-.691.732.732,0,0,1,.566.339c1.016,1.414,3.441,7.082,2.286,13.6A20.641,20.641,0,0,1,59.59,74.115a.73.73,0,0,1-.506.195l-9.192,0a.75.75,0,0,1-.751-.747.777.777,0,0,1,.107-.39c.872-1.688,1.563-5.477,1.442-9.294a18.845,18.845,0,0,0-.914-5.5A34.3,34.3,0,0,1,47.5,66.528a19.978,19.978,0,0,1-5.25,7.615.737.737,0,0,1-.478.172H36.063a.727.727,0,0,1-.478-.172A15.077,15.077,0,0,1,29.8,65.688,17.318,17.318,0,0,1,30.91,55ZM25.693,86.344a3,3,0,1,1,0-6H70.307a3,3,0,1,1,0,6Z"
+          fill="#333"
+        />
+      </svg>
+      <h2>Create an account</h2>
       <Form
         id="login"
         on_submit={submitHandler}
@@ -87,7 +94,7 @@ const CreateAccount = (props) => {
           type="text"
           empty={formData.email}
           value={formData.email}
-          required={errorData["email"]}
+          isRequired={errorData["email"]}
           changeHandler={inputChangeHandler}
           customError={customErrors["email"] ? "Not A Valid Email" : ""}
           data={formData}
@@ -99,7 +106,7 @@ const CreateAccount = (props) => {
           type="password"
           empty={formData.password}
           value={formData.password}
-          required={errorData["password"]}
+          isRequired={errorData["password"]}
           changeHandler={inputChangeHandler}
           customError={
             customErrors["password"] ? "Must Be Over 8 Characters" : ""
@@ -108,23 +115,12 @@ const CreateAccount = (props) => {
           errorData={errorData}
         />
         <Input
-          title="First Name"
-          name="firstName"
+          title="Full Name"
+          name="fullName"
           type="text"
-          empty={formData.firstName}
-          value={formData.firstName}
-          required={errorData["firstName"]}
-          changeHandler={inputChangeHandler}
-          data={formData}
-          errorData={errorData}
-        />
-        <Input
-          title="Last Name"
-          name="lastName"
-          type="text"
-          empty={formData.lastName}
-          value={formData.lastName}
-          required={errorData["lastName"]}
+          empty={formData.fullName}
+          value={formData.fullName}
+          isRequired={errorData["fullName"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -135,7 +131,7 @@ const CreateAccount = (props) => {
           type="date"
           empty={true}
           value={formData.dob}
-          required={errorData["dob"]}
+          isRequired={errorData["dob"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -154,12 +150,14 @@ const CreateAccount = (props) => {
                 setSubmissionType("create");
               }}
             ></Button>
-
+            <p className="disclaimer">
+              By creating an account, you agree to follow H&auml;rth's{" "}
+              <a>Guidelines</a>.
+            </p>
             <div>
               <a
                 id="return-login"
                 onClick={() => {
-                  setTransitionClass("");
                   changePage("login");
                 }}
               >

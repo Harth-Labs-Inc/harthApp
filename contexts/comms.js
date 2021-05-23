@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { getComms, getTopics } from "../requests/community";
+import { getComms, getTopics, getRooms } from "../requests/community";
 import { useAuth } from "./auth";
 import { useSocket } from "./socket";
 
@@ -9,6 +9,7 @@ export const CommsProvider = ({ children }) => {
   const [comms, setComms] = useState(null);
   const [selectedcomm, setSelectedcomm] = useState(null);
   const [topics, setTopics] = useState(null);
+  const [rooms, setRooms] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState({});
 
   const { user } = useAuth();
@@ -31,6 +32,7 @@ export const CommsProvider = ({ children }) => {
   useEffect(() => {
     if (selectedcomm && user) {
       grabTopics(selectedcomm._id);
+      grabRooms(selectedcomm._id);
     }
   }, [selectedcomm]);
 
@@ -40,6 +42,16 @@ export const CommsProvider = ({ children }) => {
     if (ok) {
       setTopics(topics);
       setSelectedTopic({});
+    }
+  };
+  const grabRooms = async (comid) => {
+    if (comid) {
+      let result = await getRooms(comid, user._id);
+      const { ok, rms } = result;
+      if (ok) {
+        console.log(rms);
+        setRooms(rms);
+      }
     }
   };
 
@@ -56,6 +68,7 @@ export const CommsProvider = ({ children }) => {
   return (
     <CommsContext.Provider
       value={{
+        rooms,
         grabTopics,
         comms,
         setComm,

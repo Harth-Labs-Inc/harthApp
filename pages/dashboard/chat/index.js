@@ -8,8 +8,6 @@ import { useSocket } from "../../../contexts/socket";
 const Chat = (prop) => {
   const [showEditPanel, setShowEditPanel] = useState(false);
 
-  // const { incomingMsg } = useSocket();
-
   const toggleEditPanel = () => {
     setShowEditPanel(!showEditPanel);
   };

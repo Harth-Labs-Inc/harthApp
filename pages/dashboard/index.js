@@ -51,7 +51,7 @@ const dashboard = (props) => {
 
   let page;
   switch (currentPage) {
-    case "game":
+    case "gather":
       page = <Game></Game>;
       break;
     case "events":

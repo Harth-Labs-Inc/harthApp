@@ -1,0 +1,18 @@
+#add_room {
+  height: 216px;
+  width: 292px;
+  padding: 16px;
+  background-color: transparent;
+  background-image: linear-gradient(
+    to right,
+    $placeholder-black 50%,
+    $white 50%
+  );
+  background-position: top;
+  background-size: 6px 1px;
+  background-repeat: repeat-x;
+  border-color: $placeholder-black;
+  border-width: 1px;
+  border-style: dashed;
+  border-radius: 16px;
+}

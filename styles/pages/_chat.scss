@@ -29,7 +29,7 @@
     }
   }
 
-  textarea {
+  #chat_input_box {
     resize: none;
     display: block;
     width: 100%;
@@ -89,7 +89,7 @@
         }
         &:not(:disabled) {
           &:before {
-            color: #ee5500;
+            color: $orange;
           }
         }
       }

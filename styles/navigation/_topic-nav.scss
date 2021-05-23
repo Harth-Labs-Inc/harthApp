@@ -12,18 +12,6 @@
     p {
       margin: 0;
     }
-
-    #create-topic {
-      position: relative;
-      height: 20px;
-      width: 20px;
-      background-color: transparent;
-      border: 0;
-      &:before {
-        @include x-y-center;
-        @include font-icon($icon-plus);
-      }
-    }
   }
 
   #left_nav_topics {
@@ -31,42 +19,69 @@
     padding: 0;
     list-style: none;
     li {
+      padding: 8px 16px;
       button {
         display: block;
-        padding: 19px 24px;
-        width: 100%;
+        padding: 8px 16px;
         font-size: 14px;
         letter-spacing: 0.096px;
         line-height: 19px;
         text-align: left;
         background-color: transparent;
         border: 0;
-        border-radius: 4px;
+        border-radius: 24px;
         cursor: pointer;
 
         &:hover {
-          background-color: $medium-grey;
+          background-color: rgba($text-black, 0.1);
         }
       }
 
       &.topic_active {
         button {
-          color: $text-black;
-          background-color: rgba($text-black, 0.1);
+          color: $white;
+          background-color: $text-black;
         }
       }
       &.topic_new_message {
         button {
+          position: relative;
+          &:after {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            width: 40px;
+            content: "";
+            background-color: $orange;
+          }
+        }
+      }
+
+      #create_topic {
+        display: block;
+        position: relative;
+        padding: 8px 16px;
+        color: $placeholder-black;
+        font-size: 14px;
+        letter-spacing: 0.096px;
+        line-height: 19px;
+        text-align: left;
+        background-color: rgba($text-black, 0.1);
+        border: 0;
+        border-radius: 24px;
+        cursor: pointer;
+
+        &:before {
+          @include font-icon($icon-plus);
+          margin-right: 8px;
+          color: inherit;
+        }
+
+        &:hover {
           color: $text-black;
-          font-weight: 700;
         }
       }
     }
-  }
-}
-
-#topic-builder {
-  .modal_main {
-    padding: 24px 16px;
   }
 }

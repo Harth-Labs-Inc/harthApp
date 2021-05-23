@@ -31,7 +31,7 @@ const Message = (props) => {
   const { editMessageText, isReply } = props;
 
   const { user } = useAuth();
-  const { emitMessageUpdate } = useSocket();
+  const { emitUpdate } = useSocket();
   const { selectedcomm } = useComms();
   const { setSelectedReplyOwner } = useChat();
 
@@ -72,7 +72,8 @@ const Message = (props) => {
     const data = await deleteMessage(_id);
     let msg = props.msg;
     msg.action = "delete";
-    emitMessageUpdate(topic_id, props.msg, async (err, status) => {
+    msg.updateType = "message update";
+    emitUpdate(selectedcomm._id, msg, async (err, status) => {
       if (err) {
         console.log(err);
       }
@@ -90,9 +91,9 @@ const Message = (props) => {
     } else {
       const data = await updateMessage(msg);
     }
-
+    msg.updateType = "message update";
     msg.action = "update";
-    emitMessageUpdate(topic_id, msg, async (err, status) => {
+    emitUpdate(topic_id, msg, async (err, status) => {
       if (err) {
         console.log(err);
       }
@@ -308,12 +309,16 @@ const Message = (props) => {
             <p className="message_reply_count">{replies.length}</p>
           ) : null}
           <div className="message_flame_wrapper">
-            {[...(flames || [])].map((flame) => (
-              <p className="message_reaction_flame" title={flame.name}></p>
+            {[...(flames || [])].map((flame, index) => (
+              <p
+                className="message_reaction_flame"
+                title={flame.name}
+                key={index}
+              ></p>
             ))}
           </div>
-          {[...(reactions || [])].map((reaction) => (
-            <p>{reaction}</p>
+          {[...(reactions || [])].map((reaction, index) => (
+            <p key={index}>{reaction}</p>
           ))}
         </div>
       </div>

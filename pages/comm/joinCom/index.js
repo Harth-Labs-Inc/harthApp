@@ -2,6 +2,7 @@ import { useState } from "react";
 import Form from "../../../components/Form-comp";
 import Input from "../../../components/Common/Input";
 import { Button, BackBtn } from "../../../components/Common/Button";
+import RICIBs from "react-individual-character-input-boxes";
 
 const JoinCom = (props) => {
   const { changePage, onCommChange } = props;
@@ -18,9 +19,13 @@ const JoinCom = (props) => {
     setErrorData(missing);
   };
 
-  const inputChangeHandler = (eData, data) => {
-    setErrorData(eData);
-    setFormData(data);
+  // const inputChangeHandler = (eData, data) => {
+  //   setErrorData(eData);
+  //   setFormData(data);
+  // };
+
+  const handleOutput = (string) => {
+    console.log(string);
   };
 
   const submitHandler = () => {
@@ -38,26 +43,16 @@ const JoinCom = (props) => {
         ></BackBtn>
         Enter Your Invite Link
       </h2>
-      <Input
-        title="Invite Link"
-        name="inviteLink"
-        type="text"
-        empty={formData.comName}
-        value={formData.comName}
-        required={errorData["comName"]}
-        changeHandler={inputChangeHandler}
-        data={formData}
-        errorData={errorData}
-      ></Input>
+      <RICIBs
+        amount={6}
+        autoFocus
+        handleOutputString={handleOutput}
+        inputProps={[{ className: "first-box" }, { placeholder: "" }]}
+        inputRegExp={/^[a-zA-Z0-9]$/}
+      />
       <fieldset>
         <div className="form-bottom">
           <Button id="community_join" type="submit" text="Join"></Button>
-          <div>
-            <span>
-              By joining a Community, you agree to follow Project Blarg's{" "}
-              <a target="_blank">Guidlines</a>
-            </span>
-          </div>
         </div>
       </fieldset>
     </Form>

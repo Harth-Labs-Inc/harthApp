@@ -11,6 +11,7 @@ export const SocketProvider = ({ children }) => {
   const [incomingMsg, setIncomingMsg] = useState({});
   const [incomingMsgUpdate, setIncomingMsgUpdate] = useState({});
   const [incomingTopic, setIncomingTopic] = useState({});
+  const [incomingRoom, setIncomingRoom] = useState({});
   const [unreadMsg, setUnreadMsg] = useState({});
   const [unreadMsgs, setUnreadMsgs] = useState([]);
 
@@ -35,7 +36,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (socket) {
-      join([...user.rooms, ...user.comms], (err, status) => {
+      join([...user.comms], (err, status) => {
         let { ok } = status;
         if (ok) {
           console.log("connected");
@@ -46,80 +47,59 @@ export const SocketProvider = ({ children }) => {
         console.log("received socket error:");
         console.log(err);
       });
-      socket.on("new message", (msg) => {
-        setIncomingMsg(msg);
-        console.log("msg recieve");
-        if (msg.topic_id !== (selectedTopic || {})._id) {
-          setUnreadMsg(msg);
-          setUnreadMsgs([...unreadMsgs, msg]);
+
+      socket.on("new update", ({ updateType, ...incomingUpdate }) => {
+        console.log(updateType, incomingUpdate);
+        switch (updateType) {
+          case "new message":
+            setIncomingMsg(incomingUpdate);
+            if (incomingUpdate.topic_id !== (selectedTopic || {})._id) {
+              setUnreadMsg(incomingUpdate);
+              setUnreadMsgs([...unreadMsgs, incomingUpdate]);
+            }
+            break;
+
+          case "message update":
+            setIncomingMsgUpdate(incomingUpdate);
+            break;
+
+          case "new room":
+            setIncomingRoom(incomingUpdate);
+            break;
+
+          case "new topic":
+            setIncomingTopic(incomingUpdate);
+            break;
+          default:
+            break;
         }
-      });
-      socket.on("new Topic", (comid, newTopic) => {
-        setIncomingTopic(newTopic);
-        join(newTopic._id, (err, status) => {
-          let { ok } = status;
-          if (ok) {
-            console.log("connected to new Topic");
-          }
-        });
-      });
-      socket.on("new message update", (msg) => {
-        setIncomingMsgUpdate(msg);
       });
     }
   }, [socket]);
 
-  const registerHandler = (onMessageReceived) => {
-    socket.on("message", onMessageReceived);
-  };
-
-  const unregisterHandler = () => {
-    socket.off("message");
-  };
-
-  const newTopic = (id, topic, cb) => {
-    socket.emit("newTopic", id, topic, cb);
-  };
-
   const join = (chatroomName, cb) => {
     socket.emit("joinRooms", chatroomName, cb);
   };
-  const joinComms = (chatroomName, cb) => {
-    socket.emit("joinComms", chatroomName, cb);
-  };
-
   const leave = (chatroomName, cb) => {
     socket.emit("leave", chatroomName, cb);
   };
-
-  const emitMessage = (chatroomName, msg, cb) => {
-    socket.emit("message", chatroomName, msg, cb);
-  };
-  const emitMessageUpdate = (chatroomName, msg, cb) => {
-    socket.emit("messageUpdate", chatroomName, msg, cb);
-  };
-
-  const getChatrooms = (cb) => {
-    socket.emit("chatrooms", null, cb);
+  const emitUpdate = (chatroomName, update, cb) => {
+    socket.emit("Update", chatroomName, update, cb);
   };
 
   return (
     <SocketContext.Provider
       value={{
+        emitUpdate,
         incomingMsgUpdate,
-        emitMessageUpdate,
         incomingTopic,
-        newTopic,
         incomingMsg,
+        incomingRoom,
         unreadMsg,
         unreadMsgs,
         setUnreadMsgs,
-        registerHandler,
-        unregisterHandler,
         join,
         leave,
-        emitMessage,
-        getChatrooms,
       }}
     >
       {children}

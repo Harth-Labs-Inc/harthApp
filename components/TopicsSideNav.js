@@ -7,6 +7,7 @@ import { saveTopics, addRoomToUsers } from "../requests/community";
 import Modal from "./Modal";
 import Form from "./Form-comp";
 import Input from "./Common/Input";
+import TextArea from "./Common/TextArea";
 import ToggleSwitch from "./Common/Toggle";
 import { TextBtn } from "./Common/Button";
 
@@ -26,18 +27,9 @@ const TopicsNav = (props) => {
     description: false,
   });
 
-  const { join, unreadMsg, unreadMsgs, newTopic, incomingTopic } = useSocket();
+  const { unreadMsgs, emitUpdate, incomingTopic } = useSocket();
   const { user } = useAuth();
-  const {
-    grabTopics,
-    comms,
-    setComm,
-    selectedcomm,
-    topics,
-    addNewTopic,
-    setTopic,
-    selectedTopic,
-  } = useComms();
+  const { selectedcomm, topics, setTopic, selectedTopic } = useComms();
   const { setSelectedReplyOwner } = useChat();
 
   useEffect(() => {
@@ -84,7 +76,7 @@ const TopicsNav = (props) => {
         comm_id: selectedcomm._id,
         members: [
           { user_id: user._id, admin: true, muted: false },
-          ...selectedcomm.users.map((usr) => {
+          ...selectedcomm.users.forEach((usr) => {
             if (usr.userId !== user._id) {
               return { user_id: usr.userId, admin: false, muted: false };
             }
@@ -103,7 +95,8 @@ const TopicsNav = (props) => {
       setOpenTopicBuilder(false);
       if (id) {
         const results = await addRoomToUsers(userIds, id);
-        newTopic(selectedcomm._id, topic, async (err, status) => {
+        topic.updateType = "new topic";
+        emitUpdate(selectedcomm._id, topic, async (err, status) => {
           if (err) {
             console.log(err);
           }
@@ -130,7 +123,7 @@ const TopicsNav = (props) => {
     <>
       {openTopicBuilder && (
         <Modal id="topic-builder" show={modal} onToggleModal={showModal}>
-          <p>Add Topic</p>
+          <h2>Create a new topic</h2>
           <Form
             id="topic-modal"
             on_submit={submitHandler}
@@ -148,8 +141,9 @@ const TopicsNav = (props) => {
               changeHandler={inputChangeHandler}
               data={formData}
               errorData={errorData}
+              placeholder="Title"
             />
-            <Input
+            <TextArea
               title="Description (optional)"
               name="description"
               type="text"
@@ -158,6 +152,8 @@ const TopicsNav = (props) => {
               changeHandler={inputChangeHandler}
               data={formData}
               errorData={errorData}
+              row="20"
+              placeholder="Description (optional)"
             />
             <div id="topic_create_private">
               <ToggleSwitch
@@ -175,7 +171,7 @@ const TopicsNav = (props) => {
                 id="topic_create_cancel"
                 onClick={openCreateTopic}
               />
-              <TextBtn text="Create" id="topic_create_submit" type="submit" />
+              <button text="Create" id="topic_create_submit" type="submit" />
             </fieldset>
           </Form>
         </Modal>
@@ -183,7 +179,6 @@ const TopicsNav = (props) => {
       <aside id="topic_nav">
         <header>
           <p>Topics</p>
-          <button id="create-topic" onClick={openCreateTopic}></button>
         </header>
         <ul id="left_nav_topics">
           {topicsArr &&
@@ -219,6 +214,11 @@ const TopicsNav = (props) => {
                 </li>
               );
             })}
+          <li key="add new button">
+            <button id="create_topic" onClick={openCreateTopic}>
+              add new
+            </button>
+          </li>
         </ul>
       </aside>
     </>

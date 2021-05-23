@@ -135,7 +135,7 @@ const CreateProfile = (props) => {
         type="text"
         empty={formData.profName}
         value={formData.profName}
-        required={errorData["profName"]}
+        isRequired={errorData["profName"]}
         changeHandler={inputChangeHandler}
         data={formData}
         errorData={errorData}
@@ -151,7 +151,7 @@ const CreateProfile = (props) => {
             toggleName="name"
           ></ToggleSwitch>
           <p>
-            {user.firstName} {user.lastName} <span>Real Name</span>
+            {user.fullName} <span>Real Name</span>
           </p>
         </div>
         <div>

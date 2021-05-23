@@ -6,7 +6,6 @@ import { Button } from "../../../components/Common/Button";
 
 const ChangePassword = (props) => {
   const [errorMessage, setErrorMessage] = useState();
-  const [transitionClass, setTransitionClass] = useState();
   const [matchingPwdStatus, setMatchingPwdStatus] = useState(true);
   const [formData, setFormData] = useState({
     pwd: "",
@@ -16,12 +15,6 @@ const ChangePassword = (props) => {
     pwd: false,
     conf_pwd: false,
   });
-
-  useEffect(() => {
-    setTimeout(() => {
-      setTransitionClass("left-center");
-    }, 4);
-  }, []);
 
   useEffect(() => {
     let matching = checkMatchingPwFields();
@@ -74,7 +67,7 @@ const ChangePassword = (props) => {
           type="password"
           empty={formData.pwd}
           value={formData.pwd}
-          required={errorData["pwd"]}
+          isRequired={errorData["pwd"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -85,7 +78,7 @@ const ChangePassword = (props) => {
           type="password"
           empty={formData.conf_pwd}
           value={formData.conf_pwd}
-          required={errorData["conf_pwd"]}
+          isRequired={errorData["conf_pwd"]}
           matching={matchingPwdStatus}
           changeHandler={inputChangeHandler}
           data={formData}
@@ -106,7 +99,6 @@ const ChangePassword = (props) => {
               <a
                 id="return-login"
                 onClick={() => {
-                  setTransitionClass("");
                   props.changePage("login");
                 }}
               >

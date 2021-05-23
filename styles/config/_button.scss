@@ -12,6 +12,10 @@
   cursor: pointer;
   transition: all 0.3s;
 
+  + .btn {
+    margin-top: 24px;
+  }
+
   &:hover {
     background-color: $black;
   }

@@ -26,15 +26,10 @@ const chatTextEntry = (props) => {
 
   const { user } = useAuth();
   const { selectedcomm, selectedTopic } = useComms();
-  const { emitMessage, emitMessageUpdate } = useSocket();
+  const { emitUpdate } = useSocket();
 
-  const {
-    selectedEdit,
-    isReply,
-    replyOwner,
-    topicInputs,
-    setTopicInputs,
-  } = props;
+  const { selectedEdit, isReply, replyOwner, topicInputs, setTopicInputs } =
+    props;
 
   const textRef = useRef();
   const fileRef = useRef();
@@ -146,8 +141,9 @@ const chatTextEntry = (props) => {
   };
   const broadcastMessage = (message) => {
     setAttachments([]);
+    message.updateType = "new message";
     setTopicInputs({ ...topicInputs, [selectedTopic._id]: "" });
-    emitMessage(selectedTopic._id, message, async (err, status) => {
+    emitUpdate(selectedcomm._id, message, async (err, status) => {
       if (err) {
         console.log(err);
       }
@@ -273,8 +269,9 @@ const chatTextEntry = (props) => {
     let msg = selectedEditMsg;
     msg.message = topicInputs[selectedTopic._id];
     const data = await updateMessage(msg);
+    msg.updateType = "message update";
     msg.action = "update";
-    emitMessageUpdate(selectedEditMsg.topic_id, msg, async (err, status) => {
+    emitUpdate(selectedcomm._id, msg, async (err, status) => {
       if (err) {
         console.log(err);
       }
@@ -328,6 +325,7 @@ const chatTextEntry = (props) => {
     <div id="chat_input_container">
       <ImageHolder />
       <textarea
+        id="chat_input_box"
         ref={textRef}
         placeholder={`Say something...`}
         onChange={inputHandler}

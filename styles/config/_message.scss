@@ -58,19 +58,23 @@
         border-radius: 50%;
       }
 
+      .message_flame_wrapper {
+      }
+
       .message_reaction_flame {
+        display: inline-block;
         position: relative;
         height: 32px;
         width: 26px;
         &:before {
           @include x-y-center;
           @include font-icon($icon-fire);
-          color: #ee5500;
+          color: $orange;
           font-size: 26px;
         }
 
         &:not(:first-of-type) {
-          margin-left: $gutter;
+          margin-left: -$gutter;
         }
       }
     }
@@ -126,7 +130,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: #ee5500;
+        background-color: $orange;
       }
 
       &:before {

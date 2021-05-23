@@ -110,7 +110,7 @@ const CreateCom = (props) => {
         type="text"
         empty={formData.comName}
         value={formData.comName}
-        required={errorData["comName"]}
+        isRequired={errorData["comName"]}
         changeHandler={inputChangeHandler}
         data={formData}
         errorData={errorData}

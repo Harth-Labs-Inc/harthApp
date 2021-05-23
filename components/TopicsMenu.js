@@ -31,9 +31,6 @@ const TopicsMenu = (props) => {
     <header>
       <TopicTitle />
       <span>
-        <button id="topic_bookmark" onClick={on_bookmark}>
-          bookmark
-        </button>
         <button id="topic_menu_toggle" onClick={on_toggle_panel}>
           menu
         </button>

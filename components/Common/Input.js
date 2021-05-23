@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 const Input = (props) => {
-  const [labelWidth, setlabelWidth] = useState(0);
   const labelEl = useRef(null);
   const {
     name,
     title,
-    required,
+    isRequired,
     placeholder,
     changeHandler,
     value,
@@ -16,15 +15,8 @@ const Input = (props) => {
     errorData,
     matching,
     customError,
+    changePage,
   } = props;
-
-  useEffect(() => {
-    if (title) {
-      setlabelWidth(labelEl.current.clientWidth);
-    } else {
-      setlabelWidth(0);
-    }
-  }, [labelEl.current]);
 
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -39,14 +31,39 @@ const Input = (props) => {
     changeHandler(tempErrorData, tempData);
   };
 
+  const ErrorMessage = () => {
+    if (type === "password") {
+      return (
+        <p className="password_error_message">
+          <a
+            onClick={() => {
+              changePage("resetpwd");
+            }}
+          >
+            Forgot your password?
+          </a>
+        </p>
+      );
+    } else if (customError) {
+      return (
+        <p className="custom_error_message">{customError ? customError : ""}</p>
+      );
+    } else {
+      return (
+        <p className="empty_error_message">
+          {isRequired ? "Field Required" : ""}
+        </p>
+      );
+    }
+  };
+
   return (
     <>
       <fieldset
-        className={`${empty ? "content" : ""} ${
-          matching ? "error_matching" : ""
-        } ${required ? "error_required" : ""} ${
-          customError ? "error_custom" : ""
-        }`}
+        className={`${empty ? "content" : ""} 
+                    ${matching ? "error_matching" : ""} 
+                    ${isRequired ? "error_required" : ""} 
+                    ${customError ? "error_custom" : ""}`}
       >
         <label htmlFor={name} className="form-label" ref={labelEl}>
           {title}
@@ -62,10 +79,7 @@ const Input = (props) => {
           autoComplete="off"
           {...props}
         />
-        <p className="empty_error_message">
-          {required ? "Field Required" : ""}
-        </p>
-        <p className="custom_error_message">{customError ? customError : ""}</p>
+        <ErrorMessage />
       </fieldset>
     </>
   );
