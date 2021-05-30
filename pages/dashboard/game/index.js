@@ -9,19 +9,41 @@ const Game = (props) => {
   const [newRoom, setNewRoom] = useState({ room_type: "classic" });
   const [roomsArr, setRoomsArr] = useState([]);
 
-  const { rooms, selectedcomm } = useComms();
+  const { rooms, selectedcomm, setRooms } = useComms();
   const { user } = useAuth();
-  const { emitUpdate, incomingRoom } = useSocket();
+  const { emitUpdate, incomingRoom, incomingRoomUpdate } = useSocket();
 
   useEffect(() => {
-    setRoomsArr(rooms);
-  }, [rooms]);
+    if (rooms && selectedcomm) {
+      setRoomsArr(rooms[selectedcomm._id]);
+    }
+  }, [rooms, selectedcomm]);
 
   useEffect(() => {
     if (incomingRoom._id) {
-      setRoomsArr([...roomsArr, incomingRoom]);
+      let tempRms = roomsArr;
+      let rms = [incomingRoom, ...tempRms];
+      setRooms({ ...rooms, [selectedcomm._id]: rms });
     }
   }, [incomingRoom]);
+
+  useEffect(() => {
+    if (incomingRoomUpdate._id) {
+      let { updateDetails, active_users } = incomingRoomUpdate;
+
+      switch (updateDetails) {
+        case "user update":
+          roomsArr.forEach((rm) => {
+            if (rm._id == incomingRoomUpdate._id) {
+              rm.active_users = incomingRoomUpdate.active_users;
+            }
+          });
+          break;
+        default:
+          break;
+      }
+    }
+  }, [incomingRoomUpdate]);
 
   const toggleShowNewRoom = () => {
     setShowNewRoom(!showNewRoom);
@@ -29,14 +51,11 @@ const Game = (props) => {
   const addNewRoom = async (e) => {
     e.preventDefault();
     if (selectedcomm) {
-      let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
-
       let room = {
         ...newRoom,
         comm_id: selectedcomm._id,
         creator_id: user._id,
-        creator_name: creator.name,
-        creator_image: creator.iconKey,
+        active_users: [],
       };
 
       const data = await saveRoom(room);
@@ -45,8 +64,8 @@ const Game = (props) => {
       if (ok) {
         if (id) {
           room._id = id;
+          broadcastRoom(room);
         }
-        broadcastRoom(room);
       }
     }
   };
@@ -64,18 +83,73 @@ const Game = (props) => {
       }
     });
   };
+  const broadcastUpdate = (room) => {
+    emitUpdate(selectedcomm._id, room, async (err, status) => {
+      if (err) {
+        console.log(err);
+      }
+      let { ok } = status;
+      if (ok) {
+        console.log("Room updated");
+      }
+    });
+  };
   const changeHandler = (e) => {
     const { value, name } = e.target;
     setNewRoom({ ...newRoom, [name]: value });
   };
+  const joinRoom = async (room) => {
+    let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
+    room.active_users.push(creator);
+    // await updateRoom(room);
+    room.updateType = "room update";
+    room.updateDetails = "user update";
+    broadcastUpdate(room);
+    let urls = {
+      development: "http://localhost:3000/",
+      production: "https://project-blarg-next.vercel.app/",
+    };
+    window.open(
+      `${urls[process.env.NODE_ENV]}?gather_window=true&room_type=${
+        room.room_type
+      }&comm_id=${selectedcomm._id}&room_id=${room._id}`
+    );
+  };
+  const leaveRoom = (room) => {
+    let filteredusrs = room.active_users.filter(
+      (usr) => usr.userId !== user._id
+    );
 
-  console.log("asdfasdf", roomsArr);
+    room.active_users = filteredusrs;
+    room.updateType = "room update";
+    room.updateDetails = "user update";
+    broadcastUpdate(room);
+  };
 
   return (
     <>
       {roomsArr &&
         roomsArr.map((room, index) => {
-          return <div key={index}>{room.name}</div>;
+          let isActive = (room.active_users || []).find(
+            (usr) => usr.userId === user._id
+          );
+
+          return (
+            <div key={index}>
+              {room.name}
+              <ul>
+                {room.active_users &&
+                  room.active_users.map((usr) => {
+                    return <p>user</p>;
+                  })}
+              </ul>
+              {isActive ? (
+                <button onClick={() => leaveRoom(room)}>leave</button>
+              ) : (
+                <button onClick={() => joinRoom(room)}>join</button>
+              )}
+            </div>
+          );
         })}
       {showNewRoom ? (
         <form onSubmit={addNewRoom}>

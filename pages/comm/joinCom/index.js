@@ -2,7 +2,7 @@ import { useState } from "react";
 import Form from "../../../components/Form-comp";
 import Input from "../../../components/Common/Input";
 import { Button, BackBtn } from "../../../components/Common/Button";
-import RICIBs from "react-individual-character-input-boxes";
+import ReactCodeInput from "react-verification-code-input";
 
 const JoinCom = (props) => {
   const { changePage, onCommChange } = props;
@@ -41,18 +41,21 @@ const JoinCom = (props) => {
             changePage("initial");
           }}
         ></BackBtn>
-        Enter Your Invite Link
+        Join a h&auml;rth
       </h2>
-      <RICIBs
-        amount={6}
-        autoFocus
-        handleOutputString={handleOutput}
-        inputProps={[{ className: "first-box" }, { placeholder: "" }]}
-        inputRegExp={/^[a-zA-Z0-9]$/}
+      <p>
+        Enter your invite code. Don't have one? Ask a friend to send you one or
+        create your own h&auml;rth.
+      </p>
+      <ReactCodeInput
+        type="text"
+        fieldHeight="56"
+        fieldWidth="48"
+        values={"H7108z".split("")}
       />
       <fieldset>
         <div className="form-bottom">
-          <Button id="community_join" type="submit" text="Join"></Button>
+          <Button id="community_join" type="submit" text="Next"></Button>
         </div>
       </fieldset>
     </Form>

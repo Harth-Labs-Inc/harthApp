@@ -7,9 +7,8 @@
 #submit-community,
 #join-community {
   @include x-y-center;
-  width: 400px;
+  width: 280px;
   max-width: 95vw;
-  padding: 32px 36px 31px;
   border-radius: 5px;
 
   #logo_large {
@@ -19,21 +18,25 @@
 
   #go-back {
     position: absolute;
-    top: 32px;
     left: 4%;
     height: 32px;
     width: 32px;
 
-    background-color: rgba($black, 0.04);
+    background-color: transparent;
     border: 0;
     border-radius: 50%;
 
     cursor: pointer;
+    transition: background-color 0.3s;
 
     &:before {
       @include x-y-center;
       @include font-icon($icon-caret-right);
       transform: translate3d(-50%, -50%, 0) rotate(180deg);
+    }
+
+    &:hover {
+      background-color: $light-grey;
     }
   }
 
@@ -242,11 +245,22 @@
 //Join Existing Community
 //==================================
 #join-community {
+  p {
+    width: 242px;
+    margin: 0 auto 24px;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+  }
+  > div {
+    margin: 0 -4px;
+  }
   input {
     display: inline-block;
     height: 56px;
     width: 40px;
     margin: 4px;
+    padding: 0;
     font-size: 28px;
     font-weight: 700;
     background-color: transparent;

@@ -13,7 +13,7 @@
 
   transition: opacity 0.3s;
 
-  section {
+  .modal_main {
     @include x-center;
     top: 72px;
     padding: 24px 32px 16px;
@@ -35,11 +35,57 @@
     }
   }
 
+  .modal_side {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 296px;
+    background-color: $white;
+
+    h1 {
+      margin: 0;
+      padding: 30px 16px;
+    }
+
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      button {
+        width: 100%;
+        padding: 16px;
+        font-size: 14px;
+        text-align: left;
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+      }
+    }
+
+    li {
+      &:not(:nth-last-of-type(-n + 2)) {
+        button {
+          position: relative;
+          &:after {
+            @include y-center;
+            @include font-icon($icon-caret-right);
+            right: 16px;
+            color: $icon-grey;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+
   &_open {
     opacity: 1;
     visibility: visible;
 
-    section {
+    .modal_main {
       height: auto;
       width: 344px;
     }

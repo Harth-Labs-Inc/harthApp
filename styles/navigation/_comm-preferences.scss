@@ -1,3 +1,25 @@
+#settings_toggle {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  &:before {
+    @include x-y-center;
+    @include font-icon($icon-menu);
+    color: $icon-grey;
+    font-size: 10px;
+    transition: color 0.3s;
+  }
+
+  &:hover {
+    &:before {
+      color: $text-black;
+    }
+  }
+}
+
 #nav_comm_preferences {
   margin: 0;
   padding: 0;

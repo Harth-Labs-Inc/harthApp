@@ -103,6 +103,29 @@ export const addRoomToUsers = async (ids, room) => {
   }
 };
 
+export const generateInvite = async (id) => {
+  try {
+    const res = await api.post(`/api/comm/generateInvite`, {
+      id,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getInviteById = async (id) => {
+  try {
+    const res = await api.post(`/api/comm/getInviteById`, {
+      id,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//dont need anymore
 export const sendInvite = async (email, id, note) => {
   try {
     const res = await api.post(`/api/comm/sendInvite`, {

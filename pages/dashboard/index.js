@@ -12,11 +12,16 @@ import { Button } from "../../components/Common/Button";
 import Chat from "./chat";
 import Game from "./game";
 import Events from "./events";
+import Gather from "./gather";
+import Stream from "./stream";
+import Classic from "./classic";
 
 const dashboard = (props) => {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState();
   const [currentPage, setCurrentPage] = useState("chat");
+  const [GatherWindow, setGatherWindow] = useState("");
+  const [RoomType, setRoomType] = useState("");
 
   const router = useRouter();
   const {
@@ -32,8 +37,19 @@ const dashboard = (props) => {
   }, [tkn]);
 
   useEffect(() => {
-    let ck = Cookies.get("showComCreatedModal");
-    if (ck) setModal(true);
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const RId = urlParams.get("room_id");
+    const CId = urlParams.get("comm_id");
+    const gatherWindow = urlParams.get("gather_window");
+    const roomType = urlParams.get("room_type");
+    const Ck = Cookies.get("showComCreatedModal");
+    if (Ck) setModal(true);
+    if (gatherWindow) setGatherWindow(gatherWindow);
+    if (roomType) {
+      setRoomType(roomType);
+      changePageHandler(roomType);
+    }
   }, []);
 
   const changePageHandler = (pg) => {
@@ -54,6 +70,15 @@ const dashboard = (props) => {
     case "gather":
       page = <Game></Game>;
       break;
+    case "stream":
+      page = <Stream />;
+      break;
+    case "classic":
+      page = <Classic />;
+      break;
+    case "gather":
+      page = <Gather />;
+      break;
     case "events":
       page = <Events></Events>;
       break;
@@ -70,26 +95,30 @@ const dashboard = (props) => {
         <CommsProvider>
           <ChatProvider>
             <SocketProvider>
-              <NavLayout
-                changePage={changePageHandler}
-                currentPage={currentPage}
-              >
-                {modal ? (
-                  <Modal
-                    id="community-preferences"
-                    show={modal}
-                    onToggleModal={showModal}
-                  >
-                    <h1>Success!!</h1>
-                    <p>Welcome to your new community.</p>
-                    <p>We hope you have a great time</p>
-                    <Button text="let's go" onClick={removeCookie}></Button>
-                  </Modal>
-                ) : (
-                  ""
-                )}
-                {page}
-              </NavLayout>
+              {GatherWindow ? (
+                page
+              ) : (
+                <NavLayout
+                  changePage={changePageHandler}
+                  currentPage={currentPage}
+                >
+                  {modal ? (
+                    <Modal
+                      id="community-preferences"
+                      show={modal}
+                      onToggleModal={showModal}
+                    >
+                      <h1>Success!!</h1>
+                      <p>Welcome to your new community.</p>
+                      <p>We hope you have a great time</p>
+                      <Button text="let's go" onClick={removeCookie}></Button>
+                    </Modal>
+                  ) : (
+                    ""
+                  )}
+                  {page}
+                </NavLayout>
+              )}
             </SocketProvider>
           </ChatProvider>
         </CommsProvider>

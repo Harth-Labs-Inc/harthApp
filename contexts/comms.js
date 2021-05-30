@@ -9,7 +9,7 @@ export const CommsProvider = ({ children }) => {
   const [comms, setComms] = useState(null);
   const [selectedcomm, setSelectedcomm] = useState(null);
   const [topics, setTopics] = useState(null);
-  const [rooms, setRooms] = useState(null);
+  const [rooms, setRooms] = useState({});
   const [selectedTopic, setSelectedTopic] = useState({});
 
   const { user } = useAuth();
@@ -46,15 +46,16 @@ export const CommsProvider = ({ children }) => {
   };
   const grabRooms = async (comid) => {
     if (comid) {
-      let result = await getRooms(comid, user._id);
-      const { ok, rms } = result;
-      if (ok) {
-        console.log(rms);
-        setRooms(rms);
+      if (!(comid in rooms)) {
+        rooms[comid] = [];
+        let result = await getRooms(comid, user._id);
+        const { ok, rms } = result;
+        if (ok) {
+          setRooms({ ...rooms, [comid]: rms });
+        }
       }
     }
   };
-
   const setComm = async (comm) => {
     setSelectedcomm(comm);
   };
@@ -69,6 +70,7 @@ export const CommsProvider = ({ children }) => {
     <CommsContext.Provider
       value={{
         rooms,
+        setRooms,
         grabTopics,
         comms,
         setComm,

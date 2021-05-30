@@ -37,10 +37,9 @@ const CommIndexPage = () => {
       setCurrentPage("profile");
       (async () => {
         const data = await getCommFromInvite(token);
-
         const { ok, msg, comm } = data;
         if (ok) {
-          setcomID(comm._id);
+          setcomID(comm.comm_id);
         }
       })();
     }

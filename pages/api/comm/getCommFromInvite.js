@@ -10,13 +10,21 @@ export default async (req, res) => {
 
   const findComm = (db, tkn) => {
     return new Promise((resolve, reject) => {
-      db.collection("communities")
-        .find({ invites: tkn })
+      db.collection("invites")
+        .find({ token: tkn })
         .toArray(function (err, results) {
           if (err) {
             resolve(false);
           }
-          resolve(results[0]);
+          if (results[0]) {
+            if (new Date() < new Date(results[0].expiration)) {
+              resolve(results[0]);
+            } else {
+              resolve(false);
+            }
+          } else {
+            resolve(false);
+          }
         });
     });
   };

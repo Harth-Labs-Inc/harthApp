@@ -33,28 +33,25 @@ const TopicsNav = (props) => {
   const { setSelectedReplyOwner } = useChat();
 
   useEffect(() => {
+    console.log(topics);
     setTopicsArr(topics);
   }, [topics]);
-
   useEffect(() => {
-    if (incomingTopic) {
-      setTopicsArr([...topicsArr, incomingTopic]);
+    if (incomingTopic._id) {
+      setTopicsArr([...topics, incomingTopic]);
     }
   }, [incomingTopic]);
 
   const showModal = () => {
     setModal(!modal);
   };
-
   const changeSelectedTopic = (topic) => {
     setTopic(topic);
     setSelectedReplyOwner({});
   };
-
   const openCreateTopic = () => {
     setOpenTopicBuilder(!openTopicBuilder);
   };
-
   const submitHandler = async () => {
     let topic,
       userIds = [];
@@ -105,16 +102,13 @@ const TopicsNav = (props) => {
       }
     }
   };
-
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
     setFormData(data);
   };
-
   const toggleHandler = (toggle, status) => {
     setToggleData({ ...toggleData, [toggle]: status });
   };
-
   const setMissing = (missing) => {
     setErrorData(missing);
   };
@@ -183,6 +177,7 @@ const TopicsNav = (props) => {
         <ul id="left_nav_topics">
           {topicsArr &&
             topicsArr.map((topic) => {
+              console.log(topic);
               let classes = [];
               if ((selectedTopic || {})._id == topic._id) {
                 classes.push("topic_active");

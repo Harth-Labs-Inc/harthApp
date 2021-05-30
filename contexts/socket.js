@@ -10,6 +10,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [incomingMsg, setIncomingMsg] = useState({});
   const [incomingMsgUpdate, setIncomingMsgUpdate] = useState({});
+  const [incomingRoomUpdate, setIncomingRoomUpdate] = useState({});
   const [incomingTopic, setIncomingTopic] = useState({});
   const [incomingRoom, setIncomingRoom] = useState({});
   const [unreadMsg, setUnreadMsg] = useState({});
@@ -25,7 +26,6 @@ export const SocketProvider = ({ children }) => {
         development: "http://localhost:3030",
         production: "https://project-blarg-socket.herokuapp.com",
       };
-      console.log(urls[process.env.NODE_ENV]);
       setSocket(
         io.connect(urls[process.env.NODE_ENV], {
           transports: ["websocket"],
@@ -63,12 +63,16 @@ export const SocketProvider = ({ children }) => {
             setIncomingMsgUpdate(incomingUpdate);
             break;
 
+          case "new topic":
+            setIncomingTopic(incomingUpdate);
+            break;
+
           case "new room":
             setIncomingRoom(incomingUpdate);
             break;
 
-          case "new topic":
-            setIncomingTopic(incomingUpdate);
+          case "room update":
+            setIncomingRoomUpdate(incomingUpdate);
             break;
           default:
             break;
@@ -95,6 +99,7 @@ export const SocketProvider = ({ children }) => {
         incomingTopic,
         incomingMsg,
         incomingRoom,
+        incomingRoomUpdate,
         unreadMsg,
         unreadMsgs,
         setUnreadMsgs,

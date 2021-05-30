@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
-import OusideClick from "./OutsideClick";
+import OusideClick from "../OutsideClick";
 
-const Modal = (props) => {
+const SideModal = (props) => {
   const [transitionClass, setTransitionClass] = useState();
   const { show, children, id, onToggleModal } = props;
 
@@ -19,11 +19,11 @@ const Modal = (props) => {
 
   return (
     <div id={id} className={`modal ${transitionClass}`}>
-      <section ref={ref} className="modal_main">
+      <section ref={ref} className="modal_side">
         {children}
       </section>
     </div>
   );
 };
 
-export default Modal;
+export default SideModal;

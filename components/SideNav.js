@@ -1,10 +1,13 @@
 import React, { useState, useRef } from "react";
 import { useComms } from "../contexts/comms";
 import Modal from "./Modal";
+import SideModal from "./Common/SideModal";
+import SettingsMenu from "./SettingsMenu";
 import CommBuilder from "../pages/comm";
 
 const SideNav = (props) => {
-  const [openCommBuilder, setOpenCommBuilder] = useState(false);
+  const [ShowCommBuilder, setShowCommBuilder] = useState(false);
+  const [ShowSettingsNav, setShowSettingsNav] = useState(false);
 
   const { comms, setComm, selectedcomm, setTopic } = useComms();
 
@@ -14,11 +17,12 @@ const SideNav = (props) => {
     setComm(com);
     setTopic({});
   };
-
-  const openCreateComm = () => {
-    setOpenCommBuilder(true);
+  const toggleCreateComm = () => {
+    setShowCommBuilder(true);
   };
-
+  const toggleSettingsNav = () => {
+    setShowSettingsNav(!ShowSettingsNav);
+  };
   const expandMenu = () => {
     leftNav.current.className = "expand";
   };
@@ -26,15 +30,32 @@ const SideNav = (props) => {
     leftNav.current.className = "";
   };
 
-  return (
-    <>
-      {openCommBuilder ? (
+  const DisplayCommBuilder = () => {
+    if (ShowCommBuilder) {
+      return (
         <Modal>
           <CommBuilder />
         </Modal>
-      ) : (
-        ""
-      )}
+      );
+    }
+    return null;
+  };
+  const DisplaySettingsNav = () => {
+    if (ShowSettingsNav) {
+      return (
+        <SideModal onToggleModal={toggleSettingsNav}>
+          <SettingsMenu />
+        </SideModal>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <>
+      <DisplayCommBuilder />
+      <DisplaySettingsNav />
+
       <aside id="left_nav" ref={leftNav}>
         <ul
           id="left_nav_comms"
@@ -69,14 +90,14 @@ const SideNav = (props) => {
               );
             })}
           <li id="left_nav_comms_new" aria-label="nav-item">
-            <button onClick={openCreateComm}></button>
+            <button onClick={toggleCreateComm}></button>
           </li>
         </ul>
 
         <button
-          onClick={props.onToggleMenu}
-          aria-label="Toggle Main Menu"
-          id="menu-toggle"
+          onClick={toggleSettingsNav}
+          aria-label="Toggle Settings menu"
+          id="settings_toggle"
         ></button>
       </aside>
     </>
