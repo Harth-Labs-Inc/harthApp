@@ -38,30 +38,14 @@ const SubmitCom = (props) => {
       data={formData}
       errorData={errorData}
     >
-      <h2>
-        <BackBtn
-          onClick={() => {
-            changePage("profile");
-          }}
-        ></BackBtn>
-        Almost Done
-      </h2>
+      <h2>Success!!</h2>
       <p>
-        What are some of the things you and your community like to chat about?
+        Welcome to your new h&auml;rth. <br />
+        We hope you have a great time
       </p>
-      <Input
-        name="interests"
-        type="text"
-        placeholder="games, movies, food, ect."
-        empty={formData.interests}
-        value={formData.interests}
-        changeHandler={inputChangeHandler}
-        data={formData}
-        errorData={errorData}
-      ></Input>
       <fieldset className={errorMessage ? "error" : ""}>
         <div className="form-bottom">
-          <Button id="comm-name-submit" type="submit" text="CREATE"></Button>
+          <Button id="comm-name-submit" type="submit" text="LET'S GO"></Button>
         </div>
       </fieldset>
     </Form>
