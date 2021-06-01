@@ -166,6 +166,7 @@ form {
       .password_error_message {
         opacity: 1;
         visibility: visible;
+        cursor: pointer;
         a {
           color: $red;
         }

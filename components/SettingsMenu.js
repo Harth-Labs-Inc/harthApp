@@ -66,11 +66,23 @@ const SettingsMenu = (props) => {
           value: com._id,
           label: (
             <span>
-              <img src={com.iconKey} /> {com.name}
+              <span className="option-image-wrapper">
+                {com.iconKey ? <img src={com.iconKey} /> : ""}
+              </span>{" "}
+              {com.name}
             </span>
           ),
         });
       });
+
+    const customStyles = {
+      option: (styles, { isSelected }) => ({
+        ...styles,
+        color: "#333",
+        backgroundColor: isSelected ? "#f7f7f7" : "",
+        padding: 0,
+      }),
+    };
 
     return (
       <>
@@ -88,6 +100,7 @@ const SettingsMenu = (props) => {
               classNamePrefix="harth-invite-select"
               placeholder="Select a H&auml;rth"
               options={options}
+              styles={customStyles}
               onChange={changeSelectedHarth}
               value={(options || []).filter((option) => {
                 if (option.value === selectedHarth) {
@@ -105,7 +118,9 @@ const SettingsMenu = (props) => {
                 <p>{selectedInvite.token}</p>
                 <textarea readOnly value={inviteUrl} ref={codeRef}></textarea>
               </div>
-              <p>Invite link will remain active for {expiredTime} hours</p>
+              <p>
+                Invite link will remain active for the next {expiredTime} hours
+              </p>
               <Button
                 text="Copy Invite"
                 onClick={copyInviteToClipboard}

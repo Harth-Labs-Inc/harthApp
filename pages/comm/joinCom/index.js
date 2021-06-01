@@ -47,12 +47,7 @@ const JoinCom = (props) => {
         Enter your invite code. Don't have one? Ask a friend to send you one or
         create your own h&auml;rth.
       </p>
-      <ReactCodeInput
-        type="text"
-        fieldHeight="56"
-        fieldWidth="48"
-        values={"H7108z".split("")}
-      />
+      <ReactCodeInput type="text" fieldHeight="56" fieldWidth="48" />
       <fieldset>
         <div className="form-bottom">
           <Button id="community_join" type="submit" text="Next"></Button>

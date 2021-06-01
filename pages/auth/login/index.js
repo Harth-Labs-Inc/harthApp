@@ -20,7 +20,7 @@ const Login = (props) => {
     access_code: false,
   });
 
-  const { changePage, inviteToken } = props;
+  const { changePage, inviteToken, currentPage } = props;
 
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
@@ -95,6 +95,7 @@ const Login = (props) => {
           data={formData}
           errorData={errorData}
           changePage={changePage}
+          currentPage={currentPage}
         />
 
         <fieldset>

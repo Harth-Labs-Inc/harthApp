@@ -18,9 +18,11 @@ export const AuthProvider = ({ children }) => {
       const { msg, ok, user } = data;
       if (ok) {
         setUser(user);
+        setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   return (
@@ -37,8 +39,7 @@ export const ProtectRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
   if (isLoading) {
     return <Loading path={pathname} />;
-  }
-  if (!isAuthenticated && pathname !== "/") {
+  } else if (!isAuthenticated && pathname !== "/") {
     return <Auth />;
   }
   return children;

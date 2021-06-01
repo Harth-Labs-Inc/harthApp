@@ -16,9 +16,15 @@
     margin-bottom: 16px;
   }
 
+  h2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
   #go-back {
     position: absolute;
-    left: 4%;
+    left: 0;
     height: 32px;
     width: 32px;
 
@@ -42,6 +48,7 @@
 
   .btn {
     width: 100%;
+    max-width: 280px;
   }
 }
 
@@ -114,14 +121,31 @@
 //Initial Create Community
 //==================================
 #create-community {
+  fieldset {
+    margin: 0;
+    padding: 0;
+  }
+
   #community-image {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 24px;
+    margin: 0 auto 32px;
     padding: 0 40px;
     font-size: 14px;
     text-align: center;
+
+    #community-image-select {
+      margin: 0 auto;
+
+      img {
+        position: absolute;
+        z-index: 4;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
 
     span {
       max-width: 112px;
@@ -137,14 +161,26 @@
       padding: 10px;
       background-color: $medium-grey;
       border: 1px dashed $black50;
+      border-radius: 4px;
       cursor: pointer;
 
+      &:before {
+        @include x-y-center;
+        @include font-icon($icon-harth);
+        z-index: 1;
+        color: $light-grey;
+        font-size: 60px;
+      }
+
       span {
+        position: relative;
+        z-index: 2;
         font-size: 10px;
       }
 
       input {
         position: absolute;
+        z-index: 5;
         height: 100%;
         width: 100%;
         opacity: 0;
@@ -153,34 +189,20 @@
   }
 
   .form-bottom {
-    span {
-      color: $black60;
-      font-size: 12px;
-      a {
-        text-decoration: underline;
-      }
-    }
+    margin-top: 40px;
   }
 }
 
 //Initial Create Profile
 //==================================
 #create-profile {
+  width: 375px;
   fieldset {
-    &:last-of-type {
-      margin: -16px 0 0;
-      padding: 0;
-
-      .btn {
-        margin: 0;
-      }
-    }
   }
   #profile_image {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: -16px;
     padding: 0 40px;
     font-size: 14px;
     text-align: center;
@@ -189,18 +211,36 @@
       max-width: 138px;
     }
 
+    #profile_image_select {
+      margin: 0 auto;
+    }
+
     #drop-zone {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      height: 96px;
-      width: 96px;
+      height: 120px;
+      width: 120px;
       padding: 10px;
-      background-color: $medium-grey;
-      border: 1px dashed $black50;
       border-radius: 50%;
       cursor: pointer;
+
+      img {
+        position: absolute;
+        z-index: 4;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      &:before {
+        @include x-y-center;
+        @include font-icon($icon-user);
+        color: $black50;
+        font-size: 120px;
+      }
 
       span {
         font-size: 10px;
@@ -208,6 +248,7 @@
 
       input {
         position: absolute;
+        z-index: 5;
         height: 100%;
         width: 100%;
         opacity: 0;
@@ -215,14 +256,14 @@
     }
   }
   #toggle-field {
-    margin-top: -16px;
     > p {
       margin: 0 0 16px;
-      font-size: 12px;
+      font-size: 14px;
     }
     > div {
       display: flex;
       align-items: center;
+      margin-left: 40px;
 
       + div {
         margin-top: 16px;
@@ -239,6 +280,10 @@
         }
       }
     }
+  }
+
+  .form-bottom {
+    text-align: center;
   }
 }
 

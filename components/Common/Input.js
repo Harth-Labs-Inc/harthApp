@@ -16,6 +16,7 @@ const Input = (props) => {
     matching,
     customError,
     changePage,
+    currentPage,
   } = props;
 
   const inputChangeHandler = (e) => {
@@ -32,7 +33,11 @@ const Input = (props) => {
   };
 
   const ErrorMessage = () => {
-    if (type === "password") {
+    if (customError) {
+      return (
+        <p className="custom_error_message">{customError ? customError : ""}</p>
+      );
+    } else if (type === "password" && currentPage && currentPage == "login") {
       return (
         <p className="password_error_message">
           <a
@@ -43,10 +48,6 @@ const Input = (props) => {
             Forgot your password?
           </a>
         </p>
-      );
-    } else if (customError) {
-      return (
-        <p className="custom_error_message">{customError ? customError : ""}</p>
       );
     } else {
       return (
@@ -65,9 +66,6 @@ const Input = (props) => {
                     ${isRequired ? "error_required" : ""} 
                     ${customError ? "error_custom" : ""}`}
       >
-        <label htmlFor={name} className="form-label" ref={labelEl}>
-          {title}
-        </label>
         <input
           className="form-input"
           id={name}
@@ -75,7 +73,7 @@ const Input = (props) => {
           type={type}
           value={value}
           onChange={inputChangeHandler}
-          placeholder={placeholder}
+          placeholder={title}
           autoComplete="off"
           {...props}
         />

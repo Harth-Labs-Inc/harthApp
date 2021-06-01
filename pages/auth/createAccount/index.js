@@ -31,7 +31,7 @@ const CreateAccount = (props) => {
     if (submissionType == "create") {
       const data = await addUser(formData);
       const { ok, errors } = data;
-
+      console.log(errors);
       if (!ok) {
         setCustomErrors(errors);
       } else {
@@ -96,7 +96,11 @@ const CreateAccount = (props) => {
           value={formData.email}
           isRequired={errorData["email"]}
           changeHandler={inputChangeHandler}
-          customError={customErrors["email"] ? "Not A Valid Email" : ""}
+          customError={
+            customErrors["email"] || customErrors["match"]
+              ? customErrors["email"] || customErrors["match"]
+              : ""
+          }
           data={formData}
           errorData={errorData}
         />
@@ -138,10 +142,6 @@ const CreateAccount = (props) => {
         />
         <fieldset className={customErrors["match"] ? "error" : ""}>
           <div className="form-bottom">
-            <p className="error-message" id="email-exists">
-              {customErrors["match"]}
-            </p>
-
             <Button
               id="account-create-submit"
               type="submit"

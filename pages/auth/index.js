@@ -80,6 +80,7 @@ const authIndexPage = () => {
           animationClass={animationState}
           changePage={changePageHandler}
           inviteToken={inviteToken}
+          currentPage={currentPage}
         ></Login>
       );
       break;
@@ -88,6 +89,7 @@ const authIndexPage = () => {
         <CreateAccount
           changePage={changePageHandler}
           inviteToken={inviteToken}
+          currentPage={currentPage}
         ></CreateAccount>
       );
       break;
@@ -100,7 +102,12 @@ const authIndexPage = () => {
       );
       break;
     case "resetInvalid":
-      page = <InvalidReset changePage={changePageHandler}></InvalidReset>;
+      page = (
+        <InvalidReset
+          changePage={changePageHandler}
+          currentPage={currentPage}
+        ></InvalidReset>
+      );
       break;
     default:
       page = <Loading></Loading>;

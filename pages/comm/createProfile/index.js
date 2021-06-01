@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button, BackBtn } from "../../../components/Common/Button";
 import { checkForFolder, checkForBadFile } from "../../../services/helper";
 import Form from "../../../components/Form-comp";
@@ -24,6 +24,8 @@ const CreateProfile = (props) => {
 
   const { user, onProfChange, onPersChange, commData, changePage } = props;
 
+  const imagePreview = useRef();
+
   useEffect(() => {
     if (user && user.dob) {
       let date = new Date(`${user.dob}T00:00:00`).toLocaleDateString("en-GB", {
@@ -46,6 +48,7 @@ const CreateProfile = (props) => {
     if (isBadFile) {
     } else {
       setFormData({ ...formData, image: file });
+      imagePreview.current.src = URL.createObjectURL(file);
     }
   };
 
@@ -86,11 +89,12 @@ const CreateProfile = (props) => {
             changePage("create");
           }}
         ></BackBtn>
-        Set Your Profile for {commData.comName}
+        <span>
+          Set Your Profile for <br /> {commData.comName}
+        </span>
       </h2>
       <fieldset>
         <div id="profile_image">
-          <span>Select a profile picture</span>
           <div id="profile_image_select">
             <div
               id="drop-zone"
@@ -109,13 +113,6 @@ const CreateProfile = (props) => {
                 e.preventDefault();
               }}
             >
-              <span>
-                Drag Image
-                <br />
-                or
-                <br />
-                Click to Select
-              </span>
               <input
                 type="file"
                 name="image-uploader"
@@ -125,12 +122,14 @@ const CreateProfile = (props) => {
                   saveFile(file);
                 }}
               ></input>
+              <img ref={imagePreview} />
             </div>
           </div>
         </div>
       </fieldset>
+      <h3>User Name</h3>
       <Input
-        title="Profile Name"
+        title=""
         name="profName"
         type="text"
         empty={formData.profName}
@@ -141,8 +140,9 @@ const CreateProfile = (props) => {
         errorData={errorData}
       ></Input>
       <fieldset id="toggle-field">
+        <p>Privacy</p>
         <p>
-          Select the personal information you would like to share with
+          Select what you want to share with
           <span> {commData.comName}</span>
         </p>
         <div>

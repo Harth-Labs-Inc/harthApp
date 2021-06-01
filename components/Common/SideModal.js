@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import OusideClick from "../OutsideClick";
+import OutsideClickHandler from "../OutsideClick";
 
 const SideModal = (props) => {
   const [transitionClass, setTransitionClass] = useState();
@@ -13,15 +13,20 @@ const SideModal = (props) => {
     }, 4);
   }, [show]);
 
-  OusideClick(ref, () => {
+  const closeToolTip = () => {
     onToggleModal();
-  });
+  };
 
   return (
     <div id={id} className={`modal ${transitionClass}`}>
-      <section ref={ref} className="modal_side">
-        {children}
-      </section>
+      <OutsideClickHandler
+        onClickOutside={closeToolTip}
+        onFocusOutside={closeToolTip}
+      >
+        <section ref={ref} className="modal_side">
+          {children}
+        </section>
+      </OutsideClickHandler>
     </div>
   );
 };

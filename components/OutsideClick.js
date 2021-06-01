@@ -1,19 +1,49 @@
-import { useEffect } from "react";
+import React from "react";
 
-const useOutsideClick = (ref, callback) => {
-  const handleClick = (e) => {
-    if (ref.current && !ref.current.contains(e.target)) {
-      callback();
+export default class OutsideClickHandler extends React.Component {
+  clickCaptured = false;
+
+  render() {
+    if (typeof this.props.children === "function") {
+      return this.props.children(this.getProps());
     }
+
+    return this.renderComponent();
+  }
+
+  renderComponent() {
+    return React.createElement(
+      this.props.component || "span",
+      this.getProps(),
+      this.props.children
+    );
+  }
+
+  getProps() {
+    return {
+      onMouseDown: this.innerClick,
+      onTouchStart: this.innerClick,
+    };
+  }
+
+  innerClick = () => {
+    this.clickCaptured = true;
   };
 
-  useEffect(() => {
-    document.addEventListener("click", handleClick);
+  componentDidMount() {
+    document.addEventListener("mousedown", this.documentClick);
+    document.addEventListener("touchstart", this.documentClick);
+  }
 
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  });
-};
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.documentClick);
+    document.removeEventListener("touchstart", this.documentClick);
+  }
 
-export default useOutsideClick;
+  documentClick = (event) => {
+    if (!this.clickCaptured && this.props.onClickOutside) {
+      this.props.onClickOutside(event);
+    }
+    this.clickCaptured = false;
+  };
+}

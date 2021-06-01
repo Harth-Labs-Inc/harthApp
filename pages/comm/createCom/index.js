@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Input from "../../../components/Common/Input";
 import Form from "../../../components/Form-comp";
 import { Button, BackBtn } from "../../../components/Common/Button";
@@ -16,6 +16,8 @@ const CreateCom = (props) => {
   });
 
   const { changePage, onCommChange } = props;
+
+  const imagePreview = useRef();
 
   const inputChangeHandler = (eData, data) => {
     setErrorData(eData);
@@ -44,6 +46,7 @@ const CreateCom = (props) => {
     if (isBadFile) {
     } else {
       setFormData({ ...formData, image: file });
+      imagePreview.current.src = URL.createObjectURL(file);
     }
   };
 
@@ -61,11 +64,10 @@ const CreateCom = (props) => {
             changePage("initial");
           }}
         ></BackBtn>
-        Create Your Community
+        Create a H&auml;rth
       </h2>
       <fieldset>
         <div id="community-image">
-          <span>Select a picture to represent your community</span>
           <div id="community-image-select">
             <div
               id="drop-zone"
@@ -85,11 +87,10 @@ const CreateCom = (props) => {
               }}
             >
               <span>
-                Drag Image
+                Select
                 <br />
-                or
+                an image
                 <br />
-                Click to Select
               </span>
               <input
                 type="file"
@@ -100,12 +101,13 @@ const CreateCom = (props) => {
                   saveFile(file);
                 }}
               ></input>
+              <img ref={imagePreview} />
             </div>
           </div>
         </div>
       </fieldset>
       <Input
-        title="Community Name"
+        title="Name your h&auml;rth"
         name="comName"
         type="text"
         empty={formData.comName}
@@ -117,15 +119,7 @@ const CreateCom = (props) => {
       ></Input>
       <fieldset className={errorMessage ? "error" : ""}>
         <div className="form-bottom">
-          <Button id="comm-name-submit" type="submit" text="Continue"></Button>
-          <div>
-            <span>
-              By creating a Community, you agree to follow Project Blarg's
-              <a id="return-login" target="_blank">
-                Guidelines
-              </a>
-            </span>
-          </div>
+          <Button id="comm-name-submit" type="submit" text="Next"></Button>
         </div>
       </fieldset>
     </Form>

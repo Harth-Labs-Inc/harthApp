@@ -18,17 +18,21 @@ export const checkForFolder = (e) => {
 };
 
 export const checkForBadFile = (file) => {
-  if (!file.name.includes(".") || !file.name.split(".")[1]) {
-    return true;
-  }
-  let extention = file.name.split(".").pop();
   let goodFiles = ["png", "jpg", "jpeg", "raw", "eps", "gimp", "heif"];
   let isBadFile = true;
-  goodFiles.forEach((ext) => {
-    if (extention && extention.toLowerCase() == ext) {
-      isBadFile = false;
+
+  if (file) {
+    if (!file.name.includes(".") || !file.name.split(".")[1]) {
+      return true;
     }
-  });
+    let extention = file.name.split(".").pop();
+    goodFiles.forEach((ext) => {
+      if (extention && extention.toLowerCase() == ext) {
+        isBadFile = false;
+      }
+    });
+  }
+
   return isBadFile;
 };
 

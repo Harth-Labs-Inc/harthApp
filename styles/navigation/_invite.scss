@@ -56,6 +56,50 @@
     &__indicator-separator {
       display: none;
     }
+
+    &__menu {
+      bottom: -1px;
+      height: auto;
+      margin: 0;
+    }
+
+    &__menu-list {
+      background-color: $white;
+      border: 1px solid $text-black;
+      border-radius: 0;
+    }
+
+    &__option {
+      padding: 8px 16px;
+      span {
+        display: flex;
+        align-items: center;
+        .option-image-wrapper {
+          position: relative;
+          height: 48px;
+          width: 48px;
+          margin-right: 8px;
+          object-fit: cover;
+          background-color: $light-grey;
+          border-radius: 6px;
+          &:before {
+            @include x-y-center;
+            @include font-icon($icon-harth);
+            z-index: 1;
+          }
+        }
+        img {
+          position: relative;
+          z-index: 2;
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      &:hover {
+        background-color: $medium-grey-2;
+      }
+    }
   }
 
   .btn {
@@ -79,9 +123,11 @@
     text-align: center;
   }
   textarea {
+    height: 40px;
     width: 100%;
     resize: none;
-    font-size: 19px;
+    font-size: 14px;
+    text-align: center;
     background-color: transparent;
     border: 0;
   }
