@@ -8,6 +8,8 @@ export default async (req, res) => {
     obj = req.body;
   }
 
+  console.log(obj.id);
+
   const findComm = (db, tkn) => {
     return new Promise((resolve, reject) => {
       db.collection("invites")
@@ -16,6 +18,7 @@ export default async (req, res) => {
           if (err) {
             resolve(false);
           }
+          console.log(results);
           if (results[0]) {
             if (new Date() < new Date(results[0].expiration)) {
               resolve(results[0]);

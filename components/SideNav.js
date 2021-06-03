@@ -67,7 +67,9 @@ const SideNav = (props) => {
               return (
                 <li
                   className={
-                    selectedcomm && com._id === selectedcomm._id ? "active" : ""
+                    selectedcomm && com._id === selectedcomm._id
+                      ? "active"
+                      : undefined
                   }
                   aria-label="nav-item"
                   key={com._id}
@@ -77,7 +79,7 @@ const SideNav = (props) => {
                       changeSelectedCom(com);
                     }}
                     aria-label={com.name}
-                    className={com.iconKey ? "hasImage" : ""}
+                    className={com.iconKey ? "hasImage" : undefined}
                   >
                     {com.iconKey ? (
                       <img className="comm-icon" src={com.iconKey} />

@@ -68,34 +68,10 @@ export const getTopics = async (commId, UserId) => {
   }
 };
 
-export const getRooms = async (commId, UserId) => {
-  try {
-    const res = await api.post(`/api/comm/getRooms`, {
-      commId,
-      UserId,
-    });
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const saveTopics = async (topic) => {
   try {
     const res = await api.post(`/api/comm/saveTopics`, {
       topic,
-    });
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addRoomToUsers = async (ids, room) => {
-  try {
-    const res = await api.post(`/api/comm/addRoomToUsers`, {
-      ids,
-      room,
     });
     return res.data;
   } catch (error) {

@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { getComms, getTopics, getRooms } from "../requests/community";
+import { getComms, getTopics } from "../requests/community";
+import { getRooms } from "../requests/rooms";
 import { useAuth } from "./auth";
 import { useSocket } from "./socket";
 

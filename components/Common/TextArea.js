@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
 const TextArea = (props) => {
-  const [labelWidth, setlabelWidth] = useState(0);
-  const labelEl = useRef(null);
   const {
     name,
     title,
     isRequired,
-    placeholder,
     changeHandler,
     value,
     type,
@@ -17,14 +14,6 @@ const TextArea = (props) => {
     matching,
     customError,
   } = props;
-
-  useEffect(() => {
-    if (title) {
-      setlabelWidth(labelEl.current.clientWidth);
-    } else {
-      setlabelWidth(0);
-    }
-  }, [labelEl.current]);
 
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -42,15 +31,12 @@ const TextArea = (props) => {
   return (
     <>
       <fieldset
-        className={`${empty ? "content" : ""} ${
-          matching ? "error_matching" : ""
-        } ${isRequired ? "error_required" : ""} ${
-          customError ? "error_custom" : ""
+        className={`${empty ? "content" : undefined} ${
+          matching ? "error_matching" : undefined
+        } ${isRequired ? "error_required" : undefined} ${
+          customError ? "error_custom" : undefined
         }`}
       >
-        <label htmlFor={name} className="form-label" ref={labelEl}>
-          {title}
-        </label>
         <textarea
           className="form-input"
           id={name}
@@ -58,7 +44,7 @@ const TextArea = (props) => {
           type={type}
           value={value}
           onChange={inputChangeHandler}
-          placeholder={placeholder}
+          placeholder={title}
           autoComplete="off"
           {...props}
         />

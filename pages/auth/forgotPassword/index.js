@@ -87,12 +87,12 @@ const ResetPwd = (props) => {
             type="text"
             empty={formData.email}
             value={formData.email}
-            isRequired={errorData["email"]}
+            isrequired={errorData["email"]}
             changeHandler={inputChangeHandler}
             data={formData}
             errorData={errorData}
           />
-          <fieldset className={errorMessage ? "error" : ""}>
+          <fieldset className={errorMessage ? "error" : undefined}>
             <div className="form-bottom">
               <p id="email-error" id="login-error">
                 {errorMessage ? errorMessage : ""}

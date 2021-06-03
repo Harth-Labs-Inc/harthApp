@@ -3,7 +3,8 @@ import { useComms } from "../contexts/comms";
 import { useAuth } from "../contexts/auth";
 import { useChat } from "../contexts/chat";
 import { useSocket } from "../contexts/socket";
-import { saveTopics, addRoomToUsers } from "../requests/community";
+import { saveTopics } from "../requests/community";
+import { addRoomToUsers } from "../requests/rooms";
 import Modal from "./Modal";
 import Form from "./Form-comp";
 import Input from "./Common/Input";
@@ -53,6 +54,7 @@ const TopicsNav = (props) => {
     setOpenTopicBuilder(!openTopicBuilder);
   };
   const submitHandler = async () => {
+    console.log("test");
     let topic,
       userIds = [];
     if (toggleData.private) {
@@ -116,29 +118,29 @@ const TopicsNav = (props) => {
   return (
     <>
       {openTopicBuilder && (
-        <Modal id="topic-builder" show={modal} onToggleModal={showModal}>
+        <Modal id="topic_builder" show={modal} onToggleModal={showModal}>
           <h2>Create a new topic</h2>
           <Form
-            id="topic-modal"
+            id="topic_modal"
             on_submit={submitHandler}
             on_missing={setMissing}
             data={formData}
             errorData={errorData}
           >
             <Input
-              title="Title"
+              title="Add topic title"
               name="title"
               type="text"
               empty="true"
               value={formData.title}
-              // isRequired={errorData["title"]}
+              isrequired={errorData["title"]}
               changeHandler={inputChangeHandler}
               data={formData}
               errorData={errorData}
               placeholder="Title"
             />
             <TextArea
-              title="Description (optional)"
+              title="Add topic description"
               name="description"
               type="text"
               empty="true"
@@ -147,8 +149,8 @@ const TopicsNav = (props) => {
               data={formData}
               errorData={errorData}
               row="20"
-              placeholder="Description (optional)"
             />
+            <p>Make Private</p>
             <div id="topic_create_private">
               <ToggleSwitch
                 onToggleChange={toggleHandler}
@@ -165,7 +167,7 @@ const TopicsNav = (props) => {
                 id="topic_create_cancel"
                 onClick={openCreateTopic}
               />
-              <button text="Create" id="topic_create_submit" type="submit" />
+              <TextBtn text="Create" id="topic_create_submit" type="submit" />
             </fieldset>
           </Form>
         </Modal>
@@ -177,7 +179,6 @@ const TopicsNav = (props) => {
         <ul id="left_nav_topics">
           {topicsArr &&
             topicsArr.map((topic) => {
-              console.log(topic);
               let classes = [];
               if ((selectedTopic || {})._id == topic._id) {
                 classes.push("topic_active");

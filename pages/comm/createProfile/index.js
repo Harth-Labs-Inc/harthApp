@@ -134,7 +134,7 @@ const CreateProfile = (props) => {
         type="text"
         empty={formData.profName}
         value={formData.profName}
-        isRequired={errorData["profName"]}
+        isrequired={errorData["profName"]}
         changeHandler={inputChangeHandler}
         data={formData}
         errorData={errorData}
@@ -174,7 +174,7 @@ const CreateProfile = (props) => {
           </p>
         </div>
       </fieldset>
-      <fieldset className={errorMessage ? "error" : ""}>
+      <fieldset className={errorMessage ? "error" : undefined}>
         <div className="form-bottom">
           <Button
             id="create-prof-submit"

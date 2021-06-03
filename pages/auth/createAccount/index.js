@@ -94,7 +94,7 @@ const CreateAccount = (props) => {
           type="text"
           empty={formData.email}
           value={formData.email}
-          isRequired={errorData["email"]}
+          isrequired={errorData["email"]}
           changeHandler={inputChangeHandler}
           customError={
             customErrors["email"] || customErrors["match"]
@@ -110,7 +110,7 @@ const CreateAccount = (props) => {
           type="password"
           empty={formData.password}
           value={formData.password}
-          isRequired={errorData["password"]}
+          isrequired={errorData["password"]}
           changeHandler={inputChangeHandler}
           customError={
             customErrors["password"] ? "Must Be Over 8 Characters" : ""
@@ -124,7 +124,7 @@ const CreateAccount = (props) => {
           type="text"
           empty={formData.fullName}
           value={formData.fullName}
-          isRequired={errorData["fullName"]}
+          isrequired={errorData["fullName"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -135,12 +135,12 @@ const CreateAccount = (props) => {
           type="date"
           empty={true}
           value={formData.dob}
-          isRequired={errorData["dob"]}
+          isrequired={errorData["dob"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
         />
-        <fieldset className={customErrors["match"] ? "error" : ""}>
+        <fieldset className={customErrors["match"] ? "error" : undefined}>
           <div className="form-bottom">
             <Button
               id="account-create-submit"

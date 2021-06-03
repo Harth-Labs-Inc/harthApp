@@ -79,7 +79,7 @@ const Login = (props) => {
           type="text"
           empty={formData.email}
           value={formData.email}
-          isRequired={errorData["email"]}
+          isrequired={errorData["email"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -90,7 +90,7 @@ const Login = (props) => {
           name="password"
           type="password"
           empty={formData.password ? "password" : ""}
-          isRequired={errorData["password"]}
+          isrequired={errorData["password"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}

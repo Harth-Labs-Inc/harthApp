@@ -12,7 +12,7 @@ const Layout = (props) => {
     setmenuActive(!menuActive);
   };
   return (
-    <main className={menuActive ? "menu-open" : ""} id="dashboard">
+    <main className={menuActive ? "menu-open" : undefined} id="dashboard">
       <MainMenu />
       <TopNav
         onToggleMenu={toggleMenu}

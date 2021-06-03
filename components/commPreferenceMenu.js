@@ -165,7 +165,7 @@ const CommIndexPage = (props) => {
                   onChange={InviteNoteHandler}
                 ></textarea>
               </fieldset>
-              <fieldset className={customErrors["match"] ? "error" : ""}>
+              <fieldset className={customErrors["match"] ? "error" : undefined}>
                 <div className="form-bottom">
                   <p className="error-message" id="email-exists">
                     {customErrors["custom"]}
@@ -193,7 +193,7 @@ const CommIndexPage = (props) => {
       <aside className="modal_left">
         <ul id="nav_comm_preferences" role="nav">
           <li
-            className={currentPage == "profile" ? "active" : ""}
+            className={currentPage == "profile" ? "active" : undefined}
             role="nav-item"
           >
             <button
@@ -205,7 +205,7 @@ const CommIndexPage = (props) => {
             </button>
           </li>
           <li
-            className={currentPage == "premium" ? "active" : ""}
+            className={currentPage == "premium" ? "active" : undefined}
             role="nav-item"
           >
             <button
@@ -217,7 +217,7 @@ const CommIndexPage = (props) => {
             </button>
           </li>
           <li
-            className={currentPage == "invites" ? "active" : ""}
+            className={currentPage == "invites" ? "active" : undefined}
             role="nav-item"
           >
             <button
@@ -229,7 +229,7 @@ const CommIndexPage = (props) => {
             </button>
           </li>
           <li
-            className={currentPage == "admin" ? "active" : ""}
+            className={currentPage == "admin" ? "active" : undefined}
             role="nav-item"
           >
             <button

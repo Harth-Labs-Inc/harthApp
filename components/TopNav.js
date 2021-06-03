@@ -64,7 +64,7 @@ const TopNav = (props) => {
             role="nav-item"
             id="chat"
             aria-label="Community Topics"
-            className={currentPage == "chat" ? "active" : ""}
+            className={currentPage == "chat" ? "active" : undefined}
             onClick={() => {
               changePage("chat");
             }}
@@ -76,7 +76,7 @@ const TopNav = (props) => {
             role="nav-item"
             id="notes"
             aria-label="Notes"
-            className={currentPage == "notes" ? "active" : ""}
+            className={currentPage == "notes" ? "active" : undefined}
           >
             Notes
           </button>
@@ -85,7 +85,7 @@ const TopNav = (props) => {
             role="nav-item"
             id="gather"
             aria-label="Gather"
-            className={currentPage == "gather" ? "active" : ""}
+            className={currentPage == "gather" ? "active" : undefined}
             onClick={() => {
               changePage("gather");
             }}
@@ -97,7 +97,7 @@ const TopNav = (props) => {
             role="nav-item"
             id="events"
             aria-label="Community Events Calendar"
-            className={currentPage == "events" ? "active" : ""}
+            className={currentPage == "events" ? "active" : undefined}
             onClick={() => {
               changePage("events");
             }}
@@ -108,7 +108,7 @@ const TopNav = (props) => {
         <button
           id="account-btn"
           aria-label="My Account"
-          className={profileIcon ? "hasImage" : ""}
+          className={profileIcon ? "hasImage" : undefined}
         >
           {profileIcon ? <img src={profileIcon} /> : ""}
         </button>

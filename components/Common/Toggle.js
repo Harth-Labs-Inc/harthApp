@@ -13,7 +13,7 @@ const ToggleSwitch = (props) => {
   return (
     <div
       onClick={triggerToggle}
-      className={`toggle ${toggle ? "toggle--checked" : ""}
+      className={`toggle ${toggle ? "toggle--checked" : undefined}
     `}
     >
       <div className="toggle_container">

@@ -15,20 +15,11 @@ const MessageWrapper = (props) => {
   const [inview, setInview] = useState(null);
   const [displayScrollButton, setDisplayScrollButton] = useState(false);
   const bottomObserver = useRef(null);
-  const {
-    messages,
-    setMessages,
-    replies,
-    setReplies,
-    selectedReplyOwner,
-  } = useChat();
+  const { messages, setMessages, replies, setReplies, selectedReplyOwner } =
+    useChat();
   const { selectedTopic, selectedcomm } = useComms();
-  const {
-    incomingMsg,
-    unreadMsgs,
-    setUnreadMsgs,
-    incomingMsgUpdate,
-  } = useSocket();
+  const { incomingMsg, unreadMsgs, setUnreadMsgs, incomingMsgUpdate } =
+    useSocket();
 
   const messagesEndRef = useRef(null);
 
@@ -82,16 +73,15 @@ const MessageWrapper = (props) => {
       } else {
         setDisplayScrollButton(true);
       }
-
       setCurrentMessages(tempMsgs);
     }
   }, [selectedTopic, messages]);
 
-  useEffect(() => {
-    if (selectedcomm) {
-      setCurrentMessages([]);
-    }
-  }, [selectedcomm]);
+  // useEffect(() => {
+  //   if (selectedcomm) {
+  //     setCurrentMessages([]);
+  //   }
+  // }, [selectedcomm]);
 
   useEffect(() => {
     if (incomingMsg && messages) {
@@ -253,19 +243,18 @@ const MessageWrapper = (props) => {
         <div ref={messagesEndRef} />
         <div ref={setBottom} />
         {Object.keys(selectedReplyOwner).length > 0
-          ? [
-              selectedReplyOwner,
-              ...(currentReplies || []),
-            ].map((msg, index) => (
-              <Message
-                editMessageText={editMessage}
-                msg={msg}
-                key={msg._id}
-                isReply={true}
-              />
-            ))
-          : (currentMessages || []).length > 0 &&
-            (currentMessages || []).map((msg, index) => (
+          ? [selectedReplyOwner, ...(currentReplies || [])].map(
+              (msg, index) => (
+                <Message
+                  editMessageText={editMessage}
+                  msg={msg}
+                  key={msg._id}
+                  isReply={true}
+                />
+              )
+            )
+          : currentMessages &&
+            currentMessages.map((msg, index) => (
               <Message editMessageText={editMessage} msg={msg} key={msg._id} />
             ))}
         <ScrollButton />

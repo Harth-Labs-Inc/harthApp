@@ -25,15 +25,9 @@ const SubmitCom = (props) => {
     setErrorData(missing);
   };
 
-  const submitHandler = () => {
-    onIntChange(formData.interests);
-    onCreate();
-  };
-
   return (
     <Form
       id="submit-community"
-      on_submit={submitHandler}
       on_missing={setMissing}
       data={formData}
       errorData={errorData}
@@ -43,9 +37,15 @@ const SubmitCom = (props) => {
         Welcome to your new h&auml;rth. <br />
         We hope you have a great time
       </p>
-      <fieldset className={errorMessage ? "error" : ""}>
+      <fieldset className={errorMessage ? "error" : undefined}>
         <div className="form-bottom">
-          <Button id="comm-name-submit" type="submit" text="LET'S GO"></Button>
+          <Button
+            id="comm-name-submit"
+            onClick={() => {
+              onCreate();
+            }}
+            text="LET'S GO"
+          ></Button>
         </div>
       </fieldset>
     </Form>

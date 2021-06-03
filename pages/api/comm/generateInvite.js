@@ -38,11 +38,10 @@ export default async (req, res) => {
       );
     });
   };
-
   const { db } = await connectToDatabase();
   let token = await generateToken();
   let date = new Date();
-  let tempExpiration = new Date(date.setHours(date.getHours() + 24));
+  let tempExpiration = new Date(date.setDate(date.getDate() + 1));
   let invite = { comm_id: id, token, expiration: tempExpiration };
   let saveResult = await saveInvite(db, invite);
   if (!saveResult) {

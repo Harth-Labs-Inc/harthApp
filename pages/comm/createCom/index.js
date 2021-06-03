@@ -112,12 +112,12 @@ const CreateCom = (props) => {
         type="text"
         empty={formData.comName}
         value={formData.comName}
-        isRequired={errorData["comName"]}
+        isrequired={errorData["comName"]}
         changeHandler={inputChangeHandler}
         data={formData}
         errorData={errorData}
       ></Input>
-      <fieldset className={errorMessage ? "error" : ""}>
+      <fieldset className={errorMessage ? "error" : undefined}>
         <div className="form-bottom">
           <Button id="comm-name-submit" type="submit" text="Next"></Button>
         </div>

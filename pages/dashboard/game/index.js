@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { connectUserToRoom } from "../../../requests/rooms";
 import { useAuth } from "../../../contexts/auth";
 import { useComms } from "../../../contexts/comms";
-import { saveRoom } from "../../../requests/game";
+import { saveRoom } from "../../../requests/rooms";
 import { useSocket } from "../../../contexts/socket";
 
 const Game = (props) => {
@@ -83,14 +84,24 @@ const Game = (props) => {
       }
     });
   };
-  const broadcastUpdate = (room) => {
+  const broadcastUpdate = (room, roomOpen) => {
     emitUpdate(selectedcomm._id, room, async (err, status) => {
       if (err) {
         console.log(err);
       }
       let { ok } = status;
       if (ok) {
-        console.log("Room updated");
+        if (roomOpen) {
+          let urls = {
+            development: "http://localhost:3000/",
+            production: "https://project-blarg-next.vercel.app/",
+          };
+          window.open(
+            `${urls[process.env.NODE_ENV]}?gather_window=true&room_type=${
+              room.room_type
+            }&comm_id=${selectedcomm._id}&room_id=${room._id}`
+          );
+        }
       }
     });
   };
@@ -100,20 +111,12 @@ const Game = (props) => {
   };
   const joinRoom = async (room) => {
     let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
+    await connectUserToRoom(creator, room._id);
+
     room.active_users.push(creator);
-    // await updateRoom(room);
     room.updateType = "room update";
     room.updateDetails = "user update";
-    broadcastUpdate(room);
-    let urls = {
-      development: "http://localhost:3000/",
-      production: "https://project-blarg-next.vercel.app/",
-    };
-    window.open(
-      `${urls[process.env.NODE_ENV]}?gather_window=true&room_type=${
-        room.room_type
-      }&comm_id=${selectedcomm._id}&room_id=${room._id}`
-    );
+    broadcastUpdate(room, true);
   };
   const leaveRoom = (room) => {
     let filteredusrs = room.active_users.filter(

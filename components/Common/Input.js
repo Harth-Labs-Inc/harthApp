@@ -1,12 +1,8 @@
-import { useRef, useState } from "react";
-
 const Input = (props) => {
-  const labelEl = useRef(null);
   const {
     name,
     title,
-    isRequired,
-    placeholder,
+    isrequired,
     changeHandler,
     value,
     type,
@@ -52,7 +48,7 @@ const Input = (props) => {
     } else {
       return (
         <p className="empty_error_message">
-          {isRequired ? "Field Required" : ""}
+          {isrequired ? "Field Required" : undefined}
         </p>
       );
     }
@@ -61,10 +57,10 @@ const Input = (props) => {
   return (
     <>
       <fieldset
-        className={`${empty ? "content" : ""} 
-                    ${matching ? "error_matching" : ""} 
-                    ${isRequired ? "error_required" : ""} 
-                    ${customError ? "error_custom" : ""}`}
+        className={`${empty ? "content" : undefined} 
+                    ${matching ? "error_matching" : undefined} 
+                    ${isrequired ? "error_required" : undefined} 
+                    ${customError ? "error_custom" : undefined}`}
       >
         <input
           className="form-input"

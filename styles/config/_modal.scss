@@ -20,11 +20,8 @@
     background-color: $white;
     border-radius: 8px;
 
-    height: 0;
-    width: 0;
-    transform-origin: center;
-
-    transition: all 0.3s 0.2s;
+    height: auto;
+    width: 344px;
 
     .modal_top {
       display: flex;
@@ -84,10 +81,5 @@
   &_open {
     opacity: 1;
     visibility: visible;
-
-    .modal_main {
-      height: auto;
-      width: 344px;
-    }
   }
 }

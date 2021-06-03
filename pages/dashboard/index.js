@@ -18,7 +18,6 @@ import Classic from "./classic";
 
 const dashboard = (props) => {
   const [loading, setLoading] = useState(true);
-  const [modal, setModal] = useState();
   const [currentPage, setCurrentPage] = useState("chat");
   const [GatherWindow, setGatherWindow] = useState("");
   const [RoomType, setRoomType] = useState("");
@@ -43,8 +42,6 @@ const dashboard = (props) => {
     const CId = urlParams.get("comm_id");
     const gatherWindow = urlParams.get("gather_window");
     const roomType = urlParams.get("room_type");
-    const Ck = Cookies.get("showComCreatedModal");
-    if (Ck) setModal(true);
     if (gatherWindow) setGatherWindow(gatherWindow);
     if (roomType) {
       setRoomType(roomType);
@@ -56,19 +53,10 @@ const dashboard = (props) => {
     setCurrentPage(pg);
   };
 
-  const showModal = () => {
-    setModal(!modal);
-  };
-
-  const removeCookie = () => {
-    Cookies.remove("showComCreatedModal");
-    showModal();
-  };
-
   let page;
   switch (currentPage) {
     case "gather":
-      page = <Game></Game>;
+      page = <Game />;
       break;
     case "stream":
       page = <Stream />;
@@ -80,10 +68,10 @@ const dashboard = (props) => {
       page = <Gather />;
       break;
     case "events":
-      page = <Events></Events>;
+      page = <Events />;
       break;
     default:
-      page = <Chat></Chat>;
+      page = <Chat />;
       break;
   }
 
@@ -102,20 +90,6 @@ const dashboard = (props) => {
                   changePage={changePageHandler}
                   currentPage={currentPage}
                 >
-                  {modal ? (
-                    <Modal
-                      id="community-preferences"
-                      show={modal}
-                      onToggleModal={showModal}
-                    >
-                      <h1>Success!!</h1>
-                      <p>Welcome to your new community.</p>
-                      <p>We hope you have a great time</p>
-                      <Button text="let's go" onClick={removeCookie}></Button>
-                    </Modal>
-                  ) : (
-                    ""
-                  )}
                   {page}
                 </NavLayout>
               )}

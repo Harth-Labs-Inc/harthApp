@@ -67,7 +67,7 @@ const ChangePassword = (props) => {
           type="password"
           empty={formData.pwd}
           value={formData.pwd}
-          isRequired={errorData["pwd"]}
+          isrequired={errorData["pwd"]}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -78,7 +78,7 @@ const ChangePassword = (props) => {
           type="password"
           empty={formData.conf_pwd}
           value={formData.conf_pwd}
-          isRequired={errorData["conf_pwd"]}
+          isrequired={errorData["conf_pwd"]}
           matching={matchingPwdStatus}
           changeHandler={inputChangeHandler}
           data={formData}
@@ -86,7 +86,10 @@ const ChangePassword = (props) => {
         />
         <fieldset>
           <div className="form-bottom">
-            <p className={errorMessage ? "error" : ""} id="change-pwd-error">
+            <p
+              className={errorMessage ? "error" : undefined}
+              id="change-pwd-error"
+            >
               {errorMessage ? errorMessage : ""}
             </p>
             <Button

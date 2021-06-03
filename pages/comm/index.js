@@ -22,7 +22,6 @@ const CommIndexPage = () => {
   const [community, setCommunity] = useState({ comIcon: {}, comName: "" });
   const [profile, setProfile] = useState({ profIcon: {}, profName: "" });
   const [personalInfo, setPersonalInfo] = useState({});
-  const [interests, setInterests] = useState();
 
   const router = useRouter();
   const { user } = useAuth();
@@ -32,12 +31,12 @@ const CommIndexPage = () => {
   } = router;
 
   useEffect(() => {
-    let token = tkn;
     if (tkn) {
       setCurrentPage("profile");
       (async () => {
-        const data = await getCommFromInvite(token);
+        const data = await getCommFromInvite(tkn);
         const { ok, msg, comm } = data;
+        console.log(data);
         if (ok) {
           setcomID(comm.comm_id);
         }
@@ -58,10 +57,6 @@ const CommIndexPage = () => {
   };
   const persHandler = (data) => {
     setPersonalInfo(data);
-  };
-
-  const interestHandler = (data) => {
-    setInterests(data);
   };
 
   const uploadFile = (file, bucket) => {
@@ -138,7 +133,6 @@ const CommIndexPage = () => {
         });
         console.log(profDbUpload);
         if (profDbUpload.ok) {
-          Cookies.set("showComCreatedModal", true);
           window.history.replaceState(null, "", "/");
           window.location.pathname = "/";
         }
@@ -162,7 +156,6 @@ const CommIndexPage = () => {
       });
       console.log(profDbUpload);
       if (profDbUpload.ok) {
-        Cookies.set("showComCreatedModal", true);
         window.history.replaceState(null, "", "/");
         window.location.pathname = "/";
       }
@@ -201,7 +194,6 @@ const CommIndexPage = () => {
           user={user}
           onProfChange={profHandler}
           onCreate={createComm}
-          onIntChange={interestHandler}
         ></SubmitCom>
       );
       break;

@@ -93,7 +93,7 @@ const Message = (props) => {
     }
     msg.updateType = "message update";
     msg.action = "update";
-    emitUpdate(topic_id, msg, async (err, status) => {
+    emitUpdate(selectedcomm._id, msg, async (err, status) => {
       if (err) {
         console.log(err);
       }
