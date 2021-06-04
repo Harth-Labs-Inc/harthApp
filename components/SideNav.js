@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useComms } from "../contexts/comms";
 import Modal from "./Modal";
 import SideModal from "./Common/SideModal";
-import SettingsMenu from "./SettingsMenu";
+import SettingsMenu from "./SettingsMenu/index";
 import CommBuilder from "../pages/comm";
 
 const SideNav = (props) => {

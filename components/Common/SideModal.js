@@ -23,7 +23,7 @@ const SideModal = (props) => {
         onClickOutside={closeToolTip}
         onFocusOutside={closeToolTip}
       >
-        <section ref={ref} className="modal_side">
+        <section ref={ref} id="modal_side">
           {children}
         </section>
       </OutsideClickHandler>

@@ -32,13 +32,39 @@
     }
   }
 
-  .modal_side {
+  #modal_side {
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
     width: 296px;
     background-color: $white;
+
+    #go_back {
+      position: relative;
+      height: 48px;
+      width: 48px;
+      margin-right: 8px;
+      font-size: 0;
+      background-color: transparent;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:before {
+        @include x-y-center;
+        @include font-icon($icon-caret-right);
+        margin-right: 8px;
+        color: $text-black;
+        font-size: 16px;
+        transform: translate3d(-50%, -50%, 0) rotate(180deg);
+      }
+
+      &:hover {
+        background-color: $light-grey;
+      }
+    }
 
     h1 {
       margin: 0;
@@ -62,7 +88,7 @@
       }
     }
 
-    li {
+    > ul > li {
       &:not(:nth-last-of-type(-n + 2)) {
         button {
           position: relative;

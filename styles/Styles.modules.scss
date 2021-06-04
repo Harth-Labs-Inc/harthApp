@@ -1,20 +1,20 @@
-@import "./globals";
+@import './globals';
 
 //utility
-@import "./utility/ui-mixins";
+@import './utility/ui-mixins';
 
 //config
-@import "./config/html", "./config/config-type", "./config/button",
-  "./config/forms", "./config/modal", "./config/toggle", "./config/message";
+@import './config/html', './config/config-type', './config/button',
+  './config/forms', './config/modal', './config/toggle', './config/message';
 
 //layouts
-@import "./layouts/header", "./layouts/sidedash";
+@import './layouts/header', './layouts/sidedash';
 
 //navigation
-@import "./navigation/main", "./navigation/top", "./navigation/comm-menu",
-  "./navigation/comm-preferences", "./navigation/topic-nav",
-  "./navigation/invite";
+@import './navigation/main', './navigation/top', './navigation/comm-menu',
+  './navigation/comm-preferences', './navigation/topic-nav',
+  './navigation/invite', './navigation/settings';
 
 //pages
-@import "./pages/auth", "./pages/dashboard", "./pages/topic", "./pages/chat",
-  "./pages/gather";
+@import './pages/auth', './pages/dashboard', './pages/topic', './pages/chat',
+  './pages/gather';
