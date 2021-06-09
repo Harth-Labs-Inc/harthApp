@@ -1,19 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react'
 
 const ToggleSwitch = (props) => {
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(false)
 
-  const { onToggleChange, toggleName } = props;
+  const { onToggleChange, toggleName, isChecked } = props
+
+  useEffect(() => {
+    if (isChecked) {
+      setToggle(true)
+    }
+  }, [isChecked])
 
   const triggerToggle = () => {
-    onToggleChange(toggleName, !toggle);
-    setToggle(!toggle);
-  };
+    onToggleChange(toggleName, !toggle)
+    setToggle(!toggle)
+  }
 
   return (
     <div
       onClick={triggerToggle}
-      className={`toggle ${toggle ? "toggle--checked" : undefined}
+      className={`toggle ${toggle ? 'toggle--checked' : undefined}
     `}
     >
       <div className="toggle_container">
@@ -29,7 +35,7 @@ const ToggleSwitch = (props) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ToggleSwitch;
+export default ToggleSwitch

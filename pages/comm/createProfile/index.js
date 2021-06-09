@@ -1,79 +1,79 @@
-import { useEffect, useState, useRef } from "react";
-import { Button, BackBtn } from "../../../components/Common/Button";
-import { checkForFolder, checkForBadFile } from "../../../services/helper";
-import Form from "../../../components/Form-comp";
-import Input from "../../../components/Common/Input";
-import ToggleSwitch from "../../../components/Common/Toggle";
+import { useEffect, useState, useRef } from 'react'
+import { Button, BackBtn } from '../../../components/Common/Button'
+import { checkForFolder, checkForBadFile } from '../../../services/helper'
+import Form from '../../../components/Form-comp'
+import Input from '../../../components/Common/Input'
+import ToggleSwitch from '../../../components/Common/Toggle'
 
 const CreateProfile = (props) => {
-  const [bday, setBday] = useState();
-  const [errorMessage, setErrorMessage] = useState();
+  const [bday, setBday] = useState()
+  const [errorMessage, setErrorMessage] = useState()
   const [formData, setFormData] = useState({
     image: {},
-    profName: "",
-  });
+    profName: '',
+  })
   const [errorData, setErrorData] = useState({
     image: false,
     profName: false,
-  });
+  })
   const [toggleData, setToggleData] = useState({
     name: false,
     email: false,
     bday: false,
-  });
+  })
 
-  const { user, onProfChange, onPersChange, commData, changePage } = props;
+  const { user, onProfChange, onPersChange, commData, changePage } = props
 
-  const imagePreview = useRef();
+  const imagePreview = useRef()
 
   useEffect(() => {
     if (user && user.dob) {
-      let date = new Date(`${user.dob}T00:00:00`).toLocaleDateString("en-GB", {
-        year: "numeric",
-        day: "2-digit",
-        month: "2-digit",
-      });
-      let seperatedDate = date.split("/");
-      seperatedDate.pop();
-      setBday(seperatedDate.reverse().join("/"));
+      let date = new Date(`${user.dob}T00:00:00`).toLocaleDateString('en-GB', {
+        year: 'numeric',
+        day: '2-digit',
+        month: '2-digit',
+      })
+      let seperatedDate = date.split('/')
+      seperatedDate.pop()
+      setBday(seperatedDate.reverse().join('/'))
     }
-  }, [user]);
+  }, [user])
 
   const setMissing = (missing) => {
-    setErrorData(missing);
-  };
+    setErrorData(missing)
+  }
 
   const saveFile = (file) => {
-    let isBadFile = checkForBadFile(file);
+    let isBadFile = checkForBadFile(file)
     if (isBadFile) {
     } else {
-      setFormData({ ...formData, image: file });
-      imagePreview.current.src = URL.createObjectURL(file);
+      setFormData({ ...formData, image: file })
+      imagePreview.current.src = URL.createObjectURL(file)
     }
-  };
+  }
 
   const submitHandler = () => {
-    onProfChange(formData);
-    onPersChange(toggleData);
-    changePage("submit");
-  };
+    onProfChange(formData)
+    onPersChange(toggleData)
+    changePage('submit')
+  }
 
   const dropHandler = (e) => {
-    let isFolder = checkForFolder(e);
-    let { file, folder } = isFolder;
+    let isFolder = checkForFolder(e)
+    let { file, folder } = isFolder
     if (!folder && file) {
-      saveFile(file);
+      saveFile(file)
     }
-  };
+  }
 
   const inputChangeHandler = (eData, data) => {
-    setErrorData(eData);
-    setFormData(data);
-  };
+    setErrorData(eData)
+    setFormData(data)
+  }
 
   const toggleHandler = (toggle, status) => {
-    setToggleData({ ...toggleData, [toggle]: status });
-  };
+    setToggleData({ ...toggleData, [toggle]: status })
+  }
 
   return (
     <Form
@@ -86,7 +86,7 @@ const CreateProfile = (props) => {
       <h2>
         <BackBtn
           onClick={() => {
-            changePage("create");
+            changePage('create')
           }}
         ></BackBtn>
         <span>
@@ -99,18 +99,18 @@ const CreateProfile = (props) => {
             <div
               id="drop-zone"
               onDragEnter={(e) => {
-                e.preventDefault();
-                return false;
+                e.preventDefault()
+                return false
               }}
               onDragOver={(e) => {
-                e.preventDefault();
+                e.preventDefault()
               }}
               onDrop={(e) => {
-                e.preventDefault();
-                dropHandler(e);
+                e.preventDefault()
+                dropHandler(e)
               }}
               onDragLeave={(e) => {
-                e.preventDefault();
+                e.preventDefault()
               }}
             >
               <input
@@ -118,8 +118,8 @@ const CreateProfile = (props) => {
                 name="image-uploader"
                 id="image-uploader"
                 onChange={(e) => {
-                  let file = e.target.files[0];
-                  saveFile(file);
+                  let file = e.target.files[0]
+                  saveFile(file)
                 }}
               ></input>
               <img ref={imagePreview} />
@@ -134,7 +134,7 @@ const CreateProfile = (props) => {
         type="text"
         empty={formData.profName}
         value={formData.profName}
-        isrequired={errorData["profName"]}
+        isrequired={errorData['profName']}
         changeHandler={inputChangeHandler}
         data={formData}
         errorData={errorData}
@@ -174,7 +174,7 @@ const CreateProfile = (props) => {
           </p>
         </div>
       </fieldset>
-      <fieldset className={errorMessage ? "error" : undefined}>
+      <fieldset className={errorMessage ? 'error' : undefined}>
         <div className="form-bottom">
           <Button
             id="create-prof-submit"
@@ -184,7 +184,7 @@ const CreateProfile = (props) => {
         </div>
       </fieldset>
     </Form>
-  );
-};
+  )
+}
 
-export default CreateProfile;
+export default CreateProfile

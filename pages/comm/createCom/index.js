@@ -1,54 +1,54 @@
-import { useState, useRef } from "react";
-import Input from "../../../components/Common/Input";
-import Form from "../../../components/Form-comp";
-import { Button, BackBtn } from "../../../components/Common/Button";
-import { checkForFolder, checkForBadFile } from "../../../services/helper";
+import { useState, useRef } from 'react'
+import Input from '../../../components/Common/Input'
+import Form from '../../../components/Form-comp'
+import { Button, BackBtn } from '../../../components/Common/Button'
+import { checkForFolder, checkForBadFile } from '../../../services/helper'
 
 const CreateCom = (props) => {
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState()
   const [formData, setFormData] = useState({
     image: {},
-    comName: "",
-  });
+    comName: '',
+  })
   const [errorData, setErrorData] = useState({
     image: false,
     comName: false,
-  });
+  })
 
-  const { changePage, onCommChange } = props;
+  const { changePage, onCommChange } = props
 
-  const imagePreview = useRef();
+  const imagePreview = useRef()
 
   const inputChangeHandler = (eData, data) => {
-    setErrorData(eData);
-    setFormData(data);
-  };
+    setErrorData(eData)
+    setFormData(data)
+  }
 
   const setMissing = (missing) => {
-    setErrorData(missing);
-  };
+    setErrorData(missing)
+  }
 
   const submitHandler = () => {
-    onCommChange(formData);
-    changePage("profile");
-  };
+    onCommChange(formData)
+    changePage('profile')
+  }
 
   const dropHandler = (e) => {
-    let isFolder = checkForFolder(e);
-    let { file, folder } = isFolder;
+    let isFolder = checkForFolder(e)
+    let { file, folder } = isFolder
     if (!folder && file) {
-      saveFile(file);
+      saveFile(file)
     }
-  };
+  }
 
   const saveFile = (file) => {
-    let isBadFile = checkForBadFile(file);
+    let isBadFile = checkForBadFile(file)
     if (isBadFile) {
     } else {
-      setFormData({ ...formData, image: file });
-      imagePreview.current.src = URL.createObjectURL(file);
+      setFormData({ ...formData, image: file })
+      imagePreview.current.src = URL.createObjectURL(file)
     }
-  };
+  }
 
   return (
     <Form
@@ -61,7 +61,7 @@ const CreateCom = (props) => {
       <h2>
         <BackBtn
           onClick={() => {
-            changePage("initial");
+            changePage('initial')
           }}
         ></BackBtn>
         Create a H&auml;rth
@@ -72,18 +72,18 @@ const CreateCom = (props) => {
             <div
               id="drop-zone"
               onDragEnter={(e) => {
-                e.preventDefault();
-                return false;
+                e.preventDefault()
+                return false
               }}
               onDragOver={(e) => {
-                e.preventDefault();
+                e.preventDefault()
               }}
               onDrop={(e) => {
-                e.preventDefault();
-                dropHandler(e);
+                e.preventDefault()
+                dropHandler(e)
               }}
               onDragLeave={(e) => {
-                e.preventDefault();
+                e.preventDefault()
               }}
             >
               <span>
@@ -97,8 +97,8 @@ const CreateCom = (props) => {
                 name="image-uploader"
                 id="image-uploader"
                 onChange={(e) => {
-                  let file = e.target.files[0];
-                  saveFile(file);
+                  let file = e.target.files[0]
+                  saveFile(file)
                 }}
               ></input>
               <img ref={imagePreview} />
@@ -112,18 +112,18 @@ const CreateCom = (props) => {
         type="text"
         empty={formData.comName}
         value={formData.comName}
-        isrequired={errorData["comName"]}
+        isrequired={errorData['comName']}
         changeHandler={inputChangeHandler}
         data={formData}
         errorData={errorData}
       ></Input>
-      <fieldset className={errorMessage ? "error" : undefined}>
+      <fieldset className={errorMessage ? 'error' : undefined}>
         <div className="form-bottom">
           <Button id="comm-name-submit" type="submit" text="Next"></Button>
         </div>
       </fieldset>
     </Form>
-  );
-};
+  )
+}
 
-export default CreateCom;
+export default CreateCom

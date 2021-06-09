@@ -1,64 +1,64 @@
-import React, { useState, useEffect } from "react";
-import { useComms } from "../contexts/comms";
-import { useAuth } from "../contexts/auth";
-import { useChat } from "../contexts/chat";
-import { useSocket } from "../contexts/socket";
-import { saveTopics } from "../requests/community";
-import { addRoomToUsers } from "../requests/rooms";
-import Modal from "./Modal";
-import Form from "./Form-comp";
-import Input from "./Common/Input";
-import TextArea from "./Common/TextArea";
-import ToggleSwitch from "./Common/Toggle";
-import { TextBtn } from "./Common/Button";
+import React, { useState, useEffect } from 'react'
+import { useComms } from '../contexts/comms'
+import { useAuth } from '../contexts/auth'
+import { useChat } from '../contexts/chat'
+import { useSocket } from '../contexts/socket'
+import { saveTopics } from '../requests/community'
+import { addRoomToUsers } from '../requests/rooms'
+import Modal from './Modal'
+import Form from './Form-comp'
+import Input from './Common/Input'
+import TextArea from './Common/TextArea'
+import ToggleSwitch from './Common/Toggle'
+import { TextBtn } from './Common/Button'
 
 const TopicsNav = (props) => {
-  const [modal, setModal] = useState();
-  const [topicsArr, setTopicsArr] = useState([]);
-  const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
+  const [modal, setModal] = useState()
+  const [topicsArr, setTopicsArr] = useState([])
+  const [openTopicBuilder, setOpenTopicBuilder] = useState(false)
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-  });
+    title: '',
+    description: '',
+  })
   const [toggleData, setToggleData] = useState({
     private: false,
-  });
+  })
   const [errorData, setErrorData] = useState({
     title: false,
     description: false,
-  });
+  })
 
-  const { unreadMsgs, emitUpdate, incomingTopic } = useSocket();
-  const { user } = useAuth();
-  const { selectedcomm, topics, setTopic, selectedTopic } = useComms();
-  const { setSelectedReplyOwner } = useChat();
+  const { unreadMsgs, emitUpdate, incomingTopic } = useSocket()
+  const { user } = useAuth()
+  const { selectedcomm, topics, setTopic, selectedTopic } = useComms()
+  const { setSelectedReplyOwner } = useChat()
 
   useEffect(() => {
-    console.log(topics);
-    setTopicsArr(topics);
-  }, [topics]);
+    console.log(topics)
+    setTopicsArr(topics)
+  }, [topics])
   useEffect(() => {
     if (incomingTopic._id) {
-      setTopicsArr([...topics, incomingTopic]);
+      setTopicsArr([...topics, incomingTopic])
     }
-  }, [incomingTopic]);
+  }, [incomingTopic])
 
   const showModal = () => {
-    setModal(!modal);
-  };
+    setModal(!modal)
+  }
   const changeSelectedTopic = (topic) => {
-    setTopic(topic);
-    setSelectedReplyOwner({});
-  };
+    setTopic(topic)
+    setSelectedReplyOwner({})
+  }
   const openCreateTopic = () => {
-    setOpenTopicBuilder(!openTopicBuilder);
-  };
+    setOpenTopicBuilder(!openTopicBuilder)
+  }
   const submitHandler = async () => {
-    console.log("test");
+    console.log('test')
     let topic,
-      userIds = [];
+      userIds = []
     if (toggleData.private) {
-      userIds.push(user._id);
+      userIds.push(user._id)
       topic = {
         comm_id: selectedcomm._id,
         members: [{ user_id: user._id, admin: true, muted: false }],
@@ -66,18 +66,18 @@ const TopicsNav = (props) => {
         description: formData.description,
         private: toggleData.private,
         invites: [],
-      };
+      }
     } else {
       selectedcomm.users.forEach((usr) => {
-        userIds.push(usr.userId);
-      });
+        userIds.push(usr.userId)
+      })
       topic = {
         comm_id: selectedcomm._id,
         members: [
           { user_id: user._id, admin: true, muted: false },
           ...selectedcomm.users.forEach((usr) => {
             if (usr.userId !== user._id) {
-              return { user_id: usr.userId, admin: false, muted: false };
+              return { user_id: usr.userId, admin: false, muted: false }
             }
           }),
         ],
@@ -85,35 +85,35 @@ const TopicsNav = (props) => {
         description: formData.description,
         private: toggleData.private,
         invites: [],
-      };
-    }
-    const data = await saveTopics(topic);
-    const { ok, id } = data;
-    if (ok) {
-      topic._id = id;
-      setOpenTopicBuilder(false);
-      if (id) {
-        const results = await addRoomToUsers(userIds, id);
-        topic.updateType = "new topic";
-        emitUpdate(selectedcomm._id, topic, async (err, status) => {
-          if (err) {
-            console.log(err);
-          }
-          let { ok } = status;
-        });
       }
     }
-  };
+    const data = await saveTopics(topic)
+    const { ok, id } = data
+    if (ok) {
+      topic._id = id
+      setOpenTopicBuilder(false)
+      if (id) {
+        const results = await addRoomToUsers(userIds, id)
+        topic.updateType = 'new topic'
+        emitUpdate(selectedcomm._id, topic, async (err, status) => {
+          if (err) {
+            console.log(err)
+          }
+          let { ok } = status
+        })
+      }
+    }
+  }
   const inputChangeHandler = (eData, data) => {
-    setErrorData(eData);
-    setFormData(data);
-  };
+    setErrorData(eData)
+    setFormData(data)
+  }
   const toggleHandler = (toggle, status) => {
-    setToggleData({ ...toggleData, [toggle]: status });
-  };
+    setToggleData({ ...toggleData, [toggle]: status })
+  }
   const setMissing = (missing) => {
-    setErrorData(missing);
-  };
+    setErrorData(missing)
+  }
 
   return (
     <>
@@ -133,7 +133,7 @@ const TopicsNav = (props) => {
               type="text"
               empty="true"
               value={formData.title}
-              isrequired={errorData["title"]}
+              isrequired={errorData['title']}
               changeHandler={inputChangeHandler}
               data={formData}
               errorData={errorData}
@@ -173,15 +173,12 @@ const TopicsNav = (props) => {
         </Modal>
       )}
       <aside id="topic_nav">
-        <header>
-          <p>Topics</p>
-        </header>
         <ul id="left_nav_topics">
           {topicsArr &&
             topicsArr.map((topic) => {
-              let classes = [];
+              let classes = []
               if ((selectedTopic || {})._id == topic._id) {
-                classes.push("topic_active");
+                classes.push('topic_active')
               }
               unreadMsgs.forEach((msg) => {
                 if (
@@ -189,26 +186,26 @@ const TopicsNav = (props) => {
                   msg.creator_id !== user._id &&
                   (selectedTopic || {})._id !== msg.topic_id
                 ) {
-                  classes.push("topic_new_message");
+                  classes.push('topic_new_message')
                 }
-              });
+              })
 
               return (
                 <li
-                  className={classes.join(" ")}
+                  className={classes.join(' ')}
                   aria-label="nav-item"
                   key={topic._id}
                 >
                   <button
                     onClick={() => {
-                      changeSelectedTopic(topic);
+                      changeSelectedTopic(topic)
                     }}
                     aria-label={topic.title}
                   >
                     {topic.title}
                   </button>
                 </li>
-              );
+              )
             })}
           <li key="add new button">
             <button id="create_topic" onClick={openCreateTopic}>
@@ -218,7 +215,7 @@ const TopicsNav = (props) => {
         </ul>
       </aside>
     </>
-  );
-};
+  )
+}
 
-export default TopicsNav;
+export default TopicsNav

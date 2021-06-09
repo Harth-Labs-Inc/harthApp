@@ -13,54 +13,54 @@ const Input = (props) => {
     customError,
     changePage,
     currentPage,
-  } = props;
+  } = props
 
   const inputChangeHandler = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     let tempErrorData = {
       ...errorData,
       [name]: false,
-    };
+    }
     let tempData = {
       ...data,
       [name]: value,
-    };
-    changeHandler(tempErrorData, tempData);
-  };
+    }
+    changeHandler(tempErrorData, tempData)
+  }
 
   const ErrorMessage = () => {
     if (customError) {
       return (
-        <p className="custom_error_message">{customError ? customError : ""}</p>
-      );
-    } else if (type === "password" && currentPage && currentPage == "login") {
+        <p className="custom_error_message">{customError ? customError : ''}</p>
+      )
+    } else if (type === 'password' && currentPage && currentPage == 'login') {
       return (
         <p className="password_error_message">
           <a
             onClick={() => {
-              changePage("resetpwd");
+              changePage('resetpwd')
             }}
           >
             Forgot your password?
           </a>
         </p>
-      );
+      )
     } else {
       return (
         <p className="empty_error_message">
-          {isrequired ? "Field Required" : undefined}
+          {isrequired ? 'Field Required' : undefined}
         </p>
-      );
+      )
     }
-  };
+  }
 
   return (
     <>
       <fieldset
-        className={`${empty ? "content" : undefined} 
-                    ${matching ? "error_matching" : undefined} 
-                    ${isrequired ? "error_required" : undefined} 
-                    ${customError ? "error_custom" : undefined}`}
+        className={`${empty ? 'content' : undefined} 
+                    ${matching ? 'error_matching' : undefined} 
+                    ${isrequired ? 'error_required' : undefined} 
+                    ${customError ? 'error_custom' : undefined}`}
       >
         <input
           className="form-input"
@@ -76,7 +76,7 @@ const Input = (props) => {
         <ErrorMessage />
       </fieldset>
     </>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

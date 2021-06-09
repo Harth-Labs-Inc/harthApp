@@ -1,55 +1,55 @@
-import React, { useState, useEffect } from "react";
-import { updatePassword } from "../../../requests/userApi";
-import Form from "../../../components/Form-comp";
-import Input from "../../../components/Common/Input";
-import { Button } from "../../../components/Common/Button";
+import React, { useState, useEffect } from 'react'
+import { updatePassword } from '../../../requests/userApi'
+import Form from '../../../components/Form-comp'
+import Input from '../../../components/Common/Input'
+import { Button } from '../../../components/Common/Button'
 
 const ChangePassword = (props) => {
-  const [errorMessage, setErrorMessage] = useState();
-  const [matchingPwdStatus, setMatchingPwdStatus] = useState(true);
+  const [errorMessage, setErrorMessage] = useState()
+  const [matchingPwdStatus, setMatchingPwdStatus] = useState(true)
   const [formData, setFormData] = useState({
-    pwd: "",
-    conf_pwd: "",
-  });
+    pwd: '',
+    conf_pwd: '',
+  })
   const [errorData, setErrorData] = useState({
     pwd: false,
     conf_pwd: false,
-  });
+  })
 
   useEffect(() => {
-    let matching = checkMatchingPwFields();
-    setMatchingPwdStatus(matching);
-  }, [formData]);
+    let matching = checkMatchingPwFields()
+    setMatchingPwdStatus(matching)
+  }, [formData])
 
   const inputChangeHandler = (eData, data) => {
-    setErrorData(eData);
-    setFormData(data);
-  };
+    setErrorData(eData)
+    setFormData(data)
+  }
 
   const setMissing = (missing) => {
-    setErrorData(missing);
-  };
+    setErrorData(missing)
+  }
 
   const checkMatchingPwFields = () => {
-    let valid;
+    let valid
     if (formData.pwd.trim() === formData.conf_pwd.trim()) {
-      valid = true;
+      valid = true
     } else {
-      valid = false;
+      valid = false
     }
-    return valid;
-  };
+    return valid
+  }
 
   const submitHandler = async () => {
     if (matchingPwdStatus) {
-      const data = await updatePassword(formData.pwd, props.tkn);
-      const { ok, msg } = data;
+      const data = await updatePassword(formData.pwd, props.tkn)
+      const { ok, msg } = data
       if (ok) {
       } else {
-        setErrorMessage(msg);
+        setErrorMessage(msg)
       }
     }
-  };
+  }
 
   return (
     <div className={transitionClass} id="forgot-password">
@@ -67,7 +67,7 @@ const ChangePassword = (props) => {
           type="password"
           empty={formData.pwd}
           value={formData.pwd}
-          isrequired={errorData["pwd"]}
+          isrequired={errorData['pwd']}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -78,7 +78,7 @@ const ChangePassword = (props) => {
           type="password"
           empty={formData.conf_pwd}
           value={formData.conf_pwd}
-          isrequired={errorData["conf_pwd"]}
+          isrequired={errorData['conf_pwd']}
           matching={matchingPwdStatus}
           changeHandler={inputChangeHandler}
           data={formData}
@@ -87,10 +87,10 @@ const ChangePassword = (props) => {
         <fieldset>
           <div className="form-bottom">
             <p
-              className={errorMessage ? "error" : undefined}
+              className={errorMessage ? 'error' : undefined}
               id="change-pwd-error"
             >
-              {errorMessage ? errorMessage : ""}
+              {errorMessage ? errorMessage : ''}
             </p>
             <Button
               id="password-reset-submit"
@@ -102,7 +102,7 @@ const ChangePassword = (props) => {
               <a
                 id="return-login"
                 onClick={() => {
-                  props.changePage("login");
+                  props.changePage('login')
                 }}
               >
                 Return to Login
@@ -112,7 +112,7 @@ const ChangePassword = (props) => {
         </fieldset>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default ChangePassword;
+export default ChangePassword

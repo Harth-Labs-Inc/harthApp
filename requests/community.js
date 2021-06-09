@@ -1,105 +1,116 @@
-import api from "../services/api";
+import api from '../services/api'
+
+export const updateUserInfo = async (data) => {
+  try {
+    const res = await api.post(`/api/comm/updateUserInfo`, {
+      data,
+    })
+    return res.data
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export const checkForExistingComm = async (name) => {
   try {
     const res = await api.post(`/api/comm/checkForExistingComm`, {
       name,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const saveCommunity = async (comm) => {
   try {
     const res = await api.post(`/api/comm/saveCommunity`, {
       comm,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const addUserToComm = async (id, prof) => {
   try {
     const res = await api.post(`/api/comm/addUserToComm`, {
       id,
       prof,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const getComms = async (user) => {
   try {
     const res = await api.post(`/api/comm/getComms`, {
       user,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const getCommFromInvite = async (id) => {
   try {
     const res = await api.post(`/api/comm/getCommFromInvite`, {
       id,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const getTopics = async (commId, UserId) => {
   try {
     const res = await api.post(`/api/comm/getTopics`, {
       commId,
       UserId,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const saveTopics = async (topic) => {
   try {
     const res = await api.post(`/api/comm/saveTopics`, {
       topic,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const generateInvite = async (id) => {
   try {
     const res = await api.post(`/api/comm/generateInvite`, {
       id,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const getInviteById = async (id) => {
   try {
     const res = await api.post(`/api/comm/getInviteById`, {
       id,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 //dont need anymore
 export const sendInvite = async (email, id, note) => {
@@ -108,9 +119,9 @@ export const sendInvite = async (email, id, note) => {
       email,
       id,
       note,
-    });
-    return res.data;
+    })
+    return res.data
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}

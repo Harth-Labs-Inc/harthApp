@@ -1,21 +1,21 @@
-import { useEffect, useState, useRef } from "react";
-import OutsideClickHandler from "./OutsideClick";
+import { useEffect, useState, useRef } from 'react'
+import OutsideClickHandler from './OutsideClick'
 
 const Modal = (props) => {
-  const [transitionClass, setTransitionClass] = useState();
-  const { show, children, id, onToggleModal } = props;
+  const [transitionClass, setTransitionClass] = useState()
+  const { show, children, id, onToggleModal } = props
 
-  const ref = useRef();
+  const ref = useRef()
 
   useEffect(() => {
     setTimeout(() => {
-      setTransitionClass("modal_open");
-    }, 4);
-  }, [show]);
+      setTransitionClass('modal_open')
+    }, 4)
+  }, [show])
 
   const closeToolTip = () => {
-    onToggleModal();
-  };
+    onToggleModal()
+  }
 
   return (
     <div id={id} className={`modal ${transitionClass}`}>
@@ -28,7 +28,7 @@ const Modal = (props) => {
         </section>
       </OutsideClickHandler>
     </div>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal

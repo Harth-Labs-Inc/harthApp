@@ -16,19 +16,17 @@
   .modal_main {
     @include x-center;
     top: 72px;
-    padding: 24px 32px 16px;
+    padding: 24px 32px 48px;
     background-color: $white;
     border-radius: 8px;
 
     height: auto;
     width: 344px;
 
-    .modal_top {
+    .modal-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      border-bottom: 1px solid $border-grey;
     }
   }
 

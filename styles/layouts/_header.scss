@@ -1,27 +1,28 @@
-#dash-header {
+#dash_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   grid-area: header;
-
   padding: 0 16px;
-
-  background-color: $medium-grey;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid $light-grey;
 }
 
 #channel {
   padding: 0 8px;
 
-  color: $black60;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 25px;
+  color: $text-black;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 19px;
 
   background-color: transparent;
   border: 0;
 
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 #account-btn {
@@ -54,7 +55,7 @@
     height: 100%;
     width: 100%;
 
-    content: "";
+    content: '';
 
     border: 2px solid transparent;
     border-radius: 50%;

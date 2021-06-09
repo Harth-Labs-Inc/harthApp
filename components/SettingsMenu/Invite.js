@@ -1,59 +1,59 @@
-import { useRef, useState } from "react";
-import { useComms } from "../../contexts/comms";
-import { generateInvite, getInviteById } from "../../requests/community";
-import { Button } from "../Common/Button";
-import Select from "react-select";
+import { useRef, useState } from 'react'
+import { useComms } from '../../contexts/comms'
+import { generateInvite, getInviteById } from '../../requests/community'
+import { Button } from '../Common/Button'
+import Select from 'react-select'
 
 const InviteComp = (props) => {
-  const { comms, selectedcomm } = useComms();
-  const [currentTab, setCurrentTab] = useState("");
-  const [selectedHarth, setSelectedHarth] = useState("");
-  const [invites, setInvites] = useState({});
-  const codeRef = useRef();
+  const { comms, selectedcomm } = useComms()
+  const [currentTab, setCurrentTab] = useState('')
+  const [selectedHarth, setSelectedHarth] = useState('')
+  const [invites, setInvites] = useState({})
+  const codeRef = useRef()
 
-  const { toggleCurrentPage } = props;
+  const { toggleCurrentPage } = props
 
-  let selectedInvite;
-  let expiredTime;
+  let selectedInvite
+  let expiredTime
   let urls = {
-    development: "http://localhost:3000/",
-    production: "https://project-blarg-next.vercel.app/",
-  };
-  let inviteUrl;
+    development: 'http://localhost:3000/',
+    production: 'https://project-blarg-next.vercel.app/',
+  }
+  let inviteUrl
   for (let [key, value] of Object.entries(invites)) {
     if (key === selectedHarth) {
       expiredTime =
-        24 - (new Date(value.expiration).getHours() - new Date().getHours());
-      selectedInvite = value;
+        24 - (new Date(value.expiration).getHours() - new Date().getHours())
+      selectedInvite = value
       inviteUrl = `${urls[process.env.NODE_ENV]}?invite=true&tkn=
-      ${selectedInvite.token}`;
+      ${selectedInvite.token}`
     }
   }
 
-  const options = [];
+  const options = []
 
   const createInvite = async (e) => {
-    e.preventDefault();
-    const data = await generateInvite(selectedHarth);
-    const { ok, invite } = data;
+    e.preventDefault()
+    const data = await generateInvite(selectedHarth)
+    const { ok, invite } = data
     if (ok) {
-      setInvites({ ...invites, [invite.comm_id]: invite });
+      setInvites({ ...invites, [invite.comm_id]: invite })
     }
-  };
+  }
 
   const changeSelectedHarth = async ({ value }) => {
-    let invt = await getInviteById(value);
-    let { ok, invite } = invt;
-    if (invite[0]) {
-      setInvites({ ...invites, [invite[0].comm_id]: invite[0] });
+    let invt = await getInviteById(value)
+    let { ok, invite } = invt
+    if (ok) {
+      setInvites({ ...invites, [invite[0].comm_id]: invite[0] })
     }
-    setSelectedHarth(value);
-  };
+    setSelectedHarth(value)
+  }
 
   const copyInviteToClipboard = () => {
-    codeRef.current.select();
-    document.execCommand("copy");
-  };
+    codeRef.current.select()
+    document.execCommand('copy')
+  }
 
   comms &&
     comms.map((com) => {
@@ -62,27 +62,27 @@ const InviteComp = (props) => {
         label: (
           <span>
             <span className="option-image-wrapper">
-              {com.iconKey ? <img src={com.iconKey} /> : ""}
-            </span>{" "}
+              {com.iconKey ? <img src={com.iconKey} /> : ''}
+            </span>{' '}
             {com.name}
           </span>
         ),
-      });
-    });
+      })
+    })
 
   const customStyles = {
     option: (styles, { isSelected }) => ({
       ...styles,
-      color: "#333",
-      backgroundColor: isSelected ? "#f7f7f7" : "",
+      color: '#333',
+      backgroundColor: isSelected ? '#f7f7f7' : '',
       padding: 0,
     }),
-  };
+  }
 
   return (
     <>
       <div id="harth_invite_header">
-        <button id="go_back" onClick={() => toggleCurrentPage("")}>
+        <button id="go_back" onClick={() => toggleCurrentPage('')}>
           back
         </button>
         <span>Invites</span>
@@ -102,7 +102,7 @@ const InviteComp = (props) => {
                 return {
                   value: option.value,
                   label: option.value,
-                };
+                }
               }
             })}
           />
@@ -127,7 +127,7 @@ const InviteComp = (props) => {
         )}
       </form>
     </>
-  );
-};
+  )
+}
 
-export default InviteComp;
+export default InviteComp

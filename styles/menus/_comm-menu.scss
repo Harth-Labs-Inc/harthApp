@@ -7,7 +7,7 @@
   &:hover {
     li {
       .comm-name {
-        width: calc(100% - 40px);
+        width: calc(100% - 46px);
         margin-left: 8px;
         opacity: 1;
         visibility: visible;
@@ -44,6 +44,7 @@
         height: 40px;
         width: 40px;
         border-radius: 8px;
+        border: 3px solid transparent;
         &:before {
           @include x-y-center;
           @include font-icon($icon-harth);
@@ -65,19 +66,19 @@
         right: -1px;
         height: 48px;
         width: 2px;
-        content: "";
-        background-color: #333;
+        content: '';
+        background-color: $text-black;
       }
       button {
         .comm-icon {
-          border: 3px solid #333;
+          border-color: $text-black;
         }
       }
     }
 
     &:hover {
       .comm-icon {
-        border: 3px solid #333;
+        border: 3px solid $text-black;
       }
     }
 
@@ -87,13 +88,13 @@
         height: 40px;
         width: 40px;
         background-color: transparent;
-        border: 1px dashed #eaeaea;
+        border: 1px dashed $light-grey;
         border-radius: 8px;
         transition: border 0.3s;
         &:before {
           @include x-y-center;
           @include font-icon($icon-plus);
-          color: #eaeaea;
+          color: $light-grey;
           transition: color 0.3s;
         }
       }

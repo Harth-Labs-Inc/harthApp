@@ -1,67 +1,67 @@
-import React, { useState } from "react";
-import Cookies from "js-cookie";
-import { login, addUser } from "../../../requests/userApi";
-import Input from "../../../components/Common/Input";
-import Form from "../../../components/Form-comp";
-import { Button } from "../../../components/Common/Button";
+import React, { useState } from 'react'
+import Cookies from 'js-cookie'
+import { login, addUser } from '../../../requests/userApi'
+import Input from '../../../components/Common/Input'
+import Form from '../../../components/Form-comp'
+import { Button } from '../../../components/Common/Button'
 
 const CreateAccount = (props) => {
-  const [submissionType, setSubmissionType] = useState();
+  const [submissionType, setSubmissionType] = useState()
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    dob: "",
-  });
+    fullName: '',
+    email: '',
+    password: '',
+    dob: '',
+  })
   const [errorData, setErrorData] = useState({
-    fullName: "",
+    fullName: '',
     email: false,
     password: false,
     dob: false,
-  });
+  })
   const [customErrors, setCustomErrors] = useState({
-    email: "",
-    password: "",
-    match: "",
-  });
+    email: '',
+    password: '',
+    match: '',
+  })
 
-  const { changePage, inviteToken } = props;
+  const { changePage, inviteToken } = props
 
   const submitHandler = async () => {
-    if (submissionType == "create") {
-      const data = await addUser(formData);
-      const { ok, errors } = data;
-      console.log(errors);
+    if (submissionType == 'create') {
+      const data = await addUser(formData)
+      const { ok, errors } = data
+      console.log(errors)
       if (!ok) {
-        setCustomErrors(errors);
+        setCustomErrors(errors)
       } else {
-        loginHandler();
+        loginHandler()
       }
     }
-  };
+  }
 
   const inputChangeHandler = (eData, data) => {
-    setErrorData(eData);
-    setFormData(data);
-  };
+    setErrorData(eData)
+    setFormData(data)
+  }
 
   const setMissing = (missing) => {
-    setErrorData(missing);
-  };
+    setErrorData(missing)
+  }
 
   const loginHandler = async () => {
-    const data = await login(formData);
-    const { ok, msg, tkn } = data;
+    const data = await login(formData)
+    const { ok, msg, tkn } = data
     if (ok) {
-      Cookies.set("token", tkn, { expires: 365 });
+      Cookies.set('token', tkn, { expires: 365 })
       if (inviteToken) {
-        window.location.pathname = `/comm?tkn=${inviteToken}`;
+        window.location.pathname = `/comm?tkn=${inviteToken}`
       } else {
-        window.location.pathname = "/comm";
+        window.location.pathname = '/comm'
       }
     } else {
     }
-  };
+  }
 
   return (
     <div id="create-module">
@@ -94,12 +94,12 @@ const CreateAccount = (props) => {
           type="text"
           empty={formData.email}
           value={formData.email}
-          isrequired={errorData["email"]}
+          isrequired={errorData['email']}
           changeHandler={inputChangeHandler}
           customError={
-            customErrors["email"] || customErrors["match"]
-              ? customErrors["email"] || customErrors["match"]
-              : ""
+            customErrors['email'] || customErrors['match']
+              ? customErrors['email'] || customErrors['match']
+              : ''
           }
           data={formData}
           errorData={errorData}
@@ -110,10 +110,10 @@ const CreateAccount = (props) => {
           type="password"
           empty={formData.password}
           value={formData.password}
-          isrequired={errorData["password"]}
+          isrequired={errorData['password']}
           changeHandler={inputChangeHandler}
           customError={
-            customErrors["password"] ? "Must Be Over 8 Characters" : ""
+            customErrors['password'] ? 'Must Be Over 8 Characters' : ''
           }
           data={formData}
           errorData={errorData}
@@ -124,7 +124,7 @@ const CreateAccount = (props) => {
           type="text"
           empty={formData.fullName}
           value={formData.fullName}
-          isrequired={errorData["fullName"]}
+          isrequired={errorData['fullName']}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -135,30 +135,30 @@ const CreateAccount = (props) => {
           type="date"
           empty={true}
           value={formData.dob}
-          isrequired={errorData["dob"]}
+          isrequired={errorData['dob']}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
         />
-        <fieldset className={customErrors["match"] ? "error" : undefined}>
+        <fieldset className={customErrors['match'] ? 'error' : undefined}>
           <div className="form-bottom">
             <Button
               id="account-create-submit"
               type="submit"
               text="Continue"
               onClick={() => {
-                setSubmissionType("create");
+                setSubmissionType('create')
               }}
             ></Button>
             <p className="disclaimer">
-              By creating an account, you agree to follow H&auml;rth's{" "}
+              By creating an account, you agree to follow H&auml;rth's{' '}
               <a>Guidelines</a>.
             </p>
             <div>
               <a
                 id="return-login"
                 onClick={() => {
-                  changePage("login");
+                  changePage('login')
                 }}
               >
                 Already have an account?
@@ -169,7 +169,7 @@ const CreateAccount = (props) => {
       </Form>
       <div></div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateAccount;
+export default CreateAccount

@@ -1,52 +1,52 @@
-import React, { useState } from "react";
-import Cookies from "js-cookie";
-import { login } from "../../../requests/userApi";
-import Form from "../../../components/Form-comp";
-import Input from "../../../components/Common/Input";
-import { Button } from "../../../components/Common/Button";
-import { useRouter } from "next/router";
+import React, { useState } from 'react'
+import Cookies from 'js-cookie'
+import { login } from '../../../requests/userApi'
+import Form from '../../../components/Form-comp'
+import Input from '../../../components/Common/Input'
+import { Button } from '../../../components/Common/Button'
+import { useRouter } from 'next/router'
 
 const Login = (props) => {
-  const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter()
+  const [errorMessage, setErrorMessage] = useState('')
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+    email: '',
+    password: '',
+  })
   const [errorData, setErrorData] = useState({
     email: false,
     password: false,
     conf_password: false,
     access_code: false,
-  });
+  })
 
-  const { changePage, inviteToken, currentPage } = props;
+  const { changePage, inviteToken, currentPage } = props
 
   const inputChangeHandler = (eData, data) => {
-    setErrorData(eData);
-    setFormData(data);
-  };
+    setErrorData(eData)
+    setFormData(data)
+  }
 
   const setMissing = (missing) => {
-    setErrorData(missing);
-  };
+    setErrorData(missing)
+  }
 
   const submitHandler = async () => {
-    setErrorMessage("");
+    setErrorMessage('')
 
-    const data = await login(formData);
-    const { ok, msg, tkn } = data;
+    const data = await login(formData)
+    const { ok, msg, tkn } = data
 
     if (ok) {
-      Cookies.set("token", tkn, { expires: 365 });
+      Cookies.set('token', tkn, { expires: 365 })
       if (inviteToken) {
-        window.location.pathname = `/comm?invite=true&tkn=${inviteToken}`;
+        window.location.pathname = `/comm?invite=true&tkn=${inviteToken}`
       }
-      window.location.pathname = "/";
+      window.location.pathname = '/'
     } else {
-      setErrorMessage(msg);
+      setErrorMessage(msg)
     }
-  };
+  }
 
   return (
     <div id="login-module">
@@ -79,7 +79,7 @@ const Login = (props) => {
           type="text"
           empty={formData.email}
           value={formData.email}
-          isrequired={errorData["email"]}
+          isrequired={errorData['email']}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -89,8 +89,8 @@ const Login = (props) => {
           title="Password"
           name="password"
           type="password"
-          empty={formData.password ? "password" : ""}
-          isrequired={errorData["password"]}
+          empty={formData.password ? 'password' : ''}
+          isrequired={errorData['password']}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}
@@ -105,7 +105,7 @@ const Login = (props) => {
               <a
                 id="sign-up-link"
                 onClick={() => {
-                  changePage("createaccount");
+                  changePage('createaccount')
                 }}
               >
                 Need an account?
@@ -115,6 +115,6 @@ const Login = (props) => {
         </fieldset>
       </Form>
     </div>
-  );
-};
-export default Login;
+  )
+}
+export default Login

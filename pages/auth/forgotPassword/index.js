@@ -1,38 +1,38 @@
-import React, { useState } from "react";
-import { reset } from "../../../requests/userApi";
-import Input from "../../../components/Common/Input";
-import Form from "../../../components/Form-comp";
-import { Button } from "../../../components/Common/Button";
+import React, { useState } from 'react'
+import { reset } from '../../../requests/userApi'
+import Input from '../../../components/Common/Input'
+import Form from '../../../components/Form-comp'
+import { Button } from '../../../components/Common/Button'
 
 const ResetPwd = (props) => {
-  const [errorMessage, setErrorMessage] = useState();
-  const [emailSent, setEmailSent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState()
+  const [emailSent, setEmailSent] = useState(false)
   const [formData, setFormData] = useState({
-    email: "",
-  });
+    email: '',
+  })
   const [errorData, setErrorData] = useState({
     email: false,
-  });
+  })
 
   const inputChangeHandler = (eData, data) => {
-    setErrorData(eData);
-    setFormData(data);
-  };
+    setErrorData(eData)
+    setFormData(data)
+  }
 
   const setMissing = (missing) => {
-    setErrorData(missing);
-  };
+    setErrorData(missing)
+  }
 
   const submitHandler = async () => {
-    const data = await reset(formData.email);
-    const { ok, msg } = data;
+    const data = await reset(formData.email)
+    const { ok, msg } = data
 
     if (ok) {
-      setEmailSent(true);
+      setEmailSent(true)
     } else {
-      setErrorMessage(msg);
+      setErrorMessage(msg)
     }
-  };
+  }
 
   return (
     <>
@@ -47,15 +47,15 @@ const ResetPwd = (props) => {
             </p>
             <Button
               onClick={() => {
-                setEmailSent(false);
-                props.changePage("login");
+                setEmailSent(false)
+                props.changePage('login')
               }}
               text="Okay"
             ></Button>
           </div>
         </aside>
       ) : (
-        ""
+        ''
       )}
       <div id="forgot-password">
         <svg
@@ -87,15 +87,15 @@ const ResetPwd = (props) => {
             type="text"
             empty={formData.email}
             value={formData.email}
-            isrequired={errorData["email"]}
+            isrequired={errorData['email']}
             changeHandler={inputChangeHandler}
             data={formData}
             errorData={errorData}
           />
-          <fieldset className={errorMessage ? "error" : undefined}>
+          <fieldset className={errorMessage ? 'error' : undefined}>
             <div className="form-bottom">
               <p id="email-error" id="login-error">
-                {errorMessage ? errorMessage : ""}
+                {errorMessage ? errorMessage : ''}
               </p>
               <Button
                 id="password-reset-submit"
@@ -106,7 +106,7 @@ const ResetPwd = (props) => {
                 <a
                   id="return-login"
                   onClick={() => {
-                    props.changePage("login");
+                    props.changePage('login')
                   }}
                 >
                   Sign In
@@ -117,6 +117,6 @@ const ResetPwd = (props) => {
         </Form>
       </div>
     </>
-  );
-};
-export default ResetPwd;
+  )
+}
+export default ResetPwd

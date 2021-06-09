@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-import InviteComp from "./Invite";
-import AccountSettings from "./Account";
+import InviteComp from './Invite'
+import AccountSettings from './Account'
+import Devices from './Devices'
 
 const SettingsMenu = (props) => {
-  const [currentTab, setCurrentTab] = useState("");
+  const [currentTab, setCurrentTab] = useState('')
 
   const toggleCurrentPage = (name) => {
-    setCurrentTab(name);
-  };
+    setCurrentTab(name)
+  }
 
   const SettingsList = () => {
     return (
@@ -16,17 +17,17 @@ const SettingsMenu = (props) => {
         <h1>H&auml;rth Settings</h1>
         <ul>
           <li>
-            <button onClick={() => toggleCurrentPage("invites")}>
+            <button onClick={() => toggleCurrentPage('invites')}>
               Invites
             </button>
           </li>
           <li>
-            <button onClick={() => toggleCurrentPage("account")}>
+            <button onClick={() => toggleCurrentPage('account')}>
               Your Account
             </button>
           </li>
           <li>
-            <button onClick={() => toggleCurrentPage("devices")}>
+            <button onClick={() => toggleCurrentPage('devices')}>
               Devices
             </button>
           </li>
@@ -34,29 +35,32 @@ const SettingsMenu = (props) => {
             <button>Sign Out</button>
           </li>
           <li>
-            <button>Exit</button>
+            <button onClick={() => window.close()}>Exit</button>
           </li>
         </ul>
       </>
-    );
-  };
+    )
+  }
   const DisplayedSettings = () => {
-    let comp;
+    let comp
     switch (currentTab) {
-      case "invites":
-        comp = <InviteComp toggleCurrentPage={toggleCurrentPage} />;
-        break;
-      case "account":
-        comp = <AccountSettings toggleCurrentPage={toggleCurrentPage} />;
-        break;
+      case 'invites':
+        comp = <InviteComp toggleCurrentPage={toggleCurrentPage} />
+        break
+      case 'account':
+        comp = <AccountSettings toggleCurrentPage={toggleCurrentPage} />
+        break
+      case 'devices':
+        comp = <Devices toggleCurrentPage={toggleCurrentPage} />
+        break
       default:
-        comp = <SettingsList />;
-        break;
+        comp = <SettingsList />
+        break
     }
-    return comp;
-  };
+    return comp
+  }
 
-  return <DisplayedSettings />;
-};
+  return <DisplayedSettings />
+}
 
-export default SettingsMenu;
+export default SettingsMenu

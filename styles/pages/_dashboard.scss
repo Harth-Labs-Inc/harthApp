@@ -3,8 +3,8 @@
   grid-template-columns: 56px auto;
   grid-template-rows: 56px auto;
   grid-template-areas:
-    "aside header"
-    "aside content";
+    'aside header'
+    'aside content';
   height: 100vh;
   width: 100vw;
   background-color: $white;
@@ -14,7 +14,7 @@
   position: relative;
   &:before {
     @include cover;
-    content: "";
+    content: '';
     background-color: transparent;
     transition: background-color 0.5s;
     visibility: hidden;
@@ -33,41 +33,41 @@
   }
 }
 
-#community-preferences {
+#comm_preferences {
   .modal_main {
     display: grid;
     grid-template-areas:
-      "header header"
-      "nav body";
-
+      'header header'
+      'nav body';
+    grid-template-columns: 144px 344px;
+    column-gap: 8px;
     width: 90vw;
     max-width: 560px;
   }
-  .modal_top {
+  .modal-top {
     grid-area: header;
     padding: 20px 16px;
     p {
       margin: 0;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 40px;
     }
   }
   .modal_left {
     grid-area: nav;
 
-    width: 143px;
-
-    border-right: 1px solid $border-grey;
+    width: 144px;
   }
   .modal_right {
     grid-area: body;
-    padding: 16px 24px 19px;
-    min-height: 560px;
   }
 
   #invite {
     fieldset {
       margin: 0 0 2px;
 
-      > p[class*="_error_message"] {
+      > p[class*='_error_message'] {
         bottom: -14px;
       }
     }
