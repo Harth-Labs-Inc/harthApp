@@ -17,6 +17,9 @@
 //menus
 @import './menus/comm-menu', './menus/harth-menu';
 
+//settings
+@import './settings/topic-settings';
+
 //pages
 @import './pages/auth', './pages/dashboard', './pages/topic', './pages/chat',
   './pages/gather';

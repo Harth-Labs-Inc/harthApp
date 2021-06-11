@@ -31,17 +31,15 @@ const CommIndexPage = () => {
     query: { tkn },
   } = router
 
-  useEffect(() => {
+  useEffect(async () => {
     if (tkn) {
       setCurrentPage('profile')
-      ;(async () => {
-        const data = await getCommFromInvite(tkn)
-        const { ok, msg, comm } = data
-        console.log(data)
-        if (ok) {
-          setcomID(comm.comm_id)
-        }
-      })()
+      const data = await getCommFromInvite(tkn)
+      const { ok, comm } = data
+      console.log(data)
+      if (ok) {
+        setcomID(comm.comm_id)
+      }
     }
   }, [tkn])
 
@@ -119,7 +117,6 @@ const CommIndexPage = () => {
             ? `https://community-profile-images.s3.us-east-2.amazonaws.com/${comms3Upload.name}`
             : '',
         users: [],
-        invites: [],
         topics: [],
       })
       if (commDbUpload.ok) {

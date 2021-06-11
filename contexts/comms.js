@@ -1,71 +1,70 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { getComms, getTopics } from "../requests/community";
-import { getRooms } from "../requests/rooms";
-import { useAuth } from "./auth";
-import { useSocket } from "./socket";
+import React, { createContext, useState, useContext, useEffect } from 'react'
+import { getComms, getTopics } from '../requests/community'
+import { getRooms } from '../requests/rooms'
+import { useAuth } from './auth'
 
-const CommsContext = createContext({});
+const CommsContext = createContext({})
 
 export const CommsProvider = ({ children }) => {
-  const [comms, setComms] = useState(null);
-  const [selectedcomm, setSelectedcomm] = useState(null);
-  const [topics, setTopics] = useState(null);
-  const [rooms, setRooms] = useState({});
-  const [selectedTopic, setSelectedTopic] = useState({});
+  const [comms, setComms] = useState(null)
+  const [selectedcomm, setSelectedcomm] = useState(null)
+  const [topics, setTopics] = useState(null)
+  const [rooms, setRooms] = useState({})
+  const [selectedTopic, setSelectedTopic] = useState({})
 
-  const { user } = useAuth();
-  const { incomingTopic } = useAuth();
+  const { user } = useAuth()
+  const { incomingTopic } = useAuth()
 
   useEffect(() => {
     if (user) {
       if (user.comms.length > 0) {
-        (async () => {
-          let result = await getComms(user);
-          const { ok, comms } = result;
+        ;(async () => {
+          let result = await getComms(user)
+          const { ok, comms } = result
           if (ok) {
-            setComms(comms);
+            setComms(comms)
           }
-        })();
+        })()
       }
     }
-  }, [user]);
+  }, [user])
 
   useEffect(() => {
     if (selectedcomm && user) {
-      grabTopics(selectedcomm._id);
-      grabRooms(selectedcomm._id);
+      grabTopics(selectedcomm._id)
+      grabRooms(selectedcomm._id)
     }
-  }, [selectedcomm]);
+  }, [selectedcomm])
 
   const grabTopics = async (comid) => {
-    let result = await getTopics(comid, user._id);
-    const { ok, topics } = result;
+    let result = await getTopics(comid, user._id)
+    const { ok, topics } = result
     if (ok) {
-      setTopics(topics);
-      setSelectedTopic({});
+      setTopics(topics)
+      setSelectedTopic({})
     }
-  };
+  }
   const grabRooms = async (comid) => {
     if (comid) {
       if (!(comid in rooms)) {
-        rooms[comid] = [];
-        let result = await getRooms(comid, user._id);
-        const { ok, rms } = result;
+        rooms[comid] = []
+        let result = await getRooms(comid, user._id)
+        const { ok, rms } = result
         if (ok) {
-          setRooms({ ...rooms, [comid]: rms });
+          setRooms({ ...rooms, [comid]: rms })
         }
       }
     }
-  };
+  }
   const setComm = async (comm) => {
-    setSelectedcomm(comm);
-  };
+    setSelectedcomm(comm)
+  }
   const setTopic = async (topic) => {
-    setSelectedTopic(topic);
-  };
+    setSelectedTopic(topic)
+  }
   const addNewTopic = (newTopic) => {
-    setTopics([...topics, newTopic]);
-  };
+    setTopics([...topics, newTopic])
+  }
 
   return (
     <CommsContext.Provider
@@ -84,7 +83,7 @@ export const CommsProvider = ({ children }) => {
     >
       {children}
     </CommsContext.Provider>
-  );
-};
+  )
+}
 
-export const useComms = () => useContext(CommsContext);
+export const useComms = () => useContext(CommsContext)

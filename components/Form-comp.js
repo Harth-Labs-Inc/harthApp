@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-
 const Form = (props) => {
   const {
     children,
@@ -9,41 +7,41 @@ const Form = (props) => {
     id,
     errorData,
     ignoreMissing,
-  } = props;
+  } = props
 
   const checkMissingInputFields = () => {
-    let missingFields = [];
+    let missingFields = []
     for (let [key, value] of Object.entries(data)) {
-      if (typeof value == "string" && !value.trim()) {
-        missingFields.push(key);
+      if (typeof value == 'string' && !value.trim()) {
+        missingFields.push(key)
       }
     }
-    return missingFields;
-  };
+    return missingFields
+  }
 
   const submitHandler = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (ignoreMissing) {
-      on_submit();
+      on_submit()
     } else {
-      let missing = checkMissingInputFields();
+      let missing = checkMissingInputFields()
       if (missing.length > 0) {
-        let tempErrorData = { ...errorData };
+        let tempErrorData = { ...errorData }
         missing.forEach((mInput) => {
-          tempErrorData[mInput] = true;
-        });
-        on_missing(tempErrorData);
+          tempErrorData[mInput] = true
+        })
+        on_missing(tempErrorData)
       } else {
-        on_submit();
+        on_submit()
       }
     }
-  };
+  }
 
   return (
     <form id={id} onSubmit={submitHandler}>
       {children}
     </form>
-  );
-};
+  )
+}
 
-export default Form;
+export default Form

@@ -1,20 +1,18 @@
-import React from "react";
-
 export const Button = (props) => {
   return (
     <button className="btn" {...props}>
       {props.text}
     </button>
-  );
-};
+  )
+}
 
 export const Choice = (props) => {
   return (
     <button className="choice-btn" {...props}>
       {props.text}
     </button>
-  );
-};
+  )
+}
 
 export const BackBtn = (props) => {
   return (
@@ -23,8 +21,8 @@ export const BackBtn = (props) => {
       aria-label="Return to previous page"
       {...props}
     ></button>
-  );
-};
+  )
+}
 
 export const CloseBtn = (props) => {
   return (
@@ -33,13 +31,13 @@ export const CloseBtn = (props) => {
       aria-label="Close this Modal"
       {...props}
     ></button>
-  );
-};
+  )
+}
 
 export const TextBtn = (props) => {
   return (
     <button className="text-btn" {...props}>
       {props.text}
     </button>
-  );
-};
+  )
+}

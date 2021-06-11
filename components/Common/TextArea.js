@@ -1,5 +1,3 @@
-import { useEffect, useRef, useState } from "react";
-
 const TextArea = (props) => {
   const {
     name,
@@ -13,28 +11,28 @@ const TextArea = (props) => {
     errorData,
     matching,
     customError,
-  } = props;
+  } = props
 
   const inputChangeHandler = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     let tempErrorData = {
       ...errorData,
       [name]: false,
-    };
+    }
     let tempData = {
       ...data,
       [name]: value,
-    };
-    changeHandler(tempErrorData, tempData);
-  };
+    }
+    changeHandler(tempErrorData, tempData)
+  }
 
   return (
     <>
       <fieldset
-        className={`${empty ? "content" : undefined} ${
-          matching ? "error_matching" : undefined
-        } ${isRequired ? "error_required" : undefined} ${
-          customError ? "error_custom" : undefined
+        className={`${empty ? 'content' : undefined} ${
+          matching ? 'error_matching' : undefined
+        } ${isRequired ? 'error_required' : undefined} ${
+          customError ? 'error_custom' : undefined
         }`}
       >
         <textarea
@@ -49,12 +47,12 @@ const TextArea = (props) => {
           {...props}
         />
         <p className="empty_error_message">
-          {isRequired ? "Field Required" : ""}
+          {isRequired ? 'Field Required' : ''}
         </p>
-        <p className="custom_error_message">{customError ? customError : ""}</p>
+        <p className="custom_error_message">{customError ? customError : ''}</p>
       </fieldset>
     </>
-  );
-};
+  )
+}
 
-export default TextArea;
+export default TextArea

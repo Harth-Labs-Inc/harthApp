@@ -6,7 +6,6 @@ import Select from 'react-select'
 
 const InviteComp = (props) => {
   const { comms, selectedcomm } = useComms()
-  const [currentTab, setCurrentTab] = useState('')
   const [selectedHarth, setSelectedHarth] = useState('')
   const [invites, setInvites] = useState({})
   const codeRef = useRef()
@@ -23,7 +22,8 @@ const InviteComp = (props) => {
   for (let [key, value] of Object.entries(invites)) {
     if (key === selectedHarth) {
       expiredTime =
-        24 - (new Date(value.expiration).getHours() - new Date().getHours())
+        24 -
+        Math.abs(new Date(value.expiration).getHours() - new Date().getHours())
       selectedInvite = value
       inviteUrl = `${urls[process.env.NODE_ENV]}?invite=true&tkn=
       ${selectedInvite.token}`
@@ -43,9 +43,10 @@ const InviteComp = (props) => {
 
   const changeSelectedHarth = async ({ value }) => {
     let invt = await getInviteById(value)
+    console.log(invt)
     let { ok, invite } = invt
     if (ok) {
-      setInvites({ ...invites, [invite[0].comm_id]: invite[0] })
+      setInvites({ ...invites, [invite.comm_id]: invite })
     }
     setSelectedHarth(value)
   }

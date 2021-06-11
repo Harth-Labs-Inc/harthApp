@@ -4,10 +4,8 @@ import { login } from '../../../requests/userApi'
 import Form from '../../../components/Form-comp'
 import Input from '../../../components/Common/Input'
 import { Button } from '../../../components/Common/Button'
-import { useRouter } from 'next/router'
 
 const Login = (props) => {
-  const router = useRouter()
   const [errorMessage, setErrorMessage] = useState('')
   const [formData, setFormData] = useState({
     email: '',

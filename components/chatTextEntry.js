@@ -1,73 +1,68 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from 'react'
 import {
   saveMessage,
   updateMessage,
   saveMessageReply,
   addReplyID,
-} from "../requests/chat";
-import { useComms } from "../contexts/comms";
-import { useAuth } from "../contexts/auth";
-import { useSocket } from "../contexts/socket";
-import { getUploadURL, putImageInBucket } from "../requests/s3";
-import { addKeyToDB } from "../requests/chat";
+} from '../requests/chat'
+import { useComms } from '../contexts/comms'
+import { useAuth } from '../contexts/auth'
+import { useSocket } from '../contexts/socket'
+import { getUploadURL, putImageInBucket } from '../requests/s3'
+import { addKeyToDB } from '../requests/chat'
 
-import { Picker } from "emoji-mart";
-import "emoji-mart/css/emoji-mart.css";
-
-import { Grid } from "@giphy/react-components";
-import { GiphyFetch } from "@giphy/js-fetch-api";
-const gf = new GiphyFetch("WjzExVfWh0193VlCJbn1Z1L3tEG4Zrv0");
-const fetchGifs = (offset) => gf.trending({ offset, limit: 10 });
+import { Picker } from 'emoji-mart'
+import 'emoji-mart/css/emoji-mart.css'
 
 const chatTextEntry = (props) => {
-  const [attachments, setAttachments] = useState([]);
-  const [emojiPickerState, setEmojiPicker] = useState(false);
-  const [selectedEditMsg, setSelectedEditMsg] = useState({});
+  const [attachments, setAttachments] = useState([])
+  const [emojiPickerState, setEmojiPicker] = useState(false)
+  const [selectedEditMsg, setSelectedEditMsg] = useState({})
 
-  const { user } = useAuth();
-  const { selectedcomm, selectedTopic } = useComms();
-  const { emitUpdate } = useSocket();
+  const { user } = useAuth()
+  const { selectedcomm, selectedTopic } = useComms()
+  const { emitUpdate } = useSocket()
 
   const { selectedEdit, isReply, replyOwner, topicInputs, setTopicInputs } =
-    props;
+    props
 
-  const textRef = useRef();
-  const fileRef = useRef();
-  const attRefs = useRef([]);
+  const textRef = useRef()
+  const fileRef = useRef()
+  const attRefs = useRef([])
 
   useEffect(() => {
     if (attachments.length > 0) {
       attachments.forEach((file, idx) => {
-        var reader = new FileReader();
+        var reader = new FileReader()
         reader.onload = function (e) {
-          const { result } = e.target;
-          attRefs.current[idx].src = result;
-        };
-        reader.readAsDataURL(file);
-      });
+          const { result } = e.target
+          attRefs.current[idx].src = result
+        }
+        reader.readAsDataURL(file)
+      })
     }
-  }, [attachments]);
+  }, [attachments])
 
   useEffect(() => {
     setTopicInputs({
       ...topicInputs,
       [selectedTopic._id]: selectedEdit.message,
-    });
-    setSelectedEditMsg(selectedEdit);
-  }, [selectedEdit]);
+    })
+    setSelectedEditMsg(selectedEdit)
+  }, [selectedEdit])
 
   const calcHeight = (value) => {
-    let numberOfLineBreaks = (value.match(/\n/g) || []).length;
-    let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
-    return newHeight;
-  };
+    let numberOfLineBreaks = (value.match(/\n/g) || []).length
+    let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2
+    return newHeight
+  }
   const inputHandler = (e) => {
-    const { value } = e.target;
-    setTopicInputs({ ...topicInputs, [selectedTopic._id]: value });
-  };
+    const { value } = e.target
+    setTopicInputs({ ...topicInputs, [selectedTopic._id]: value })
+  }
   const sendMessagge = async () => {
     if (selectedTopic) {
-      let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
+      let creator = selectedcomm.users.find((usr) => usr.userId === user._id)
 
       let newMessage = {
         creator_id: user._id,
@@ -82,26 +77,26 @@ const chatTextEntry = (props) => {
         reactions: [],
         attachments: [],
         replies: [],
-      };
+      }
 
-      const data = await saveMessage(newMessage);
+      const data = await saveMessage(newMessage)
 
-      let { id, ok } = data;
+      let { id, ok } = data
       if (ok) {
         if (id) {
-          newMessage._id = id;
+          newMessage._id = id
         }
         if (attachments.length > 0) {
-          uploadAttacments(id, newMessage);
+          uploadAttacments(id, newMessage)
         } else {
-          broadcastMessage(newMessage);
+          broadcastMessage(newMessage)
         }
       }
     }
-  };
+  }
   const sendReply = async () => {
     if (selectedTopic) {
-      let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
+      let creator = selectedcomm.users.find((usr) => usr.userId === user._id)
 
       let newMessage = {
         creator_id: user._id,
@@ -117,102 +112,98 @@ const chatTextEntry = (props) => {
         reactions: [],
         attachments: [],
         replies: [],
-      };
+      }
 
-      const data = await saveMessageReply(newMessage);
+      const data = await saveMessageReply(newMessage)
 
-      let { id, ok } = data;
+      let { id, ok } = data
       if (ok) {
         if (id) {
-          newMessage._id = id;
+          newMessage._id = id
           const addReply = await addReplyID(
             id,
             replyOwner._id,
-            replyOwner.owner_id ? true : false
-          );
+            replyOwner.owner_id ? true : false,
+          )
         }
         if (attachments.length > 0) {
-          uploadAttacments(id, newMessage);
+          uploadAttacments(id, newMessage)
         } else {
-          broadcastMessage(newMessage);
+          broadcastMessage(newMessage)
         }
       }
     }
-  };
+  }
   const broadcastMessage = (message) => {
-    setAttachments([]);
-    message.updateType = "new message";
-    setTopicInputs({ ...topicInputs, [selectedTopic._id]: "" });
+    setAttachments([])
+    message.updateType = 'new message'
+    setTopicInputs({ ...topicInputs, [selectedTopic._id]: '' })
     emitUpdate(selectedcomm._id, message, async (err, status) => {
       if (err) {
-        console.log(err);
+        console.log(err)
       }
-      let { ok } = status;
-      if (ok) {
-        console.log("message sent");
-      }
-    });
-  };
+    })
+  }
   const getPastedData = (e) => {
-    const { files } = e.clipboardData;
-    const text = e.clipboardData.getData("Text");
+    const { files } = e.clipboardData
+    const text = e.clipboardData.getData('Text')
     if (files[0]) {
-      addAttachment(files[0]);
+      addAttachment(files[0])
     }
     if (text) {
     }
-  };
+  }
   const openFileSelector = () => {
-    fileRef.current.click();
-  };
+    fileRef.current.click()
+  }
   const addAttachment = (file) => {
-    setAttachments([...attachments, file]);
-  };
+    setAttachments([...attachments, file])
+  }
   const removeAttachment = (idx) => {
-    const tempAttachments = [...attachments];
-    tempAttachments.splice(idx, 1);
-    setAttachments([...tempAttachments]);
-  };
+    const tempAttachments = [...attachments]
+    tempAttachments.splice(idx, 1)
+    setAttachments([...tempAttachments])
+  }
   const dropHandler = (e) => {
-    e.preventDefault();
-    const { files } = e.dataTransfer;
-    addAttachment(files[0]);
-  };
+    e.preventDefault()
+    const { files } = e.dataTransfer
+    addAttachment(files[0])
+  }
   const uploadAttacments = async (id, message) => {
-    let promises = [];
+    let promises = []
     attachments.forEach((file, idx) => {
       promises.push(
         new Promise(async (res, rej) => {
-          let extention = file.name.split(".").pop();
-          let name = `${id}_${idx + 1}.${extention}`;
-          let bucket = "topic-message-attachments";
-          const data = await getUploadURL(name, file.type, bucket);
-          const { ok, msg, uploadURL } = data;
+          let extention = file.name.split('.').pop()
+          let name = `${id}_${idx + 1}.${extention}`
+          let bucket = 'topic-message-attachments'
+          const data = await getUploadURL(name, file.type, bucket)
+          const { ok, uploadURL } = data
           if (ok) {
-            let reader = new FileReader();
-            reader.addEventListener("loadend", async (event) => {
-              let result = await putImageInBucket(uploadURL, reader, file.type);
-              let { status } = result;
+            let reader = new FileReader()
+            reader.addEventListener('loadend', async () => {
+              let result = await putImageInBucket(uploadURL, reader, file.type)
+              let { status } = result
               if (status == 200) {
-                let add = await addKeyToDB(id, name, file.type);
-                res({ name, fileType: file.type });
+                await addKeyToDB(id, name, file.type)
+                res({ name, fileType: file.type })
               }
-            });
-            reader.readAsArrayBuffer(file);
+            })
+            reader.readAsArrayBuffer(file)
           }
-        })
-      );
-    });
+        }),
+      )
+    })
 
-    const outputs = await Promise.all(promises);
-    message.attachments = outputs;
-    broadcastMessage(message);
-  };
+    const outputs = await Promise.all(promises)
+    message.attachments = outputs
+    broadcastMessage(message)
+  }
   const addEmoji = (e) => {
-    let msg = topicInputs[selectedTopic._id] + e.native;
-    setTopicInputs({ ...topicInputs, [selectedTopic._id]: msg });
-    setEmojiPicker(!emojiPickerState);
-  };
+    let msg = topicInputs[selectedTopic._id] + e.native
+    setTopicInputs({ ...topicInputs, [selectedTopic._id]: msg })
+    setEmojiPicker(!emojiPickerState)
+  }
   const EmojiPicker = () => {
     if (emojiPickerState) {
       return (
@@ -224,14 +215,14 @@ const chatTextEntry = (props) => {
           color="#1d0a6c"
           autoFocus={true}
         />
-      );
+      )
     }
-    return null;
-  };
+    return null
+  }
   const triggerPicker = (event) => {
-    event.preventDefault();
-    setEmojiPicker(!emojiPickerState);
-  };
+    event.preventDefault()
+    setEmojiPicker(!emojiPickerState)
+  }
   const ImageHolder = () => {
     if (attachments.length > 0) {
       return (
@@ -243,12 +234,12 @@ const chatTextEntry = (props) => {
                 key={file.name}
                 ref={(el) => (attRefs.current[idx] = el)}
                 alt=""
-                style={{ height: "100px", width: "100px" }}
+                style={{ height: '100px', width: '100px' }}
               />
               <button
                 className="remove-image"
                 onClick={() => {
-                  removeAttachment(idx);
+                  removeAttachment(idx)
                 }}
               >
                 remove image
@@ -256,36 +247,35 @@ const chatTextEntry = (props) => {
             </div>
           ))}
         </div>
-      );
+      )
     }
 
-    return null;
-  };
+    return null
+  }
   const cancelEdit = () => {
-    setTopicInputs({ ...topicInputs, [selectedTopic._id]: "" });
-    setSelectedEditMsg({});
-  };
+    setTopicInputs({ ...topicInputs, [selectedTopic._id]: '' })
+    setSelectedEditMsg({})
+  }
   const updateMsg = async () => {
-    let msg = selectedEditMsg;
-    msg.message = topicInputs[selectedTopic._id];
-    const data = await updateMessage(msg);
-    msg.updateType = "message update";
-    msg.action = "update";
+    let msg = selectedEditMsg
+    msg.message = topicInputs[selectedTopic._id]
+    await updateMessage(msg)
+    msg.updateType = 'message update'
+    msg.action = 'update'
     emitUpdate(selectedcomm._id, msg, async (err, status) => {
       if (err) {
-        console.log(err);
+        console.log(err)
       }
-      let { ok } = status;
+      let { ok } = status
       if (ok) {
-        console.log("message sent");
-        cancelEdit();
+        cancelEdit()
       }
-    });
-  };
+    })
+  }
   const MessageSubmits = () => {
     const isDisabled =
-      (topicInputs[selectedTopic._id] || "").trim().length === 0 &&
-      attachments.length == 0;
+      (topicInputs[selectedTopic._id] || '').trim().length === 0 &&
+      attachments.length == 0
     if (Object.keys(selectedEditMsg).length > 0) {
       return (
         <div className="chat-controls">
@@ -300,7 +290,7 @@ const chatTextEntry = (props) => {
             send
           </button>
         </div>
-      );
+      )
     } else {
       return (
         <div className="chat-controls">
@@ -309,18 +299,18 @@ const chatTextEntry = (props) => {
             disabled={isDisabled}
             onClick={() => {
               if (isReply) {
-                sendReply();
+                sendReply()
               } else {
-                sendMessagge();
+                sendMessagge()
               }
             }}
           >
             send
           </button>
         </div>
-      );
+      )
     }
-  };
+  }
   return (
     <div id="chat_input_container">
       <ImageHolder />
@@ -329,25 +319,25 @@ const chatTextEntry = (props) => {
         ref={textRef}
         placeholder={`Say something...`}
         onChange={inputHandler}
-        value={topicInputs[selectedTopic._id] || ""}
+        value={topicInputs[selectedTopic._id] || ''}
         onKeyUp={() => {
           textRef.current.style.height =
-            calcHeight(textRef.current.value) + "px";
+            calcHeight(textRef.current.value) + 'px'
         }}
         onPaste={getPastedData}
         onDragEnter={(e) => {
-          e.preventDefault();
-          return false;
+          e.preventDefault()
+          return false
         }}
         onDragOver={(e) => {
-          e.preventDefault();
+          e.preventDefault()
         }}
         onDrop={(e) => {
-          e.preventDefault();
-          dropHandler(e);
+          e.preventDefault()
+          dropHandler(e)
         }}
         onDragLeave={(e) => {
-          e.preventDefault();
+          e.preventDefault()
         }}
       ></textarea>
       <div>
@@ -356,8 +346,7 @@ const chatTextEntry = (props) => {
             attach emoji
           </button>
           <EmojiPicker />
-          <button className="attach-gif">attach gif</button>
-          {/* <Grid width={500} columns={3} fetchGifs={fetchGifs} /> */}
+          {/* <button className="attach-gif">attach gif</button> */}
           <button onClick={openFileSelector} className="attach-file">
             attach file
           </button>
@@ -366,17 +355,17 @@ const chatTextEntry = (props) => {
             type="file"
             id="file-input"
             onChange={(e) => {
-              const { files } = e.target;
-              addAttachment(files[0]);
+              const { files } = e.target
+              addAttachment(files[0])
             }}
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
           />
         </div>
 
         <MessageSubmits />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default chatTextEntry;
+export default chatTextEntry

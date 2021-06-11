@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router'
-import React, { useState, useEffect } from 'react'
+
+import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/auth'
 import Modal from './Modal'
 import HarthMenu from './HarthMenu/index'
@@ -10,9 +10,8 @@ const TopNav = (props) => {
   const [communityName, setCommunityName] = useState()
   const [communityId, setCommunityId] = useState()
   const [profileIcon, setProfileIcon] = useState()
-  const { pathname } = useRouter()
 
-  const { changePage, currentPage, onModalChange, toggleModal } = props
+  const { changePage, currentPage } = props
   const { user } = useAuth()
   const { comms, setComm, selectedcomm } = useComms()
 

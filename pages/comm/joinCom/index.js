@@ -1,37 +1,35 @@
-import { useState } from "react";
-import Form from "../../../components/Form-comp";
-import Input from "../../../components/Common/Input";
-import { Button, BackBtn } from "../../../components/Common/Button";
-import { getCommFromInvite } from "../../../requests/community";
-import ReactCodeInput from "react-verification-code-input";
+import { useState } from 'react'
+import { Button, BackBtn } from '../../../components/Common/Button'
+import { getCommFromInvite } from '../../../requests/community'
+import ReactCodeInput from 'react-verification-code-input'
 
 const JoinCom = (props) => {
-  const { changePage, onCommChange } = props;
-  const [errorMessage, setErrorMessage] = useState("");
-  const [inviteCode, setInviteCode] = useState();
+  const { changePage, onCommChange } = props
+  const [errorMessage, setErrorMessage] = useState('')
+  const [inviteCode, setInviteCode] = useState()
 
   const inputChangeHandler = (text) => {
-    setInviteCode(text);
-  };
+    setInviteCode(text)
+  }
 
   const submitHandler = async () => {
-    setErrorMessage("");
-    let result = await getCommFromInvite(inviteCode);
-    let { ok, comm } = result;
+    setErrorMessage('')
+    let result = await getCommFromInvite(inviteCode)
+    let { ok, comm } = result
     if (ok) {
-      onCommChange(comm);
-      changePage("profile");
+      onCommChange(comm)
+      changePage('profile')
     } else {
-      setErrorMessage("Incorrect Code");
+      setErrorMessage('Incorrect Code')
     }
-  };
+  }
 
   return (
     <div id="join-community">
       <h2>
         <BackBtn
           onClick={() => {
-            changePage("initial");
+            changePage('initial')
           }}
         ></BackBtn>
         Join a h&auml;rth
@@ -58,7 +56,7 @@ const JoinCom = (props) => {
         </div>
       </fieldset>
     </div>
-  );
-};
+  )
+}
 
-export default JoinCom;
+export default JoinCom

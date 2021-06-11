@@ -1,95 +1,94 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import io from "socket.io-client";
-import { useAuth } from "./auth";
-import { useComms } from "./comms";
-import { useChat } from "./chat";
+import { createContext, useState, useContext, useEffect } from 'react'
+import io from 'socket.io-client'
+import { useAuth } from './auth'
+import { useComms } from './comms'
+import { useChat } from './chat'
 
-const SocketContext = createContext({});
+const SocketContext = createContext({})
 
 export const SocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
-  const [incomingMsg, setIncomingMsg] = useState({});
-  const [incomingMsgUpdate, setIncomingMsgUpdate] = useState({});
-  const [incomingRoomUpdate, setIncomingRoomUpdate] = useState({});
-  const [incomingTopic, setIncomingTopic] = useState({});
-  const [incomingRoom, setIncomingRoom] = useState({});
-  const [unreadMsg, setUnreadMsg] = useState({});
-  const [unreadMsgs, setUnreadMsgs] = useState([]);
+  const [socket, setSocket] = useState(null)
+  const [incomingMsg, setIncomingMsg] = useState({})
+  const [incomingMsgUpdate, setIncomingMsgUpdate] = useState({})
+  const [incomingRoomUpdate, setIncomingRoomUpdate] = useState({})
+  const [incomingTopic, setIncomingTopic] = useState({})
+  const [incomingRoom, setIncomingRoom] = useState({})
+  const [unreadMsg, setUnreadMsg] = useState({})
+  const [unreadMsgs, setUnreadMsgs] = useState([])
 
-  const { user } = useAuth();
-  const { selectedTopic, grabTopics, comms } = useComms();
-  const { messages, setMessages } = useChat();
+  const { user } = useAuth()
+  const { selectedTopic } = useComms()
 
   useEffect(() => {
     if (user) {
       let urls = {
-        development: "http://localhost:3030",
-        production: "https://project-blarg-socket.herokuapp.com",
-      };
+        development: 'http://localhost:3030',
+        production: 'https://project-blarg-socket.herokuapp.com',
+      }
       setSocket(
         io.connect(urls[process.env.NODE_ENV], {
-          transports: ["websocket"],
-        })
-      );
+          transports: ['websocket'],
+        }),
+      )
     }
-  }, [user]);
+  }, [user])
 
   useEffect(() => {
     if (socket) {
       join([...user.comms], (err, status) => {
-        let { ok } = status;
+        let { ok } = status
         if (ok) {
-          console.log("connected");
+          console.log('connected')
         }
-      });
+      })
 
-      socket.on("error", function (err) {
-        console.log("received socket error:");
-        console.log(err);
-      });
+      socket.on('error', function (err) {
+        console.log('received socket error:')
+        console.log(err)
+      })
 
-      socket.on("new update", ({ updateType, ...incomingUpdate }) => {
-        console.log(updateType, incomingUpdate);
+      socket.on('new update', ({ updateType, ...incomingUpdate }) => {
+        console.log(updateType, incomingUpdate)
         switch (updateType) {
-          case "new message":
-            setIncomingMsg(incomingUpdate);
+          case 'new message':
+            setIncomingMsg(incomingUpdate)
             if (incomingUpdate.topic_id !== (selectedTopic || {})._id) {
-              setUnreadMsg(incomingUpdate);
-              setUnreadMsgs([...unreadMsgs, incomingUpdate]);
+              setUnreadMsg(incomingUpdate)
+              setUnreadMsgs([...unreadMsgs, incomingUpdate])
             }
-            break;
+            break
 
-          case "message update":
-            setIncomingMsgUpdate(incomingUpdate);
-            break;
+          case 'message update':
+            setIncomingMsgUpdate(incomingUpdate)
+            break
 
-          case "new topic":
-            setIncomingTopic(incomingUpdate);
-            break;
+          case 'new topic':
+            setIncomingTopic(incomingUpdate)
+            break
 
-          case "new room":
-            setIncomingRoom(incomingUpdate);
-            break;
+          case 'new room':
+            setIncomingRoom(incomingUpdate)
+            break
 
-          case "room update":
-            setIncomingRoomUpdate(incomingUpdate);
-            break;
+          case 'room update':
+            setIncomingRoomUpdate(incomingUpdate)
+            break
           default:
-            break;
+            break
         }
-      });
+      })
     }
-  }, [socket]);
+  }, [socket])
 
   const join = (chatroomName, cb) => {
-    socket.emit("joinRooms", chatroomName, cb);
-  };
+    socket.emit('joinRooms', chatroomName, cb)
+  }
   const leave = (chatroomName, cb) => {
-    socket.emit("leave", chatroomName, cb);
-  };
+    socket.emit('leave', chatroomName, cb)
+  }
   const emitUpdate = (chatroomName, update, cb) => {
-    socket.emit("Update", chatroomName, update, cb);
-  };
+    socket.emit('Update', chatroomName, update, cb)
+  }
 
   return (
     <SocketContext.Provider
@@ -109,7 +108,7 @@ export const SocketProvider = ({ children }) => {
     >
       {children}
     </SocketContext.Provider>
-  );
-};
+  )
+}
 
-export const useSocket = () => useContext(SocketContext);
+export const useSocket = () => useContext(SocketContext)

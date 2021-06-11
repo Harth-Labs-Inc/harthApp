@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
+import { useAuth } from '../contexts/auth'
 import { useComms } from '../contexts/comms'
 import { useSocket } from '../contexts/socket'
 import Modal from './Modal'
@@ -6,12 +7,13 @@ import SideModal from './Common/SideModal'
 import SettingsMenu from './SettingsMenu/index'
 import CommBuilder from '../pages/comm'
 
-const SideNav = (props) => {
+const SideNav = () => {
   const [ShowCommBuilder, setShowCommBuilder] = useState(false)
   const [ShowSettingsNav, setShowSettingsNav] = useState(false)
 
   const { comms, setComm, selectedcomm, setTopic } = useComms()
   const { unreadMsgs } = useSocket()
+  const { user } = useAuth()
 
   let leftNav = useRef()
 
@@ -66,18 +68,20 @@ const SideNav = (props) => {
         >
           {comms &&
             comms.map((com) => {
-              let activeCom = false
+              let classes = []
               if (selectedcomm && com._id === selectedcomm._id) {
-                activeCom = true
-                Object.values(unreadMsgs)
-                  .flat()
-                  .forEach((msg) => {
-                    console.log(msg)
-                  })
+                classes.push('active')
+              } else {
+                unreadMsgs.forEach((msg) => {
+                  if (msg.comm_id === com._id && msg.creator_id !== user._id) {
+                    classes.push('com-new-message')
+                  }
+                })
               }
+
               return (
                 <li
-                  className={activeCom ? 'active' : undefined}
+                  className={classes.join(' ')}
                   aria-label="nav-item"
                   key={com._id}
                 >

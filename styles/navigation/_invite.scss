@@ -93,11 +93,24 @@
           z-index: 2;
           height: 100%;
           width: 100%;
+          object-fit: cover;
+          border-radius: 6px;
         }
       }
 
       &:hover {
         background-color: $medium-grey-2;
+      }
+    }
+
+    &__single-value {
+      > span {
+        display: flex;
+        img {
+          max-width: 20px;
+          object-fit: cover;
+          margin-right: 8px;
+        }
       }
     }
   }

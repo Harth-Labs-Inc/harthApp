@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Head from 'next/head'
 
 const Layout = ({ title, children }) => {
   return (
@@ -78,17 +78,13 @@ const Layout = ({ title, children }) => {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/manifest.json" />
-        {/* <link
-          rel="stylesheet"
-          href="https://i.icomoon.io/public/temp/f29974ed49/ProjectBlarg/style.css"
-        /> */}
         <meta name="msapplication-TileColor" content="#202340" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
         <meta name="theme-color" content="#202340" />
       </Head>
       {children}
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

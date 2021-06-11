@@ -3,10 +3,6 @@
   border: 1px solid $black50;
   border-radius: 4px;
 
-  .topic-edit-active & {
-    width: calc(96% - 628px);
-  }
-
   .image-holder {
     display: flex;
     justify-content: flex-start;
