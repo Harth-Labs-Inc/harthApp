@@ -1,30 +1,44 @@
 #comm_preferences {
-  span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 34px;
+  .modal_main {
+    display: grid;
+    grid-template-areas:
+      'header header'
+      'nav body';
+    grid-template-columns: 144px 344px;
+    grid-template-rows: 88px auto;
+    column-gap: 8px;
+    width: 90vw;
+    max-width: 560px;
+    min-height: 75%;
   }
-  .profile-image {
-    display: block;
-    position: relative;
-    height: 120px;
-    width: 120px;
-    margin: 0 auto 16px;
-
-    &:before {
-      @include x-y-center;
-      @include font-icon($icon-user);
-      color: $medium-grey;
-      font-size: 120px;
-      line-height: 120px;
+  .modal-top {
+    grid-area: header;
+    padding: 20px 16px;
+    p {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 40px;
     }
+  }
+  .modal_left {
+    grid-area: nav;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 144px;
 
-    img {
-      height: 100%;
-      width: 100%;
+    .text-btn {
+      padding: 0;
+      color: $placeholder-black;
+
+      &:hover {
+        color: $text-black;
+      }
     }
+  }
+  .modal_right {
+    grid-area: body;
   }
 
   h2 {

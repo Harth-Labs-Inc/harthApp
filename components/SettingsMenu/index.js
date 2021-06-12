@@ -1,14 +1,20 @@
 import { useState } from 'react'
+import Cookies from 'js-cookie'
 
 import InviteComp from './Invite'
 import AccountSettings from './Account'
 import Devices from './Devices'
 
-const SettingsMenu = (props) => {
+const SettingsMenu = () => {
   const [currentTab, setCurrentTab] = useState('')
 
   const toggleCurrentPage = (name) => {
     setCurrentTab(name)
+  }
+
+  const signOut = () => {
+    Cookies.remove('token')
+    window.location.pathname = '/'
   }
 
   const SettingsList = () => {
@@ -32,7 +38,7 @@ const SettingsMenu = (props) => {
             </button>
           </li>
           <li>
-            <button>Sign Out</button>
+            <button onClick={() => signOut()}>Sign Out</button>
           </li>
           <li>
             <button onClick={() => window.close()}>Exit</button>

@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { getDownloadURL } from "../../requests/s3";
-import { deleteMessage, updateMessage, updateReply } from "../../requests/chat";
-import { useAuth } from "../../contexts/auth";
-import { useSocket } from "../../contexts/socket";
-import { useChat } from "../../contexts/chat";
-import { useComms } from "../../contexts/comms";
-import Modal from "../Modal";
-import { Picker } from "emoji-mart";
-import "emoji-mart/css/emoji-mart.css";
+import React, { useState, useEffect } from 'react'
+import { getDownloadURL } from '../../requests/s3'
+import { deleteMessage, updateMessage, updateReply } from '../../requests/chat'
+import { useAuth } from '../../contexts/auth'
+import { useSocket } from '../../contexts/socket'
+import { useChat } from '../../contexts/chat'
+import { useComms } from '../../contexts/comms'
+import Modal from '../Modal'
+import { Picker } from 'emoji-mart'
+import 'emoji-mart/css/emoji-mart.css'
 
 const Message = (props) => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [emojiPickerState, setEmojiPicker] = useState(false);
-  const [urls, setUrls] = useState([]);
-  const [showEditBar, setShowEditBar] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [emojiPickerState, setEmojiPicker] = useState(false)
+  const [urls, setUrls] = useState([])
+  const [showEditBar, setShowEditBar] = useState('')
 
   const {
     _id,
@@ -27,143 +27,143 @@ const Message = (props) => {
     flames = [],
     replies = [],
     topic_id,
-  } = props.msg;
-  const { editMessageText, isReply } = props;
+  } = props.msg
+  const { editMessageText, isReply } = props
 
-  const { user } = useAuth();
-  const { emitUpdate } = useSocket();
-  const { selectedcomm } = useComms();
-  const { setSelectedReplyOwner } = useChat();
+  const { user } = useAuth()
+  const { emitUpdate } = useSocket()
+  const { selectedcomm } = useComms()
+  const { setSelectedReplyOwner } = useChat()
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       if (attachments.length > 0) {
-        let promises = [];
+        let promises = []
         attachments.forEach((att) => {
           promises.push(
             new Promise(async (res, rej) => {
-              let bucket = "topic-message-attachments";
-              const data = await getDownloadURL(att.name, att.fileType, bucket);
-              const { ok, downloadURL } = data;
+              let bucket = 'topic-message-attachments'
+              const data = await getDownloadURL(att.name, att.fileType, bucket)
+              const { ok, downloadURL } = data
               if (ok) {
-                res(downloadURL);
+                res(downloadURL)
               }
-            })
-          );
-        });
+            }),
+          )
+        })
 
-        const outputs = await Promise.all(promises);
-        setUrls(outputs);
+        const outputs = await Promise.all(promises)
+        setUrls(outputs)
       }
-    })();
-  }, [_id]);
+    })()
+  }, [_id])
 
   const toggleEdit = (show) => {
     if (show) {
-      setShowEditBar(_id);
+      setShowEditBar(_id)
     } else {
-      setShowEditBar("");
+      setShowEditBar('')
     }
-  };
+  }
   const toggleDeleteModal = () => {
-    setShowDeleteModal(!showDeleteModal);
-  };
+    setShowDeleteModal(!showDeleteModal)
+  }
   const deleteMsg = async () => {
-    const data = await deleteMessage(_id);
-    let msg = props.msg;
-    msg.action = "delete";
-    msg.updateType = "message update";
+    const data = await deleteMessage(_id)
+    let msg = props.msg
+    msg.action = 'delete'
+    msg.updateType = 'message update'
     emitUpdate(selectedcomm._id, msg, async (err, status) => {
       if (err) {
-        console.log(err);
+        console.log(err)
       }
-      let { ok } = status;
+      let { ok } = status
       if (ok) {
-        console.log("message sent");
+        console.log('message sent')
       }
-    });
-    toggleDeleteModal();
-  };
+    })
+    toggleDeleteModal()
+  }
   const updateMsg = async () => {
-    let msg = props.msg;
+    let msg = props.msg
     if (isReply) {
-      const data = await updateReply(msg);
+      const data = await updateReply(msg)
     } else {
-      const data = await updateMessage(msg);
+      const data = await updateMessage(msg)
     }
-    msg.updateType = "message update";
-    msg.action = "update";
+    msg.updateType = 'message update'
+    msg.action = 'update'
     emitUpdate(selectedcomm._id, msg, async (err, status) => {
       if (err) {
-        console.log(err);
+        console.log(err)
       }
-      let { ok } = status;
+      let { ok } = status
       if (ok) {
-        console.log("message sent");
+        console.log('message sent')
       }
-    });
-  };
+    })
+  }
   const editBarSelection = () => {
-    editMessageText(props.msg);
-  };
+    editMessageText(props.msg)
+  }
   const getTimeStamp = () => {
-    let timeStamp;
-    let today = new Date();
-    let weekBefore = today.setDate(today.getDate() - 6);
+    let timeStamp
+    let today = new Date()
+    let weekBefore = today.setDate(today.getDate() - 6)
 
     if (
       new Date(date).toLocaleDateString() === new Date().toLocaleDateString()
     ) {
       timeStamp = new Date(date).toLocaleTimeString([], {
-        timeStyle: "short",
-      });
+        timeStyle: 'short',
+      })
     } else if (new Date(date) >= new Date(weekBefore)) {
-      timeStamp = `${new Date(date).toLocaleDateString("default", {
-        weekday: "long",
+      timeStamp = `${new Date(date).toLocaleDateString('default', {
+        weekday: 'long',
       })} @ ${new Date(date).toLocaleTimeString([], {
-        timeStyle: "short",
-      })}`;
+        timeStyle: 'short',
+      })}`
     } else {
-      timeStamp = `${new Date(date).toLocaleDateString("default", {
-        weekday: "long",
-      })}, ${new Date(date).toLocaleDateString("default", {
-        month: "short",
-      })} ${new Date(date).toLocaleDateString("default", {
-        day: "numeric",
+      timeStamp = `${new Date(date).toLocaleDateString('default', {
+        weekday: 'long',
+      })}, ${new Date(date).toLocaleDateString('default', {
+        month: 'short',
+      })} ${new Date(date).toLocaleDateString('default', {
+        day: 'numeric',
       })} @ ${new Date(date).toLocaleTimeString([], {
-        timeStyle: "short",
-      })}`;
+        timeStyle: 'short',
+      })}`
     }
-    return timeStamp;
-  };
+    return timeStamp
+  }
   const addFlame = () => {
-    let index;
+    let index
     flames.forEach((flame, idx) => {
       if (flame.id == user._id) {
-        index = idx;
+        index = idx
       }
-    });
+    })
     if (index >= 0) {
-      flames.splice(index, 1);
+      flames.splice(index, 1)
     } else {
-      let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
-      flames.push({ name: creator.name, id: user._id });
+      let creator = selectedcomm.users.find((usr) => usr.userId === user._id)
+      flames.push({ name: creator.name, id: user._id })
     }
 
-    updateMsg();
-  };
+    updateMsg()
+  }
   const triggerPicker = (e) => {
-    e.preventDefault();
-    setEmojiPicker(!emojiPickerState);
-  };
+    e.preventDefault()
+    setEmojiPicker(!emojiPickerState)
+  }
   const addEmoji = (e) => {
-    reactions.push(e.native);
-    updateMsg();
-    setEmojiPicker(!emojiPickerState);
-  };
+    reactions.push(e.native)
+    updateMsg()
+    setEmojiPicker(!emojiPickerState)
+  }
   const addReplyOwner = () => {
-    setSelectedReplyOwner(props.msg);
-  };
+    setSelectedReplyOwner(props.msg)
+  }
   const EmojiPicker = () => {
     if (emojiPickerState) {
       return (
@@ -175,10 +175,10 @@ const Message = (props) => {
           color="#1d0a6c"
           autoFocus={true}
         />
-      );
+      )
     }
-    return null;
-  };
+    return null
+  }
   const DeleteModal = () => {
     if (showDeleteModal) {
       return (
@@ -191,16 +191,16 @@ const Message = (props) => {
             <button onClick={toggleDeleteModal}>CANCEL</button>
           </div>
         </Modal>
-      );
+      )
     }
-    return null;
-  };
+    return null
+  }
   const CreatorImage = () => {
     if (creator_image) {
-      return <img src={creator_image} alt={creator_name} loading="lazy" />;
+      return <img src={creator_image} alt={creator_name} loading="lazy" />
     }
-    return <span className="message_no_image"></span>;
-  };
+    return <span className="message_no_image"></span>
+  }
   const EditBar = () => {
     if (showEditBar && showEditBar == _id) {
       if (creator_id == user._id) {
@@ -247,7 +247,7 @@ const Message = (props) => {
               delete
             </button>
           </div>
-        );
+        )
       } else {
         return (
           <div className="message-edit-bar">
@@ -276,20 +276,23 @@ const Message = (props) => {
               reply
             </button>
           </div>
-        );
+        )
       }
     }
 
-    return null;
-  };
+    return null
+  }
 
-  let timeStamp = getTimeStamp();
+  let timeStamp = getTimeStamp()
 
   return (
     <div
       className="message"
       onMouseEnter={() => toggleEdit(true)}
-      onMouseLeave={() => toggleEdit(false)}
+      onMouseLeave={() => {
+        toggleEdit(false)
+        setEmojiPicker(false)
+      }}
     >
       <DeleteModal />
       <CreatorImage />
@@ -318,12 +321,14 @@ const Message = (props) => {
             ))}
           </div>
           {[...(reactions || [])].map((reaction, index) => (
-            <p key={index}>{reaction}</p>
+            <p className="reaction-emoji" key={index}>
+              {reaction}
+            </p>
           ))}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Message;
+export default Message

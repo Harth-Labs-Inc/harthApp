@@ -25,8 +25,9 @@ const InviteComp = (props) => {
         24 -
         Math.abs(new Date(value.expiration).getHours() - new Date().getHours())
       selectedInvite = value
-      inviteUrl = `${urls[process.env.NODE_ENV]}?invite=true&tkn=
-      ${selectedInvite.token}`
+      inviteUrl = `${urls[process.env.NODE_ENV]}?invite=true&tkn=${
+        selectedInvite.token
+      }`.trim()
     }
   }
 

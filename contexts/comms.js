@@ -41,7 +41,7 @@ export const CommsProvider = ({ children }) => {
     const { ok, topics } = result
     if (ok) {
       setTopics(topics)
-      setSelectedTopic({})
+      setSelectedTopic(topics[0] || {})
     }
   }
   const grabRooms = async (comid) => {

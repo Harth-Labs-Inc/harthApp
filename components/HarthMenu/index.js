@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 
-import Profile from './Profile'
-
-import { CloseBtn } from '../Common/Button'
+import { CloseBtn, TextBtn } from '../Common/Button'
 
 const HarthMenu = (props) => {
   const [currentPage, setCurrentPage] = useState('profile')
@@ -15,9 +13,6 @@ const HarthMenu = (props) => {
 
   let page
   switch (currentPage) {
-    case 'premium':
-      page = <p>premium</p>
-      break
     case 'members':
       page = <p>members</p>
       break
@@ -25,7 +20,7 @@ const HarthMenu = (props) => {
       page = <p>admin</p>
       break
     default:
-      page = <Profile></Profile>
+      page = <p>premium</p>
       break
   }
 
@@ -37,18 +32,6 @@ const HarthMenu = (props) => {
       </div>
       <aside className="modal_left">
         <ul id="nav_comm_preferences" role="nav">
-          <li
-            className={currentPage == 'profile' ? 'active' : undefined}
-            role="nav-item"
-          >
-            <button
-              onClick={() => {
-                changePageHandler('profile')
-              }}
-            >
-              My Profile
-            </button>
-          </li>
           <li
             className={currentPage == 'premium' ? 'active' : undefined}
             role="nav-item"
@@ -86,7 +69,7 @@ const HarthMenu = (props) => {
             </button>
           </li>
         </ul>
-        <button>Leave</button>
+        <TextBtn text="Leave"></TextBtn>
       </aside>
       <div className="modal_right">{page}</div>
     </>

@@ -75,7 +75,7 @@ const TopicsNav = (props) => {
         comm_id: selectedcomm._id,
         members: [
           { user_id: user._id, admin: true, muted: false },
-          ...selectedcomm.users.forEach((usr) => {
+          ...((selectedcomm || {}).users || []).map((usr) => {
             if (usr.userId !== user._id) {
               return { user_id: usr.userId, admin: false, muted: false }
             }
