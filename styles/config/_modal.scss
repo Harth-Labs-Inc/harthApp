@@ -19,7 +19,8 @@
     padding: 24px 32px 48px;
     background-color: $white;
     border-radius: 8px;
-    max-height: calc(90vh - 72px);
+    max-height: calc(95vh - 72px);
+    overflow-y: scroll;
 
     .modal-top {
       display: flex;
