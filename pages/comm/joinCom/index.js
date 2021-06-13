@@ -17,7 +17,7 @@ const JoinCom = (props) => {
     let result = await getCommFromInvite(inviteCode)
     let { ok, comm } = result
     if (ok) {
-      onCommChange(comm)
+      onCommChange(comm.comm_id)
       changePage('profile')
     } else {
       setErrorMessage('Incorrect Code')

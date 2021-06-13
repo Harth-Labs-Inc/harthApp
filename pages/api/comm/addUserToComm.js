@@ -43,20 +43,23 @@ export default async (req, res) => {
   }
 
   const getPublicTopicsForComm = (db, commId) => {
+    console.log(commId)
     return new Promise((resolve, reject) => {
       db.collection('topics')
         .find({ comm_id: commId, private: { $eq: false } })
         .toArray(function (err, results) {
           if (err) {
+            console.log(err)
             resolve(false)
           }
-          console.log(results)
+          console.log('getPublicTopicsForComm')
           resolve(results)
         })
     })
   }
 
   const addRoomsToUser = (db, userId, ids) => {
+    console.log(userId, ids)
     return new Promise((resolve, reject) => {
       let mongo = require('mongodb')
       let o_id = new mongo.ObjectID(userId)
@@ -67,6 +70,7 @@ export default async (req, res) => {
           if (err) {
             resolve(false)
           }
+          console.log('addRoomsToUser')
           resolve(results)
         },
       )
@@ -74,6 +78,7 @@ export default async (req, res) => {
   }
 
   const addMemberToTopics = (db, userId, ids) => {
+    console.log(userId, ids)
     return new Promise((resolve, reject) => {
       let mongo = require('mongodb')
       let objIds = []
@@ -95,7 +100,7 @@ export default async (req, res) => {
           if (err) {
             resolve(false)
           }
-          console.log(objIds)
+          console.log('addMemberToTopics')
           resolve(results)
         },
       )
@@ -105,22 +110,29 @@ export default async (req, res) => {
   const { db } = await connectToDatabase()
   ///////////
   let getProfResult = await pushUserToComm(db, obj.id, obj.prof)
+  console.log(1)
   if (!getProfResult) {
     return res.json({ ok: 0, msg: 'something went wrong' })
   }
-  if (!getProfResult.modifiedCount) {
-    return res.json({ ok: 0, msg: 'something went wrong' })
-  }
-  //////////
+  console.log(2)
+
   let getuserResult = await pushCommToUser(db, obj.prof.userId, obj.id)
+  console.log(3)
+
   if (!getuserResult) {
     return res.json({ ok: 0, msg: 'something went wrong' })
   }
+  console.log(4)
+
   if (!getuserResult.modifiedCount) {
     return res.json({ ok: 0, msg: 'something went wrong' })
   }
+  console.log(5)
+
   //////////
   let topics = await getPublicTopicsForComm(db, obj.id)
+  console.log(6)
+
   if (!topics) {
     return res.json({ ok: 0, msg: 'something went wrong' })
   }

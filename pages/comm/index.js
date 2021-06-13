@@ -38,7 +38,7 @@ const CommIndexPage = () => {
       const { ok, comm } = data
       console.log(data)
       if (ok) {
-        setcomID(comm.comm_id)
+        setCommFromInvite(comm.comm_id)
       }
     }
   }, [tkn])
@@ -46,6 +46,10 @@ const CommIndexPage = () => {
   useEffect(() => {
     Router.prefetch('/')
   }, [])
+
+  const setCommFromInvite = (id) => {
+    setcomID(id)
+  }
 
   const commHandler = (data) => {
     setCommunity(data)
@@ -99,13 +103,13 @@ const CommIndexPage = () => {
       let profs3Upload
       let profDbUpload
 
-      if (community.image.name) {
+      if (community.image && community.image.name) {
         comms3Upload = await uploadFile(
           community.image,
           'community-profile-images',
         )
       }
-      if (profile.image.name) {
+      if (profile.image && profile.image.name) {
         profs3Upload = await uploadFile(profile.image, 'community-user-images')
         if (profs3Upload.ok) {
         }
@@ -139,7 +143,7 @@ const CommIndexPage = () => {
       let profs3Upload
       let profDbUpload
 
-      if (profile.image.name) {
+      if (profile.image && profile.image.name) {
         profs3Upload = await uploadFile(profile.image, 'community-user-images')
       }
 
@@ -171,7 +175,12 @@ const CommIndexPage = () => {
       )
       break
     case 'invite':
-      page = <JoinCom changePage={changePageHandler}></JoinCom>
+      page = (
+        <JoinCom
+          changePage={changePageHandler}
+          onCommChange={setCommFromInvite}
+        ></JoinCom>
+      )
       break
     case 'profile':
       page = (
@@ -180,6 +189,7 @@ const CommIndexPage = () => {
           commData={community}
           user={user}
           onProfChange={profHandler}
+          onCommChange={commHandler}
           onPersChange={persHandler}
         ></CreateProf>
       )
