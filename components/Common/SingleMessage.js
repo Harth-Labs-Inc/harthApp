@@ -285,6 +285,10 @@ const Message = (props) => {
 
   let timeStamp = getTimeStamp()
 
+  let rows = (message || '').split('\n')
+
+  console.log(rows)
+
   return (
     <div
       className="message"
@@ -306,7 +310,9 @@ const Message = (props) => {
         {(urls || []).map((url) => (
           <img src={url} key={url} />
         ))}
-        <p className="message_content">{message}</p>
+        <textarea rows={rows.length} disabled className="message_content">
+          {message}
+        </textarea>
         <div className="message_reaction_wrapper">
           {[...(replies || [])].length > 0 ? (
             <p className="message_reply_count">{replies.length}</p>

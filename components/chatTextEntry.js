@@ -18,6 +18,7 @@ const chatTextEntry = (props) => {
   const [attachments, setAttachments] = useState([])
   const [emojiPickerState, setEmojiPicker] = useState(false)
   const [selectedEditMsg, setSelectedEditMsg] = useState({})
+  const [altKey, setAltKey] = useState(false)
 
   const { user } = useAuth()
   const { selectedcomm, selectedTopic } = useComms()
@@ -272,6 +273,13 @@ const chatTextEntry = (props) => {
       }
     })
   }
+  const submitMessageLogic = () => {
+    if (isReply) {
+      sendReply()
+    } else {
+      sendMessagge()
+    }
+  }
   const MessageSubmits = () => {
     const isDisabled =
       (topicInputs[selectedTopic._id] || '').trim().length === 0 &&
@@ -298,11 +306,7 @@ const chatTextEntry = (props) => {
             className="send-message"
             disabled={isDisabled}
             onClick={() => {
-              if (isReply) {
-                sendReply()
-              } else {
-                sendMessagge()
-              }
+              submitMessageLogic()
             }}
           >
             send
@@ -320,9 +324,23 @@ const chatTextEntry = (props) => {
         placeholder={`Say something...`}
         onChange={inputHandler}
         value={topicInputs[selectedTopic._id] || ''}
-        onKeyUp={() => {
-          textRef.current.style.height =
-            calcHeight(textRef.current.value) + 'px'
+        onKeyDown={(e) => {
+          let input = topicInputs[selectedTopic._id] || ''
+          console.log(input)
+          if (e.altKey) {
+            setAltKey(true)
+          }
+          if (e.key == 'Enter' && altKey) {
+            input = input + '\r\n'
+            setTopicInputs({ ...topicInputs, [selectedTopic._id]: input })
+            textRef.current.style.height =
+              calcHeight(textRef.current.value) + 'px'
+          } else if (e.key === 'Enter' && input.trim().length > 0) {
+            submitMessageLogic()
+          }
+        }}
+        onKeyUp={(e) => {
+          setAltKey(false)
         }}
         onPaste={getPastedData}
         onDragEnter={(e) => {

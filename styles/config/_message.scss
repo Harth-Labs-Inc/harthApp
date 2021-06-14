@@ -117,6 +117,9 @@
     margin-bottom: $gutter / 2;
     font-size: 14px;
     line-height: 16px;
+    resize: none;
+    background-color: transparent;
+    border: 0;
   }
 
   .message-edit-bar {
