@@ -323,7 +323,7 @@ const Message = (props) => {
         console.log(data)
 
         if (data.ok) {
-          innerHtml += `<article>
+          innerHtml += `<article class="og-card">
                         ${
                           data.data.ogSiteName
                             ? `<span>${data.data.ogSiteName}</span>`
