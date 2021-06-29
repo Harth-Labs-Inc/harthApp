@@ -5,7 +5,7 @@ const Layout = ({ title, children }) => {
     <>
       <Head>
         <title>Project Blarg</title>
-        <meta property="og:title" content="Project Blarg" key="title" />
+        <meta property="og:title" content="Harth" key="title" />
 
         <link rel="icon" href="/favicon.ico" />
         <link

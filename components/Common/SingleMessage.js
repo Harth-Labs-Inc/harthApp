@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getDownloadURL } from '../../requests/s3'
 import { deleteMessage, updateMessage, updateReply } from '../../requests/chat'
+import { getURLMetaData } from '../../requests/urls'
 import { useAuth } from '../../contexts/auth'
 import { useSocket } from '../../contexts/socket'
 import { useChat } from '../../contexts/chat'
@@ -28,35 +29,37 @@ const Message = (props) => {
     replies = [],
     topic_id,
   } = props.msg
-  const { editMessageText, isReply } = props
+  const { editMessageText, isReply, messageID } = props
 
   const { user } = useAuth()
   const { emitUpdate } = useSocket()
   const { selectedcomm } = useComms()
   const { setSelectedReplyOwner } = useChat()
 
-  useEffect(() => {
-    ;(async () => {
-      if (attachments.length > 0) {
-        let promises = []
-        attachments.forEach((att) => {
-          promises.push(
-            new Promise(async (res, rej) => {
-              let bucket = 'topic-message-attachments'
-              const data = await getDownloadURL(att.name, att.fileType, bucket)
-              const { ok, downloadURL } = data
-              if (ok) {
-                res(downloadURL)
-              }
-            }),
-          )
-        })
+  useEffect(async () => {
+    if (attachments.length > 0) {
+      let promises = []
+      attachments.forEach((att) => {
+        promises.push(
+          new Promise(async (res, rej) => {
+            let bucket = 'topic-message-attachments'
+            const data = await getDownloadURL(att.name, att.fileType, bucket)
+            const { ok, downloadURL } = data
+            if (ok) {
+              res(downloadURL)
+            }
+          }),
+        )
+      })
 
-        const outputs = await Promise.all(promises)
-        setUrls(outputs)
-      }
-    })()
+      const outputs = await Promise.all(promises)
+      setUrls(outputs)
+    }
   }, [_id])
+
+  useEffect(() => {
+    replaceURLs()
+  }, [])
 
   const toggleEdit = (show) => {
     if (show) {
@@ -283,12 +286,74 @@ const Message = (props) => {
     return null
   }
 
+  const wrapLink = (innerHtml, urlRegex) => {
+    let rawurl = ''
+    let replacedURL = innerHtml.replace(urlRegex, function (url) {
+      rawurl = url
+      if (!url.match('^https?://')) {
+        url = 'http://' + url
+      }
+
+      return (
+        '<a href="' +
+        url +
+        '" target="_blank" rel="noopener noreferrer">' +
+        url +
+        '</a>'
+      )
+    })
+
+    return { rawURL: rawurl, alteredURL: replacedURL }
+  }
+
+  const replaceURLs = async () => {
+    let messageBody = document.getElementById(`message-content${messageID}`)
+    let innerHtml = message
+    if (messageBody) {
+      const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g
+
+      if (urlRegex.test(innerHtml)) {
+        let { rawURL, alteredURL } = wrapLink(innerHtml, urlRegex)
+
+        innerHtml = `<span class="message-text">${alteredURL}</span>`
+
+        let html = await getURLMetaData(rawURL)
+
+        const { data } = html
+        console.log(data)
+
+        if (data.ok) {
+          innerHtml += `<article>
+                        ${
+                          data.data.ogSiteName
+                            ? `<span>${data.data.ogSiteName}</span>`
+                            : ''
+                        }
+                        ${
+                          data.data.ogTitle
+                            ? `<span>${data.data.ogTitle}</span>`
+                            : ''
+                        }
+                        ${
+                          data.data.ogDescription
+                            ? `<p>${data.data.ogDescription}</p>`
+                            : ''
+                        }
+                        ${
+                          data.data.ogImage
+                            ? `<img src="${data.data.ogImage.url}" alt="${data.data.ogTitle}" />`
+                            : ''
+                        }
+                        </article>`
+        }
+        messageBody.innerHTML = innerHtml
+      } else {
+        messageBody.innerHTML = `<span class="message-text">${innerHtml}</span>`
+      }
+    }
+  }
+
   let timeStamp = getTimeStamp()
-
-  let rows = (message || '').split('\n')
-
-  console.log(rows)
-
   return (
     <div
       className="message"
@@ -310,9 +375,11 @@ const Message = (props) => {
         {(urls || []).map((url) => (
           <img src={url} key={url} />
         ))}
-        <textarea rows={rows.length} disabled className="message_content">
-          {message}
-        </textarea>
+
+        <div
+          id={`message-content${messageID}`}
+          className="message-content"
+        ></div>
         <div className="message_reaction_wrapper">
           {[...(replies || [])].length > 0 ? (
             <p className="message_reply_count">{replies.length}</p>

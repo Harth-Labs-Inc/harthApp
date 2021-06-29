@@ -8,16 +8,16 @@
 }
 
 #channel {
+  width: 30%;
   padding: 0 8px;
 
   color: $text-black;
   font-size: 14px;
   font-weight: 700;
   line-height: 19px;
-
+  text-align: left;
   background-color: transparent;
   border: 0;
-
   cursor: pointer;
 
   &:hover {

@@ -1,6 +1,7 @@
 .message {
   display: inline-flex;
   position: relative;
+  width: 100%;
   padding-top: 12px;
   padding-bottom: 6px;
 
@@ -34,7 +35,7 @@
   }
 
   .message-body {
-    max-width: calc(100% - 48px);
+    width: calc(100% - 48px);
     img {
       max-height: 180px;
       max-width: 100%;
@@ -88,10 +89,6 @@
     }
   }
 
-  > div {
-    max-width: calc(100%);
-  }
-
   span {
     display: flex;
     .message_creator {
@@ -113,13 +110,23 @@
     margin: 0;
   }
 
-  .message_content {
+  .message-content {
+    width: 100%;
     margin-bottom: $gutter / 2;
     font-size: 14px;
     line-height: 16px;
     resize: none;
     background-color: transparent;
     border: 0;
+
+    .message-text {
+      white-space: pre-wrap;
+    }
+
+    a {
+      display: inline-block;
+      font-size: inherit;
+    }
   }
 
   .message-edit-bar {
@@ -178,5 +185,9 @@
         }
       }
     }
+  }
+
+  &:hover {
+    background-color: $medium-grey-2;
   }
 }

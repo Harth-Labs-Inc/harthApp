@@ -246,8 +246,13 @@ const MessageWrapper = () => {
               />
             ))
           : currentMessages &&
-            currentMessages.map((msg) => (
-              <Message editMessageText={editMessage} msg={msg} key={msg._id} />
+            currentMessages.map((msg, idx) => (
+              <Message
+                editMessageText={editMessage}
+                msg={msg}
+                key={msg._id}
+                messageID={msg._id}
+              />
             ))}
         <ScrollButton />
       </div>

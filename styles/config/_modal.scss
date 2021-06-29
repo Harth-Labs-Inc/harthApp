@@ -20,7 +20,7 @@
     background-color: $white;
     border-radius: 8px;
     max-height: calc(95vh - 72px);
-    overflow-y: scroll;
+    overflow-y: auto;
 
     .modal-top {
       display: flex;
