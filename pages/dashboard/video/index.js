@@ -43,8 +43,8 @@ const Video = (props) => {
   if (socketID) {
     return (
       <ul>
-        {(callRooms || []).map((room) => (
-          <li>
+        {(callRooms || []).map((room, idx) => (
+          <li key={idx}>
             {room.harthName}
             <button onClick={joinRoom}>join</button>
           </li>

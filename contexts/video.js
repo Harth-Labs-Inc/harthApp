@@ -6,7 +6,9 @@ const VideoContext = createContext({})
 export const VideoProvider = ({ children }) => {
   const [socket, setSocket] = useState(null)
   const [remoteStream, setRemoteStream] = useState(null)
+  const [groupCallStreams, setGroupCallStreams] = useState(null)
   const [callState, setCallState] = useState(null)
+  const [myPeerId, setMyPeerId] = useState(null)
   //   const [peerConnection, setPeerConnection] = useState(null)
   const [localStream, setLocalStream] = useState()
   const [callRooms, setCallRooms] = useState([])
@@ -108,6 +110,7 @@ export const VideoProvider = ({ children }) => {
       }
 
       let dataChannel = peerConnection.createDataChannel('chat')
+      console.log(dataChannel)
 
       dataChannel.onopen = () => {
         console.log('chat data channel succesfully opened')
@@ -131,15 +134,15 @@ export const VideoProvider = ({ children }) => {
     }
   }
   const connectWithMyPeer = () => {
-    myPeer = new window.Peer(undefined, {
+    let myPeer = new window.Peer(undefined, {
       path: '/peerjs',
       host: '/',
       port: '5000',
     })
 
     myPeer.on('open', (id) => {
-      console.log('succesfully connected with peer server')
-      myPeerId = id
+      console.log('succesfully connected with peer server', id)
+      setMyPeerId(id)
     })
 
     myPeer.on('call', (call) => {
@@ -153,6 +156,12 @@ export const VideoProvider = ({ children }) => {
         }
       })
     })
+  }
+
+  const addVideoStream = (incomingStream) => {
+    const groupCallStreams = [...groupCallStreams, incomingStream]
+
+    setGroupCallStreams(groupCallStreams)
   }
 
   return (

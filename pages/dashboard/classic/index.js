@@ -2,7 +2,12 @@ import { useEffect, useRef } from 'react'
 import { useVideo } from '../../../contexts/video'
 
 const Classic = () => {
-  const { getLocalStream, createPeerConnection, localStream } = useVideo()
+  const {
+    connectWithMyPeer,
+    getLocalStream,
+    createPeerConnection,
+    localStream,
+  } = useVideo()
 
   const localVidRef = useRef()
 
@@ -15,6 +20,7 @@ const Classic = () => {
 
   const startStreams = () => {
     getLocalStream()
+    connectWithMyPeer()
   }
 
   return (
