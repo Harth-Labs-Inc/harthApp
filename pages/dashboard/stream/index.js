@@ -1,109 +1,65 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../../../contexts/auth";
-import { useComms } from "../../../contexts/comms";
-import { useSocket } from "../../../contexts/socket";
+import { useEffect, useState } from 'react'
+import { useComms } from '../../../contexts/comms'
+import { useVideo } from '../../../contexts/video'
+import { useAuth } from '../../../contexts/auth'
 
-const Stream = () => {
-  const [activeRoom, setActiveRoom] = useState();
-  const [roomID, setRoomId] = useState("");
-  const [commId, setCommId] = useState("");
-  const { rooms, selectedcomm, setRooms, setComm, comms } = useComms();
-  const { user } = useAuth();
-  const { emitUpdate, incomingRoom, incomingRoomUpdate } = useSocket();
+const Stream = (props) => {
+  const [socketData, setSocketData] = useState({})
 
-  useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const RId = urlParams.get("room_id");
-    const CId = urlParams.get("comm_id");
-    if (RId) {
-      setRoomId(RId);
-    }
-    if (CId) {
-      setCommId(CId);
-    }
-  }, []);
-
-  useEffect(async (displayMediaOptions) => {
-    const test = await navigator.mediaDevices.getDisplayMedia(
-      displayMediaOptions
-    );
-    console.log(test.getTracks());
-
-    // devices
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    console.log(devices);
-
-    // camera
-    // try {
-    //   const constraints = { video: true, audio: true };
-    //   const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    //   const videoElement = document.querySelector("video#localVideo");
-    //   videoElement.srcObject = stream;
-    // } catch (error) {
-    //   console.error("Error opening video camera.", error);
-    // }
-
-    // screen share
-    // try {
-    //   const stream = await navigator.mediaDevices.getDisplayMedia();
-    //   const videoElement = document.querySelector("video#localVideo");
-    //   videoElement.srcObject = stream;
-    // } catch (error) {
-    //   console.error("Error opening video camera.", error);
-    // }
-  }, []);
+  const { selectedcomm } = useComms()
+  const { registerNewUser, socketID, createEmptyRoom, callRooms } = useVideo()
+  const { user } = useAuth()
 
   useEffect(() => {
-    if (comms) {
-      let tempCom = comms.find((com) => com._id === commId);
-      if (tempCom) {
-        setComm(tempCom);
-      }
+    if (socketID) {
+      let creator = selectedcomm.users.find((usr) => usr.userId === user._id)
+      let data = {}
+      data.name = creator.name
+      data.harthid = selectedcomm._id
+      data.socketId = socketID
+      data.harthName = 'test'
+      setSocketData(data)
+      registerNewUser(data)
     }
-  }, [comms]);
+  }, [socketID])
 
-  useEffect(() => {
-    if (roomID && rooms && commId) {
-      let selected = (rooms[commId] || []).find((rm) => rm._id === roomID);
-      console.log(selected);
-      setActiveRoom(selected);
+  const joinRoom = ({ roomId }) => {
+    let urls = {
+      development: 'http://localhost:3000/',
+      production: 'https://project-blarg-next.vercel.app/',
     }
-  }, [roomID, rooms, commId]);
 
-  if (activeRoom)
+    window.open(
+      `${
+        urls[process.env.NODE_ENV]
+      }?gather_window=true&room_type=classic&user_name=${
+        socketData.name
+      }&room_id=${roomId}`,
+    )
+  }
+
+  const createRoom = () => {
+    createEmptyRoom(socketData)
+  }
+
+  if (socketID) {
+    console.log(callRooms)
     return (
-      <main>
-        <section id="side-nav">
-          <div id="header">
-            <p>{activeRoom.name}</p>
-            <p>active 4 billllllllion minutes</p>
-          </div>
-          <ul>
-            {activeRoom.active_users.map((usr) => (
-              <div>
-                <span>
-                  <img src={usr.iconKey}></img>
-                </span>
-                <span>{usr.name}</span>
-                <span></span>
-              </div>
-            ))}
-          </ul>
-          <div id="footer">
-            <p>leave</p>
-            <p>mute</p>
-            <p>disable video</p>
-            <p>stream</p>
-          </div>
-        </section>
-        <section id="stream-window">
-          <video id="localVideo" autoPlay playsInline />
-        </section>
-      </main>
-    );
+      <ul>
+        {(callRooms || []).map((room, idx) => (
+          <li key={idx}>
+            {room.harthName}
+            <button title={room.roomId} onClick={() => joinRoom(room)}>
+              join
+            </button>
+          </li>
+        ))}
+        <button onClick={createRoom}>create room</button>
+      </ul>
+    )
+  }
 
-  return <p>connecting to room...</p>;
-};
+  return <p>loading...</p>
+}
 
-export default Stream;
+export default Stream

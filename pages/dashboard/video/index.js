@@ -7,7 +7,8 @@ const Video = (props) => {
   const [socketData, setSocketData] = useState({})
 
   const { selectedcomm } = useComms()
-  const { registerNewUser, socketID, createEmptyRoom, callRooms } = useVideo()
+  const { getInitialCallRooms, socketID, createEmptyRoom, callRooms } =
+    useVideo()
   const { user } = useAuth()
 
   useEffect(() => {
@@ -19,11 +20,11 @@ const Video = (props) => {
       data.socketId = socketID
       data.harthName = 'test'
       setSocketData(data)
-      registerNewUser(data)
+      getInitialCallRooms()
     }
   }, [socketID])
 
-  const joinRoom = () => {
+  const joinRoom = ({ roomId }) => {
     let urls = {
       development: 'http://localhost:3000/',
       production: 'https://project-blarg-next.vercel.app/',
@@ -32,7 +33,9 @@ const Video = (props) => {
     window.open(
       `${
         urls[process.env.NODE_ENV]
-      }?gather_window=true&room_type=classic&harthid=${socketData.harthid}`,
+      }?gather_window=true&room_type=classic&user_name=${
+        socketData.name
+      }&room_id=${roomId}`,
     )
   }
 
@@ -41,12 +44,15 @@ const Video = (props) => {
   }
 
   if (socketID) {
+    console.log(callRooms)
     return (
       <ul>
         {(callRooms || []).map((room, idx) => (
           <li key={idx}>
             {room.harthName}
-            <button onClick={joinRoom}>join</button>
+            <button title={room.roomId} onClick={() => joinRoom(room)}>
+              join
+            </button>
           </li>
         ))}
         <button onClick={createRoom}>create room</button>
