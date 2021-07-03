@@ -32,6 +32,7 @@ const Classic = () => {
   }, [socketID])
 
   useEffect(() => {
+    console.log('test')
     if (localStream) {
       localVidRef.current.srcObject = localStream
     }
