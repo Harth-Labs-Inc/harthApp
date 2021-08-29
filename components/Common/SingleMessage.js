@@ -317,7 +317,7 @@ const Message = (props) => {
 
         innerHtml = `<span class="message-text">${alteredURL}</span>`
 
-        let html = await getURLMetaData(rawURL)
+        // let html = await getURLMetaData(rawURL)
 
         const { data } = html
         console.log(data)

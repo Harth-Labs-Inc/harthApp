@@ -5,8 +5,13 @@ const Classic = () => {
   const [userName, setUserName] = useState('')
   const [roomId, setRoomId] = useState('')
 
-  const { connectWithMyPeer, getLocalStream, localStream, socketID } =
-    useVideo()
+  const {
+    connectWithMyPeer,
+    getLocalStream,
+    localStream,
+    socketID,
+    groupCallStreams,
+  } = useVideo()
 
   const localVidRef = useRef()
 
@@ -42,10 +47,33 @@ const Classic = () => {
     getLocalStream()
   }
 
+  const GroupCallVideo = ({ stream, idx }) => {
+    const videoRef = useRef()
+    console.log(stream)
+    useEffect(() => {
+      const remoteGroupCallVideo = videoRef.current
+      remoteGroupCallVideo.srcObject = stream
+      remoteGroupCallVideo.onloadedmetadata = () => {
+        remoteGroupCallVideo.play()
+      }
+    }, [stream])
+
+    return (
+      <div>
+        <video ref={videoRef} autoPlay />
+      </div>
+    )
+  }
+
   return (
     <main>
       <section id="stream-window">
         <video ref={localVidRef} id="localVideo" autoPlay playsInline />
+        {groupCallStreams &&
+          groupCallStreams.length > 0 &&
+          groupCallStreams.map((stream, idx) => {
+            return <GroupCallVideo stream={stream} key={idx} />
+          })}
       </section>
       <button onClick={startStreams}>stream</button>
     </main>
