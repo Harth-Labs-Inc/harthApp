@@ -14,6 +14,7 @@ const Stream = () => {
   const [localStream, setLocalStream] = useState()
   const [captureStream, setCaptureStream] = useState()
   const [myPeerId, setMyPeerId] = useState(null)
+  const [Peers, setPeers] = useState([])
 
   const localVidRef = useRef()
   const captureVidRef = useRef()
@@ -61,27 +62,22 @@ const Stream = () => {
             setCallRooms(groupCallRooms)
             break
           case 'GROUP_CALL_PEERS':
-            console.log('peers', peers)
+            setPeers(peers)
             break
           default:
             break
         }
       })
-
-      socket.on('group-call-join-request', (data) => {
-        console.log('another user has joined', data)
-        connectToNewUser(data)
-      })
       socket.on('group-call-user-left', (data) => {
         console.log('user stream to be removed', data)
       })
     }
-    if (socketID) {
+    if (socketID && localStream) {
       if (userName && roomId) {
         connectWithMyPeer({ userName, userIcon, roomId })
       }
     }
-  }, [socket, socketID])
+  }, [socket, socketID, localStream])
 
   // ----------- media --------------
 
@@ -214,9 +210,10 @@ const Stream = () => {
     }
   }
   const addVideoStream = (incomingStream, peerid) => {
-    console.log(groupCallStreams, peerid)
-    let groupstreams = { ...groupCallStreams, [peerid]: incomingStream }
-    setGroupCallStreams(groupstreams)
+    setGroupCallStreams((prevStreams) => {
+      console.log('prevstreams', prevStreams)
+      return { ...prevStreams, [peerid]: incomingStream }
+    })
   }
 
   // ------------ rooms -----------------
@@ -243,13 +240,19 @@ const Stream = () => {
       joinGroupCall(peerid, data)
     })
 
+    myPeer.on('error', function (err) {
+      console.log(err)
+    })
+
     myPeer.on('call', async (call) => {
+      console.log('incomeing call', localStream ? true : false)
       if (localStream) {
         call.answer(localStream)
       }
 
       call.on('stream', (incomingStream) => {
         if (incomingStream) {
+          console.log('call answered connectwithmypeer', incomingStream)
           addVideoStream(incomingStream, call.peer)
         }
       })
@@ -268,17 +271,26 @@ const Stream = () => {
     })
   }
   const userWantsToJoinGroupCall = (data) => {
-    socket && socket.emit('group-call-join-request', data)
+    socket &&
+      socket.emit('group-call-join-request', data, ({ peers }) => {
+        connectToUsers(peers)
+      })
   }
-  const connectToNewUser = async (data) => {
+  const connectToUsers = async (peers) => {
     if (myPeer) {
-      const call = myPeer.call(data.peerId, localStream)
-      call &&
-        call.on('stream', (incomingStream) => {
-          if (incomingStream) {
-            addVideoStream(incomingStream, data.peerId)
-          }
-        })
+      console.log(peers)
+      peers.forEach((peer) => {
+        if (peer.peerId !== myPeer.id) {
+          console.log('calling.........', peer.peerId)
+          const call = myPeer.call(peer.peerId, localStream)
+          call &&
+            call.on('stream', (incomingStream) => {
+              if (incomingStream) {
+                addVideoStream(incomingStream, peer.peerId)
+              }
+            })
+        }
+      })
     }
   }
   const leaveGroupCall = (data) => {
@@ -320,27 +332,29 @@ const Stream = () => {
           id="captureVideo"
           autoPlay
           playsInline
-          style={{ height: '500px', width: '500px', objectFit: 'contain' }}
+          style={{ height: '100px', width: '100px', objectFit: 'contain' }}
         />
-        {groupCallStreams &&
-          Object.values(groupCallStreams) &&
-          Object.values(groupCallStreams).length &&
-          Object.values(groupCallStreams).map((stream, idx) => {
-            return (
-              <video
-                key={idx}
-                ref={(el) => (groupStreamsRef.current[idx] = el)}
-                id="remoteVideo"
-                autoPlay
-                playsInline
-                style={{
-                  height: '500px',
-                  width: '500px',
-                  objectFit: 'contain',
-                }}
-              />
-            )
-          })}
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {groupCallStreams &&
+            Object.values(groupCallStreams) &&
+            Object.values(groupCallStreams).length &&
+            Object.values(groupCallStreams).map((stream, idx) => {
+              return (
+                <video
+                  key={idx}
+                  ref={(el) => (groupStreamsRef.current[idx] = el)}
+                  id="remoteVideo"
+                  autoPlay
+                  playsInline
+                  style={{
+                    height: '500px',
+                    width: '500px',
+                    objectFit: 'contain',
+                  }}
+                />
+              )
+            })}
+        </div>
       </section>
     </main>
   )
