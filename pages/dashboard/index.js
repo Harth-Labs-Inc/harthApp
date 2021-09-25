@@ -3,6 +3,7 @@ import Router, { useRouter } from 'next/router'
 import { CommsProvider } from '../../contexts/comms'
 import { SocketProvider } from '../../contexts/socket'
 import { ChatProvider } from '../../contexts/chat'
+import { VideoProvider } from '../../contexts/video'
 import NavLayout from '../../components/dashLayout'
 
 import Chat from './chat'
@@ -11,6 +12,7 @@ import Events from './events'
 import Gather from './gather'
 import Stream from './stream'
 import Classic from './classic'
+import Video from './video'
 
 const dashboard = (props) => {
   const [loading, setLoading] = useState(true)
@@ -48,13 +50,22 @@ const dashboard = (props) => {
   let page
   switch (currentPage) {
     case 'gather':
-      page = <Game />
+      // page = <Game />
+      page = (
+        <VideoProvider>
+          <Video />
+        </VideoProvider>
+      )
       break
     case 'stream':
       page = <Stream />
       break
     case 'classic':
-      page = <Classic />
+      page = (
+        <VideoProvider>
+          <Classic />
+        </VideoProvider>
+      )
       break
     case 'gather':
       page = <Gather />
