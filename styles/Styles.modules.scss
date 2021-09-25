@@ -5,7 +5,7 @@
 
 //config
 @import './config/html', './config/config-type', './config/button',
-  './config/forms', './config/modal', './config/toggle', './config/message';
+  './config/forms', './config/modal', './config/message';
 
 //layouts
 @import './layouts/header', './layouts/sidedash';
@@ -22,4 +22,4 @@
 
 //pages
 @import './pages/auth', './pages/dashboard', './pages/topic', './pages/chat',
-  './pages/gather';
+  './pages/gather', './pages/tavern';

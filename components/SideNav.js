@@ -7,7 +7,7 @@ import SideModal from './Common/SideModal'
 import SettingsMenu from './SettingsMenu/index'
 import CommBuilder from '../pages/comm'
 
-const SideNav = () => {
+const SideNav = (props) => {
   const [ShowCommBuilder, setShowCommBuilder] = useState(false)
   const [ShowSettingsNav, setShowSettingsNav] = useState(false)
 
@@ -16,10 +16,16 @@ const SideNav = () => {
   const { user } = useAuth()
 
   let leftNav = useRef()
+  const { toggleTavern } = props
 
   const changeSelectedCom = (com) => {
+    toggleTavern(false)
     setComm(com)
     setTopic({})
+  }
+  const toggleDefaultComm = () => {
+    setComm()
+    toggleTavern(true)
   }
   const toggleCreateComm = () => {
     setShowCommBuilder(!ShowCommBuilder)
@@ -66,6 +72,14 @@ const SideNav = () => {
           onMouseOver={expandMenu}
           onMouseLeave={collapseMenu}
         >
+          <li id="left_nav_comms_default" aria-label="nav-item">
+            <button onClick={toggleDefaultComm}>
+              <span className="comm-icon-wrapper">
+                <span className="comm-icon"></span>
+              </span>
+              <span className="comm-name">The Tavern</span>
+            </button>
+          </li>
           {comms &&
             comms.map((com) => {
               let classes = []
@@ -93,9 +107,13 @@ const SideNav = () => {
                     className={com.iconKey ? 'hasImage' : undefined}
                   >
                     {com.iconKey ? (
-                      <img className="comm-icon" src={com.iconKey} />
+                      <span className="comm-icon-wrapper">
+                        <img className="comm-icon" src={com.iconKey} />
+                      </span>
                     ) : (
-                      <span className="comm-icon"></span>
+                      <span className="comm-icon-wrapper">
+                        <span className="comm-icon"></span>
+                      </span>
                     )}
                     <span className="comm-name">{com.name}</span>
                   </button>

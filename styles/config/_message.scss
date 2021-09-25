@@ -190,4 +190,9 @@
   &:hover {
     background-color: $medium-grey-2;
   }
+
+  .og-card {
+    padding: 5px;
+    border: 1px solid $placeholder-black;
+  }
 }
