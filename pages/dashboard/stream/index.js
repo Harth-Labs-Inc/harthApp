@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import socketClient from 'socket.io-client'
+import io from 'socket.io-client'
 
 let myPeer
 const Stream = () => {
@@ -26,7 +26,7 @@ const Stream = () => {
       production: 'https://project-blarg-video-socket.herokuapp.com',
     }
     setSocket(
-      socketClient(urls[process.env.NODE_ENV], {
+      io.connect(urls[process.env.NODE_ENV], {
         transports: ['websocket'],
       }),
     )
