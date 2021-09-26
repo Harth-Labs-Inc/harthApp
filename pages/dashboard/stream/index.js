@@ -25,7 +25,11 @@ const Stream = () => {
       development: 'http://localhost:5000',
       production: 'https://project-blarg-video-socket.herokuapp.com',
     }
-    setSocket(socketClient(urls[process.env.NODE_ENV]))
+    setSocket(
+      socketClient(urls[process.env.NODE_ENV], {
+        transports: ['websocket'],
+      }),
+    )
 
     const queryString = window.location.search
     const urlParams = new URLSearchParams(queryString)

@@ -30,7 +30,7 @@ const Video = (props) => {
   const joinRoom = ({ roomId, roomType }) => {
     let urls = {
       development: 'http://localhost:3000/',
-      production: 'https://project-blarg-video-socket.herokuapp.com/',
+      production: 'https://project-blarg-next.vercel.app/',
     }
     window.open(
       `${
