@@ -3,9 +3,10 @@
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
-  grid-area: aside;
-  position: relative;
+  position: fixed;
+  left: 0;
   z-index: 1;
+  height: 100%;
   width: 56px;
   padding-bottom: 4px;
   background-color: $white;

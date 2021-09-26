@@ -313,8 +313,11 @@ const Message = (props) => {
       const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g
       if (urlRegex.test(innerHtml)) {
         let { rawURL, alteredURL } = wrapLink(innerHtml, urlRegex)
-        innerHtml = `<span class="message-text">${alteredURL}</span>`
-        // let html = await getURLMetaData(rawURL)
+
+        innerHtml = `<p class="message-text">${alteredURL}</p>`
+
+        let html = await getURLMetaData(rawURL)
+
         const { data } = html
         console.log(data)
         if (data.ok) {
@@ -343,7 +346,9 @@ const Message = (props) => {
         }
         messageBody.innerHTML = innerHtml
       } else {
-        messageBody.innerHTML = `<span class="message-text">${innerHtml}</span>`
+        if (innerHtml !== undefined) {
+          messageBody.innerHTML = `<p class="message-text">${innerHtml}</p>`
+        }
       }
     }
   }

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+import styles from '../../styles/config/Toggle.module.scss'
+
 const ToggleSwitch = (props) => {
   const [toggle, setToggle] = useState(false)
 
@@ -19,10 +21,10 @@ const ToggleSwitch = (props) => {
   return (
     <div
       onClick={triggerToggle}
-      className={`toggle ${toggle ? 'toggle--checked' : undefined}
+      className={`${styles.toggle} ${toggle ? 'toggle--checked' : undefined}
     `}
     >
-      <div className="toggle_container">
+      <div className={styles.container}>
         <div className="toggle_container_bg"></div>
         <div className="toggle_container_circle">
           <span></span>

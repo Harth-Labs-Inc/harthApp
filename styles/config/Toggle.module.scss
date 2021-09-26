@@ -1,7 +1,9 @@
+@import '../globals.scss';
+
 .toggle {
   height: 14px;
   width: 34px;
-  &_container {
+  &.container {
     position: relative;
     cursor: pointer;
 
@@ -25,7 +27,7 @@
         @include x-y-center;
         height: 0px;
         width: 0px;
-        content: "";
+        content: '';
         background-color: rgba($black, 0.04);
         border-radius: 50%;
         transition: all 0.5s;

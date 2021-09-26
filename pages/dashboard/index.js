@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Router, { useRouter } from 'next/router'
 import { CommsProvider } from '../../contexts/comms'
 import { SocketProvider } from '../../contexts/socket'
