@@ -311,7 +311,6 @@ const Message = (props) => {
     let innerHtml = message
     if (messageBody) {
       const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g
-
       if (urlRegex.test(innerHtml)) {
         let { rawURL, alteredURL } = wrapLink(innerHtml, urlRegex)
 
@@ -321,7 +320,6 @@ const Message = (props) => {
 
         const { data } = html
         console.log(data)
-
         if (data.ok) {
           innerHtml += `<article class="og-card">
                         ${

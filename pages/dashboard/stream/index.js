@@ -1,109 +1,363 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../../../contexts/auth";
-import { useComms } from "../../../contexts/comms";
-import { useSocket } from "../../../contexts/socket";
+import { useEffect, useRef, useState } from 'react'
+import socketClient from 'socket.io-client'
 
+let myPeer
 const Stream = () => {
-  const [activeRoom, setActiveRoom] = useState();
-  const [roomID, setRoomId] = useState("");
-  const [commId, setCommId] = useState("");
-  const { rooms, selectedcomm, setRooms, setComm, comms } = useComms();
-  const { user } = useAuth();
-  const { emitUpdate, incomingRoom, incomingRoomUpdate } = useSocket();
+  const [userName, setUserName] = useState('')
+  const [userIcon, setUserIcon] = useState('')
+  const [roomId, setRoomId] = useState('')
+  const [harthId, setHarthId] = useState('')
+  const [socket, setSocket] = useState(null)
+  const [socketID, setSocketID] = useState(null)
+  const [callRooms, setCallRooms] = useState([])
+  const [groupCallStreams, setGroupCallStreams] = useState({})
+  const [localStream, setLocalStream] = useState()
+  const [captureStream, setCaptureStream] = useState()
+  const [myPeerId, setMyPeerId] = useState(null)
+  const [Peers, setPeers] = useState([])
+
+  const localVidRef = useRef()
+  const captureVidRef = useRef()
+  const groupStreamsRef = useRef([])
 
   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const RId = urlParams.get("room_id");
-    const CId = urlParams.get("comm_id");
-    if (RId) {
-      setRoomId(RId);
+    let urls = {
+      development: 'http://localhost:5000',
+      production: 'https://project-blarg-video-socket.herokuapp.com',
     }
-    if (CId) {
-      setCommId(CId);
+    setSocket(socketClient(urls[process.env.NODE_ENV]))
+
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const USRNM = urlParams.get('user_name')
+    const USRIMG = urlParams.get('user_img')
+    const ROOMID = urlParams.get('room_id')
+    const HARTHID = urlParams.get('harth_id')
+    if (USRIMG) {
+      setUserIcon(USRIMG)
     }
-  }, []);
+    if (USRNM) {
+      setUserName(USRNM)
+    }
+    if (ROOMID) {
+      setRoomId(ROOMID)
+    }
+    if (HARTHID) {
+      setHarthId(HARTHID)
+    }
+    startAudio()
+  }, [])
 
-  useEffect(async (displayMediaOptions) => {
-    const test = await navigator.mediaDevices.getDisplayMedia(
-      displayMediaOptions
-    );
-    console.log(test.getTracks());
-
-    // devices
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    console.log(devices);
-
-    // camera
-    // try {
-    //   const constraints = { video: true, audio: true };
-    //   const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    //   const videoElement = document.querySelector("video#localVideo");
-    //   videoElement.srcObject = stream;
-    // } catch (error) {
-    //   console.error("Error opening video camera.", error);
-    // }
-
-    // screen share
-    // try {
-    //   const stream = await navigator.mediaDevices.getDisplayMedia();
-    //   const videoElement = document.querySelector("video#localVideo");
-    //   videoElement.srcObject = stream;
-    // } catch (error) {
-    //   console.error("Error opening video camera.", error);
-    // }
-  }, []);
+  // ------- socket connection and listeners ------------
 
   useEffect(() => {
-    if (comms) {
-      let tempCom = comms.find((com) => com._id === commId);
-      if (tempCom) {
-        setComm(tempCom);
+    if (socket) {
+      socket.on('connection', () => {
+        setSocketID(socket.id)
+      })
+      socket.on('broadcast', (data) => {
+        let { event, groupCallRooms, peers } = data
+        switch (event) {
+          case 'GROUP_CALL_ROOMS':
+            setCallRooms(groupCallRooms)
+            break
+          case 'GROUP_CALL_PEERS':
+            setPeers(peers)
+            break
+          default:
+            break
+        }
+      })
+      socket.on('group-call-user-left', (data) => {
+        console.log('user stream to be removed', data)
+      })
+    }
+    if (socketID && localStream) {
+      if (userName && roomId) {
+        connectWithMyPeer({ userName, userIcon, roomId })
       }
     }
-  }, [comms]);
+  }, [socket, socketID, localStream])
+
+  // ----------- media --------------
 
   useEffect(() => {
-    if (roomID && rooms && commId) {
-      let selected = (rooms[commId] || []).find((rm) => rm._id === roomID);
-      console.log(selected);
-      setActiveRoom(selected);
+    if (localStream) {
+      localVidRef.current.srcObject = localStream
     }
-  }, [roomID, rooms, commId]);
+  }, [localStream])
 
-  if (activeRoom)
-    return (
-      <main>
-        <section id="side-nav">
-          <div id="header">
-            <p>{activeRoom.name}</p>
-            <p>active 4 billllllllion minutes</p>
-          </div>
-          <ul>
-            {activeRoom.active_users.map((usr) => (
-              <div>
-                <span>
-                  <img src={usr.iconKey}></img>
-                </span>
-                <span>{usr.name}</span>
-                <span></span>
-              </div>
-            ))}
-          </ul>
-          <div id="footer">
-            <p>leave</p>
-            <p>mute</p>
-            <p>disable video</p>
-            <p>stream</p>
-          </div>
-        </section>
-        <section id="stream-window">
-          <video id="localVideo" autoPlay playsInline />
-        </section>
-      </main>
-    );
+  useEffect(() => {
+    if (captureStream) {
+      captureVidRef.current.srcObject = captureStream
+    }
+  }, [captureStream])
 
-  return <p>connecting to room...</p>;
-};
+  useEffect(() => {
+    console.log(groupCallStreams)
+    if (Object.keys(groupCallStreams).length) {
+      Object.values(groupCallStreams).forEach((stream, idx) => {
+        const remoteGroupCallVideo = groupStreamsRef.current[idx]
+        remoteGroupCallVideo.srcObject = stream
+        console.log(remoteGroupCallVideo)
+        remoteGroupCallVideo.onloadedmetadata = () => {
+          remoteGroupCallVideo.play()
+        }
+      })
+    }
+  }, [groupCallStreams])
 
-export default Stream;
+  const startVideo = () => {
+    getLocalStream('video')
+  }
+  const stopVideoOnly = (stream) => {
+    try {
+      stream.getTracks().forEach((track) => {
+        if (track.readyState == 'live' && track.kind === 'video') {
+          let enabled = track.enabled
+          console.log('video is: ', !enabled)
+          track.enabled = !enabled
+        }
+      })
+    } catch (error) {}
+  }
+  const startAudio = () => {
+    getLocalStream('audio')
+  }
+  const stopAudioOnly = (stream) => {
+    try {
+      stream.getTracks().forEach((track) => {
+        if (track.readyState == 'live' && track.kind === 'audio') {
+          let enabled = track.enabled
+          console.log('audio is: ', !enabled)
+          track.enabled = !enabled
+        }
+      })
+    } catch (error) {}
+  }
+  const startCapture = () => {
+    getScreenCapture()
+  }
+  const stopCapture = () => {
+    let tracks = captureVidRef.current.srcObject.getTracks()
+
+    tracks.forEach((track) => track.stop())
+    captureVidRef.current.srcObject = null
+  }
+  const toggleMedia = () => {
+    if (!localStream || localStream.active === false) {
+      startVideo()
+    } else {
+      stopVideoOnly(localStream)
+    }
+  }
+  const toggleAudio = () => {
+    if (!localStream || localStream.active === false) {
+      startAudio()
+    } else {
+      stopAudioOnly(localStream)
+    }
+  }
+  const toggleCapture = () => {
+    console.log(captureStream)
+    if (!captureStream || captureStream.active === false) {
+      startCapture()
+    } else {
+      stopCapture(captureStream)
+    }
+  }
+  const getLocalStream = async (startWith) => {
+    let stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    })
+
+    if (startWith && startWith == 'video') {
+      try {
+        stream.getTracks().forEach((track) => {
+          if (track.kind === 'audio') {
+            track.enabled = false
+          }
+        })
+      } catch (error) {}
+    }
+    if (startWith && startWith == 'audio') {
+      try {
+        stream.getTracks().forEach((track) => {
+          if (track.kind === 'video') {
+            track.enabled = false
+          }
+        })
+      } catch (error) {}
+    }
+
+    setLocalStream(stream)
+  }
+  const getScreenCapture = async () => {
+    try {
+      let capture = await navigator.mediaDevices.getDisplayMedia({
+        video: {
+          cursor: 'always',
+        },
+        audio: false,
+      })
+
+      if (capture) {
+        setCaptureStream(capture)
+      }
+    } catch (err) {
+      console.error('Error: ' + err)
+    }
+  }
+  const addVideoStream = (incomingStream, peerid) => {
+    setGroupCallStreams((prevStreams) => {
+      console.log('prevstreams', prevStreams)
+      return { ...prevStreams, [peerid]: incomingStream }
+    })
+  }
+
+  // ------------ rooms -----------------
+
+  const getRoomPeers = () => {
+    socket && socket.emit('get-room-peers', roomId)
+  }
+  const leaveRoom = async () => {
+    let finished = await leaveGroupCall({ roomId, userName, socketID })
+    window.close()
+  }
+  const connectWithMyPeer = (data) => {
+    let pID = ''
+    myPeer = new window.Peer(undefined, {
+      path: '/peerjs',
+      host: '/',
+      port: '5000',
+    })
+
+    myPeer.on('open', (peerid) => {
+      setMyPeerId(peerid)
+      console.log('my peer id is: ', peerid)
+      pID = peerid
+      joinGroupCall(peerid, data)
+    })
+
+    myPeer.on('error', function (err) {
+      console.log(err)
+    })
+
+    myPeer.on('call', async (call) => {
+      console.log('incomeing call', localStream ? true : false)
+      if (localStream) {
+        call.answer(localStream)
+      }
+
+      call.on('stream', (incomingStream) => {
+        if (incomingStream) {
+          console.log('call answered connectwithmypeer', incomingStream)
+          addVideoStream(incomingStream, call.peer)
+        }
+      })
+    })
+  }
+  const joinGroupCall = (peerid, data) => {
+    let { roomId, userIcon, userName } = data
+    userWantsToJoinGroupCall({
+      userName,
+      userIcon,
+      peerId: peerid,
+      socketID,
+      roomId,
+      localStreamId: (localStream || {}).id || '',
+      harthId,
+    })
+  }
+  const userWantsToJoinGroupCall = (data) => {
+    socket &&
+      socket.emit('group-call-join-request', data, ({ peers }) => {
+        connectToUsers(peers)
+      })
+  }
+  const connectToUsers = async (peers) => {
+    if (myPeer) {
+      console.log(peers)
+      peers.forEach((peer) => {
+        if (peer.peerId !== myPeer.id) {
+          console.log('calling.........', peer.peerId)
+          const call = myPeer.call(peer.peerId, localStream)
+          call &&
+            call.on('stream', (incomingStream) => {
+              if (incomingStream) {
+                addVideoStream(incomingStream, peer.peerId)
+              }
+            })
+        }
+      })
+    }
+  }
+  const leaveGroupCall = (data) => {
+    return new Promise((res, rej) => {
+      socket &&
+        socket.emit('group-call-user-left', data, (response) => {
+          if (response.ok) {
+            res(true)
+          }
+
+          if (myPeer) {
+            myPeer.destroy()
+          }
+        })
+    })
+  }
+
+  return (
+    <main style={{ display: 'flex' }}>
+      <ul>
+        <li onClick={toggleCapture}>stream</li>
+        <li onClick={leaveRoom}>Leave</li>
+        <li onClick={toggleAudio}>mute</li>
+        <li onClick={toggleMedia}>media</li>
+      </ul>
+      <section
+        style={{ display: 'flex', flexDirection: 'column' }}
+        id="stream-window"
+      >
+        <video
+          ref={localVidRef}
+          id="localVideo"
+          autoPlay
+          playsInline
+          style={{ height: '100px', width: '100px', objectFit: 'contain' }}
+        />
+        <video
+          ref={captureVidRef}
+          id="captureVideo"
+          autoPlay
+          playsInline
+          style={{ height: '100px', width: '100px', objectFit: 'contain' }}
+        />
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {groupCallStreams &&
+            Object.values(groupCallStreams) &&
+            Object.values(groupCallStreams).length &&
+            Object.values(groupCallStreams).map((stream, idx) => {
+              return (
+                <video
+                  key={idx}
+                  ref={(el) => (groupStreamsRef.current[idx] = el)}
+                  id="remoteVideo"
+                  autoPlay
+                  playsInline
+                  style={{
+                    height: '500px',
+                    width: '500px',
+                    objectFit: 'contain',
+                  }}
+                />
+              )
+            })}
+        </div>
+      </section>
+    </main>
+  )
+}
+
+export default Stream
