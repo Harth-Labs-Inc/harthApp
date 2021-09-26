@@ -307,45 +307,45 @@ const Message = (props) => {
   }
 
   const replaceURLs = async () => {
-    // let messageBody = document.getElementById(`message-content${messageID}`)
-    // let innerHtml = message
-    // if (messageBody) {
-    //   const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g
-    //   if (urlRegex.test(innerHtml)) {
-    //     let { rawURL, alteredURL } = wrapLink(innerHtml, urlRegex)
-    //     innerHtml = `<span class="message-text">${alteredURL}</span>`
-    //     // let html = await getURLMetaData(rawURL)
-    //     const { data } = html
-    //     console.log(data)
-    //     if (data.ok) {
-    //       innerHtml += `<article class="og-card">
-    //                     ${
-    //                       data.data.ogSiteName
-    //                         ? `<span>${data.data.ogSiteName}</span>`
-    //                         : ''
-    //                     }
-    //                     ${
-    //                       data.data.ogTitle
-    //                         ? `<span>${data.data.ogTitle}</span>`
-    //                         : ''
-    //                     }
-    //                     ${
-    //                       data.data.ogDescription
-    //                         ? `<p>${data.data.ogDescription}</p>`
-    //                         : ''
-    //                     }
-    //                     ${
-    //                       data.data.ogImage
-    //                         ? `<img src="${data.data.ogImage.url}" alt="${data.data.ogTitle}" />`
-    //                         : ''
-    //                     }
-    //                     </article>`
-    //     }
-    //     messageBody.innerHTML = innerHtml
-    //   } else {
-    //     messageBody.innerHTML = `<span class="message-text">${innerHtml}</span>`
-    //   }
-    // }
+    let messageBody = document.getElementById(`message-content${messageID}`)
+    let innerHtml = message
+    if (messageBody) {
+      const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g
+      if (urlRegex.test(innerHtml)) {
+        let { rawURL, alteredURL } = wrapLink(innerHtml, urlRegex)
+        innerHtml = `<span class="message-text">${alteredURL}</span>`
+        // let html = await getURLMetaData(rawURL)
+        const { data } = html
+        console.log(data)
+        if (data.ok) {
+          innerHtml += `<article class="og-card">
+                        ${
+                          data.data.ogSiteName
+                            ? `<span>${data.data.ogSiteName}</span>`
+                            : ''
+                        }
+                        ${
+                          data.data.ogTitle
+                            ? `<span>${data.data.ogTitle}</span>`
+                            : ''
+                        }
+                        ${
+                          data.data.ogDescription
+                            ? `<p>${data.data.ogDescription}</p>`
+                            : ''
+                        }
+                        ${
+                          data.data.ogImage
+                            ? `<img src="${data.data.ogImage.url}" alt="${data.data.ogTitle}" />`
+                            : ''
+                        }
+                        </article>`
+        }
+        messageBody.innerHTML = innerHtml
+      } else {
+        messageBody.innerHTML = `<span class="message-text">${innerHtml}</span>`
+      }
+    }
   }
 
   let timeStamp = getTimeStamp()
