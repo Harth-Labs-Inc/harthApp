@@ -1,6 +1,6 @@
 import { resolveHref } from 'next/dist/next-server/lib/router/router'
 import { createContext, useState, useContext, useEffect } from 'react'
-import socketClient from 'socket.io-client'
+import io from 'socket.io-client'
 
 const VideoContext = createContext({})
 
@@ -19,7 +19,11 @@ export const VideoProvider = ({ children }) => {
       development: 'http://localhost:5000',
       production: 'https://project-blarg-video-socket.herokuapp.com',
     }
-    setSocket(socketClient(urls[process.env.NODE_ENV]))
+    setSocket(
+      io.connect(urls[process.env.NODE_ENV], {
+        transports: ['websocket'],
+      }),
+    )
   }, [])
 
   useEffect(() => {
