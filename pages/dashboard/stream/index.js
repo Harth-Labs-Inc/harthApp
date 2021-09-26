@@ -23,7 +23,7 @@ const Stream = () => {
   useEffect(() => {
     let urls = {
       development: 'http://localhost:5000',
-      production: 'https://project-blarg-video-socket.herokuapp.com',
+      production: '//project-blarg-video-socket.herokuapp.com',
     }
     setSocket(
       io.connect(urls[process.env.NODE_ENV], {
