@@ -17,7 +17,7 @@ export const VideoProvider = ({ children }) => {
   useEffect(() => {
     let urls = {
       development: 'http://localhost:5000',
-      production: '//project-blarg-video-socket.herokuapp.com',
+      production: 'https://project-blarg-video-socket.herokuapp.com',
     }
     setSocket(
       io.connect(urls[process.env.NODE_ENV], {
