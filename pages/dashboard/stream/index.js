@@ -16,6 +16,7 @@ const Stream = () => {
   const [myPeerId, setMyPeerId] = useState(null)
   const [Peers, setPeers] = useState([])
 
+  const mainRef = useRef()
   const localVidRef = useRef()
   const captureVidRef = useRef()
   const groupStreamsRef = useRef([])
@@ -68,9 +69,7 @@ const Stream = () => {
             break
         }
       })
-      socket.on('group-call-user-left', (data) => {
-        console.log('user stream to be removed', data)
-      })
+      socket.on('group-call-user-left', (data) => {})
     }
     if (socketID && localStream) {
       if (userName && roomId) {
@@ -94,12 +93,10 @@ const Stream = () => {
   }, [captureStream])
 
   useEffect(() => {
-    console.log(groupCallStreams)
     if (Object.keys(groupCallStreams).length) {
       Object.values(groupCallStreams).forEach((stream, idx) => {
         const remoteGroupCallVideo = groupStreamsRef.current[idx]
         remoteGroupCallVideo.srcObject = stream
-        console.log(remoteGroupCallVideo)
         remoteGroupCallVideo.onloadedmetadata = () => {
           remoteGroupCallVideo.play()
         }
@@ -115,7 +112,6 @@ const Stream = () => {
       stream.getTracks().forEach((track) => {
         if (track.readyState == 'live' && track.kind === 'video') {
           let enabled = track.enabled
-          console.log('video is: ', !enabled)
           track.enabled = !enabled
         }
       })
@@ -129,7 +125,6 @@ const Stream = () => {
       stream.getTracks().forEach((track) => {
         if (track.readyState == 'live' && track.kind === 'audio') {
           let enabled = track.enabled
-          console.log('audio is: ', !enabled)
           track.enabled = !enabled
         }
       })
@@ -159,7 +154,6 @@ const Stream = () => {
     }
   }
   const toggleCapture = () => {
-    console.log(captureStream)
     if (!captureStream || captureStream.active === false) {
       startCapture()
     } else {
@@ -205,15 +199,15 @@ const Stream = () => {
       if (capture) {
         setCaptureStream(capture)
       }
-    } catch (err) {
-      console.error('Error: ' + err)
-    }
+    } catch (err) {}
   }
   const addVideoStream = (incomingStream, peerid) => {
     setGroupCallStreams((prevStreams) => {
-      console.log('prevstreams', prevStreams)
       return { ...prevStreams, [peerid]: incomingStream }
     })
+  }
+  const addCaptureStream = () => {
+    console.log('made it')
   }
 
   // ------------ rooms -----------------
@@ -235,7 +229,6 @@ const Stream = () => {
 
     myPeer.on('open', (peerid) => {
       setMyPeerId(peerid)
-      console.log('my peer id is: ', peerid)
       pID = peerid
       joinGroupCall(peerid, data)
     })
@@ -245,14 +238,12 @@ const Stream = () => {
     })
 
     myPeer.on('call', async (call) => {
-      console.log('incomeing call', localStream ? true : false)
       if (localStream) {
         call.answer(localStream)
       }
 
       call.on('stream', (incomingStream) => {
         if (incomingStream) {
-          console.log('call answered connectwithmypeer', incomingStream)
           addVideoStream(incomingStream, call.peer)
         }
       })
@@ -278,15 +269,29 @@ const Stream = () => {
   }
   const connectToUsers = async (peers) => {
     if (myPeer) {
-      console.log(peers)
       peers.forEach((peer) => {
         if (peer.peerId !== myPeer.id) {
-          console.log('calling.........', peer.peerId)
           const call = myPeer.call(peer.peerId, localStream)
           call &&
             call.on('stream', (incomingStream) => {
               if (incomingStream) {
                 addVideoStream(incomingStream, peer.peerId)
+              }
+            })
+        }
+      })
+    }
+  }
+
+  const shareCaptureScreen = async () => {
+    if (myPeer) {
+      Peers.forEach((peer) => {
+        if (peer.peerId !== myPeer.id) {
+          const call = myPeer.call(peer.peerId, captureStream)
+          call &&
+            call.on('stream', (incomingStream) => {
+              if (incomingStream) {
+                addCaptureStream(incomingStream, peer.peerId)
               }
             })
         }
@@ -308,8 +313,10 @@ const Stream = () => {
     })
   }
 
+  console.log(groupCallStreams)
+
   return (
-    <main style={{ display: 'flex' }}>
+    <main ref={mainRef} style={{ display: 'flex' }}>
       <ul>
         <li onClick={toggleCapture}>stream</li>
         <li onClick={leaveRoom}>Leave</li>
