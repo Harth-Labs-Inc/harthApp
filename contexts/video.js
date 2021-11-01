@@ -1,6 +1,8 @@
 import { resolveHref } from 'next/dist/next-server/lib/router/router'
 import { createContext, useState, useContext, useEffect } from 'react'
+import axios from 'axios'
 import io from 'socket.io-client'
+import { setTurnServers } from '../pages/dashboard/stream/TURN'
 
 const VideoContext = createContext({})
 
@@ -19,11 +21,21 @@ export const VideoProvider = ({ children }) => {
       development: 'http://localhost:5000',
       production: 'https://project-blarg-video-socket.herokuapp.com',
     }
-    setSocket(
-      io.connect(urls[process.env.NODE_ENV], {
-        transports: ['websocket'],
-      }),
-    )
+    axios
+      .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
+      .then((responseData) => {
+        console.log(responseData)
+        setTurnServers(responseData.data.token.iceServers)
+
+        setSocket(
+          io.connect(urls[process.env.NODE_ENV], {
+            transports: ['websocket'],
+          }),
+        )
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
 
   useEffect(() => {
@@ -111,9 +123,14 @@ export const VideoProvider = ({ children }) => {
   const connectWithMyPeer = (data) => {
     let pID = ''
     myPeer = new window.Peer(undefined, {
-      path: '/peerjs',
-      host: '/',
-      port: '5000',
+      config: {
+        iceServers: [
+          ...getTurnServers(),
+          {
+            url: 'stun:stun.1und1.de:3478',
+          },
+        ],
+      },
     })
 
     myPeer.on('open', (peerid) => {

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
+import { getTurnServers } from './TURN'
 
 let myPeer
 const Stream = () => {
@@ -226,9 +227,17 @@ const Stream = () => {
   const connectWithMyPeer = (data) => {
     let pID = ''
     myPeer = new window.Peer(undefined, {
-      path: '/peerjs',
-      host: '/',
-      port: '5000',
+      // path: '/peerjs',
+      // host: '/',
+      // port: '5000',
+      config: {
+        iceServers: [
+          ...getTurnServers(),
+          {
+            url: 'stun:stun.1und1.de:3478',
+          },
+        ],
+      },
     })
 
     myPeer.on('open', (peerid) => {
