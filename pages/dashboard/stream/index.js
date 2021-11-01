@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
-import { getTurnServers } from './TURN'
+import { getTurnServers } from '../../../util/TURN'
 
 let myPeer
 const Stream = () => {
