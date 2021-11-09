@@ -349,6 +349,7 @@ const Stream = () => {
           id="localVideo"
           autoPlay
           playsInline
+          muted
           style={{ height: '108px', width: '100px', objectFit: 'contain' }}
         />
         {/* <video
