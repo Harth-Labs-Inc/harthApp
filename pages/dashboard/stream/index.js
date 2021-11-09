@@ -101,9 +101,11 @@ const Stream = () => {
     if (Object.keys(groupCallStreams).length) {
       Object.values(groupCallStreams).forEach((stream, idx) => {
         const remoteGroupCallVideo = groupStreamsRef.current[idx]
-        remoteGroupCallVideo.srcObject = stream
-        remoteGroupCallVideo.onloadedmetadata = () => {
-          remoteGroupCallVideo.play()
+        if (remoteGroupCallVideo) {
+          remoteGroupCallVideo.srcObject = stream
+          remoteGroupCallVideo.onloadedmetadata = () => {
+            remoteGroupCallVideo.play()
+          }
         }
       })
     }
@@ -171,15 +173,13 @@ const Stream = () => {
       video: true,
     })
 
-    if (startWith && startWith == 'video') {
-      try {
-        stream.getTracks().forEach((track) => {
-          if (track.kind === 'audio') {
-            track.enabled = false
-          }
-        })
-      } catch (error) {}
-    }
+    try {
+      stream.getTracks().forEach((track) => {
+        if (track.kind === 'audio') {
+          track.enabled = false
+        }
+      })
+    } catch (error) {}
     if (startWith && startWith == 'audio') {
       try {
         stream.getTracks().forEach((track) => {
@@ -222,14 +222,12 @@ const Stream = () => {
   }
   const leaveRoom = async () => {
     let finished = await leaveGroupCall({ roomId, userName, socketID })
+    console.log(finished)
     window.close()
   }
   const connectWithMyPeer = (data) => {
     let pID = ''
     myPeer = new window.Peer(undefined, {
-      // path: '/peerjs',
-      // host: '/',
-      // port: '5000',
       config: {
         iceServers: [
           ...getTurnServers(),
@@ -326,36 +324,63 @@ const Stream = () => {
     })
   }
 
-  console.log(groupCallStreams)
+  console.log(callRooms, Peers, groupCallStreams)
 
   return (
-    <main ref={mainRef} style={{ display: 'flex' }}>
-      <ul>
-        <li onClick={toggleCapture}>stream</li>
-        <li onClick={leaveRoom}>Leave</li>
-        <li onClick={toggleAudio}>mute</li>
-        <li onClick={toggleMedia}>media</li>
+    <main id="stream-window" ref={mainRef}>
+      <div>{callRooms[0] ? `${callRooms[0].roomName}` : null}</div>
+      <ul role="nav" id="stream-window-controls">
+        <li onClick={toggleCapture}>
+          <button>stream</button>
+        </li>
+        <li onClick={leaveRoom}>
+          <button>leave</button>
+        </li>
+        <li onClick={toggleAudio}>
+          <button>mute</button>
+        </li>
+        <li onClick={toggleMedia}>
+          <button>media</button>
+        </li>
       </ul>
-      <section
-        style={{ display: 'flex', flexDirection: 'column' }}
-        id="stream-window"
-      >
+      <section id="stream-window-grid">
         <video
           ref={localVidRef}
           id="localVideo"
           autoPlay
           playsInline
-          style={{ height: '100px', width: '100px', objectFit: 'contain' }}
+          style={{ height: '108px', width: '100px', objectFit: 'contain' }}
         />
-        <video
+        {/* <video
           ref={captureVidRef}
-          id="captureVideo"
+          id="screenShare"
           autoPlay
           playsInline
           style={{ height: '100px', width: '100px', objectFit: 'contain' }}
-        />
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {groupCallStreams &&
+        /> */}
+        <section id="stream-window-peer-container">
+          {(Peers || [])
+            .filter((peer) => peer.peerId !== myPeerId)
+            .map((peer, idx) => {
+              if (groupCallStreams[peer.peerId]) {
+                return (
+                  <video
+                    key={idx}
+                    ref={(el) => (groupStreamsRef.current[idx] = el)}
+                    id={`remoteVideo-${idx}`}
+                    autoPlay
+                    playsInline
+                  />
+                )
+              }
+              return (
+                <div key={idx} id={`peerBox-${peer.name}`}>
+                  <img src={peer.img} alt={`${peer.name} profile pic`} />
+                  <p>{peer.name}</p>
+                </div>
+              )
+            })}
+          {/* {groupCallStreams &&
             Object.values(groupCallStreams) &&
             Object.values(groupCallStreams).length &&
             Object.values(groupCallStreams).map((stream, idx) => {
@@ -363,18 +388,13 @@ const Stream = () => {
                 <video
                   key={idx}
                   ref={(el) => (groupStreamsRef.current[idx] = el)}
-                  id="remoteVideo"
+                  id={`remoteVideo-${idx}`}
                   autoPlay
                   playsInline
-                  style={{
-                    height: '500px',
-                    width: '500px',
-                    objectFit: 'contain',
-                  }}
                 />
               )
-            })}
-        </div>
+            })} */}
+        </section>
       </section>
     </main>
   )
