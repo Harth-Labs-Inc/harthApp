@@ -55,3 +55,5 @@ export function useGatheringFormState() {
 
   return context
 }
+
+export default CreateGatheringFormProvider
