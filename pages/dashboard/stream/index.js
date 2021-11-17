@@ -14,7 +14,6 @@ const Stream = () => {
   const [groupCallStreams, setGroupCallStreams] = useState({})
   const [localStream, setLocalStream] = useState()
   const [captureStream, setCaptureStream] = useState()
-  const [myPeerId, setMyPeerId] = useState(null)
   const [Peers, setPeers] = useState([])
 
   const mainRef = useRef()
@@ -74,9 +73,13 @@ const Stream = () => {
             break
         }
       })
-      socket.on('group-call-user-left', (data) => {})
+      socket.on('user-left', (data) => {
+        console.log('user left...', data)
+        console.log(Peers, groupCallStreams)
+        window.close()
+      })
     }
-    if (socketID && localStream) {
+    if (socketID && localStream && !myPeer) {
       if (userName && roomId) {
         connectWithMyPeer({ userName, userIcon, roomId })
       }
@@ -217,13 +220,11 @@ const Stream = () => {
 
   // ------------ rooms -----------------
 
-  const getRoomPeers = () => {
-    socket && socket.emit('get-room-peers', roomId)
-  }
-  const leaveRoom = async () => {
-    let finished = await leaveGroupCall({ roomId, userName, socketID })
-    console.log(finished)
-    window.close()
+  const leaveRoom = () => {
+    leaveGroupCall({ roomId, userName, socketID }, () => {
+      console.log(finished)
+      window.close()
+    })
   }
   const connectWithMyPeer = (data) => {
     let pID = ''
@@ -239,7 +240,7 @@ const Stream = () => {
     })
 
     myPeer.on('open', (peerid) => {
-      setMyPeerId(peerid)
+      console.log('my peer id is ', peerid)
       pID = peerid
       joinGroupCall(peerid, data)
     })
@@ -324,7 +325,7 @@ const Stream = () => {
     })
   }
 
-  console.log(callRooms, Peers, groupCallStreams)
+  console.log('grounp call streams', groupCallStreams)
 
   return (
     <main id="stream-window" ref={mainRef}>
@@ -352,6 +353,7 @@ const Stream = () => {
           muted={true}
           style={{ height: '108px', width: '100px', objectFit: 'contain' }}
         />
+
         {/* <video
           ref={captureVidRef}
           id="screenShare"
@@ -360,41 +362,28 @@ const Stream = () => {
           style={{ height: '100px', width: '100px', objectFit: 'contain' }}
         /> */}
         <section id="stream-window-peer-container">
-          {(Peers || [])
-            .filter((peer) => peer.peerId !== myPeerId)
-            .map((peer, idx) => {
-              if (groupCallStreams[peer.peerId]) {
+          {myPeer &&
+            (Peers || [])
+              .filter((peer) => peer.peerId !== myPeer._id)
+              .map((peer, idx) => {
+                if (groupCallStreams[peer.peerId]) {
+                  return (
+                    <video
+                      key={idx}
+                      ref={(el) => (groupStreamsRef.current[idx] = el)}
+                      id={`remoteVideo-${idx}`}
+                      autoPlay
+                      playsInline
+                    />
+                  )
+                }
                 return (
-                  <video
-                    key={idx}
-                    ref={(el) => (groupStreamsRef.current[idx] = el)}
-                    id={`remoteVideo-${idx}`}
-                    autoPlay
-                    playsInline
-                  />
+                  <div key={idx} id={`peerBox-${peer.name}`}>
+                    <img src={peer.img} alt={`${peer.name} profile pic`} />
+                    <p>{peer.name}</p>
+                  </div>
                 )
-              }
-              return (
-                <div key={idx} id={`peerBox-${peer.name}`}>
-                  <img src={peer.img} alt={`${peer.name} profile pic`} />
-                  <p>{peer.name}</p>
-                </div>
-              )
-            })}
-          {/* {groupCallStreams &&
-            Object.values(groupCallStreams) &&
-            Object.values(groupCallStreams).length &&
-            Object.values(groupCallStreams).map((stream, idx) => {
-              return (
-                <video
-                  key={idx}
-                  ref={(el) => (groupStreamsRef.current[idx] = el)}
-                  id={`remoteVideo-${idx}`}
-                  autoPlay
-                  playsInline
-                />
-              )
-            })} */}
+              })}
         </section>
       </section>
     </main>

@@ -118,6 +118,7 @@
         display: block;
         font-size: 12px;
         font-weight: normal;
+        pointer-events: none;
       }
     }
   }
@@ -156,5 +157,51 @@
     margin: 16px auto 0;
     color: #9a9a9a;
     background-color: #f7f7f7;
+  }
+}
+
+#current_rooms {
+  display: flex;
+  list-style: none;
+  padding: 0;
+
+  .room-container {
+    padding: 16px;
+    width: 280px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(#000, 0.16);
+
+    + .room-container {
+      margin-left: 16px;
+    }
+
+    .room-title {
+      margin: 16px 0 8px;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 26px;
+      text-align: center;
+    }
+
+    .room-peer-list {
+      display: flex;
+      justify-content: flex-end;
+      list-style: none;
+      margin-bottom: 20px;
+      padding: 0;
+      width: 100%;
+    }
+
+    .room-join {
+      display: block;
+      margin-left: auto;
+      padding: 10px 24px;
+      color: #9a9a9a;
+      background-color: #f7f7f7;
+      border: 0;
+      border-radius: 20px;
+      filter: none;
+    }
   }
 }

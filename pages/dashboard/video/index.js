@@ -35,6 +35,7 @@ const Video = (props) => {
   }, [socketID, selectedcomm])
 
   const joinRoom = (data) => {
+    console.log(data)
     let urls = {
       development: 'http://localhost:3000/',
       production: 'https://project-blarg-next.vercel.app/',
@@ -89,45 +90,54 @@ const Video = (props) => {
             + gathering
           </button>
         </div>
-        <ul>
+        <p>Now</p>
+        <ul id="current_rooms">
           {(callRooms || []).map((room, idx) => (
             <li key={idx} className="room-container">
-              {room.roomName}
-              {room.peers &&
-                room.peers.map(({ img, name }) => {
-                  if (img) {
-                    return (
-                      <img
-                        style={{
-                          height: '40px',
-                          width: '40px',
-                          borderRadius: '50%',
-                        }}
-                        key={name}
-                        src={img}
-                      ></img>
-                    )
-                  } else if (name) {
-                    return (
-                      <p
-                        style={{
-                          height: '40px',
-                          width: '40px',
-                          borderRadius: '50%',
-                          background: 'lightslategrey',
-                          color: 'white',
-                          textAlign: 'center',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        {name}
-                      </p>
-                    )
-                  }
-                })}
-              <button onClick={() => joinRoom(room)}>join</button>
+              <p className="room-title">{room.roomName}</p>
+              <ul className="room-peer-list">
+                {room.peers &&
+                  room.peers.map(({ img, name }) => {
+                    if (img) {
+                      return (
+                        <li className="room-peer">
+                          <img
+                            style={{
+                              height: '40px',
+                              width: '40px',
+                              borderRadius: '50%',
+                            }}
+                            key={name}
+                            src={img}
+                          ></img>
+                        </li>
+                      )
+                    } else if (name) {
+                      return (
+                        <li className="room-peer">
+                          <p
+                            style={{
+                              height: '40px',
+                              width: '40px',
+                              borderRadius: '50%',
+                              background: 'lightslategrey',
+                              color: 'white',
+                              textAlign: 'center',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            {name}
+                          </p>
+                        </li>
+                      )
+                    }
+                  })}
+              </ul>
+              <button className="room-join" onClick={() => joinRoom(room)}>
+                join
+              </button>
             </li>
           ))}
         </ul>
