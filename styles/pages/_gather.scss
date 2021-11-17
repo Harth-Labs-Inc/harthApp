@@ -17,6 +17,19 @@
   border-radius: 16px;
 }
 
+#gatherings {
+  margin: 16px;
+  #gathering_create {
+    padding: 10px 20px;
+    color: #9a9a9a;
+    background-color: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 20px;
+    filter: drop-shadow(0 2px 4px rgba(#000, 0.16));
+    cursor: pointer;
+  }
+}
+
 #stream-window {
   > div {
     padding: 6px 16px;
@@ -79,5 +92,69 @@
     position: fixed;
     right: 0;
     bottom: 64px;
+  }
+}
+
+#create_gathering {
+  #gathering_setup_type {
+    button {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border: 0;
+      border-radius: 8px;
+      color: #777;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 24px;
+      text-align: left;
+      cursor: pointer;
+
+      + button {
+        margin-top: 16px;
+      }
+
+      span {
+        display: block;
+        font-size: 12px;
+        font-weight: normal;
+      }
+    }
+  }
+  #form_step_list {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 55px 0 24px;
+    padding: 0;
+
+    li + li {
+      margin-left: 8px;
+    }
+
+    li {
+      &.active {
+        button {
+          background-color: #333;
+        }
+      }
+    }
+
+    button {
+      height: 4px;
+      width: 48px;
+      background-color: #fff;
+      border: 1px solid #333;
+    }
+  }
+
+  #gathering_button {
+    width: 100%;
+  }
+  #gathering_schedule {
+    display: block;
+    margin: 16px auto 0;
+    color: #9a9a9a;
+    background-color: #f7f7f7;
   }
 }

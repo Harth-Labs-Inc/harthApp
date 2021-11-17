@@ -74,8 +74,8 @@ export const VideoProvider = ({ children }) => {
     }
     socket && socket.emit('get-initial-call-rooms', options)
   }
-  const createEmptyRoom = (data) => {
-    socket && socket.emit('create-call-room', data)
+  const createEmptyRoom = (data, cb) => {
+    socket && socket.emit('create-call-room', data, cb)
   }
   const getLocalStream = async (startWith) => {
     let stream = await navigator.mediaDevices.getUserMedia({

@@ -35,6 +35,7 @@ const TextArea = (props) => {
           customError ? 'error_custom' : undefined
         }`}
       >
+        <label htmlFor={name}>{title}</label>
         <textarea
           className="form-input"
           id={name}
@@ -42,7 +43,6 @@ const TextArea = (props) => {
           type={type}
           value={value}
           onChange={inputChangeHandler}
-          placeholder={title}
           autoComplete="off"
           {...props}
         />

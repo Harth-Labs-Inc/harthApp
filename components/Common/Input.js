@@ -62,6 +62,7 @@ const Input = (props) => {
                     ${isrequired ? 'error_required' : undefined} 
                     ${customError ? 'error_custom' : undefined}`}
       >
+        <label htmlFor={name}>{title}</label>
         <input
           className="form-input"
           id={name}
@@ -69,7 +70,6 @@ const Input = (props) => {
           type={type}
           value={value}
           onChange={inputChangeHandler}
-          placeholder={title}
           autoComplete="off"
           {...props}
         />

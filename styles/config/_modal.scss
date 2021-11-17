@@ -16,11 +16,24 @@
   .modal_main {
     @include x-center;
     top: 72px;
-    padding: 24px 32px 48px;
+    padding: 24px 32px 16px;
     background-color: $white;
     border-radius: 8px;
+    width: 100%;
     max-height: calc(95vh - 72px);
+    max-width: 496px;
     overflow-y: auto;
+
+    .modal_body {
+      max-width: 280px;
+      margin: 0 auto;
+
+      .close-modal {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+      }
+    }
 
     .modal-top {
       display: flex;

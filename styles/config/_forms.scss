@@ -1,5 +1,5 @@
 form {
-  [class*="error_message"] {
+  [class*='error_message'] {
     position: absolute;
     bottom: 0;
     left: 8px;
@@ -28,35 +28,29 @@ form {
     }
 
     label {
-      position: absolute;
-      bottom: 24px;
-      left: 8px;
-      z-index: 0;
       padding: 0;
-      color: $placeholder-black;
-      font-size: 16px;
-      line-height: 21px;
-      transition: all 0.6s;
+      color: $text-black;
+      font-size: 12px;
+      line-height: 16px;
     }
 
-    input {
-      position: relative;
+    input,
+    textarea {
       z-index: 1;
       width: 100%;
-      padding: 24px 8px 8px;
+      padding: 15px;
       color: $text-black;
-      font-size: 16px;
+      font-size: 14px;
+      line-height: 19px;
       background-color: transparent;
-      border: 0;
-      border-bottom: 2px solid $black;
-      // box-shadow: 0 0 0 1pt $black;
-      transition: box-shadow 0.3s;
+      border: 2px solid $text-black;
+      border-radius: 8px;
 
       &:-webkit-autofill {
         background-color: transparent;
       }
 
-      &[type="date"]::-webkit-calendar-picker-indicator {
+      &[type='date']::-webkit-calendar-picker-indicator {
         background: transparent;
         bottom: 0;
         color: transparent;
@@ -67,23 +61,6 @@ form {
         right: 0;
         top: 0;
         width: auto;
-      }
-    }
-    textarea {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      padding: 7.5px 16.5px;
-      color: rgba($black, 0.74);
-      font-size: 16px;
-      background-color: $light-grey;
-      border: 0;
-      border-bottom: 2px solid $black;
-      // box-shadow: 0 0 0 1pt $black;
-      transition: box-shadow 0.3s;
-
-      &:-webkit-autofill {
-        background-color: transparent;
       }
     }
 

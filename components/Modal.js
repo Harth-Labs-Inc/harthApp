@@ -24,7 +24,7 @@ const Modal = (props) => {
         onFocusOutside={closeToolTip}
       >
         <section ref={ref} className="modal_main">
-          {children}
+          <div className="modal_body">{children}</div>
         </section>
       </OutsideClickHandler>
     </div>
