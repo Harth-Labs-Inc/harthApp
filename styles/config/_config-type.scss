@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 @font-face {
-  font-family: "IcoMoon";
+  font-family: 'IcoMoon';
   src: url(../../public/fonts/icomoon.eot);
-  src: url(../../public/fonts/icomoon.woff) format("woff2"),
-    url(../../public/fonts/icomoon.ttf) format("truetype"),
-    url(../../public/fonts/icomoon.svg#svgFontName) format("svg");
+  src: url(../../public/fonts/icomoon.woff) format('woff2'),
+    url(../../public/fonts/icomoon.ttf) format('truetype'),
+    url(../../public/fonts/icomoon.svg#svgFontName) format('svg');
 }
 
 h2 {
@@ -27,32 +27,43 @@ h4 {
   font-weight: 700;
 }
 
-$icon-harth: "\e916";
+$icon-harth: '\e916';
 
-$icon-books: "\e900";
-$icon-calendar: "\e901";
-$icon-chat: "\e902";
-$icon-game: "\e903";
-$icon-plus: "\e904";
+$icon-books: '\e900';
+$icon-calendar: '\e901';
+$icon-chat: '\e902';
+$icon-game: '\e903';
+$icon-plus: '\e904';
 
-$icon-gear: "\e905";
-$icon-user: "\e906";
-$icon-caret-right: "\e907";
-$icon-close: "\e908";
-$icon-dots: "\e909";
+$icon-gear: '\e905';
+$icon-user: '\e906';
+$icon-caret-right: '\e907';
+$icon-close: '\e908';
+$icon-dots: '\e909';
 
-$icon-bookmark: "\e90a";
-$icon-check: "\e90b";
-$icon-cancel: "\e90c";
-$icon-emoji: "\e90d";
-$icon-gif: "\e90e";
+$icon-bookmark: '\e90a';
+$icon-check: '\e90b';
+$icon-cancel: '\e90c';
+$icon-emoji: '\e90d';
+$icon-gif: '\e90e';
 
-$icon-upload: "\e90f";
-$icon-delete: "\e910";
-$icon-edit: "\e911";
-$icon-fire: "\e912";
-$icon-reply: "\e913";
+$icon-upload: '\e90f';
+$icon-delete: '\e910';
+$icon-edit: '\e911';
+$icon-fire: '\e912';
+$icon-reply: '\e913';
 
-$icon-note: "\e914";
-$icon-back: "\e915";
-$icon-menu: "\e917";
+$icon-note: '\e914';
+$icon-back: '\e915';
+$icon-menu: '\e917';
+$icon-camera: '\e918';
+$icon-inner-chat: '\e919';
+
+$icon-leave: '\e91a';
+$icon-mic: '\e91b';
+$icon-muted: '\e91c';
+$icon-startshare: '\e91d';
+$icon-stopcamera: '\e91e';
+
+$icon-stopshare: '\e91f';
+$icon-sack: '\e920';

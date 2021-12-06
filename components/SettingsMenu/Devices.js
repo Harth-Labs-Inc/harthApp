@@ -8,7 +8,7 @@ const Devices = (props) => {
   const [devices, setDevices] = useState([])
 
   useEffect(async () => {
-    await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+    // await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
     let deviceList = await navigator.mediaDevices.enumerateDevices()
     console.log(deviceList)
     setDevices(deviceList)
@@ -30,12 +30,18 @@ const Devices = (props) => {
             <ul>
               {devices.map((device, index) => {
                 if (
-                  device.deviceId !== 'default' &&
+                  // device.deviceId !== 'default' &&
                   device.kind === 'audioinput'
                 ) {
                   return (
                     <li key={index}>
-                      <RadioButton label={device.label}></RadioButton>
+                      <RadioButton
+                        name="audio-input"
+                        label={device.label}
+                        isSelected={
+                          device.deviceId === 'default' ? true : false
+                        }
+                      ></RadioButton>
                     </li>
                   )
                 }
@@ -47,12 +53,18 @@ const Devices = (props) => {
             <ul>
               {devices.map((device, index) => {
                 if (
-                  device.deviceId !== 'default' &&
+                  // device.deviceId !== 'default' &&
                   device.kind === 'audiooutput'
                 ) {
                   return (
                     <li key={index}>
-                      <RadioButton label={device.label}></RadioButton>
+                      <RadioButton
+                        name="audio-output"
+                        label={device.label}
+                        isSelected={
+                          device.deviceId === 'default' ? true : false
+                        }
+                      ></RadioButton>
                     </li>
                   )
                 }
@@ -64,12 +76,18 @@ const Devices = (props) => {
             <ul>
               {devices.map((device, index) => {
                 if (
-                  device.deviceId !== 'default' &&
+                  // device.deviceId !== 'default' &&
                   device.kind === 'videoinput'
                 ) {
                   return (
                     <li key={index}>
-                      <RadioButton label={device.label}></RadioButton>
+                      <RadioButton
+                        name="video-input"
+                        label={device.label}
+                        isSelected={
+                          device.deviceId === 'default' ? true : false
+                        }
+                      ></RadioButton>
                     </li>
                   )
                 }

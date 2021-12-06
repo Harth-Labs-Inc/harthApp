@@ -175,13 +175,7 @@ const Classic = () => {
   return (
     <main>
       <section id="stream-window">
-        <video
-          ref={localVidRef}
-          id="localVideo"
-          autoPlay
-          playsInline
-          style={{ height: '40px', width: '40px', objectFit: 'contain' }}
-        />
+        <video ref={localVidRef} id="localVideo" autoPlay playsInline />
         <video
           ref={captureVidRef}
           id="captureVideo"

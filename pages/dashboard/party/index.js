@@ -1,9 +1,10 @@
+import { set } from 'js-cookie'
 import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
 
 let myPeer
-const Stream = () => {
+const Party = () => {
   const [userName, setUserName] = useState('')
   const [userIcon, setUserIcon] = useState('')
   const [roomId, setRoomId] = useState('')
@@ -15,6 +16,8 @@ const Stream = () => {
   const [localStream, setLocalStream] = useState()
   const [captureStream, setCaptureStream] = useState()
   const [Peers, setPeers] = useState([])
+  const [isMute, setIsMute] = useState(true)
+  const [videoOn, setVideoOn] = useState(false)
 
   const mainRef = useRef()
   const localVidRef = useRef()
@@ -149,18 +152,22 @@ const Stream = () => {
     tracks.forEach((track) => track.stop())
     captureVidRef.current.srcObject = null
   }
-  const toggleMedia = () => {
+  const toggleVideo = () => {
     if (!localStream || localStream.active === false) {
       startVideo()
+      setVideoOn(true)
     } else {
       stopVideoOnly(localStream)
+      setVideoOn(false)
     }
   }
   const toggleAudio = () => {
     if (!localStream || localStream.active === false) {
       startAudio()
+      setIsMute(false)
     } else {
       stopAudioOnly(localStream)
+      setIsMute(true)
     }
   }
   const toggleCapture = () => {
@@ -216,6 +223,12 @@ const Stream = () => {
   }
   const addCaptureStream = () => {
     console.log('made it')
+  }
+  const toggleOptions = () => {
+    return null
+  }
+  const toggleChat = () => {
+    return null
   }
 
   // ------------ rooms -----------------
@@ -331,18 +344,28 @@ const Stream = () => {
     <main id="stream-window" ref={mainRef}>
       <div>{callRooms[0] ? `${callRooms[0].roomName}` : null}</div>
       <ul role="nav" id="stream-window-controls">
-        <li onClick={toggleCapture}>
-          <button>stream</button>
-        </li>
-        <li onClick={leaveRoom}>
-          <button>leave</button>
-        </li>
-        <li onClick={toggleAudio}>
-          <button>mute</button>
-        </li>
-        <li onClick={toggleMedia}>
-          <button>media</button>
-        </li>
+        <div className="list-left">
+          <li onClick={leaveRoom}>
+            <button id="leave_room">leave</button>
+          </li>
+        </div>
+        <div className="list-center">
+          <li onClick={toggleAudio}>
+            <button id={isMute ? 'muted' : 'unmuted'}>mute</button>
+          </li>
+          <li onClick={toggleVideo}>
+            <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
+          </li>
+          <li onClick={toggleOptions}>
+            <button id="options">options</button>
+          </li>
+          <li onClick={toggleCapture}>
+            <button id="screen_share">share screen</button>
+          </li>
+          <li onClick={toggleChat}>
+            <button id="chat">chat</button>
+          </li>
+        </div>
       </ul>
       <section id="stream-window-grid">
         <video
@@ -351,7 +374,6 @@ const Stream = () => {
           autoPlay
           playsInline
           muted={true}
-          style={{ height: '108px', width: '100px', objectFit: 'contain' }}
         />
 
         {/* <video
@@ -390,4 +412,4 @@ const Stream = () => {
   )
 }
 
-export default Stream
+export default Party

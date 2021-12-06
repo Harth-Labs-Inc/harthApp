@@ -10,7 +10,7 @@ import Chat from './chat'
 import Game from './game'
 import Events from './events'
 import Gather from './gather'
-import Stream from './stream'
+import Party from './party'
 import Classic from './classic'
 import Video from './video'
 
@@ -58,7 +58,7 @@ const dashboard = (props) => {
       )
       break
     case 'stream':
-      page = <Stream />
+      page = <Party />
       break
     case 'classic':
       page = (

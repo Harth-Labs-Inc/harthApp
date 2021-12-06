@@ -31,14 +31,16 @@
 }
 
 #stream-window {
+  background-color: #333;
   > div {
     padding: 6px 16px;
     color: #fff;
-    background-color: #333;
+    // background-color: #333;
   }
 
   &-controls {
     display: flex;
+    align-items: flex-end;
     justify-content: center;
     position: fixed;
     bottom: 0;
@@ -46,15 +48,89 @@
     z-index: 999;
     width: 100%;
     margin: 0;
+    padding: 4px 0;
     color: #fff;
-    background-color: #333;
+    // background-color: #333;
     list-style: none;
 
-    li {
-      margin: 5px;
+    .list-left {
+      display: flex;
+    }
+    .list-center {
+      display: flex;
+      align-items: flex-end;
+      position: relative;
+      left: -56px;
+      margin: 0 auto;
+    }
 
+    li {
       button {
+        position: relative;
         cursor: pointer;
+        height: 56px;
+        width: 56px;
+        color: #fff;
+        font-size: 0;
+        background-color: transparent;
+        border: 0;
+        border-radius: 50%;
+
+        &:before {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: #fff;
+          font-size: 20px;
+        }
+
+        &#leave_room {
+          &:before {
+            @include font-icon($icon-leave);
+          }
+        }
+
+        &#muted {
+          &:before {
+            @include font-icon($icon-muted);
+          }
+        }
+        &#unmuted {
+          &:before {
+            @include font-icon($icon-mic);
+          }
+        }
+
+        &#stream {
+          &:before {
+            @include font-icon($icon-camera);
+          }
+        }
+        &#no_stream {
+          &:before {
+            @include font-icon($icon-stopcamera);
+          }
+        }
+        &#options {
+          height: 80px;
+          width: 80px;
+          border: 2px solid #fff;
+          &:before {
+            @include font-icon($icon-sack);
+            font-size: 37px;
+          }
+        }
+        &#screen_share {
+          &:before {
+            @include font-icon($icon-startshare);
+          }
+        }
+        &#chat {
+          &:before {
+            @include font-icon($icon-inner-chat);
+          }
+        }
       }
     }
   }
@@ -92,6 +168,9 @@
     position: fixed;
     right: 0;
     bottom: 64px;
+    height: 108px;
+    width: 190px;
+    object-fit: fill;
   }
 }
 
@@ -202,6 +281,7 @@
       border: 0;
       border-radius: 20px;
       filter: none;
+      cursor: pointer;
     }
   }
 }
