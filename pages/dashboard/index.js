@@ -7,11 +7,9 @@ import { VideoProvider } from '../../contexts/video'
 import NavLayout from '../../components/dashLayout'
 
 import Chat from './chat'
-import Game from './game'
-import Events from './events'
-import Gather from './gather'
 import Party from './party'
-import Classic from './classic'
+import Voice from './voice'
+import Stream from './stream'
 import Video from './video'
 
 const dashboard = (props) => {
@@ -49,29 +47,24 @@ const dashboard = (props) => {
   console.log(currentPage)
   let page
   switch (currentPage) {
+    case 'chat':
+      page = <Chat />
+      break
     case 'gather':
-      // page = <Game />
       page = (
         <VideoProvider>
           <Video />
         </VideoProvider>
       )
       break
-    case 'stream':
+    case 'party':
       page = <Party />
       break
-    case 'classic':
-      page = (
-        <VideoProvider>
-          <Classic />
-        </VideoProvider>
-      )
+    case 'voice':
+      page = <Voice />
       break
-    case 'gather':
-      page = <Gather />
-      break
-    case 'events':
-      page = <Events />
+    case 'stream':
+      page = <Stream />
       break
     default:
       page = <Chat />

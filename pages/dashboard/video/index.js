@@ -49,6 +49,7 @@ const Video = (props) => {
     )
   }
   const createRoom = (room) => {
+    console.log(room)
     createEmptyRoom({ ...socketData, ...room }, (data) => {
       joinRoom({ ...data.newGroupCallRoom, ...room })
     })
@@ -93,7 +94,8 @@ const Video = (props) => {
         <p>Now</p>
         <ul id="current_rooms">
           {(callRooms || []).map((room, idx) => (
-            <li key={idx} className="room-container">
+            <li key={idx} className={`${room.gatheringType} room-container`}>
+              <div className="room-type">{room.gatheringType}</div>
               <p className="room-title">{room.roomName}</p>
               <ul className="room-peer-list">
                 {room.peers &&
@@ -136,7 +138,7 @@ const Video = (props) => {
                   })}
               </ul>
               <button className="room-join" onClick={() => joinRoom(room)}>
-                join
+                Join
               </button>
             </li>
           ))}

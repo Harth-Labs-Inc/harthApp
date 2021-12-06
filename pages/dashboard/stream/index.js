@@ -4,7 +4,7 @@ import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
 
 let myPeer
-const Party = () => {
+const Stream = () => {
   const [userName, setUserName] = useState('')
   const [userIcon, setUserIcon] = useState('')
   const [roomId, setRoomId] = useState('')
@@ -436,4 +436,4 @@ const Party = () => {
   )
 }
 
-export default Party
+export default Stream

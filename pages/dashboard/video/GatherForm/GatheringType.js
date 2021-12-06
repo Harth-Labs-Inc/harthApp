@@ -50,10 +50,10 @@ export function GatheringType() {
           </button>
 
           <button
-            id="room_type_classic"
-            className={gatheringType === 'classic' ? 'active' : ''}
+            id="room_type_party"
+            className={gatheringType === 'party' ? 'active' : ''}
             name="room_type"
-            value="classic"
+            value="party"
             type="button"
             onClick={(e) => {
               dispatch({

@@ -21,6 +21,10 @@ function GatherForm(props) {
       setCurrentStep(currentStep + 1)
     }
 
+    function previousStep() {
+      setCurrentStep(currentStep - 1)
+    }
+
     function customStep(step) {
       setCurrentStep(step)
 
@@ -29,10 +33,10 @@ function GatherForm(props) {
       }
     }
 
-    return [currentStep, nextStep, customStep]
+    return [currentStep, nextStep, previousStep, customStep]
   }
 
-  const [currentStep, nextStep, customStep] = useFormProgress()
+  const [currentStep, nextStep, previousStep, customStep] = useFormProgress()
 
   const ButtonText = () => {
     if (currentStep === 0) {
@@ -78,22 +82,28 @@ function GatherForm(props) {
 
   return (
     <>
+      {currentStep !== 0 ? (
+        <button class="form-back" onClick={() => previousStep()}>
+          previous step
+        </button>
+      ) : null}
+
       {steps[currentStep]}
 
       <ul id="form_step_list">
-        <li id="form_step_one" className={currentStep === 0 ? 'active' : null}>
-          <button onClick={() => customStep(0)}></button>
-        </li>
-        <li id="form_step_two" className={currentStep === 1 ? 'active' : null}>
-          <button onClick={() => customStep(1)}></button>
-        </li>
+        <li
+          id="form_step_one"
+          className={currentStep === 0 ? 'active' : null}
+        ></li>
+        <li
+          id="form_step_two"
+          className={currentStep === 1 ? 'active' : null}
+        ></li>
         {isSchedule ? (
           <li
             id="form_step_three"
             className={currentStep === 2 ? 'active' : null}
-          >
-            <button onClick={() => customStep(2)}></button>
-          </li>
+          ></li>
         ) : null}
       </ul>
       <Button

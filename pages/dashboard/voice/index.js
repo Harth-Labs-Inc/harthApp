@@ -4,7 +4,7 @@ import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
 
 let myPeer
-const Party = () => {
+const Voice = () => {
   const [userName, setUserName] = useState('')
   const [userIcon, setUserIcon] = useState('')
   const [roomId, setRoomId] = useState('')
@@ -362,78 +362,103 @@ const Party = () => {
     })
   }
 
-  console.log(isMute, videoOn)
-
   return (
-    <main id="stream-window" ref={mainRef}>
-      <div>{callRooms[0] ? `${callRooms[0].roomName}` : null}</div>
-      <ul role="nav" id="stream-window-controls">
-        <div className="list-left">
-          <li onClick={leaveRoom}>
-            <button id="leave_room">leave</button>
-          </li>
-        </div>
-        <div className="list-center">
-          <li onClick={toggleAudio}>
-            <button id={isMute ? 'muted' : 'unmuted'}>mute</button>
-          </li>
-          <li onClick={toggleVideo}>
-            <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
-          </li>
-          <li onClick={toggleOptions}>
-            <button id="options">options</button>
-          </li>
-          <li onClick={toggleCapture}>
-            <button id="screen_share">share screen</button>
-          </li>
-          <li onClick={toggleChat}>
-            <button id="chat">chat</button>
-          </li>
-        </div>
-      </ul>
-      <section id="stream-window-grid">
-        <video
-          ref={localVidRef}
-          id="localVideo"
-          autoPlay
-          playsInline
-          muted={true}
-        />
-
-        {/* <video
-          ref={captureVidRef}
-          id="screenShare"
-          autoPlay
-          playsInline
-          style={{ height: '100px', width: '100px', objectFit: 'contain' }}
-        /> */}
-        <section id="stream-window-peer-container">
+    <main id="voice-window" ref={mainRef}>
+      <article id="room-occupants">
+        <div>{callRooms[0] ? `${callRooms[0].roomName}` : null}</div>
+        <ul>
           {myPeer &&
             (Peers || [])
               .filter((peer) => peer.peerId !== myPeer._id)
               .map((peer, idx) => {
-                if (groupCallStreams[peer.peerId]) {
-                  return (
-                    <video
-                      key={idx}
-                      ref={(el) => (groupStreamsRef.current[idx] = el)}
-                      id={`remoteVideo-${idx}`}
-                      autoPlay
-                      playsInline
-                    />
-                  )
-                }
-                return (
-                  <div key={idx} id={`peerBox-${peer.name}`}>
-                    <img src={peer.img} alt={`${peer.name} profile pic`} />
-                    <p>{peer.name}</p>
-                  </div>
-                )
+                ;<li key={idx} id={`peerBox-${peer.name}`}>
+                  <img src={peer.img} alt={`${peer.name} profile pic`} />
+                  <p>{peer.name}</p>
+                </li>
+                //   if (groupCallStreams[peer.peerId]) {
+                //   return (
+                //     <video
+                //       key={idx}
+                //       ref={(el) => (groupStreamsRef.current[idx] = el)}
+                //       id={`remoteVideo-${idx}`}
+                //       autoPlay
+                //       playsInline
+                //     />
+                //   )
+                // }
               })}
-        </section>
-      </section>
+        </ul>
+      </article>
     </main>
+    // <main id="stream-window" ref={mainRef}>
+    //   <div>{callRooms[0] ? `${callRooms[0].roomName}` : null}</div>
+    //   <ul role="nav" id="stream-window-controls">
+    //     <div className="list-left">
+    //       <li onClick={leaveRoom}>
+    //         <button id="leave_room">leave</button>
+    //       </li>
+    //     </div>
+    //     <div className="list-center">
+    //       <li onClick={toggleAudio}>
+    //         <button id={isMute ? 'muted' : 'unmuted'}>mute</button>
+    //       </li>
+    //       <li onClick={toggleVideo}>
+    //         <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
+    //       </li>
+    //       <li onClick={toggleOptions}>
+    //         <button id="options">options</button>
+    //       </li>
+    //       <li onClick={toggleCapture}>
+    //         <button id="screen_share">share screen</button>
+    //       </li>
+    //       <li onClick={toggleChat}>
+    //         <button id="chat">chat</button>
+    //       </li>
+    //     </div>
+    //   </ul>
+    //   <section id="stream-window-grid">
+    //     <video
+    //       ref={localVidRef}
+    //       id="localVideo"
+    //       autoPlay
+    //       playsInline
+    //       muted={true}
+    //     />
+
+    //     {/* <video
+    //       ref={captureVidRef}
+    //       id="screenShare"
+    //       autoPlay
+    //       playsInline
+    //       style={{ height: '100px', width: '100px', objectFit: 'contain' }}
+    //     /> */}
+    //     <section id="stream-window-peer-container">
+    //       {myPeer &&
+    //         (Peers || [])
+    //           .filter((peer) => peer.peerId !== myPeer._id)
+    //           .map((peer, idx) => {
+    //             if (groupCallStreams[peer.peerId]) {
+    //               return (
+    //                 <video
+    //                   key={idx}
+    //                   ref={(el) => (groupStreamsRef.current[idx] = el)}
+    //                   id={`remoteVideo-${idx}`}
+    //                   autoPlay
+    //                   playsInline
+    //                 />
+    //               )
+    //             }
+    //             return (
+    //               <div key={idx} id={`peerBox-${peer.name}`}>
+    //                 <img src={peer.img} alt={`${peer.name} profile pic`} />
+    //                 <p>{peer.name}</p>
+    //               </div>
+    //             )
+    //           })}
+    //     </section>
+    //   </section>
+    // </main>
   )
 }
 
-export default Party
+export default Voice
