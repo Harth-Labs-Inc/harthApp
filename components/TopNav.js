@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/auth'
 import Modal from './Modal'
@@ -64,16 +63,7 @@ const TopNav = (props) => {
               changePage('chat')
             }}
           >
-            Chat
-          </button>
-
-          <button
-            role="nav-item"
-            id="notes"
-            aria-label="Notes"
-            className={currentPage == 'notes' ? 'active' : undefined}
-          >
-            Notes
+            Topics
           </button>
 
           <button
@@ -90,14 +80,14 @@ const TopNav = (props) => {
 
           <button
             role="nav-item"
-            id="events"
-            aria-label="Community Events Calendar"
-            className={currentPage == 'events' ? 'active' : undefined}
+            id="messages"
+            aria-label="Private Messages"
+            className={currentPage == 'messages' ? 'active' : undefined}
             onClick={() => {
-              changePage('events')
+              changePage('messages')
             }}
           >
-            Events
+            Messages
           </button>
         </div>
         <button

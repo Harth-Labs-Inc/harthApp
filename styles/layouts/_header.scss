@@ -8,7 +8,7 @@
 }
 
 #channel {
-  width: 30%;
+  width: 200px;
   padding: 0 8px;
 
   color: $text-black;
@@ -19,7 +19,7 @@
   background-color: transparent;
   border: 0;
   cursor: pointer;
-
+  text-overflow: ellipsis;
   &:hover {
     text-decoration: underline;
   }
