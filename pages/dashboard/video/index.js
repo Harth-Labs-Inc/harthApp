@@ -35,7 +35,6 @@ const Video = (props) => {
   }, [socketID, selectedcomm])
 
   const joinRoom = (data) => {
-    console.log(data)
     let urls = {
       development: 'http://localhost:3000/',
       production: 'https://project-blarg-next.vercel.app/',
@@ -49,7 +48,6 @@ const Video = (props) => {
     )
   }
   const createRoom = (room) => {
-    console.log(room)
     createEmptyRoom({ ...socketData, ...room }, (data) => {
       joinRoom({ ...data.newGroupCallRoom, ...room })
     })
@@ -102,21 +100,20 @@ const Video = (props) => {
                   room.peers.map(({ img, name }) => {
                     if (img) {
                       return (
-                        <li className="room-peer">
+                        <li key={name} className="room-peer">
                           <img
                             style={{
                               height: '40px',
                               width: '40px',
                               borderRadius: '50%',
                             }}
-                            key={name}
                             src={img}
                           ></img>
                         </li>
                       )
                     } else if (name) {
                       return (
-                        <li className="room-peer">
+                        <li key={name} className="room-peer">
                           <p
                             style={{
                               height: '40px',

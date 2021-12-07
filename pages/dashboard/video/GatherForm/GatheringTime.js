@@ -1,6 +1,9 @@
 import { useGatheringFormState } from './GatheringFormContext'
 
-export function GatheringTime() {
+import Input from '../../../../components/Common/Input'
+
+export function GatheringTime(props) {
+  const { validate } = props
   const {
     state: { gatheringDate, gatheringTime },
     dispatch,
@@ -25,9 +28,9 @@ export function GatheringTime() {
       <h3>Pick a time</h3>
       <form>
         <fieldset id="gathering_setup_time">
-          <label htmlFor="gathering_date">Choose date of gathering</label>
-          <input
+          <Input
             id="gathering_date"
+            title="choose date of gathering"
             type="date"
             min={today}
             value={gatheringDate}
@@ -37,10 +40,11 @@ export function GatheringTime() {
                 payload: e.target.value,
               })
             }
+            isrequired={validate.includes('gathering_date') ? 'true' : ''}
           />
-          <label htmlFor="gathering_time">Choose time of gathering</label>
-          <input
+          <Input
             id="gathering_time"
+            title="Choose time of gathering"
             type="time"
             value={gatheringTime}
             onChange={(e) =>
@@ -49,6 +53,7 @@ export function GatheringTime() {
                 payload: e.target.value,
               })
             }
+            isrequired={validate.includes('gathering_time') ? 'true' : ''}
           />
         </fieldset>
       </form>

@@ -1,14 +1,11 @@
-import { useEffect, useState } from 'react'
 import { useGatheringFormState } from './GatheringFormContext'
 
-export function GatheringType() {
+export function GatheringType(props) {
+  const { validate } = props
   const {
     state: { gatheringType },
     dispatch,
   } = useGatheringFormState()
-  const [active, setActive] = useState('')
-
-  useEffect(() => {}, [active])
 
   return (
     <>
@@ -65,6 +62,9 @@ export function GatheringType() {
             Party
             <span>Video chat for gaming</span>
           </button>
+          <p id="gathering_setup_type_error">
+            {validate.includes('room_type') ? 'Must choose a room type' : ''}
+          </p>
         </fieldset>
       </form>
     </>

@@ -11,10 +11,15 @@ import { Button } from '../../../../components/Common/Button'
 
 function GatherForm(props) {
   const [isSchedule, setIsSchedule] = useState(false)
+  const [validationIds, setValidationIds] = useState([])
   const { dispatch, state } = useGatheringFormState()
-  const steps = [<GatheringText />, <GatheringType />, <GatheringTime />]
+  const steps = [
+    <GatheringText validate={validationIds} />,
+    <GatheringType validate={validationIds} />,
+    <GatheringTime validate={validationIds} />,
+  ]
 
-  function useFormProgress() {
+  const useFormProgress = () => {
     const [currentStep, setCurrentStep] = useState(0)
 
     function nextStep() {
@@ -46,6 +51,37 @@ function GatherForm(props) {
     } else {
       return 'Create'
     }
+  }
+
+  const checkValidation = () => {
+    let validations = []
+    switch (currentStep) {
+      case 0:
+        if (!state.roomName.trim()) {
+          validations.push('roomName')
+        }
+        break
+      case 1:
+        if (!state.gatheringType) {
+          validations.push('room_type')
+        }
+        break
+      case 2:
+        if (!state.gatheringDate) {
+          validations.push('gathering_date')
+        }
+        if (!state.gatheringTime) {
+          validations.push('gathering_time')
+        }
+        break
+      default:
+        break
+    }
+    setValidationIds(validations)
+    if (validations.length) {
+      return false
+    }
+    return true
   }
 
   async function handleSubmitLaunch() {
@@ -113,13 +149,16 @@ function GatherForm(props) {
         onClick={(e) => {
           e.preventDefault()
           if (currentStep === 0) {
-            nextStep()
+            const isValid = checkValidation()
+            if (isValid) nextStep()
           }
           if (currentStep === 1) {
-            handleSubmitLaunch()
+            const isValid = checkValidation()
+            if (isValid) handleSubmitLaunch()
           }
           if (currentStep === 2) {
-            handleSubmitSchedule()
+            const isValid = checkValidation()
+            if (isValid) handleSubmitSchedule()
           }
         }}
       />
@@ -130,7 +169,8 @@ function GatherForm(props) {
           onClick={(e) => {
             e.preventDefault()
             setIsSchedule(true)
-            nextStep()
+            const isValid = checkValidation()
+            if (isValid) nextStep()
           }}
         />
       ) : null}

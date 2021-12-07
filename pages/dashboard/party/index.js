@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
 
+import Options from './Options'
+
 let myPeer
 const Party = () => {
   const [userName, setUserName] = useState('')
@@ -18,6 +20,7 @@ const Party = () => {
   const [Peers, setPeers] = useState([])
   const [isMute, setIsMute] = useState(true)
   const [videoOn, setVideoOn] = useState(false)
+  const [options, setOptions] = useState(false)
 
   const mainRef = useRef()
   const localVidRef = useRef()
@@ -249,7 +252,7 @@ const Party = () => {
     console.log('made it')
   }
   const toggleOptions = () => {
-    return null
+    setOptions(!options)
   }
   const toggleChat = () => {
     return null
@@ -381,7 +384,9 @@ const Party = () => {
             <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
           </li>
           <li onClick={toggleOptions}>
-            <button id="options">options</button>
+            <button id="options" className={options ? 'active' : null}>
+              options
+            </button>
           </li>
           <li onClick={toggleCapture}>
             <button id="screen_share">share screen</button>
@@ -391,6 +396,7 @@ const Party = () => {
           </li>
         </div>
       </ul>
+      {options ? <Options /> : null}
       <section id="stream-window-grid">
         <video
           ref={localVidRef}

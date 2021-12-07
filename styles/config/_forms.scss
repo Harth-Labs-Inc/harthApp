@@ -24,7 +24,7 @@ form {
 
     &:last-of-type {
       margin: 0;
-      padding: 0;
+      // padding: 0;
     }
 
     label {
@@ -128,7 +128,7 @@ form {
         color: $red;
       }
       input {
-        border-bottom-color: $red;
+        border-color: $red;
       }
     }
 

@@ -3,7 +3,8 @@ import { useGatheringFormState } from './GatheringFormContext'
 import Input from '../../../../components/Common/Input'
 import TextArea from '../../../../components/Common/TextArea'
 
-export function GatheringText() {
+export function GatheringText(props) {
+  const { validate } = props
   const {
     state: { roomName, gatheringDescription },
     dispatch,
@@ -26,6 +27,7 @@ export function GatheringText() {
             value={roomName}
             required
             maxLength="24"
+            isrequired={validate.includes('roomName') ? 'true' : ''}
           />
           <TextArea
             name="gatheringDescription"
