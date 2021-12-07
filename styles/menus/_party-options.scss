@@ -103,72 +103,82 @@
         }
       }
     }
+  }
+}
 
-    #roll_result {
-      width: 100%;
-      text-align: center;
+#roll_result {
+  width: 100%;
+  text-align: center;
 
-      &_container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+  &_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &_title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  &_value {
+    color: #ee5500;
+    font-size: 80px;
+    font-weight: bold;
+    line-height: 106px;
+  }
+
+  .divider {
+    margin: 0 24px;
+    font-size: 32px;
+  }
+
+  &_die {
+    height: 56px;
+    width: 58px;
+    font-size: 0;
+    &:before {
+      font-size: 56px;
+    }
+    &.d4 {
+      &:before {
+        @include font-icon($icon-d4);
       }
-
-      &_title {
-        font-size: 18px;
-        font-weight: bold;
+    }
+    &.d6 {
+      &:before {
+        @include font-icon($icon-d6);
       }
-
-      &_value {
-        color: #ee5500;
-        font-size: 80px;
-        font-weight: bold;
-        line-height: 106px;
+    }
+    &.d8 {
+      &:before {
+        @include font-icon($icon-d8);
       }
-
-      .divider {
-        margin: 0 24px;
-        font-size: 32px;
+    }
+    &.d10 {
+      &:before {
+        @include font-icon($icon-d10);
       }
-
-      &_die {
-        height: 56px;
-        width: 58px;
-        font-size: 0;
-        &:before {
-          font-size: 56px;
-        }
-        &.d4 {
-          &:before {
-            @include font-icon($icon-d4);
-          }
-        }
-        &.d6 {
-          &:before {
-            @include font-icon($icon-d6);
-          }
-        }
-        &.d8 {
-          &:before {
-            @include font-icon($icon-d8);
-          }
-        }
-        &.d10 {
-          &:before {
-            @include font-icon($icon-d10);
-          }
-        }
-        &.d12 {
-          &:before {
-            @include font-icon($icon-d12);
-          }
-        }
-        &.d20 {
-          &:before {
-            @include font-icon($icon-d20);
-          }
-        }
+    }
+    &.d12 {
+      &:before {
+        @include font-icon($icon-d12);
+      }
+    }
+    &.d20 {
+      &:before {
+        @include font-icon($icon-d20);
       }
     }
   }
+}
+
+#roll_module {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 19px 35.5px;
+  background-color: #333;
+  border-radius: 16px;
 }

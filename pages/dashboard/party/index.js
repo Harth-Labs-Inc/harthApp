@@ -4,6 +4,7 @@ import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
 
 import Options from './Options'
+import DiceModal from './OutsideCalls/Dice'
 
 let myPeer
 const Party = () => {
@@ -21,6 +22,9 @@ const Party = () => {
   const [isMute, setIsMute] = useState(true)
   const [videoOn, setVideoOn] = useState(false)
   const [options, setOptions] = useState(false)
+
+  // part state
+  const [outsideDiceRoll, setOutsideDiceRoll] = useState({})
 
   const mainRef = useRef()
   const localVidRef = useRef()
@@ -83,6 +87,9 @@ const Party = () => {
         console.log('user left...', data)
         console.log(Peers, groupCallStreams)
         window.close()
+      })
+      socket.on('party-event', (data) => {
+        setOutsideDiceRoll({ ...data })
       })
     }
     if (socketID && localStream && !myPeer) {
@@ -365,7 +372,18 @@ const Party = () => {
     })
   }
 
-  console.log(isMute, videoOn)
+  // ------------ party events -----------------
+
+  const diceRollHandler = (data) => {
+    socket &&
+      socket.emit(
+        'user-dice-roll',
+        { ...data, roomId, userName },
+        (reponse) => {
+          console.log('dice roll socket push successfuill, nect user turn ')
+        },
+      )
+  }
 
   return (
     <main id="stream-window" ref={mainRef}>
@@ -396,7 +414,7 @@ const Party = () => {
           </li>
         </div>
       </ul>
-      {options ? <Options /> : null}
+      {options ? <Options diceRollHandler={diceRollHandler} /> : null}
       <section id="stream-window-grid">
         <video
           ref={localVidRef}
@@ -438,6 +456,8 @@ const Party = () => {
               })}
         </section>
       </section>
+
+      <DiceModal outsideDiceRoll={outsideDiceRoll} />
     </main>
   )
 }

@@ -2,7 +2,8 @@ import { useState } from 'react'
 
 import DiceRoller from './Dice'
 
-const Options = () => {
+const Options = (props) => {
+  const { diceRollHandler } = props
   const [diceOpen, setDiceOpen] = useState(false)
 
   const toggleDiceRoll = () => {
@@ -19,7 +20,7 @@ const Options = () => {
           </button>
           <button id="turn-keeper">turn keeper</button>
         </div>
-        {diceOpen ? <DiceRoller /> : null}
+        {diceOpen ? <DiceRoller diceRollHandler={diceRollHandler} /> : null}
       </div>
     </>
   )

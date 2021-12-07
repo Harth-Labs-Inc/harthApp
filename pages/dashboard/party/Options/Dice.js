@@ -1,6 +1,8 @@
 import { useState } from 'react'
 
-const DiceRoller = () => {
+const DiceRoller = (props) => {
+  const { diceRollHandler } = props
+
   const [diceRolled, setDiceRolled] = useState(false)
   const [dieSides, setDieSides] = useState()
   const [result, setResult] = useState()
@@ -8,8 +10,11 @@ const DiceRoller = () => {
   const rollDicer = (sides) => {
     setDiceRolled(true)
     setDieSides(sides)
+    let number = Math.floor(Math.random() * sides) + 1
 
-    setResult(Math.floor(Math.random() * sides) + 1)
+    setResult(number)
+
+    diceRollHandler({ sides, number })
   }
 
   const DiceSelector = () => {
