@@ -31,10 +31,11 @@
 }
 
 #stream-window {
-  background-color: #333;
-  > div {
+  background-color: #9a9a9a;
+  &-title {
     padding: 6px 16px;
     color: #fff;
+    background-color: #333;
   }
 
   &-controls {

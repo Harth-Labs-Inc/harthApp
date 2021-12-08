@@ -15,6 +15,10 @@ const DiceRoller = (props) => {
     setResult(number)
 
     diceRollHandler({ sides, number })
+
+    setTimeout(() => {
+      setDiceRolled(false)
+    }, 5000)
   }
 
   const DiceSelector = () => {

@@ -33,12 +33,12 @@ const SideNav = (props) => {
   const toggleSettingsNav = () => {
     setShowSettingsNav(!ShowSettingsNav)
   }
-  const expandMenu = () => {
-    leftNav.current.className = 'expand'
-  }
-  const collapseMenu = () => {
-    leftNav.current.className = ''
-  }
+  // const expandMenu = () => {
+  //   leftNav.current.className = 'expand'
+  // }
+  // const collapseMenu = () => {
+  //   leftNav.current.className = ''
+  // }
 
   const DisplayCommBuilder = () => {
     if (ShowCommBuilder) {
@@ -69,15 +69,15 @@ const SideNav = (props) => {
       <aside id="left_nav" ref={leftNav}>
         <ul
           id="left_nav_comms"
-          onMouseOver={expandMenu}
-          onMouseLeave={collapseMenu}
+          // onMouseOver={expandMenu}
+          // onMouseLeave={collapseMenu}
         >
           <li id="left_nav_comms_default" aria-label="nav-item">
             <button onClick={toggleDefaultComm}>
               <span className="comm-icon-wrapper">
                 <span className="comm-icon"></span>
               </span>
-              <span className="comm-name">The Tavern</span>
+              {/* <span className="comm-name">The Tavern</span> */}
             </button>
           </li>
           {comms &&
@@ -115,7 +115,7 @@ const SideNav = (props) => {
                         <span className="comm-icon"></span>
                       </span>
                     )}
-                    <span className="comm-name">{com.name}</span>
+                    {/* <span className="comm-name">{com.name}</span> */}
                   </button>
                 </li>
               )

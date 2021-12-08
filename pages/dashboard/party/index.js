@@ -387,7 +387,9 @@ const Party = () => {
 
   return (
     <main id="stream-window" ref={mainRef}>
-      <div>{callRooms[0] ? `${callRooms[0].roomName}` : null}</div>
+      <div id="stream-window-title">
+        {callRooms[0] ? `${callRooms[0].roomName}` : null}
+      </div>
       <ul role="nav" id="stream-window-controls">
         <div className="list-left">
           <li onClick={leaveRoom}>

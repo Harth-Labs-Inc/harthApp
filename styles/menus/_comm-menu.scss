@@ -1,36 +1,40 @@
 #left_nav_comms {
   width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0 12px;
   list-style: none;
 
-  &:hover {
-    li {
-      .comm-name {
-        width: calc(100% - 56px);
-        margin-left: 8px;
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-  }
+  // &:hover {
+  //   li {
+  //     .comm-name {
+  //       width: calc(100% - 56px);
+  //       margin-left: 8px;
+  //       opacity: 1;
+  //       visibility: visible;
+  //     }
+  //   }
+  // }
 
   li {
     display: flex;
+    justify-content: center;
     position: relative;
-    height: 48px;
-    width: 100%;
-    padding: 4px 2px;
+    height: 40px;
+    width: 40px;
+    margin: 8px 0;
     background-color: transparent;
 
     button {
       display: flex;
       align-items: center;
-      padding: 1px;
+      margin: 0;
+      padding: 0;
       border: 0;
       background-color: transparent;
+      border-radius: 6px;
       cursor: pointer;
       transition: border 0.3s;
+      overflow: hidden;
 
       img {
         height: 40px;
@@ -39,11 +43,8 @@
       }
 
       .comm-icon-wrapper {
-        height: 48px;
-        width: 48px;
-        padding: 1px;
-        border: 3px solid transparent;
-        border-radius: 8px;
+        height: 40px;
+        width: 40px;
         overflow: hidden;
       }
 
@@ -52,7 +53,7 @@
         position: relative;
         height: 40px;
         width: 40px;
-        border-radius: 8px;
+        background-color: #777;
         &:before {
           @include x-y-center;
           @include font-icon($icon-harth);
@@ -82,11 +83,12 @@
     &.active {
       &:before {
         @include y-center;
-        right: -1px;
-        height: 48px;
-        width: 2px;
+        right: -15px;
+        height: 32px;
+        width: 8px;
         content: '';
-        background-color: $text-black;
+        background-color: #f7f7f7;
+        border-radius: 4px;
       }
       button {
         .comm-icon-wrapper {
@@ -96,8 +98,11 @@
     }
 
     &:hover {
-      .comm-icon-wrapper {
-        border: 3px solid $text-black;
+      .comm-icon {
+        background-color: rgba(#777, 0.8);
+        &:before {
+          color: #fff;
+        }
       }
     }
 
@@ -107,22 +112,22 @@
         height: 40px;
         width: 40px;
         background-color: transparent;
-        border: 1px dashed $light-grey;
-        border-radius: 8px;
+        border: 1px solid #9a9a9a;
+        border-radius: 6px;
         transition: border 0.3s;
         &:before {
           @include x-y-center;
           @include font-icon($icon-plus);
-          color: $light-grey;
+          color: #9a9a9a;
           transition: color 0.3s;
         }
       }
 
       &:hover {
         button {
-          border-color: #333;
+          border-color: #fff;
           &:before {
-            color: #333;
+            color: #fff;
           }
         }
       }
