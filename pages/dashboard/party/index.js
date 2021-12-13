@@ -5,9 +5,18 @@ import { getTurnServers } from '../../../util/TURN'
 
 import Options from './Options'
 import DiceModal from './OutsideCalls/Dice'
+import VoteModal from './OutsideCalls/Vote'
 
 let myPeer
+let groupStreams = {}
+let chatPannel = false
 const Party = () => {
+  //chat
+  const [unreadMsg, setUnreadMsg] = useState(false)
+  const [newChatMsg, setNewChatMsg] = useState({})
+  const [chats, setChats] = useState([])
+  const [showChatPannel, setShowChatPannel] = useState(false)
+
   const [userName, setUserName] = useState('')
   const [userIcon, setUserIcon] = useState('')
   const [roomId, setRoomId] = useState('')
@@ -22,9 +31,11 @@ const Party = () => {
   const [isMute, setIsMute] = useState(true)
   const [videoOn, setVideoOn] = useState(false)
   const [options, setOptions] = useState(false)
+  const [gridSize, setGridSize] = useState('alone')
 
   // part state
   const [outsideDiceRoll, setOutsideDiceRoll] = useState({})
+  const [outsideVoteCall, setOutsideVoteCall] = useState({})
 
   const mainRef = useRef()
   const localVidRef = useRef()
@@ -66,6 +77,14 @@ const Party = () => {
   // ------- socket connection and listeners ------------
 
   useEffect(() => {
+    if (socketID && localStream && !myPeer) {
+      if (userName && roomId) {
+        connectWithMyPeer({ userName, userIcon, roomId })
+      }
+    }
+  }, [socketID, localStream])
+
+  useEffect(() => {
     if (socket) {
       socket.on('connection', () => {
         setSocketID(socket.id)
@@ -83,21 +102,58 @@ const Party = () => {
             break
         }
       })
-      socket.on('user-left', (data) => {
-        console.log('user left...', data)
-        console.log(Peers, groupCallStreams)
-        window.close()
-      })
+
       socket.on('party-event', (data) => {
         setOutsideDiceRoll({ ...data })
       })
+
+      socket.on('user-left', (data) => {
+        // console.log(data.peerId, groupStreams)
+        if (myPeer) {
+          for (let conns in myPeer.connections) {
+            myPeer.connections[conns].forEach((conn, index, array) => {
+              if (data.peerId === conns) {
+                conn.peerConnection.close()
+                if (conn.close) conn.close()
+              }
+            })
+          }
+        }
+
+        delete groupStreams[data.peerId]
+      })
+      // chat
+      socket.on('incoming-chat-message', (data) => {
+        if (!chatPannel) {
+          setUnreadMsg(true)
+        }
+        setChats((prevChats) => [...prevChats, data])
+      })
+      socket.on('chat-update', (chats) => {
+        setChats(chats)
+        console.log('chat-updates')
+      })
+      // vote
+      socket.on('incoming-vote', (data) => {
+        setOutsideVoteCall({ ...data })
+      })
     }
-    if (socketID && localStream && !myPeer) {
-      if (userName && roomId) {
-        connectWithMyPeer({ userName, userIcon, roomId })
-      }
+  }, [socket])
+
+  useEffect(() => {
+    if (Peers.length === 1) {
+      setGridSize('alone')
     }
-  }, [socket, socketID, localStream])
+    if (Peers.length === 2) {
+      setGridSize('full')
+    }
+    if (Peers.length > 2 && Peers.length <= 7) {
+      setGridSize('double-wide')
+    }
+    if (Peers.legnth > 7) {
+      setGridSize('three-wide')
+    }
+  }, [Peers])
 
   // ----------- media --------------
 
@@ -114,8 +170,8 @@ const Party = () => {
   }, [captureStream])
 
   useEffect(() => {
-    if (Object.keys(groupCallStreams).length) {
-      Object.values(groupCallStreams).forEach((stream, idx) => {
+    if (Object.keys(groupStreams).length) {
+      Object.values(groupStreams).forEach((stream, idx) => {
         const remoteGroupCallVideo = groupStreamsRef.current[idx]
         if (remoteGroupCallVideo) {
           remoteGroupCallVideo.srcObject = stream
@@ -146,7 +202,7 @@ const Party = () => {
   const stopAudioOnly = (stream) => {
     try {
       stream.getTracks().forEach((track) => {
-        console.log(track)
+        // console.log(track)
         if (track.readyState == 'live' && track.kind === 'audio') {
           let enabled = track.enabled
           track.enabled = !enabled
@@ -254,6 +310,10 @@ const Party = () => {
     setGroupCallStreams((prevStreams) => {
       return { ...prevStreams, [peerid]: incomingStream }
     })
+    groupStreams = {
+      ...groupStreams,
+      [peerid]: incomingStream,
+    }
   }
   const addCaptureStream = () => {
     console.log('made it')
@@ -262,14 +322,21 @@ const Party = () => {
     setOptions(!options)
   }
   const toggleChat = () => {
-    return null
+    setShowChatPannel((prevState) => {
+      let newvalue = !prevState
+      if (newvalue === true) {
+        setUnreadMsg(false)
+      }
+      chatPannel = newvalue
+      return newvalue
+    })
   }
 
   // ------------ rooms -----------------
 
   const leaveRoom = () => {
     leaveGroupCall({ roomId, userName, socketID }, () => {
-      console.log(finished)
+      // console.log(finished)
       window.close()
     })
   }
@@ -287,7 +354,7 @@ const Party = () => {
     })
 
     myPeer.on('open', (peerid) => {
-      console.log('my peer id is ', peerid)
+      // console.log('my peer id is ', peerid)
       pID = peerid
       joinGroupCall(peerid, data)
     })
@@ -322,8 +389,9 @@ const Party = () => {
   }
   const userWantsToJoinGroupCall = (data) => {
     socket &&
-      socket.emit('group-call-join-request', data, ({ peers }) => {
+      socket.emit('group-call-join-request', data, ({ peers, chats }) => {
         connectToUsers(peers)
+        setChats(chats)
       })
   }
   const connectToUsers = async (peers) => {
@@ -379,87 +447,196 @@ const Party = () => {
       socket.emit(
         'user-dice-roll',
         { ...data, roomId, userName },
-        (reponse) => {
-          console.log('dice roll socket push successfuill, nect user turn ')
+        ({ chats }) => {
+          setChats(chats)
         },
       )
   }
 
+  const voteCallHandler = (data) => {
+    socket &&
+      socket.emit('vote-called', { ...data, roomId, userName, Peers }, () => {})
+  }
+
+  const userVote = (vote) => {
+    socket && socket.emit('user-voted', { userName, roomId, vote }, () => {})
+  }
+
+  // ------------ chat -----------------
+  const getRoomChats = () => {
+    socket &&
+      socket.emit('get-initial-room-chats', roomId, ({ chats }) => {
+        setChats(chats)
+      })
+  }
+  const sendNewChatMessage = (message) => {
+    socket &&
+      socket.emit('send-chat-message', message, () => {
+        setChats((prevChats) => [...prevChats, message])
+      })
+  }
+  const chatInputHandler = (e) => {
+    const { value } = e.target
+    setNewChatMsg({ value })
+  }
+  const chatSubmitHandler = (e) => {
+    e.preventDefault()
+    let message = {
+      ...newChatMsg,
+      roomId: roomId,
+      date: new Date(),
+      creator_name: userName,
+      creator_image: userIcon,
+      flames: [],
+      reactions: [],
+      attachments: [],
+    }
+
+    sendNewChatMessage(message)
+  }
+  const chatClassname = (creator) => {
+    if (creator === 'Admin') {
+      return 'admin'
+    }
+    if (creator === userName) {
+      return 'self'
+    }
+    return 'incoming'
+  }
+  const ChatStructure = ({ chat }) => {
+    const date = new Date(chat.date)
+    return (
+      <>
+        <p>{chat.value}</p>
+        <span>
+          <img src={chat.creator_image} alt={chat.creator_name} />
+          {/* {timeStamp} */}
+        </span>
+      </>
+    )
+  }
+
   return (
     <main id="stream-window" ref={mainRef}>
-      <div id="stream-window-title">
-        {callRooms[0] ? `${callRooms[0].roomName}` : null}
-      </div>
-      <ul role="nav" id="stream-window-controls">
-        <div className="list-left">
-          <li onClick={leaveRoom}>
-            <button id="leave_room">leave</button>
-          </li>
+      <section id="stream-window-video-container">
+        <div id="stream-window-title">
+          {callRooms[0] ? `${callRooms[0].roomName}` : null}
         </div>
-        <div className="list-center">
-          <li onClick={toggleAudio}>
-            <button id={isMute ? 'muted' : 'unmuted'}>mute</button>
-          </li>
-          <li onClick={toggleVideo}>
-            <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
-          </li>
-          <li onClick={toggleOptions}>
-            <button id="options" className={options ? 'active' : null}>
-              options
-            </button>
-          </li>
-          <li onClick={toggleCapture}>
-            <button id="screen_share">share screen</button>
-          </li>
-          <li onClick={toggleChat}>
-            <button id="chat">chat</button>
-          </li>
-        </div>
-      </ul>
-      {options ? <Options diceRollHandler={diceRollHandler} /> : null}
-      <section id="stream-window-grid">
-        <video
-          ref={localVidRef}
-          id="localVideo"
-          autoPlay
-          playsInline
-          muted={true}
-        />
+        <ul role="nav" id="stream-window-controls">
+          <div className="list-left">
+            <li onClick={leaveRoom}>
+              <button id="leave_room">leave</button>
+            </li>
+          </div>
+          <div className="list-center">
+            <li onClick={toggleAudio}>
+              <button id={isMute ? 'muted' : 'unmuted'}>mute</button>
+            </li>
+            <li onClick={toggleVideo}>
+              <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
+            </li>
+            <li onClick={toggleOptions}>
+              <button id="options" className={options ? 'active' : null}>
+                options
+              </button>
+            </li>
+            <li onClick={toggleCapture}>
+              <button id="screen_share">share screen</button>
+            </li>
+            <li
+              className={`
+                ${unreadMsg ? 'unread' : ''}
+                ${showChatPannel ? 'open' : 'closed'}`}
+              onClick={toggleChat}
+            >
+              <button id="chat">chat</button>
+            </li>
+          </div>
+        </ul>
+        {options ? (
+          <Options
+            diceRollHandler={diceRollHandler}
+            voteCallHandler={voteCallHandler}
+          />
+        ) : null}
+        <section id="stream-window-grid">
+          <video
+            ref={localVidRef}
+            id="localVideo"
+            autoPlay
+            playsInline
+            muted={true}
+          />
 
-        {/* <video
+          {/* <video
           ref={captureVidRef}
           id="screenShare"
           autoPlay
           playsInline
           style={{ height: '100px', width: '100px', objectFit: 'contain' }}
         /> */}
-        <section id="stream-window-peer-container">
-          {myPeer &&
-            (Peers || [])
-              .filter((peer) => peer.peerId !== myPeer._id)
-              .map((peer, idx) => {
-                if (groupCallStreams[peer.peerId]) {
+          <section id="stream-window-peer-container" className={gridSize}>
+            {myPeer &&
+              (Peers || [])
+                .filter((peer) => peer.peerId !== myPeer._id)
+                .map((peer, idx) => {
+                  if (groupCallStreams[peer.peerId]) {
+                    return (
+                      <video
+                        key={idx}
+                        ref={(el) => (groupStreamsRef.current[idx] = el)}
+                        id={`remoteVideo-${idx}`}
+                        autoPlay
+                        playsInline
+                      />
+                    )
+                  }
                   return (
-                    <video
-                      key={idx}
-                      ref={(el) => (groupStreamsRef.current[idx] = el)}
-                      id={`remoteVideo-${idx}`}
-                      autoPlay
-                      playsInline
-                    />
+                    <div key={idx} id={`peerBox-${peer.name}`}>
+                      <img src={peer.img} alt={`${peer.name} profile pic`} />
+                      <p>{peer.name}</p>
+                    </div>
                   )
-                }
-                return (
-                  <div key={idx} id={`peerBox-${peer.name}`}>
-                    <img src={peer.img} alt={`${peer.name} profile pic`} />
-                    <p>{peer.name}</p>
-                  </div>
-                )
-              })}
+                })}
+          </section>
         </section>
+        <DiceModal outsideDiceRoll={outsideDiceRoll} />
+        <VoteModal outsideVoteCall={outsideVoteCall} userVote={userVote} />
       </section>
-
-      <DiceModal outsideDiceRoll={outsideDiceRoll} />
+      <section
+        id="stream-window-chat"
+        className={showChatPannel ? 'open' : 'closed'}
+      >
+        <ul>
+          {chats.map((chat, index) => {
+            return (
+              <li key={index} className={chatClassname(chat.creator_name)}>
+                {chat.creator_name === 'Admin' ? (
+                  chat.value
+                ) : (
+                  <ChatStructure chat={chat} />
+                )}
+              </li>
+            )
+          })}
+        </ul>
+        <form id="chat_input_container" onSubmit={chatSubmitHandler}>
+          <textarea
+            id="chat_input_box"
+            type="text"
+            placeholder="Say"
+            onChange={chatInputHandler}
+          />
+          <div>
+            <div className="chat-insert-additional-wrapper"></div>
+            <div className="chat-controls">
+              <button className="send-message" type="submit">
+                Send
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
     </main>
   )
 }

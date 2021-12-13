@@ -45,10 +45,13 @@ const chatTextEntry = (props) => {
   }, [attachments])
 
   useEffect(() => {
-    setTopicInputs({
-      ...topicInputs,
-      [selectedTopic._id]: selectedEdit.message,
-    })
+    if (setTopicInputs) {
+      setTopicInputs({
+        ...topicInputs,
+        [selectedTopic._id]: selectedEdit?.message,
+      })
+    }
+
     setSelectedEditMsg(selectedEdit)
   }, [selectedEdit])
 
@@ -282,8 +285,8 @@ const chatTextEntry = (props) => {
   }
   const MessageSubmits = () => {
     const isDisabled =
-      (topicInputs[selectedTopic._id] || '').trim().length === 0 &&
-      attachments.length == 0
+      ((topicInputs && topicInputs[selectedTopic._id]) || '').trim().length ===
+        0 && attachments.length == 0
     if (Object.keys(selectedEditMsg).length > 0) {
       return (
         <div className="chat-controls">
@@ -323,7 +326,7 @@ const chatTextEntry = (props) => {
         ref={textRef}
         placeholder={`Say something...`}
         onChange={inputHandler}
-        value={topicInputs[selectedTopic._id] || ''}
+        value={(topicInputs && topicInputs[selectedTopic._id]) || ''}
         onKeyDown={(e) => {
           let input = topicInputs[selectedTopic._id] || ''
           console.log(input)

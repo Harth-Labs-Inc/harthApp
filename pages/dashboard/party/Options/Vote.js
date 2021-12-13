@@ -1,12 +1,14 @@
 import { useState } from 'react'
 
-const VoteCaller = () => {
+const VoteCaller = (props) => {
+  const { voteCallHandler } = props
   const [voteCalled, setVoteCalled] = useState(false)
   const [voteType, setVoteType] = useState('majority')
 
   const startVote = () => {
-    console.log(voteType)
-    // setVoteCalled(true)
+    setVoteCalled(true)
+
+    voteCallHandler({ voteType })
   }
 
   const SelfVote = () => {

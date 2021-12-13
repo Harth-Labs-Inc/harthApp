@@ -4,7 +4,7 @@ import DiceRoller from './Dice'
 import VoteCaller from './Vote'
 
 const Options = (props) => {
-  const { diceRollHandler } = props
+  const { diceRollHandler, voteCallHandler } = props
   const [diceOpen, setDiceOpen] = useState(false)
   const [voteOpen, setVoteOpen] = useState(false)
 
@@ -29,7 +29,7 @@ const Options = (props) => {
           <button id="turn-keeper">turn keeper</button>
         </div>
         {diceOpen ? <DiceRoller diceRollHandler={diceRollHandler} /> : null}
-        {voteOpen ? <VoteCaller /> : null}
+        {voteOpen ? <VoteCaller voteCallHandler={voteCallHandler} /> : null}
       </div>
     </>
   )
