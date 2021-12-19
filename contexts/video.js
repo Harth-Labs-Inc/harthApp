@@ -24,7 +24,7 @@ export const VideoProvider = ({ children }) => {
     axios
       .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
       .then((responseData) => {
-        console.log(responseData)
+        console.log('ttttttttttttest', responseData)
         setTurnServers(responseData.data.token.iceServers)
 
         setSocket(

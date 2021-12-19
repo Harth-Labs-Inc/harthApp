@@ -1,5 +1,4 @@
-import { set } from 'js-cookie'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useReducer } from 'react'
 import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
 
@@ -10,6 +9,7 @@ import VoteModal from './OutsideCalls/Vote'
 let myPeer
 let groupStreams = {}
 let chatPannel = false
+
 const Party = () => {
   //chat
   const [unreadMsg, setUnreadMsg] = useState(false)
@@ -154,6 +154,8 @@ const Party = () => {
       setGridSize('three-wide')
     }
   }, [Peers])
+
+  console.log(Peers, groupStreams)
 
   // ----------- media --------------
 
@@ -335,10 +337,12 @@ const Party = () => {
   // ------------ rooms -----------------
 
   const leaveRoom = () => {
-    leaveGroupCall({ roomId, userName, socketID }, () => {
-      // console.log(finished)
-      window.close()
-    })
+    let urls = {
+      development: 'http://localhost:3000/',
+      production: 'https://project-blarg-next.vercel.app/',
+    }
+
+    window.location.href = urls[process.env.NODE_ENV]
   }
   const connectWithMyPeer = (data) => {
     let pID = ''
@@ -354,7 +358,7 @@ const Party = () => {
     })
 
     myPeer.on('open', (peerid) => {
-      // console.log('my peer id is ', peerid)
+      console.log('my peer id is ', peerid)
       pID = peerid
       joinGroupCall(peerid, data)
     })
