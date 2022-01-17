@@ -7,7 +7,9 @@ import DiceModal from './OutsideCalls/Dice'
 import VoteModal from './OutsideCalls/Vote'
 
 let myPeer
+let ScreenSharePeer
 let groupStreams = {}
+let groupCaptStreams = {}
 let chatPannel = false
 
 const Party = () => {
@@ -25,6 +27,8 @@ const Party = () => {
   const [socketID, setSocketID] = useState(null)
   const [callRooms, setCallRooms] = useState([])
   const [groupCallStreams, setGroupCallStreams] = useState({})
+  const [groupCaptureStreams, setGroupCaptureStreams] = useState({})
+
   const [localStream, setLocalStream] = useState()
   const [captureStream, setCaptureStream] = useState()
   const [Peers, setPeers] = useState([])
@@ -40,7 +44,9 @@ const Party = () => {
   const mainRef = useRef()
   const localVidRef = useRef()
   const captureVidRef = useRef()
+  const groupCaptureVidRef = useRef()
   const groupStreamsRef = useRef([])
+  const chatInput = useRef()
 
   useEffect(() => {
     let urls = {
@@ -108,7 +114,6 @@ const Party = () => {
       })
 
       socket.on('user-left', (data) => {
-        // console.log(data.peerId, groupStreams)
         if (myPeer) {
           for (let conns in myPeer.connections) {
             myPeer.connections[conns].forEach((conn, index, array) => {
@@ -131,7 +136,6 @@ const Party = () => {
       })
       socket.on('chat-update', (chats) => {
         setChats(chats)
-        console.log('chat-updates')
       })
       // vote
       socket.on('incoming-vote', (data) => {
@@ -155,8 +159,6 @@ const Party = () => {
     }
   }, [Peers])
 
-  console.log(Peers, groupStreams)
-
   // ----------- media --------------
 
   useEffect(() => {
@@ -167,7 +169,8 @@ const Party = () => {
 
   useEffect(() => {
     if (captureStream) {
-      captureVidRef.current.srcObject = captureStream
+      // groupCaptureVidRef.current.srcObject = captureStream
+      connectCaptureUsers(true)
     }
   }, [captureStream])
 
@@ -184,6 +187,26 @@ const Party = () => {
       })
     }
   }, [groupCallStreams])
+
+  useEffect(() => {
+    if (Object.keys(groupCaptStreams).length) {
+      const remoteGroupCaptureVideo = groupCaptureVidRef.current
+
+      if (remoteGroupCaptureVideo) {
+        if (
+          groupCaptStreams.owner &&
+          groupCaptStreams.owner === ScreenSharePeer.id
+        ) {
+          groupCaptureVidRef.current.srcObject = captureStream
+        } else {
+          remoteGroupCaptureVideo.srcObject = groupCaptStreams.stream
+          remoteGroupCaptureVideo.onloadedmetadata = () => {
+            remoteGroupCaptureVideo.play()
+          }
+        }
+      }
+    }
+  }, [groupCaptureStreams])
 
   const startVideo = () => {
     getLocalStream('video')
@@ -204,7 +227,6 @@ const Party = () => {
   const stopAudioOnly = (stream) => {
     try {
       stream.getTracks().forEach((track) => {
-        // console.log(track)
         if (track.readyState == 'live' && track.kind === 'audio') {
           let enabled = track.enabled
           track.enabled = !enabled
@@ -244,6 +266,7 @@ const Party = () => {
   }
   const toggleAudio = () => {
     if (!localStream) {
+      setIsMute(true)
       startAudio()
     } else {
       try {
@@ -275,13 +298,15 @@ const Party = () => {
       video: true,
     })
 
-    try {
-      stream.getTracks().forEach((track) => {
-        if (track.kind === 'audio') {
-          track.enabled = false
-        }
-      })
-    } catch (error) {}
+    if (startWith && startWith == 'video') {
+      try {
+        stream.getTracks().forEach((track) => {
+          if (track.kind === 'audio') {
+            track.enabled = false
+          }
+        })
+      } catch (error) {}
+    }
     if (startWith && startWith == 'audio') {
       try {
         stream.getTracks().forEach((track) => {
@@ -312,13 +337,19 @@ const Party = () => {
     setGroupCallStreams((prevStreams) => {
       return { ...prevStreams, [peerid]: incomingStream }
     })
+
     groupStreams = {
       ...groupStreams,
       [peerid]: incomingStream,
     }
   }
-  const addCaptureStream = () => {
-    console.log('made it')
+  const addCaptureStream = (incomingStream, peerid, owner) => {
+    setGroupCaptureStreams({ id: peerid, stream: incomingStream })
+    groupCaptStreams = {
+      id: peerid,
+      stream: incomingStream,
+      owner: owner ? ScreenSharePeer.id : undefined,
+    }
   }
   const toggleOptions = () => {
     setOptions(!options)
@@ -337,12 +368,10 @@ const Party = () => {
   // ------------ rooms -----------------
 
   const leaveRoom = () => {
-    let urls = {
-      development: 'http://localhost:3000/',
-      production: 'https://project-blarg-next.vercel.app/',
-    }
-
-    window.location.href = urls[process.env.NODE_ENV]
+    leaveGroupCall({ roomId, userName, socketID }, () => {
+      console.log(finished)
+      window.close()
+    })
   }
   const connectWithMyPeer = (data) => {
     let pID = ''
@@ -360,36 +389,45 @@ const Party = () => {
     myPeer.on('open', (peerid) => {
       console.log('my peer id is ', peerid)
       pID = peerid
-      joinGroupCall(peerid, data)
+
+      let { roomId, userIcon, userName } = data
+      let obj = {
+        userName,
+        userIcon,
+        peerId: peerid,
+        socketID,
+        roomId,
+        localStreamId: (localStream || {}).id || '',
+        harthId,
+      }
+      createScreenSharePeer(obj)
     })
 
     myPeer.on('error', function (err) {
       console.log(err)
     })
 
+    myPeer.on('connection', function (dataConnection) {
+      console.log('connected to peer', dataConnection)
+    })
+
     myPeer.on('call', async (call) => {
       if (localStream) {
+        localStream.test = 'test'
         call.answer(localStream)
       }
 
       call.on('stream', (incomingStream) => {
         if (incomingStream) {
+          console.log('new incoming stream', incomingStream, groupStreams)
+
           addVideoStream(incomingStream, call.peer)
         }
       })
     })
   }
-  const joinGroupCall = (peerid, data) => {
-    let { roomId, userIcon, userName } = data
-    userWantsToJoinGroupCall({
-      userName,
-      userIcon,
-      peerId: peerid,
-      socketID,
-      roomId,
-      localStreamId: (localStream || {}).id || '',
-      harthId,
-    })
+  const joinGroupCall = (obj) => {
+    userWantsToJoinGroupCall(obj)
   }
   const userWantsToJoinGroupCall = (data) => {
     socket &&
@@ -414,6 +452,23 @@ const Party = () => {
     }
   }
 
+  const connectCaptureUsers = async (isOwner) => {
+    if (ScreenSharePeer) {
+      Peers.forEach((peer) => {
+        if (peer.capturePeer !== ScreenSharePeer.id) {
+          console.log('calling capture ', peer)
+          const call = ScreenSharePeer.call(peer.capturePeer, captureStream)
+          call &&
+            call.on('stream', (incomingStream) => {
+              if (incomingStream) {
+                addCaptureStream(incomingStream, peer.capturePeer, isOwner)
+              }
+            })
+        }
+      })
+    }
+  }
+
   const shareCaptureScreen = async () => {
     if (myPeer) {
       Peers.forEach((peer) => {
@@ -422,6 +477,7 @@ const Party = () => {
           call &&
             call.on('stream', (incomingStream) => {
               if (incomingStream) {
+                console.log('capture stream answer', incomingStream)
                 addCaptureStream(incomingStream, peer.peerId)
               }
             })
@@ -520,6 +576,52 @@ const Party = () => {
     )
   }
 
+  // --------------- screen share ----------
+  const createScreenSharePeer = (peerobj) => {
+    let pID = ''
+    ScreenSharePeer = new window.Peer(undefined, {
+      config: {
+        iceServers: [
+          ...getTurnServers(),
+          {
+            url: 'stun:stun.1und1.de:3478',
+          },
+        ],
+      },
+    })
+
+    ScreenSharePeer.on('open', (peerid) => {
+      console.log('my screen share  peer id is ', peerid)
+      pID = peerid
+      peerobj.capturePeer = peerid
+      joinGroupCall(peerobj)
+    })
+
+    ScreenSharePeer.on('error', function (err) {
+      console.log(err)
+    })
+
+    ScreenSharePeer.on('connection', function (dataConnection) {
+      console.log('connected to peer', dataConnection)
+    })
+
+    ScreenSharePeer.on('call', async (call) => {
+      if (localStream) {
+        call.answer(localStream)
+      }
+
+      call.on('stream', (incomingStream) => {
+        if (incomingStream) {
+          console.log('new incoming capture stream')
+
+          addCaptureStream(incomingStream, call.peer)
+        }
+      })
+    })
+  }
+
+  console.log(groupCaptStreams)
+
   return (
     <main id="stream-window" ref={mainRef}>
       <section id="stream-window-video-container">
@@ -573,12 +675,19 @@ const Party = () => {
           />
 
           {/* <video
-          ref={captureVidRef}
-          id="screenShare"
-          autoPlay
-          playsInline
-          style={{ height: '100px', width: '100px', objectFit: 'contain' }}
-        /> */}
+            ref={captureVidRef}
+            id="screenShare"
+            autoPlay
+            playsInline
+            style={{ height: '100px', width: '100px', objectFit: 'contain' }}
+          /> */}
+          <video
+            ref={groupCaptureVidRef}
+            id="screenShare"
+            autoPlay
+            playsInline
+            style={{ height: '400px', width: '400px', objectFit: 'contain' }}
+          />
           <section id="stream-window-peer-container" className={gridSize}>
             {myPeer &&
               (Peers || [])
@@ -630,6 +739,7 @@ const Party = () => {
             type="text"
             placeholder="Say"
             onChange={chatInputHandler}
+            ref={chatInput}
           />
           <div>
             <div className="chat-insert-additional-wrapper"></div>

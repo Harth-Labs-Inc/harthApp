@@ -1,0 +1,32 @@
+import { connectToDatabase } from '../../../util/mongodb'
+
+export default async (req, res) => {
+  let obj
+
+  try {
+    obj = JSON.parse(req.body)
+  } catch (e) {
+    obj = req.body
+  }
+
+  const deleteRoom = (db, id) => {
+    return new Promise((resolve, reject) => {
+      let mongo = require('mongodb')
+      let o_id = new mongo.ObjectID(id)
+      db.collection('rooms').remove({ _id: o_id }, function (err, result) {
+        if (err) {
+          resolve(false)
+        }
+        resolve(true)
+      })
+    })
+  }
+
+  const { db } = await connectToDatabase()
+  let deleteResult = await deleteRoom(db, obj.id)
+  if (!deleteResult) {
+    return res.json({ ok: 0, msg: 'something went wrong' })
+  }
+
+  return res.json({ ok: 1, msg: 'success' })
+}

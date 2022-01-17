@@ -9,6 +9,7 @@ import { useComms } from '../../contexts/comms'
 import Modal from '../Modal'
 import { Picker } from 'emoji-mart'
 import 'emoji-mart/css/emoji-mart.css'
+import { TextBtn } from './Button'
 
 const Message = (props) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -190,8 +191,8 @@ const Message = (props) => {
           <br />
           <p>this content will be permanetly deleted. This cannot be undone</p>
           <div>
-            <button onClick={deleteMsg}>DELETE</button>
-            <button onClick={toggleDeleteModal}>CANCEL</button>
+            <TextBtn onClick={deleteMsg} text="DELETE" />
+            <TextBtn onClick={toggleDeleteModal} text="CANCEl" />
           </div>
         </Modal>
       )

@@ -179,6 +179,8 @@
 
   &-peer-container {
     display: grid;
+    align-items: center;
+    justify-items: center;
     grid-auto-rows: 1fr;
     grid-column-gap: 1px;
     grid-row-gap: 1px;
@@ -209,16 +211,20 @@
 
     &.full {
       grid-template-columns: repeat(1, 1fr);
+    }
+    &.double-wide {
+      grid-template-columns: repeat(2, 1fr);
       [id^='peerBox-'],
       [id^='remoteVideo-'] {
         height: 100%;
       }
     }
-    &.double-wide {
-      grid-template-columns: repeat(2, 1fr);
-    }
     &.three-wide {
       grid-template-columns: repeat(3, 1fr);
+      [id^='peerBox-'],
+      [id^='remoteVideo-'] {
+        height: 100%;
+      }
     }
   }
 
@@ -327,7 +333,7 @@
   }
 }
 
-#current_rooms {
+.room_card {
   display: flex;
   flex-wrap: wrap;
   list-style: none;

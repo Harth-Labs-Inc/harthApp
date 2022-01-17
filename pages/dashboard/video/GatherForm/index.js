@@ -6,6 +6,8 @@ import GatheringText from './GatheringText'
 import GatheringType from './GatheringType'
 import GatheringTime from './GatheringTime'
 import { useGatheringFormState } from './GatheringFormContext'
+import { convertToAmPm, combineDateTime } from '../../../../services/helper'
+import { useVideo } from '../../../../contexts/video'
 
 import { Button } from '../../../../components/Common/Button'
 
@@ -18,6 +20,8 @@ function GatherForm(props) {
     <GatheringType validate={validationIds} />,
     <GatheringTime validate={validationIds} />,
   ]
+
+  const { pushScheduledRoom, socketID } = useVideo()
 
   const useFormProgress = () => {
     const [currentStep, setCurrentStep] = useState(0)
@@ -89,24 +93,35 @@ function GatherForm(props) {
     props.createRoomFormSubmit(state)
   }
 
-  // async function handleSubmitSchedule() {
-  //   dispatch({ type: 'SUBMIT' })
-  //   const data = await saveRoom(state)
+  async function handleSubmitSchedule() {
+    let newRoom = { ...state }
 
-  //   let { id, ok } = data || {}
-  //   if (ok) {
-  //     if (id) {
-  //       // room._id = id
-  //       // broadcastRoom(room)
-  //       dispatch({ type: 'GATHERING_CREATED' })
-  //     }
-  //   }
-  // }
+    if (newRoom && newRoom.gatheringTime) {
+      newRoom.gatheringTime = convertToAmPm(newRoom.gatheringTime)
+    }
+    newRoom.harthId = props.harthId
+    newRoom.hostName = props.creator.name
+    newRoom.icon = props.creator.iconKey
+    newRoom.harthName = props.harthName
+    newRoom.socketId = socketID
 
-  function handleSubmitSchedule() {
     dispatch({ type: 'SUBMIT' })
-    dispatch({ type: 'GATHERING_CREATED' })
+    const data = await saveRoom(newRoom)
+
+    let { id, ok } = data || {}
+    if (ok) {
+      if (id) {
+        newRoom._id = id
+        pushScheduledRoom(newRoom)
+        dispatch({ type: 'GATHERING_CREATED' })
+      }
+    }
   }
+
+  // function handleSubmitSchedule() {
+  //   dispatch({ type: 'SUBMIT' })
+  //   dispatch({ type: 'GATHERING_CREATED' })
+  // }
 
   if (state.isSubmitLoading) {
     return <div>Creating Gathering</div>
@@ -119,7 +134,7 @@ function GatherForm(props) {
   return (
     <>
       {currentStep !== 0 ? (
-        <button class="form-back" onClick={() => previousStep()}>
+        <button className="form-back" onClick={() => previousStep()}>
           previous step
         </button>
       ) : null}
@@ -148,17 +163,17 @@ function GatherForm(props) {
         text={ButtonText()}
         onClick={(e) => {
           e.preventDefault()
-          if (currentStep === 0) {
-            const isValid = checkValidation()
-            if (isValid) nextStep()
-          }
-          if (currentStep === 1) {
-            const isValid = checkValidation()
-            if (isValid) handleSubmitLaunch()
-          }
-          if (currentStep === 2) {
-            const isValid = checkValidation()
-            if (isValid) handleSubmitSchedule()
+          const isValid = checkValidation()
+          if (isValid) {
+            if (currentStep === 0) {
+              nextStep()
+            }
+            if (currentStep === 1) {
+              handleSubmitLaunch()
+            }
+            if (currentStep === 2) {
+              handleSubmitSchedule()
+            }
           }
         }}
       />

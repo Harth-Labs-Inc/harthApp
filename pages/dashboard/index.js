@@ -11,6 +11,7 @@ import Party from './party'
 import Voice from './voice'
 import Stream from './stream'
 import Video from './video'
+import Messages from './messages'
 
 const dashboard = (props) => {
   const [loading, setLoading] = useState(true)
@@ -65,6 +66,9 @@ const dashboard = (props) => {
       break
     case 'stream':
       page = <Stream />
+      break
+    case 'messages':
+      page = <Messages />
       break
     default:
       page = <Chat />

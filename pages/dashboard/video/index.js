@@ -16,8 +16,13 @@ const Video = (props) => {
   const [modal, setModal] = useState(false)
 
   const { selectedcomm } = useComms()
-  const { getInitialCallRooms, socketID, createEmptyRoom, callRooms } =
-    useVideo()
+  const {
+    getInitialCallRooms,
+    socketID,
+    createEmptyRoom,
+    callRooms,
+    scheduledcallRooms,
+  } = useVideo()
   const { user } = useAuth()
 
   useEffect(() => {
@@ -28,7 +33,7 @@ const Video = (props) => {
       data.name = creator.name
       data.harthid = selectedcomm._id
       data.socketId = socketID
-      data.harthName = 'test'
+      data.harthName = selectedcomm.name
       setSocketData(data)
       getInitialCallRooms(data)
     }
@@ -73,6 +78,8 @@ const Video = (props) => {
     createRoom(room)
   }
 
+  console.log(scheduledcallRooms)
+
   if (socketID) {
     return (
       <section id="gatherings">
@@ -80,7 +87,14 @@ const Video = (props) => {
           <Modal id="create_gathering" show={modal} onToggleModal={showModal}>
             <CloseBtn onClick={triggerNewRoom} />
             <CreateGatheringFormProvider>
-              <GatherForm createRoomFormSubmit={createRoomFormSubmit} />
+              <GatherForm
+                createRoomFormSubmit={createRoomFormSubmit}
+                harthId={selectedcomm._id}
+                harthName={selectedcomm.name}
+                creator={selectedcomm.users.find(
+                  (usr) => usr.userId === user._id,
+                )}
+              />
             </CreateGatheringFormProvider>
           </Modal>
         )}
@@ -90,7 +104,7 @@ const Video = (props) => {
           </button>
         </div>
         <p>Now</p>
-        <ul id="current_rooms">
+        <ul className="room_card" id="room_card current_rooms">
           {(callRooms || []).map((room, idx) => (
             <li key={idx} className={`${room.gatheringType} room-container`}>
               <div className="room-type">{room.gatheringType}</div>
@@ -137,6 +151,54 @@ const Video = (props) => {
               <button className="room-join" onClick={() => joinRoom(room)}>
                 Join
               </button>
+            </li>
+          ))}
+        </ul>
+        <p>Scheduled</p>
+        <ul className="room_card" id="room_card scheduled_rooms">
+          {(scheduledcallRooms || []).map((room, idx) => (
+            <li key={idx} className={`${room.gatheringType} room-container`}>
+              <div className="room-type">{room.gatheringType}</div>
+              <p className="room-title">{room.roomName}</p>
+              <ul className="room-peer-list">
+                {room.peers &&
+                  room.peers.map(({ img, name }) => {
+                    if (img) {
+                      return (
+                        <li key={name} className="room-peer">
+                          <img
+                            style={{
+                              height: '40px',
+                              width: '40px',
+                              borderRadius: '50%',
+                            }}
+                            src={img}
+                          ></img>
+                        </li>
+                      )
+                    } else if (name) {
+                      return (
+                        <li key={name} className="room-peer">
+                          <p
+                            style={{
+                              height: '40px',
+                              width: '40px',
+                              borderRadius: '50%',
+                              background: 'lightslategrey',
+                              color: 'white',
+                              textAlign: 'center',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            {name}
+                          </p>
+                        </li>
+                      )
+                    }
+                  })}
+              </ul>
             </li>
           ))}
         </ul>

@@ -3,6 +3,8 @@ import { createContext, useState, useContext, useEffect } from 'react'
 import axios from 'axios'
 import io from 'socket.io-client'
 import { setTurnServers } from '../util/TURN'
+import { getScheduledCallRooms, deleteScheduledRoom } from '../requests/rooms'
+import { combineDateTime } from '../services/helper'
 
 const VideoContext = createContext({})
 
@@ -11,6 +13,8 @@ export const VideoProvider = ({ children }) => {
   const [socket, setSocket] = useState(null)
   const [socketID, setSocketID] = useState(null)
   const [callRooms, setCallRooms] = useState([])
+  const [scheduledcallRooms, setScheduledcallRooms] = useState([])
+
   const [groupCallStreams, setGroupCallStreams] = useState({})
   const [localStream, setLocalStream] = useState()
   const [captureStream, setCaptureStream] = useState()
@@ -24,7 +28,6 @@ export const VideoProvider = ({ children }) => {
     axios
       .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
       .then((responseData) => {
-        console.log('ttttttttttttest', responseData)
         setTurnServers(responseData.data.token.iceServers)
 
         setSocket(
@@ -47,7 +50,7 @@ export const VideoProvider = ({ children }) => {
         let { event, groupCallRooms } = data
         switch (event) {
           case 'GROUP_CALL_ROOMS':
-            console.log(groupCallRooms)
+            console.log(groupCallRooms, 'reereeree')
             setCallRooms(groupCallRooms)
 
             break
@@ -55,6 +58,10 @@ export const VideoProvider = ({ children }) => {
           default:
             break
         }
+      })
+      socket.on('new Scheduled room', (room) => {
+        room.harthid = room.harthId
+        getInitialScheduledCallRooms(room)
       })
 
       socket.on('group-call-join-request', (data) => {
@@ -67,12 +74,36 @@ export const VideoProvider = ({ children }) => {
     }
   }, [socket, socketID, localStream])
 
+  const pushScheduledRoom = (data) => {
+    socket && socket.emit('new-scheduled-room', data)
+  }
+
   const getInitialCallRooms = (data) => {
     let options = {}
     if (data) {
-      options = { filter: 'harthId', harthId: data.harthid }
+      options = { filter: 'harthId', harthId: data.harthid || data.harthId }
     }
+    getInitialScheduledCallRooms(data)
     socket && socket.emit('get-initial-call-rooms', options)
+  }
+  const getInitialScheduledCallRooms = async (data) => {
+    let id = data.harthid ? data.harthid : data.harthId ? data.harthId : ''
+    let result = await getScheduledCallRooms(id)
+    let { ok, rms } = result
+    if (ok && rms && rms.length) {
+      setScheduledcallRooms([...rms])
+      rms.forEach((rm) => {
+        let date = combineDateTime(rm.gatheringDate, rm.gatheringTime)
+        let timer = date.getTime() - new Date().getTime()
+        if (timer) {
+          setTimeout(() => {
+            deleteScheduledRoom(rm._id)
+            createEmptyRoom({ ...rm }, () => {})
+            getInitialCallRooms(rm)
+          }, timer)
+        }
+      })
+    }
   }
   const createEmptyRoom = (data, cb) => {
     socket && socket.emit('create-call-room', data, cb)
@@ -206,6 +237,7 @@ export const VideoProvider = ({ children }) => {
         localStream,
         socketID,
         callRooms,
+        scheduledcallRooms,
         groupCallStreams,
         captureStream,
         getLocalStream,
@@ -214,6 +246,7 @@ export const VideoProvider = ({ children }) => {
         getScreenCapture,
         leaveGroupCall,
         connectWithMyPeer,
+        pushScheduledRoom,
       }}
     >
       {children}
