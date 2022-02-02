@@ -26,9 +26,11 @@ const Stream = () => {
   const [groupCaptureStreams, setGroupCaptureStreams] = useState({})
 
   const [localStream, setLocalStream] = useState()
+  const [localStreamChange, setLocalStreamChange] = useState(0)
+
   const [captureStream, setCaptureStream] = useState()
   const [Peers, setPeers] = useState([])
-  const [isMute, setIsMute] = useState(true)
+  const [muteOn, setMuteOn] = useState(true)
   const [videoOn, setVideoOn] = useState(false)
   const [options, setOptions] = useState(false)
   const [gridSize, setGridSize] = useState('alone')
@@ -75,6 +77,23 @@ const Stream = () => {
     }
     startAudio()
   }, [])
+
+  useEffect(() => {
+    console.log('local stream has changed')
+    if (localStream) {
+      localStream.getTracks().forEach((track) => {
+        console.log(track)
+        if (track.kind === 'video') {
+          let enabled = track.enabled
+          setVideoOn(enabled)
+        }
+        if (track.kind === 'audio') {
+          let enabled = track.enabled
+          setMuteOn(enabled)
+        }
+      })
+    }
+  }, [localStreamChange])
 
   // ------- socket connection and listeners ------------
 
@@ -203,26 +222,6 @@ const Stream = () => {
     }
   }, [groupCaptureStreams])
 
-  // useEffect(() => {
-  //   if (Object.keys(groupCaptStreams).length) {
-  //     const remoteGroupCaptureVideo = groupCaptureVidRef.current
-
-  //     if (remoteGroupCaptureVideo) {
-  //       if (
-  // groupCaptStreams.owner &&
-  // groupCaptStreams.owner === ScreenSharePeer.id
-  //       ) {
-  //         groupCaptureVidRef.current.srcObject = captureStream
-  //       } else {
-  //         remoteGroupCaptureVideo.srcObject = groupCaptStreams.stream
-  //         remoteGroupCaptureVideo.onloadedmetadata = () => {
-  //           remoteGroupCaptureVideo.play()
-  //         }
-  //       }
-  //     }
-  //   }
-  // }, [groupCaptureStreams])
-
   const startVideo = () => {
     getLocalStream('video')
   }
@@ -232,6 +231,7 @@ const Stream = () => {
         if (track.readyState == 'live' && track.kind === 'video') {
           let enabled = track.enabled
           track.enabled = !enabled
+          setLocalStreamChange((prev) => (prev += 1))
         }
       })
     } catch (error) {}
@@ -245,6 +245,7 @@ const Stream = () => {
         if (track.readyState == 'live' && track.kind === 'audio') {
           let enabled = track.enabled
           track.enabled = !enabled
+          setLocalStreamChange((prev) => (prev += 1))
         }
       })
     } catch (error) {}
@@ -260,45 +261,39 @@ const Stream = () => {
   }
   const toggleVideo = () => {
     if (!localStream) {
-      setVideoOn(true)
+      // setVideoOn(true)
       startVideo()
     } else {
       try {
         localStream.getTracks().forEach((track) => {
           if (track.kind === 'video') {
             let enabled = track.enabled
-            if (!enabled) {
-              setVideoOn(true)
-              stopVideoOnly(localStream)
-            } else {
-              setVideoOn(false)
-              stopVideoOnly(localStream)
-            }
+            // setVideoOn(enabled)
+            stopVideoOnly(localStream)
           }
         })
       } catch (error) {}
     }
+    setLocalStreamChange((prev) => (prev += 1))
   }
   const toggleAudio = () => {
     if (!localStream) {
-      setIsMute(true)
+      // setIsMute(true)
       startAudio()
     } else {
+      console.log('made it ')
       try {
         localStream.getTracks().forEach((track) => {
+          console.log(track)
           if (track.kind === 'audio') {
             let enabled = track.enabled
-            if (!enabled) {
-              setIsMute(true)
-              stopAudioOnly(localStream)
-            } else {
-              setIsMute(false)
-              stopAudioOnly(localStream)
-            }
+            // setIsMute(enabled)
+            stopAudioOnly(localStream)
           }
         })
       } catch (error) {}
     }
+    setLocalStreamChange((prev) => (prev += 1))
   }
   const toggleCapture = () => {
     if (!captureStream || captureStream.active === false) {
@@ -331,7 +326,7 @@ const Stream = () => {
         })
       } catch (error) {}
     }
-
+    setLocalStreamChange((prev) => (prev += 1))
     setLocalStream(stream)
   }
   const getScreenCapture = async () => {
@@ -372,14 +367,6 @@ const Stream = () => {
     }
     console.log('add capture stream', groupCaptStreams)
   }
-  // const addCaptureStream = (incomingStream, peerid, owner) => {
-  //   setGroupCaptureStreams({ id: peerid, stream: incomingStream })
-  //   groupCaptStreams = {
-  //     id: peerid,
-  //     stream: incomingStream,
-  //     owner: owner ? ScreenSharePeer.id : undefined,
-  //   }
-  // }
   const toggleOptions = () => {
     setOptions(!options)
   }
@@ -480,7 +467,6 @@ const Stream = () => {
       })
     }
   }
-
   const connectCaptureUsers = async (isOwner) => {
     if (ScreenSharePeer) {
       Peers.forEach((peer) => {
@@ -496,7 +482,6 @@ const Stream = () => {
       })
     }
   }
-
   const leaveGroupCall = (data) => {
     return new Promise((res, rej) => {
       socket &&
@@ -511,9 +496,7 @@ const Stream = () => {
         })
     })
   }
-
   // ------------ chat -----------------
-
   const sendNewChatMessage = (message) => {
     socket &&
       socket.emit('send-chat-message', message, () => {
@@ -560,7 +543,6 @@ const Stream = () => {
       </>
     )
   }
-
   // --------------- screen share ----------
   const createScreenSharePeer = (peerobj) => {
     let pID = ''
@@ -606,10 +588,7 @@ const Stream = () => {
     })
   }
 
-  console.log(
-    groupCaptureStreams,
-    'dddddddddddddddddddddddddddddddddddddddddddddd',
-  )
+  console.log(muteOn, 'mute')
 
   return (
     <main id="stream-window" ref={mainRef}>
@@ -625,7 +604,7 @@ const Stream = () => {
           </div>
           <div className="list-center">
             <li onClick={toggleAudio}>
-              <button id={isMute ? 'muted' : 'unmuted'}>mute</button>
+              <button id={muteOn ? 'unmuted' : 'muted'}>mute</button>
             </li>
             <li onClick={toggleVideo}>
               <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
