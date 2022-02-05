@@ -55,7 +55,6 @@ export const VideoProvider = ({ children }) => {
 
             break
           case 'GROUP_CALL_PEERS':
-            console.log(data, 'dddddddddddddddd', callRooms)
             let rooms = [...callRooms]
             console.log(rooms)
             rooms.forEach((room, index) => {
