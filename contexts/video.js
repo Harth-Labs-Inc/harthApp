@@ -47,14 +47,25 @@ export const VideoProvider = ({ children }) => {
         setSocketID(socket.id)
       })
       socket.on('broadcast', (data) => {
-        let { event, groupCallRooms } = data
+        let { event, groupCallRooms, peers } = data
         switch (event) {
           case 'GROUP_CALL_ROOMS':
             console.log(groupCallRooms, 'reereeree')
             setCallRooms(groupCallRooms)
 
             break
-
+          case 'GROUP_CALL_PEERS':
+            console.log(data, 'dddddddddddddddd', callRooms)
+            let rooms = [...callRooms]
+            console.log(rooms)
+            rooms.forEach((room, index) => {
+              console.log(room, 'roo,')
+              if (peers[0] && room.roomId === peers[0].roomId) {
+                rooms[index].peers = peers
+                setCallRooms(rooms)
+              }
+            })
+            break
           default:
             break
         }
@@ -64,13 +75,13 @@ export const VideoProvider = ({ children }) => {
         getInitialScheduledCallRooms(room)
       })
 
-      socket.on('group-call-join-request', (data) => {
-        console.log('another user has joined', data)
-        connectToNewUser(data)
-      })
-      socket.on('group-call-user-left', (data) => {
-        console.log('user stream to be removed', data)
-      })
+      // socket.on('group-call-join-request', (data) => {
+      //   console.log('another user has joined', data)
+      //   connectToNewUser(data)
+      // })
+      // socket.on('group-call-user-left', (data) => {
+      //   console.log('user stream to be removed', data)
+      // })
     }
   }, [socket, socketID, localStream])
 

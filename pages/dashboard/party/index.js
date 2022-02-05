@@ -30,9 +30,11 @@ const Party = () => {
   const [groupCaptureStreams, setGroupCaptureStreams] = useState({})
 
   const [localStream, setLocalStream] = useState()
+  const [localStreamChange, setLocalStreamChange] = useState(0)
+
   const [captureStream, setCaptureStream] = useState()
   const [Peers, setPeers] = useState([])
-  const [isMute, setIsMute] = useState(true)
+  const [muteOn, setMuteOn] = useState(true)
   const [videoOn, setVideoOn] = useState(false)
   const [options, setOptions] = useState(false)
   const [gridSize, setGridSize] = useState('alone')
@@ -127,6 +129,12 @@ const Party = () => {
 
         delete groupStreams[data.peerId]
       })
+      socket.on('screen-share-close', (data) => {
+        delete groupCaptStreams[data.id]
+
+        setGroupCaptureStreams(groupCaptStreams)
+      })
+
       // chat
       socket.on('incoming-chat-message', (data) => {
         if (!chatPannel) {
@@ -166,6 +174,22 @@ const Party = () => {
       localVidRef.current.srcObject = localStream
     }
   }, [localStream])
+
+  useEffect(() => {
+    console.log('local stream has changed')
+    if (localStream) {
+      localStream.getTracks().forEach((track) => {
+        if (track.kind === 'video') {
+          let enabled = track.enabled
+          setVideoOn(enabled)
+        }
+        if (track.kind === 'audio') {
+          let enabled = track.enabled
+          setMuteOn(enabled)
+        }
+      })
+    }
+  }, [localStreamChange])
 
   useEffect(() => {
     if (captureStream) {
@@ -212,11 +236,39 @@ const Party = () => {
     getLocalStream('video')
   }
   const stopVideoOnly = (stream) => {
+    console.log('stopvideo')
     try {
       stream.getTracks().forEach((track) => {
         if (track.readyState == 'live' && track.kind === 'video') {
           let enabled = track.enabled
           track.enabled = !enabled
+
+          console.log(!enabled, 'sadfasdfadf')
+          let newMsg = {}
+          if (!enabled === false) {
+            newMsg = {
+              value: `${userName} disconnected video`,
+              roomId: roomId,
+              date: new Date(),
+              creator_name: 'Admin',
+              flames: [],
+              reactions: [],
+              attachments: [],
+            }
+          } else {
+            newMsg = {
+              value: `${userName} enabled video`,
+              roomId: roomId,
+              date: new Date(),
+              creator_name: 'Admin',
+              flames: [],
+              reactions: [],
+              attachments: [],
+            }
+          }
+          console.log(newMsg)
+          sendNewChatMessage(newMsg)
+          setLocalStreamChange((prev) => (prev += 1))
         }
       })
     } catch (error) {}
@@ -225,11 +277,38 @@ const Party = () => {
     getLocalStream('audio')
   }
   const stopAudioOnly = (stream) => {
+    console.log('stopaudio')
     try {
       stream.getTracks().forEach((track) => {
         if (track.readyState == 'live' && track.kind === 'audio') {
           let enabled = track.enabled
           track.enabled = !enabled
+          console.log(!enabled, 'sadfasdfadf')
+          let newMsg = {}
+          if (!enabled === false) {
+            newMsg = {
+              value: `${userName} disconnected audio`,
+              roomId: roomId,
+              date: new Date(),
+              creator_name: 'Admin',
+              flames: [],
+              reactions: [],
+              attachments: [],
+            }
+          } else {
+            newMsg = {
+              value: `${userName} enabled audio`,
+              roomId: roomId,
+              date: new Date(),
+              creator_name: 'Admin',
+              flames: [],
+              reactions: [],
+              attachments: [],
+            }
+          }
+          console.log(newMsg)
+          sendNewChatMessage(newMsg)
+          setLocalStreamChange((prev) => (prev += 1))
         }
       })
     } catch (error) {}
@@ -245,45 +324,32 @@ const Party = () => {
   }
   const toggleVideo = () => {
     if (!localStream) {
-      setVideoOn(true)
       startVideo()
     } else {
       try {
         localStream.getTracks().forEach((track) => {
           if (track.kind === 'video') {
-            let enabled = track.enabled
-            if (!enabled) {
-              setVideoOn(true)
-              stopVideoOnly(localStream)
-            } else {
-              setVideoOn(false)
-              stopVideoOnly(localStream)
-            }
+            stopVideoOnly(localStream)
           }
         })
       } catch (error) {}
     }
+    setLocalStreamChange((prev) => (prev += 1))
   }
   const toggleAudio = () => {
     if (!localStream) {
-      setIsMute(true)
       startAudio()
     } else {
       try {
         localStream.getTracks().forEach((track) => {
+          console.log(track)
           if (track.kind === 'audio') {
-            let enabled = track.enabled
-            if (!enabled) {
-              setIsMute(true)
-              stopAudioOnly(localStream)
-            } else {
-              setIsMute(false)
-              stopAudioOnly(localStream)
-            }
+            stopAudioOnly(localStream)
           }
         })
       } catch (error) {}
     }
+    setLocalStreamChange((prev) => (prev += 1))
   }
   const toggleCapture = () => {
     if (!captureStream || captureStream.active === false) {
@@ -316,7 +382,7 @@ const Party = () => {
         })
       } catch (error) {}
     }
-
+    setLocalStreamChange((prev) => (prev += 1))
     setLocalStream(stream)
   }
   const getScreenCapture = async () => {
@@ -329,9 +395,46 @@ const Party = () => {
       })
 
       if (capture) {
+        capture.getTracks().forEach((track) => {
+          if (track) {
+            track.onended = () => {
+              let newMsg = {
+                value: `${userName} disconnected screen share`,
+                roomId: roomId,
+                date: new Date(),
+                creator_name: 'Admin',
+                flames: [],
+                reactions: [],
+                attachments: [],
+              }
+
+              console.log(newMsg)
+              sendNewChatMessage(newMsg)
+              onScreenShareClose()
+              console.info('ScreenShare has ended')
+            }
+          }
+        })
+        let newMsg = {
+          value: `${userName} enabled screen share`,
+          roomId: roomId,
+          date: new Date(),
+          creator_name: 'Admin',
+          flames: [],
+          reactions: [],
+          attachments: [],
+        }
+
+        console.log(newMsg)
+        sendNewChatMessage(newMsg)
         setCaptureStream(capture)
       }
     } catch (err) {}
+  }
+  const onScreenShareClose = () => {
+    if (socket) {
+      socket.emit('screen-share-closed', { roomId, id: ScreenSharePeer.id })
+    }
   }
   const addVideoStream = (incomingStream, peerid) => {
     setGroupCallStreams((prevStreams) => {
@@ -491,6 +594,16 @@ const Party = () => {
         socket.emit('group-call-user-left', data, (response) => {
           if (response.ok) {
             res(true)
+            try {
+              window.close()
+            } catch (error) {}
+            let urls = {
+              test: `http://localhost:3000`,
+              development: 'http://localhost:3000/',
+              production: 'https://project-blarg-next.vercel.app/',
+            }
+
+            window.location.replace(urls[process.env.NODE_ENV])
           }
 
           if (myPeer) {
@@ -636,7 +749,7 @@ const Party = () => {
           </div>
           <div className="list-center">
             <li onClick={toggleAudio}>
-              <button id={isMute ? 'muted' : 'unmuted'}>mute</button>
+              <button id={muteOn ? 'unmuted' : 'muted'}>mute</button>
             </li>
             <li onClick={toggleVideo}>
               <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
