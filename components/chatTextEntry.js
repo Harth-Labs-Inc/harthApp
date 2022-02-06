@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from 'react'
+import { useContext, useState, useRef, useEffect } from 'react'
 import {
   saveMessage,
   updateMessage,
   saveMessageReply,
   addReplyID,
 } from '../requests/chat'
+import { Context } from '../pages/_app'
 import { useComms } from '../contexts/comms'
 import { useAuth } from '../contexts/auth'
 import { useSocket } from '../contexts/socket'
@@ -19,6 +20,7 @@ const chatTextEntry = (props) => {
   const [emojiPickerState, setEmojiPicker] = useState(false)
   const [selectedEditMsg, setSelectedEditMsg] = useState({})
   const [altKey, setAltKey] = useState(false)
+  const [value] = useContext(Context)
 
   const { user } = useAuth()
   const { selectedcomm, selectedTopic } = useComms()
@@ -324,7 +326,6 @@ const chatTextEntry = (props) => {
       <textarea
         id="chat_input_box"
         ref={textRef}
-        placeholder={`Say something...`}
         onChange={inputHandler}
         value={(topicInputs && topicInputs[selectedTopic._id]) || ''}
         onKeyDown={(e) => {
@@ -361,8 +362,10 @@ const chatTextEntry = (props) => {
           e.preventDefault()
         }}
       ></textarea>
+      {value.screenSize !== "isMobile" ? (
       <div>
-        <div className="chat-insert-additional-wrapper">
+      
+          <div className="chat-insert-additional-wrapper">
           <button className="attach-emoji" onClick={triggerPicker}>
             attach emoji
           </button>
@@ -382,9 +385,10 @@ const chatTextEntry = (props) => {
             style={{ display: 'none' }}
           />
         </div>
-
         <MessageSubmits />
       </div>
+      ) : null
+    }
     </div>
   )
 }

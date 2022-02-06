@@ -2,15 +2,19 @@ import React, { createContext, useState, useContext, useEffect } from 'react'
 import { getComms, getTopics } from '../requests/community'
 import { getRooms } from '../requests/rooms'
 import { useAuth } from './auth'
+import {Context} from '../pages/_app'
 
 const CommsContext = createContext({})
 
 export const CommsProvider = ({ children }) => {
+  const [ value, dispatch ] = useContext(Context)
+
   const [comms, setComms] = useState(null)
   const [selectedcomm, setSelectedcomm] = useState(null)
   const [topics, setTopics] = useState(null)
   const [rooms, setRooms] = useState({})
   const [selectedTopic, setSelectedTopic] = useState({})
+  const [topicChange,setTopicChange] = useState(0)
 
   const { user } = useAuth()
   const { incomingTopic } = useAuth()
@@ -31,17 +35,23 @@ export const CommsProvider = ({ children }) => {
 
   useEffect(() => {
     if (selectedcomm && user) {
+
+        setTopicChange(0)
+      
       grabTopics(selectedcomm._id)
       grabRooms(selectedcomm._id)
     }
   }, [selectedcomm])
 
   const grabTopics = async (comid) => {
+    
     let result = await getTopics(comid, user._id)
     const { ok, topics } = result
     if (ok) {
       setTopics(topics)
       setSelectedTopic(topics[0] || {})
+ 
+   
     }
   }
   const grabRooms = async (comid) => {
@@ -60,6 +70,7 @@ export const CommsProvider = ({ children }) => {
     setSelectedcomm(comm)
   }
   const setTopic = async (topic) => {
+    setTopicChange(prevState => prevState +=1)
     setSelectedTopic(topic)
   }
   const addNewTopic = (newTopic) => {
@@ -70,6 +81,7 @@ export const CommsProvider = ({ children }) => {
     <CommsContext.Provider
       value={{
         rooms,
+        topicChange,
         setRooms,
         grabTopics,
         comms,

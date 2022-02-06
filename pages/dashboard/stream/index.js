@@ -829,7 +829,6 @@ const Stream = () => {
           <textarea
             id="chat_input_box"
             type="text"
-            placeholder="Say"
             onChange={chatInputHandler}
             ref={chatInput}
           />

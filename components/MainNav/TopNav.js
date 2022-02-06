@@ -1,27 +1,39 @@
-import { useState, useEffect } from 'react'
-import { useAuth } from '../contexts/auth'
-import Modal from './Modal'
-import HarthMenu from './HarthMenu/index'
-import { useComms } from '../contexts/comms'
+import { useState, useEffect, useContext } from 'react'
+import { useAuth } from '../../contexts/auth'
+import Modal from '../Modal'
+import HarthMenu from '../HarthMenu/index'
+import { useComms } from '../../contexts/comms'
+import { Context } from '../../pages/_app'
 
-const TopNav = (props) => {
+const MainNav = (props) => {
+  const { changePage, currentPage, onToggleMenu } = props
   const [modal, setModal] = useState()
   const [communityName, setCommunityName] = useState()
   const [communityId, setCommunityId] = useState()
+  const [harthIcon, setHarthIcon] = useState()
   const [profileIcon, setProfileIcon] = useState()
-
-  const { changePage, currentPage } = props
+  const [value, dispatch] = useContext(Context);
   const { user } = useAuth()
   const { comms, setComm, selectedcomm } = useComms()
 
+  const handleHarthMenu = () => {
+    if(value.screenSize === "isDesktop") {
+      setModal(!modal)
+    }
+    if(value.screenSize === "isMobile") {
+      onToggleMenu()
+    }
+  }
+
   const showModal = () => {
-    setModal(!modal)
+    setModal(!modal);
   }
 
   useEffect(() => {
     if (selectedcomm) {
       setCommunityName(selectedcomm.name)
       setCommunityId(selectedcomm._id)
+      setHarthIcon(selectedcomm.iconKey)
       selectedcomm.users.forEach((usr) => {
         if (usr.userId === user._id) {
           setProfileIcon(usr.iconKey)
@@ -49,8 +61,13 @@ const TopNav = (props) => {
       ) : (
         ''
       )}
-      <header id="dash_header">
-        <button id="channel" onClick={showModal}>
+      <header id="mainNav" className={value.screenSize}>
+        <button id="channel" onClick={handleHarthMenu} aria-label="Current Harth">
+          {value.screenSize === "isMobile" ?
+            <img src={harthIcon} />
+            :
+            null
+          }
           {communityName}
         </button>
         <div role="nav" className="top-buttons">
@@ -72,7 +89,13 @@ const TopNav = (props) => {
             aria-label="Gather"
             className={currentPage == 'gather' ? 'active' : undefined}
             onClick={() => {
-              changePage('gather')
+              // remove page change on mobile for now
+              if(value.screenSize === "isDesktop") {
+                changePage('gather')
+              } else {
+                alert("mobile gatherings coming soon")
+              }
+              
             }}
           >
             Gather
@@ -90,16 +113,18 @@ const TopNav = (props) => {
             Messages
           </button>
         </div>
-        <button
+        {value.screenSize === "isDesktop" ? 
+          <button
           id="account-btn"
           aria-label="My Account"
           className={profileIcon ? 'hasImage' : undefined}
         >
           {profileIcon ? <img src={profileIcon} /> : ''}
-        </button>
+        </button> : null}
+        
       </header>
     </>
   )
 }
 
-export default TopNav
+export default MainNav

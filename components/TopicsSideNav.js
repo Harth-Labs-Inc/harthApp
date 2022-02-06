@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
+
 import { useComms } from '../contexts/comms'
 import { useAuth } from '../contexts/auth'
 import { useChat } from '../contexts/chat'
 import { useSocket } from '../contexts/socket'
 import { saveTopics } from '../requests/community'
 import { addRoomToUsers } from '../requests/rooms'
+import { Context } from '../pages/_app'
+
 import Modal from './Modal'
 import Form from './Form-comp'
 import Input from './Common/Input'
@@ -27,6 +30,7 @@ const TopicsNav = (props) => {
     title: false,
     description: false,
   })
+  const [ value, dispatch ] = useContext(Context)
 
   const { unreadMsgs, emitUpdate, incomingTopic } = useSocket()
   const { user } = useAuth()
@@ -34,7 +38,6 @@ const TopicsNav = (props) => {
   const { setSelectedReplyOwner } = useChat()
 
   useEffect(() => {
-    console.log(topics)
     setTopicsArr(topics)
   }, [topics])
   useEffect(() => {
@@ -172,10 +175,19 @@ const TopicsNav = (props) => {
           </Form>
         </Modal>
       )}
-      <aside id="topic_nav">
+      <aside id="topicNav">
+        {value.screenSize === 'isMobile' ?
+          <span id='topicNavHeader'>
+            <p>Topics</p>
+            <p>user profile</p>
+          </span>
+          :
+          null
+        }
         <ul id="left_nav_topics">
           {topicsArr &&
             topicsArr.map((topic) => {
+              console.log(topic);
               let classes = []
               if ((selectedTopic || {})._id == topic._id) {
                 classes.push('topic_active')
@@ -209,7 +221,7 @@ const TopicsNav = (props) => {
             })}
           <li key="add new button">
             <button id="create_topic" onClick={openCreateTopic}>
-              add new
+              topic
             </button>
           </li>
         </ul>

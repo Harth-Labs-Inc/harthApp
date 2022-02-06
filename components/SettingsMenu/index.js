@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Cookies from 'js-cookie'
 
 import InviteComp from './Invite'
 import AccountSettings from './Account'
 import Devices from './Devices'
 
+import { Context } from '../../pages/_app'
+
 const SettingsMenu = () => {
   const [currentTab, setCurrentTab] = useState('')
+  const [value, dispatch] = useContext(Context);
 
   const toggleCurrentPage = (name) => {
     setCurrentTab(name)
@@ -20,8 +23,8 @@ const SettingsMenu = () => {
   const SettingsList = () => {
     return (
       <>
-        <h1>H&auml;rth Settings</h1>
-        <ul>
+        {value.screenSize === "isDesktop" ? <h1>H&auml;rth Settings</h1>: null }
+        <ul id="leftMenuSettings">
           <li>
             <button onClick={() => toggleCurrentPage('invites')}>
               Invites
@@ -32,17 +35,26 @@ const SettingsMenu = () => {
               Your Account
             </button>
           </li>
-          <li>
-            <button onClick={() => toggleCurrentPage('devices')}>
-              Devices
-            </button>
-          </li>
+          {value.screenSize === "isDesktop" ?
+            <li>
+              <button onClick={() => toggleCurrentPage('devices')}>
+                Devices
+              </button>
+            </li>
+            : 
+            null
+          }
           <li>
             <button onClick={() => signOut()}>Sign Out</button>
           </li>
-          <li>
-            <button onClick={() => window.close()}>Exit</button>
-          </li>
+          {value.screenSize === "isDesktop" ?
+            <li>
+              <button onClick={() => window.close()}>Exit</button>
+            </li>
+            : 
+            null
+          }
+          
         </ul>
       </>
     )

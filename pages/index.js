@@ -1,7 +1,9 @@
-import { useAuth } from '../contexts/auth'
 import Head from 'next/head'
+
+import { useAuth } from '../contexts/auth'
 import Auth from '../pages/auth/index'
 import Dashboard from './dashboard/index'
+
 
 const IndexPage = () => {
   const { user, loading } = useAuth()

@@ -7,11 +7,8 @@
 @import './config/html', './config/config-type', './config/button',
   './config/forms', './config/modal', './config/message';
 
-//layouts
-@import './layouts/header', './layouts/sidedash';
-
 //navigation
-@import './navigation/main', './navigation/top', './navigation/comm-preferences',
+@import './navigation/mainNav', './navigation/main', './navigation/top', './navigation/comm-preferences',
   './navigation/topic-nav', './navigation/invite', './navigation/settings';
 
 //menus

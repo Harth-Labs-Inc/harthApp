@@ -4,28 +4,33 @@
 }
 
 #dashboard {
-  height: 100vh;
+  position: relative;
+  // height: 100vh;
   width: calc(100vw - 64px);
   background-color: $white;
-}
 
-#content_wrapper {
-  position: relative;
   &:before {
     @include cover;
+    z-index: 1;
     content: '';
     background-color: transparent;
     transition: background-color 0.5s;
     visibility: hidden;
   }
 
-  .menu-open & {
+  &.menu-open {
     &:before {
       background-color: rgba($black, 0.32);
       visibility: visible;
     }
   }
 
+  &.isMobile {
+    width: 100%;
+  }
+}
+
+#content_wrapper {
   main {
     display: flex;
     height: 100%;

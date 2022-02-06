@@ -45,7 +45,7 @@ const dashboard = (props) => {
   const changePageHandler = (pg) => {
     setCurrentPage(pg)
   }
-  console.log(currentPage)
+
   let page
   switch (currentPage) {
     case 'chat':

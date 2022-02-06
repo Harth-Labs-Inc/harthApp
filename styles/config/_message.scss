@@ -126,6 +126,8 @@
     a {
       display: inline-block;
       font-size: inherit;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
   }
 

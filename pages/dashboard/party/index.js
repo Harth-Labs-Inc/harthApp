@@ -243,7 +243,6 @@ const Party = () => {
           let enabled = track.enabled
           track.enabled = !enabled
 
-          console.log(!enabled, 'sadfasdfadf')
           let newMsg = {}
           if (!enabled === false) {
             newMsg = {
@@ -266,7 +265,6 @@ const Party = () => {
               attachments: [],
             }
           }
-          console.log(newMsg)
           sendNewChatMessage(newMsg)
           setLocalStreamChange((prev) => (prev += 1))
         }
@@ -277,13 +275,11 @@ const Party = () => {
     getLocalStream('audio')
   }
   const stopAudioOnly = (stream) => {
-    console.log('stopaudio')
     try {
       stream.getTracks().forEach((track) => {
         if (track.readyState == 'live' && track.kind === 'audio') {
           let enabled = track.enabled
           track.enabled = !enabled
-          console.log(!enabled, 'sadfasdfadf')
           let newMsg = {}
           if (!enabled === false) {
             newMsg = {
@@ -306,7 +302,6 @@ const Party = () => {
               attachments: [],
             }
           }
-          console.log(newMsg)
           sendNewChatMessage(newMsg)
           setLocalStreamChange((prev) => (prev += 1))
         }
@@ -472,7 +467,6 @@ const Party = () => {
 
   const leaveRoom = () => {
     leaveGroupCall({ roomId, userName, socketID }, () => {
-      console.log(finished)
       window.close()
     })
   }
@@ -850,7 +844,6 @@ const Party = () => {
           <textarea
             id="chat_input_box"
             type="text"
-            placeholder="Say"
             onChange={chatInputHandler}
             ref={chatInput}
           />

@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useComms } from '../contexts/comms'
 import { useChat } from '../contexts/chat'
+import { Context } from '../pages/_app'
 
 const TopicsMenu = (props) => {
   const { selectedTopic } = useComms()
-  const { on_toggle_panel } = props
+  const { on_toggle_panel,toggleMobileMenu } = props
+  const [value] = useContext(Context)
 
   const { selectedReplyOwner, setSelectedReplyOwner } = useChat()
 
@@ -28,6 +30,11 @@ const TopicsMenu = (props) => {
 
   return (
     <header>
+      {value.screenSize === "isMobile" ? (
+        <button id="topic_menu_back" onClick={toggleMobileMenu}></button>)
+        : null
+      }
+      
       <TopicTitle />
       <span>
         <button id="topic_menu_toggle" onClick={on_toggle_panel}>
