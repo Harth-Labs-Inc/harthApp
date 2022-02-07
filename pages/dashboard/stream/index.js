@@ -7,6 +7,7 @@ let ScreenSharePeer
 let groupStreams = {}
 let groupCaptStreams = {}
 let chatPannel = false
+let userInfo = {}
 
 const Stream = () => {
   //chat
@@ -27,6 +28,9 @@ const Stream = () => {
 
   const [localStream, setLocalStream] = useState()
   const [localStreamChange, setLocalStreamChange] = useState(0)
+
+  const [isSharingVideo, setIsSharingVideo] = useState(false)
+  const [isSharingCapture, setIsSharingCapture] = useState(false)
 
   const [captureStream, setCaptureStream] = useState()
   const [Peers, setPeers] = useState([])
@@ -144,9 +148,17 @@ const Stream = () => {
         delete groupStreams[data.peerId]
       })
       socket.on('screen-share-close', (data) => {
-        delete groupCaptStreams[data.id]
-
-        setGroupCaptureStreams(groupCaptStreams)
+        let streams = { ...groupCaptureStreams }
+        delete streams[data.id]
+        groupCaptStreams = streams
+        setGroupCaptureStreams(streams)
+        let remoteGroupCaptureVideo = groupCaptureVidRef
+        if (remoteGroupCaptureVideo) {
+          remoteGroupCaptureVideo = remoteGroupCaptureVideo.current
+          if (remoteGroupCaptureVideo) {
+            remoteGroupCaptureVideo.srcObject = null
+          }
+        }
       })
 
       // chat
@@ -158,6 +170,26 @@ const Stream = () => {
       })
       socket.on('chat-update', (chats) => {
         setChats(chats)
+      })
+      socket.on('userInfo-update', (info) => {
+        userInfo = info
+
+        let activeScreenShare = 0
+        let activeVideoStream = 0
+
+        Object.entries(info || {}).forEach(([usr, i]) => {
+          if (i.connected) {
+            if (i.screenShare) {
+              activeScreenShare += 1
+            }
+            if (i.video) {
+              activeVideoStream += 1
+            }
+          }
+        })
+
+        setIsSharingCapture(!!activeScreenShare)
+        setIsSharingVideo(!!activeVideoStream)
       })
       // vote
       socket.on('incoming-vote', (data) => {
@@ -245,6 +277,8 @@ const Stream = () => {
           if (!enabled === false) {
             newMsg = {
               value: `${userName} disconnected video`,
+              code: 6,
+              userName: userName,
               roomId: roomId,
               date: new Date(),
               creator_name: 'Admin',
@@ -255,6 +289,8 @@ const Stream = () => {
           } else {
             newMsg = {
               value: `${userName} enabled video`,
+              code: 5,
+              userName: userName,
               roomId: roomId,
               date: new Date(),
               creator_name: 'Admin',
@@ -285,6 +321,8 @@ const Stream = () => {
           if (!enabled === false) {
             newMsg = {
               value: `${userName} disconnected audio`,
+              code: 4,
+              userName: userName,
               roomId: roomId,
               date: new Date(),
               creator_name: 'Admin',
@@ -295,6 +333,8 @@ const Stream = () => {
           } else {
             newMsg = {
               value: `${userName} enabled audio`,
+              code: 3,
+              userName: userName,
               roomId: roomId,
               date: new Date(),
               creator_name: 'Admin',
@@ -397,7 +437,9 @@ const Stream = () => {
             track.onended = () => {
               let newMsg = {
                 value: `${userName} disconnected screen share`,
+                code: 2,
                 roomId: roomId,
+                userName: userName,
                 date: new Date(),
                 creator_name: 'Admin',
                 flames: [],
@@ -414,6 +456,8 @@ const Stream = () => {
         })
         let newMsg = {
           value: `${userName} enabled screen share`,
+          code: 1,
+          userName: userName,
           roomId: roomId,
           date: new Date(),
           creator_name: 'Admin',
@@ -428,9 +472,13 @@ const Stream = () => {
       }
     } catch (err) {}
   }
-
   const onScreenShareClose = () => {
     if (socket) {
+      const remoteGroupCaptureVideo = groupCaptureVidRef.current
+      try {
+        remoteGroupCaptureVideo.srcObject = null
+      } catch (error) {}
+
       socket.emit('screen-share-closed', { roomId, id: ScreenSharePeer.id })
     }
   }
@@ -621,8 +669,10 @@ const Stream = () => {
     let message = {
       ...newChatMsg,
       roomId: roomId,
+      code: 0,
       date: new Date(),
       creator_name: userName,
+      userName: userName,
       creator_image: userIcon,
       flames: [],
       reactions: [],
@@ -701,6 +751,9 @@ const Stream = () => {
       })
     })
   }
+
+  console.log(isSharingCapture, 'sharing capture')
+  console.log(isSharingVideo, 'sharing video')
 
   return (
     <main id="stream-window" ref={mainRef}>
