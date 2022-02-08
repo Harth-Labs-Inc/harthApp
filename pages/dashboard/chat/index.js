@@ -9,7 +9,7 @@ import { Context } from '../../../pages/_app'
 
 const Chat = (prop) => {
   const { topicChange } = useComms()
-  const [ value, dispatch ] = useContext(Context)
+  const [ value ] = useContext(Context)
   const [showEditPanel, setShowEditPanel] = useState(false)
   const [ chatVisible, setChatVisible] = useState(false)
 

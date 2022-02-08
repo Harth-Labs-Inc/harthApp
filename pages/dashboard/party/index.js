@@ -204,9 +204,16 @@ const Party = () => {
 
   useEffect(() => {
     if (localStream) {
-      localVidRef.current.srcObject = localStream
+      let refElement = localVidRef
+      if (refElement) {
+        try {
+          localVidRef.current.srcObject = localStream
+        } catch (error) {
+          console.log('whore')
+        }
+      }
     }
-  }, [localStream])
+  }, [localStream, localVidRef])
 
   useEffect(() => {
     if (localStream) {
@@ -267,7 +274,6 @@ const Party = () => {
     getLocalStream('video')
   }
   const stopVideoOnly = (stream) => {
-    console.log('stopvideo')
     try {
       stream.getTracks().forEach((track) => {
         if (track.readyState == 'live' && track.kind === 'video') {
@@ -777,8 +783,7 @@ const Party = () => {
     })
   }
 
-  console.log(isSharingCapture, 'sharing capture')
-  console.log(isSharingVideo, 'sharing video')
+  console.log(userInfo)
 
   return (
     <main id="stream-window" ref={mainRef}>
@@ -823,22 +828,11 @@ const Party = () => {
             voteCallHandler={voteCallHandler}
           />
         ) : null}
-        <section id="stream-window-grid">
-          <video
-            ref={localVidRef}
-            id="localVideo"
-            autoPlay
-            playsInline
-            muted={true}
-          />
-          <video
-            ref={groupCaptureVidRef}
-            id="screenShare"
-            autoPlay
-            playsInline
-            style={{ height: '400px', width: '400px', objectFit: 'contain' }}
-          />
-          <section id="stream-window-peer-container" className={gridSize}>
+        <section
+          id="stream-window-grid"
+          className={`streamVideo ${isSharingCapture ? 'streamActive' : ''}`}
+        >
+          <section id="stream-window-grid-peer-container" className={gridSize}>
             {myPeer &&
               (Peers || [])
                 .filter((peer) => peer.peerId !== myPeer._id)
@@ -861,7 +855,62 @@ const Party = () => {
                     </div>
                   )
                 })}
+            <video
+              ref={localVidRef}
+              id="localVideo"
+              autoPlay
+              playsInline
+              muted={true}
+              className={
+                userInfo[userName] && userInfo[userName].video ? 'active' : ''
+              }
+            />
+            <div
+              id={`peerBox-${userName}`}
+              className={`localPeer ${
+                isSharingCapture &&
+                userInfo[userName] &&
+                !userInfo[userName].video
+                  ? 'active'
+                  : ''
+              }`}
+            >
+              <img src={userIcon} alt={`${userName} profile pic`} />
+              <p>{userName}</p>
+            </div>
+            {/* {isSharingCapture ? (
+              isSharingVideo ? (
+                <video
+                  ref={localVidRef}
+                  id="localVideo"
+                  autoPlay
+                  playsInline
+                  muted={true}
+                  className={isSharingVideo ? "active" : ""}
+                />
+              ) : (
+                <div id={`peerBox-${userName}`} className={isSharingCapture && !isSharingVideo ? "active" : ""}>
+                  <img src={userIcon} alt={`${userName} profile pic`} />
+                  <p>{userName}</p>
+                </div>
+              )
+            ) : isSharingVideo ? (
+              <video
+                ref={localVidRef}
+                id="localVideo"
+                autoPlay
+                playsInline
+                muted={true}
+              />
+            ) : null} */}
           </section>
+          <video
+            ref={groupCaptureVidRef}
+            id="screenShare"
+            autoPlay
+            playsInline
+            className="streamVideo"
+          />
         </section>
         <DiceModal outsideDiceRoll={outsideDiceRoll} />
         <VoteModal outsideVoteCall={outsideVoteCall} userVote={userVote} />
