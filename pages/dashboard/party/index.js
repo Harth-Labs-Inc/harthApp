@@ -783,8 +783,6 @@ const Party = () => {
     })
   }
 
-  console.log(userInfo)
-
   return (
     <main id="stream-window" ref={mainRef}>
       <section id="stream-window-video-container">
@@ -839,21 +837,35 @@ const Party = () => {
                 .map((peer, idx) => {
                   if (groupCallStreams[peer.peerId]) {
                     return (
-                      <video
-                        key={idx}
-                        ref={(el) => (groupStreamsRef.current[idx] = el)}
-                        id={`remoteVideo-${idx}`}
-                        autoPlay
-                        playsInline
-                      />
+                      <div className="peerWrapper" key={idx}>
+                        <video
+                          ref={(el) => (groupStreamsRef.current[idx] = el)}
+                          id={`remoteVideo-${idx}`}
+                          autoPlay
+                          playsInline
+                          className={
+                            userInfo[peer.name] && userInfo[peer.name].video
+                              ? 'active'
+                              : null
+                          }
+                        />
+                        <div
+                          id={`peerBox-${peer.name}`}
+                          className={
+                            userInfo[peer.name] && !userInfo[peer.name].video
+                              ? 'active'
+                              : null
+                          }
+                        >
+                          <img
+                            src={peer.img}
+                            alt={`${peer.name} profile pic`}
+                          />
+                          <p>{peer.name}</p>
+                        </div>
+                      </div>
                     )
                   }
-                  return (
-                    <div key={idx} id={`peerBox-${peer.name}`}>
-                      <img src={peer.img} alt={`${peer.name} profile pic`} />
-                      <p>{peer.name}</p>
-                    </div>
-                  )
                 })}
             <video
               ref={localVidRef}
@@ -878,31 +890,6 @@ const Party = () => {
               <img src={userIcon} alt={`${userName} profile pic`} />
               <p>{userName}</p>
             </div>
-            {/* {isSharingCapture ? (
-              isSharingVideo ? (
-                <video
-                  ref={localVidRef}
-                  id="localVideo"
-                  autoPlay
-                  playsInline
-                  muted={true}
-                  className={isSharingVideo ? "active" : ""}
-                />
-              ) : (
-                <div id={`peerBox-${userName}`} className={isSharingCapture && !isSharingVideo ? "active" : ""}>
-                  <img src={userIcon} alt={`${userName} profile pic`} />
-                  <p>{userName}</p>
-                </div>
-              )
-            ) : isSharingVideo ? (
-              <video
-                ref={localVidRef}
-                id="localVideo"
-                autoPlay
-                playsInline
-                muted={true}
-              />
-            ) : null} */}
           </section>
           <video
             ref={groupCaptureVidRef}
