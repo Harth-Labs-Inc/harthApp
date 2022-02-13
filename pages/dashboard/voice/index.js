@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createSocketConnectionInstance } from '../../../services/connection'
 import { getObjectFromUrl } from '../../../services/helper'
+import ChatBox from '../../../components/RoomChatBox'
 
 const RoomComponent = (props) => {
   let socketInstance = useRef(null)
@@ -133,14 +134,21 @@ const RoomComponent = (props) => {
             {displayStream ? 'Stop Screen Share' : 'Share Screen'}
           </h4>
         </div> */}
-        {/* <div
+        <div
           onClick={() => chatHandle(!chatToggle)}
           className="chat-btn"
           title="Chat"
         >
           chat
-        </div> */}
+        </div>
       </div>
+      <ChatBox
+        chatToggle={chatToggle}
+        closeDrawer={() => chatHandle(false)}
+        socketInstance={socketInstance.current}
+        myDetails={userDetails}
+        messages={messages}
+      ></ChatBox>
     </>
   )
 }
