@@ -1,31 +1,31 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer } from 'react'
 
-import "../styles/Styles.modules.scss";
-import { AuthProvider, ProtectRoute } from "../contexts/auth";
-import Layout from "../components/layout";
-import useWindowSize from "../components/hooks/useWindowSize";
-import reducer from "../store/reducer";
+import '../styles/Styles.modules.scss'
+import { AuthProvider, ProtectRoute } from '../contexts/auth'
+import Layout from '../components/layout'
+import useWindowSize from '../components/hooks/useWindowSize'
+import reducer from '../store/reducer'
 
 const initialState = {
-  screenSize: "isDesktop",
-};
+  screenSize: 'isDesktop',
+}
 
-export const Context = createContext(initialState);
+export const Context = createContext(initialState)
 
 function MyApp({ Component, pageProps }) {
-  const size = useWindowSize();
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const size = useWindowSize()
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
+    let currentSize = state.screenSize
+    console.log('switching sizes', currentSize)
     if (size.width < 768) {
-      dispatch({type: "SET_MOBILE"})
+      if (currentSize !== 'isMobile') dispatch({ type: 'SET_MOBILE' })
     }
     if (size.width >= 768) {
-      dispatch({type: "SET_DESKTOP"})
+      if (currentSize !== 'isDesktop') dispatch({ type: 'SET_DESKTOP' })
     }
   }, [size])
-
- 
 
   // useEffect(() => {
   //   if ("serviceWorker" in navigator) {
@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }) {
         </ProtectRoute>
       </AuthProvider>
     </Context.Provider>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

@@ -81,25 +81,72 @@ class SocketConnection {
       this.newUserConnection(stream)
     }
   }
-  getVideoAudioStream = (video = true, audio = true) => {
+  getVideoAudioStream = async (video = true, audio = true) => {
+    let userAgent = navigator.userAgent
+    let browser
+    if (userAgent.match(/edg/i)) {
+      browser = 'edge'
+    } else if (userAgent.match(/firefox|fxios/i)) {
+      browser = 'firefox'
+    } else if (userAgent.match(/opr\//i)) {
+      browser = 'opera'
+    } else if (userAgent.match(/chrome|chromium|crios/i)) {
+      browser = 'chrome'
+    } else if (userAgent.match(/safari/i)) {
+      browser = 'safari'
+    } else {
+      browser = 'chrome'
+    }
+
     let quality = this.settings.params?.quality
     if (quality) quality = parseInt(quality)
 
-    const myNavigator =
-      navigator.mediaDevices.getUserMedia ||
-      navigator.mediaDevices.webkitGetUserMedia ||
-      navigator.mediaDevices.mozGetUserMedia ||
-      navigator.mediaDevices.msGetUserMedia
-    return myNavigator({
-      video: video
-        ? {
-            frameRate: quality ? quality : 12,
-            noiseSuppression: true,
-            width: { min: 200, ideal: 200, max: 200 },
-            height: { min: 200, ideal: 200, max: 200 },
-          }
-        : false,
-      audio: audio,
+    if (browser === 'chrome') {
+      const myNavigator =
+        navigator.mediaDevices.getUserMedia ||
+        navigator.mediaDevices.webkitGetUserMedia ||
+        navigator.mediaDevices.mozGetUserMedia ||
+        navigator.mediaDevices.msGetUserMedia
+      return myNavigator({
+        video: video
+          ? {
+              frameRate: quality ? quality : 12,
+              noiseSuppression: true,
+              width: { min: 200, ideal: 200, max: 200 },
+              height: { min: 200, ideal: 200, max: 200 },
+            }
+          : false,
+        audio: audio,
+      })
+    }
+
+    return new Promise((res) => {
+      console.log('not chrome')
+      const myNavigator =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia
+      console.log(myNavigator)
+      myNavigator(
+        {
+          video: video
+            ? {
+                frameRate: quality ? quality : 12,
+                noiseSuppression: true,
+              }
+            : false,
+          audio: audio,
+        },
+        (stream) => {
+          console.log(stream, 'it worked')
+          res(stream)
+        },
+        (err) => {
+          console.log(err, 'it didnt work')
+          res({})
+        },
+      )
     })
   }
   setPeersListeners = (stream) => {

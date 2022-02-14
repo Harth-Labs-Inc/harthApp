@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { getMessageDateOrTime } from '../services/helper'
 
 function ChatBox(props) {
-  console.log(props)
+  console.log(props, 'message box')
   const [chatText, setChatText] = useState('')
 
   const handleChatText = (event) => {
@@ -50,16 +50,16 @@ function ChatBox(props) {
               <div key={index} className="message-container">
                 <div
                   className={`message-wrapper ${
-                    !userData.userID ? 'message-wrapper-right' : ''
+                    userData && !userData.userID ? 'message-wrapper-right' : ''
                   }`}
                 >
                   <div className="message-title-wrapper">
                     <h5 className="message-name">{userData?.name}</h5>
                     <span className="message-timestamp">
-                      {getMessageDateOrTime(message.timestamp)}
+                      {getMessageDateOrTime(message?.timestamp)}
                     </span>
                   </div>
-                  <p className="actual-message">{message.message}</p>
+                  <p className="actual-message">{message?.message}</p>
                 </div>
               </div>
             )
