@@ -41,7 +41,9 @@ class SocketConnection {
       console.log('socket error --', err)
     })
     this.socket.on('new-broadcast-messsage', (data) => {
-      this.message.push(data)
+      console.log(this.message, 'messages in instance')
+      console.log('incoming message', data)
+      this.message = data
       this.settings.updateInstance('message', this.message)
     })
     this.socket.on('display-media', (data) => {
@@ -62,13 +64,18 @@ class SocketConnection {
         ...userDetails,
       }
       console.log('peers established and joined room', userData)
-      this.socket.emit('join-room', userData)
+      this.socket.emit('join-room', userData, this.setInitialMessages)
       await this.setNavigatorToStream()
     })
     this.myPeer.on('error', (err) => {
       console.log('peer connection error', err)
       this.myPeer.reconnect()
     })
+  }
+  setInitialMessages = (data) => {
+    console.log('should get initial messages', data)
+    this.message = data
+    this.settings.updateInstance('message', this.message)
   }
   setNavigatorToStream = async () => {
     const stream = await this.getVideoAudioStream()

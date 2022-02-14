@@ -37,7 +37,7 @@ const RoomComponent = (props) => {
   const updateFromInstance = (key, value) => {
     console.log('updated from instance', key, value)
     if (key === 'streaming') setStreaming(value)
-    if (key === 'message') setMessages([...value])
+    if (key === 'message') setMessages(value)
     if (key === 'displayStream') setDisplayStream(value)
   }
 
