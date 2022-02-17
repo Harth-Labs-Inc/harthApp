@@ -12,7 +12,7 @@ import Modal from './Modal'
 import Form from './Form-comp'
 import Input from './Common/Input'
 import TextArea from './Common/TextArea'
-import ToggleSwitch from './Common/Toggle'
+import ToggleSwitch from './Common/Toggle/Toggle'
 import { TextBtn } from './Common/Button'
 
 const TopicsNav = (props) => {
@@ -30,7 +30,7 @@ const TopicsNav = (props) => {
     title: false,
     description: false,
   })
-  const [ value, dispatch ] = useContext(Context)
+  const [value, dispatch] = useContext(Context)
 
   const { unreadMsgs, emitUpdate, incomingTopic } = useSocket()
   const { user } = useAuth()
@@ -176,18 +176,16 @@ const TopicsNav = (props) => {
         </Modal>
       )}
       <aside id="topicNav">
-        {value.screenSize === 'isMobile' ?
-          <span id='topicNavHeader'>
+        {value.screenSize === 'isMobile' ? (
+          <span id="topicNavHeader">
             <p>Topics</p>
             <p>user profile</p>
           </span>
-          :
-          null
-        }
+        ) : null}
         <ul id="left_nav_topics">
           {topicsArr &&
             topicsArr.map((topic) => {
-              console.log(topic);
+              console.log(topic)
               let classes = []
               if ((selectedTopic || {})._id == topic._id) {
                 classes.push('topic_active')

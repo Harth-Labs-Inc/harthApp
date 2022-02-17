@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import styles from '../../styles/config/Toggle.module.scss'
+import styles from './Toggle.module.scss'
 
 const ToggleSwitch = (props) => {
   const [toggle, setToggle] = useState(false)
@@ -21,16 +21,16 @@ const ToggleSwitch = (props) => {
   return (
     <div
       onClick={triggerToggle}
-      className={`${styles.toggle} ${toggle ? 'toggle--checked' : undefined}
+      className={`${styles.Toggle} ${toggle ? 'ToggleChecked' : undefined}
     `}
     >
-      <div className={styles.container}>
-        <div className="toggle_container_bg"></div>
-        <div className="toggle_container_circle">
+      <div className={styles.ToggleContainer}>
+        <div className={styles.ToggleContainerBackground}></div>
+        <div className={styles.ToggleContainerCircle}>
           <span></span>
         </div>
         <input
-          className="toggle_container_input"
+          className={styles.ToggleContainerInput}
           type="checkbox"
           aria-label="Toggle Button"
           defaultChecked={toggle}

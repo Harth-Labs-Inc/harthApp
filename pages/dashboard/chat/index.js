@@ -1,26 +1,28 @@
 import { useContext, useState, useEffect } from 'react'
+import { CSSTransition } from 'react-transition-group'
+
 import TopicsSideNav from '../../../components/TopicsSideNav'
 import TopicsMenu from '../../../components/TopicsMenu'
 import MessagesWrapper from '../../../components/messagesWrapper'
-import EditPanel from '../../../components/TopicEditPanel'
+import TopicEditPanel from '../../../components/Topics/TopicEditPanel/TopicEditPanel'
 import { useSocket } from '../../../contexts/socket'
 import { useComms } from '../../../contexts/comms'
 import { Context } from '../../../pages/_app'
 
 const Chat = (prop) => {
   const { topicChange } = useComms()
-  const [ value ] = useContext(Context)
+  const [value] = useContext(Context)
   const [showEditPanel, setShowEditPanel] = useState(false)
-  const [ chatVisible, setChatVisible] = useState(false)
+  const [chatVisible, setChatVisible] = useState(false)
 
   useEffect(() => {
     console.log('test', topicChange)
-    if(value.screenSize === "isMobile" && topicChange) {
-      setChatVisible(true);
-    }else {
+    if (value.screenSize === 'isMobile' && topicChange) {
+      setChatVisible(true)
+    } else {
       setChatVisible(false)
     }
-  },[topicChange])
+  }, [topicChange])
 
   const toggleEditPanel = () => {
     setShowEditPanel(!showEditPanel)
@@ -28,32 +30,44 @@ const Chat = (prop) => {
 
   const topicChatClasses = () => {
     const classes = []
-    if(showEditPanel){
+    if (showEditPanel) {
       classes.push('topic-edit-active')
     }
-    if(value.screenSize === "isMobile" && chatVisible) {
+    if (value.screenSize === 'isMobile' && chatVisible) {
       classes.push('chatVisible')
     }
     return classes.join(' ')
   }
 
   const toggleMobileMenu = () => {
-    setChatVisible(prevState => !prevState)
+    setChatVisible((prevState) => !prevState)
+  }
+
+  const TopicPanel = () => {
+    return showEditPanel ? (
+      <TopicEditPanel togglePanel={toggleEditPanel} />
+    ) : null
   }
 
   return (
     <>
       <TopicsSideNav />
-      <section
-        id="topic_active"
-        className={topicChatClasses()}
-      >
-        <TopicsMenu on_toggle_panel={toggleEditPanel} toggleMobileMenu={toggleMobileMenu} />
+      <section id="topic_active" className={topicChatClasses()}>
+        <TopicsMenu
+          on_toggle_panel={toggleEditPanel}
+          toggleMobileMenu={toggleMobileMenu}
+        />
         <div id="topic_messages_container">
           <MessagesWrapper />
         </div>
       </section>
-      {showEditPanel && <EditPanel />}
+      <CSSTransition
+        in={showEditPanel}
+        timeout={300}
+        classNames="slideFromRight"
+      >
+        <TopicPanel />
+      </CSSTransition>
     </>
   )
 }

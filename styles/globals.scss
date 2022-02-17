@@ -35,3 +35,17 @@ $gutter: 8px;
   height: 200px;
   width: 200px;
 }
+
+// transitions
+.slideFromRight-enter {
+  right: -375px;
+}
+.slideFromRight-enter-done {
+  right: 0px;
+}
+.slideFromRight-exit {
+  right: 0px;
+}
+.slideFromRight-exit-done {
+  right: -375px;
+}

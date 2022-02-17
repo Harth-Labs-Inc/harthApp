@@ -1,13 +1,13 @@
-@import '../globals.scss';
+@import '../../../styles/globals.scss';
 
-.toggle {
+.Toggle {
   height: 14px;
   width: 34px;
-  &.container {
+  &Container {
     position: relative;
     cursor: pointer;
 
-    &_bg {
+    &Background {
       height: 14px;
       width: 34px;
       margin: 0;
@@ -16,7 +16,7 @@
       transition: background-color 0.5s;
     }
 
-    &_circle {
+    &Circle {
       @include y-center;
       left: 0%;
       height: 20px;
@@ -52,19 +52,21 @@
       }
     }
 
-    &_input {
+    &Input {
       position: absolute;
       // top: 0;
       height: 100%;
       width: 100%;
       opacity: 0;
     }
+  }
 
-    .toggle--checked & {
-      &_bg {
+  &Checked {
+    .ToggleContainer {
+      &Background {
         background-color: $placeholder-black;
       }
-      &_circle {
+      &Circle {
         left: calc(100% - 20px);
         span {
           background-color: $black;
