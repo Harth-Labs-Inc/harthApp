@@ -64,7 +64,7 @@ const TopicsNav = (props) => {
       userIds.push(user._id)
       topic = {
         comm_id: selectedcomm._id,
-        members: [{ user_id: user._id, admin: true, muted: false }],
+        members: [{ user_id: user._id, admin: true, muted: false, ...user }],
         title: formData.title,
         description: formData.description,
         private: toggleData.private,
@@ -77,10 +77,10 @@ const TopicsNav = (props) => {
       topic = {
         comm_id: selectedcomm._id,
         members: [
-          { user_id: user._id, admin: true, muted: false },
+          { user_id: user._id, admin: true, muted: false, ...user },
           ...((selectedcomm || {}).users || []).map((usr) => {
             if (usr.userId !== user._id) {
-              return { user_id: usr.userId, admin: false, muted: false }
+              return { user_id: usr.userId, admin: false, muted: false, ...usr }
             }
           }),
         ],
@@ -185,7 +185,6 @@ const TopicsNav = (props) => {
         <ul id="left_nav_topics">
           {topicsArr &&
             topicsArr.map((topic) => {
-              console.log(topic)
               let classes = []
               if ((selectedTopic || {})._id == topic._id) {
                 classes.push('topic_active')
@@ -196,7 +195,14 @@ const TopicsNav = (props) => {
                   msg.creator_id !== user._id &&
                   (selectedTopic || {})._id !== msg.topic_id
                 ) {
-                  classes.push('topic_new_message')
+                  console.log('this is the topic', topic)
+                  let owner = topic?.members.find(
+                    (member) => member?.user_id === user._id,
+                  )
+                  console.log(owner)
+                  if (!owner || !owner.muted) {
+                    classes.push('topic_new_message')
+                  }
                 }
               })
 

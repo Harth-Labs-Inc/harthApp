@@ -3,6 +3,7 @@ import io from 'socket.io-client'
 import { useAuth } from './auth'
 import { useComms } from './comms'
 import { useChat } from './chat'
+import { getTopics } from '../requests/community'
 
 const SocketContext = createContext({})
 
@@ -17,7 +18,7 @@ export const SocketProvider = ({ children }) => {
   const [unreadMsgs, setUnreadMsgs] = useState([])
 
   const { user } = useAuth()
-  const { selectedTopic } = useComms()
+  const { selectedTopic, setTopics, setSelectedTopic } = useComms()
 
   useEffect(() => {
     if (user) {
@@ -47,7 +48,7 @@ export const SocketProvider = ({ children }) => {
         console.log(err)
       })
 
-      socket.on('new update', ({ updateType, ...incomingUpdate }) => {
+      socket.on('new update', async ({ updateType, ...incomingUpdate }) => {
         console.log(updateType, incomingUpdate)
         switch (updateType) {
           case 'new message':
@@ -63,7 +64,23 @@ export const SocketProvider = ({ children }) => {
             break
 
           case 'new topic':
-            setIncomingTopic(incomingUpdate)
+            let newTopicResult = await getTopics(
+              incomingUpdate?.comm_id,
+              user._id,
+            )
+            setTopics(newTopicResult.topics)
+            break
+
+          case 'topic deleted':
+            console.log(incomingUpdate)
+            let result = await getTopics(incomingUpdate?.comm?._id, user._id)
+            const { ok, topics } = result
+            let activeTopic = JSON.parse(localStorage.getItem('selected_topic'))
+            console.log(activeTopic, 'active topic')
+            if (activeTopic?._id === incomingUpdate?.topic?._id) {
+              setSelectedTopic(topics[0])
+            }
+            setTopics(topics)
             break
 
           case 'new room':
@@ -73,6 +90,7 @@ export const SocketProvider = ({ children }) => {
           case 'room update':
             setIncomingRoomUpdate(incomingUpdate)
             break
+
           default:
             break
         }

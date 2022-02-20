@@ -8,9 +8,7 @@ const ToggleSwitch = (props) => {
   const { onToggleChange, toggleName, isChecked } = props
 
   useEffect(() => {
-    if (isChecked) {
-      setToggle(true)
-    }
+    setToggle(isChecked)
   }, [isChecked])
 
   const triggerToggle = () => {
@@ -19,24 +17,27 @@ const ToggleSwitch = (props) => {
   }
 
   return (
-    <div
-      onClick={triggerToggle}
-      className={`${styles.Toggle} ${toggle ? 'ToggleChecked' : undefined}
-    `}
-    >
-      <div className={styles.ToggleContainer}>
-        <div className={styles.ToggleContainerBackground}></div>
-        <div className={styles.ToggleContainerCircle}>
-          <span></span>
+    <>
+      <p>{toggle ? 'muted' : 'unmutted'}</p>
+      <div
+        onClick={triggerToggle}
+        className={`${styles.Toggle} ${toggle ? 'ToggleChecked' : undefined}
+  `}
+      >
+        <div className={styles.ToggleContainer}>
+          <div className={styles.ToggleContainerBackground}></div>
+          <div className={styles.ToggleContainerCircle}>
+            <span></span>
+          </div>
+          <input
+            className={styles.ToggleContainerInput}
+            type="checkbox"
+            aria-label="Toggle Button"
+            defaultChecked={toggle}
+          />
         </div>
-        <input
-          className={styles.ToggleContainerInput}
-          type="checkbox"
-          aria-label="Toggle Button"
-          defaultChecked={toggle}
-        />
       </div>
-    </div>
+    </>
   )
 }
 

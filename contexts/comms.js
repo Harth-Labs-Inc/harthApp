@@ -1,20 +1,20 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
-import { getComms, getTopics } from '../requests/community'
+import { getComms, getTopics, updatedTopic } from '../requests/community'
 import { getRooms } from '../requests/rooms'
 import { useAuth } from './auth'
-import {Context} from '../pages/_app'
+import { Context } from '../pages/_app'
 
 const CommsContext = createContext({})
 
 export const CommsProvider = ({ children }) => {
-  const [ value, dispatch ] = useContext(Context)
+  const [value, dispatch] = useContext(Context)
 
   const [comms, setComms] = useState(null)
   const [selectedcomm, setSelectedcomm] = useState(null)
   const [topics, setTopics] = useState(null)
   const [rooms, setRooms] = useState({})
   const [selectedTopic, setSelectedTopic] = useState({})
-  const [topicChange,setTopicChange] = useState(0)
+  const [topicChange, setTopicChange] = useState(0)
 
   const { user } = useAuth()
   const { incomingTopic } = useAuth()
@@ -35,23 +35,23 @@ export const CommsProvider = ({ children }) => {
 
   useEffect(() => {
     if (selectedcomm && user) {
+      setTopicChange(0)
 
-        setTopicChange(0)
-      
       grabTopics(selectedcomm._id)
       grabRooms(selectedcomm._id)
     }
   }, [selectedcomm])
 
+  useEffect(() => {
+    localStorage.setItem('selected_topic', JSON.stringify(selectedTopic))
+  }, [selectedTopic])
+
   const grabTopics = async (comid) => {
-    
     let result = await getTopics(comid, user._id)
     const { ok, topics } = result
     if (ok) {
       setTopics(topics)
       setSelectedTopic(topics[0] || {})
- 
-   
     }
   }
   const grabRooms = async (comid) => {
@@ -70,11 +70,53 @@ export const CommsProvider = ({ children }) => {
     setSelectedcomm(comm)
   }
   const setTopic = async (topic) => {
-    setTopicChange(prevState => prevState +=1)
+    setTopicChange((prevState) => (prevState += 1))
     setSelectedTopic(topic)
   }
   const addNewTopic = (newTopic) => {
     setTopics([...topics, newTopic])
+  }
+  const topicChangeHandler = async ({ type, status, user }) => {
+    console.log('topic change called: ', { type, status })
+    let tmpTopics = [...topics]
+    let matchingTopicIndex = -1
+    let tmpSelectedTopic = { ...selectedTopic }
+    tmpTopics.forEach((topic, index) => {
+      if (topic._id === selectedTopic._id) {
+        matchingTopicIndex = index
+      }
+    })
+    if (matchingTopicIndex >= 0) {
+      switch (type) {
+        case 'mute':
+          tmpSelectedTopic?.members?.filter(Boolean).forEach((member) => {
+            if (member._id === user._id) {
+              member.muted = status
+            }
+          })
+          await updatedTopic({ type: 'replace', topic: tmpSelectedTopic })
+          tmpTopics[matchingTopicIndex] = tmpSelectedTopic
+          setTopics(tmpTopics)
+          break
+        case 'leave':
+          let newMembers = tmpSelectedTopic?.members.filter((member, index) => {
+            if (member && member._id !== user._id) {
+              return member
+            }
+            return false
+          })
+          console.log(newMembers)
+          tmpSelectedTopic.members = newMembers
+          await updatedTopic({ type: 'replace', topic: tmpSelectedTopic })
+          tmpTopics[matchingTopicIndex] = tmpSelectedTopic
+          setTopics(tmpTopics)
+          grabTopics(selectedcomm._id)
+          grabRooms(selectedcomm._id)
+          break
+        default:
+          break
+      }
+    }
   }
 
   return (
@@ -91,6 +133,9 @@ export const CommsProvider = ({ children }) => {
         addNewTopic,
         setTopic,
         selectedTopic,
+        topicChangeHandler,
+        setTopics,
+        setSelectedTopic,
       }}
     >
       {children}

@@ -1,5 +1,38 @@
 import api from '../services/api'
 
+export const deleteTopicByID = async (id) => {
+  try {
+    const res = await api.post(`/api/comm/deleteTopicByID`, {
+      id,
+    })
+    return res.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getTopicByID = async (id) => {
+  try {
+    const res = await api.post(`/api/comm/getTopicByID`, {
+      id,
+    })
+    return res.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const updatedTopic = async (data) => {
+  try {
+    const res = await api.post(`/api/comm/updatedTopic`, {
+      data,
+    })
+    return res.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const updateUserInfo = async (data) => {
   try {
     const res = await api.post(`/api/comm/updateUserInfo`, {

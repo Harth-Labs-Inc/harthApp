@@ -1,10 +1,13 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createSocketConnectionInstance } from '../../../services/connection'
+import { createSocketCaptureConnectionInstance } from '../../../services/CaptureConnection'
+
 import { getObjectFromUrl } from '../../../services/helper'
 import ChatBox from '../../../components/RoomChatBox'
 
 const RoomComponent = (props) => {
   let socketInstance = useRef(null)
+  let socketCaptureInstance = useRef(null)
   const [micStatus, setMicStatus] = useState(true)
   const [camStatus, setCamStatus] = useState(true)
   const [streaming, setStreaming] = useState(false)
@@ -18,6 +21,7 @@ const RoomComponent = (props) => {
     handleuserDetails(params)
     return () => {
       socketInstance.current?.destoryConnection()
+      socketCaptureInstance.current?.destoryConnection()
     }
   }, [])
 
@@ -32,6 +36,13 @@ const RoomComponent = (props) => {
       updateInstance: updateFromInstance,
       params,
       userDetails,
+      type: 'camera',
+    })
+    socketCaptureInstance.current = createSocketCaptureConnectionInstance({
+      updateInstance: updateFromInstance,
+      params,
+      userDetails,
+      type: 'screen',
     })
   }
   const updateFromInstance = (key, value) => {
@@ -42,6 +53,7 @@ const RoomComponent = (props) => {
   }
 
   const handleDisconnect = () => {
+    socketCaptureInstance.current?.destoryConnection()
     socketInstance.current?.destoryConnection()
     try {
       window.close()
@@ -80,8 +92,9 @@ const RoomComponent = (props) => {
     setChatToggle(bool)
   }
   const toggleScreenShare = () => {
-    const { reInitializeStream, toggleVideoTrack } = socketInstance.current
-    displayStream && toggleVideoTrack({ video: false, audio: true })
+    const { reInitializeStream, toggleVideoTrack } =
+      socketCaptureInstance.current
+    toggleVideoTrack({ video: true, audio: true })
     reInitializeStream(
       false,
       true,
@@ -100,7 +113,14 @@ const RoomComponent = (props) => {
           <p>loading...</p>
         </div>
       )}
-      <div id="room-container"></div>
+      <div
+        style={{ display: 'flex', flexWrap: 'wrap' }}
+        id="room-container"
+      ></div>
+      <div
+        style={{ display: 'flex', flexWrap: 'wrap' }}
+        id="capture-container"
+      ></div>
       <div className="footbar-wrapper">
         {streaming && (
           <div
@@ -129,11 +149,11 @@ const RoomComponent = (props) => {
         )}
       </div>
       <div>
-        {/* <div className="screen-share-btn" onClick={toggleScreenShare}>
+        <div className="screen-share-btn" onClick={toggleScreenShare}>
           <h4 className="screen-share-btn-text">
             {displayStream ? 'Stop Screen Share' : 'Share Screen'}
           </h4>
-        </div> */}
+        </div>
         <div
           onClick={() => chatHandle(!chatToggle)}
           className="chat-btn"

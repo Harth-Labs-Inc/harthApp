@@ -77,8 +77,8 @@ export default async (req, res) => {
     })
   }
 
-  const addMemberToTopics = (db, userId, ids) => {
-    console.log(userId, ids)
+  const addMemberToTopics = (db, user, ids) => {
+    console.log(user, ids, 'made itttttttttttt', user)
     return new Promise((resolve, reject) => {
       let mongo = require('mongodb')
       let objIds = []
@@ -88,7 +88,8 @@ export default async (req, res) => {
       })
 
       let memberObj = {
-        user_id: userId,
+        ...user,
+        user_id: user.userId,
         admin: false,
         muted: false,
       }
@@ -139,7 +140,7 @@ export default async (req, res) => {
   //////////
   let topicIds = topics.map((topic) => topic._id.toString())
   await addRoomsToUser(db, obj.prof.userId, topicIds)
-  await addMemberToTopics(db, obj.prof.userId, topicIds)
+  await addMemberToTopics(db, obj.prof, topicIds)
 
   return res.json({ ok: 1, msg: 'success' })
 }
