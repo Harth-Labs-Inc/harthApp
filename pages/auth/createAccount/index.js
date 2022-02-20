@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import Cookies from 'js-cookie'
 import { login, addUser } from '../../../requests/userApi'
-import Input from '../../../components/Common/Input'
+import { Button, Input } from '../../../components/Common'
 import Form from '../../../components/Form-comp'
-import { Button } from '../../../components/Common/Button'
 
 const CreateAccount = (props) => {
   const [submissionType, setSubmissionType] = useState()

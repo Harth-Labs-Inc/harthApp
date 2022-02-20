@@ -1,0 +1,59 @@
+@import '../../../styles/globals.scss';
+@import '../../../styles/config/config-type';
+
+.button {
+  position: relative;
+  padding: $gutter * 2;
+  color: $white;
+  font-size: 16px;
+  letter-spacing: 0.129px;
+  line-height: 21px;
+  background-color: $text-black;
+  border: 0;
+  border-radius: 24px;
+  outline: 0;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  + .button {
+    margin-top: 24px;
+  }
+
+  &:hover {
+    color: #f7f7f7;
+    background-color: #9a9a9a;
+  }
+  &:disabled {
+    color: #9a9a9a;
+    background-color: #eaeaea;
+    cursor: default;
+  }
+}
+
+.backButton {
+  position: absolute;
+  left: 0;
+  height: 32px;
+  width: 32px;
+
+  background-color: transparent;
+  border: 0;
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:before {
+    @include x-y-center;
+    @include font-icon($icon-caret-right);
+    transform: translate3d(-50%, -50%, 0) rotate(180deg);
+  }
+
+  &:hover {
+    background-color: $light-grey;
+  }
+}
+
+.buttonFullwidth {
+  width: 100%;
+}

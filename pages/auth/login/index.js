@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import Cookies from 'js-cookie'
 import { login } from '../../../requests/userApi'
 import Form from '../../../components/Form-comp'
-import Input from '../../../components/Common/Input'
-import { Button } from '../../../components/Common/Button'
+import { Button, Input } from '../../../components/Common'
 
 const Login = (props) => {
   const [errorMessage, setErrorMessage] = useState('')

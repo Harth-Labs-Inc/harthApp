@@ -1,4 +1,4 @@
-import { Button } from '../../../components/Common/Button'
+import { Button } from '../../../components/Common'
 
 const SubmitCom = (props) => {
   const { onCreate } = props

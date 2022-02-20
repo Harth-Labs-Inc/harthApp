@@ -9,7 +9,7 @@ import { useGatheringFormState } from './GatheringFormContext'
 import { convertToAmPm, combineDateTime } from '../../../../services/helper'
 import { useVideo } from '../../../../contexts/video'
 
-import { Button } from '../../../../components/Common/Button'
+import { Button } from '../../../../components/Common'
 
 function GatherForm(props) {
   const [isSchedule, setIsSchedule] = useState(false)

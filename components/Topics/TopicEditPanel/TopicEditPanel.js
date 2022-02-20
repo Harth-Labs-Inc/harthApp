@@ -6,7 +6,7 @@ import { useAuth } from '../../../contexts/auth'
 import { useSocket } from '../../../contexts/socket'
 
 import { CloseBtn } from '../../Common/Button'
-import ToggleSwitch from '../../Common/Toggle/Toggle'
+import { ToggleSwitch } from '../../Common'
 
 import TopicMemberList from './TopicMemberList'
 import TopicEditForm from './TopicEditForm'

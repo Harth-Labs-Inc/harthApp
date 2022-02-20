@@ -1,32 +1,9 @@
-import { createContext, useEffect, useReducer } from 'react'
-
 import '../styles/Styles.modules.scss'
 import { AuthProvider, ProtectRoute } from '../contexts/auth'
+import { ResponsiveProvider } from '../contexts/mobile'
 import Layout from '../components/layout'
-import useWindowSize from '../components/hooks/useWindowSize'
-import reducer from '../store/reducer'
-
-const initialState = {
-  screenSize: 'isDesktop',
-}
-
-export const Context = createContext(initialState)
 
 function MyApp({ Component, pageProps }) {
-  const size = useWindowSize()
-  const [state, dispatch] = useReducer(reducer, initialState)
-
-  useEffect(() => {
-    let currentSize = state.screenSize
-    console.log('switching sizes', currentSize)
-    if (size.width < 768) {
-      if (currentSize !== 'isMobile') dispatch({ type: 'SET_MOBILE' })
-    }
-    if (size.width >= 768) {
-      if (currentSize !== 'isDesktop') dispatch({ type: 'SET_DESKTOP' })
-    }
-  }, [size])
-
   // useEffect(() => {
   //   if ("serviceWorker" in navigator) {
   //     window.addEventListener("load", function () {
@@ -46,7 +23,7 @@ function MyApp({ Component, pageProps }) {
   //   // );
   // }, []);
   return (
-    <Context.Provider value={[state, dispatch]}>
+    <ResponsiveProvider>
       <AuthProvider>
         <ProtectRoute>
           <Layout>
@@ -54,7 +31,7 @@ function MyApp({ Component, pageProps }) {
           </Layout>
         </ProtectRoute>
       </AuthProvider>
-    </Context.Provider>
+    </ResponsiveProvider>
   )
 }
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import styles from './Toggle.module.scss'
 
-const ToggleSwitch = (props) => {
+export const ToggleSwitch = (props) => {
   const [toggle, setToggle] = useState(false)
 
   const { onToggleChange, toggleName, isChecked } = props
@@ -41,5 +41,3 @@ const ToggleSwitch = (props) => {
     </>
   )
 }
-
-export default ToggleSwitch

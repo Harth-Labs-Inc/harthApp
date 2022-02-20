@@ -2,13 +2,10 @@ import React, { createContext, useState, useContext, useEffect } from 'react'
 import { getComms, getTopics, updatedTopic } from '../requests/community'
 import { getRooms } from '../requests/rooms'
 import { useAuth } from './auth'
-import { Context } from '../pages/_app'
 
 const CommsContext = createContext({})
 
 export const CommsProvider = ({ children }) => {
-  const [value, dispatch] = useContext(Context)
-
   const [comms, setComms] = useState(null)
   const [selectedcomm, setSelectedcomm] = useState(null)
   const [topics, setTopics] = useState(null)

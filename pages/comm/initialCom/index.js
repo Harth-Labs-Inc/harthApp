@@ -1,4 +1,4 @@
-import { Button } from '../../../components/Common/Button'
+import { Button } from '../../../components/Common'
 
 const InitialCom = (props) => {
   const { pathname, changePage } = props

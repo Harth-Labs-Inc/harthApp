@@ -1,4 +1,4 @@
-const Input = (props) => {
+export const Input = (props) => {
   const {
     name,
     title,
@@ -13,6 +13,7 @@ const Input = (props) => {
     customError,
     changePage,
     currentPage,
+    placeholder,
   } = props
 
   const inputChangeHandler = (e) => {
@@ -71,6 +72,7 @@ const Input = (props) => {
           value={value}
           onChange={inputChangeHandler}
           autoComplete="off"
+          placeholder={placeholder}
           {...props}
         />
         <ErrorMessage />
@@ -78,5 +80,3 @@ const Input = (props) => {
     </>
   )
 }
-
-export default Input

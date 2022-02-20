@@ -4,15 +4,13 @@ import { useComms } from '../contexts/comms'
 import { useAuth } from '../contexts/auth'
 import { useChat } from '../contexts/chat'
 import { useSocket } from '../contexts/socket'
+import { MobileContext } from '../contexts/mobile'
 import { saveTopics } from '../requests/community'
 import { addRoomToUsers } from '../requests/rooms'
-import { Context } from '../pages/_app'
 
+import { Input, TextArea, ToggleSwitch } from './Common'
 import Modal from './Modal'
 import Form from './Form-comp'
-import Input from './Common/Input'
-import TextArea from './Common/TextArea'
-import ToggleSwitch from './Common/Toggle/Toggle'
 import { TextBtn } from './Common/Button'
 
 const TopicsNav = (props) => {
@@ -30,7 +28,7 @@ const TopicsNav = (props) => {
     title: false,
     description: false,
   })
-  const [value, dispatch] = useContext(Context)
+  const { isMobile } = useContext(MobileContext)
 
   const { unreadMsgs, emitUpdate, incomingTopic } = useSocket()
   const { user } = useAuth()
@@ -176,7 +174,7 @@ const TopicsNav = (props) => {
         </Modal>
       )}
       <aside id="topicNav">
-        {value.screenSize === 'isMobile' ? (
+        {isMobile ? (
           <span id="topicNavHeader">
             <p>Topics</p>
             <p>user profile</p>

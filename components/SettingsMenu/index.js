@@ -5,11 +5,11 @@ import InviteComp from './Invite'
 import AccountSettings from './Account'
 import Devices from './Devices'
 
-import { Context } from '../../pages/_app'
+import { MobileContext } from '../../contexts/mobile'
 
 const SettingsMenu = () => {
   const [currentTab, setCurrentTab] = useState('')
-  const [value, dispatch] = useContext(Context);
+  const { isMobile } = useContext(MobileContext)
 
   const toggleCurrentPage = (name) => {
     setCurrentTab(name)
@@ -23,7 +23,7 @@ const SettingsMenu = () => {
   const SettingsList = () => {
     return (
       <>
-        {value.screenSize === "isDesktop" ? <h1>H&auml;rth Settings</h1>: null }
+        {!isMobile ? <h1>H&auml;rth Settings</h1> : null}
         <ul id="leftMenuSettings">
           <li>
             <button onClick={() => toggleCurrentPage('invites')}>
@@ -35,26 +35,21 @@ const SettingsMenu = () => {
               Your Account
             </button>
           </li>
-          {value.screenSize === "isDesktop" ?
+          {!isMobile ? (
             <li>
               <button onClick={() => toggleCurrentPage('devices')}>
                 Devices
               </button>
             </li>
-            : 
-            null
-          }
+          ) : null}
           <li>
             <button onClick={() => signOut()}>Sign Out</button>
           </li>
-          {value.screenSize === "isDesktop" ?
+          {!isMobile ? (
             <li>
               <button onClick={() => window.close()}>Exit</button>
             </li>
-            : 
-            null
-          }
-          
+          ) : null}
         </ul>
       </>
     )

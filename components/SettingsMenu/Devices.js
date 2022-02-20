@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Button } from '../Common/Button'
+import { Button } from '../Common'
 import RadioButton from '../Common/Radio'
 
 const Devices = (props) => {

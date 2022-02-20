@@ -5,10 +5,10 @@ import {
   saveMessageReply,
   addReplyID,
 } from '../../requests/chat'
-import { Context } from '../../pages/_app'
 import { useComms } from '../../contexts/comms'
 import { useAuth } from '../../contexts/auth'
 import { useSocket } from '../../contexts/socket'
+import { MobileContext } from '../../contexts/mobile'
 import { getUploadURL, putImageInBucket } from '../../requests/s3'
 import { addKeyToDB } from '../../requests/chat'
 
@@ -22,7 +22,7 @@ const ChatInput = (props) => {
   const [emojiPickerState, setEmojiPicker] = useState(false)
   const [selectedEditMsg, setSelectedEditMsg] = useState({})
   const [altKey, setAltKey] = useState(false)
-  const [value] = useContext(Context)
+  const { isMobile } = useContext(MobileContext)
 
   const { user } = useAuth()
   const { selectedcomm, selectedTopic } = useComms()
@@ -364,7 +364,7 @@ const ChatInput = (props) => {
           e.preventDefault()
         }}
       ></textarea>
-      {value.screenSize !== 'isMobile' ? (
+      {isMobile ? (
         <div id={styles.ChatInputControls}>
           <div id={styles.ChatInputControlsLeft}>
             <button className={styles.AttachEmoji} onClick={triggerPicker}>

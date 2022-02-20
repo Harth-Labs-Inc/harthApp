@@ -3,7 +3,7 @@ import { useContext, useState, useRef } from 'react'
 import { useAuth } from '../contexts/auth'
 import { useComms } from '../contexts/comms'
 import { useSocket } from '../contexts/socket'
-import { Context } from '../pages/_app'
+import { MobileContext } from '../contexts/mobile'
 
 import Modal from './Modal'
 import SideModal from './Common/SideModal'
@@ -14,7 +14,7 @@ const SideNav = (props) => {
   const { toggleTavern, menuOpen, onToggleMenu } = props
   const [ShowCommBuilder, setShowCommBuilder] = useState(false)
   const [ShowSettingsNav, setShowSettingsNav] = useState(false)
-  const [value, dispatch] = useContext(Context);
+  const { isMobile } = useContext(MobileContext)
 
   const { comms, setComm, selectedcomm, setTopic } = useComms()
   const { unreadMsgs } = useSocket()
@@ -65,13 +65,19 @@ const SideNav = (props) => {
       <DisplayCommBuilder />
       <DisplaySettingsNav />
 
-      <aside id="left_nav" className={`${value.screenSize} ${menuOpen ? "active" : ""}`} ref={leftNav}>
+      <aside
+        id="left_nav"
+        className={`${isMobile ? 'isMobile' : 'isDesktop'} ${
+          menuOpen ? 'active' : ''
+        }`}
+        ref={leftNav}
+      >
         <ul
           id="left_nav_comms"
           // onMouseOver={expandMenu}
           // onMouseLeave={collapseMenu}
         >
-          {value.screenSize === "isMobile" ? <p className='left_nav_title'>Your H&auml;rths</p> : null}
+          {isMobile ? <p className="left_nav_title">Your H&auml;rths</p> : null}
           <li id="left_nav_comms_default" aria-label="nav-item">
             <button onClick={toggleDefaultComm}>
               <span className="comm-icon-wrapper">
@@ -121,20 +127,21 @@ const SideNav = (props) => {
               )
             })}
           <li id="left_nav_comms_new" aria-label="nav-item">
-            <button onClick={toggleCreateComm}><span className="comm-name">new h&auml;rth</span></button>
+            <button onClick={toggleCreateComm}>
+              <span className="comm-name">new h&auml;rth</span>
+            </button>
           </li>
         </ul>
 
-        {value.screenSize === "isMobile" ?
+        {isMobile ? (
           <SettingsMenu />
-          :
+        ) : (
           <button
             onClick={toggleSettingsNav}
             aria-label="Toggle Settings menu"
             id="settings_toggle"
           ></button>
-        }
-        
+        )}
       </aside>
     </>
   )

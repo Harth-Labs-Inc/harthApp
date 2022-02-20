@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react'
 import { useComms } from '../../contexts/comms'
 import { generateInvite, getInviteById } from '../../requests/community'
-import { Button } from '../Common/Button'
+
+import { Button } from '../Common'
 import Select from 'react-select'
 
 const InviteComp = (props) => {

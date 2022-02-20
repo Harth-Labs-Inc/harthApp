@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { updatePassword } from '../../../requests/userApi'
 import Form from '../../../components/Form-comp'
-import Input from '../../../components/Common/Input'
-import { Button } from '../../../components/Common/Button'
+import { Button, Input } from '../../../components/Common'
 
 const ChangePassword = (props) => {
   const [errorMessage, setErrorMessage] = useState()

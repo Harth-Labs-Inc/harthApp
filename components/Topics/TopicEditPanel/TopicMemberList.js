@@ -1,4 +1,4 @@
-import { BackButton } from '../../Common/Buttons/BackButton'
+import { BackButton } from '../../Common'
 
 import UserIcon from '../../userIcon'
 import styles from './TopicEditMenu.module.scss'

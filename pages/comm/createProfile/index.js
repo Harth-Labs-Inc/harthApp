@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
-import { Button, BackBtn } from '../../../components/Common/Button'
+
+import { Button, BackButton, Input } from '../../../components/Common'
 import { checkForFolder, checkForBadFile } from '../../../services/helper'
 import Form from '../../../components/Form-comp'
-import Input from '../../../components/Common/Input'
-import ToggleSwitch from '../../../components/Common/Toggle/Toggle'
+import ToggleSwitch from '../../../components/Common'
 
 const CreateProfile = (props) => {
   const [bday, setBday] = useState()
@@ -84,11 +84,11 @@ const CreateProfile = (props) => {
       errorData={errorData}
     >
       <h2>
-        <BackBtn
+        <BackButton
           onClick={() => {
             changePage('create')
           }}
-        ></BackBtn>
+        ></BackButton>
         <span>
           Set Your Profile for <br /> {commData.comName}
         </span>

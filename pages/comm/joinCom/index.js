@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Button, BackBtn } from '../../../components/Common/Button'
+
+import { Button, BackButton } from '../../../components/Common'
 import { getCommFromInvite } from '../../../requests/community'
 import ReactCodeInput from 'react-verification-code-input'
 
@@ -27,11 +28,11 @@ const JoinCom = (props) => {
   return (
     <div id="join-community">
       <h2>
-        <BackBtn
+        <BackButton
           onClick={() => {
             changePage('initial')
           }}
-        ></BackBtn>
+        ></BackButton>
         Join a h&auml;rth
       </h2>
       <p>

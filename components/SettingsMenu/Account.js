@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/auth'
-import Input from '../Common/Input'
-import { Button } from '../Common/Button'
+import { Button, Input } from '../Common'
 
 const AccountSettings = (props) => {
   const { toggleCurrentPage } = props

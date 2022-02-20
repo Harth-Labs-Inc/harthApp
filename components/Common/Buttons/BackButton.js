@@ -1,4 +1,4 @@
-import styles from './BackButton.module.scss'
+import styles from './Button.module.scss'
 
 export const BackButton = (props) => {
   const { textLabel } = props

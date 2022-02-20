@@ -1,4 +1,4 @@
-const TextArea = (props) => {
+export const TextArea = (props) => {
   const {
     name,
     title,
@@ -54,5 +54,3 @@ const TextArea = (props) => {
     </>
   )
 }
-
-export default TextArea

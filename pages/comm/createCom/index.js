@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
-import Input from '../../../components/Common/Input'
+
+import { Button, BackButton, Input } from '../../../components/Common'
 import Form from '../../../components/Form-comp'
-import { Button, BackBtn } from '../../../components/Common/Button'
 import { checkForFolder, checkForBadFile } from '../../../services/helper'
 
 const CreateCom = (props) => {
@@ -59,11 +59,11 @@ const CreateCom = (props) => {
       errorData={errorData}
     >
       <h2>
-        <BackBtn
+        <BackButton
           onClick={() => {
             changePage('initial')
           }}
-        ></BackBtn>
+        ></BackButton>
         Create a H&auml;rth
       </h2>
       <fieldset>

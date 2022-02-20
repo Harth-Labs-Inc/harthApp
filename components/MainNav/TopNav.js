@@ -1,9 +1,11 @@
 import { useState, useEffect, useContext } from 'react'
 import { useAuth } from '../../contexts/auth'
+import { MobileContext } from '../../contexts/mobile'
+
 import Modal from '../Modal'
 import HarthMenu from '../HarthMenu/index'
+
 import { useComms } from '../../contexts/comms'
-import { Context } from '../../pages/_app'
 
 const MainNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props
@@ -12,21 +14,21 @@ const MainNav = (props) => {
   const [communityId, setCommunityId] = useState()
   const [harthIcon, setHarthIcon] = useState()
   const [profileIcon, setProfileIcon] = useState()
-  const [value, dispatch] = useContext(Context);
+  const { isMobile } = useContext(MobileContext)
   const { user } = useAuth()
   const { comms, setComm, selectedcomm } = useComms()
 
   const handleHarthMenu = () => {
-    if(value.screenSize === "isDesktop") {
+    if (!isMobile) {
       setModal(!modal)
     }
-    if(value.screenSize === "isMobile") {
+    if (isMobile) {
       onToggleMenu()
     }
   }
 
   const showModal = () => {
-    setModal(!modal);
+    setModal(!modal)
   }
 
   useEffect(() => {
@@ -61,13 +63,13 @@ const MainNav = (props) => {
       ) : (
         ''
       )}
-      <header id="mainNav" className={value.screenSize}>
-        <button id="channel" onClick={handleHarthMenu} aria-label="Current Harth">
-          {value.screenSize === "isMobile" ?
-            <img src={harthIcon} />
-            :
-            null
-          }
+      <header id="mainNav" className={isMobile ? 'isMobile' : 'isDesktop'}>
+        <button
+          id="channel"
+          onClick={handleHarthMenu}
+          aria-label="Current Harth"
+        >
+          {isMobile ? <img src={harthIcon} /> : null}
           {communityName}
         </button>
         <div role="nav" className="top-buttons">
@@ -90,12 +92,11 @@ const MainNav = (props) => {
             className={currentPage == 'gather' ? 'active' : undefined}
             onClick={() => {
               // remove page change on mobile for now
-              if(value.screenSize === "isDesktop") {
+              if (!isMobile) {
                 changePage('gather')
               } else {
-                alert("mobile gatherings coming soon")
+                alert('mobile gatherings coming soon')
               }
-              
             }}
           >
             Gather
@@ -113,15 +114,15 @@ const MainNav = (props) => {
             Messages
           </button>
         </div>
-        {value.screenSize === "isDesktop" ? 
+        {!isMobile ? (
           <button
-          id="account-btn"
-          aria-label="My Account"
-          className={profileIcon ? 'hasImage' : undefined}
-        >
-          {profileIcon ? <img src={profileIcon} /> : ''}
-        </button> : null}
-        
+            id="account-btn"
+            aria-label="My Account"
+            className={profileIcon ? 'hasImage' : undefined}
+          >
+            {profileIcon ? <img src={profileIcon} /> : ''}
+          </button>
+        ) : null}
       </header>
     </>
   )

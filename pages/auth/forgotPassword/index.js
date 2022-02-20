@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { reset } from '../../../requests/userApi'
-import Input from '../../../components/Common/Input'
+import { Button, Input } from '../../../components/Common'
 import Form from '../../../components/Form-comp'
-import { Button } from '../../../components/Common/Button'
 
 const ResetPwd = (props) => {
   const [errorMessage, setErrorMessage] = useState()

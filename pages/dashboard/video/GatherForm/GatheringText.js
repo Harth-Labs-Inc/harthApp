@@ -1,7 +1,6 @@
 import { useGatheringFormState } from './GatheringFormContext'
 
-import Input from '../../../../components/Common/Input'
-import TextArea from '../../../../components/Common/TextArea'
+import { Input, TextArea } from '../../../../components/Common'
 
 export function GatheringText(props) {
   const { validate } = props

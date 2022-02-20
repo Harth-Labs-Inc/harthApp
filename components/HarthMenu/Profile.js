@@ -5,8 +5,7 @@ import { useComms } from '../../contexts/comms'
 import { useAuth } from '../../contexts/auth'
 
 import Form from '../Form-comp'
-import Input from '../Common/Input'
-import ToggleSwitch from '../Common/Toggle'
+import { Input, ToggleSwitch } from '../Common'
 
 const Profile = () => {
   const [bday, setBday] = useState()
