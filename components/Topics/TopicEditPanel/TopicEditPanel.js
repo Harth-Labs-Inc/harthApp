@@ -183,9 +183,7 @@ export default function TopicEditPanel(props) {
         ...selectedTopic,
         ['members']: [...selectedTopic.members, tempMember],
       }
-      console.log(tempMember)
-      console.log(selectedTopic)
-      console.log(tempTopic)
+
       await updatedTopic({ type: 'replace', topic: tempTopic })
       let msg = {}
       msg.updateType = 'topic edited'
@@ -269,7 +267,7 @@ export default function TopicEditPanel(props) {
         <ul className={styles.topicSettingsControls}>
           <li>
             <button
-              className={styles.topicSettingsButton}
+              className={`${styles.topicSettingsButton} ${styles.topicSettingsButtonArrow}`}
               onClick={toggleMembersList}
             >
               Members
@@ -279,7 +277,7 @@ export default function TopicEditPanel(props) {
             <>
               <li>
                 <button
-                  className={styles.topicSettingsButton}
+                  className={`${styles.topicSettingsButton} ${styles.topicSettingsButtonArrow}`}
                   onClick={toggleAddList}
                 >
                   Add People
@@ -287,7 +285,7 @@ export default function TopicEditPanel(props) {
               </li>
               <li>
                 <button
-                  className={styles.topicSettingsButton}
+                  className={`${styles.topicSettingsButton} ${styles.topicSettingsButtonEdit}`}
                   onClick={toggleEditForm}
                 >
                   Edit

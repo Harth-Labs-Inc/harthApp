@@ -1,6 +1,6 @@
 import { BackButton } from '../../Common'
 
-import UserIcon from '../../userIcon'
+import UserIcon from '../../UserIcon/userIcon'
 import styles from './TopicEditMenu.module.scss'
 
 const TopicMemberList = (props) => {
@@ -12,9 +12,9 @@ const TopicMemberList = (props) => {
         <BackButton onClick={closeMemberList} textLabel="back to topic menu" />
         <span>Members</span>
       </div>
-      <ul>
+      <ul className={styles.topicMembersList}>
         {memberList.filter(Boolean).map((member, index) => (
-          <li key={member?.name}>
+          <li key={member?.name} className={styles.topicMembersListItem}>
             <UserIcon
               id={member?.user_id}
               img={member?.iconKey}

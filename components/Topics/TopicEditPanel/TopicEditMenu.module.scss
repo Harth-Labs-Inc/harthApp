@@ -1,3 +1,6 @@
+@import '../../../styles/globals.scss';
+@import '../../../styles/config/config-type';
+
 .topicSettings {
   position: absolute;
   top: 0;
@@ -52,6 +55,7 @@
   }
 
   &Button {
+    position: relative;
     width: 100%;
     padding: 18px 8px;
     font-size: 14px;
@@ -60,8 +64,24 @@
     border: 0;
     cursor: pointer;
 
+    &:after {
+      @include y-center;
+      right: 8px;
+    }
+
     &:hover {
       background-color: #efefef;
+    }
+
+    &Arrow {
+      &:after {
+        @include font-icon($icon-caret-right);
+      }
+    }
+    &Edit {
+      &:after {
+        @include font-icon($icon-edit);
+      }
     }
   }
 }
@@ -111,5 +131,23 @@
     font-weight: 500;
     text-align: center;
     border-bottom: 1px solid #eaeaea;
+  }
+
+  &List {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &Item {
+      width: 100%;
+      padding: 8px 24px;
+      border-radius: 50%;
+      overflow: hidden;
+
+      img,
+      span {
+        object-fit: cover;
+      }
+    }
   }
 }

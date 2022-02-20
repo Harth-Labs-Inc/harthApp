@@ -1,0 +1,32 @@
+@import '../../styles/globals.scss';
+@import '../../styles/config/config-type';
+
+.userIcon {
+  width: 100%;
+  background-color: transparent;
+  border: 0;
+
+  &Wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &Image {
+    position: relative;
+    margin-right: 8px;
+    height: 48px;
+    width: 48px;
+    font-size: 48px;
+    line-height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    &:before {
+      @include font-icon($icon-user);
+      @include x-y-center;
+      z-index: 2;
+
+      color: $black50;
+    }
+  }
+}
