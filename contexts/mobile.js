@@ -4,7 +4,7 @@ export const SizeContext = createContext({})
 export const MobileContext = createContext(false)
 
 export const ResponsiveProvider = (props) => {
-  const [width, setWidth] = useState(0)
+  const [width, setWidth] = useState(window.innerWidth)
   useLayoutEffect(() => {
     const onResize = () => setWidth(window.innerWidth)
     window.addEventListener('resize', onResize)
@@ -15,6 +15,7 @@ export const ResponsiveProvider = (props) => {
   const sizeContext = useMemo(() => ({ width }), [width])
   const mobileContext = useMemo(() => ({ isMobile }), [isMobile])
 
+  console.log(width)
   console.log(mobileContext)
 
   return (
