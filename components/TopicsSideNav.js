@@ -115,7 +115,7 @@ const TopicsNav = (props) => {
   const setMissing = (missing) => {
     setErrorData(missing)
   }
-
+  console.log('topicsaaaaaaarrrray', topicsArr)
   return (
     <>
       {openTopicBuilder && (
@@ -184,7 +184,7 @@ const TopicsNav = (props) => {
           {topicsArr &&
             topicsArr.map((topic) => {
               let classes = []
-              if ((selectedTopic || {})._id == topic._id) {
+              if ((selectedTopic || {})._id == (topic || {})._id) {
                 classes.push('topic_active')
               }
               unreadMsgs.forEach((msg) => {
@@ -214,9 +214,9 @@ const TopicsNav = (props) => {
                     onClick={() => {
                       changeSelectedTopic(topic)
                     }}
-                    aria-label={topic.title}
+                    aria-label={topic?.title}
                   >
-                    {topic.title}
+                    {topic?.title}
                   </button>
                 </li>
               )

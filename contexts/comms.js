@@ -85,15 +85,25 @@ export const CommsProvider = ({ children }) => {
     })
     if (matchingTopicIndex >= 0) {
       switch (type) {
+        // case 'edit':
+        //   console.log('made it to edit', user)
+        //   tmpTopics[matchingTopicIndex] = user
+
+        //   setTopics(tmpTopics)
+        //   await updatedTopic({ type: 'replace', topic: user })
+
+        //   break
         case 'mute':
           tmpSelectedTopic?.members?.filter(Boolean).forEach((member) => {
             if (member._id === user._id) {
               member.muted = status
             }
           })
-          await updatedTopic({ type: 'replace', topic: tmpSelectedTopic })
           tmpTopics[matchingTopicIndex] = tmpSelectedTopic
+
           setTopics(tmpTopics)
+          await updatedTopic({ type: 'replace', topic: tmpSelectedTopic })
+
           break
         case 'leave':
           let newMembers = tmpSelectedTopic?.members.filter((member, index) => {
@@ -104,11 +114,12 @@ export const CommsProvider = ({ children }) => {
           })
           console.log(newMembers)
           tmpSelectedTopic.members = newMembers
-          await updatedTopic({ type: 'replace', topic: tmpSelectedTopic })
           tmpTopics[matchingTopicIndex] = tmpSelectedTopic
           setTopics(tmpTopics)
           grabTopics(selectedcomm._id)
           grabRooms(selectedcomm._id)
+          await updatedTopic({ type: 'replace', topic: tmpSelectedTopic })
+
           break
         default:
           break

@@ -1,8 +1,8 @@
-const UserIcon = ({ id, img, name, clickHandler }) => {
+const UserIcon = ({ id, img, name, clickHandler, data }) => {
   return (
     <button
       onClick={() => {
-        clickHandler(id)
+        clickHandler(data)
       }}
       aria-label={name}
       className={img ? 'hasImage' : undefined}

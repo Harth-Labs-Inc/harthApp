@@ -50,6 +50,7 @@ export const SocketProvider = ({ children }) => {
 
       socket.on('new update', async ({ updateType, ...incomingUpdate }) => {
         console.log(updateType, incomingUpdate)
+        let activeTopic = JSON.parse(localStorage.getItem('selected_topic'))
         switch (updateType) {
           case 'new message':
             setIncomingMsg(incomingUpdate)
@@ -73,14 +74,37 @@ export const SocketProvider = ({ children }) => {
 
           case 'topic deleted':
             console.log(incomingUpdate)
-            let result = await getTopics(incomingUpdate?.comm?._id, user._id)
-            const { ok, topics } = result
-            let activeTopic = JSON.parse(localStorage.getItem('selected_topic'))
-            console.log(activeTopic, 'active topic')
-            if (activeTopic?._id === incomingUpdate?.topic?._id) {
-              setSelectedTopic(topics[0])
-            }
-            setTopics(topics)
+            let deleteResult = getTopics(incomingUpdate?.comm?._id, user._id)
+            deleteResult.then(({ topics }) => {
+              console.log(topics, 'iiiiiiiiii')
+              if (topics) {
+                console.log(
+                  'deeeeeeeeeeeeeeeeeeeeellllllllllleeeeeeeeeeeeeeeeeeetttttttte',
+                  deleteResult,
+                )
+
+                console.log(activeTopic, 'active topic')
+                if (activeTopic?._id === incomingUpdate?.topic?._id) {
+                  setSelectedTopic(topics[0])
+                }
+                setTopics(topics)
+              }
+            })
+
+            break
+          case 'topic edited':
+            let editResult = await getTopics(
+              incomingUpdate?.comm?._id,
+              user._id,
+            )
+
+            editResult?.topics?.filter(Boolean).forEach((topic) => {
+              if (topic?._id === activeTopic?._id) {
+                setSelectedTopic(topic)
+              }
+            })
+            console.log(editResult, activeTopic)
+            setTopics(editResult.topics)
             break
 
           case 'new room':

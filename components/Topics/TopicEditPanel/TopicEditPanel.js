@@ -9,10 +9,17 @@ import { CloseBtn } from '../../Common/Button'
 import { ToggleSwitch } from '../../Common'
 
 import TopicMemberList from './TopicMemberList'
+import TopicAddList from './TopicMemberList'
+
 import TopicEditForm from './TopicEditForm'
 import styles from './TopicEditMenu.module.scss'
 
-import { getTopicByID, deleteTopicByID } from '../../../requests/community'
+import {
+  getTopicByID,
+  deleteTopicByID,
+  updatedTopic,
+  getTopics,
+} from '../../../requests/community'
 
 export default function TopicEditPanel(props) {
   const { togglePanel } = props
@@ -25,7 +32,10 @@ export default function TopicEditPanel(props) {
   const [showLeaveModal, setShowLeaveModal] = useState(false)
   const [showEditForm, setShowEditForm] = useState(false)
   const [showMembersList, setShowMembersList] = useState(false)
+  const [showAddList, setShowAddList] = useState(false)
+
   const [currentMembers, setCurrentMembers] = useState([])
+  const [currentAddMembers, setCurrentAddMembers] = useState([])
 
   const TopicState = () => {
     if (selectedTopic.private === true) {
@@ -47,14 +57,14 @@ export default function TopicEditPanel(props) {
   }, [selectedTopic])
 
   const toggleHandler = (toggle, status) => {
-    setUserInfo({
-      ...userInfo,
-      muted: status,
-    })
     topicChangeHandler({
       type: 'mute',
       status,
       user: userInfo,
+    })
+    setUserInfo({
+      ...userInfo,
+      muted: status,
     })
   }
 
@@ -63,14 +73,6 @@ export default function TopicEditPanel(props) {
   }
   const toggleEditForm = () => {
     setShowEditForm((prevState) => !prevState)
-  }
-
-  const leaveTopicHandler = () => {
-    topicChangeHandler({
-      type: 'leave',
-      status: false,
-      user: userInfo,
-    })
   }
 
   const toggleMembersList = async () => {
@@ -83,7 +85,15 @@ export default function TopicEditPanel(props) {
     }
     setShowMembersList((prevState) => !prevState)
   }
-
+  const MemberListPanel = () => {
+    return showMembersList ? (
+      <TopicMemberList
+        memberList={currentMembers}
+        closeMemberList={toggleMembersList}
+        clickHandler={() => {}}
+      />
+    ) : null
+  }
   const toggleDeleteModal = async () => {
     await deleteTopicByID(selectedTopic._id)
     let msg = {}
@@ -97,19 +107,97 @@ export default function TopicEditPanel(props) {
       console.log(status)
     })
   }
-
+  const leaveTopicHandler = () => {
+    topicChangeHandler({
+      type: 'leave',
+      status: false,
+      user: userInfo,
+    })
+  }
+  const editSubmitHandler = async (newTopicDetails) => {
+    let tempTopic = {
+      ...selectedTopic,
+      ['title']: newTopicDetails['title'],
+      ['description']: newTopicDetails['description'],
+    }
+    await updatedTopic({ type: 'replace', topic: tempTopic })
+    let msg = {}
+    msg.updateType = 'topic edited'
+    msg.comm = selectedcomm
+    msg.topic = tempTopic
+    emitUpdate(selectedcomm._id, msg, async (err, status) => {
+      if (err) {
+        console.log(err)
+      }
+      console.log(status)
+    })
+  }
   const TopicEditPanel = () => {
     return showEditForm ? (
-      <TopicEditForm closeEditForm={toggleEditForm} />
-    ) : null
-  }
-  const MemberListPanel = () => {
-    return showMembersList ? (
-      <TopicMemberList
-        memberList={currentMembers}
-        closeMemberList={toggleMembersList}
+      <TopicEditForm
+        closeEditForm={toggleEditForm}
+        editSubmitHandler={editSubmitHandler}
       />
     ) : null
+  }
+
+  const toggleAddList = async () => {
+    let current = !showAddList
+    if (current) {
+      let result = await getTopics(selectedcomm._id, user._id)
+      const { ok, topics } = result
+      if (ok) {
+        let members = {}
+        topics.forEach((topic) => {
+          if (topic && topic.members) {
+            topic?.members
+              ?.filter(Boolean)
+              .forEach((member) => (members[member?.name] = member))
+          }
+        })
+        setCurrentAddMembers(Object.values(members))
+      }
+    }
+    setShowAddList((prevState) => !prevState)
+  }
+
+  const AddListPanel = () => {
+    return showAddList ? (
+      <TopicMemberList
+        memberList={currentAddMembers}
+        closeMemberList={toggleAddList}
+        clickHandler={addUserToTopic}
+      />
+    ) : null
+  }
+
+  const addUserToTopic = async ({ member, index }) => {
+    let tempMember = {
+      ...member,
+      admin: false,
+      muted: false,
+    }
+    let match = selectedTopic.members.find((m) => m.name === member.name)
+    if (!match) {
+      let tempTopic = {
+        ...selectedTopic,
+        ['members']: [...selectedTopic.members, tempMember],
+      }
+      console.log(tempMember)
+      console.log(selectedTopic)
+      console.log(tempTopic)
+      await updatedTopic({ type: 'replace', topic: tempTopic })
+      let msg = {}
+      msg.updateType = 'topic edited'
+      msg.comm = selectedcomm
+      msg.topic = tempTopic
+      emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        if (err) {
+          console.log(err)
+        }
+        console.log(status)
+      })
+    }
   }
 
   return (
@@ -127,6 +215,13 @@ export default function TopicEditPanel(props) {
         classNames="memberListAnimation"
       >
         <MemberListPanel />
+      </CSSTransition>
+      <CSSTransition
+        in={showAddList}
+        timeout={0}
+        classNames="memberListAnimation"
+      >
+        <AddListPanel />
       </CSSTransition>
       {showLeaveModal ? (
         <div
@@ -183,7 +278,10 @@ export default function TopicEditPanel(props) {
           {userInfo.admin ? (
             <>
               <li>
-                <button className={styles.topicSettingsButton}>
+                <button
+                  className={styles.topicSettingsButton}
+                  onClick={toggleAddList}
+                >
                   Add People
                 </button>
               </li>
