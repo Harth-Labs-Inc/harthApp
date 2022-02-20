@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { Picker } from 'emoji-mart'
+import 'emoji-mart/css/emoji-mart.css'
+
 import { getDownloadURL } from '../../requests/s3'
 import { deleteMessage, updateMessage, updateReply } from '../../requests/chat'
 import { getURLMetaData } from '../../requests/urls'
@@ -6,13 +9,13 @@ import { useAuth } from '../../contexts/auth'
 import { useSocket } from '../../contexts/socket'
 import { useChat } from '../../contexts/chat'
 import { useComms } from '../../contexts/comms'
-import Modal from '../Modal'
-import { Picker } from 'emoji-mart'
-import 'emoji-mart/css/emoji-mart.css'
-import { TextBtn } from './Button'
 
-const Message = (props) => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
+import Modal from '../Modal'
+import { TextBtn } from '../Common/Button'
+
+import styles from './ChatSingleMessage.module.scss'
+
+const ChatSingleMessage = (props) => {
   const [emojiPickerState, setEmojiPicker] = useState(false)
   const [urls, setUrls] = useState([])
   const [showEditBar, setShowEditBar] = useState('')
@@ -69,9 +72,6 @@ const Message = (props) => {
       setShowEditBar('')
     }
   }
-  const toggleDeleteModal = () => {
-    setShowDeleteModal(!showDeleteModal)
-  }
   const deleteMsg = async () => {
     const data = await deleteMessage(_id)
     let msg = props.msg
@@ -86,7 +86,6 @@ const Message = (props) => {
         console.log('message sent')
       }
     })
-    toggleDeleteModal()
   }
   const updateMsg = async () => {
     let msg = props.msg
@@ -183,37 +182,21 @@ const Message = (props) => {
     }
     return null
   }
-  const DeleteModal = () => {
-    if (showDeleteModal) {
-      return (
-        <Modal>
-          <h4>You are about to DELETE this post</h4>
-          <br />
-          <p>this content will be permanetly deleted. This cannot be undone</p>
-          <div>
-            <TextBtn onClick={deleteMsg} text="DELETE" />
-            <TextBtn onClick={toggleDeleteModal} text="CANCEl" />
-          </div>
-        </Modal>
-      )
-    }
-    return null
-  }
   const CreatorImage = () => {
     if (creator_image) {
       return <img src={creator_image} alt={creator_name} loading="lazy" />
     }
-    return <span className="message_no_image"></span>
+    return <span className={styles.SingleMessageAvatar}></span>
   }
   const EditBar = () => {
     if (showEditBar && showEditBar == _id) {
       if (creator_id == user._id) {
         return (
-          <div className="message-edit-bar">
+          <div className={styles.SingleMessageControls}>
             <button
               value="flame"
               title="flame"
-              className="flame"
+              className={styles.SingleMessageControlsFlame}
               onClick={addFlame}
             >
               flame
@@ -221,7 +204,7 @@ const Message = (props) => {
             <button
               value="reaction"
               title="reaction"
-              className="react"
+              className={styles.SingleMessageControlsReaction}
               onClick={triggerPicker}
             >
               react
@@ -229,7 +212,7 @@ const Message = (props) => {
             <button
               value="reply"
               title="reply"
-              className="reply"
+              className={styles.SingleMessageControlsReply}
               onClick={addReplyOwner}
             >
               reply
@@ -238,15 +221,15 @@ const Message = (props) => {
               value="edit"
               onClick={editBarSelection}
               title="edit"
-              className="edit"
+              className={styles.SingleMessageControlsEdit}
             >
               edit
             </button>
             <button
               value="delete"
-              onClick={toggleDeleteModal}
+              onClick={deleteMsg}
               title="delete"
-              className="delete"
+              className={styles.SingleMessageControlsDelete}
             >
               delete
             </button>
@@ -254,11 +237,11 @@ const Message = (props) => {
         )
       } else {
         return (
-          <div className="message-edit-bar">
+          <div className={styles.SingleMessageControls}>
             <button
               value="flame"
               title="flame"
-              className="flame"
+              className={styles.SingleMessageControlsFlame}
               onClick={addFlame}
             >
               flame
@@ -266,7 +249,7 @@ const Message = (props) => {
             <button
               value="reaction"
               title="reaction"
-              className="react"
+              className={styles.SingleMessageControlsReaction}
               onClick={triggerPicker}
             >
               react
@@ -274,7 +257,7 @@ const Message = (props) => {
             <button
               value="reply"
               title="reply"
-              className="reply"
+              className={styles.SingleMessageControlsReply}
               onClick={addReplyOwner}
             >
               reply
@@ -315,12 +298,12 @@ const Message = (props) => {
       if (urlRegex.test(innerHtml)) {
         let { rawURL, alteredURL } = wrapLink(innerHtml, urlRegex)
 
-        innerHtml = `<p class="message-text">${alteredURL}</p>`
+        innerHtml = `<span>${alteredURL}</span>`
 
         let html = await getURLMetaData(rawURL)
 
         const { data } = html
-        console.log(data)
+
         if (data.ok) {
           innerHtml += `<article class="og-card">
                         ${
@@ -348,7 +331,7 @@ const Message = (props) => {
         messageBody.innerHTML = innerHtml
       } else {
         if (innerHtml !== undefined) {
-          messageBody.innerHTML = `<p class="message-text">${innerHtml}</p>`
+          messageBody.innerHTML = `<span>${innerHtml}</span>`
         }
       }
     }
@@ -357,21 +340,20 @@ const Message = (props) => {
   let timeStamp = getTimeStamp()
   return (
     <div
-      className="message"
+      className={styles.SingleMessage}
       onMouseEnter={() => toggleEdit(true)}
       onMouseLeave={() => {
         toggleEdit(false)
         setEmojiPicker(false)
       }}
     >
-      <DeleteModal />
       <CreatorImage />
       <EmojiPicker />
       <EditBar />
-      <div className="message-body">
-        <span>
-          <p className="message_creator">{creator_name}</p>
-          <p className="message_timestamp">{timeStamp}</p>
+      <div className={styles.SingleMessageBody}>
+        <span className={styles.SingleMessageBodyInfo}>
+          <p className={styles.SingleMessageBodyInfoCreator}>{creator_name}</p>
+          <p className={styles.SingleMessageBodyInfoTimestamp}>{timeStamp}</p>
         </span>
         {(urls || []).map((url) => (
           <img src={url} key={url} />
@@ -379,23 +361,25 @@ const Message = (props) => {
 
         <div
           id={`message-content${messageID}`}
-          className="message-content"
+          className={styles.SingleMessageBodyContent}
         ></div>
-        <div className="message_reaction_wrapper">
+        <div className={styles.SingleMessageBodyReactions}>
           {[...(replies || [])].length > 0 ? (
-            <p className="message_reply_count">{replies.length}</p>
+            <p className={styles.SingleMessageBodyReactionsReplyCount}>
+              {replies.length}
+            </p>
           ) : null}
-          <div className="message_flame_wrapper">
+          <div className={styles.SingleMessageBodyReactionsFlamesWrapper}>
             {[...(flames || [])].map((flame, index) => (
               <p
-                className="message_reaction_flame"
+                className={styles.SingleMessageBodyControlsFlame}
                 title={flame.name}
                 key={index}
               ></p>
             ))}
           </div>
           {[...(reactions || [])].map((reaction, index) => (
-            <p className="reaction-emoji" key={index}>
+            <p className={styles.SingleMessageBodyReactionsEmoji} key={index}>
               {reaction}
             </p>
           ))}
@@ -405,4 +389,4 @@ const Message = (props) => {
   )
 }
 
-export default Message
+export default ChatSingleMessage

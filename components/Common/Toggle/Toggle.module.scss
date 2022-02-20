@@ -40,7 +40,7 @@
         width: 100%;
         background-color: $white;
         border-radius: 50%;
-        box-shadow: 0 3px 3px rgba($black, 0.16);
+        box-shadow: 0 2px 4px rgba($black, 0.16);
         transition: background-color 0.5s;
       }
 
@@ -69,7 +69,7 @@
       &Circle {
         left: calc(100% - 20px);
         span {
-          background-color: $black;
+          background-color: #ee5500;
         }
 
         &:before {

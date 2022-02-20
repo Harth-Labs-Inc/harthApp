@@ -1,0 +1,136 @@
+@import '../../styles/globals.scss';
+@import '../../styles/config/config-type';
+
+#ChatInput {
+  width: 100%;
+  border: 1px solid $black50;
+  border-radius: 4px;
+
+  .image-holder {
+    display: flex;
+    justify-content: flex-start;
+    background-color: #f7f7f7;
+
+    .image-to-attach {
+      position: relative;
+      margin: 5px;
+      button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 20px;
+        width: 20px;
+        &:before {
+          @include x-y-center;
+          @include font-icon($icon-cancel);
+        }
+      }
+    }
+  }
+
+  &Text {
+    resize: none;
+    display: block;
+    width: 100%;
+    min-height: 55px;
+    max-height: 50vh;
+    padding: 8px 8px 0;
+    font-size: 14px;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 4px;
+  }
+
+  &Controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 4px;
+    border-top: 1px solid $black60;
+
+    &Right,
+    &Left {
+      position: relative;
+
+      button {
+        position: relative;
+        margin: 0 4px;
+        height: 36px;
+        width: 36px;
+        font-size: 0;
+        background-color: transparent;
+        border: 0;
+        border-radius: 50%;
+        cursor: pointer;
+        &:before {
+          @include x-y-center;
+          color: #9a9a9a;
+          font-size: 16px;
+        }
+
+        &.AttachEmoji {
+          &:before {
+            @include font-icon($icon-emoji);
+          }
+        }
+        &.AttachGif {
+          &:before {
+            @include font-icon($icon-gif);
+          }
+        }
+        &.AttachFile {
+          &:before {
+            @include font-icon($icon-upload);
+          }
+        }
+        &.CancelEdit {
+          &:before {
+            @include font-icon($icon-cancel);
+          }
+        }
+        &.SendMessage {
+          &:before {
+            @include font-icon($icon-check);
+          }
+          &:not(:disabled) {
+            &:before {
+              color: $orange;
+            }
+          }
+        }
+      }
+    }
+
+    .input-style-wrapper {
+      button {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 18px;
+      }
+      .style-bold {
+        font-weight: bold;
+      }
+      .style-italic {
+        font-style: italic;
+      }
+      .style-strike {
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  .emoji-mart {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    .emoji-mart-title-label {
+      display: none;
+    }
+  }
+
+  .giphy-grid {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+}

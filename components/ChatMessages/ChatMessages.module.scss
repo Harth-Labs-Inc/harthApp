@@ -1,0 +1,7 @@
+#ChatMessages {
+  display: flex;
+  flex-direction: column-reverse;
+  height: 100%;
+  margin-bottom: 16px;
+  overflow-y: auto;
+}

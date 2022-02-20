@@ -1,13 +1,16 @@
+import { useEffect, useState } from 'react'
+import { CSSTransition } from 'react-transition-group'
+
 import { useComms } from '../../../contexts/comms'
 import { useAuth } from '../../../contexts/auth'
 import { useSocket } from '../../../contexts/socket'
-import UserIcon from '../../userIcon'
 
 import { CloseBtn } from '../../Common/Button'
 import ToggleSwitch from '../../Common/Toggle/Toggle'
 
+import TopicMemberList from './TopicMemberList'
+import TopicEditForm from './TopicEditForm'
 import styles from './TopicEditMenu.module.scss'
-import { useEffect, useState } from 'react'
 
 import { getTopicByID, deleteTopicByID } from '../../../requests/community'
 
@@ -20,7 +23,7 @@ export default function TopicEditPanel(props) {
 
   const [userInfo, setUserInfo] = useState({})
   const [showLeaveModal, setShowLeaveModal] = useState(false)
-  const [showEditModal, setShowEditModal] = useState(false)
+  const [showEditForm, setShowEditForm] = useState(false)
   const [showMembersList, setShowMembersList] = useState(false)
   const [currentMembers, setCurrentMembers] = useState([])
 
@@ -58,8 +61,8 @@ export default function TopicEditPanel(props) {
   const toggleLeaveModal = () => {
     setShowLeaveModal((prevState) => !prevState)
   }
-  const toggleEditModal = () => {
-    setShowEditModal((prevState) => !prevState)
+  const toggleEditForm = () => {
+    setShowEditForm((prevState) => !prevState)
   }
 
   const leaveTopicHandler = () => {
@@ -75,7 +78,6 @@ export default function TopicEditPanel(props) {
     if (current) {
       let result = await getTopicByID(selectedTopic._id)
       let { members } = result.data
-      console.log(members, 'rrrrrrrrrrrrrrrrrrresuly')
 
       setCurrentMembers(members)
     }
@@ -96,28 +98,36 @@ export default function TopicEditPanel(props) {
     })
   }
 
-  console.log(userInfo)
+  const TopicEditPanel = () => {
+    return showEditForm ? (
+      <TopicEditForm closeEditForm={toggleEditForm} />
+    ) : null
+  }
+  const MemberListPanel = () => {
+    return showMembersList ? (
+      <TopicMemberList
+        memberList={currentMembers}
+        closeMemberList={toggleMembersList}
+      />
+    ) : null
+  }
 
   return (
     <>
-      {showEditModal ? (
-        <form
-          style={{
-            position: 'fixed',
-            zIndex: 100,
-            background: 'white',
-            padding: 10,
-            border: '1px solid black',
-          }}
-        >
-          <label>
-            Name <input type="text" />
-          </label>
-          <label>
-            description <textarea type="text" />
-          </label>
-        </form>
-      ) : null}
+      <CSSTransition
+        in={showEditForm}
+        timeout={0}
+        classNames="editFormAnimation"
+      >
+        <TopicEditPanel />
+      </CSSTransition>
+      <CSSTransition
+        in={showMembersList}
+        timeout={0}
+        classNames="memberListAnimation"
+      >
+        <MemberListPanel />
+      </CSSTransition>
       {showLeaveModal ? (
         <div
           style={{
@@ -169,43 +179,32 @@ export default function TopicEditPanel(props) {
             >
               Members
             </button>
-            {showMembersList ? (
-              <ul style={{ display: 'flex', padding: 0, overflow: 'auto' }}>
-                {currentMembers.filter(Boolean).map((member) => (
-                  <UserIcon
-                    id={member?.user_id}
-                    img={member?.iconKey}
-                    name={member?.name || member?.fullName}
-                  />
-                ))}
-              </ul>
-            ) : null}
           </li>
-          <li>
-            {userInfo.admin ? (
-              <button className={styles.topicSettingsButton}>Add People</button>
-            ) : null}
-          </li>
-          <li>
-            {userInfo.admin ? (
-              <button
-                className={styles.topicSettingsButton}
-                onClick={toggleEditModal}
-              >
-                Edit
-              </button>
-            ) : null}
-          </li>
-          <li>
-            {userInfo.admin ? (
-              <button
-                className={styles.topicSettingsButton}
-                onClick={toggleDeleteModal}
-              >
-                Delete
-              </button>
-            ) : null}
-          </li>
+          {userInfo.admin ? (
+            <>
+              <li>
+                <button className={styles.topicSettingsButton}>
+                  Add People
+                </button>
+              </li>
+              <li>
+                <button
+                  className={styles.topicSettingsButton}
+                  onClick={toggleEditForm}
+                >
+                  Edit
+                </button>
+              </li>
+              <li>
+                <button
+                  className={styles.topicSettingsButton}
+                  onClick={toggleDeleteModal}
+                >
+                  Delete
+                </button>
+              </li>
+            </>
+          ) : null}
           <li>
             <button
               className={styles.topicSettingsButton}

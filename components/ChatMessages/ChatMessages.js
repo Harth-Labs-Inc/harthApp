@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
-import { useComms } from '../contexts/comms'
-import { useChat } from '../contexts/chat'
-import { useSocket } from '../contexts/socket'
+import { useComms } from '../../contexts/comms'
+import { useChat } from '../../contexts/chat'
+import { useSocket } from '../../contexts/socket'
 
-import ChatTextEntry from '../components/chatTextEntry'
-import Message from './Common/SingleMessage'
+import ChatInput from '../ChatInput/ChatInput'
+import ChatSingleMessage from '../ChatSingleMessage/ChatSingleMessage'
+
+import styles from './ChatMessages.module.scss'
 
 const MessageWrapper = () => {
   const [currentMessages, setCurrentMessages] = useState([])
@@ -226,7 +228,7 @@ const MessageWrapper = () => {
   return (
     <>
       <div
-        id="topic_active_messages"
+        id={styles.ChatMessages}
         style={{
           justifyContent:
             Object.keys(selectedReplyOwner).length > 0
@@ -238,7 +240,7 @@ const MessageWrapper = () => {
         <div ref={setBottom} />
         {Object.keys(selectedReplyOwner).length > 0
           ? [selectedReplyOwner, ...(currentReplies || [])].map((msg) => (
-              <Message
+              <ChatSingleMessage
                 editMessageText={editMessage}
                 msg={msg}
                 key={msg._id}
@@ -247,7 +249,7 @@ const MessageWrapper = () => {
             ))
           : currentMessages &&
             currentMessages.map((msg, idx) => (
-              <Message
+              <ChatSingleMessage
                 editMessageText={editMessage}
                 msg={msg}
                 key={msg._id}
@@ -256,13 +258,13 @@ const MessageWrapper = () => {
             ))}
         <ScrollButton />
       </div>
-      <ChatTextEntry
+      <ChatInput
         selectedEdit={editMessageObj}
         isReply={Object.keys(selectedReplyOwner).length > 0}
         replyOwner={selectedReplyOwner}
         topicInputs={topicInputs}
         setTopicInputs={setTopicInputs}
-      ></ChatTextEntry>
+      ></ChatInput>
     </>
   )
 }

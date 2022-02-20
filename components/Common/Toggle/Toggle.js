@@ -18,10 +18,11 @@ const ToggleSwitch = (props) => {
 
   return (
     <>
-      <p>{toggle ? 'muted' : 'unmutted'}</p>
       <div
         onClick={triggerToggle}
-        className={`${styles.Toggle} ${toggle ? 'ToggleChecked' : undefined}
+        className={`${styles.Toggle} ${
+          toggle ? `${styles.ToggleChecked}` : undefined
+        }
   `}
       >
         <div className={styles.ToggleContainer}>

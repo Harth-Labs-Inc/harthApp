@@ -5,11 +5,12 @@
 
 //config
 @import './config/html', './config/config-type', './config/button',
-  './config/forms', './config/modal', './config/message';
+  './config/headings', './config/forms', './config/modal';
 
 //navigation
-@import './navigation/mainNav', './navigation/main', './navigation/top', './navigation/comm-preferences',
-  './navigation/topic-nav', './navigation/invite', './navigation/settings';
+@import './navigation/mainNav', './navigation/main', './navigation/top',
+  './navigation/comm-preferences', './navigation/topic-nav',
+  './navigation/invite', './navigation/settings';
 
 //menus
 @import './menus/comm-menu', './menus/harth-menu', './menus/party-options';

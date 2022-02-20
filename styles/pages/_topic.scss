@@ -125,13 +125,5 @@
         height: calc(100vh - 44px);
       }
     }
-
-    #topic_active_messages {
-      display: flex;
-      flex-direction: column-reverse;
-      height: 100%;
-      margin-bottom: 16px;
-      overflow-y: auto;
-    }
   }
 }

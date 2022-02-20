@@ -4,18 +4,20 @@ import {
   updateMessage,
   saveMessageReply,
   addReplyID,
-} from '../requests/chat'
-import { Context } from '../pages/_app'
-import { useComms } from '../contexts/comms'
-import { useAuth } from '../contexts/auth'
-import { useSocket } from '../contexts/socket'
-import { getUploadURL, putImageInBucket } from '../requests/s3'
-import { addKeyToDB } from '../requests/chat'
+} from '../../requests/chat'
+import { Context } from '../../pages/_app'
+import { useComms } from '../../contexts/comms'
+import { useAuth } from '../../contexts/auth'
+import { useSocket } from '../../contexts/socket'
+import { getUploadURL, putImageInBucket } from '../../requests/s3'
+import { addKeyToDB } from '../../requests/chat'
 
 import { Picker } from 'emoji-mart'
 import 'emoji-mart/css/emoji-mart.css'
 
-const chatTextEntry = (props) => {
+import styles from './ChatInput.module.scss'
+
+const ChatInput = (props) => {
   const [attachments, setAttachments] = useState([])
   const [emojiPickerState, setEmojiPicker] = useState(false)
   const [selectedEditMsg, setSelectedEditMsg] = useState({})
@@ -291,12 +293,12 @@ const chatTextEntry = (props) => {
         0 && attachments.length == 0
     if (Object.keys(selectedEditMsg).length > 0) {
       return (
-        <div className="chat-controls">
-          <button className="cancel-edit" onClick={cancelEdit}>
+        <div id={styles.ChatInputControlsRight}>
+          <button className={styles.CancelEdit} onClick={cancelEdit}>
             cancel
           </button>
           <button
-            className="send-message"
+            className={styles.SendMessage}
             disabled={isDisabled}
             onClick={updateMsg}
           >
@@ -306,9 +308,9 @@ const chatTextEntry = (props) => {
       )
     } else {
       return (
-        <div className="chat-controls">
+        <div id={styles.ChatInputControlsRight}>
           <button
-            className="send-message"
+            className={styles.SendMessage}
             disabled={isDisabled}
             onClick={() => {
               submitMessageLogic()
@@ -321,10 +323,10 @@ const chatTextEntry = (props) => {
     }
   }
   return (
-    <div id="chat_input_container">
+    <div id={styles.ChatInput}>
       <ImageHolder />
       <textarea
-        id="chat_input_box"
+        id={styles.ChatInputText}
         ref={textRef}
         onChange={inputHandler}
         value={(topicInputs && topicInputs[selectedTopic._id]) || ''}
@@ -362,35 +364,33 @@ const chatTextEntry = (props) => {
           e.preventDefault()
         }}
       ></textarea>
-      {value.screenSize !== "isMobile" ? (
-      <div>
-      
-          <div className="chat-insert-additional-wrapper">
-          <button className="attach-emoji" onClick={triggerPicker}>
-            attach emoji
-          </button>
-          <EmojiPicker />
-          {/* <button className="attach-gif">attach gif</button> */}
-          <button onClick={openFileSelector} className="attach-file">
-            attach file
-          </button>
-          <input
-            ref={fileRef}
-            type="file"
-            id="file-input"
-            onChange={(e) => {
-              const { files } = e.target
-              addAttachment(files[0])
-            }}
-            style={{ display: 'none' }}
-          />
+      {value.screenSize !== 'isMobile' ? (
+        <div id={styles.ChatInputControls}>
+          <div id={styles.ChatInputControlsLeft}>
+            <button className={styles.AttachEmoji} onClick={triggerPicker}>
+              attach emoji
+            </button>
+            <EmojiPicker />
+            {/* <button className={styles.AttachGif}>attach gif</button> */}
+            <button onClick={openFileSelector} className={styles.AttachFile}>
+              attach file
+            </button>
+            <input
+              ref={fileRef}
+              type="file"
+              id="file-input"
+              onChange={(e) => {
+                const { files } = e.target
+                addAttachment(files[0])
+              }}
+              style={{ display: 'none' }}
+            />
+          </div>
+          <MessageSubmits />
         </div>
-        <MessageSubmits />
-      </div>
-      ) : null
-    }
+      ) : null}
     </div>
   )
 }
 
-export default chatTextEntry
+export default ChatInput

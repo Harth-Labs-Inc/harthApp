@@ -1,9 +1,12 @@
-.message {
+@import '../../styles/globals.scss';
+@import '../../styles/config/config-type';
+
+.SingleMessage {
   display: inline-flex;
   position: relative;
   width: 100%;
-  padding-top: 12px;
-  padding-bottom: 6px;
+  margin: 16px 0 2px;
+  border-radius: 16px;
 
   .emoji-mart {
     position: absolute;
@@ -13,7 +16,7 @@
   }
 
   > img,
-  .message_no_image {
+  &Avatar {
     height: 40px;
     width: 40px;
     margin-right: $gutter;
@@ -21,7 +24,7 @@
     object-fit: cover;
   }
 
-  .message_no_image {
+  &Avatar {
     position: relative;
     &:before {
       @include font-icon($icon-user);
@@ -34,14 +37,54 @@
     }
   }
 
-  .message-body {
+  &Body {
     width: calc(100% - 48px);
+
+    &Info {
+      display: flex;
+      align-items: center;
+      line-height: 19px;
+      &Creator {
+        margin: 0 10px 0 0;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.316px;
+      }
+      &Timestamp {
+        margin: 0;
+        color: $black60;
+        font-size: 11px;
+      }
+    }
+
+    &Content {
+      width: 100%;
+      margin-bottom: $gutter / 2;
+      font-size: 14px;
+      line-height: 20px;
+      resize: none;
+      background-color: transparent;
+      border: 0;
+
+      .message-text {
+        margin: 0;
+        white-space: pre-wrap;
+      }
+
+      a {
+        display: inline-block;
+        font-size: inherit;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+    }
+
     img {
       max-height: 180px;
       max-width: 100%;
     }
 
-    .message_reaction_wrapper {
+    &Reactions {
       display: flex;
       align-items: center;
 
@@ -49,7 +92,7 @@
         margin-right: $gutter;
       }
 
-      .message_reply_count {
+      &ReplyCount {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -60,11 +103,11 @@
         border-radius: 50%;
       }
 
-      .message_flame_wrapper {
+      &FlamesWrapper {
         display: flex;
       }
 
-      .message_reaction_flame {
+      &Flame {
         display: inline-block;
         position: relative;
         height: 32px;
@@ -82,58 +125,16 @@
         }
       }
 
-      .reaction-emoji {
+      &Emoji {
         font-size: 32px;
         line-height: 32px;
       }
     }
   }
 
-  span {
-    display: flex;
-    .message_creator {
-      margin-right: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.316px;
-      line-height: 14px;
-    }
-    .message_timestamp {
-      margin-bottom: 3px;
-      color: $black60;
-      font-size: 11px;
-      line-height: 15px;
-    }
-  }
-
-  p {
-    margin: 0;
-  }
-
-  .message-content {
-    width: 100%;
-    margin-bottom: $gutter / 2;
-    font-size: 14px;
-    line-height: 16px;
-    resize: none;
-    background-color: transparent;
-    border: 0;
-
-    .message-text {
-      white-space: pre-wrap;
-    }
-
-    a {
-      display: inline-block;
-      font-size: inherit;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
-  }
-
-  .message-edit-bar {
+  &Controls {
     position: absolute;
-    top: 0;
+    top: -16px;
     right: 0;
 
     > button {
@@ -157,34 +158,34 @@
         @include x-y-center;
         font-size: 16px;
       }
+    }
 
-      &.flame {
-        &:before {
-          @include font-icon($icon-fire);
-        }
+    &Flame {
+      &:before {
+        @include font-icon($icon-fire);
       }
-      &.react {
-        &:before {
-          @include font-icon($icon-emoji);
-        }
+    }
+    &Reaction {
+      &:before {
+        @include font-icon($icon-emoji);
       }
-      &.reply {
-        &:before {
-          @include font-icon($icon-reply);
-        }
+    }
+    &Reply {
+      &:before {
+        @include font-icon($icon-reply);
       }
-      &.edit {
-        &:before {
-          @include font-icon($icon-edit);
-        }
+    }
+    &Edit {
+      &:before {
+        @include font-icon($icon-edit);
       }
-      &.delete {
-        &:hover {
-          background-color: #b00020;
-        }
-        &:before {
-          @include font-icon($icon-delete);
-        }
+    }
+    &Delete {
+      &:hover {
+        background-color: #b00020;
+      }
+      &:before {
+        @include font-icon($icon-delete);
       }
     }
   }

@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group'
 
 import TopicsSideNav from '../../../components/TopicsSideNav'
 import TopicsMenu from '../../../components/TopicsMenu'
-import MessagesWrapper from '../../../components/messagesWrapper'
+import ChatMessages from '../../../components/ChatMessages/ChatMessages'
 import TopicEditPanel from '../../../components/Topics/TopicEditPanel/TopicEditPanel'
 import { useSocket } from '../../../contexts/socket'
 import { useComms } from '../../../contexts/comms'
@@ -58,13 +58,13 @@ const Chat = (prop) => {
           toggleMobileMenu={toggleMobileMenu}
         />
         <div id="topic_messages_container">
-          <MessagesWrapper />
+          <ChatMessages />
         </div>
       </section>
       <CSSTransition
         in={showEditPanel}
-        timeout={300}
-        classNames="slideFromRight"
+        timeout={0}
+        classNames="topicPanelAnimation"
       >
         <TopicPanel />
       </CSSTransition>

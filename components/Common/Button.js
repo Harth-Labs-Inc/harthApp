@@ -15,13 +15,7 @@ export const Choice = (props) => {
 }
 
 export const BackBtn = (props) => {
-  return (
-    <button
-      id="go-back"
-      aria-label="Return to previous page"
-      {...props}
-    ></button>
-  )
+  return <button id="go-back" aria-label={props.ariaLabel} {...props}></button>
 }
 
 export const CloseBtn = (props) => {

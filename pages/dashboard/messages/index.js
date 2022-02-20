@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import TopicsSideNav from '../../../components/TopicsSideNav'
 import TopicsMenu from '../../../components/TopicsMenu'
-import MessagesWrapper from '../../../components/messagesWrapper'
+import ChatMessages from '../../../components/ChatMessages/ChatMessages'
 import { useSocket } from '../../../contexts/socket'
 
 const Messages = (prop) => {
