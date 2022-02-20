@@ -18,15 +18,21 @@
     visibility: hidden;
   }
 
-  &.menu-open {
-    &:before {
-      background-color: rgba($black, 0.32);
-      visibility: visible;
-    }
-  }
+  // &.menu-open {
+  //   &:before {
+  //     background-color: rgba($black, 0.32);
+  //     visibility: visible;
+  //   }
+  // }
 
   &.isMobile {
     width: 100%;
+    &.menu-open {
+      &:before {
+        background-color: rgba($black, 0.32);
+        visibility: visible;
+      }
+    }
   }
 }
 

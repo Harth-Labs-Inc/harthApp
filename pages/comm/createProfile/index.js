@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { Button, BackButton, Input } from '../../../components/Common'
 import { checkForFolder, checkForBadFile } from '../../../services/helper'
 import Form from '../../../components/Form-comp'
-import ToggleSwitch from '../../../components/Common'
+import { ToggleSwitch } from '../../../components/Common'
 
 const CreateProfile = (props) => {
   const [bday, setBday] = useState()
