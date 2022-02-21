@@ -120,3 +120,90 @@ export function getMessageDateOrTime(date = null) {
   }
   return ''
 }
+
+export function ellapsedTime(date1) {
+  /*
+   * calcDate() : Calculates the difference between two dates
+   * @date1 : "First Date in the format M-D-Y"
+   * @date2 : "Second Date in the format M-D-Y"
+   * return : Array
+   */
+  //Initiate date object
+  // const dt_date1 = new Date(date1)
+  const currentDate = new Date()
+  const startDate = new Date(date1)
+  console.log(currentDate, startDate)
+  //Get the Timestamp
+  var stateTime = startDate.getTime()
+  var currentTime = currentDate.getTime()
+  console.log(stateTime, currentTime)
+  let calc
+  //Check which timestamp is greater
+  if (stateTime > currentTime) {
+    calc = new Date(stateTime - currentTime)
+  } else {
+    calc = new Date(currentTime - stateTime)
+  }
+
+  //Retrieve the date, month and year
+  var calcFormatTmp =
+    calc.getMinutes() +
+    '-' +
+    calc.getHours() +
+    '-' +
+    calc.getDate() +
+    '-' +
+    (calc.getMonth() + 1) +
+    '-' +
+    calc.getFullYear()
+  //Convert to an array and store
+  var calcFormat = calcFormatTmp.split('-')
+  //Subtract each member of our array from the default date
+  const minutes_passed = parseInt(Math.abs(calcFormat[0]) - 1)
+  const hours_passed = parseInt(Math.abs(calcFormat[1]) - 1)
+  const days_passed = parseInt(Math.abs(calcFormat[2]) - 1)
+  const months_passed = parseInt(Math.abs(calcFormat[3]) - 1)
+  const years_passed = parseInt(Math.abs(calcFormat[4] - 1970))
+
+  //Set up custom text
+  const yrsTxt = ['year', 'years']
+  const mnthsTxt = ['month', 'months']
+  const daysTxt = ['day', 'days']
+  const hoursTxt = ['hour', 'hours']
+  const minutesTxt = ['minute', 'minutes']
+
+  //Convert to days and sum together
+  var total_days = years_passed * 365 + months_passed * 30.417 + days_passed
+
+  //display result with custom text
+  const result =
+    (years_passed == 1
+      ? years_passed + ' ' + yrsTxt[0] + ' '
+      : years_passed > 1
+      ? years_passed + ' ' + yrsTxt[1] + ' '
+      : '') +
+    (months_passed == 1
+      ? months_passed + ' ' + mnthsTxt[0]
+      : months_passed > 1
+      ? months_passed + ' ' + mnthsTxt[1] + ' '
+      : '') +
+    (days_passed == 1
+      ? days_passed + ' ' + daysTxt[0]
+      : days_passed > 1
+      ? days_passed + ' ' + daysTxt[1] + ' '
+      : '') +
+    (hours_passed == 1
+      ? hours_passed + ' ' + hoursTxt[0]
+      : hours_passed > 1
+      ? hours_passed + ' ' + hoursTxt[1] + ' '
+      : '') +
+    (minutes_passed == 1
+      ? minutes_passed + ' ' + minutesTxt[0]
+      : minutes_passed > 1
+      ? minutes_passed + ' ' + minutesTxt[1]
+      : '')
+
+  console.log(result)
+
+  return result
+}

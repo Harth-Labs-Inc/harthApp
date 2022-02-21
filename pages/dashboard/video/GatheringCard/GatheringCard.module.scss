@@ -1,0 +1,64 @@
+@import '../../../../styles/globals.scss';
+@import '../../../../styles/config/config-type';
+
+.gatheringCard {
+  position: relative;
+  padding: 64px 16px 16px;
+  width: 280px;
+  margin: 0 16px 16px 0;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(#000, 0.16);
+
+  &Type {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 48px;
+    color: #fff;
+    font-size: 0;
+    background-color: #ee5500;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    &:before {
+      @include x-y-center;
+      font-size: 31px;
+    }
+  }
+
+  &Name {
+    margin: 16px 0 8px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 26px;
+  }
+
+  &PeersList {
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    margin-bottom: 20px;
+    padding: 0;
+    width: 100%;
+  }
+
+  &Footer {
+  }
+
+  &Join {
+    display: block;
+    margin-left: auto;
+    padding: 10px 24px;
+    color: #9a9a9a;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 20px;
+    filter: none;
+    cursor: pointer;
+  }
+
+  &Leave {
+  }
+}

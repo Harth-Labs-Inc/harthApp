@@ -89,6 +89,7 @@ function GatherForm(props) {
   }
 
   async function handleSubmitLaunch() {
+    console.log(state)
     dispatch({ type: 'SUBMIT' })
     props.createRoomFormSubmit(state)
   }

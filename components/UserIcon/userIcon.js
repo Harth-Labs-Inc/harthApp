@@ -1,15 +1,8 @@
 import styles from './UserIcon.module.scss'
 
-const UserIcon = ({ id, img, name, clickHandler, data }) => {
+const UserIcon = ({ id, img, name }) => {
   return (
-    <button
-      onClick={() => {
-        clickHandler(data)
-      }}
-      aria-label={name}
-      className={`${styles.userIcon} ${img ? 'hasImage' : undefined}`}
-      title={name}
-    >
+    <>
       {img ? (
         <span className={styles.userIconWrapper}>
           <img className={styles.userIconImage} src={img} />
@@ -21,7 +14,7 @@ const UserIcon = ({ id, img, name, clickHandler, data }) => {
           <span className={styles.userIconName}>{name}</span>
         </span>
       )}
-    </button>
+    </>
   )
 }
 

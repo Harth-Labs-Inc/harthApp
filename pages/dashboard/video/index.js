@@ -6,6 +6,7 @@ import { useAuth } from '../../../contexts/auth'
 import Modal from '../../../components/Modal'
 import { CloseBtn } from '../../../components/Common/Button'
 
+import GatheringCard from './GatheringCard/GatheringCard'
 import GatherForm from './GatherForm'
 import { CreateGatheringFormProvider } from './GatherForm/GatheringFormContext'
 
@@ -75,6 +76,7 @@ const Video = (props) => {
   }
 
   const createRoomFormSubmit = (room) => {
+    room.createdTime = new Date()
     createRoom(room)
   }
 
@@ -104,7 +106,7 @@ const Video = (props) => {
           </button>
         </div>
         <p>Now</p>
-        <ul className="room_card" id="room_card current_rooms">
+        {/* <ul className="room_card" id="room_card current_rooms">
           {(callRooms || []).map((room, idx) => (
             <li key={idx} className={`${room.gatheringType} room-container`}>
               <div className="room-type">{room.gatheringType}</div>
@@ -151,6 +153,13 @@ const Video = (props) => {
               <button className="room-join" onClick={() => joinRoom(room)}>
                 Join
               </button>
+            </li>
+          ))}
+        </ul> */}
+        <ul className="room_card" id="room_card current_rooms">
+          {(callRooms || []).map((room, idx) => (
+            <li key={idx} className={`${room.gatheringType} room-container`}>
+              <GatheringCard room={room} />
             </li>
           ))}
         </ul>

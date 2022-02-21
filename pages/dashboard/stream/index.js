@@ -3,6 +3,8 @@ import { useEffect, useRef, useState, useReducer } from 'react'
 import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
 
+import styles from './Stream.module.scss'
+
 let myPeer
 let ScreenSharePeer
 let groupStreams = {}
@@ -220,13 +222,13 @@ const Stream = () => {
 
   useEffect(() => {
     if (localStream) {
-      localVidRef.current.srcObject = localStream
+      createVideo({ id: myPeer.id, stream: localStream })
     }
   }, [localStream])
 
   useEffect(() => {
     if (captureStream) {
-      createCaptureVideo({ id: ScreenSharePeer.id, stream: captureStream })
+      // createCaptureVideo({ id: ScreenSharePeer.id, stream: captureStream })
       connectCaptureUsers(true)
     }
   }, [captureStream])
@@ -357,7 +359,7 @@ const Stream = () => {
     getScreenCapture()
   }
   const stopCapture = () => {
-    let tracks = captureVidRef.current.srcObject.getTracks()
+    let tracks = captureVidRef?.current.srcObject.getTracks()
 
     tracks.forEach((track) => track.stop())
     captureVidRef.current.srcObject = null
@@ -874,13 +876,13 @@ const Stream = () => {
         </ul>
 
         <section id="stream-window-grid">
-          <video
+          {/* <video
             ref={localVidRef}
             id="localVideo"
             autoPlay
             playsInline
             muted={true}
-          />
+          /> */}
           <section id="stream-window-capture-container">
             {/* {ScreenSharePeer &&
               Object.entries(groupCaptureStreams || []).map((str, idx) => {

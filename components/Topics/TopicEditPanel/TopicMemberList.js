@@ -15,13 +15,13 @@ const TopicMemberList = (props) => {
       <ul className={styles.topicMembersList}>
         {memberList.filter(Boolean).map((member, index) => (
           <li key={member?.name} className={styles.topicMembersListItem}>
-            <UserIcon
-              id={member?.user_id}
-              img={member?.iconKey}
-              name={member?.name || member?.fullName}
-              data={{ member, index }}
-              clickHandler={clickHandler}
-            />
+            <button onClick={clickHandler}>
+              <UserIcon
+                id={member?.user_id}
+                img={member?.iconKey}
+                name={member?.name || member?.fullName}
+              />
+            </button>
           </li>
         ))}
       </ul>
