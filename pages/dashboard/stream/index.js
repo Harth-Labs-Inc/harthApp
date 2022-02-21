@@ -1,3 +1,4 @@
+import { doc } from 'prettier'
 import { useEffect, useRef, useState, useReducer } from 'react'
 import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
@@ -10,6 +11,7 @@ let chatPannel = false
 let userInfo = {}
 
 const Stream = () => {
+  const [videoContainer, setVideoContainer] = useState({})
   //chat
   const [unreadMsg, setUnreadMsg] = useState(false)
   const [newChatMsg, setNewChatMsg] = useState({})
@@ -144,7 +146,7 @@ const Stream = () => {
             })
           }
         }
-
+        removeVideo(data.peerId)
         delete groupStreams[data.peerId]
       })
       socket.on('screen-share-close', (data) => {
@@ -152,6 +154,7 @@ const Stream = () => {
         delete streams[data.id]
         groupCaptStreams = streams
         setGroupCaptureStreams(streams)
+        removeVideo(data.id)
         let remoteGroupCaptureVideo = groupCaptureVidRef
         if (remoteGroupCaptureVideo) {
           remoteGroupCaptureVideo = remoteGroupCaptureVideo.current
@@ -223,7 +226,7 @@ const Stream = () => {
 
   useEffect(() => {
     if (captureStream) {
-      localVidRef.current.srcObject = captureStream
+      createCaptureVideo({ id: ScreenSharePeer.id, stream: captureStream })
       connectCaptureUsers(true)
     }
   }, [captureStream])
@@ -480,6 +483,7 @@ const Stream = () => {
       } catch (error) {}
 
       socket.emit('screen-share-closed', { roomId, id: ScreenSharePeer.id })
+      removeVideo(ScreenSharePeer.id)
     }
   }
   const addVideoStream = (incomingStream, peerid) => {
@@ -492,6 +496,8 @@ const Stream = () => {
       ...groupStreams,
       [peerid]: incomingStream,
     }
+
+    createVideo({ id: peerid, stream: incomingStream })
   }
   const addCaptureStream = (incomingStream, peerid, owner) => {
     setGroupCaptureStreams((prevStreams) => {
@@ -505,7 +511,7 @@ const Stream = () => {
         owner: owner ? ScreenSharePeer.id : undefined,
       },
     }
-    console.log('add capture stream', groupCaptStreams)
+    createCaptureVideo({ id: peerid, stream: incomingStream })
   }
   const toggleOptions = () => {
     setOptions(!options)
@@ -561,31 +567,40 @@ const Stream = () => {
 
     myPeer.on('error', function (err) {
       console.log(err)
+      myPeer.reconnect()
     })
 
     myPeer.on('disconnect', function (client) {
       console.log('disconnect with id ' + client.id)
+      removeVideo(client.id)
     })
 
     myPeer.on('connection', function (dataConnection) {
       console.log('connected to peer', dataConnection)
     })
-    myPeer.on('close', function () {
+    myPeer.on('close', function (client) {
       console.log('video share closing')
+      removeVideo(client.id)
     })
 
     myPeer.on('call', async (call) => {
       if (localStream) {
-        localStream.test = 'test'
         call.answer(localStream)
       }
 
       call.on('stream', (incomingStream) => {
         if (incomingStream) {
           console.log('new incoming stream', incomingStream, groupStreams)
-
           addVideoStream(incomingStream, call.peer)
         }
+      })
+      call.on('close', () => {
+        console.log('closing peers listeners', call.peer)
+        removeVideo(call.peer)
+      })
+      call.on('error', () => {
+        console.log('peer error ------')
+        removeVideo(call.peer)
       })
     })
   }
@@ -725,6 +740,7 @@ const Stream = () => {
 
     ScreenSharePeer.on('error', function (err) {
       console.log(err)
+      ScreenSharePeer.reconnect()
     })
 
     ScreenSharePeer.on('connection', function (dataConnection) {
@@ -734,6 +750,7 @@ const Stream = () => {
     ScreenSharePeer.on('disconnect', function (client) {
       // this will give you id in text or whatever format you are using
       console.log('screen share disconnect with id ' + client.id)
+      removeVideo(client.id)
     })
 
     ScreenSharePeer.on('call', async (call) => {
@@ -749,11 +766,74 @@ const Stream = () => {
           addCaptureStream(incomingStream, call.peer)
         }
       })
+      call.on('close', () => {
+        console.log('closing capture listeners', call.peer)
+        removeVideo(call.peer)
+      })
+      call.on('error', () => {
+        console.log('capture error ------')
+        removeVideo(call.peer)
+      })
     })
   }
 
-  console.log(isSharingCapture, 'sharing capture')
-  console.log(isSharingVideo, 'sharing video')
+  // new video
+  const createVideo = (createObj) => {
+    let match = document.getElementById(createObj.id)
+    console.log('match', match)
+    if (!match) {
+      console.log('cideo caontainer', videoContainer)
+      const roomContainer = document.getElementById(
+        'stream-window-peer-container',
+      )
+      const videoContainer = document.createElement('div')
+      videoContainer.id = `parent-${createObj.id}`
+      videoContainer.classList.add('video-parent')
+      const video = document.createElement('video')
+      video.srcObject = createObj.stream
+      video.id = createObj.id
+      video.autoplay = true
+      if (myPeer.id === createObj.id) video.muted = true
+      videoContainer.appendChild(video)
+      roomContainer.append(videoContainer)
+    } else {
+      let el = document.getElementById(createObj.id)
+      if (el) {
+        el.srcObject = createObj.stream
+      }
+    }
+  }
+
+  const createCaptureVideo = (createObj) => {
+    let match = document.getElementById(createObj.id)
+    console.log('match', match)
+    if (!match) {
+      console.log('cideo caontainer', videoContainer)
+      const roomContainer = document.getElementById(
+        'stream-window-capture-container',
+      )
+      const videoContainer = document.createElement('div')
+      videoContainer.id = `parent-${createObj.id}`
+      videoContainer.classList.add('video-parent')
+      const video = document.createElement('video')
+      video.srcObject = createObj.stream
+      video.id = createObj.id
+      video.autoplay = true
+      if (myPeer.id === createObj.id) video.muted = true
+      videoContainer.appendChild(video)
+      roomContainer.append(videoContainer)
+    } else {
+      let el = document.getElementById(createObj.id)
+      if (el) {
+        el.srcObject = createObj.stream
+      }
+    }
+  }
+
+  const removeVideo = (id) => {
+    const video = document.getElementById(`parent-${id}`)
+    if (video) video.remove()
+  }
 
   return (
     <main id="stream-window" ref={mainRef}>
@@ -801,23 +881,8 @@ const Stream = () => {
             playsInline
             muted={true}
           />
-
-          {/* <video
-            ref={captureVidRef}
-            id="screenShare"
-            autoPlay
-            playsInline
-            style={{ height: '100px', width: '100px', objectFit: 'contain' }}
-          /> */}
-          {/* <video
-            ref={groupCaptureVidRef}
-            id="screenShare"
-            autoPlay
-            playsInline
-            style={{ height: '400px', width: '400px', objectFit: 'contain' }}
-          /> */}
-          <section>
-            {ScreenSharePeer &&
+          <section id="stream-window-capture-container">
+            {/* {ScreenSharePeer &&
               Object.entries(groupCaptureStreams || []).map((str, idx) => {
                 if (str[0] && str[0] !== ScreenSharePeer.id) {
                   console.log('video map', idx)
@@ -833,10 +898,10 @@ const Stream = () => {
                   )
                 }
                 return null
-              })}
+              })} */}
           </section>
           <section id="stream-window-peer-container" className={gridSize}>
-            {myPeer &&
+            {/* {myPeer &&
               (Peers || [])
                 .filter((peer) => peer.peerId !== myPeer._id)
                 .map((peer, idx) => {
@@ -857,7 +922,7 @@ const Stream = () => {
                       <p>{peer.name}</p>
                     </div>
                   )
-                })}
+                })} */}
           </section>
         </section>
       </section>
