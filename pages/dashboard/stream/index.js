@@ -82,6 +82,7 @@ const Stream = () => {
     if (HARTHID) {
       setHarthId(HARTHID)
     }
+    startAudio()
   }, [])
 
   useEffect(() => {
@@ -550,7 +551,6 @@ const Stream = () => {
     })
 
     myPeer.on('open', (peerid) => {
-      startAudio()
       console.log('my peer id is ', peerid)
       pID = peerid
 
