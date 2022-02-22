@@ -45,20 +45,65 @@
   }
 
   &Footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &Timer {
+    display: flex;
+    flex-direction: column;
+    color: #ee5500;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    span {
+      font-size: 18px;
+      line-height: 24px;
+    }
   }
 
   &Join {
     display: block;
-    margin-left: auto;
-    padding: 10px 24px;
-    color: #9a9a9a;
-    background-color: #f7f7f7;
+    position: relative;
+    height: 40px;
+    width: 40px;
+    font-size: 0;
+    background-color: #ee5500;
     border: 0;
     border-radius: 20px;
     filter: none;
     cursor: pointer;
+    &:before {
+      @include x-y-center;
+      @include font-icon($icon-popup);
+      color: #fff;
+      font-size: 16px;
+    }
   }
 
   &Leave {
+  }
+
+  &.party {
+    .gatheringCardType {
+      &:before {
+        @include font-icon($icon-party);
+      }
+    }
+  }
+  &.voice {
+    .gatheringCardType {
+      &:before {
+        @include font-icon($icon-voice);
+      }
+    }
+  }
+  &.stream {
+    .gatheringCardType {
+      &:before {
+        @include font-icon($icon-stream);
+      }
+    }
   }
 }

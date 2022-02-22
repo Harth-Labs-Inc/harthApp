@@ -159,7 +159,7 @@ const Video = (props) => {
         <ul className="room_card" id="room_card current_rooms">
           {(callRooms || []).map((room, idx) => (
             <li key={idx} className={`${room.gatheringType} room-container`}>
-              <GatheringCard room={room} />
+              <GatheringCard room={room} joinHandler={() => joinRoom(room)} />
             </li>
           ))}
         </ul>
