@@ -222,7 +222,7 @@ const Stream = () => {
 
   useEffect(() => {
     if (localStream) {
-      createVideo({ id: myPeer.id, stream: localStream })
+      createVideo({ id: 'owner', stream: localStream })
     }
   }, [localStream])
 
