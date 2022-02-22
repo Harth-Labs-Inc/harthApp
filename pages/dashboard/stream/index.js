@@ -13,7 +13,6 @@ let chatPannel = false
 let userInfo = {}
 
 const Stream = () => {
-  const [videoContainer, setVideoContainer] = useState({})
   //chat
   const [unreadMsg, setUnreadMsg] = useState(false)
   const [newChatMsg, setNewChatMsg] = useState({})
@@ -222,48 +221,49 @@ const Stream = () => {
 
   useEffect(() => {
     if (localStream) {
+      console.log('just got local stream', localStream, myPeer)
       createVideo({ id: 'owner', stream: localStream })
     }
   }, [localStream])
 
   useEffect(() => {
     if (captureStream) {
-      createCaptureVideo({ id: ScreenSharePeer.id, stream: captureStream })
+      createCaptureVideo({ id: ScreenSharePeer?.id, stream: captureStream })
       connectCaptureUsers(true)
     }
   }, [captureStream])
 
   useEffect(() => {
-    if (Object.keys(groupStreams).length) {
-      Object.values(groupStreams).forEach((stream, idx) => {
-        const remoteGroupCallVideo = groupStreamsRef.current[idx]
-        if (remoteGroupCallVideo) {
-          remoteGroupCallVideo.srcObject = stream
-          remoteGroupCallVideo.onloadedmetadata = () => {
-            remoteGroupCallVideo.play()
-          }
-        }
-      })
-    }
+    // if (Object.keys(groupStreams).length) {
+    //   Object.values(groupStreams).forEach((stream, idx) => {
+    //     const remoteGroupCallVideo = groupStreamsRef.current[idx]
+    //     if (remoteGroupCallVideo) {
+    //       remoteGroupCallVideo.srcObject = stream
+    //       remoteGroupCallVideo.onloadedmetadata = () => {
+    //         remoteGroupCallVideo.play()
+    //       }
+    //     }
+    //   })
+    // }
   }, [groupCallStreams])
 
   useEffect(() => {
-    if (Object.keys(groupCaptStreams).length) {
-      Object.values(groupCaptStreams).forEach((str, idx) => {
-        const remoteGroupCallVideo = groupCaptureVidRef.current[idx]
-        if (remoteGroupCallVideo) {
-          if (str.owner && str.owner === ScreenSharePeer.id) {
-            console.log('is owner video')
-          } else {
-            console.log('is owner video')
-            remoteGroupCallVideo.srcObject = str.stream
-            remoteGroupCallVideo.onloadedmetadata = () => {
-              remoteGroupCallVideo.play()
-            }
-          }
-        }
-      })
-    }
+    // if (Object.keys(groupCaptStreams).length) {
+    //   Object.values(groupCaptStreams).forEach((str, idx) => {
+    //     const remoteGroupCallVideo = groupCaptureVidRef.current[idx]
+    //     if (remoteGroupCallVideo) {
+    //       if (str.owner && str.owner === ScreenSharePeer.id) {
+    //         console.log('is owner video')
+    //       } else {
+    //         console.log('is owner video')
+    //         remoteGroupCallVideo.srcObject = str.stream
+    //         remoteGroupCallVideo.onloadedmetadata = () => {
+    //           remoteGroupCallVideo.play()
+    //         }
+    //       }
+    //     }
+    //   })
+    // }
   }, [groupCaptureStreams])
 
   const startVideo = () => {
@@ -751,8 +751,8 @@ const Stream = () => {
 
     ScreenSharePeer.on('disconnect', function (client) {
       // this will give you id in text or whatever format you are using
-      console.log('screen share disconnect with id ' + client.id)
-      removeVideo(client.id)
+      // console.log('screen share disconnect with id ' + client.id)
+      // removeVideo(client.id)
     })
 
     ScreenSharePeer.on('call', async (call) => {
@@ -780,6 +780,7 @@ const Stream = () => {
 
   // new video
   const createVideo = (createObj) => {
+    console.log('trying to create video tag ', createObj)
     if (!createObj) {
       createObj = {}
     }
@@ -790,7 +791,9 @@ const Stream = () => {
       const roomContainer = document.getElementById(
         'stream-window-peer-container',
       )
+      console.log('video room container', roomContainer)
       const videoContainer = document.createElement('div')
+      console.log('video child tag', videoContainer)
       if (videoContainer) {
         videoContainer.id = `parent-${createObj?.id}`
         videoContainer.classList.add('video-parent')
@@ -842,8 +845,10 @@ const Stream = () => {
   }
 
   const removeVideo = (id) => {
-    const video = document.getElementById(`parent-${id}`)
-    if (video) video.remove()
+    if (id) {
+      const video = document.getElementById(`parent-${id}`)
+      if (video) video.remove()
+    }
   }
 
   return (
