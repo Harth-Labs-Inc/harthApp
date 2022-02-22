@@ -780,7 +780,10 @@ const Stream = () => {
 
   // new video
   const createVideo = (createObj) => {
-    let match = document.getElementById(createObj.id)
+    if (!createObj) {
+      createObj = {}
+    }
+    let match = document.getElementById(createObj?.id)
     console.log('match', match)
     if (!match) {
       console.log('cideo caontainer', videoContainer)
@@ -788,25 +791,30 @@ const Stream = () => {
         'stream-window-peer-container',
       )
       const videoContainer = document.createElement('div')
-      videoContainer.id = `parent-${createObj.id}`
-      videoContainer.classList.add('video-parent')
-      const video = document.createElement('video')
-      video.srcObject = createObj.stream
-      video.id = createObj.id
-      video.autoplay = true
-      if (myPeer.id === createObj.id) video.muted = true
-      videoContainer.appendChild(video)
-      roomContainer.append(videoContainer)
+      if (videoContainer) {
+        videoContainer.id = `parent-${createObj?.id}`
+        videoContainer.classList.add('video-parent')
+        const video = document.createElement('video')
+        video.srcObject = createObj?.stream
+        video.id = createObj?.id
+        video.autoplay = true
+        if (myPeer.id === createObj?.id) video.muted = true
+        videoContainer.appendChild(video)
+        roomContainer.append(videoContainer)
+      }
     } else {
-      let el = document.getElementById(createObj.id)
+      let el = document.getElementById(createObj?.id)
       if (el) {
-        el.srcObject = createObj.stream
+        el.srcObject = createObj?.stream
       }
     }
   }
 
   const createCaptureVideo = (createObj) => {
-    let match = document.getElementById(createObj.id)
+    if (!createObj) {
+      createObj = {}
+    }
+    let match = document.getElementById(createObj?.id)
     console.log('match', match)
     if (!match) {
       console.log('cideo caontainer', videoContainer)
@@ -814,19 +822,21 @@ const Stream = () => {
         'stream-window-capture-container',
       )
       const videoContainer = document.createElement('div')
-      videoContainer.id = `parent-${createObj.id}`
-      videoContainer.classList.add('video-parent')
-      const video = document.createElement('video')
-      video.srcObject = createObj.stream
-      video.id = createObj.id
-      video.autoplay = true
-      if (myPeer.id === createObj.id) video.muted = true
-      videoContainer.appendChild(video)
-      roomContainer.append(videoContainer)
+      if (videoContainer) {
+        videoContainer.id = `parent-${createObj?.id}`
+        videoContainer.classList.add('video-parent')
+        const video = document.createElement('video')
+        video.srcObject = createObj?.stream
+        video.id = createObj?.id
+        video.autoplay = true
+        if (myPeer.id === createObj?.id) video.muted = true
+        videoContainer.appendChild(video)
+        roomContainer.append(videoContainer)
+      }
     } else {
-      let el = document.getElementById(createObj.id)
+      let el = document.getElementById(createObj?.id)
       if (el) {
-        el.srcObject = createObj.stream
+        el.srcObject = createObj?.stream
       }
     }
   }
