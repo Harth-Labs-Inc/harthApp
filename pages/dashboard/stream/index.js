@@ -757,9 +757,8 @@ const Stream = () => {
 
     ScreenSharePeer.on('call', async (call) => {
       console.log('call', call)
-      if (localStream) {
-        call.answer()
-      }
+
+      call.answer()
 
       call.on('stream', (incomingStream) => {
         if (incomingStream) {
