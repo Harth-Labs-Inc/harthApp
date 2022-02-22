@@ -228,7 +228,7 @@ const Stream = () => {
 
   useEffect(() => {
     if (captureStream) {
-      // createCaptureVideo({ id: ScreenSharePeer.id, stream: captureStream })
+      createCaptureVideo({ id: ScreenSharePeer.id, stream: captureStream })
       connectCaptureUsers(true)
     }
   }, [captureStream])
@@ -758,7 +758,7 @@ const Stream = () => {
     ScreenSharePeer.on('call', async (call) => {
       console.log('call', call)
       if (localStream) {
-        call.answer(localStream)
+        call.answer()
       }
 
       call.on('stream', (incomingStream) => {
