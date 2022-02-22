@@ -82,7 +82,6 @@ const Stream = () => {
     if (HARTHID) {
       setHarthId(HARTHID)
     }
-    startAudio()
   }, [])
 
   useEffect(() => {
@@ -551,6 +550,7 @@ const Stream = () => {
     })
 
     myPeer.on('open', (peerid) => {
+      startAudio()
       console.log('my peer id is ', peerid)
       pID = peerid
 
@@ -801,7 +801,7 @@ const Stream = () => {
         video.srcObject = createObj?.stream
         video.id = createObj?.id
         video.autoplay = true
-        if (myPeer.id === createObj?.id) video.muted = true
+        if (myPeer?.id === createObj?.id) video.muted = true
         videoContainer.appendChild(video)
         roomContainer.append(videoContainer)
       }
