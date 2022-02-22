@@ -801,7 +801,7 @@ const Stream = () => {
         video.srcObject = createObj?.stream
         video.id = createObj?.id
         video.autoplay = true
-        if (myPeer?.id === createObj?.id) video.muted = true
+        if (createObj?.id === 'owner') video.muted = true
         videoContainer.appendChild(video)
         roomContainer.append(videoContainer)
       }
