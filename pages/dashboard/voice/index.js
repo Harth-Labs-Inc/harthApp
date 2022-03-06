@@ -1,175 +1,741 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { createSocketConnectionInstance } from '../../../services/connection'
-import { createSocketCaptureConnectionInstance } from '../../../services/CaptureConnection'
+import { useEffect, useRef, useState, useReducer } from 'react'
+import io from 'socket.io-client'
 
-import { getObjectFromUrl } from '../../../services/helper'
-import ChatBox from '../../../components/RoomChatBox'
+import { getTurnServers } from '../../../util/TURN'
+import { useSize } from '../../../contexts/mobile'
+import { ellapsedTime } from '../../../services/helper'
 
-const RoomComponent = (props) => {
-  let socketInstance = useRef(null)
-  let socketCaptureInstance = useRef(null)
-  const [micStatus, setMicStatus] = useState(true)
-  const [camStatus, setCamStatus] = useState(true)
-  const [streaming, setStreaming] = useState(false)
-  const [chatToggle, setChatToggle] = useState(false)
-  const [userDetails, setUserDetails] = useState(null)
-  const [displayStream, setDisplayStream] = useState(false)
-  const [messages, setMessages] = useState([])
+import ChatAttachment from '../../../components/ChatInput/chatAttachmentsGeneral'
+import UserIcon from '../../../components/UserIcon/userIcon'
+import GeneralChatInput from '../../../components/ChatInput/ChatInputGeneral'
+
+import styles from './Voice.module.scss'
+
+let myPeer
+let groupStreams = {}
+let chatPannel = false
+let userInfo = {}
+
+const Voice = () => {
+  let activeInterval
+  //chat
+  const [updateCount, setUpdateCount] = useState(0)
+  const [unreadMsg, setUnreadMsg] = useState(false)
+  const [newChatMsg, setNewChatMsg] = useState({})
+  const [chats, setChats] = useState([])
+  // const [showChatPannel, setShowChatPannel] = useState(false)
+
+  const [userName, setUserName] = useState('')
+  const [userIcon, setUserIcon] = useState('')
+  const [roomId, setRoomId] = useState('')
+  const [harthId, setHarthId] = useState('')
+  const [socket, setSocket] = useState(null)
+  const [socketID, setSocketID] = useState(null)
+  const [callRooms, setCallRooms] = useState([])
+  const [groupCallStreams, setGroupCallStreams] = useState({})
+  const [roomChange, setRoomChange] = useState(0)
+  const [activeTimer, setActiveTimer] = useState('')
+
+  const [localStream, setLocalStream] = useState()
+  const [localStreamChange, setLocalStreamChange] = useState(0)
+
+  const [Peers, setPeers] = useState([])
+  const [muteOn, setMuteOn] = useState(true)
+  const [options, setOptions] = useState(false)
+
+  const mainRef = useRef()
+  // const localVidRef = useRef()
+  // const groupStreamsRef = useRef([])
+  // const chatInput = useRef()
+  const peerContainerRef = useRef()
 
   useEffect(() => {
-    let params = getObjectFromUrl()
-    handleuserDetails(params)
-    return () => {
-      socketInstance.current?.destoryConnection()
-      socketCaptureInstance.current?.destoryConnection()
+    let urls = {
+      development: 'http://localhost:5000',
+      production: 'https://project-blarg-video-socket.herokuapp.com',
     }
+    setSocket(
+      io.connect(urls[process.env.NODE_ENV], {
+        transports: ['websocket'],
+      }),
+    )
+
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const USRNM = urlParams.get('user_name')
+    const USRIMG = urlParams.get('user_img')
+    const ROOMID = urlParams.get('room_id')
+    const HARTHID = urlParams.get('harth_id')
+    if (USRIMG) {
+      setUserIcon(USRIMG)
+    }
+    if (USRNM) {
+      setUserName(USRNM)
+    }
+    if (ROOMID) {
+      setRoomId(ROOMID)
+    }
+    if (HARTHID) {
+      setHarthId(HARTHID)
+    }
+    startAudio()
   }, [])
 
   useEffect(() => {
-    if (userDetails) startConnection()
-  }, [userDetails])
-
-  const startConnection = () => {
-    let params = getObjectFromUrl()
-    if (!params) params = { quality: 12 }
-    socketInstance.current = createSocketConnectionInstance({
-      updateInstance: updateFromInstance,
-      params,
-      userDetails,
-      type: 'camera',
-    })
-    socketCaptureInstance.current = createSocketCaptureConnectionInstance({
-      updateInstance: updateFromInstance,
-      params,
-      userDetails,
-      type: 'screen',
-    })
-  }
-  const updateFromInstance = (key, value) => {
-    console.log('updated from instance', key, value)
-    if (key === 'streaming') setStreaming(value)
-    if (key === 'message') setMessages(value)
-    if (key === 'displayStream') setDisplayStream(value)
-  }
-
-  const handleDisconnect = () => {
-    socketCaptureInstance.current?.destoryConnection()
-    socketInstance.current?.destoryConnection()
-    try {
-      window.close()
-    } catch (error) {}
-    let urls = {
-      test: `http://localhost:3000`,
-      development: 'http://localhost:3000/',
-      production: 'https://project-blarg-next.vercel.app/',
-    }
-
-    window.location.replace(urls[process.env.NODE_ENV])
-  }
-  const handleMyMic = () => {
-    const { getMyVideo, reInitializeStream } = socketInstance.current
-    const myVideo = getMyVideo()
-    if (myVideo)
-      myVideo.srcObject?.getAudioTracks().forEach((track) => {
-        if (track.kind === 'audio')
-          // track.enabled = !micStatus;
-          micStatus ? track.stop() : reInitializeStream(camStatus, !micStatus)
+    if (localStream) {
+      localStream.getTracks().forEach((track) => {
+        if (track.kind === 'audio') {
+          let enabled = track.enabled
+          setMuteOn(enabled)
+        }
       })
-    setMicStatus(!micStatus)
-  }
-  const handleMyCam = () => {
-    if (!displayStream) {
-      const { toggleVideoTrack } = socketInstance.current
-      toggleVideoTrack({ video: !camStatus, audio: micStatus })
-      setCamStatus(!camStatus)
     }
+  }, [localStreamChange])
+
+  // ------- socket connection and listeners ------------
+
+  useEffect(() => {
+    if (socketID && localStream && !myPeer) {
+      if (userName && roomId) {
+        connectWithMyPeer({ userName, userIcon, roomId })
+      }
+    }
+  }, [socketID, localStream])
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('connection', () => {
+        setSocketID(socket.id)
+      })
+      socket.on('broadcast', (data) => {
+        let { event, groupCallRooms, peers } = data
+        switch (event) {
+          case 'GROUP_CALL_ROOMS':
+            setCallRooms(groupCallRooms)
+            break
+          case 'GROUP_CALL_PEERS':
+            setPeers(peers)
+            break
+          default:
+            break
+        }
+      })
+
+      socket.on('party-event', (data) => {
+        setOutsideDiceRoll({ ...data })
+      })
+
+      socket.on('user-left', (data) => {
+        if (myPeer) {
+          for (let conns in myPeer.connections) {
+            myPeer.connections[conns].forEach((conn, index, array) => {
+              if (data.peerId === conns) {
+                conn.peerConnection.close()
+                if (conn.close) conn.close()
+              }
+            })
+          }
+        }
+        removeVideo(data.peerId)
+        delete groupStreams[data.peerId]
+      })
+
+      // chat
+      socket.on('incoming-chat-message', (data) => {
+        if (!chatPannel) {
+          setUnreadMsg(true)
+        }
+        setChats((prevChats) => [...prevChats, data])
+      })
+      socket.on('chat-update', (chats) => {
+        setChats(chats)
+      })
+      socket.on('userInfo-update', (info) => {
+        userInfo = info
+
+        let activeScreenShare = 0
+        let activeVideoStream = 0
+
+        Object.entries(info || {}).forEach(([usr, i]) => {
+          if (i.connected) {
+            if (i.screenShare) {
+              activeScreenShare += 1
+            }
+            if (i.video) {
+              activeVideoStream += 1
+            }
+          }
+        })
+      })
+      // vote
+      socket.on('incoming-vote', (data) => {
+        setOutsideVoteCall({ ...data })
+      })
+    }
+  }, [socket])
+
+  useEffect(() => {
+    setActiveTimer(ellapsedTime(callRooms[0]?.createdTime))
+
+    activeInterval = setInterval(() => {
+      setActiveTimer(ellapsedTime(callRooms[0].createdTime))
+    }, 60000)
+
+    return () => clearInterval(activeInterval)
+  }, [callRooms])
+
+  // ----------- media --------------
+
+  useEffect(() => {
+    if (localStream) {
+      createVideo({ id: 'owner', stream: localStream })
+    }
+  }, [localStream])
+
+  const startAudio = () => {
+    getLocalStream('audio')
   }
-  const handleuserDetails = (userDetails) => {
-    setUserDetails({ ...userDetails, roomID: userDetails.room_id })
+  const stopAudioOnly = (stream) => {
+    try {
+      stream.getTracks().forEach((track) => {
+        if (track.readyState == 'live' && track.kind === 'audio') {
+          let enabled = track.enabled
+          track.enabled = !enabled
+          let newMsg = {}
+          if (!enabled === false) {
+            newMsg = {
+              value: `${userName} disconnected audio`,
+              code: 4,
+              userName: userName,
+              roomId: roomId,
+              date: new Date(),
+              creator_name: 'Admin',
+              flames: [],
+              reactions: [],
+              attachments: [],
+            }
+          } else {
+            newMsg = {
+              value: `${userName} enabled audio`,
+              code: 3,
+              userName: userName,
+              roomId: roomId,
+              date: new Date(),
+              creator_name: 'Admin',
+              flames: [],
+              reactions: [],
+              attachments: [],
+            }
+          }
+          sendNewChatMessage(newMsg)
+          setLocalStreamChange((prev) => (prev += 1))
+        }
+      })
+    } catch (error) {}
   }
 
-  const chatHandle = (bool = false) => {
-    setChatToggle(bool)
+  const toggleAudio = () => {
+    if (!localStream) {
+      startAudio()
+    } else {
+      try {
+        localStream.getTracks().forEach((track) => {
+          if (track.kind === 'audio') {
+            stopAudioOnly(localStream)
+          }
+        })
+      } catch (error) {}
+    }
+    setLocalStreamChange((prev) => (prev += 1))
   }
-  const toggleScreenShare = () => {
-    const { reInitializeStream, toggleVideoTrack } =
-      socketCaptureInstance.current
-    toggleVideoTrack({ video: true, audio: true })
-    reInitializeStream(
-      false,
-      true,
-      !displayStream ? 'displayMedia' : 'userMedia',
-    ).then(() => {
-      setDisplayStream(!displayStream)
-      setCamStatus(false)
+
+  const getLocalStream = async () => {
+    let stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false,
+    })
+
+    setLocalStreamChange((prev) => (prev += 1))
+    setLocalStream(stream)
+  }
+
+  const addVideoStream = (incomingStream, peerid) => {
+    setGroupCallStreams((prevStreams) => {
+      return { ...prevStreams, [peerid]: incomingStream }
+    })
+
+    groupStreams = {
+      ...groupStreams,
+      [peerid]: incomingStream,
+    }
+
+    createVideo({ id: peerid, stream: incomingStream })
+  }
+
+  const toggleOptions = () => {
+    setOptions(!options)
+  }
+  // const toggleChat = () => {
+  //   setShowChatPannel((prevState) => {
+  //     let newvalue = !prevState
+  //     if (newvalue === true) {
+  //       setUnreadMsg(false)
+  //     }
+  //     chatPannel = newvalue
+  //     return newvalue
+  //   })
+  // }
+
+  // ------------ rooms -----------------
+
+  const leaveRoom = () => {
+    leaveGroupCall({ roomId, userName, socketID }, () => {
+      window.close()
     })
   }
-  console.log('cam status', camStatus)
-  console.log('mic status', micStatus)
+  const connectWithMyPeer = (data) => {
+    let pID = ''
+    myPeer = new window.Peer(undefined, {
+      config: {
+        iceServers: [
+          ...getTurnServers(),
+          {
+            url: 'stun:stun.1und1.de:3478',
+          },
+        ],
+      },
+    })
+
+    myPeer.on('open', (peerid) => {
+      pID = peerid
+
+      let { roomId, userIcon, userName } = data
+      let obj = {
+        userName,
+        userIcon,
+        peerId: peerid,
+        socketID,
+        roomId,
+        localStreamId: (localStream || {}).id || '',
+        harthId,
+      }
+      joinGroupCall(obj)
+    })
+
+    myPeer.on('error', function (err) {
+      myPeer.reconnect()
+    })
+
+    myPeer.on('disconnect', function (client) {
+      removeVideo(client.id)
+    })
+
+    myPeer.on('connection', function (dataConnection) {})
+    myPeer.on('close', function (client) {
+      removeVideo(client.id)
+    })
+
+    myPeer.on('call', async (call) => {
+      if (localStream) {
+        call.answer(localStream)
+      }
+
+      call.on('stream', (incomingStream) => {
+        if (incomingStream) {
+          addVideoStream(incomingStream, call.peer)
+        }
+      })
+      call.on('close', () => {
+        removeVideo(call.peer)
+      })
+      call.on('error', () => {
+        removeVideo(call.peer)
+      })
+    })
+  }
+  const joinGroupCall = (obj) => {
+    userWantsToJoinGroupCall(obj)
+  }
+  const userWantsToJoinGroupCall = (data) => {
+    socket &&
+      socket.emit('group-call-join-request', data, ({ peers, chats }) => {
+        connectToUsers(peers)
+        setChats(chats)
+      })
+  }
+  const connectToUsers = async (peers) => {
+    if (myPeer) {
+      peers.forEach((peer) => {
+        if (peer.peerId !== myPeer.id) {
+          const call = myPeer.call(peer.peerId, localStream, {
+            metadata: { id: myPeer.id, userName, userIcon },
+          })
+          call &&
+            call.on('stream', (incomingStream) => {
+              if (incomingStream) {
+                addVideoStream(incomingStream, peer.peerId)
+              }
+            })
+        }
+      })
+    }
+  }
+
+  const leaveGroupCall = (data) => {
+    return new Promise((res, rej) => {
+      socket &&
+        socket.emit('group-call-user-left', data, (response) => {
+          if (response.ok) {
+            res(true)
+            try {
+              window.close()
+            } catch (error) {}
+            let urls = {
+              test: `http://localhost:3000`,
+              development: 'http://localhost:3000/',
+              production: 'https://project-blarg-next.vercel.app/',
+            }
+
+            window.location.replace(urls[process.env.NODE_ENV])
+          }
+
+          if (myPeer) {
+            myPeer.destroy()
+          }
+        })
+    })
+  }
+  // ------------ chat -----------------
+  const sendNewChatMessage = (message) => {
+    socket &&
+      socket.emit('send-chat-message', message, () => {
+        setChats((prevChats) => [...prevChats, message])
+      })
+  }
+  const chatInputHandler = (e) => {
+    const { value } = e.target
+    setNewChatMsg({ value })
+  }
+  const chatSubmitHandler = (msg) => {
+    let message = {
+      ...msg,
+      roomId: roomId,
+      code: 0,
+      date: new Date(),
+      creator_name: userName,
+      userName: userName,
+      creator_image: userIcon,
+    }
+
+    sendNewChatMessage(message)
+  }
+  // const chatSubmitHandler = (e) => {
+  //   e.preventDefault()
+  //   let message = {
+  //     ...newChatMsg,
+  //     roomId: roomId,
+  //     code: 0,
+  //     date: new Date(),
+  //     creator_name: userName,
+  //     userName: userName,
+  //     creator_image: userIcon,
+  //     flames: [],
+  //     reactions: [],
+  //     attachments: [],
+  //   }
+
+  //   sendNewChatMessage(message)
+  // }
+  const chatClassname = (creator) => {
+    if (creator === 'Admin') {
+      return 'admin'
+    }
+    if (creator === userName) {
+      return 'self'
+    }
+    return 'incoming'
+  }
+
+  const toBase64 = (arr) => {
+    var arrayBufferView = new Uint8Array(arr)
+    var blob = new Blob([arrayBufferView], { type: 'image/jpeg' })
+    var urlCreator = window.URL || window.webkitURL
+    var imageUrl = urlCreator.createObjectURL(blob)
+    var img = document.querySelector('#photo')
+    if (img) {
+      img.src = imageUrl
+    }
+  }
+
+  const ChatStructure = ({ chat }) => {
+    const date = new Date(chat.date)
+    return (
+      <>
+        {chat.attachments.length ? (
+          <ChatAttachment attachments={chat.attachments} />
+        ) : null}
+
+        <p>{chat.value}</p>
+        <span>
+          <img src={chat.creator_image} alt={chat.creator_name} />
+          {date.getTime()}
+        </span>
+      </>
+    )
+  }
+  // --------------- screen share ----------
+
+  // new video
+  const createVideo = (createObj) => {
+    setRoomChange((prevState) => (prevState += 1))
+    if (!createObj) {
+      createObj = {}
+    }
+    let match = document.getElementById(createObj?.id)
+
+    if (!match) {
+      const roomContainer = document.getElementById('peerContainer')
+
+      const videoContainer = document.createElement('div')
+
+      if (videoContainer) {
+        videoContainer.id = `parent-${createObj?.id}`
+        videoContainer.classList.add(`${styles.videoParent}`)
+        const video = document.createElement('video')
+        video.srcObject = createObj?.stream
+        video.id = createObj?.id
+        video.classList.add(`${styles.peerVideo}`)
+        video.autoplay = true
+        if (createObj?.id === 'owner') {
+          video.muted = true
+          videoContainer.classList.add(`${styles.ownerVideo}`)
+        }
+        videoContainer.appendChild(video)
+        roomContainer.append(videoContainer)
+      }
+    } else {
+      let el = document.getElementById(createObj?.id)
+      if (el) {
+        el.srcObject = createObj?.stream
+      }
+    }
+  }
+
+  const removeVideo = (id) => {
+    setRoomChange((prevState) => (prevState += 1))
+    if (id) {
+      const video = document.getElementById(`parent-${id}`)
+      if (video) video.remove()
+    }
+  }
+
+  const toggleRemoteMute = (peer, index) => {
+    let muted = true
+    if (userInfo[peer.name]) {
+      if (!userInfo[peer.name].muted) {
+      } else {
+        muted = !userInfo[peer.name].muted
+      }
+      userInfo[peer.name].muted = muted
+    }
+
+    if (muted) {
+      userInfo[peer.name].oldVolume = userInfo[peer.name].volume
+      userInfo[peer.name].volume = 1
+      muteRemotePeer(peer)
+    } else {
+      userInfo[peer.name].volume = userInfo[peer.name].oldVolume || 100
+      unMuteRemotePeer(peer)
+    }
+  }
+
+  const muteRemotePeer = (peer) => {
+    let stream = groupStreams[peer.peerId]
+    stream.getTracks().forEach((track) => {
+      if (track.kind === 'audio') {
+        track.enabled = false
+        setUpdateCount((preCount) => (preCount += 1))
+      }
+    })
+  }
+  const unMuteRemotePeer = (peer) => {
+    let stream = groupStreams[peer.peerId]
+    stream.getTracks().forEach((track) => {
+      if (track.kind === 'audio') {
+        track.enabled = true
+        setUpdateCount((preCount) => (preCount += 1))
+      }
+    })
+  }
+
+  const toggleShowRemoteVolume = (peer) => {
+    let showVolume = true
+    if (userInfo[peer.name]) {
+      if (!userInfo[peer.name].showVolume) {
+      } else {
+        showVolume = !userInfo[peer.name].showVolume
+      }
+      userInfo[peer.name].showVolume = showVolume
+      setUpdateCount((preCount) => (preCount += 1))
+    }
+  }
+
+  const volumeSliderHandler = (e, peer) => {
+    const { value } = e.target
+    if (userInfo[peer.name]) {
+      userInfo[peer.name].volume = value
+
+      let elem = document.getElementById(peer.peerId)
+      if (elem) {
+        elem.volume = value / 100
+      }
+
+      setUpdateCount((preCount) => (preCount += 1))
+    }
+  }
+
   return (
-    <>
-      {userDetails !== null && !streaming && (
-        <div className="stream-loader-wrapper">
-          <p>loading...</p>
+    <main id="VoiceGathering" className={styles.voiceGathering} ref={mainRef}>
+      <img id="photo"></img>
+      <section className={styles.voiceGatheringPeers}>
+        <div className={styles.voiceGatheringHeader}>
+          <p className={styles.voiceGatheringHeaderTitle}>
+            {callRooms[0] ? `${callRooms[0].roomName}` : null}
+          </p>
+          {activeTimer} Active
         </div>
-      )}
-      <div
-        style={{ display: 'flex', flexWrap: 'wrap' }}
-        id="room-container"
-      ></div>
-      <div
-        style={{ display: 'flex', flexWrap: 'wrap' }}
-        id="capture-container"
-      ></div>
-      <div className="footbar-wrapper">
-        {streaming && (
-          <div
-            className="status-action-btn mic-btn"
-            onClick={handleMyMic}
-            title={micStatus ? 'Disable Mic' : 'Enable Mic'}
+        <ul className={styles.voiceGatheringPeersList}>
+          {myPeer &&
+            Peers.map((peer, index) => {
+              return (
+                <li
+                  key={index}
+                  className={`${styles.voiceGatheringPeer} ${
+                    userInfo[peer.name]?.showVolume ? styles.volumeOpen : ''
+                  }`}
+                >
+                  <span>
+                    <UserIcon
+                      img={peer?.img}
+                      name={peer?.name}
+                      onClick={() => toggleShowRemoteVolume(peer)}
+                    />
+                    {peer.peerId === myPeer?.id ? (
+                      <button
+                        onClick={toggleAudio}
+                        className={`${styles.voiceGatheringMute} ${
+                          userInfo[peer?.name]?.audio ? styles.isMuted : ''
+                        }`}
+                      >
+                        {userInfo[peer?.name]?.audio ? 'MUTE' : 'UNMUTE'}
+                      </button>
+                    ) : (
+                      <button
+                        className={`${styles.voiceGatheringToggleVolume} ${
+                          userInfo[peer?.name]?.muted ? styles.isMuted : ''
+                        }`}
+                        onClick={() => toggleShowRemoteVolume(peer)}
+                      >
+                        Volume
+                      </button>
+                    )}
+                  </span>
+                  {userInfo[peer.name] && userInfo[peer.name].showVolume ? (
+                    <div className={styles.voiceGatheringPeerVolume}>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        className={styles.volumeSlider}
+                        value={
+                          userInfo[peer.name] && userInfo[peer.name].volume
+                            ? parseInt(userInfo[peer.name].volume)
+                            : 100
+                        }
+                        id={`volume_${peer.peerId}`}
+                        onChange={(e) => volumeSliderHandler(e, peer)}
+                      />
+                      <button
+                        className={`${styles.voiceGatheringMutePeer} ${
+                          userInfo[peer?.name]?.muted ? styles.isMuted : ''
+                        }`}
+                        onClick={() => toggleRemoteMute(peer, index)}
+                      >
+                        {userInfo[peer.name].muted ? 'MUTE' : 'UNMUTE'}
+                      </button>
+                    </div>
+                  ) : null}
+                </li>
+              )
+            })}
+        </ul>
+        <div className={styles.voiceGatheringFooter}>
+          <button onClick={leaveRoom} className={styles.voiceGatheringLeave}>
+            Leave
+          </button>
+          <button
+            onClick={toggleAudio}
+            className={`${styles.voiceGatheringMute} ${styles[muteOn]}`}
           >
-            mic
+            {muteOn ? 'MUTE' : 'UNMUTE'}
+          </button>
+        </div>
+      </section>
+
+      <section id={styles.VoiceVideoContainer}>
+        {/* <ul role="nav" id="stream-window-controls">
+          <div className="list-left">
+            <li onClick={leaveRoom}>
+              <button id="leave_room">leave</button>
+            </li>
           </div>
-        )}
-        <div
-          className="status-action-btn end-call-btn"
-          onClick={handleDisconnect}
-          title="End Call"
-        >
-          disconnect
-        </div>
-        {streaming && (
-          <div
-            className="status-action-btn cam-btn"
-            onClick={handleMyCam}
-            title={camStatus ? 'Disable Cam' : 'Enable Cam'}
-          >
-            video
+          <div className="list-center">
+            <li onClick={toggleAudio}>
+              <button id={muteOn ? 'unmuted' : 'muted'}>mute</button>
+            </li>
+            <li onClick={toggleOptions}>
+              <button id="options" className={options ? 'active' : null}>
+                options
+              </button>
+            </li>
+            <li
+              className={`
+                ${unreadMsg ? 'unread' : ''}
+                ${showChatPannel ? 'open' : 'closed'}`}
+              onClick={toggleChat}
+            >
+              <button id="chat">chat</button>
+            </li>
           </div>
-        )}
-      </div>
-      <div>
-        <div className="screen-share-btn" onClick={toggleScreenShare}>
-          <h4 className="screen-share-btn-text">
-            {displayStream ? 'Stop Screen Share' : 'Share Screen'}
-          </h4>
-        </div>
-        <div
-          onClick={() => chatHandle(!chatToggle)}
-          className="chat-btn"
-          title="Chat"
-        >
-          chat
-        </div>
-      </div>
-      <ChatBox
-        chatToggle={chatToggle}
-        closeDrawer={() => chatHandle(false)}
-        socketInstance={socketInstance.current}
-        myDetails={userDetails}
-        messages={messages}
-      ></ChatBox>
-    </>
+        </ul> */}
+        <section
+          ref={peerContainerRef}
+          id="peerContainer"
+          className={`${styles.peerContainer}`}
+        ></section>
+      </section>
+      <section className={styles.voiceGatheringChat}>
+        <ul className={styles.voiceGatheringMessages}>
+          {chats.map((chat, index) => {
+            return (
+              <li
+                key={index}
+                className={styles[chatClassname(chat.creator_name)]}
+                id={chat.creator_name + index}
+              >
+                {chat.creator_name === 'Admin' ? (
+                  chat.value
+                ) : (
+                  <ChatStructure chat={chat} />
+                )}
+              </li>
+            )
+          })}
+        </ul>
+        <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
+      </section>
+    </main>
   )
 }
-export default RoomComponent
+
+export default Voice

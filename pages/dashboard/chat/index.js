@@ -16,7 +16,6 @@ const Chat = (prop) => {
   const [chatVisible, setChatVisible] = useState(false)
 
   useEffect(() => {
-    console.log('test', topicChange)
     if (isMobile && topicChange) {
       setChatVisible(true)
     } else {

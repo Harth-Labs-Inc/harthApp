@@ -1,0 +1,241 @@
+@import '../../../styles/globals.scss';
+@import '../../../styles/config/config-type';
+
+#VoiceVideoContainer {
+  position: absolute;
+  left: 100%;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.voiceGathering {
+  display: flex;
+  &Header {
+    padding: 24px 16px;
+    border-bottom: 2px solid #eaeaea;
+  }
+  &Peers {
+    height: 100vh;
+    width: 240px;
+    border-right: 2px solid #eaeaea;
+
+    &List {
+      margin: 0;
+      padding: 8px 0;
+      list-style: none;
+    }
+  }
+
+  &Peer {
+    > span {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 4px 8px 4px 16px;
+    }
+
+    .voiceGatheringToggleVolume {
+      position: relative;
+      height: 36px;
+      width: 36px;
+      font-size: 0;
+      background-color: transparent;
+      border: 0;
+      border-radius: 50%;
+      transition: all 0.3s;
+      cursor: pointer;
+      &:before {
+        @include x-y-center;
+        @include font-icon($icon-speaker);
+        color: #9a9a9a;
+        font-size: 16px;
+      }
+
+      &:hover {
+        background-color: #f7f7f7;
+        &:before {
+          color: #333;
+        }
+      }
+
+      &.isMuted {
+        &:before {
+          @include font-icon($icon-speaker-mute);
+          color: #b00020;
+        }
+      }
+    }
+
+    &Volume {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 27px 8px 27px 24px;
+      background-color: #f7f7f7;
+      border-bottom: 1px solid #eaeaea;
+
+      &:before {
+        @include font-icon($icon-speaker);
+        font-size: 18px;
+      }
+
+      .volumeSlider {
+        -webkit-appearance: none;
+        width: 100%;
+        margin-right: 8px;
+
+        //webkit
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          margin-top: -5px;
+          height: 12px;
+          width: 12px;
+          background-color: #333;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+        &::-webkit-slider-runnable-track {
+          height: 2px;
+          width: 100%;
+          background-color: #9a9a9a;
+          border-radius: 8px;
+        }
+        //mozilla
+        &::-moz-range-thumb {
+          height: 12px;
+          width: 12px;
+          background-color: #333;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+        &::-moz-range-track {
+          height: 2px;
+          width: 100%;
+          background-color: #9a9a9a;
+          border-radius: 8px;
+        }
+        &::-moz-range-progress {
+          background-color: #333;
+        }
+        //microsoft
+        &::-ms-thumb {
+          height: 12px;
+          width: 12px;
+          background-color: #333;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+        &::-ms-track {
+          height: 2px;
+          width: 100%;
+          background-color: #9a9a9a;
+          border-radius: 8px;
+        }
+        &::-ms-fill-lower {
+          background: #333;
+        }
+      }
+
+      .voiceGatheringMutePeer {
+        position: relative;
+        height: 36px;
+        width: 36px;
+        font-size: 0;
+        background-color: transparent;
+        border: 0;
+        border-radius: 50%;
+        transition: all 0.3s;
+        cursor: pointer;
+        &:before {
+          @include x-y-center;
+          @include font-icon($icon-speaker-mute);
+          color: #9a9a9a;
+          font-size: 16px;
+        }
+
+        &:hover {
+          background-color: #fff;
+          &:before {
+            color: #333;
+          }
+        }
+
+        &.isMuted {
+          &:before {
+            @include font-icon($icon-speaker-mute);
+            color: #b00020;
+          }
+        }
+      }
+    }
+
+    &.volumeOpen {
+      .voiceGatheringPeerVolume {
+        box-shadow: inset 0 2px 3px rgba(#000, 0.16);
+      }
+    }
+  }
+
+  &Chat {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: calc(100% - 240px);
+  }
+
+  &Messages {
+    margin: 0 0 0 16px;
+    padding: 0 16px 0 0;
+    list-style: none;
+    height: calc(100vh - 135px);
+    overflow-y: scroll;
+    li {
+      width: 75%;
+      margin: 8px 0;
+
+      > ul {
+        margin: 0;
+        padding: 8px;
+        list-style: none;
+        background-color: #eaeaea;
+      }
+
+      p {
+        margin: 0;
+        padding: 8px;
+        background-color: #eaeaea;
+        &:empty {
+          display: none;
+        }
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      &.admin {
+        text-align: center;
+        color: red;
+        p {
+          background-color: transparent;
+        }
+      }
+      &.self {
+        margin-left: auto;
+        > ul {
+          background-color: #f7f7f7;
+        }
+        p {
+          background-color: #f7f7f7;
+        }
+        span {
+          text-align: right;
+          img {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

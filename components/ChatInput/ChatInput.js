@@ -1,4 +1,5 @@
 import { useContext, useState, useRef, useEffect } from 'react'
+
 import {
   saveMessage,
   updateMessage,
@@ -332,7 +333,6 @@ const ChatInput = (props) => {
         value={(topicInputs && topicInputs[selectedTopic._id]) || ''}
         onKeyDown={(e) => {
           let input = topicInputs[selectedTopic._id] || ''
-          console.log(input)
           if (e.altKey) {
             setAltKey(true)
           }
@@ -364,7 +364,7 @@ const ChatInput = (props) => {
           e.preventDefault()
         }}
       ></textarea>
-      {isMobile ? (
+      {!isMobile ? (
         <div id={styles.ChatInputControls}>
           <div id={styles.ChatInputControlsLeft}>
             <button className={styles.AttachEmoji} onClick={triggerPicker}>

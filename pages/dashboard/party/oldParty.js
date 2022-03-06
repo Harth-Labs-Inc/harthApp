@@ -1,10 +1,10 @@
-import { doc } from 'prettier'
 import { useEffect, useRef, useState, useReducer } from 'react'
 import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
-import { useSize } from '../../../contexts/mobile'
 
-import styles from './Party.module.scss'
+import Options from './Options'
+import DiceModal from './OutsideCalls/Dice'
+import VoteModal from './OutsideCalls/Vote'
 
 let myPeer
 let ScreenSharePeer
@@ -29,7 +29,6 @@ const Party = () => {
   const [callRooms, setCallRooms] = useState([])
   const [groupCallStreams, setGroupCallStreams] = useState({})
   const [groupCaptureStreams, setGroupCaptureStreams] = useState({})
-  const [roomChange, setRoomChange] = useState(0)
 
   const [localStream, setLocalStream] = useState()
   const [localStreamChange, setLocalStreamChange] = useState(0)
@@ -51,16 +50,9 @@ const Party = () => {
   const mainRef = useRef()
   const localVidRef = useRef()
   const captureVidRef = useRef()
-  const groupCaptureVidRef = useRef([])
+  const groupCaptureVidRef = useRef()
   const groupStreamsRef = useRef([])
   const chatInput = useRef()
-  const peerContainerRef = useRef()
-
-  let { width } = useSize()
-
-  useEffect(() => {
-    resize()
-  }, [width, roomChange])
 
   useEffect(() => {
     let urls = {
@@ -94,22 +86,6 @@ const Party = () => {
     startAudio()
   }, [])
 
-  useEffect(() => {
-    console.log('local stream has changed')
-    if (localStream) {
-      localStream.getTracks().forEach((track) => {
-        if (track.kind === 'video') {
-          let enabled = track.enabled
-          setVideoOn(enabled)
-        }
-        if (track.kind === 'audio') {
-          let enabled = track.enabled
-          setMuteOn(enabled)
-        }
-      })
-    }
-  }, [localStreamChange])
-
   // ------- socket connection and listeners ------------
 
   useEffect(() => {
@@ -127,7 +103,6 @@ const Party = () => {
       })
       socket.on('broadcast', (data) => {
         let { event, groupCallRooms, peers } = data
-        console.log(data)
         switch (event) {
           case 'GROUP_CALL_ROOMS':
             setCallRooms(groupCallRooms)
@@ -145,7 +120,6 @@ const Party = () => {
       })
 
       socket.on('user-left', (data) => {
-        console.log('user-left')
         if (myPeer) {
           for (let conns in myPeer.connections) {
             myPeer.connections[conns].forEach((conn, index, array) => {
@@ -156,7 +130,7 @@ const Party = () => {
             })
           }
         }
-        removeVideo(data.peerId)
+
         delete groupStreams[data.peerId]
       })
       socket.on('screen-share-close', (data) => {
@@ -164,7 +138,6 @@ const Party = () => {
         delete streams[data.id]
         groupCaptStreams = streams
         setGroupCaptureStreams(streams)
-        removeVideo(data.id)
         let remoteGroupCaptureVideo = groupCaptureVidRef
         if (remoteGroupCaptureVideo) {
           remoteGroupCaptureVideo = remoteGroupCaptureVideo.current
@@ -179,6 +152,7 @@ const Party = () => {
         if (!chatPannel) {
           setUnreadMsg(true)
         }
+
         setChats((prevChats) => [...prevChats, data])
       })
       socket.on('chat-update', (chats) => {
@@ -213,16 +187,16 @@ const Party = () => {
 
   useEffect(() => {
     if (Peers.length === 1) {
-      setGridSize(`${styles.alone}`)
+      setGridSize('alone')
     }
     if (Peers.length === 2) {
-      setGridSize(`${styles.full}`)
+      setGridSize('full')
     }
     if (Peers.length > 2 && Peers.length <= 7) {
-      setGridSize(`${styles.double}`)
+      setGridSize('double-wide')
     }
     if (Peers.legnth > 7) {
-      setGridSize(`${styles.triple}`)
+      setGridSize('three-wide')
     }
   }, [Peers])
 
@@ -230,115 +204,82 @@ const Party = () => {
 
   useEffect(() => {
     if (localStream) {
-      console.log('just got local stream', localStream, myPeer)
-      createVideo({ id: 'owner', stream: localStream })
+      let refElement = localVidRef
+      if (refElement) {
+        try {
+          localVidRef.current.srcObject = localStream
+        } catch (error) {
+          console.log('whore')
+        }
+      }
     }
-  }, [localStream])
+  }, [localStream, localVidRef])
+
+  useEffect(() => {
+    if (localStream) {
+      localStream.getTracks().forEach((track) => {
+        if (track.kind === 'video') {
+          let enabled = track.enabled
+          setVideoOn(enabled)
+        }
+        if (track.kind === 'audio') {
+          let enabled = track.enabled
+          setMuteOn(enabled)
+        }
+      })
+    }
+  }, [localStreamChange])
 
   useEffect(() => {
     if (captureStream) {
-      createCaptureVideo({ id: ScreenSharePeer?.id, stream: captureStream })
       connectCaptureUsers(true)
     }
   }, [captureStream])
 
   useEffect(() => {
-    // if (Object.keys(groupStreams).length) {
-    //   Object.values(groupStreams).forEach((stream, idx) => {
-    //     const remoteGroupCallVideo = groupStreamsRef.current[idx]
-    //     if (remoteGroupCallVideo) {
-    //       remoteGroupCallVideo.srcObject = stream
-    //       remoteGroupCallVideo.onloadedmetadata = () => {
-    //         remoteGroupCallVideo.play()
-    //       }
-    //     }
-    //   })
-    // }
+    if (Object.keys(groupStreams).length) {
+      Object.values(groupStreams).forEach((stream, idx) => {
+        const remoteGroupCallVideo = groupStreamsRef.current[idx]
+        if (remoteGroupCallVideo) {
+          remoteGroupCallVideo.srcObject = stream
+          remoteGroupCallVideo.onloadedmetadata = () => {
+            remoteGroupCallVideo.play()
+          }
+        }
+      })
+    }
   }, [groupCallStreams])
 
   useEffect(() => {
-    // if (Object.keys(groupCaptStreams).length) {
-    //   Object.values(groupCaptStreams).forEach((str, idx) => {
-    //     const remoteGroupCallVideo = groupCaptureVidRef.current[idx]
-    //     if (remoteGroupCallVideo) {
-    //       if (str.owner && str.owner === ScreenSharePeer.id) {
-    //         console.log('is owner video')
-    //       } else {
-    //         console.log('is owner video')
-    //         remoteGroupCallVideo.srcObject = str.stream
-    //         remoteGroupCallVideo.onloadedmetadata = () => {
-    //           remoteGroupCallVideo.play()
-    //         }
-    //       }
-    //     }
-    //   })
-    // }
+    if (Object.keys(groupCaptStreams).length) {
+      const remoteGroupCaptureVideo = groupCaptureVidRef.current
+
+      if (remoteGroupCaptureVideo) {
+        if (
+          groupCaptStreams.owner &&
+          groupCaptStreams.owner === ScreenSharePeer.id
+        ) {
+          groupCaptureVidRef.current.srcObject = captureStream
+        } else {
+          remoteGroupCaptureVideo.srcObject = groupCaptStreams.stream
+          remoteGroupCaptureVideo.onloadedmetadata = () => {
+            remoteGroupCaptureVideo.play()
+          }
+        }
+      }
+    }
   }, [groupCaptureStreams])
 
-  const resize = () => {
-    let container = document.getElementById('peerContainer')
-    let children = container.children
-
-    let max = 0
-    let i = 1
-    while (i < 5000) {
-      let area = getArea(i)
-      if (area === false) {
-        max = i - 1
-        break
-      }
-      i++
-    }
-
-    // remove margins
-    max = max - 4 * 2
-
-    for (var s = 0; s < children.length; s++) {
-      // camera fron dish (div without class)
-      let element = children[s]
-      console.log(max, 'child')
-      // // custom margin
-      element.style.margin = 4 + 'px'
-
-      // // calculate dimensions
-      element.style.width = max + 'px'
-      element.style.height = max * 0.5625 + 'px'
-
-      // // to show the aspect ratio in demo (optional)
-      // element.setAttribute('data-aspect', 0.5625s[this._aspect])
-    }
-  }
-  const getArea = (increment) => {
-    let container = document.getElementById('peerContainer')
-    let containerHeight = container.offsetHeight - 4 * 2
-    let containerWidth = container.offsetWidth - 4 * 2
-    let children = container.children
-    let i = 0
-    let w = 0
-    let h = increment * 0.5625 + 4 * 2
-    while (i < children.length) {
-      if (w + increment > containerWidth) {
-        w = 0
-        h = h + increment * 0.5625 + 4 * 2
-      }
-      w = w + increment + 4 * 2
-      i++
-    }
-    if (h > containerHeight || increment > containerWidth) return false
-    else return increment
-  }
   const startVideo = () => {
     getLocalStream('video')
   }
   const stopVideoOnly = (stream) => {
-    console.log('stopvideo')
     try {
       stream.getTracks().forEach((track) => {
         if (track.readyState == 'live' && track.kind === 'video') {
           let enabled = track.enabled
           track.enabled = !enabled
 
-          console.log(!enabled, 'sadfasdfadf')
           let newMsg = {}
           if (!enabled === false) {
             newMsg = {
@@ -365,7 +306,6 @@ const Party = () => {
               attachments: [],
             }
           }
-          console.log(newMsg)
           sendNewChatMessage(newMsg)
           setLocalStreamChange((prev) => (prev += 1))
         }
@@ -376,13 +316,11 @@ const Party = () => {
     getLocalStream('audio')
   }
   const stopAudioOnly = (stream) => {
-    console.log('stopaudio')
     try {
       stream.getTracks().forEach((track) => {
         if (track.readyState == 'live' && track.kind === 'audio') {
           let enabled = track.enabled
           track.enabled = !enabled
-          console.log(!enabled, 'sadfasdfadf')
           let newMsg = {}
           if (!enabled === false) {
             newMsg = {
@@ -409,7 +347,6 @@ const Party = () => {
               attachments: [],
             }
           }
-          console.log(newMsg)
           sendNewChatMessage(newMsg)
           setLocalStreamChange((prev) => (prev += 1))
         }
@@ -420,7 +357,7 @@ const Party = () => {
     getScreenCapture()
   }
   const stopCapture = () => {
-    let tracks = captureVidRef?.current.srcObject.getTracks()
+    let tracks = captureVidRef.current.srcObject.getTracks()
 
     tracks.forEach((track) => track.stop())
     captureVidRef.current.srcObject = null
@@ -546,11 +483,9 @@ const Party = () => {
       } catch (error) {}
 
       socket.emit('screen-share-closed', { roomId, id: ScreenSharePeer.id })
-      removeVideo(ScreenSharePeer.id)
     }
   }
   const addVideoStream = (incomingStream, peerid) => {
-    console.log(incomingStream, 'incoming stream')
     setGroupCallStreams((prevStreams) => {
       return { ...prevStreams, [peerid]: incomingStream }
     })
@@ -559,22 +494,14 @@ const Party = () => {
       ...groupStreams,
       [peerid]: incomingStream,
     }
-
-    createVideo({ id: peerid, stream: incomingStream })
   }
   const addCaptureStream = (incomingStream, peerid, owner) => {
-    setGroupCaptureStreams((prevStreams) => {
-      return { ...prevStreams, [peerid]: incomingStream }
-    })
-
+    setGroupCaptureStreams({ id: peerid, stream: incomingStream })
     groupCaptStreams = {
-      ...groupCaptStreams,
-      [peerid]: {
-        stream: incomingStream,
-        owner: owner ? ScreenSharePeer.id : undefined,
-      },
+      id: peerid,
+      stream: incomingStream,
+      owner: owner ? ScreenSharePeer.id : undefined,
     }
-    createCaptureVideo({ id: peerid, stream: incomingStream })
   }
   const toggleOptions = () => {
     setOptions(!options)
@@ -594,7 +521,6 @@ const Party = () => {
 
   const leaveRoom = () => {
     leaveGroupCall({ roomId, userName, socketID }, () => {
-      console.log(finished, 'fffffffffffffffffffffffffffff')
       window.close()
     })
   }
@@ -630,40 +556,24 @@ const Party = () => {
 
     myPeer.on('error', function (err) {
       console.log(err)
-      myPeer.reconnect()
-    })
-
-    myPeer.on('disconnect', function (client) {
-      console.log('disconnect with id ' + client.id)
-      removeVideo(client.id)
     })
 
     myPeer.on('connection', function (dataConnection) {
       console.log('connected to peer', dataConnection)
     })
-    myPeer.on('close', function (client) {
-      console.log('video share closing')
-      removeVideo(client.id)
-    })
 
     myPeer.on('call', async (call) => {
       if (localStream) {
+        localStream.test = 'test'
         call.answer(localStream)
       }
 
       call.on('stream', (incomingStream) => {
         if (incomingStream) {
           console.log('new incoming stream', incomingStream, groupStreams)
+
           addVideoStream(incomingStream, call.peer)
         }
-      })
-      call.on('close', () => {
-        console.log('closing peers listeners', call.peer)
-        removeVideo(call.peer)
-      })
-      call.on('error', () => {
-        console.log('peer error ------')
-        removeVideo(call.peer)
       })
     })
   }
@@ -692,15 +602,34 @@ const Party = () => {
       })
     }
   }
+
   const connectCaptureUsers = async (isOwner) => {
     if (ScreenSharePeer) {
       Peers.forEach((peer) => {
         if (peer.capturePeer !== ScreenSharePeer.id) {
+          console.log('calling capture ', peer)
           const call = ScreenSharePeer.call(peer.capturePeer, captureStream)
           call &&
             call.on('stream', (incomingStream) => {
               if (incomingStream) {
-                addCaptureStream(incomingStream, ScreenSharePeer.id, isOwner)
+                addCaptureStream(incomingStream, peer.capturePeer, isOwner)
+              }
+            })
+        }
+      })
+    }
+  }
+
+  const shareCaptureScreen = async () => {
+    if (myPeer) {
+      Peers.forEach((peer) => {
+        if (peer.peerId !== myPeer.id) {
+          const call = myPeer.call(peer.peerId, captureStream)
+          call &&
+            call.on('stream', (incomingStream) => {
+              if (incomingStream) {
+                console.log('capture stream answer', incomingStream)
+                addCaptureStream(incomingStream, peer.peerId)
               }
             })
         }
@@ -731,7 +660,36 @@ const Party = () => {
         })
     })
   }
+
+  // ------------ party events -----------------
+
+  const diceRollHandler = (data) => {
+    socket &&
+      socket.emit(
+        'user-dice-roll',
+        { ...data, roomId, userName },
+        ({ chats }) => {
+          setChats(chats)
+        },
+      )
+  }
+
+  const voteCallHandler = (data) => {
+    socket &&
+      socket.emit('vote-called', { ...data, roomId, userName, Peers }, () => {})
+  }
+
+  const userVote = (vote) => {
+    socket && socket.emit('user-voted', { userName, roomId, vote }, () => {})
+  }
+
   // ------------ chat -----------------
+  const getRoomChats = () => {
+    socket &&
+      socket.emit('get-initial-room-chats', roomId, ({ chats }) => {
+        setChats(chats)
+      })
+  }
   const sendNewChatMessage = (message) => {
     socket &&
       socket.emit('send-chat-message', message, () => {
@@ -780,6 +738,7 @@ const Party = () => {
       </>
     )
   }
+
   // --------------- screen share ----------
   const createScreenSharePeer = (peerobj) => {
     let pID = ''
@@ -803,23 +762,16 @@ const Party = () => {
 
     ScreenSharePeer.on('error', function (err) {
       console.log(err)
-      ScreenSharePeer.reconnect()
     })
 
     ScreenSharePeer.on('connection', function (dataConnection) {
       console.log('connected to peer', dataConnection)
     })
 
-    ScreenSharePeer.on('disconnect', function (client) {
-      // this will give you id in text or whatever format you are using
-      // console.log('screen share disconnect with id ' + client.id)
-      // removeVideo(client.id)
-    })
-
     ScreenSharePeer.on('call', async (call) => {
-      console.log('call', call)
-
-      call.answer()
+      if (localStream) {
+        call.answer(localStream)
+      }
 
       call.on('stream', (incomingStream) => {
         if (incomingStream) {
@@ -828,90 +780,7 @@ const Party = () => {
           addCaptureStream(incomingStream, call.peer)
         }
       })
-      call.on('close', () => {
-        console.log('closing capture listeners', call.peer)
-        removeVideo(call.peer)
-      })
-      call.on('error', () => {
-        console.log('capture error ------')
-        removeVideo(call.peer)
-      })
     })
-  }
-
-  // new video
-  const createVideo = (createObj) => {
-    setRoomChange((prevState) => (prevState += 1))
-    if (!createObj) {
-      createObj = {}
-    }
-    let match = document.getElementById(createObj?.id)
-
-    if (!match) {
-      const roomContainer = document.getElementById('peerContainer')
-
-      const videoContainer = document.createElement('div')
-
-      if (videoContainer) {
-        videoContainer.id = `parent-${createObj?.id}`
-        videoContainer.classList.add(`${styles.videoParent}`)
-        const video = document.createElement('video')
-        video.srcObject = createObj?.stream
-        video.id = createObj?.id
-        video.classList.add(`${styles.peerVideo}`)
-        video.autoplay = true
-        if (createObj?.id === 'owner') {
-          video.muted = true
-          videoContainer.classList.add(`${styles.ownerVideo}`)
-        }
-        videoContainer.appendChild(video)
-        roomContainer.append(videoContainer)
-      }
-    } else {
-      let el = document.getElementById(createObj?.id)
-      if (el) {
-        el.srcObject = createObj?.stream
-      }
-    }
-  }
-
-  const createCaptureVideo = (createObj) => {
-    setRoomChange((prevState) => (prevState += 1))
-    if (!createObj) {
-      createObj = {}
-    }
-    let match = document.getElementById(createObj?.id)
-    console.log('match', match)
-    if (!match) {
-      const roomContainer = document.getElementById(
-        'stream-window-capture-container',
-      )
-      const videoContainer = document.createElement('div')
-      if (videoContainer) {
-        videoContainer.id = `parent-${createObj?.id}`
-        videoContainer.classList.add('video-parent')
-        const video = document.createElement('video')
-        video.srcObject = createObj?.stream
-        video.id = createObj?.id
-        video.autoplay = true
-        if (myPeer.id === createObj?.id) video.muted = true
-        videoContainer.appendChild(video)
-        roomContainer.append(videoContainer)
-      }
-    } else {
-      let el = document.getElementById(createObj?.id)
-      if (el) {
-        el.srcObject = createObj?.stream
-      }
-    }
-  }
-
-  const removeVideo = (id) => {
-    setRoomChange((prevState) => (prevState += 1))
-    if (id) {
-      const video = document.getElementById(`parent-${id}`)
-      if (video) video.remove()
-    }
   }
 
   return (
@@ -951,53 +820,87 @@ const Party = () => {
             </li>
           </div>
         </ul>
+        {options ? (
+          <Options
+            diceRollHandler={diceRollHandler}
+            voteCallHandler={voteCallHandler}
+          />
+        ) : null}
         <section
-          ref={peerContainerRef}
-          id="peerContainer"
-          className={`${gridSize} ${styles.peerContainer}`}
+          id="stream-window-grid"
+          className={`streamVideo ${isSharingCapture ? 'streamActive' : ''}`}
         >
-          {/* {myPeer &&
-              (Peers || [])   
+          <section id="stream-window-grid-peer-container" className={gridSize}>
+            {myPeer &&
+              (Peers || [])
                 .filter((peer) => peer.peerId !== myPeer._id)
                 .map((peer, idx) => {
                   if (groupCallStreams[peer.peerId]) {
                     return (
-                      <video
-                        key={idx}
-                        ref={(el) => (groupStreamsRef.current[idx] = el)}
-                        id={`remoteVideo-${idx}`}
-                        autoPlay
-                        playsInline
-                      />
+                      <div className="peerWrapper" key={idx}>
+                        <video
+                          ref={(el) => (groupStreamsRef.current[idx] = el)}
+                          id={`remoteVideo-${idx}`}
+                          autoPlay
+                          playsInline
+                          className={
+                            userInfo[peer.name] && userInfo[peer.name].video
+                              ? 'active'
+                              : null
+                          }
+                        />
+                        <div
+                          id={`peerBox-${peer.name}`}
+                          className={
+                            userInfo[peer.name] && !userInfo[peer.name].video
+                              ? 'active'
+                              : null
+                          }
+                        >
+                          <img
+                            src={peer.img}
+                            alt={`${peer.name} profile pic`}
+                          />
+                          <p>{peer.name}</p>
+                        </div>
+                      </div>
                     )
                   }
-                  return (
-                    <div key={idx} id={`peerBox-${peer.name}`}>
-                      <img src={peer.img} alt={`${peer.name} profile pic`} />
-                      <p>{peer.name}</p>
-                    </div>
-                  )
-                })} */}
+                })}
+            <video
+              ref={localVidRef}
+              id="localVideo"
+              autoPlay
+              playsInline
+              muted={true}
+              className={
+                userInfo[userName] && userInfo[userName].video ? 'active' : ''
+              }
+            />
+            <div
+              id={`peerBox-${userName}`}
+              className={`localPeer ${
+                isSharingCapture &&
+                userInfo[userName] &&
+                !userInfo[userName].video
+                  ? 'active'
+                  : ''
+              }`}
+            >
+              <img src={userIcon} alt={`${userName} profile pic`} />
+              <p>{userName}</p>
+            </div>
+          </section>
+          <video
+            ref={groupCaptureVidRef}
+            id="screenShare"
+            autoPlay
+            playsInline
+            className="streamVideo"
+          />
         </section>
-        <section id="stream-window-capture-container">
-          {/* {ScreenSharePeer &&
-              Object.entries(groupCaptureStreams || []).map((str, idx) => {
-                if (str[0] && str[0] !== ScreenSharePeer.id) {
-                  console.log('video map', idx)
-                  return (
-                    <video
-                      style={{ height: '100px', width: '100px' }}
-                      key={idx}
-                      ref={(el) => (groupCaptureVidRef.current[idx] = el)}
-                      id={`remoteVideo-${idx}`}
-                      autoPlay
-                      playsInline
-                    />
-                  )
-                }
-                return null
-              })} */}
-        </section>
+        <DiceModal outsideDiceRoll={outsideDiceRoll} />
+        <VoteModal outsideVoteCall={outsideVoteCall} userVote={userVote} />
       </section>
       <section
         id="stream-window-chat"

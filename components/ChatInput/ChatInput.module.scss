@@ -2,7 +2,8 @@
 @import '../../styles/config/config-type';
 
 #ChatInput {
-  width: 100%;
+  // width: 100%;
+  margin: 24px 16px 8px;
   border: 1px solid $black50;
   border-radius: 4px;
 
@@ -51,7 +52,7 @@
     &Left {
       position: relative;
 
-      button {
+      > button {
         position: relative;
         margin: 0 4px;
         height: 36px;
@@ -89,7 +90,7 @@
         }
         &.SendMessage {
           &:before {
-            @include font-icon($icon-check);
+            @include font-icon($icon-check-circle);
           }
           &:not(:disabled) {
             &:before {
@@ -117,7 +118,7 @@
     }
   }
 
-  .emoji-mart {
+  .emojiPicker {
     position: absolute;
     bottom: 0;
     z-index: 1;

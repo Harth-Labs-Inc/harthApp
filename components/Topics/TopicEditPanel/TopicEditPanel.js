@@ -6,7 +6,8 @@ import { useAuth } from '../../../contexts/auth'
 import { useSocket } from '../../../contexts/socket'
 
 import { CloseBtn } from '../../Common/Button'
-import { ToggleSwitch } from '../../Common'
+import { ToggleSwitch, TextButton } from '../../Common'
+import Modal from '../../Modal'
 
 import TopicMemberList from './TopicMemberList'
 import TopicAddList from './TopicMemberList'
@@ -222,23 +223,15 @@ export default function TopicEditPanel(props) {
         <AddListPanel />
       </CSSTransition>
       {showLeaveModal ? (
-        <div
-          style={{
-            position: 'fixed',
-            zIndex: 100,
-            background: 'white',
-            padding: 10,
-            border: '1px solid black',
-          }}
-        >
-          <p>are you sure you want to leave room</p>
-          <button type="button" onClick={toggleLeaveModal}>
-            CANCEL
-          </button>
-          <button type="button" onClick={leaveTopicHandler}>
-            Yes, I'm sure
-          </button>
-        </div>
+        <Modal show={showLeaveModal} onToggleModal={setShowLeaveModal}>
+          <p>
+            You are about to leave <br /> {(selectedTopic || {}).title}{' '}
+          </p>
+          <p>You must be invited back to rejoin.</p>
+          <TextButton type="button" onClick={leaveTopicHandler} text="Leave" />
+
+          <TextButton type="button" onClick={toggleLeaveModal} text="Cancel" />
+        </Modal>
       ) : null}
       <section className={styles.topicSettings}>
         <header>

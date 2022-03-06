@@ -1,4 +1,10 @@
-import { createContext, useLayoutEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from 'react'
 
 export const SizeContext = createContext({})
 export const MobileContext = createContext(false)
@@ -27,3 +33,5 @@ export const ResponsiveProvider = (props) => {
     </SizeContext.Provider>
   )
 }
+
+export const useSize = () => useContext(SizeContext)
