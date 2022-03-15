@@ -574,7 +574,7 @@ const Stream = () => {
 
     myPeer.on('disconnect', function (client) {
       console.log('disconnect with id ' + client.id)
-      removeVideo(client.id)
+      removeVideo(client?.id)
     })
 
     myPeer.on('connection', function (dataConnection) {
@@ -582,7 +582,7 @@ const Stream = () => {
     })
     myPeer.on('close', function (client) {
       console.log('video share closing')
-      removeVideo(client.id)
+      removeVideo(client?.id)
     })
 
     myPeer.on('call', async (call) => {

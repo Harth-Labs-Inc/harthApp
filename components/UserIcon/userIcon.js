@@ -1,19 +1,20 @@
 import styles from './UserIcon.module.scss'
 
-const UserIcon = ({ id, img, name }) => {
+const UserIcon = ({ id, img, name, showName = true, size = 'regular' }) => {
   return (
     <>
-      {img ? (
-        <span className={styles.userIconWrapper}>
+      <span
+        className={`${styles.userIconWrapper} ${
+          size === 'small' ? styles.userIconSmall : styles.userIconRegular
+        }`}
+      >
+        {img ? (
           <img className={styles.userIconImage} src={img} />
-          <span className={styles.userIconName}>{name}</span>
-        </span>
-      ) : (
-        <span className={styles.userIconWrapper}>
+        ) : (
           <span className={styles.userIconImage} src={img} />
-          <span className={styles.userIconName}>{name}</span>
-        </span>
-      )}
+        )}
+        {showName ? <span className={styles.userIconName}>{name}</span> : null}
+      </span>
     </>
   )
 }

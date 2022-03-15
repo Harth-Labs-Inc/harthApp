@@ -3,26 +3,57 @@
 
 .button {
   position: relative;
-  padding: $gutter * 2;
-  color: $white;
-  font-size: 16px;
+  padding: 10px 20px;
+
+  font-size: 14px;
+  font-weight: 500;
   letter-spacing: 0.129px;
-  line-height: 21px;
-  background-color: $text-black;
+  line-height: 19px;
+
   border: 0;
   border-radius: 24px;
   outline: 0;
   cursor: pointer;
   transition: all 0.3s;
 
-  + .button {
-    margin-top: 24px;
+  &:before {
+    @include x-y-center;
+    color: inherit;
   }
 
-  &:hover {
-    color: #f7f7f7;
-    background-color: #9a9a9a;
+  &FullWidth {
+    width: 100%;
   }
+
+  &Primary {
+    color: $white;
+    background-color: $text-black;
+    &:hover {
+      color: #f7f7f7;
+      background-color: #9a9a9a;
+    }
+  }
+  &Secondary {
+    color: #333;
+    background-color: #eaeaea;
+    &:hover {
+      color: #f7f7f7;
+      background-color: #9a9a9a;
+    }
+  }
+  &Tertiary {
+    color: #9a9a9a;
+    background-color: #f7f7f7;
+    &:hover {
+      color: #333;
+      background-color: #eaeaea;
+    }
+  }
+
+  + .button {
+    margin-left: 8px;
+  }
+
   &:disabled {
     color: #9a9a9a;
     background-color: #eaeaea;

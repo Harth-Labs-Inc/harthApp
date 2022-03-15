@@ -327,12 +327,12 @@ const Voice = () => {
     })
 
     myPeer.on('disconnect', function (client) {
-      removeVideo(client.id)
+      removeVideo(client?.id)
     })
 
     myPeer.on('connection', function (dataConnection) {})
     myPeer.on('close', function (client) {
-      removeVideo(client.id)
+      removeVideo(client?.id)
     })
 
     myPeer.on('call', async (call) => {
@@ -683,31 +683,6 @@ const Voice = () => {
       </section>
 
       <section id={styles.VoiceVideoContainer}>
-        {/* <ul role="nav" id="stream-window-controls">
-          <div className="list-left">
-            <li onClick={leaveRoom}>
-              <button id="leave_room">leave</button>
-            </li>
-          </div>
-          <div className="list-center">
-            <li onClick={toggleAudio}>
-              <button id={muteOn ? 'unmuted' : 'muted'}>mute</button>
-            </li>
-            <li onClick={toggleOptions}>
-              <button id="options" className={options ? 'active' : null}>
-                options
-              </button>
-            </li>
-            <li
-              className={`
-                ${unreadMsg ? 'unread' : ''}
-                ${showChatPannel ? 'open' : 'closed'}`}
-              onClick={toggleChat}
-            >
-              <button id="chat">chat</button>
-            </li>
-          </div>
-        </ul> */}
         <section
           ref={peerContainerRef}
           id="peerContainer"

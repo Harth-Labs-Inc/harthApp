@@ -68,3 +68,14 @@ export const deleteScheduledRoom = async (id) => {
     console.log(error)
   }
 }
+
+export const updateScheduleRoom = async (room) => {
+  try {
+    const res = await api.post(`/api/rooms/updateScheduleRoom`, {
+      room,
+    })
+    return res.data
+  } catch (error) {
+    console.log(error)
+  }
+}

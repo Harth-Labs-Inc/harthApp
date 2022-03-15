@@ -85,6 +85,17 @@
   &Leave {
   }
 
+  &Edit {
+    &:before {
+      @include font-icon($icon-edit);
+    }
+  }
+  &Delete {
+    &:before {
+      @include font-icon($icon-delete);
+    }
+  }
+
   &.party {
     .gatheringCardType {
       &:before {
@@ -104,6 +115,12 @@
       &:before {
         @include font-icon($icon-stream);
       }
+    }
+  }
+
+  &Scheduled {
+    &Type {
+      background-color: #333;
     }
   }
 }

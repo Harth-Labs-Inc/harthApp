@@ -364,27 +364,6 @@
       font-size: 10px;
     }
   }
-  #form_step_list {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    margin: 55px 0 24px;
-    padding: 0;
-
-    li + li {
-      margin-left: 8px;
-    }
-
-    li {
-      height: 4px;
-      width: 48px;
-      background-color: #fff;
-      border: 1px solid #333;
-      &.active {
-        background-color: #333;
-      }
-    }
-  }
 
   #gathering_button {
     width: 100%;
@@ -403,83 +382,15 @@
   list-style: none;
   padding: 0;
 
-  .room-container {
-    position: relative;
-    padding: 64px 16px 16px;
-    width: 280px;
-    margin: 0 16px 16px 0;
-    border: 1px solid #eaeaea;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(#000, 0.16);
-
-    .room-type {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 56px;
-      height: 48px;
-      color: #fff;
-      font-size: 0;
-      background-color: #ee5500;
-      border-bottom-left-radius: 50%;
-      border-bottom-right-radius: 50%;
-      &:before {
-        @include x-y-center;
-        font-size: 31px;
-      }
-    }
-
-    .room-title {
-      margin: 16px 0 8px;
-      font-size: 20px;
-      font-weight: bold;
-      line-height: 26px;
-    }
-
-    .room-peer-list {
-      display: flex;
-      justify-content: flex-end;
-      list-style: none;
-      margin-bottom: 20px;
-      padding: 0;
-      width: 100%;
-    }
-
-    .room-join {
-      display: block;
-      margin-left: auto;
-      padding: 10px 24px;
-      color: #9a9a9a;
-      background-color: #f7f7f7;
-      border: 0;
-      border-radius: 20px;
-      filter: none;
-      cursor: pointer;
-    }
-
-    &.party {
-      .room-type {
-        &:before {
-          @include font-icon($icon-party);
-        }
-      }
-    }
-    &.voice {
-      .room-type {
-        &:before {
-          @include font-icon($icon-voice);
-        }
-      }
-    }
-    &.stream {
-      .room-type {
-        &:before {
-          @include font-icon($icon-stream);
-        }
-      }
-    }
-  }
+  //   .room-container {
+  //     position: relative;
+  //     padding: 64px 16px 16px;
+  //     width: 280px;
+  //     margin: 0 16px 16px 0;
+  //     border: 1px solid #eaeaea;
+  //     border-radius: 8px;
+  //     box-shadow: 0 2px 4px rgba(#000, 0.16);
+  //   }
 }
 
 #stream-window-peer-container {

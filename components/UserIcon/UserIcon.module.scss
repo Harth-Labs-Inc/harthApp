@@ -13,9 +13,7 @@
 
   &Image {
     position: relative;
-    margin-right: 8px;
-    height: 48px;
-    width: 48px;
+
     font-size: 48px;
     line-height: 48px;
     border-radius: 50%;
@@ -27,6 +25,21 @@
       z-index: 2;
 
       color: $black50;
+    }
+  }
+
+  &Regular {
+    .userIconImage {
+      height: 48px;
+      width: 48px;
+      margin-right: 8px;
+    }
+  }
+  &Small {
+    .userIconImage {
+      height: 32px;
+      width: 32px;
+      margin-right: 2px;
     }
   }
 }

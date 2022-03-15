@@ -157,3 +157,22 @@ export function ellapsedTime(date1) {
 
   return result
 }
+
+export function convertToMilitaryTime(time) {
+  try {
+    let hours = Number(time.match(/^(\d+)/)[1])
+    let minutes = Number(time.match(/:(\d+)/)[1])
+    const AMPM = time.match(/\s(.*)$/)[1]
+    if (AMPM.toLowerCase() === 'pm' && hours < 12) hours = hours + 12
+    if (AMPM.toLowerCase() === 'am' && hours == 12) hours = hours - 12
+
+    let sHours = hours.toString()
+    let sMinutes = minutes.toString()
+    if (hours < 10) sHours = '0' + sHours
+    if (minutes < 10) sMinutes = '0' + sMinutes
+
+    return `${sHours}:${sMinutes}`
+  } catch (error) {
+    return time
+  }
+}

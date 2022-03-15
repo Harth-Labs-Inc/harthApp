@@ -22,9 +22,6 @@ export const ResponsiveProvider = (props) => {
   const sizeContext = useMemo(() => ({ width }), [width])
   const mobileContext = useMemo(() => ({ isMobile }), [isMobile])
 
-  console.log(width)
-  console.log(mobileContext)
-
   return (
     <SizeContext.Provider value={sizeContext}>
       <MobileContext.Provider value={mobileContext}>

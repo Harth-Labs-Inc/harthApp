@@ -1,17 +1,36 @@
 import styles from './Button.module.scss'
 
 export const Button = (props) => {
-  const { disabled, fullWidth } = props
+  const {
+    text,
+    disabled,
+    fullWidth = false,
+    tier = 'primary',
+    textLabel,
+    className,
+    onClick,
+  } = props
 
-  const buttonClasses = () => {}
+  const buttonClasses = () => {
+    if (tier === 'secondary') {
+      return styles.buttonSecondary
+    } else if (tier === 'tertiary') {
+      return styles.buttonTertiary
+    } else {
+      return styles.buttonPrimary
+    }
+  }
 
   return (
     <button
-      className={`${styles.button} ${fullWidth ? styles.buttonFullWidth : ''}`}
+      className={`${styles.button} ${buttonClasses()} ${
+        fullWidth ? styles.buttonFullWidth : ''
+      } ${className}`}
       disabled={disabled}
-      {...props}
+      aria-label={textLabel}
+      onClick={onClick}
     >
-      {props.text}
+      {text}
     </button>
   )
 }

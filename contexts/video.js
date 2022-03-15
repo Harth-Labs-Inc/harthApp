@@ -50,15 +50,12 @@ export const VideoProvider = ({ children }) => {
         let { event, groupCallRooms, peers } = data
         switch (event) {
           case 'GROUP_CALL_ROOMS':
-            console.log(groupCallRooms, 'reereeree')
             setCallRooms(groupCallRooms)
 
             break
           case 'GROUP_CALL_PEERS':
             let rooms = [...callRooms]
-            console.log(rooms)
             rooms.forEach((room, index) => {
-              console.log(room, 'roo,')
               if (peers[0] && room.roomId === peers[0].roomId) {
                 rooms[index].peers = peers
                 setCallRooms(rooms)
@@ -73,21 +70,18 @@ export const VideoProvider = ({ children }) => {
         room.harthid = room.harthId
         getInitialScheduledCallRooms(room)
       })
-
-      // socket.on('group-call-join-request', (data) => {
-      //   console.log('another user has joined', data)
-      //   connectToNewUser(data)
-      // })
-      // socket.on('group-call-user-left', (data) => {
-      //   console.log('user stream to be removed', data)
-      // })
+      socket.on('refresh Scheduled rooms', (room) => {
+        getInitialScheduledCallRooms(room)
+      })
     }
   }, [socket, socketID, localStream])
 
   const pushScheduledRoom = (data) => {
     socket && socket.emit('new-scheduled-room', data)
   }
-
+  const refreshScheduledCallRooms = (room) => {
+    socket && socket.emit('refresh-scheduled-rooms', room)
+  }
   const getInitialCallRooms = (data) => {
     let options = {}
     if (data) {
@@ -100,7 +94,7 @@ export const VideoProvider = ({ children }) => {
     let id = data.harthid ? data.harthid : data.harthId ? data.harthId : ''
     let result = await getScheduledCallRooms(id)
     let { ok, rms } = result
-    if (ok && rms && rms.length) {
+    if (ok && rms) {
       setScheduledcallRooms([...rms])
       rms.forEach((rm) => {
         let date = combineDateTime(rm.gatheringDate, rm.gatheringTime)
@@ -176,7 +170,6 @@ export const VideoProvider = ({ children }) => {
 
     myPeer.on('open', (peerid) => {
       setMyPeerId(peerid)
-      console.log('my peer id is: ', peerid)
       pID = peerid
       joinGroupCall(peerid, data)
     })
@@ -221,7 +214,6 @@ export const VideoProvider = ({ children }) => {
   }
 
   const addVideoStream = (incomingStream, peerid) => {
-    console.log(groupCallStreams, peerid)
     let groupstreams = { ...groupCallStreams, [peerid]: incomingStream }
     setGroupCallStreams(groupstreams)
   }
@@ -257,6 +249,8 @@ export const VideoProvider = ({ children }) => {
         leaveGroupCall,
         connectWithMyPeer,
         pushScheduledRoom,
+        getInitialScheduledCallRooms,
+        refreshScheduledCallRooms,
       }}
     >
       {children}
@@ -265,232 +259,3 @@ export const VideoProvider = ({ children }) => {
 }
 
 export const useVideo = () => useContext(VideoContext)
-
-// import { resolveHref } from 'next/dist/next-server/lib/router/router'
-// import { createContext, useState, useContext, useEffect } from 'react'
-// import socketClient from 'socket.io-client'
-
-// const VideoContext = createContext({})
-
-// let myPeer
-// let groupCallStreams = []
-
-// export const VideoProvider = ({ children }) => {
-//   const [socket, setSocket] = useState(null)
-//   const [callRooms, setCallRooms] = useState([])
-//   const [socketID, setSocketID] = useState(null)
-//   const [localStream, setLocalStream] = useState()
-//   const [captureStream, setCaptureStream] = useState()
-
-//   const [videoStreams, setVideoStreams] = useState([])
-//   const [remoteStream, setRemoteStream] = useState(null)
-//   const [myPeerId, setMyPeerId] = useState(null)
-//   const [callState, setCallState] = useState(null)
-
-//   const [callStates, setCallStates] = useState({
-//     CALL_UNAVAILABLE: 'CALL_UNAVAILABLE',
-//     CALL_AVAILABLE: 'CALL_AVAILABLE',
-//     CALL_REQUESTED: 'CALL_REQUESTED',
-//     CALL_IN_PROGRESS: 'CALL_IN_PROGRESS',
-//   })
-//   const [defaultConstrains, setDefaultConstrains] = useState({
-//     video: {
-//       width: 480,
-//       height: 360,
-//     },
-//     audio: false,
-//   })
-//   const [configuration, setConfiguration] = useState({
-//     iceServers: [
-//       {
-//         urls: 'stun:stun.l.google.com:13902',
-//       },
-//     ],
-//   })
-
-//   useEffect(() => {
-//     let urls = {
-//       development: 'http://localhost:5000',
-//       production: 'https://project-blarg-video-socket.herokuapp.com',
-//     }
-//     setSocket(socketClient(urls[process.env.NODE_ENV]))
-//   }, [])
-
-//   useEffect(() => {
-//     if (socket) {
-//       socket.on('connection', () => {
-//         setSocketID(socket.id)
-//       })
-//       socket.on('broadcast', (data) => {
-//         let { event, groupCallRooms } = data
-//         switch (event) {
-//           case 'GROUP_CALL_ROOMS':
-//             setCallRooms(groupCallRooms)
-//             break
-
-//           default:
-//             break
-//         }
-//       })
-//       socket.on('group-call-join-request', (data) => {
-//         console.log('another user has joined', data)
-//         connectToNewUser(data)
-//       })
-//       socket.on('group-call-user-left', (data) => {
-//         console.log('user stream to be removed', data)
-//         removeInactiveStream(data)
-//       })
-//     }
-//   }, [socket, socketID, localStream])
-
-//   const getInitialCallRooms = () => {
-//     socket && socket.emit('get-initial-call-rooms')
-//   }
-//   const createEmptyRoom = (data) => {
-//     socket && socket.emit('create-call-room', data)
-//   }
-//   const getLocalStream = async () => {
-//     let stream = await navigator.mediaDevices.getUserMedia(defaultConstrains)
-//     setLocalStream(stream)
-//   }
-//   const getScreenCapture = async () => {
-//     try {
-//       let capture = await navigator.mediaDevices.getDisplayMedia({
-//         video: {
-//           cursor: 'always',
-//         },
-//         audio: false,
-//       })
-
-//       if (capture) {
-//         setCaptureStream(capture)
-//       }
-//     } catch (err) {
-//       console.error('Error: ' + err)
-//     }
-//   }
-// const connectWithMyPeer = (data) => {
-//   myPeer = new window.Peer(undefined, {
-//     path: '/peerjs',
-//     host: '/',
-//     port: '5000',
-//   })
-
-//   myPeer.on('open', (peerid) => {
-//     setMyPeerId(peerid)
-//     joinGroupCall(peerid, data)
-//   })
-
-//   myPeer.on('call', async (call) => {
-//     console.log('incommiing call....', call)
-//     if (localStream) {
-//       call.answer(localStream)
-//     } else {
-//       let initialAudio = await navigator.mediaDevices.getUserMedia({
-//         video: false,
-//         audio: true,
-//       })
-//       call.answer(initialAudio)
-//     }
-
-//     call.on('stream', (incomingStream) => {
-//       console.log('incoming stream ....', incomingStream)
-//       if (incomingStream) {
-//         const streams = groupCallStreams
-//         const stream = streams.find(
-//           (stream) => stream && stream.id === incomingStream.id,
-//         )
-
-//         if (!stream) {
-//           addVideoStream(incomingStream)
-//         }
-//       }
-//     })
-//   })
-// }
-//   const joinGroupCall = (peerid, data) => {
-//     let { roomId, userIcon, userName } = data
-//     userWantsToJoinGroupCall({
-//       userName,
-//       userIcon,
-//       peerId: peerid,
-//       socketID,
-//       roomId,
-//       localStreamId: (localStream || {}).id || '',
-//     })
-//   }
-//   const userWantsToJoinGroupCall = (data) => {
-//     socket && socket.emit('group-call-join-request', data)
-//   }
-//   const addVideoStream = (incomingStream) => {
-//     groupCallStreams = [...groupCallStreams, incomingStream]
-//     setVideoStreams(groupCallStreams)
-//   }
-//   const connectToNewUser = async (data) => {
-//     let initialAudio = await navigator.mediaDevices.getUserMedia({
-//       video: false,
-//       audio: true,
-//     })
-//     console.log('connecting...', initialAudio)
-//     if (myPeer) {
-//       const call = myPeer.call(data.peerId, initialAudio)
-//       call.on('stream', (incomingStream) => {
-//         console.log('incoming stream...', incomingStream)
-//         if (incomingStream) {
-//           console.log(incomingStream.id, groupCallStreams)
-//           const streams = groupCallStreams
-//           const stream = streams.find(
-//             (stream) => stream && stream.id === incomingStream.id,
-//           )
-
-//           if (!stream) {
-//             addVideoStream(incomingStream)
-//           }
-//         }
-//       })
-//     }
-//   }
-//   const leaveGroupCall = (data) => {
-//     return new Promise((res, rej) => {
-//       socket &&
-//         socket.emit('group-call-user-left', data, (response) => {
-//           console.log(response)
-//           if (response.ok) {
-//             res(true)
-//           }
-
-//           if (myPeer) {
-//             myPeer.destroy()
-//           }
-//         })
-//     })
-//   }
-//   const removeInactiveStream = (data) => {
-//     groupCallStreams = groupCallStreams.filter(
-//       (stream) => stream.id !== data.streamId,
-//     )
-//   }
-
-//   return (
-//     <VideoContext.Provider
-//       value={{
-//         socket,
-//         localStream,
-//         socketID,
-//         callRooms,
-//         groupCallStreams,
-//         captureStream,
-//         connectWithMyPeer,
-//         getLocalStream,
-//         getInitialCallRooms,
-//         createEmptyRoom,
-//         leaveGroupCall,
-//         getScreenCapture,
-//       }}
-//     >
-//       {children}
-//     </VideoContext.Provider>
-//   )
-// }
-
-// export const useVideo = () => useContext(VideoContext)

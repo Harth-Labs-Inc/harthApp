@@ -22,28 +22,33 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
   }
 
   const ImageHolder = () => {
+    console.log(attachments)
     if (attachments.length > 0) {
       return (
         <div className="image-holder">
-          {(attachments || []).map((file, idx) => (
-            <div className="image-to-attach">
-              <img
-                id={file.name}
-                key={file.name}
-                ref={(el) => (attRefs.current[idx] = el)}
-                alt=""
-                style={{ height: '100px', width: '100px' }}
-              />
-              <button
-                className="remove-image"
-                onClick={() => {
-                  removeAttachment(idx)
-                }}
-              >
-                remove image
-              </button>
-            </div>
-          ))}
+          {(attachments || []).map((file, idx) => {
+            let src = window.URL.createObjectURL(file)
+            return (
+              <div className="image-to-attach">
+                <img
+                  src={src}
+                  id={file.name}
+                  key={file.name}
+                  ref={(el) => (attRefs.current[idx] = el)}
+                  alt=""
+                  style={{ height: '100px', width: '100px' }}
+                />
+                <button
+                  className="remove-image"
+                  onClick={() => {
+                    removeAttachment(idx)
+                  }}
+                >
+                  remove image
+                </button>
+              </div>
+            )
+          })}
         </div>
       )
     }

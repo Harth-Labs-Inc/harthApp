@@ -26,7 +26,7 @@ function useMutationObservable(targetEl, cb, options = DEFAULT_OPTIONS) {
 export default function ChatAttachment({ attachments }) {
   const listRef = useRef()
   const [count, setCount] = useState(2)
-  const [fruits, setFruits] = useState([])
+  const [images, setImages] = useState([])
   const onListMutation = useCallback(
     (mutationList) => {
       console.log('item added')
@@ -36,13 +36,17 @@ export default function ChatAttachment({ attachments }) {
   )
 
   useEffect(() => {
+    console.log('new list item added', listRef.current)
+  }, [count])
+
+  useEffect(() => {
     if (attachments) {
       attachments.forEach((att) => {
         var arrayBufferView = new Uint8Array(att)
         var blob = new Blob([arrayBufferView], { type: 'image/jpeg' })
         var urlCreator = window.URL || window.webkitURL
         var imageUrl = urlCreator.createObjectURL(blob)
-        setFruits([...fruits, imageUrl])
+        setImages([...images, imageUrl])
       })
     }
   }, [attachments])
@@ -51,11 +55,14 @@ export default function ChatAttachment({ attachments }) {
 
   return (
     <ul ref={listRef}>
-      {fruits.map((f) => (
-        <li key={f}>
-          <img src={f} />
-        </li>
-      ))}
+      {images.map((f) => {
+        console.log(f)
+        return (
+          <li key={f}>
+            <img src={f} />
+          </li>
+        )
+      })}
     </ul>
   )
 }

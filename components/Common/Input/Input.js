@@ -1,3 +1,5 @@
+import styles from './Input.module.scss'
+
 export const Input = (props) => {
   const {
     name,
@@ -56,27 +58,26 @@ export const Input = (props) => {
   }
 
   return (
-    <>
-      <fieldset
-        className={`${empty ? 'content' : undefined} 
+    <fieldset
+      className={`${styles.inputComponent}
+                    ${empty ? 'content' : undefined} 
                     ${matching ? 'error_matching' : undefined} 
                     ${isrequired ? 'error_required' : undefined} 
                     ${customError ? 'error_custom' : undefined}`}
-      >
-        <label htmlFor={name}>{title}</label>
-        <input
-          className="form-input"
-          id={name}
-          name={name}
-          type={type}
-          value={value}
-          onChange={inputChangeHandler}
-          autoComplete="off"
-          placeholder={placeholder}
-          {...props}
-        />
-        <ErrorMessage />
-      </fieldset>
-    </>
+    >
+      <label htmlFor={name}>{title}</label>
+      <input
+        className="form-input"
+        id={name}
+        name={name}
+        type={type}
+        value={value}
+        onChange={inputChangeHandler}
+        autoComplete="off"
+        placeholder={placeholder}
+        {...props}
+      />
+      <ErrorMessage />
+    </fieldset>
   )
 }

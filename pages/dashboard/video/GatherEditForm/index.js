@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { saveRoom } from '../../../../requests/rooms'
+import { updateScheduleRoom } from '../../../../requests/rooms'
 
 import GatheringText from './GatheringText'
 import GatheringType from './GatheringType'
@@ -23,7 +23,7 @@ function GatherForm(props) {
     <GatheringTime validate={validationIds} />,
   ]
 
-  const { pushScheduledRoom, socketID } = useVideo()
+  const { pushScheduledRoom, socketID, refreshScheduledCallRooms } = useVideo()
 
   const useFormProgress = () => {
     const [currentStep, setCurrentStep] = useState(0)
@@ -53,7 +53,7 @@ function GatherForm(props) {
     if (currentStep !== 2) {
       return 'Continue'
     } else {
-      return 'Create'
+      return 'Update'
     }
   }
 
@@ -89,35 +89,18 @@ function GatherForm(props) {
   }
 
   async function handleSubmitSchedule() {
+    console.log('update schedule room', state)
     let newRoom = { ...state }
 
     if (newRoom && newRoom.gatheringTime) {
       newRoom.gatheringTime = convertToAmPm(newRoom.gatheringTime)
     }
-    newRoom.harthId = props.harthId
-    newRoom.hostName = props.creator.name
-    newRoom.icon = props.creator.iconKey
-    newRoom.harthName = props.harthName
-    newRoom.socketId = socketID
-    newRoom.acceptedPeers = [{ ...props.creator, img: props.creator.iconKey }]
 
     dispatch({ type: 'SUBMIT' })
-    const data = await saveRoom(newRoom)
-
-    let { id, ok } = data || {}
-    if (ok) {
-      if (id) {
-        newRoom._id = id
-        pushScheduledRoom(newRoom)
-        dispatch({ type: 'GATHERING_CREATED' })
-      }
-    }
+    const data = await updateScheduleRoom(newRoom)
+    refreshScheduledCallRooms(newRoom)
+    props.closeHandler()
   }
-
-  // function handleSubmitSchedule() {
-  //   dispatch({ type: 'SUBMIT' })
-  //   dispatch({ type: 'GATHERING_CREATED' })
-  // }
 
   if (state.isSubmitLoading) {
     return <div>Creating Gathering</div>
