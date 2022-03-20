@@ -33,6 +33,7 @@ const Voice = () => {
   const [socketID, setSocketID] = useState(null)
   const [callRooms, setCallRooms] = useState([])
   const [groupCallStreams, setGroupCallStreams] = useState({})
+  const [activeCallRoom, setActiveCallRoom] = useState({})
   const [roomChange, setRoomChange] = useState(0)
   const [activeTimer, setActiveTimer] = useState('')
 
@@ -80,6 +81,18 @@ const Voice = () => {
     }
     startAudio()
   }, [])
+
+  useEffect(() => {
+    let tempactiveCallRoom = {}
+    if (roomId) {
+      tempactiveCallRoom = callRooms?.filter((room) => {
+        console.log(room)
+        console.log(roomId)
+        return room.roomId === roomId
+      })
+    }
+    setActiveCallRoom(tempactiveCallRoom[0] || {})
+  }, [callRooms])
 
   useEffect(() => {
     if (localStream) {
@@ -600,7 +613,9 @@ const Voice = () => {
       <section className={styles.voiceGatheringPeers}>
         <div className={styles.voiceGatheringHeader}>
           <p className={styles.voiceGatheringHeaderTitle}>
-            {callRooms[0] ? `${callRooms[0].roomName}` : null}
+            {activeCallRoom && activeCallRoom?.roomName
+              ? `${activeCallRoom?.roomName}`
+              : null}
           </p>
           {activeTimer} Active
         </div>

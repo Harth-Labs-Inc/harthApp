@@ -5,6 +5,8 @@ import { getTurnServers } from '../../../util/TURN'
 
 import styles from './Stream.module.scss'
 
+import GeneralChatInput from '../../../components/ChatInput/ChatInputGeneral'
+
 let myPeer
 let ScreenSharePeer
 let groupStreams = {}
@@ -28,6 +30,7 @@ const Stream = () => {
   const [callRooms, setCallRooms] = useState([])
   const [groupCallStreams, setGroupCallStreams] = useState({})
   const [groupCaptureStreams, setGroupCaptureStreams] = useState({})
+  const [activeCallRoom, setActiveCallRoom] = useState({})
 
   const [localStream, setLocalStream] = useState()
   const [localStreamChange, setLocalStreamChange] = useState(0)
@@ -84,6 +87,18 @@ const Stream = () => {
     }
     startAudio()
   }, [])
+
+  useEffect(() => {
+    let tempactiveCallRoom = {}
+    if (roomId) {
+      tempactiveCallRoom = callRooms?.filter((room) => {
+        console.log(room)
+        console.log(roomId)
+        return room.roomId === roomId
+      })
+    }
+    setActiveCallRoom(tempactiveCallRoom[0] || {})
+  }, [callRooms])
 
   useEffect(() => {
     console.log('local stream has changed')
@@ -681,10 +696,9 @@ const Stream = () => {
     const { value } = e.target
     setNewChatMsg({ value })
   }
-  const chatSubmitHandler = (e) => {
-    e.preventDefault()
+  const chatSubmitHandler = (msg) => {
     let message = {
-      ...newChatMsg,
+      ...msg,
       roomId: roomId,
       code: 0,
       date: new Date(),
@@ -850,12 +864,13 @@ const Stream = () => {
       if (video) video.remove()
     }
   }
-
   return (
     <main id="stream-window" ref={mainRef}>
       <section id="stream-window-video-container">
         <div id="stream-window-title">
-          {callRooms[0] ? `${callRooms[0].roomName}` : null}
+          {activeCallRoom && activeCallRoom?.roomName
+            ? `${activeCallRoom?.roomName}`
+            : null}
         </div>
         <ul role="nav" id="stream-window-controls">
           <div className="list-left">
@@ -959,7 +974,9 @@ const Stream = () => {
             )
           })}
         </ul>
-        <form id="chat_input_container" onSubmit={chatSubmitHandler}>
+        <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
+
+        {/* <form id="chat_input_container" onSubmit={chatSubmitHandler}>
           <textarea
             id="chat_input_box"
             type="text"
@@ -974,7 +991,7 @@ const Stream = () => {
               </button>
             </div>
           </div>
-        </form>
+        </form> */}
       </section>
     </main>
   )

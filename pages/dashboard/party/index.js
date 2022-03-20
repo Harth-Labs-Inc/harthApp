@@ -4,7 +4,10 @@ import io from 'socket.io-client'
 import { getTurnServers } from '../../../util/TURN'
 import { useSize } from '../../../contexts/mobile'
 
+import Options from './Options'
 import styles from './Party.module.scss'
+
+import GeneralChatInput from '../../../components/ChatInput/ChatInputGeneral'
 
 let myPeer
 let ScreenSharePeer
@@ -29,6 +32,7 @@ const Party = () => {
   const [callRooms, setCallRooms] = useState([])
   const [groupCallStreams, setGroupCallStreams] = useState({})
   const [groupCaptureStreams, setGroupCaptureStreams] = useState({})
+  const [activeCallRoom, setActiveCallRoom] = useState({})
   const [roomChange, setRoomChange] = useState(0)
 
   const [localStream, setLocalStream] = useState()
@@ -61,6 +65,17 @@ const Party = () => {
   useEffect(() => {
     resize()
   }, [width, roomChange])
+  useEffect(() => {
+    let tempactiveCallRoom = {}
+    if (roomId) {
+      tempactiveCallRoom = callRooms?.filter((room) => {
+        console.log(room)
+        console.log(roomId)
+        return room.roomId === roomId
+      })
+    }
+    setActiveCallRoom(tempactiveCallRoom[0] || {})
+  }, [callRooms])
 
   useEffect(() => {
     let urls = {
@@ -241,39 +256,6 @@ const Party = () => {
       connectCaptureUsers(true)
     }
   }, [captureStream])
-
-  useEffect(() => {
-    // if (Object.keys(groupStreams).length) {
-    //   Object.values(groupStreams).forEach((stream, idx) => {
-    //     const remoteGroupCallVideo = groupStreamsRef.current[idx]
-    //     if (remoteGroupCallVideo) {
-    //       remoteGroupCallVideo.srcObject = stream
-    //       remoteGroupCallVideo.onloadedmetadata = () => {
-    //         remoteGroupCallVideo.play()
-    //       }
-    //     }
-    //   })
-    // }
-  }, [groupCallStreams])
-
-  useEffect(() => {
-    // if (Object.keys(groupCaptStreams).length) {
-    //   Object.values(groupCaptStreams).forEach((str, idx) => {
-    //     const remoteGroupCallVideo = groupCaptureVidRef.current[idx]
-    //     if (remoteGroupCallVideo) {
-    //       if (str.owner && str.owner === ScreenSharePeer.id) {
-    //         console.log('is owner video')
-    //       } else {
-    //         console.log('is owner video')
-    //         remoteGroupCallVideo.srcObject = str.stream
-    //         remoteGroupCallVideo.onloadedmetadata = () => {
-    //           remoteGroupCallVideo.play()
-    //         }
-    //       }
-    //     }
-    //   })
-    // }
-  }, [groupCaptureStreams])
 
   const resize = () => {
     let container = document.getElementById('peerContainer')
@@ -577,7 +559,7 @@ const Party = () => {
     createCaptureVideo({ id: peerid, stream: incomingStream })
   }
   const toggleOptions = () => {
-    setOptions(!options)
+    setOptions((prevOptions) => !prevOptions)
   }
   const toggleChat = () => {
     setShowChatPannel((prevState) => {
@@ -742,10 +724,9 @@ const Party = () => {
     const { value } = e.target
     setNewChatMsg({ value })
   }
-  const chatSubmitHandler = (e) => {
-    e.preventDefault()
+  const chatSubmitHandler = (msg) => {
     let message = {
-      ...newChatMsg,
+      ...msg,
       roomId: roomId,
       code: 0,
       date: new Date(),
@@ -874,7 +855,6 @@ const Party = () => {
       }
     }
   }
-
   const createCaptureVideo = (createObj) => {
     setRoomChange((prevState) => (prevState += 1))
     if (!createObj) {
@@ -905,7 +885,6 @@ const Party = () => {
       }
     }
   }
-
   const removeVideo = (id) => {
     setRoomChange((prevState) => (prevState += 1))
     if (id) {
@@ -914,11 +893,28 @@ const Party = () => {
     }
   }
 
+  const diceRollHandler = (data) => {
+    socket &&
+      socket.emit(
+        'user-dice-roll',
+        { ...data, roomId, userName },
+        ({ chats }) => {
+          setChats(chats)
+        },
+      )
+  }
+  const voteCallHandler = (data) => {
+    socket &&
+      socket.emit('vote-called', { ...data, roomId, userName, Peers }, () => {})
+  }
+
   return (
     <main id="stream-window" ref={mainRef}>
       <section id="stream-window-video-container">
         <div id="stream-window-title">
-          {callRooms[0] ? `${callRooms[0].roomName}` : null}
+          {activeCallRoom && activeCallRoom?.roomName
+            ? `${activeCallRoom?.roomName}`
+            : null}
         </div>
         <ul role="nav" id="stream-window-controls">
           <div className="list-left">
@@ -955,49 +951,8 @@ const Party = () => {
           ref={peerContainerRef}
           id="peerContainer"
           className={`${gridSize} ${styles.peerContainer}`}
-        >
-          {/* {myPeer &&
-              (Peers || [])   
-                .filter((peer) => peer.peerId !== myPeer._id)
-                .map((peer, idx) => {
-                  if (groupCallStreams[peer.peerId]) {
-                    return (
-                      <video
-                        key={idx}
-                        ref={(el) => (groupStreamsRef.current[idx] = el)}
-                        id={`remoteVideo-${idx}`}
-                        autoPlay
-                        playsInline
-                      />
-                    )
-                  }
-                  return (
-                    <div key={idx} id={`peerBox-${peer.name}`}>
-                      <img src={peer.img} alt={`${peer.name} profile pic`} />
-                      <p>{peer.name}</p>
-                    </div>
-                  )
-                })} */}
-        </section>
-        <section id="stream-window-capture-container">
-          {/* {ScreenSharePeer &&
-              Object.entries(groupCaptureStreams || []).map((str, idx) => {
-                if (str[0] && str[0] !== ScreenSharePeer.id) {
-                  console.log('video map', idx)
-                  return (
-                    <video
-                      style={{ height: '100px', width: '100px' }}
-                      key={idx}
-                      ref={(el) => (groupCaptureVidRef.current[idx] = el)}
-                      id={`remoteVideo-${idx}`}
-                      autoPlay
-                      playsInline
-                    />
-                  )
-                }
-                return null
-              })} */}
-        </section>
+        ></section>
+        <section id="stream-window-capture-container"></section>
       </section>
       <section
         id="stream-window-chat"
@@ -1016,7 +971,8 @@ const Party = () => {
             )
           })}
         </ul>
-        <form id="chat_input_container" onSubmit={chatSubmitHandler}>
+        <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
+        {/* <form id="chat_input_container" onSubmit={chatSubmitHandler}>
           <textarea
             id="chat_input_box"
             type="text"
@@ -1031,8 +987,14 @@ const Party = () => {
               </button>
             </div>
           </div>
-        </form>
+        </form> */}
       </section>
+      {options ? (
+        <Options
+          diceRollHandler={diceRollHandler}
+          voteCallHandler={voteCallHandler}
+        />
+      ) : null}
     </main>
   )
 }
