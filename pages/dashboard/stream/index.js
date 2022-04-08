@@ -554,17 +554,24 @@ const Stream = () => {
   }
   const connectWithMyPeer = (data) => {
     let pID = ''
-    myPeer = new window.Peer(undefined, {
-      config: {
-        iceServers: [
-          ...getTurnServers(),
-          {
-            url: 'stun:stun.1und1.de:3478',
-          },
-        ],
-      },
+    myPeer = new window.Peer(12342345356567, {
+      secure: true,
+      host: 'harth-peer.herokuapp.com/',
+      path: '/peerjs',
+      port: 443,
+      secure: true,
+      key: 'copycat',
+      debug: true,
+      // config: {
+      //   iceServers: [
+      //     ...getTurnServers(),
+      //     {
+      //       url: 'stun:stun.1und1.de:3478',
+      //     },
+      //   ],
+      // },
     })
-
+    console.log(myPeer, 'my peers')
     myPeer.on('open', (peerid) => {
       console.log('my peer id is ', peerid)
       pID = peerid
@@ -584,6 +591,7 @@ const Stream = () => {
 
     myPeer.on('error', function (err) {
       console.log(err)
+      console.log(err.message)
       myPeer.reconnect()
     })
 

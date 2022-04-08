@@ -409,6 +409,7 @@
   div {
     video {
       width: 100%;
+      max-height: calc(100vh - 265px);
     }
   }
 }

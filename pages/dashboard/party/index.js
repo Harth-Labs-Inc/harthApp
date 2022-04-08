@@ -64,7 +64,7 @@ const Party = () => {
 
   useEffect(() => {
     resize()
-  }, [width, roomChange])
+  }, [width, roomChange, isSharingCapture])
   useEffect(() => {
     let tempactiveCallRoom = {}
     if (roomId) {
@@ -950,7 +950,9 @@ const Party = () => {
         <section
           ref={peerContainerRef}
           id="peerContainer"
-          className={`${gridSize} ${styles.peerContainer}`}
+          className={`${gridSize} ${styles.peerContainer} ${
+            isSharingCapture ? styles.isScreenShare : ''
+          }`}
         ></section>
         <section id="stream-window-capture-container"></section>
       </section>
