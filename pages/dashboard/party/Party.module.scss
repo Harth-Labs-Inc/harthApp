@@ -12,17 +12,15 @@
 
   .videoParent {
     position: relative;
+    max-height: 600px;
+    max-width: 600px;
     border-radius: 16px;
     overflow: hidden;
+    background-color: #9a9a9a;
 
-    // &.ownerVideo {
-    //   position: fixed;
-    //   right: 8px;
-    //   bottom: 73px;
-    //   height: 108px !important;
-    //   width: 195px !important;
-    //   object-fit: cover;
-    // }
+    &.ownerVideo {
+      transform: scaleX(-1);
+    }
 
     video {
       position: absolute;
@@ -49,8 +47,9 @@
       position: absolute;
       right: 8px;
       bottom: 8px;
+      z-index: 1;
       height: 108px !important;
-      width: 195px !important;
+      width: 108px !important;
       object-fit: cover;
     }
   }
@@ -60,10 +59,11 @@
     flex-wrap: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
+    padding: 8px;
 
     .videoParent {
-      max-height: 100%;
-      max-width: 246px;
+      min-height: 100px;
+      min-width: 100px;
     }
 
     .ownerVideo {

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import styles from './Dice.module.scss'
+
 const DiceModal = (props) => {
   const { outsideDiceRoll } = props
   const [showOutsideDiceModal, setShowOutsideDiceModal] = useState(false)
@@ -16,15 +18,21 @@ const DiceModal = (props) => {
 
   const RollModule = () => {
     return (
-      <div id="roll_module">
-        <div id="roll_result">
-          <div id="roll_result_title">
+      <div className={styles.RollModule}>
+        <div className={styles.RollModuleResult}>
+          <div className={styles.RollModuleResultTitle}>
             {outsideDiceRoll.userName} rolled a...
           </div>
-          <div id="roll_result_container">
-            <span id="roll_result_value">{outsideDiceRoll.number}</span>
-            <span className="divider">|</span>
-            <span id="roll_result_die" className={`d${outsideDiceRoll.sides}`}>
+          <div className={styles.RollModuleResultContainer}>
+            <span className={styles.RollModuleResultContainerValue}>
+              {outsideDiceRoll.number}
+            </span>
+            <span className={styles.RollModuleResultContainerDivider}>|</span>
+            <span
+              className={`${styles.RollModuleResultContainerDie} ${
+                styles[`d${outsideDiceRoll.sides}`]
+              }`}
+            >
               {outsideDiceRoll.sides}
             </span>
           </div>
