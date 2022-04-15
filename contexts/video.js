@@ -25,25 +25,20 @@ export const VideoProvider = ({ children }) => {
       development: 'http://localhost:5000',
       production: 'https://project-blarg-video-socket.herokuapp.com',
     }
-    setSocket(
-      io.connect(urls[process.env.NODE_ENV], {
-        transports: ['websocket'],
-      }),
-    )
-    // axios
-    //   .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
-    //   .then((responseData) => {
-    //     setTurnServers(responseData.data.token.iceServers)
+    axios
+      .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
+      .then((responseData) => {
+        setTurnServers(responseData.data.token.iceServers)
 
-    //     setSocket(
-    //       io.connect(urls[process.env.NODE_ENV], {
-    //         transports: ['websocket'],
-    //       }),
-    //     )
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
+        setSocket(
+          io.connect(urls[process.env.NODE_ENV], {
+            transports: ['websocket'],
+          }),
+        )
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
 
   useEffect(() => {
