@@ -2,18 +2,21 @@ import { useEffect, useState } from 'react'
 
 import styles from './Vote.module.scss'
 
-const VoteModal = (props) => {
-  const { outsideVoteCall, userVote } = props
-  const [showOutsideVoteModal, setShowOutsideVoteModal] = useState(false)
+const VoteResultModal = (props) => {
+  const { outsideVoteCall, voteResults } = props
+  const [showOutsideVoteResultModal, setShowOutsideVoteResultModal] =
+    useState(false)
   const [timeLeft, setTimeLeft] = useState()
-  const [userChoice, setUserChoice] = useState()
 
   useEffect(() => {
-    if (Object.keys(outsideVoteCall).length) {
-      setShowOutsideVoteModal(true)
-      setTimeLeft(30)
+    if (voteResults) {
+      setShowOutsideVoteResultModal(true)
+      setTimeLeft(10)
+    } else {
+      setShowOutsideVoteResultModal(false)
+      setTimeLeft(undefined)
     }
-  }, [outsideVoteCall])
+  }, [voteResults])
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -22,22 +25,12 @@ const VoteModal = (props) => {
       }, 1000)
     }
     if (timeLeft === 0) {
-      if (!userChoice) {
-        userVote('no')
-      }
       setShowOutsideVoteModal(false)
       setTimeLeft(undefined)
     }
   }, [timeLeft])
 
-  const voteChoiceSubmit = (choice) => {
-    setTimeLeft(undefined)
-    setUserChoice(choice)
-    userVote(choice)
-    setShowOutsideVoteModal(false)
-  }
-
-  const VoteModule = () => {
+  const VoteResultModule = () => {
     return (
       <div className={styles.VoteModule}>
         <div className={styles.VoteModuleContent}>
@@ -79,7 +72,7 @@ const VoteModal = (props) => {
     )
   }
 
-  return <>{showOutsideVoteModal ? <VoteModule /> : null}</>
+  return <>{showOutsideVoteResultModal ? <VoteResultModule /> : null}</>
 }
 
-export default VoteModal
+export default VoteResultModal

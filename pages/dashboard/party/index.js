@@ -4,10 +4,13 @@ import { getTurnServers } from '../../../util/TURN'
 import { useSize } from '../../../contexts/mobile'
 
 import Options from './Options'
-import styles from './Party.module.scss'
-import DiceModal from './OutsideCalls/Dice'
-import VoteModal from './OutsideCalls/Vote'
+import DiceModal from './Options/OutsideCalls/Dice'
+import VoteModal from './Options/OutsideCalls/Vote'
+import MyTurn from './Options/TurnKeeper/MyTurn'
+import PeerTurn from './Options/TurnKeeper/PeerTurn'
 import GeneralChatInput from '../../../components/ChatInput/ChatInputGeneral'
+
+import styles from './Party.module.scss'
 
 let myPeer
 let ScreenSharePeer
@@ -17,7 +20,14 @@ let chatPannel = false
 let userInfo = {}
 
 const Party = () => {
+  //turn
+  const [activeTurnUser, setActiveTurnUser] = useState()
+  const [openTurnKeeper, setOpenTurnKeeper] = useState()
   //chat
+  const [voteStarted, setVoteStarted] = useState(false)
+  const [voteResults, setVoteResults] = useState()
+  const [voteTally, setVoteTally] = useState({})
+
   const [unreadMsg, setUnreadMsg] = useState(false)
   const [newChatMsg, setNewChatMsg] = useState({})
   const [chats, setChats] = useState([])
@@ -221,8 +231,24 @@ const Party = () => {
       })
       // vote
       socket.on('incoming-vote', (data) => {
-        console.log('vote called')
         setOutsideVoteCall({ ...data })
+      })
+      socket.on('vote-result', (data) => {
+        setVoteTally(data)
+      })
+
+      // turns
+      socket.on('incoming-turn', (data) => {
+        data.forEach((peer) => {
+          if (peer.name === userName) {
+            setActiveTurnUser(peer.activeTurnUser)
+          }
+        })
+        setOpenTurnKeeper(data)
+      })
+      socket.on('close-turn', () => {
+        setOpenTurnKeeper(undefined)
+        setActiveTurnUser(false)
       })
     }
   }, [socket])
@@ -257,6 +283,109 @@ const Party = () => {
     }
   }, [captureStream])
 
+  // ---------- options menu (vote, turns, dice) --------------
+  const toggleOptions = () => {
+    setOptions((prevOptions) => !prevOptions)
+  }
+
+  // ---------- votes --------------
+  useEffect(() => {
+    if (Object.keys(voteTally).length) {
+      let votePassed
+      let { voteType, votes, Peers } = voteTally
+
+      if (voteType === 'majority') {
+        let yesses = votes.filter((v) => v === 'yes').length
+        if (yesses / Peers.length > 0.5) {
+          votePassed = true
+        } else {
+          votePassed = false
+        }
+      }
+      if (voteType === 'unanimous') {
+        if (votes.includes('no')) {
+          votePassed = false
+        } else {
+          votePassed = true
+        }
+      }
+      setVoteResults(votePassed)
+    }
+  }, [voteTally])
+  const userVote = (vote) => {
+    socket &&
+      socket.emit('user-voted', { userName, roomId, vote }, (result) => {
+        if (result.ok) {
+          setVoteTally(result.vote)
+        }
+      })
+  }
+  const voteCallHandler = (data) => {
+    socket &&
+      socket.emit(
+        'vote-called',
+        { ...data, roomId, userName, Peers, votes: [] },
+        () => {
+          setVoteStarted(true)
+        },
+      )
+  }
+  const voteCallCancelled = (voteState) => {
+    console.log(voteState, 'voteState')
+  }
+
+  // --------- turns -----------------
+  const turnCallHandler = (data) => {
+    socket &&
+      socket.emit('turn-called', { data, roomId }, () => {
+        data.forEach((peer) => {
+          if (peer.name === userName) {
+            setActiveTurnUser(peer.activeTurnUser)
+          }
+        })
+        setOpenTurnKeeper(data)
+      })
+  }
+  const endTurnHandler = () => {
+    let mergedArr = openTurnKeeper
+    let activeIndex
+
+    mergedArr.forEach((peer, idx) => {
+      if (peer.activeTurnUser) {
+        peer.activeTurnUser = false
+        activeIndex = idx
+      }
+    })
+
+    if (activeIndex + 1 === mergedArr.length) {
+      mergedArr[0].activeTurnUser = true
+    } else {
+      mergedArr[activeIndex + 1].activeTurnUser = true
+    }
+
+    turnCallHandler(mergedArr)
+  }
+  const turnKeeperToggleHandler = () => {
+    socket &&
+      socket.emit('turn-closed', { roomId }, () => {
+        setOpenTurnKeeper(undefined)
+        setActiveTurnUser(false)
+      })
+  }
+
+  // ---------- dice roll --------------
+  const diceRollHandler = (data) => {
+    socket &&
+      socket.emit(
+        'user-dice-roll',
+        { ...data, roomId, userName },
+        ({ chats }) => {
+          setChats(chats)
+        },
+      )
+  }
+
+  // ---------- video grid --------------
   const resize = () => {
     let container = document.getElementById('peerContainer')
     let children = container.children
@@ -308,6 +437,8 @@ const Party = () => {
     if (h > containerHeight || increment > containerWidth) return false
     else return increment
   }
+
+  // ---------- video logic --------------
   const startVideo = () => {
     getLocalStream('video')
   }
@@ -491,7 +622,6 @@ const Party = () => {
 
               sendNewChatMessage(newMsg)
               onScreenShareClose()
-              console.info('ScreenShare has ended')
             }
           }
         })
@@ -523,7 +653,7 @@ const Party = () => {
       removeVideo(ScreenSharePeer.id)
     }
   }
-  const addVideoStream = (incomingStream, peerid) => {
+  const addVideoStream = (incomingStream, peerid, turns) => {
     setGroupCallStreams((prevStreams) => {
       return { ...prevStreams, [peerid]: incomingStream }
     })
@@ -533,7 +663,17 @@ const Party = () => {
       [peerid]: incomingStream,
     }
 
-    createVideo({ id: peerid, stream: incomingStream })
+    let showTurnIcon = false
+
+    if (turns && turns.length) {
+      turns.forEach((peer) => {
+        if (peer.peerId === peerid) {
+          showTurnIcon = true
+        }
+      })
+    }
+
+    createVideo({ id: peerid, stream: incomingStream }, showTurnIcon, turns)
   }
   const addCaptureStream = (incomingStream, peerid, owner) => {
     setGroupCaptureStreams((prevStreams) => {
@@ -549,22 +689,8 @@ const Party = () => {
     }
     createCaptureVideo({ id: peerid, stream: incomingStream })
   }
-  const toggleOptions = () => {
-    setOptions((prevOptions) => !prevOptions)
-  }
-  const toggleChat = () => {
-    setShowChatPannel((prevState) => {
-      let newvalue = !prevState
-      if (newvalue === true) {
-        setUnreadMsg(false)
-      }
-      chatPannel = newvalue
-      return newvalue
-    })
-  }
 
   // ------------ rooms -----------------
-
   const leaveRoom = () => {
     leaveGroupCall({ roomId, userName, socketID }, () => {
       window.close()
@@ -639,12 +765,16 @@ const Party = () => {
   }
   const userWantsToJoinGroupCall = (data) => {
     socket &&
-      socket.emit('group-call-join-request', data, ({ peers, chats }) => {
-        connectToUsers(peers)
-        setChats(chats)
-      })
+      socket.emit(
+        'group-call-join-request',
+        data,
+        ({ peers, chats, turns }) => {
+          connectToUsers(peers, turns)
+          setChats(chats)
+        },
+      )
   }
-  const connectToUsers = async (peers) => {
+  const connectToUsers = async (peers, turns) => {
     if (myPeer) {
       peers.forEach((peer) => {
         if (peer.peerId !== myPeer.id) {
@@ -652,7 +782,7 @@ const Party = () => {
           call &&
             call.on('stream', (incomingStream) => {
               if (incomingStream) {
-                addVideoStream(incomingStream, peer.peerId)
+                addVideoStream(incomingStream, peer.peerId, turns)
               }
             })
         }
@@ -698,7 +828,18 @@ const Party = () => {
         })
     })
   }
+
   // ------------ chat -----------------
+  const toggleChat = () => {
+    setShowChatPannel((prevState) => {
+      let newvalue = !prevState
+      if (newvalue === true) {
+        setUnreadMsg(false)
+      }
+      chatPannel = newvalue
+      return newvalue
+    })
+  }
   const sendNewChatMessage = (message) => {
     socket &&
       socket.emit('send-chat-message', message, () => {
@@ -814,7 +955,7 @@ const Party = () => {
   }
 
   // new video
-  const createVideo = (createObj) => {
+  const createVideo = (createObj, showTurnIcon, turns) => {
     setRoomChange((prevState) => (prevState += 1))
     if (!createObj) {
       createObj = {}
@@ -844,6 +985,12 @@ const Party = () => {
         videoContainer.appendChild(image)
         videoContainer.appendChild(name)
         roomContainer.append(videoContainer)
+        if (showTurnIcon) {
+          setTimeout(() => {
+            setOpenTurnKeeper(turns)
+            setActiveTurnUser(false)
+          }, 10)
+        }
       }
     } else {
       let el = document.getElementById(createObj?.id)
@@ -853,7 +1000,6 @@ const Party = () => {
     }
   }
   const createCaptureVideo = (createObj) => {
-    console.log(createObj, 'createObj')
     setRoomChange((prevState) => (prevState += 1))
     if (!createObj) {
       createObj = {}
@@ -891,27 +1037,13 @@ const Party = () => {
     }
   }
 
-  const diceRollHandler = (data) => {
-    socket &&
-      socket.emit(
-        'user-dice-roll',
-        { ...data, roomId, userName },
-        ({ chats }) => {
-          setChats(chats)
-        },
-      )
-  }
-  const userVote = (vote) => {
-    socket && socket.emit('user-voted', { userName, roomId, vote }, () => {})
-  }
-  const voteCallHandler = (data) => {
-    socket &&
-      socket.emit('vote-called', { ...data, roomId, userName, Peers }, () => {})
-  }
-
   return (
     <main id="stream-window" ref={mainRef}>
       <section id="stream-window-video-container">
+        {activeTurnUser ? <MyTurn endTurnHandler={endTurnHandler} /> : null}
+        {activeTurnUser === false ? (
+          <PeerTurn openTurnKeeper={openTurnKeeper} />
+        ) : null}
         <div id="stream-window-title">
           {activeCallRoom && activeCallRoom?.roomName
             ? `${activeCallRoom?.roomName}`
@@ -930,8 +1062,17 @@ const Party = () => {
             <li onClick={toggleVideo}>
               <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
             </li>
-            <li onClick={toggleOptions}>
-              <button id="options" className={options ? 'active' : null}>
+            <li>
+              <button
+                id="options"
+                className={options ? 'active' : null}
+                onClick={() => {
+                  if (options && voteStarted) {
+                  } else {
+                    toggleOptions()
+                  }
+                }}
+              >
                 options
               </button>
             </li>
@@ -960,6 +1101,14 @@ const Party = () => {
           <Options
             diceRollHandler={diceRollHandler}
             voteCallHandler={voteCallHandler}
+            userVote={userVote}
+            outsideVoteCall={outsideVoteCall}
+            peers={Peers}
+            turnCallHandler={turnCallHandler}
+            openTurnKeeper={openTurnKeeper}
+            activeTurnUser={activeTurnUser}
+            turnKeeperToggleHandler={turnKeeperToggleHandler}
+            voteResults={voteResults}
           />
         ) : null}
       </section>
@@ -1001,6 +1150,10 @@ const Party = () => {
       </section>
       <DiceModal outsideDiceRoll={outsideDiceRoll} />
       <VoteModal outsideVoteCall={outsideVoteCall} userVote={userVote} />
+      {/* <VoteResultModal
+        outsideVoteCall={outsideVoteCall}
+        voteResults={voteResults}
+      /> */}
     </main>
   )
 }

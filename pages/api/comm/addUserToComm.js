@@ -43,7 +43,6 @@ export default async (req, res) => {
   }
 
   const getPublicTopicsForComm = (db, commId) => {
-    console.log(commId)
     return new Promise((resolve, reject) => {
       db.collection('topics')
         .find({ comm_id: commId, private: { $eq: false } })
@@ -59,7 +58,6 @@ export default async (req, res) => {
   }
 
   const addRoomsToUser = (db, userId, ids) => {
-    console.log(userId, ids)
     return new Promise((resolve, reject) => {
       let mongo = require('mongodb')
       let o_id = new mongo.ObjectID(userId)
@@ -78,7 +76,6 @@ export default async (req, res) => {
   }
 
   const addMemberToTopics = (db, user, ids) => {
-    console.log(user, ids, 'made itttttttttttt', user)
     return new Promise((resolve, reject) => {
       let mongo = require('mongodb')
       let objIds = []

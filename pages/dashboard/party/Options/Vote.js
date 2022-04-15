@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import styles from './OutsideCalls/Vote.module.scss'
 
 const VoteCaller = (props) => {
-  const { voteCallHandler } = props
+  const { voteCallHandler, userVote, outsideVoteCall, voteResults } = props
   const [voteCalled, setVoteCalled] = useState(false)
   const [voteType, setVoteType] = useState('majority')
 
@@ -12,7 +14,6 @@ const VoteCaller = (props) => {
   }
 
   const SelfVote = () => {
-    const { outsideVoteCall, userVote } = props
     const [timeLeft, setTimeLeft] = useState()
     const [userChoice, setUserChoice] = useState()
 
@@ -76,12 +77,21 @@ const VoteCaller = (props) => {
       </div>
     )
   }
+  const VoteResult = () => {
+    if (voteResults) {
+      return <div className={styles.VotePass}>Pass</div>
+    } else if (voteResults === false) {
+      return <div className={styles.VoteFail}>Fail</div>
+    }
+  }
 
-  return (
-    <div id="vote_box">
-      {voteCalled ? (
-        <SelfVote />
-      ) : (
+  const VoteComponent = () => {
+    if (voteCalled) {
+      return <SelfVote />
+    } else if (voteResults !== undefined) {
+      return <VoteResult />
+    } else {
+      return (
         <div id="call_vote">
           <div id="call_vote_title">
             <button onClick={startVote}>Call Vote</button>
@@ -108,7 +118,13 @@ const VoteCaller = (props) => {
             </label>
           </div>
         </div>
-      )}
+      )
+    }
+  }
+
+  return (
+    <div id="vote_box">
+      <VoteComponent />
     </div>
   )
 }
