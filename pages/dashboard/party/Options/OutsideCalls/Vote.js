@@ -40,7 +40,7 @@ const VoteModal = (props) => {
     setShowOutsideVoteModal(false)
   }
 
-  const VoteModule = () => {
+  if (showOutsideVoteModal) {
     return (
       <div className={styles.VoteModule}>
         <div className={styles.VoteModuleContent}>
@@ -52,8 +52,8 @@ const VoteModal = (props) => {
             <label className={styles.VoteModuleContentOptionsYes}>
               Yea Vote
               {/* <span className={styles.VoteModuleContentOptionsYesButton}>
-                yea vote
-              </span> */}
+              yea vote
+            </span> */}
               <input
                 type="radio"
                 id="vote_yeah"
@@ -64,8 +64,8 @@ const VoteModal = (props) => {
             <label className={styles.VoteModuleContentOptionsNo}>
               Nah Vote
               {/* <span className={styles.VoteModuleContentOptionsNoButton}>
-                nah vote
-              </span> */}
+              nah vote
+            </span> */}
               <input
                 type="radio"
                 id="vote_nah"
@@ -82,7 +82,7 @@ const VoteModal = (props) => {
     )
   }
 
-  return <>{showOutsideVoteModal ? <VoteModule /> : null}</>
+  return null
 }
 
 export default VoteModal

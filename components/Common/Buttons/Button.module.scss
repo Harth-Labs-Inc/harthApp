@@ -106,6 +106,25 @@
   }
 }
 
+.iconButton {
+  position: relative;
+  font-size: 0;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  &:before {
+    @include x-y-center;
+    color: #9a9a9a;
+    font-size: 16px;
+  }
+
+  &:hover {
+    &:before {
+      color: #333;
+    }
+  }
+}
+
 .buttonFullwidth {
   width: 100%;
 }

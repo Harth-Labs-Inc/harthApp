@@ -139,14 +139,41 @@
     padding: 0;
 
     &Item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       width: 100%;
       padding: 8px 24px;
-      border-radius: 50%;
       overflow: hidden;
 
       img,
       span {
         object-fit: cover;
+      }
+
+      &Button {
+        position: relative;
+        height: 48px;
+        width: 48px;
+        font-size: 0;
+        background-color: transparent;
+        border: 0;
+        border-radius: 50%;
+        transition: all 0.3s;
+        cursor: pointer;
+
+        &:before {
+          @include x-y-center;
+          @include font-icon($icon-plus);
+          font-size: 16px;
+        }
+
+        &:hover {
+          background-color: #ee5500;
+          &:before {
+            color: #fff;
+          }
+        }
       }
     }
   }

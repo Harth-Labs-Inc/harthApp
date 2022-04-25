@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 
+import styles from './ChatInput.module.scss'
+
 const DEFAULT_OPTIONS = {
   config: { attributes: true, childList: true, subtree: true },
 }
@@ -29,36 +31,42 @@ export default function ChatAttachment({ attachments }) {
   const [images, setImages] = useState([])
   const onListMutation = useCallback(
     (mutationList) => {
-      console.log('item added')
+      // console.log('item added')
       setCount(mutationList[0].target.children.length)
     },
     [setCount],
   )
 
   useEffect(() => {
-    console.log('new list item added', listRef.current)
+    // console.log('new list item added', listRef.current)
   }, [count])
 
   useEffect(() => {
     if (attachments) {
-      attachments.forEach((att) => {
-        var arrayBufferView = new Uint8Array(att)
-        var blob = new Blob([arrayBufferView], { type: 'image/jpeg' })
-        var urlCreator = window.URL || window.webkitURL
-        var imageUrl = urlCreator.createObjectURL(blob)
+      var urlCreator = window.URL || window.webkitURL
+      var imageUrl
+      for (let att of attachments) {
+        if (att.name) {
+          imageUrl = urlCreator.createObjectURL(att)
+        } else {
+          var arrayBufferView = new Uint8Array(att)
+          var blob = new Blob([arrayBufferView], { type: 'image/jpeg' })
+
+          imageUrl = urlCreator.createObjectURL(blob)
+        }
+
         setImages([...images, imageUrl])
-      })
+      }
     }
   }, [attachments])
 
   useMutationObservable(listRef.current, onListMutation)
 
   return (
-    <ul ref={listRef}>
+    <ul ref={listRef} className={styles.MessageAttachments}>
       {images.map((f) => {
-        console.log(f)
         return (
-          <li key={f}>
+          <li key={f} className={styles.MessageAttachmentsItem}>
             <img src={f} />
           </li>
         )

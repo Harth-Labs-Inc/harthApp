@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, useReducer } from 'react'
 import io from 'socket.io-client'
+
 import { getTurnServers } from '../../../util/TURN'
-import { useSize } from '../../../contexts/mobile'
+import { useSize, useMobile } from '../../../contexts/mobile'
+import { resize } from '../../../util/resize'
 
 import Options from './Options'
 import DiceModal from './Options/OutsideCalls/Dice'
@@ -9,6 +11,7 @@ import VoteModal from './Options/OutsideCalls/Vote'
 import MyTurn from './Options/TurnKeeper/MyTurn'
 import PeerTurn from './Options/TurnKeeper/PeerTurn'
 import GeneralChatInput from '../../../components/ChatInput/ChatInputGeneral'
+import ChatMessagesGeneral from '../../../components/ChatMessages/ChatMessagesGeneral'
 
 import styles from './Party.module.scss'
 
@@ -20,19 +23,19 @@ let chatPannel = false
 let userInfo = {}
 
 const Party = () => {
-  //turn
+  //turn keeper
   const [activeTurnUser, setActiveTurnUser] = useState()
   const [openTurnKeeper, setOpenTurnKeeper] = useState()
-  //chat
+
+  //vote
   const [voteStarted, setVoteStarted] = useState(false)
   const [voteResults, setVoteResults] = useState()
   const [voteTally, setVoteTally] = useState({})
 
+  //chat
   const [unreadMsg, setUnreadMsg] = useState(false)
-  const [newChatMsg, setNewChatMsg] = useState({})
   const [chats, setChats] = useState([])
   const [showChatPannel, setShowChatPannel] = useState(false)
-  const [inview, setInview] = useState(null)
 
   const [userName, setUserName] = useState('')
   const [userIcon, setUserIcon] = useState('')
@@ -57,7 +60,6 @@ const Party = () => {
   const [muteOn, setMuteOn] = useState(true)
   const [videoOn, setVideoOn] = useState(false)
   const [options, setOptions] = useState(false)
-  const [gridSize, setGridSize] = useState('alone')
 
   // part state
   const [outsideDiceRoll, setOutsideDiceRoll] = useState({})
@@ -70,13 +72,16 @@ const Party = () => {
   const groupStreamsRef = useRef([])
   const chatInput = useRef()
   const peerContainerRef = useRef()
-  const messagesEndRef = useRef(null)
 
-  let { width } = useSize()
+  const { width } = useSize()
+  const { isMobile } = useMobile()
 
+  // ---------- video grid sizing --------------
   useEffect(() => {
-    resize()
+    const container = document.getElementById('peerContainer')
+    resize(container)
   }, [width, roomChange, isSharingCapture])
+
   useEffect(() => {
     let tempactiveCallRoom = {}
     if (roomId) {
@@ -135,6 +140,15 @@ const Party = () => {
       })
     }
   }, [localStreamChange])
+
+  // ---------- mobile view --------------
+  useEffect(() => {
+    if (isMobile) {
+      //own video
+      const ownVideo = document.getElementsByClassName('OwnerVideo')
+      console.log(ownVideo)
+    }
+  }, [isMobile])
 
   // ------- socket connection and listeners ------------
 
@@ -204,7 +218,7 @@ const Party = () => {
         if (!chatPannel) {
           setUnreadMsg(true)
         }
-        setChats((prevChats) => [...prevChats, data])
+        setChats((prevChats) => [data, ...prevChats])
       })
       socket.on('chat-update', (chats) => {
         setChats(chats)
@@ -236,6 +250,10 @@ const Party = () => {
       socket.on('vote-result', (data) => {
         setVoteTally(data)
       })
+      socket.on('cancel-vote', () => {
+        setVoteStarted(false)
+        setVoteResults(undefined)
+      })
 
       // turns
       socket.on('incoming-turn', (data) => {
@@ -252,21 +270,6 @@ const Party = () => {
       })
     }
   }, [socket])
-
-  useEffect(() => {
-    if (Peers.length === 1) {
-      setGridSize(`${styles.alone}`)
-    }
-    if (Peers.length === 2) {
-      setGridSize(`${styles.full}`)
-    }
-    if (Peers.length > 2 && Peers.length <= 7) {
-      setGridSize(`${styles.double}`)
-    }
-    if (Peers.legnth > 7) {
-      setGridSize(`${styles.triple}`)
-    }
-  }, [Peers])
 
   // ----------- media --------------
 
@@ -310,6 +313,7 @@ const Party = () => {
         }
       }
       setVoteResults(votePassed)
+      setVoteStarted(false)
     }
   }, [voteTally])
   const userVote = (vote) => {
@@ -330,8 +334,12 @@ const Party = () => {
         },
       )
   }
-  const voteCallCancelled = (voteState) => {
-    console.log(voteState, 'voteState')
+  const voteCallCancelled = () => {
+    socket &&
+      socket.emit('vote-cancelled', { roomId }, () => {
+        setVoteStarted(false)
+        setVoteResults(undefined)
+      })
   }
 
   // --------- turns -----------------
@@ -383,59 +391,6 @@ const Party = () => {
           setChats(chats)
         },
       )
-  }
-
-  // ---------- video grid --------------
-  const resize = () => {
-    let container = document.getElementById('peerContainer')
-    let children = container.children
-
-    let max = 0
-    let i = 1
-    while (i < 5000) {
-      let area = getArea(i)
-      if (area === false) {
-        max = i - 1
-        break
-      }
-      i++
-    }
-
-    // remove margins
-    max = max - 4 * 2
-
-    for (var s = 0; s < children.length; s++) {
-      // camera fron dish (div without class)
-      let element = children[s]
-      // // custom margin
-      element.style.margin = 4 + 'px'
-
-      // // calculate dimensions
-      element.style.width = max + 'px'
-      element.style.height = max + 'px'
-
-      // // to show the aspect ratio in demo (optional)
-      // element.setAttribute('data-aspect', 0.5625s[this._aspect])
-    }
-  }
-  const getArea = (increment) => {
-    let container = document.getElementById('peerContainer')
-    let containerHeight = container.offsetHeight - 4 * 2
-    let containerWidth = container.offsetWidth - 4 * 2
-    let children = container.children
-    let i = 0
-    let w = 0
-    let h = increment + 4 * 2
-    while (i < children.length - 1) {
-      if (w + increment > containerWidth) {
-        w = 0
-        h = h + increment + 4 * 2
-      }
-      w = w + increment + 4 * 2
-      i++
-    }
-    if (h > containerHeight || increment > containerWidth) return false
-    else return increment
   }
 
   // ---------- video logic --------------
@@ -843,12 +798,8 @@ const Party = () => {
   const sendNewChatMessage = (message) => {
     socket &&
       socket.emit('send-chat-message', message, () => {
-        setChats((prevChats) => [...prevChats, message])
+        setChats((prevChats) => [message, ...prevChats])
       })
-  }
-  const chatInputHandler = (e) => {
-    const { value } = e.target
-    setNewChatMsg({ value })
   }
   const chatSubmitHandler = (msg) => {
     let message = {
@@ -859,49 +810,11 @@ const Party = () => {
       creator_name: userName,
       userName: userName,
       creator_image: userIcon,
-      flames: [],
-      reactions: [],
-      attachments: [],
     }
 
     sendNewChatMessage(message)
   }
-  const chatClassname = (creator) => {
-    if (creator === 'Admin') {
-      return 'admin'
-    }
-    if (creator === userName) {
-      return 'self'
-    }
-    return 'incoming'
-  }
-  const ChatStructure = ({ chat }) => {
-    const date = new Date(chat.date)
-    return (
-      <>
-        <p>{chat.value}</p>
-        <span>
-          <img src={chat.creator_image} alt={chat.creator_name} />
-          {/* {timeStamp} */}
-        </span>
-      </>
-    )
-  }
-  const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
-  }
 
-  useEffect(() => {
-    // if (inview) {
-    scrollToBottom('smooth')
-    setNewChatMsg(false)
-    // } else {
-    // setDisplayScrollButton(true)
-    // }
-  }, [newChatMsg])
   // --------------- screen share ----------
   const createScreenSharePeer = (peerobj) => {
     let pID = ''
@@ -1038,38 +951,46 @@ const Party = () => {
   }
 
   return (
-    <main id="stream-window" ref={mainRef}>
-      <section id="stream-window-video-container">
+    <main className={styles.PartyWindow} ref={mainRef}>
+      <section className={styles.PartyWindowVideoContainer}>
         {activeTurnUser ? <MyTurn endTurnHandler={endTurnHandler} /> : null}
         {activeTurnUser === false ? (
           <PeerTurn openTurnKeeper={openTurnKeeper} />
         ) : null}
-        <div id="stream-window-title">
+        <div className={styles.PartyWindowTitle}>
           {activeCallRoom && activeCallRoom?.roomName
             ? `${activeCallRoom?.roomName}`
             : null}
         </div>
-        <ul role="nav" id="stream-window-controls">
-          <div className="list-left">
+        <ul role="nav" className={styles.PartyWindowControls}>
+          <div className={styles.PartyWindowControlsLeft}>
             <li onClick={leaveRoom}>
-              <button id="leave_room">leave</button>
+              <button className={styles.LeaveRoom}>leave</button>
             </li>
           </div>
-          <div className="list-center">
+          <div className={styles.PartyWindowControlsCenter}>
             <li onClick={toggleAudio}>
-              <button id={muteOn ? 'unmuted' : 'muted'}>mute</button>
+              <button className={muteOn ? styles.Unmuted : styles.Muted}>
+                mute
+              </button>
             </li>
             <li onClick={toggleVideo}>
-              <button id={videoOn ? 'stream' : 'no_stream'}>stream</button>
+              <button className={videoOn ? styles.Stream : styles.NoStream}>
+                stream
+              </button>
             </li>
             <li>
               <button
-                id="options"
-                className={options ? 'active' : null}
+                className={`${styles.Options} ${
+                  options ? styles.OptionsActive : null
+                }`}
+                // className={options ? 'active' : null}
                 onClick={() => {
                   if (options && voteStarted) {
+                    voteCallCancelled()
                   } else {
                     toggleOptions()
+                    setVoteResults(undefined)
                   }
                 }}
               >
@@ -1077,25 +998,34 @@ const Party = () => {
               </button>
             </li>
             <li onClick={toggleCapture}>
-              <button id="screen_share">share screen</button>
+              <button className={styles.ScreenShare}>share screen</button>
             </li>
             <li
               className={`
-                ${unreadMsg ? 'unread' : ''}
-                ${showChatPannel ? 'open' : 'closed'}`}
+                ${unreadMsg ? styles.Unread : ''}
+                ${showChatPannel ? styles.Open : styles.Closed}`}
               onClick={toggleChat}
             >
-              <button id="chat">chat</button>
+              <button className={styles.Chat}>chat</button>
             </li>
           </div>
         </ul>
-        <section
-          ref={peerContainerRef}
-          id="peerContainer"
-          className={`${gridSize} ${styles.peerContainer} ${
-            isSharingCapture ? styles.isScreenShare : ''
-          }`}
-        ></section>
+        <div className={styles.PartyMainContent}>
+          <section
+            ref={peerContainerRef}
+            id="peerContainer"
+            className={`${styles.peerContainer} ${
+              isSharingCapture ? styles.isScreenShare : ''
+            }`}
+          ></section>
+          <section
+            id="stream-window-chat"
+            className={showChatPannel ? 'open' : 'closed'}
+          >
+            <ChatMessagesGeneral messages={chats} userName={userName} />
+            <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
+          </section>
+        </div>
         <section id="stream-window-capture-container"></section>
         {options ? (
           <Options
@@ -1112,48 +1042,9 @@ const Party = () => {
           />
         ) : null}
       </section>
-      <section
-        id="stream-window-chat"
-        className={showChatPannel ? 'open' : 'closed'}
-      >
-        <ul>
-          <li ref={messagesEndRef} />
-          {chats.map((chat, index) => {
-            return (
-              <li key={index} className={chatClassname(chat.creator_name)}>
-                {chat.creator_name === 'Admin' ? (
-                  chat.value
-                ) : (
-                  <ChatStructure chat={chat} />
-                )}
-              </li>
-            )
-          })}
-        </ul>
-        <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
-        {/* <form id="chat_input_container" onSubmit={chatSubmitHandler}>
-          <textarea
-            id="chat_input_box"
-            type="text"
-            onChange={chatInputHandler}
-            ref={chatInput}
-          />
-          <div>
-            <div className="chat-insert-additional-wrapper"></div>
-            <div className="chat-controls">
-              <button className="send-message" type="submit">
-                Send
-              </button>
-            </div>
-          </div>
-        </form> */}
-      </section>
+
       <DiceModal outsideDiceRoll={outsideDiceRoll} />
       <VoteModal outsideVoteCall={outsideVoteCall} userVote={userVote} />
-      {/* <VoteResultModal
-        outsideVoteCall={outsideVoteCall}
-        voteResults={voteResults}
-      /> */}
     </main>
   )
 }

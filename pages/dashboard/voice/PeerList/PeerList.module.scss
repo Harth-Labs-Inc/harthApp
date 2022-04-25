@@ -1,0 +1,179 @@
+@import '../../../../styles/globals.scss';
+@import '../../../../styles/config/config-type';
+
+.voiceGatheringPeersList {
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+}
+
+.voiceGatheringPeer {
+  > span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 4px 8px 4px 16px;
+  }
+
+  &Mute,
+  &ToggleVolume {
+    position: relative;
+    height: 36px;
+    width: 36px;
+    font-size: 0;
+    background-color: transparent;
+    border: 0;
+    border-radius: 50%;
+    transition: all 0.3s;
+    cursor: pointer;
+
+    &:before {
+      @include x-y-center;
+      color: #9a9a9a;
+      font-size: 16px;
+    }
+
+    &:hover {
+      background-color: #f7f7f7;
+      &:before {
+        color: #333;
+      }
+    }
+  }
+
+  &Mute {
+    &:before {
+      @include font-icon($icon-mic);
+    }
+
+    &.isMuted {
+      &:before {
+        @include font-icon($icon-muted);
+        color: #b00020;
+      }
+    }
+  }
+
+  &ToggleVolume {
+    &:before {
+      @include font-icon($icon-speaker);
+    }
+
+    &.isMuted {
+      &:before {
+        @include font-icon($icon-speaker-mute);
+        color: #b00020;
+      }
+    }
+  }
+
+  &Volume {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 27px 8px 27px 24px;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #eaeaea;
+
+    &:before {
+      @include font-icon($icon-speaker);
+      font-size: 18px;
+    }
+
+    .volumeSlider {
+      -webkit-appearance: none;
+      width: 100%;
+      margin-right: 8px;
+
+      //webkit
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        margin-top: -5px;
+        height: 12px;
+        width: 12px;
+        background-color: #333;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      &::-webkit-slider-runnable-track {
+        height: 2px;
+        width: 100%;
+        background-color: #9a9a9a;
+        border-radius: 8px;
+      }
+      //mozilla
+      &::-moz-range-thumb {
+        height: 12px;
+        width: 12px;
+        background-color: #333;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      &::-moz-range-track {
+        height: 2px;
+        width: 100%;
+        background-color: #9a9a9a;
+        border-radius: 8px;
+      }
+      &::-moz-range-progress {
+        background-color: #333;
+      }
+      //microsoft
+      &::-ms-thumb {
+        height: 12px;
+        width: 12px;
+        background-color: #333;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      &::-ms-track {
+        height: 2px;
+        width: 100%;
+        background-color: #9a9a9a;
+        border-radius: 8px;
+      }
+      &::-ms-fill-lower {
+        background: #333;
+      }
+    }
+
+    .voiceGatheringMutePeer {
+      position: relative;
+      height: 36px;
+      width: 36px;
+      font-size: 0;
+      background-color: transparent;
+      border: 0;
+      border-radius: 50%;
+      transition: all 0.3s;
+      cursor: pointer;
+      &:before {
+        @include x-y-center;
+        @include font-icon($icon-speaker-mute);
+        color: #9a9a9a;
+        font-size: 16px;
+      }
+
+      &:hover {
+        background-color: #fff;
+        &:before {
+          color: #333;
+        }
+      }
+
+      &.isMuted {
+        &:before {
+          @include font-icon($icon-speaker-mute);
+          color: #b00020;
+        }
+      }
+    }
+  }
+
+  &.volumeOpen {
+    .voiceGatheringPeerVolume {
+      box-shadow: inset 0 2px 3px rgba(#000, 0.16);
+    }
+  }
+}

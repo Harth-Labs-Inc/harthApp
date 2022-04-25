@@ -1,0 +1,24 @@
+.DeviceList {
+  height: calc(100vh - 109px);
+  overflow: auto;
+  &Group {
+    padding: 8px 24px 24px;
+    border-bottom: 1px solid #eaeaea;
+
+    &List {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &Item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 12px;
+    line-height: 16px;
+    &:not(:last-of-type) {
+      margin-bottom: 8px;
+    }
+  }
+}

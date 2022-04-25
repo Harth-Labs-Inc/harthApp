@@ -1,18 +1,19 @@
 import { useState } from 'react'
 
 const RadioButton = (props) => {
+  const { name, id, onChange, value, isSelected, label } = props
   return (
     <>
       <input
-        name={props.name}
-        id={props.id}
+        name={name}
+        id={id}
         className="radio-button"
-        onChange={props.changed}
-        value={props.value}
+        onChange={onChange}
+        value={value}
         type="radio"
-        checked={props.isSelected}
+        checked={isSelected}
       />
-      <label htmlFor={props.id}>{props.label}</label>
+      <label htmlFor={id}>{label}</label>
     </>
   )
 }

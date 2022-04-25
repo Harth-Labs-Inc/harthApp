@@ -85,6 +85,10 @@ const VoteCaller = (props) => {
     }
   }
 
+  const voteTypeHandler = (voteType) => {
+    setVoteType(voteType)
+  }
+
   const VoteComponent = () => {
     if (voteCalled) {
       return <SelfVote />
@@ -101,7 +105,7 @@ const VoteCaller = (props) => {
               type="radio"
               id="call_vote_unanimous"
               name="vote-type"
-              onChange={() => setVoteType('unanimous')}
+              onChange={() => voteTypeHandler('unanimous')}
             />
             <label className="vote-choice" htmlFor="call_vote_unanimous">
               Unanimous
@@ -111,7 +115,7 @@ const VoteCaller = (props) => {
               id="call_vote_majority"
               name="vote-type"
               defaultChecked
-              onChange={() => setVoteType('majority')}
+              onChange={() => voteTypeHandler('majority')}
             />
             <label className="vote-choice" htmlFor="call_vote_majority">
               Majority &gt; 50%

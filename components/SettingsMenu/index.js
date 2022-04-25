@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 import InviteComp from './Invite'
 import AccountSettings from './Account'
-import Devices from './Devices'
+import Devices from './Devices/Devices'
 
 import { MobileContext } from '../../contexts/mobile'
 

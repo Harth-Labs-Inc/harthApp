@@ -6,9 +6,10 @@ import { useSize } from '../../../contexts/mobile'
 import { ellapsedTime } from '../../../services/helper'
 
 import ChatAttachment from '../../../components/ChatInput/chatAttachmentsGeneral'
-import UserIcon from '../../../components/UserIcon/userIcon'
 import GeneralChatInput from '../../../components/ChatInput/ChatInputGeneral'
 
+import PeerList from './PeerList/PeerList'
+import VoiceFooter from './VoiceFooter/VoiceFooter'
 import styles from './Voice.module.scss'
 
 let myPeer
@@ -19,11 +20,10 @@ let userInfo = {}
 const Voice = () => {
   let activeInterval
   //chat
-  const [updateCount, setUpdateCount] = useState(0)
+
   const [unreadMsg, setUnreadMsg] = useState(false)
   const [newChatMsg, setNewChatMsg] = useState({})
   const [chats, setChats] = useState([])
-  // const [showChatPannel, setShowChatPannel] = useState(false)
 
   const [userName, setUserName] = useState('')
   const [userIcon, setUserIcon] = useState('')
@@ -41,8 +41,7 @@ const Voice = () => {
   const [localStreamChange, setLocalStreamChange] = useState(0)
 
   const [Peers, setPeers] = useState([])
-  const [muteOn, setMuteOn] = useState(true)
-  const [options, setOptions] = useState(false)
+  const [muteOn, setMuteOn] = useState(false)
 
   const mainRef = useRef()
   // const localVidRef = useRef()
@@ -188,10 +187,16 @@ const Voice = () => {
   }, [socket])
 
   useEffect(() => {
-    setActiveTimer(ellapsedTime(callRooms[0]?.createdTime))
+    let tempCallRoom = {}
+    callRooms.forEach((room) => {
+      if (room.roomId === roomId) {
+        tempCallRoom = room
+      }
+    })
+    setActiveTimer(ellapsedTime(tempCallRoom?.createdTime))
 
     activeInterval = setInterval(() => {
-      setActiveTimer(ellapsedTime(callRooms[0].createdTime))
+      setActiveTimer(ellapsedTime(tempCallRoom.createdTime))
     }, 60000)
 
     return () => clearInterval(activeInterval)
@@ -260,6 +265,7 @@ const Voice = () => {
       } catch (error) {}
     }
     setLocalStreamChange((prev) => (prev += 1))
+    setMuteOn((prev) => !prev)
   }
 
   const getLocalStream = async () => {
@@ -284,20 +290,6 @@ const Voice = () => {
 
     createVideo({ id: peerid, stream: incomingStream })
   }
-
-  const toggleOptions = () => {
-    setOptions(!options)
-  }
-  // const toggleChat = () => {
-  //   setShowChatPannel((prevState) => {
-  //     let newvalue = !prevState
-  //     if (newvalue === true) {
-  //       setUnreadMsg(false)
-  //     }
-  //     chatPannel = newvalue
-  //     return newvalue
-  //   })
-  // }
 
   // ------------ rooms -----------------
 
@@ -542,70 +534,7 @@ const Voice = () => {
     }
   }
 
-  const toggleRemoteMute = (peer, index) => {
-    let muted = true
-    if (userInfo[peer.name]) {
-      if (!userInfo[peer.name].muted) {
-      } else {
-        muted = !userInfo[peer.name].muted
-      }
-      userInfo[peer.name].muted = muted
-    }
-
-    if (muted) {
-      userInfo[peer.name].oldVolume = userInfo[peer.name].volume
-      userInfo[peer.name].volume = 1
-      muteRemotePeer(peer)
-    } else {
-      userInfo[peer.name].volume = userInfo[peer.name].oldVolume || 100
-      unMuteRemotePeer(peer)
-    }
-  }
-
-  const muteRemotePeer = (peer) => {
-    let stream = groupStreams[peer.peerId]
-    stream.getTracks().forEach((track) => {
-      if (track.kind === 'audio') {
-        track.enabled = false
-        setUpdateCount((preCount) => (preCount += 1))
-      }
-    })
-  }
-  const unMuteRemotePeer = (peer) => {
-    let stream = groupStreams[peer.peerId]
-    stream.getTracks().forEach((track) => {
-      if (track.kind === 'audio') {
-        track.enabled = true
-        setUpdateCount((preCount) => (preCount += 1))
-      }
-    })
-  }
-
-  const toggleShowRemoteVolume = (peer) => {
-    let showVolume = true
-    if (userInfo[peer.name]) {
-      if (!userInfo[peer.name].showVolume) {
-      } else {
-        showVolume = !userInfo[peer.name].showVolume
-      }
-      userInfo[peer.name].showVolume = showVolume
-      setUpdateCount((preCount) => (preCount += 1))
-    }
-  }
-
-  const volumeSliderHandler = (e, peer) => {
-    const { value } = e.target
-    if (userInfo[peer.name]) {
-      userInfo[peer.name].volume = value
-
-      let elem = document.getElementById(peer.peerId)
-      if (elem) {
-        elem.volume = value / 100
-      }
-
-      setUpdateCount((preCount) => (preCount += 1))
-    }
-  }
+  console.log(userInfo)
 
   return (
     <main id="VoiceGathering" className={styles.voiceGathering} ref={mainRef}>
@@ -619,82 +548,18 @@ const Voice = () => {
           </p>
           {activeTimer} Active
         </div>
-        <ul className={styles.voiceGatheringPeersList}>
-          {myPeer &&
-            Peers.map((peer, index) => {
-              return (
-                <li
-                  key={index}
-                  className={`${styles.voiceGatheringPeer} ${
-                    userInfo[peer.name]?.showVolume ? styles.volumeOpen : ''
-                  }`}
-                >
-                  <span>
-                    <UserIcon
-                      img={peer?.img}
-                      name={peer?.name}
-                      onClick={() => toggleShowRemoteVolume(peer)}
-                    />
-                    {peer.peerId === myPeer?.id ? (
-                      <button
-                        onClick={toggleAudio}
-                        className={`${styles.voiceGatheringMute} ${
-                          userInfo[peer?.name]?.audio ? styles.isMuted : ''
-                        }`}
-                      >
-                        {userInfo[peer?.name]?.audio ? 'MUTE' : 'UNMUTE'}
-                      </button>
-                    ) : (
-                      <button
-                        className={`${styles.voiceGatheringToggleVolume} ${
-                          userInfo[peer?.name]?.muted ? styles.isMuted : ''
-                        }`}
-                        onClick={() => toggleShowRemoteVolume(peer)}
-                      >
-                        Volume
-                      </button>
-                    )}
-                  </span>
-                  {userInfo[peer.name] && userInfo[peer.name].showVolume ? (
-                    <div className={styles.voiceGatheringPeerVolume}>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        className={styles.volumeSlider}
-                        value={
-                          userInfo[peer.name] && userInfo[peer.name].volume
-                            ? parseInt(userInfo[peer.name].volume)
-                            : 100
-                        }
-                        id={`volume_${peer.peerId}`}
-                        onChange={(e) => volumeSliderHandler(e, peer)}
-                      />
-                      <button
-                        className={`${styles.voiceGatheringMutePeer} ${
-                          userInfo[peer?.name]?.muted ? styles.isMuted : ''
-                        }`}
-                        onClick={() => toggleRemoteMute(peer, index)}
-                      >
-                        {userInfo[peer.name].muted ? 'MUTE' : 'UNMUTE'}
-                      </button>
-                    </div>
-                  ) : null}
-                </li>
-              )
-            })}
-        </ul>
-        <div className={styles.voiceGatheringFooter}>
-          <button onClick={leaveRoom} className={styles.voiceGatheringLeave}>
-            Leave
-          </button>
-          <button
-            onClick={toggleAudio}
-            className={`${styles.voiceGatheringMute} ${styles[muteOn]}`}
-          >
-            {muteOn ? 'MUTE' : 'UNMUTE'}
-          </button>
-        </div>
+        <PeerList
+          myPeer={myPeer}
+          peers={Peers}
+          toggleAudio={toggleAudio}
+          userInfo={userInfo}
+          groupStreams={groupStreams}
+        />
+        <VoiceFooter
+          leaveRoom={leaveRoom}
+          toggleAudio={toggleAudio}
+          muteOn={muteOn}
+        />
       </section>
 
       <section id={styles.VoiceVideoContainer}>

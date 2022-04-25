@@ -91,7 +91,7 @@ export default function TopicEditPanel(props) {
       <TopicMemberList
         memberList={currentMembers}
         closeMemberList={toggleMembersList}
-        clickHandler={() => {}}
+        listType="list"
       />
     ) : null
   }
@@ -168,6 +168,7 @@ export default function TopicEditPanel(props) {
         memberList={currentAddMembers}
         closeMemberList={toggleAddList}
         clickHandler={addUserToTopic}
+        listType="add"
       />
     ) : null
   }

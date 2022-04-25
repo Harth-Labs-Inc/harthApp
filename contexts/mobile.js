@@ -32,3 +32,4 @@ export const ResponsiveProvider = (props) => {
 }
 
 export const useSize = () => useContext(SizeContext)
+export const useMobile = () => useContext(MobileContext)

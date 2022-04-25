@@ -141,8 +141,13 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
       attachments: attachments,
     }
     onSubmitHandler(message)
+    resetInput()
+  }
 
+  const resetInput = () => {
     setMessageText('')
+    setAttachments([])
+    setEmojiPicker(null)
   }
 
   return (
