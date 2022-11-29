@@ -14,7 +14,7 @@ import { getUploadURL, putImageInBucket } from '../../requests/s3'
 import { addKeyToDB } from '../../requests/chat'
 
 import { Picker } from 'emoji-mart'
-import 'emoji-mart/css/emoji-mart.css'
+// import 'emoji-mart/css/emoji-mart.css'
 
 import styles from './ChatInput.module.scss'
 

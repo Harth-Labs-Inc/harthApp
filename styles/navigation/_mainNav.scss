@@ -9,7 +9,7 @@
   #channel {
     width: 200px;
     padding: 0 8px;
-  
+
     color: $text-black;
     font-size: 14px;
     font-weight: 700;
@@ -40,17 +40,17 @@
       border: 0;
       cursor: pointer;
       transition: color 0.3s;
-  
+
       &:before {
         margin-right: $gutter;
         color: inherit;
         font-size: 18px;
       }
-  
+
       &:hover {
         color: $black;
       }
-  
+
       &.active {
         color: $black;
         &:after {
@@ -62,7 +62,7 @@
           background-color: $black;
         }
       }
-  
+
       &#chat {
         &:before {
           @include font-icon($icon-topic);
@@ -95,7 +95,7 @@
       padding: $gutter;
       font-size: 0;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(#000, .16);
+      box-shadow: 0 2px 4px rgba(#000, 0.16);
 
       img {
         height: 56px;
@@ -108,7 +108,7 @@
       button {
         justify-content: center;
         width: 88px;
-        margin-right: $gutter / 2;
+        margin-right: calc($gutter / 2);
         font-size: 0;
         &:before {
           font-size: 28px;

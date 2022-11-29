@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Picker } from 'emoji-mart'
-import 'emoji-mart/css/emoji-mart.css'
+// import 'emoji-mart/css/emoji-mart.css'
 
 import { getDownloadURL } from '../../requests/s3'
 import { deleteMessage, updateMessage, updateReply } from '../../requests/chat'
