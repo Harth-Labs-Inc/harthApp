@@ -1,17 +1,11 @@
-import {
-  createContext,
-  useContext,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 export const SizeContext = createContext({})
 export const MobileContext = createContext(false)
 
 export const ResponsiveProvider = (props) => {
   const [width, setWidth] = useState(0)
-  useLayoutEffect(() => {
+  useEffect(() => {
     setWidth(window.innerWidth)
     const onResize = () => setWidth(window.innerWidth)
     window.addEventListener('resize', onResize)
