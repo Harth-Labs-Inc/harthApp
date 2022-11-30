@@ -4,8 +4,8 @@
 @import './utility/ui-mixins';
 
 //config
-@import './config/html', './config/config-type', './config/button',
-  './config/headings', './config/forms', './config/modal';
+@import './config/html', './config/config-type', './config/headings',
+  './config/forms', './config/modal';
 
 //navigation
 @import './navigation/mainNav', './navigation/main', './navigation/top',

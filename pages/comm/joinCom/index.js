@@ -1,8 +1,8 @@
 import { useState } from 'react'
+import VerificationInput from 'react-verification-input'
 
 import { Button, BackButton } from '../../../components/Common'
 import { getCommFromInvite } from '../../../requests/community'
-import ReactCodeInput from 'react-verification-code-input'
 
 const JoinCom = (props) => {
   const { changePage, onCommChange } = props
@@ -40,22 +40,15 @@ const JoinCom = (props) => {
         create your own h&auml;rth.
       </p>
       <p>{errorMessage}</p>
-      <ReactCodeInput
-        type="text"
-        fieldHeight="56"
-        fieldWidth="48"
-        onChange={inputChangeHandler}
-      />
-      <fieldset>
-        <div className="form-bottom">
-          <Button
-            id="community_join"
-            type="submit"
-            text="Next"
-            onClick={submitHandler}
-          ></Button>
-        </div>
-      </fieldset>
+      <VerificationInput placeholder="" onChange={inputChangeHandler} />
+      <div className="form-bottom">
+        <Button
+          id="community_join"
+          type="submit"
+          text="Next"
+          onClick={submitHandler}
+        ></Button>
+      </div>
     </div>
   )
 }
