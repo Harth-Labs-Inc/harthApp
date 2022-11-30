@@ -4,24 +4,24 @@ import { ResponsiveProvider } from '../contexts/mobile'
 import Layout from '../components/layout'
 
 function MyApp({ Component, pageProps }) {
-  // useEffect(() => {
-  //   if ("serviceWorker" in navigator) {
-  //     window.addEventListener("load", function () {
-  //       navigator.serviceWorker.register("/sw.js").then(
-  //         function (registration) {},
-  //         function (err) {}
-  //       );
-  //     });
-  //   }
-  //   //disable right click
-  //   // window.addEventListener(
-  //   //   "contextmenu",
-  //   //   function (e) {
-  //   //     e.preventDefault();
-  //   //   },
-  //   //   false
-  //   // );
-  // }, []);
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').then(
+          function (registration) {},
+          function (err) {},
+        )
+      })
+    }
+    //disable right click
+    // window.addEventListener(
+    //   "contextmenu",
+    //   function (e) {
+    //     e.preventDefault();
+    //   },
+    //   false
+    // );
+  }, [])
   return (
     <ResponsiveProvider>
       <AuthProvider>

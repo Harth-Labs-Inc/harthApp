@@ -42,7 +42,7 @@
       "density": "4.0"
     }
   ],
-  "start_url": "https://project-blarg-next.vercel.app/?source=pwa",
+  "start_url": "https://harth.vercel.app/",
   "background_color": "#000000",
   "display": "fullscreen",
   "scope": "/",
