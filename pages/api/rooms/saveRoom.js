@@ -25,7 +25,7 @@ export default async (req, res) => {
   if (!insertResult) {
     return res.json({ ok: 0, msg: 'something went wrong' })
   }
-  if (!insertResult.insertedCount) {
+  if (!insertResult.insertedId) {
     return res.json({ ok: 0, msg: 'something went wrong' })
   }
   return res.json({ ok: 1, msg: 'success', id: insertResult.insertedId })

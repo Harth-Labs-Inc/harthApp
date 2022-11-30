@@ -1,0 +1,10 @@
+const StopNoFill = ({ fill = '#2F1D2A' }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" height={48} width={48}>
+    <path
+      fill={fill}
+      d="M15 15v18Zm0 21q-1.25 0-2.125-.875T12 33V15q0-1.25.875-2.125T15 12h18q1.25 0 2.125.875T36 15v18q0 1.25-.875 2.125T33 36Zm0-3h18V15H15Z"
+    />
+  </svg>
+)
+
+export default StopNoFill

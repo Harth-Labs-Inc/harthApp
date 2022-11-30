@@ -123,7 +123,7 @@ const CreateAccount = (props) => {
           type="text"
           empty={formData.fullName}
           value={formData.fullName}
-          isrequired={errorData['fullName']}
+          isrequired={errorData['fullName'] ? true : false}
           changeHandler={inputChangeHandler}
           data={formData}
           errorData={errorData}

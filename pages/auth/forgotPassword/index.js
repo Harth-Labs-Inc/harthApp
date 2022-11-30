@@ -93,9 +93,7 @@ const ResetPwd = (props) => {
           />
           <fieldset className={errorMessage ? 'error' : undefined}>
             <div className="form-bottom">
-              <p id="email-error" id="login-error">
-                {errorMessage ? errorMessage : ''}
-              </p>
+              <p id="email-error">{errorMessage ? errorMessage : ''}</p>
               <Button
                 id="password-reset-submit"
                 type="submit"

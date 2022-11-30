@@ -4,7 +4,7 @@ export const Input = (props) => {
   const {
     name,
     title,
-    isrequired,
+    isrequired = false,
     changeHandler,
     value,
     type,

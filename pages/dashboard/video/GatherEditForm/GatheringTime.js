@@ -40,7 +40,7 @@ export function GatheringTime(props) {
                 payload: e.target.value,
               })
             }
-            isrequired={validate.includes('gathering_date') ? 'true' : ''}
+            isrequired={validate.includes('gathering_date') ? true : false}
           />
           <Input
             id="gathering_time"
@@ -53,7 +53,7 @@ export function GatheringTime(props) {
                 payload: e.target.value,
               })
             }
-            isrequired={validate.includes('gathering_time') ? 'true' : ''}
+            isrequired={validate.includes('gathering_time') ? true : false}
           />
         </fieldset>
       </form>

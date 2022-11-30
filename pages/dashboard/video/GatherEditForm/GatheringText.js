@@ -25,7 +25,7 @@ export function GatheringText(props) {
           value={roomName}
           required
           maxLength="24"
-          isrequired={validate.includes('roomName') ? 'true' : ''}
+          isrequired={validate.includes('roomName') ? true : false}
         />
         <TextArea
           name="gatheringDescription"
