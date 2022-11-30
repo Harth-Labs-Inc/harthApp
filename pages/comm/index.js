@@ -123,6 +123,7 @@ const CommIndexPage = () => {
         users: [],
         topics: [],
       })
+      console.log('commDbUpload', commDbUpload)
       if (commDbUpload.ok) {
         profDbUpload = await addUserToComm(commDbUpload.id, {
           userId: user._id,

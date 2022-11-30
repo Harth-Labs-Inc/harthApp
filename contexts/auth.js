@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
     const token = Cookies.get('token')
     if (token) {
       const data = await getUserFromToken(token)
+      console.log('data', data)
       const { ok, user } = data
       if (ok) {
         setUser(user)
