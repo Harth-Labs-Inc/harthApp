@@ -1,6 +1,8 @@
 {
-  "short_name": "PWA",
-  "name": "My first PWA",
+  "short_name": "Harth",
+  "name": "Harth",
+  "orientation": "portrait",
+  "description": "",
   "icons": [
     {
       "src": "/android-icon-36x36.png",

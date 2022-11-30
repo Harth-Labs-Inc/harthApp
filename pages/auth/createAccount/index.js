@@ -9,18 +9,15 @@ const CreateAccount = (props) => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    password: '',
     dob: '',
   })
   const [errorData, setErrorData] = useState({
     fullName: '',
     email: false,
-    password: false,
     dob: false,
   })
   const [customErrors, setCustomErrors] = useState({
     email: '',
-    password: '',
     match: '',
   })
 
@@ -99,20 +96,6 @@ const CreateAccount = (props) => {
             customErrors['email'] || customErrors['match']
               ? customErrors['email'] || customErrors['match']
               : ''
-          }
-          data={formData}
-          errorData={errorData}
-        />
-        <Input
-          title="Password"
-          name="password"
-          type="password"
-          empty={formData.password}
-          value={formData.password}
-          isrequired={errorData['password']}
-          changeHandler={inputChangeHandler}
-          customError={
-            customErrors['password'] ? 'Must Be Over 8 Characters' : ''
           }
           data={formData}
           errorData={errorData}
