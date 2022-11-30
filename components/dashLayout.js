@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 
 import { MobileContext } from '../contexts/mobile'
 
-import MainNav from './MainNav/TopNav'
+import MainNav from './MainNav/MainNav'
 import SideNav from './SideNav'
 import Tavern from '../pages/tavern'
 

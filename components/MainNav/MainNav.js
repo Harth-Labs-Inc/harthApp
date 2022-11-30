@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
 import { useAuth } from '../../contexts/auth'
 import { MobileContext } from '../../contexts/mobile'
+import { ChatFill } from '../../resources/icons/ChatFill'
+import { ChatNoFill  } from '../../resources/icons/ChatNoFill'
 
 import Modal from '../Modal'
 import HarthMenu from '../HarthMenu/index'
@@ -10,7 +12,8 @@ import { useComms } from '../../contexts/comms'
 const MainNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props
   const [modal, setModal] = useState()
-  const [communityName, setCommunityName] = useState()
+  //const [communityName, setCommunityName] = useState()
+  const communityName = "Blarg"
   const [communityId, setCommunityId] = useState()
   const [harthIcon, setHarthIcon] = useState()
   const [profileIcon, setProfileIcon] = useState()
@@ -76,13 +79,18 @@ const MainNav = (props) => {
           <button
             role="nav-item"
             id="chat"
-            aria-label="Community Topics"
+            aria-label="Community Chat"
             className={currentPage == 'chat' ? 'active' : undefined}
             onClick={() => {
               changePage('chat')
             }}
           >
-            Topics
+            
+            {currentPage == 'chat' 
+            ? <div style={{height: 32, width: 32}}><ChatFill /></div>
+            : <div style={{height: 32, width: 32}}><ChatNoFill /></div>
+            }
+            Chat
           </button>
 
           <button

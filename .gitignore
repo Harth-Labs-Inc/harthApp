@@ -38,3 +38,6 @@ yarn-error.log*
 
 # android studio
 /.idea
+pages/index.js
+.expo/settings.json
+.expo/README.md

@@ -19,7 +19,8 @@ const IndexPage = () => {
       <Head>
         <title>Harth</title>
       </Head>
-      <AuthOrDashboard></AuthOrDashboard>
+      {/* <AuthOrDashboard></AuthOrDashboard> */}
+      <Dashboard></Dashboard>
     </>
   )
 }

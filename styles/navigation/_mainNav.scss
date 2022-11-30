@@ -10,13 +10,13 @@
     width: 200px;
     padding: 0 8px;
 
-    color: $text-black;
+    color: '#ff0000';//$text-black;
     font-size: 14px;
     font-weight: 700;
     line-height: 19px;
     text-align: left;
     background-color: transparent;
-    border: 0;
+    border: 1;
     cursor: pointer;
     text-overflow: ellipsis;
     &:hover {
@@ -63,11 +63,11 @@
         }
       }
 
-      &#chat {
-        &:before {
-          @include font-icon($icon-topic);
-        }
-      }
+      // &#chat {
+      //   &:before {
+      //     @include font-icon($icon-topic);
+      //   }
+      // }
       &#gather {
         &:before {
           @include font-icon($icon-game);
