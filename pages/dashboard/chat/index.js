@@ -50,12 +50,16 @@ const Chat = (prop) => {
 
   return (
     <>
-      <TopicsSideNav />
+    {isMobile 
+      ? null 
+      : <TopicsSideNav />
+    }
       <section id="topic_active" className={topicChatClasses()}>
         <TopicsMenu
           on_toggle_panel={toggleEditPanel}
           toggleMobileMenu={toggleMobileMenu}
         />
+
         <div id="topic_messages_container">
           <ChatMessages />
         </div>
