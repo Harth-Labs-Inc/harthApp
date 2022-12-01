@@ -11,7 +11,7 @@ export const ResponsiveProvider = (props) => {
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [])
-  const isMobile = width <= 768
+  const isMobile = width <= 640
 
   const sizeContext = useMemo(() => ({ width }), [width])
   const mobileContext = useMemo(() => ({ isMobile }), [isMobile])

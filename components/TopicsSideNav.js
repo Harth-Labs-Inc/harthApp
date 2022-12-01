@@ -176,7 +176,7 @@ const TopicsNav = (props) => {
       <aside id="topicNav">
         {isMobile ? (
           <span id="topicNavHeader">
-            <p>Topics</p>
+            <p>Chat</p>
             <p>user profile</p>
           </span>
         ) : null}

@@ -51,7 +51,6 @@
 
         border: 0;
         cursor: pointer;
-        //transition: color 0.3s;
         padding-top: 6px;
         padding-bottom: 0px;
         margin-left: 4px;
@@ -71,17 +70,18 @@
     }
   
     &.isMobile {
-      align-items: flex-end;
+      align-items: flex-start;
       justify-content: center;
-      height: 56px;
-      background-color: #f7f7f7;
-      border: 0;
+      height: 64px;
+      background-color: $light_ash;
+      border-top: 1px solid $fuel_10;
+
   
       #channel {
-        height: 72px;
+        height: 64px;
         width: 72px;
-        margin-right: 11px;
-        padding: $gutter;
+        //margin-right: 11px;
+        //padding: $gutter;
         font-size: 0;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(#000, 0.16);
@@ -96,15 +96,18 @@
       .top-buttons {
         button {
           justify-content: center;
-          width: 88px;
-          margin-right: calc($gutter / 2);
-          font-size: 0;
-          &:before {
-            font-size: 28px;
-          }
-          &:after {
-            display: none;
-          }
+          display: flex;
+          flex-direction: column;
+          
+          width: 72px;
+          //margin-right: calc($gutter / 2);
+          font-size: 12;
+          // &:before {
+          //   font-size: 28px;
+          // }
+          // &:after {
+          //   display: none;
+          // }
         }
       }
     }

@@ -16,8 +16,8 @@ import { useComms } from '../../contexts/comms'
 const MainNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props
   const [modal, setModal] = useState()
-  const [communityName, setCommunityName] = useState()
-  //const communityName = "Blarg"
+  //const [communityName, setCommunityName] = useState()
+  const communityName = "Blarg"
   const [communityId, setCommunityId] = useState()
   const [harthIcon, setHarthIcon] = useState()
   const [profileIcon, setProfileIcon] = useState()
