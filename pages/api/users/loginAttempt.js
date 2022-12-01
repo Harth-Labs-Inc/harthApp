@@ -1,5 +1,5 @@
 import { connectToDatabase } from "../../../util/mongodb";
-import jwt from "jsonwebtoken";
+import { generateOTP } from "../../../services/helper";
 
 export default async (req, res) => {
     let obj;
@@ -21,7 +21,6 @@ export default async (req, res) => {
                 });
         });
     };
-
     const saveUser = (db, user) => {
         return new Promise((resolve, reject) => {
             let mongo = require("mongodb");
@@ -38,6 +37,30 @@ export default async (req, res) => {
             );
         });
     };
+    const checkIfValidCode = (db, user) => {
+        return new Promise((resolve) => {
+            async function runCheck() {
+                let getNewCode = true;
+                if (user.otp_expiration) {
+                    let today = new Date();
+                    let otp_expiration = new Date(user.otp_expiration);
+                    if (otp_expiration > today) {
+                        getNewCode = false;
+                    }
+                }
+                if (getNewCode) {
+                    let otp = generateOTP();
+                    let today = new Date();
+                    let tomorrow = today.setDate(today.getDate() + 1);
+                    user.otp = otp;
+                    user.otp_expiration = new Date(tomorrow);
+                    await saveUser(db, user);
+                }
+                resolve(user);
+            }
+            runCheck();
+        });
+    };
 
     const { db } = await connectToDatabase();
     let user = await findUser(db, obj.email);
@@ -45,12 +68,7 @@ export default async (req, res) => {
         return res.json({ msg: "No User Found", ok: 0 });
     }
 
-    let token = jwt.sign({ userId: user._id.toString() }, process.env.SECRET);
-    const date = new Date();
-    date.setFullYear(date.getFullYear() + 1);
-    user.token = token;
-    user.token_expiration = date;
-    await saveUser(db, user);
+    let newUser = await checkIfValidCode(db, user);
 
-    return res.json({ msg: "login successful", tkn: token, ok: 1 });
+    return res.json({ msg: "user found", ok: 1, user: newUser });
 };

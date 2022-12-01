@@ -1,76 +1,68 @@
-import { connectToDatabase } from '../../../util/mongodb'
-import { Validator } from 'node-input-validator'
-import bcrypt from 'bcrypt'
+import { connectToDatabase } from "../../../util/mongodb";
+import { Validator } from "node-input-validator";
+import { generateOTP } from "../../../services/helper";
 
 export default async (req, res) => {
-  let obj
-  try {
-    obj = JSON.parse(req.body)
-  } catch (e) {
-    obj = req.body
-  }
-
-  const createUser = (db, data) => {
-    return new Promise((resolve, reject) => {
-      db.collection('users').insertOne(
-        { ...data, comms: [], rooms: [] },
-        function (err, userCreated) {
-          if (err) {
-          }
-          resolve(userCreated)
-        },
-      )
-      //   bcrypt.hash(data.password, 12, function (err, hash) {
-      //     delete data.password;
-      //     delete data.conf_password;
-      //     db.collection("users").insertOne(
-      //       { ...data, password: hash, comms: [], rooms: [] },
-      //       function (err, userCreated) {
-      //         if (err) {
-      //         }
-      //         resolve(userCreated);
-      //       }
-      //     );
-      //   });
-    })
-  }
-
-  const chkExistingUser = (db, email) => {
-    return new Promise((resolve, reject) => {
-      db.collection('users')
-        .find({ email: email })
-        .toArray(function (err, results) {
-          if (err) {
-            resolve(false)
-          }
-          if (results.length > 0) {
-            resolve(true)
-          } else {
-            resolve(false)
-          }
-        })
-    })
-  }
-
-  const v = new Validator(obj, {
-    email: 'required|email',
-  })
-
-  const matched = await v.check()
-  if (!matched) {
-    let errors = {}
-    for (let [key, value] of Object.entries(v.errors)) {
-      errors[key] = value.message
+    let obj;
+    try {
+        obj = JSON.parse(req.body);
+    } catch (e) {
+        obj = req.body;
     }
-    return res.json({ ok: 0, errors })
-  }
+    const createUser = (db, data) => {
+        return new Promise((resolve, reject) => {
+            db.collection("users").insertOne(
+                { ...data, comms: [], rooms: [] },
+                function (err, userCreated) {
+                    if (err) {
+                    }
+                    resolve(userCreated);
+                }
+            );
+        });
+    };
 
-  const { db } = await connectToDatabase()
-  let chkExistingUserResult = await chkExistingUser(db, obj.email)
-  if (chkExistingUserResult) {
-    return res.json({ ok: 0, errors: { match: 'Email Already Exists' } })
-  } else {
-    await createUser(db, obj)
-    return res.json({ ok: 1, msg: '' })
-  }
-}
+    const chkExistingUser = (db, email) => {
+        return new Promise((resolve, reject) => {
+            db.collection("users")
+                .find({ email: email })
+                .toArray(function (err, results) {
+                    if (err) {
+                        resolve(false);
+                    }
+                    if (results.length > 0) {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                });
+        });
+    };
+
+    const v = new Validator(obj, {
+        email: "required|email",
+    });
+
+    const matched = await v.check();
+    if (!matched) {
+        let errors = {};
+        for (let [key, value] of Object.entries(v.errors)) {
+            errors[key] = value.message;
+        }
+        return res.json({ ok: 0, errors });
+    }
+
+    const { db } = await connectToDatabase();
+    let chkExistingUserResult = await chkExistingUser(db, obj.email);
+    if (chkExistingUserResult) {
+        return res.json({ ok: 0, errors: { match: "Email Already Exists" } });
+    } else {
+        let otp = generateOTP();
+        let today = new Date();
+        let tomorrow = today.setDate(today.getDate() + 1);
+        obj.otp = otp;
+        obj.otp_expiration = new Date(tomorrow);
+        await createUser(db, obj);
+        return res.json({ ok: 1, msg: "", user: obj });
+    }
+};
