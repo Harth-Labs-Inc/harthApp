@@ -1,6 +1,74 @@
 //app colors
 @import './utility/ui-mixins';
 
+
+// Oxygen
+$oxygen: #fcfff6;
+
+// White
+$white: #ffffff;
+$white_90: rgba(255, 255, 255, 0.90);
+$white_50: rgba(255, 255, 255, 0.50);
+$white_10: rgba(255, 255, 255, 0.10);
+$white_5: rgba(255, 255, 255, 0.05);
+
+// Black
+$black: #000000;
+$black_05: rgba(0, 0, 0, 0.05);
+
+// Ash
+$ash: "#282828";
+$ash_80: rgba(40, 40, 40, 0.80);
+$ash_60: rgba(40, 40, 40, 0.60);
+$ash_40: rgba(40, 40, 40, 0.40);
+$ash_20: rgba(40, 40, 40, 0.20);
+$ash_10: rgba(40, 40, 40, 0.10);
+$ash_05: rgba(40, 40, 40, 0.05);
+
+// Light Ash
+$light_ash: #f8f8f8;
+
+// Fuel
+$fuel: #2f1d2a;
+$fuel_50: rgba(47, 29, 42, 0.50);
+$fuel_10: rgba(47, 29, 42, 0.10);
+$fuel_7: rgba(47, 29, 42, 0.07);
+$fuel_10F: #eae8e9;
+$fuel_5: rgba(47, 29, 42, 0.05);
+
+
+// Hot Blue
+$hot_blue: #0da1b5;
+// Hot Green
+$hot_green: #00a396;
+// Hot Purple
+$hot_purple: #bb7ec4;
+// Hot Pink
+$hot_pink: #d96fab;
+$hot_pink_20: rgba(217, 111, 171, 0.20);
+// Hot Orange
+$hot_orange: #ffa773;
+// Hot Red
+$hot_red: #f06573;
+$hot_red_20: rgba(240, 101, 115, 0.20);
+
+// ========================
+// System
+// ========================
+$alert_red: #bb0000;
+
+// Light background
+$background_light: #f2f5eb;
+
+// ========================
+// Overlays
+// ========================
+$overlay_dark: rgba(0, 0, 0, 0.70);
+// overlay_light: $white,
+
+///OLD COLORS BELOW
+/// DONT USE
+
 $icon-grey: #777;
 $border-grey: #707070;
 $light-grey: #eaeaea;

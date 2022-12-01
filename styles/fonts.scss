@@ -5,35 +5,35 @@
     font-weight: 600;
     font-size: 20px;
     letter-spacing: 0.02em;
-    line-height: 125%;
+    line-height: 22px;
 }
 @mixin interfaceH2 {
     font-family: 'Work Sans', sans-serif;
     font-weight: 500;
     font-size: 18px;
     letter-spacing: 0.02em;
-    line-height: 125%;
+    line-height: 20px;
 }
 @mixin interfaceH3 {
     font-family: 'Work Sans', sans-serif;
     font-weight: 500;
     font-size: 16px;
     letter-spacing: 0.02em;
-    line-height: 125%;
+    line-height: 18px;
 }
 @mixin interfaceH4 {
     font-family: 'Work Sans', sans-serif;
     font-weight: 500;
     font-size: 14px;
     letter-spacing: 0.02em;
-    line-height: 125%;
+    line-height: 16px;
 }
 @mixin interfaceH5 {
     font-family: 'Work Sans', sans-serif;
     font-weight: 600;
     font-size: 12px;
     letter-spacing: 0.02em;
-    line-height: 125%;
+    line-height: 14px;
 }
 
 @mixin interfaceR1 {
@@ -41,28 +41,28 @@
     font-weight: 400;
     font-size: 16px;
     letter-spacing: 0.02em;
-    line-height: 125%;
+    line-height: 18px;
 }
 @mixin interfaceR2 {
     font-family: 'Work Sans', sans-serif;
     font-weight: 400;
     font-size: 14px;
     letter-spacing: 0.02em;
-    line-height: 125%;
+    line-height: 16px;
 }
 @mixin interfaceR3 {
     font-family: 'Work Sans', sans-serif;
     font-weight: 400;
     font-size: 12px;
     letter-spacing: 0.02em;
-    line-height: 125%;
+    line-height: 14px;
 }
 @mixin interfaceR4 {
     font-family: 'Work Sans', sans-serif;
     font-weight: 400;
     font-size: 11px;
     letter-spacing: 0.02em;
-    line-height: 125%;
+    line-height: 12px;
 }
 
 @mixin contentH1 {

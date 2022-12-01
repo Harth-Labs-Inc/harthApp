@@ -3,6 +3,10 @@ import { useAuth } from '../../contexts/auth'
 import { MobileContext } from '../../contexts/mobile'
 import { ChatFill } from '../../resources/icons/ChatFill'
 import { ChatNoFill  } from '../../resources/icons/ChatNoFill'
+import { FireFill } from '../../resources/icons/FireFill'
+import { FireNoFill  } from '../../resources/icons/FireNoFill'
+import { ForumFill } from '../../resources/icons/ForumFill'
+import { ForumNoFill  } from '../../resources/icons/ForumNoFill'
 
 import Modal from '../Modal'
 import HarthMenu from '../HarthMenu/index'
@@ -12,8 +16,8 @@ import { useComms } from '../../contexts/comms'
 const MainNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props
   const [modal, setModal] = useState()
-  //const [communityName, setCommunityName] = useState()
-  const communityName = "Blarg"
+  const [communityName, setCommunityName] = useState()
+  //const communityName = "Blarg"
   const [communityId, setCommunityId] = useState()
   const [harthIcon, setHarthIcon] = useState()
   const [profileIcon, setProfileIcon] = useState()
@@ -53,6 +57,7 @@ const MainNav = (props) => {
     }
   }, [comms])
 
+
   return (
     <>
       {modal ? (
@@ -67,14 +72,16 @@ const MainNav = (props) => {
         ''
       )}
       <header id="mainNav" className={isMobile ? 'isMobile' : 'isDesktop'}>
+        <div style={{width: 240,}}>
         <button
-          id="channel"
+          id="harth-title"
           onClick={handleHarthMenu}
           aria-label="Current Harth"
         >
-          {isMobile ? <img src={harthIcon} /> : null}
-          {communityName}
+          {isMobile ? <img src={harthIcon} /> : communityName}
+          
         </button>
+        </div>
         <div role="nav" className="top-buttons">
           <button
             role="nav-item"
@@ -85,12 +92,17 @@ const MainNav = (props) => {
               changePage('chat')
             }}
           >
-            
-            {currentPage == 'chat' 
-            ? <div style={{height: 32, width: 32}}><ChatFill /></div>
-            : <div style={{height: 32, width: 32}}><ChatNoFill /></div>
+            <div style={{display: 'flex', flexDirection: 'row', width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              {currentPage == 'chat'
+              ? <div style={{height: 22, width: 22, marginRight: 4,}}><ChatFill color="#f0f"/></div>
+              : <div style={{height: 22, width: 22, marginRight: 4,}}><ChatNoFill /></div>
+              }
+              Chat
+            </div>
+            {currentPage == 'chat'
+            ? <div id="indicator"></div>
+            : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
             }
-            Chat
           </button>
 
           <button
@@ -107,19 +119,39 @@ const MainNav = (props) => {
               }
             }}
           >
-            Gather
+            <div style={{display: 'flex', flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+              {currentPage == 'gather'
+              ? <div style={{height: 24, width: 24, marginRight: 4,}}><FireFill /></div>
+              : <div style={{height: 24, width: 24, marginRight: 4,}}><FireNoFill /></div>
+              }
+              Gather
+            </div>
+            {currentPage == 'gather'
+            ? <div id="indicator"></div>
+            : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
+            }
           </button>
 
           <button
             role="nav-item"
-            id="messages"
+            id="message"
             aria-label="Private Messages"
-            className={currentPage == 'messages' ? 'active' : undefined}
+            className={currentPage == 'message' ? 'active' : undefined}
             onClick={() => {
-              changePage('messages')
+              changePage('message')
             }}
           >
-            Messages
+            <div style={{display: 'flex', flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+              {currentPage == 'message'
+              ? <div style={{height: 24, width: 24, marginRight: 4,}}><ForumFill /></div>
+              : <div style={{height: 24, width: 24, marginRight: 4,}}><ForumNoFill /></div>
+              }
+              Chat
+            </div>
+            {currentPage == 'message'
+            ? <div id="indicator"></div>
+            : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
+            }
           </button>
         </div>
         {!isMobile ? (
