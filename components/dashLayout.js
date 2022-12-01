@@ -3,6 +3,7 @@ import { useContext, useState } from 'react'
 import { MobileContext } from '../contexts/mobile'
 
 import MainNav from './MainNav/MainNav'
+import DesktopNav from './Desktop/DesktopNav/DesktopNav'
 import SideNav from './SideNav'
 import Tavern from '../pages/tavern'
 
@@ -35,7 +36,7 @@ const NavLayout = (props) => {
       >
         {!isMobile ? (
           <>
-            <MainNav
+            <DesktopNav
               onToggleMenu={toggleMenu}
               changePage={changePage}
               currentPage={currentPage}
