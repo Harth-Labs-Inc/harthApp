@@ -33,7 +33,12 @@ export const DesktopNavButton = (props) => {
 
     return (
       <>
-      <button className={styles.navButton} onMouseEnter={() => {setHover(true)}} onMouseLeave={() => {setHover(false)}} onClick={command}>
+      <button 
+        className={styles.navButton} 
+        onMouseEnter={() => {setHover(true)}} 
+        onMouseLeave={() => {setHover(false)}} 
+        onClick={command}
+      >
         <div style={{display: "flex", flexDirection: "row", alignItems:"center", }}>
             {isActive
               ? <div style={{height: 24, width: 24, marginRight: 6,}}><IconActive color="#2f1d2a"/></div> //color is $fuel
@@ -45,7 +50,7 @@ export const DesktopNavButton = (props) => {
         } 
         </div>
         {isActive || isHover
-            ? <div className={styles.indicator}></div>
+            ? <div className={styles.indicator} ></div>
             : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
         }
       </button>

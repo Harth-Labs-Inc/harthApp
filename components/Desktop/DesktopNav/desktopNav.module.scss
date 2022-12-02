@@ -49,7 +49,6 @@ align-items: center;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-
     position: relative;
     @include interfaceR3;
 
@@ -62,48 +61,10 @@ align-items: center;
     cursor: pointer;
     padding-top: 20px;
     padding-bottom: 0px;
-    margin-left: 8px;
-    margin-right: 8px;
+    margin-left: 12px;
+    margin-right: 12px;
 
 }
 
 
-.img {
-    height: 100%;
-    width: 100%;
-    background-color: $light_ash;
-    border-radius: 9999px;
-    overflow: "hidden";
-}
 
-// .avatar {
-//     //position: "absolute",
-//     //padding: 4,
-//     //borderWidth: 2,
-//     //borderColor: "#00ff00",
-//     height: 44px;
-//     width: 44px;
-//     border-radius: 9999px;
-//     overflow: "hidden";
-
-// }
-
-.avatarButton {
-    //position: "absolute",
-    //padding: 4,
-    //borderWidth: 2,
-    //borderColor: "#00ff00",
-    height: 44px;
-    width: 44px;
-    padding: 0;
-    border-radius: 9999px;
-    border-width: 3;
-    border-color: $light_ash;
-   // background-color: $white;
-    overflow: "hidden";
-    //background-color: $hot_blue;
-    &:hover{
-
-        border-color: $hot_blue;
-    }
-}

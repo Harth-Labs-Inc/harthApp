@@ -3,6 +3,7 @@ import { useAuth } from '../../../contexts/auth'
 import {DesktopNavButton} from './DesktopNavButton'
 import Modal from '../../Modal'
 import HarthMenu from '../../HarthMenu/index'
+import { Avatar } from '../../Universal/Avatar/Avatar'
 
 import styles from './desktopNav.module.scss'
 
@@ -96,15 +97,9 @@ const DesktopNav = (props) => {
           }
 
         </div>
-
-
-        <button
-          aria-label="My Account"
-          className={styles.avatarButton}
-        >
-          <img className={styles.img} src={profileImage}  /> 
-          
-        </button>
+        {/* Replace onPress method with profile logic */}
+        <Avatar aLabel="My Account" isPressable={true} onPress={showModal} picSize={36} imageSrc={profileImage} />
+        
       </header>
     </>
   )
