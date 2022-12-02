@@ -10,12 +10,16 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [inviteTKN, setInviteTKN] = useState(null);
+
+    const router = useRouter();
+    let { invite, tkn } = router.query;
 
     useEffect(async () => {
         const token = Cookies.get("token");
         if (token) {
             const data = await getUserFromToken(token);
-            console.log("data", data);
+            console.log(data, "dataaaaaaaaaa");
             const { ok, user } = data;
             if (ok) {
                 setUser(user);
@@ -25,10 +29,15 @@ export const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }, []);
+    useEffect(async () => {
+        if (invite && tkn) {
+            setInviteTKN(tkn);
+        }
+    }, [invite, tkn]);
 
     return (
         <AuthContext.Provider
-            value={{ isAuthenticated: !!user, user, loading }}
+            value={{ isAuthenticated: !!user, user, loading, inviteTKN }}
         >
             {children}
         </AuthContext.Provider>
@@ -42,7 +51,7 @@ export const ProtectRoute = ({ children }) => {
     const { isAuthenticated, isLoading } = useAuth();
     if (isLoading) {
         return <Loading path={pathname} />;
-    } else if (!isAuthenticated && pathname !== "/") {
+    } else if (!isAuthenticated) {
         return <Auth />;
     }
     return children;

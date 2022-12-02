@@ -1,0 +1,21 @@
+.loginModule {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    max-width: 340px;
+    margin: 0 auto;
+
+    svg {
+        width: 122px;
+        margin-bottom: 32px;
+    }
+
+    .formBottom {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 8px;
+    }
+}

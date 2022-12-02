@@ -1,154 +1,168 @@
-import React, { createContext, useState, useContext, useEffect } from 'react'
-import { getComms, getTopics, updatedTopic } from '../requests/community'
-import { getRooms } from '../requests/rooms'
-import { useAuth } from './auth'
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { getComms, getTopics, updatedTopic } from "../requests/community";
+import { getRooms } from "../requests/rooms";
+import { useAuth } from "./auth";
 
-const CommsContext = createContext({})
+const CommsContext = createContext({});
 
 export const CommsProvider = ({ children }) => {
-  const [comms, setComms] = useState(null)
-  const [selectedcomm, setSelectedcomm] = useState(null)
-  const [topics, setTopics] = useState(null)
-  const [rooms, setRooms] = useState({})
-  const [selectedTopic, setSelectedTopic] = useState({})
-  const [topicChange, setTopicChange] = useState(0)
+    const [comms, setComms] = useState(null);
+    const [selectedcomm, setSelectedcomm] = useState(null);
+    const [topics, setTopics] = useState(null);
+    const [rooms, setRooms] = useState({});
+    const [selectedTopic, setSelectedTopic] = useState({});
+    const [topicChange, setTopicChange] = useState(0);
 
-  const { user } = useAuth()
-  const { incomingTopic } = useAuth()
+    const { user } = useAuth();
+    const { incomingTopic } = useAuth();
 
-  useEffect(() => {
-    if (user) {
-      if (user.comms.length > 0) {
-        ;(async () => {
-          let result = await getComms(user)
-          const { ok, comms } = result
-          if (ok) {
-            setComms(comms)
-          }
-        })()
-      }
-    }
-  }, [user])
-
-  useEffect(() => {
-    if (selectedcomm && user) {
-      setTopicChange(0)
-
-      grabTopics(selectedcomm._id)
-      grabRooms(selectedcomm._id)
-    }
-  }, [selectedcomm])
-
-  useEffect(() => {
-    localStorage.setItem('selected_topic', JSON.stringify(selectedTopic))
-  }, [selectedTopic])
-
-  const grabTopics = async (comid) => {
-    let result = await getTopics(comid, user._id)
-    const { ok, topics } = result
-    if (ok) {
-      setTopics(topics)
-      setSelectedTopic(topics[0] || {})
-    }
-  }
-  const grabRooms = async (comid) => {
-    if (comid) {
-      if (!(comid in rooms)) {
-        rooms[comid] = []
-        let result = await getRooms(comid, user._id)
-        const { ok, rms } = result
-        if (ok) {
-          setRooms({ ...rooms, [comid]: rms })
+    useEffect(() => {
+        if (user) {
+            if (user.comms.length > 0) {
+                (async () => {
+                    let result = await getComms(user);
+                    const { ok, comms } = result;
+                    if (ok) {
+                        setComms(comms);
+                    }
+                })();
+            }
         }
-      }
-    }
-  }
-  const setComm = async (comm) => {
-    setSelectedcomm(comm)
-  }
-  const setTopic = async (topic) => {
-    setTopicChange((prevState) => (prevState += 1))
-    setSelectedTopic(topic)
-  }
-  const addNewTopic = (newTopic) => {
-    setTopics([...topics, newTopic])
-  }
-  const topicChangeHandler = async ({ type, status, user }) => {
-    console.log('topic change called: ', { type, status })
-    let tmpTopics = [...topics]
-    let matchingTopicIndex = -1
-    let tmpSelectedTopic = { ...selectedTopic }
-    tmpTopics.forEach((topic, index) => {
-      if (topic._id === selectedTopic._id) {
-        matchingTopicIndex = index
-      }
-    })
-    if (matchingTopicIndex >= 0) {
-      switch (type) {
-        // case 'edit':
-        //   console.log('made it to edit', user)
-        //   tmpTopics[matchingTopicIndex] = user
+    }, [user]);
 
-        //   setTopics(tmpTopics)
-        //   await updatedTopic({ type: 'replace', topic: user })
+    useEffect(() => {
+        if (selectedcomm && user) {
+            setTopicChange(0);
 
-        //   break
-        case 'mute':
-          tmpSelectedTopic?.members?.filter(Boolean).forEach((member) => {
-            if (member._id === user._id) {
-              member.muted = status
+            grabTopics(selectedcomm._id);
+            grabRooms(selectedcomm._id);
+        }
+    }, [selectedcomm]);
+
+    useEffect(() => {
+        localStorage.setItem("selected_topic", JSON.stringify(selectedTopic));
+    }, [selectedTopic]);
+
+    const grabTopics = async (comid) => {
+        let result = await getTopics(comid, user._id);
+        const { ok, topics } = result;
+        if (ok) {
+            setTopics(topics);
+            setSelectedTopic(topics[0] || {});
+        }
+    };
+    const grabRooms = async (comid) => {
+        if (comid) {
+            if (!(comid in rooms)) {
+                rooms[comid] = [];
+                let result = await getRooms(comid, user._id);
+                const { ok, rms } = result;
+                if (ok) {
+                    setRooms({ ...rooms, [comid]: rms });
+                }
             }
-          })
-          tmpTopics[matchingTopicIndex] = tmpSelectedTopic
-
-          setTopics(tmpTopics)
-          await updatedTopic({ type: 'replace', topic: tmpSelectedTopic })
-
-          break
-        case 'leave':
-          let newMembers = tmpSelectedTopic?.members.filter((member, index) => {
-            if (member && member._id !== user._id) {
-              return member
+        }
+    };
+    const setComm = async (comm) => {
+        setSelectedcomm(comm);
+    };
+    const setCommsFromChild = (comms) => {
+        setComms(comms);
+    };
+    const setTopic = async (topic) => {
+        setTopicChange((prevState) => (prevState += 1));
+        setSelectedTopic(topic);
+    };
+    const addNewTopic = (newTopic) => {
+        setTopics([...topics, newTopic]);
+    };
+    const topicChangeHandler = async ({ type, status, user }) => {
+        console.log("topic change called: ", { type, status });
+        let tmpTopics = [...topics];
+        let matchingTopicIndex = -1;
+        let tmpSelectedTopic = { ...selectedTopic };
+        tmpTopics.forEach((topic, index) => {
+            if (topic._id === selectedTopic._id) {
+                matchingTopicIndex = index;
             }
-            return false
-          })
-          console.log(newMembers)
-          tmpSelectedTopic.members = newMembers
-          tmpTopics[matchingTopicIndex] = tmpSelectedTopic
-          setTopics(tmpTopics)
-          grabTopics(selectedcomm._id)
-          grabRooms(selectedcomm._id)
-          await updatedTopic({ type: 'replace', topic: tmpSelectedTopic })
+        });
+        if (matchingTopicIndex >= 0) {
+            switch (type) {
+                // case 'edit':
+                //   console.log('made it to edit', user)
+                //   tmpTopics[matchingTopicIndex] = user
 
-          break
-        default:
-          break
-      }
-    }
-  }
+                //   setTopics(tmpTopics)
+                //   await updatedTopic({ type: 'replace', topic: user })
 
-  return (
-    <CommsContext.Provider
-      value={{
-        rooms,
-        topicChange,
-        setRooms,
-        grabTopics,
-        comms,
-        setComm,
-        selectedcomm,
-        topics,
-        addNewTopic,
-        setTopic,
-        selectedTopic,
-        topicChangeHandler,
-        setTopics,
-        setSelectedTopic,
-      }}
-    >
-      {children}
-    </CommsContext.Provider>
-  )
-}
+                //   break
+                case "mute":
+                    tmpSelectedTopic?.members
+                        ?.filter(Boolean)
+                        .forEach((member) => {
+                            if (member._id === user._id) {
+                                member.muted = status;
+                            }
+                        });
+                    tmpTopics[matchingTopicIndex] = tmpSelectedTopic;
 
-export const useComms = () => useContext(CommsContext)
+                    setTopics(tmpTopics);
+                    await updatedTopic({
+                        type: "replace",
+                        topic: tmpSelectedTopic,
+                    });
+
+                    break;
+                case "leave":
+                    let newMembers = tmpSelectedTopic?.members.filter(
+                        (member, index) => {
+                            if (member && member._id !== user._id) {
+                                return member;
+                            }
+                            return false;
+                        }
+                    );
+                    console.log(newMembers);
+                    tmpSelectedTopic.members = newMembers;
+                    tmpTopics[matchingTopicIndex] = tmpSelectedTopic;
+                    setTopics(tmpTopics);
+                    grabTopics(selectedcomm._id);
+                    grabRooms(selectedcomm._id);
+                    await updatedTopic({
+                        type: "replace",
+                        topic: tmpSelectedTopic,
+                    });
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    return (
+        <CommsContext.Provider
+            value={{
+                rooms,
+                topicChange,
+                setRooms,
+                grabTopics,
+                comms,
+                setCommsFromChild,
+                setComm,
+                selectedcomm,
+                topics,
+                addNewTopic,
+                setTopic,
+                selectedTopic,
+                topicChangeHandler,
+                setTopics,
+                setSelectedTopic,
+            }}
+        >
+            {children}
+        </CommsContext.Provider>
+    );
+};
+
+export const useComms = () => useContext(CommsContext);

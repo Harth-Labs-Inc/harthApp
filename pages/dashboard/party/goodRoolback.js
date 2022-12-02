@@ -5,15 +5,15 @@ import { getTurnServers } from "../../../util/TURN";
 import { useSize, useMobile } from "../../../contexts/mobile";
 import { resize } from "../../../util/resize";
 
-import Options from "../party/Options";
-import DiceModal from "../party/Options/OutsideCalls/Dice";
-import VoteModal from "../party/Options/OutsideCalls/Vote";
-import MyTurn from "../party/Options/TurnKeeper/MyTurn";
-import PeerTurn from "../party/Options/TurnKeeper/PeerTurn";
+import Options from "./Options";
+import DiceModal from "./Options/OutsideCalls/Dice";
+import VoteModal from "./Options/OutsideCalls/Vote";
+import MyTurn from "./Options/TurnKeeper/MyTurn";
+import PeerTurn from "./Options/TurnKeeper/PeerTurn";
 import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
 
-import styles from "./Stream.module.scss";
+import styles from "./Party.module.scss";
 
 let myPeer;
 let ScreenSharePeer;
@@ -22,7 +22,7 @@ let groupCaptStreams = {};
 let chatPannel = false;
 let userInfo = {};
 
-const Stream = () => {
+const Party = () => {
     //turn keeper
     const [activeTurnUser, setActiveTurnUser] = useState();
     const [openTurnKeeper, setOpenTurnKeeper] = useState();
@@ -1088,4 +1088,4 @@ const Stream = () => {
     );
 };
 
-export default Stream;
+export default Party;

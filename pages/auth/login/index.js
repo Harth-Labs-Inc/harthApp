@@ -11,6 +11,8 @@ import Form from "../../../components/Form-comp";
 import { Button, Input } from "../../../components/Common";
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 
+import styles from "./login.module.scss";
+
 const Login = (props) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [formData, setFormData] = useState({
@@ -34,7 +36,6 @@ const Login = (props) => {
 
     const submitHandler = async () => {
         setErrorMessage("");
-        console.log(formData);
         let results = await loginAttempt(formData);
         let { ok, user } = results;
         if (ok) {
@@ -44,7 +45,7 @@ const Login = (props) => {
     };
 
     return (
-        <div id="login-module">
+        <div className={styles.loginModule}>
             <HarthLogoDark />
             <Form
                 id="login"
@@ -66,25 +67,27 @@ const Login = (props) => {
                     changePage={changePage}
                 />
 
-                <fieldset>
-                    <div className="form-bottom">
-                        <Button
-                            id="login-submit"
-                            type="submit"
-                            text="Sign In"
-                        ></Button>
-                        <div>
-                            <a
-                                id="sign-up-link"
-                                onClick={() => {
-                                    changePage("createaccount");
-                                }}
-                            >
-                                Need an account?
-                            </a>
-                        </div>
-                    </div>
-                </fieldset>
+                <div className={styles.formBottom}>
+                    <Button
+                        id="login-submit"
+                        type="submit"
+                        text="Sign In"
+                    ></Button>
+                    <p className={styles.loginDisclaimer}>
+                        By continuing, you are agreeing to our Customer Terms of
+                        Service, Privacy Policy, and Cookie Policy.
+                    </p>
+
+                    <a
+                        id="sign-up-link"
+                        className={styles.signUpLink}
+                        onClick={() => {
+                            changePage("createaccount");
+                        }}
+                    >
+                        Need an account?
+                    </a>
+                </div>
             </Form>
         </div>
     );

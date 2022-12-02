@@ -7,7 +7,7 @@ import Dashboard from "./dashboard/index";
 const IndexPage = () => {
     const { user, loading } = useAuth();
 
-    const AuthOrDashboard = () => {
+    const AuthOrDashboard = ({ user, loading }) => {
         if (loading) return null;
         if (user) return <Dashboard></Dashboard>;
         if (!user) return <Auth></Auth>;
@@ -18,8 +18,7 @@ const IndexPage = () => {
             <Head>
                 <title>Harth</title>
             </Head>
-            {/* <AuthOrDashboard></AuthOrDashboard> */}
-            <Dashboard></Dashboard>
+            <AuthOrDashboard user={user} loading={loading}></AuthOrDashboard>
         </>
     );
 };

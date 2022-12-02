@@ -1,19 +1,10 @@
 import { useEffect, useRef, useState, useReducer } from "react";
 import io from "socket.io-client";
-
 import { getTurnServers } from "../../../util/TURN";
-import { useSize, useMobile } from "../../../contexts/mobile";
-import { resize } from "../../../util/resize";
-
-import Options from "../party/Options";
-import DiceModal from "../party/Options/OutsideCalls/Dice";
-import VoteModal from "../party/Options/OutsideCalls/Vote";
-import MyTurn from "../party/Options/TurnKeeper/MyTurn";
-import PeerTurn from "../party/Options/TurnKeeper/PeerTurn";
-import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
-import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
 
 import styles from "./Stream.module.scss";
+
+import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
 
 let myPeer;
 let ScreenSharePeer;
@@ -23,17 +14,9 @@ let chatPannel = false;
 let userInfo = {};
 
 const Stream = () => {
-    //turn keeper
-    const [activeTurnUser, setActiveTurnUser] = useState();
-    const [openTurnKeeper, setOpenTurnKeeper] = useState();
-
-    //vote
-    const [voteStarted, setVoteStarted] = useState(false);
-    const [voteResults, setVoteResults] = useState();
-    const [voteTally, setVoteTally] = useState({});
-
     //chat
     const [unreadMsg, setUnreadMsg] = useState(false);
+    const [newChatMsg, setNewChatMsg] = useState({});
     const [chats, setChats] = useState([]);
     const [showChatPannel, setShowChatPannel] = useState(false);
 
@@ -47,7 +30,6 @@ const Stream = () => {
     const [groupCallStreams, setGroupCallStreams] = useState({});
     const [groupCaptureStreams, setGroupCaptureStreams] = useState({});
     const [activeCallRoom, setActiveCallRoom] = useState({});
-    const [roomChange, setRoomChange] = useState(0);
 
     const [localStream, setLocalStream] = useState();
     const [localStreamChange, setLocalStreamChange] = useState(0);
@@ -60,6 +42,7 @@ const Stream = () => {
     const [muteOn, setMuteOn] = useState(true);
     const [videoOn, setVideoOn] = useState(false);
     const [options, setOptions] = useState(false);
+    const [gridSize, setGridSize] = useState("alone");
 
     // part state
     const [outsideDiceRoll, setOutsideDiceRoll] = useState({});
@@ -71,28 +54,6 @@ const Stream = () => {
     const groupCaptureVidRef = useRef([]);
     const groupStreamsRef = useRef([]);
     const chatInput = useRef();
-    const peerContainerRef = useRef();
-
-    const { width } = useSize();
-    const { isMobile } = useMobile();
-
-    // ---------- video grid sizing --------------
-    useEffect(() => {
-        const container = document.getElementById("peerContainer");
-        resize(container);
-    }, [width, roomChange, isSharingCapture]);
-
-    useEffect(() => {
-        let tempactiveCallRoom = {};
-        if (roomId) {
-            tempactiveCallRoom = callRooms?.filter((room) => {
-                // console.log(room)
-                // console.log(roomId)
-                return room.roomId === roomId;
-            });
-        }
-        setActiveCallRoom(tempactiveCallRoom[0] || {});
-    }, [callRooms]);
 
     useEffect(() => {
         let urls = {
@@ -127,6 +88,19 @@ const Stream = () => {
     }, []);
 
     useEffect(() => {
+        let tempactiveCallRoom = {};
+        if (roomId) {
+            tempactiveCallRoom = callRooms?.filter((room) => {
+                console.log(room);
+                console.log(roomId);
+                return room.roomId === roomId;
+            });
+        }
+        setActiveCallRoom(tempactiveCallRoom[0] || {});
+    }, [callRooms]);
+
+    useEffect(() => {
+        console.log("local stream has changed");
         if (localStream) {
             localStream.getTracks().forEach((track) => {
                 if (track.kind === "video") {
@@ -140,15 +114,6 @@ const Stream = () => {
             });
         }
     }, [localStreamChange]);
-
-    // ---------- mobile view --------------
-    useEffect(() => {
-        if (isMobile) {
-            //own video
-            const ownVideo = document.getElementsByClassName("OwnerVideo");
-            console.log(ownVideo);
-        }
-    }, [isMobile]);
 
     // ------- socket connection and listeners ------------
 
@@ -167,6 +132,7 @@ const Stream = () => {
             });
             socket.on("broadcast", (data) => {
                 let { event, groupCallRooms, peers } = data;
+                console.log(data);
                 switch (event) {
                     case "GROUP_CALL_ROOMS":
                         setCallRooms(groupCallRooms);
@@ -220,7 +186,7 @@ const Stream = () => {
                 if (!chatPannel) {
                     setUnreadMsg(true);
                 }
-                setChats((prevChats) => [data, ...prevChats]);
+                setChats((prevChats) => [...prevChats, data]);
             });
             socket.on("chat-update", (chats) => {
                 setChats(chats);
@@ -249,34 +215,29 @@ const Stream = () => {
             socket.on("incoming-vote", (data) => {
                 setOutsideVoteCall({ ...data });
             });
-            socket.on("vote-result", (data) => {
-                setVoteTally(data);
-            });
-            socket.on("cancel-vote", () => {
-                setVoteStarted(false);
-                setVoteResults(undefined);
-            });
-
-            // turns
-            socket.on("incoming-turn", (data) => {
-                data.forEach((peer) => {
-                    if (peer.name === userName) {
-                        setActiveTurnUser(peer.activeTurnUser);
-                    }
-                });
-                setOpenTurnKeeper(data);
-            });
-            socket.on("close-turn", () => {
-                setOpenTurnKeeper(undefined);
-                setActiveTurnUser(false);
-            });
         }
     }, [socket]);
+
+    useEffect(() => {
+        if (Peers.length === 1) {
+            setGridSize("alone");
+        }
+        if (Peers.length === 2) {
+            setGridSize("full");
+        }
+        if (Peers.length > 2 && Peers.length <= 7) {
+            setGridSize("double-wide");
+        }
+        if (Peers.legnth > 7) {
+            setGridSize("three-wide");
+        }
+    }, [Peers]);
 
     // ----------- media --------------
 
     useEffect(() => {
         if (localStream) {
+            console.log("just got local stream", localStream, myPeer);
             createVideo({ id: "owner", stream: localStream });
         }
     }, [localStream]);
@@ -291,124 +252,51 @@ const Stream = () => {
         }
     }, [captureStream]);
 
-    // ---------- options menu (vote, turns, dice) --------------
-    const toggleOptions = () => {
-        setOptions((prevOptions) => !prevOptions);
-    };
-
-    // ---------- votes --------------
     useEffect(() => {
-        if (Object.keys(voteTally).length) {
-            let votePassed;
-            let { voteType, votes, Peers } = voteTally;
+        // if (Object.keys(groupStreams).length) {
+        //   Object.values(groupStreams).forEach((stream, idx) => {
+        //     const remoteGroupCallVideo = groupStreamsRef.current[idx]
+        //     if (remoteGroupCallVideo) {
+        //       remoteGroupCallVideo.srcObject = stream
+        //       remoteGroupCallVideo.onloadedmetadata = () => {
+        //         remoteGroupCallVideo.play()
+        //       }
+        //     }
+        //   })
+        // }
+    }, [groupCallStreams]);
 
-            if (voteType === "majority") {
-                let yesses = votes.filter((v) => v === "yes").length;
-                if (yesses / Peers.length > 0.5) {
-                    votePassed = true;
-                } else {
-                    votePassed = false;
-                }
-            }
-            if (voteType === "unanimous") {
-                if (votes.includes("no")) {
-                    votePassed = false;
-                } else {
-                    votePassed = true;
-                }
-            }
-            setVoteResults(votePassed);
-            setVoteStarted(false);
-        }
-    }, [voteTally]);
-    const userVote = (vote) => {
-        socket &&
-            socket.emit("user-voted", { userName, roomId, vote }, (result) => {
-                if (result.ok) {
-                    setVoteTally(result.vote);
-                }
-            });
-    };
-    const voteCallHandler = (data) => {
-        socket &&
-            socket.emit(
-                "vote-called",
-                { ...data, roomId, userName, Peers, votes: [] },
-                () => {
-                    setVoteStarted(true);
-                }
-            );
-    };
-    const voteCallCancelled = () => {
-        socket &&
-            socket.emit("vote-cancelled", { roomId }, () => {
-                setVoteStarted(false);
-                setVoteResults(undefined);
-            });
-    };
+    useEffect(() => {
+        // if (Object.keys(groupCaptStreams).length) {
+        //   Object.values(groupCaptStreams).forEach((str, idx) => {
+        //     const remoteGroupCallVideo = groupCaptureVidRef.current[idx]
+        //     if (remoteGroupCallVideo) {
+        //       if (str.owner && str.owner === ScreenSharePeer.id) {
+        //         console.log('is owner video')
+        //       } else {
+        //         console.log('is owner video')
+        //         remoteGroupCallVideo.srcObject = str.stream
+        //         remoteGroupCallVideo.onloadedmetadata = () => {
+        //           remoteGroupCallVideo.play()
+        //         }
+        //       }
+        //     }
+        //   })
+        // }
+    }, [groupCaptureStreams]);
 
-    // --------- turns -----------------
-    const turnCallHandler = (data) => {
-        socket &&
-            socket.emit("turn-called", { data, roomId }, () => {
-                data.forEach((peer) => {
-                    if (peer.name === userName) {
-                        setActiveTurnUser(peer.activeTurnUser);
-                    }
-                });
-                setOpenTurnKeeper(data);
-            });
-    };
-    const endTurnHandler = () => {
-        let mergedArr = openTurnKeeper;
-        let activeIndex;
-
-        mergedArr.forEach((peer, idx) => {
-            if (peer.activeTurnUser) {
-                peer.activeTurnUser = false;
-                activeIndex = idx;
-            }
-        });
-
-        if (activeIndex + 1 === mergedArr.length) {
-            mergedArr[0].activeTurnUser = true;
-        } else {
-            mergedArr[activeIndex + 1].activeTurnUser = true;
-        }
-
-        turnCallHandler(mergedArr);
-    };
-    const turnKeeperToggleHandler = () => {
-        socket &&
-            socket.emit("turn-closed", { roomId }, () => {
-                setOpenTurnKeeper(undefined);
-                setActiveTurnUser(false);
-            });
-    };
-
-    // ---------- dice roll --------------
-    const diceRollHandler = (data) => {
-        socket &&
-            socket.emit(
-                "user-dice-roll",
-                { ...data, roomId, userName },
-                ({ chats }) => {
-                    setChats(chats);
-                }
-            );
-    };
-
-    // ---------- video logic --------------
     const startVideo = () => {
         getLocalStream("video");
     };
     const stopVideoOnly = (stream) => {
+        console.log("stopvideo");
         try {
             stream.getTracks().forEach((track) => {
                 if (track.readyState == "live" && track.kind === "video") {
                     let enabled = track.enabled;
                     track.enabled = !enabled;
 
+                    console.log(!enabled, "sadfasdfadf");
                     let newMsg = {};
                     if (!enabled === false) {
                         newMsg = {
@@ -435,7 +323,7 @@ const Stream = () => {
                             attachments: [],
                         };
                     }
-
+                    console.log(newMsg);
                     sendNewChatMessage(newMsg);
                     setLocalStreamChange((prev) => (prev += 1));
                 }
@@ -446,12 +334,13 @@ const Stream = () => {
         getLocalStream("audio");
     };
     const stopAudioOnly = (stream) => {
+        console.log("stopaudio");
         try {
             stream.getTracks().forEach((track) => {
                 if (track.readyState == "live" && track.kind === "audio") {
                     let enabled = track.enabled;
                     track.enabled = !enabled;
-
+                    console.log(!enabled, "sadfasdfadf");
                     let newMsg = {};
                     if (!enabled === false) {
                         newMsg = {
@@ -478,6 +367,7 @@ const Stream = () => {
                             attachments: [],
                         };
                     }
+                    console.log(newMsg);
                     sendNewChatMessage(newMsg);
                     setLocalStreamChange((prev) => (prev += 1));
                 }
@@ -513,6 +403,7 @@ const Stream = () => {
         } else {
             try {
                 localStream.getTracks().forEach((track) => {
+                    console.log(track);
                     if (track.kind === "audio") {
                         stopAudioOnly(localStream);
                     }
@@ -580,8 +471,10 @@ const Stream = () => {
                                 attachments: [],
                             };
 
+                            console.log(newMsg);
                             sendNewChatMessage(newMsg);
                             onScreenShareClose();
+                            console.info("ScreenShare has ended");
                         };
                     }
                 });
@@ -597,6 +490,7 @@ const Stream = () => {
                     attachments: [],
                 };
 
+                console.log(newMsg);
                 sendNewChatMessage(newMsg);
                 setCaptureStream(capture);
             }
@@ -616,7 +510,8 @@ const Stream = () => {
             removeVideo(ScreenSharePeer.id);
         }
     };
-    const addVideoStream = (incomingStream, peerid, turns) => {
+    const addVideoStream = (incomingStream, peerid) => {
+        console.log(incomingStream, "incoming stream");
         setGroupCallStreams((prevStreams) => {
             return { ...prevStreams, [peerid]: incomingStream };
         });
@@ -626,21 +521,7 @@ const Stream = () => {
             [peerid]: incomingStream,
         };
 
-        let showTurnIcon = false;
-
-        if (turns && turns.length) {
-            turns.forEach((peer) => {
-                if (peer.peerId === peerid) {
-                    showTurnIcon = true;
-                }
-            });
-        }
-
-        createVideo(
-            { id: peerid, stream: incomingStream },
-            showTurnIcon,
-            turns
-        );
+        createVideo({ id: peerid, stream: incomingStream });
     };
     const addCaptureStream = (incomingStream, peerid, owner) => {
         setGroupCaptureStreams((prevStreams) => {
@@ -656,27 +537,50 @@ const Stream = () => {
         };
         createCaptureVideo({ id: peerid, stream: incomingStream });
     };
+    const toggleOptions = () => {
+        setOptions(!options);
+    };
+    const toggleChat = () => {
+        setShowChatPannel((prevState) => {
+            let newvalue = !prevState;
+            if (newvalue === true) {
+                setUnreadMsg(false);
+            }
+            chatPannel = newvalue;
+            return newvalue;
+        });
+    };
 
     // ------------ rooms -----------------
+
     const leaveRoom = () => {
         leaveGroupCall({ roomId, userName, socketID }, () => {
+            console.log(finished, "fffffffffffffffffffffffffffff");
             window.close();
         });
     };
     const connectWithMyPeer = (data) => {
         let pID = "";
-        myPeer = new window.Peer(undefined, {
-            config: {
-                iceServers: [
-                    ...getTurnServers(),
-                    {
-                        url: "stun:stun.1und1.de:3478",
-                    },
-                ],
-            },
+        myPeer = new window.Peer(12342345356567, {
+            secure: true,
+            host: "harth-peer.herokuapp.com/",
+            path: "/peerjs",
+            port: 443,
+            secure: true,
+            key: "copycat",
+            debug: true,
+            // config: {
+            //   iceServers: [
+            //     ...getTurnServers(),
+            //     {
+            //       url: 'stun:stun.1und1.de:3478',
+            //     },
+            //   ],
+            // },
         });
-
+        console.log(myPeer, "my peers");
         myPeer.on("open", (peerid) => {
+            console.log("my peer id is ", peerid);
             pID = peerid;
 
             let { roomId, userIcon, userName } = data;
@@ -694,10 +598,12 @@ const Stream = () => {
 
         myPeer.on("error", function (err) {
             console.log(err);
+            console.log(err.message);
             myPeer.reconnect();
         });
 
         myPeer.on("disconnect", function (client) {
+            console.log("disconnect with id " + client.id);
             removeVideo(client?.id);
         });
 
@@ -705,6 +611,7 @@ const Stream = () => {
             console.log("connected to peer", dataConnection);
         });
         myPeer.on("close", function (client) {
+            console.log("video share closing");
             removeVideo(client?.id);
         });
 
@@ -715,10 +622,16 @@ const Stream = () => {
 
             call.on("stream", (incomingStream) => {
                 if (incomingStream) {
+                    console.log(
+                        "new incoming stream",
+                        incomingStream,
+                        groupStreams
+                    );
                     addVideoStream(incomingStream, call.peer);
                 }
             });
             call.on("close", () => {
+                console.log("closing peers listeners", call.peer);
                 removeVideo(call.peer);
             });
             call.on("error", () => {
@@ -732,16 +645,12 @@ const Stream = () => {
     };
     const userWantsToJoinGroupCall = (data) => {
         socket &&
-            socket.emit(
-                "group-call-join-request",
-                data,
-                ({ peers, chats, turns }) => {
-                    connectToUsers(peers, turns);
-                    setChats(chats);
-                }
-            );
+            socket.emit("group-call-join-request", data, ({ peers, chats }) => {
+                connectToUsers(peers);
+                setChats(chats);
+            });
     };
-    const connectToUsers = async (peers, turns) => {
+    const connectToUsers = async (peers) => {
         if (myPeer) {
             peers.forEach((peer) => {
                 if (peer.peerId !== myPeer.id) {
@@ -749,11 +658,7 @@ const Stream = () => {
                     call &&
                         call.on("stream", (incomingStream) => {
                             if (incomingStream) {
-                                addVideoStream(
-                                    incomingStream,
-                                    peer.peerId,
-                                    turns
-                                );
+                                addVideoStream(incomingStream, peer.peerId);
                             }
                         });
                 }
@@ -807,23 +712,16 @@ const Stream = () => {
                 });
         });
     };
-
     // ------------ chat -----------------
-    const toggleChat = () => {
-        setShowChatPannel((prevState) => {
-            let newvalue = !prevState;
-            if (newvalue === true) {
-                setUnreadMsg(false);
-            }
-            chatPannel = newvalue;
-            return newvalue;
-        });
-    };
     const sendNewChatMessage = (message) => {
         socket &&
             socket.emit("send-chat-message", message, () => {
-                setChats((prevChats) => [message, ...prevChats]);
+                setChats((prevChats) => [...prevChats, message]);
             });
+    };
+    const chatInputHandler = (e) => {
+        const { value } = e.target;
+        setNewChatMsg({ value });
     };
     const chatSubmitHandler = (msg) => {
         let message = {
@@ -834,11 +732,34 @@ const Stream = () => {
             creator_name: userName,
             userName: userName,
             creator_image: userIcon,
+            flames: [],
+            reactions: [],
+            attachments: [],
         };
 
         sendNewChatMessage(message);
     };
-
+    const chatClassname = (creator) => {
+        if (creator === "Admin") {
+            return "admin";
+        }
+        if (creator === userName) {
+            return "self";
+        }
+        return "incoming";
+    };
+    const ChatStructure = ({ chat }) => {
+        const date = new Date(chat.date);
+        return (
+            <>
+                <p>{chat.value}</p>
+                <span>
+                    <img src={chat.creator_image} alt={chat.creator_name} />
+                    {/* {timeStamp} */}
+                </span>
+            </>
+        );
+    };
     // --------------- screen share ----------
     const createScreenSharePeer = (peerobj) => {
         let pID = "";
@@ -854,6 +775,7 @@ const Stream = () => {
         });
 
         ScreenSharePeer.on("open", (peerid) => {
+            console.log("my screen share  peer id is ", peerid);
             pID = peerid;
             peerobj.capturePeer = peerid;
             joinGroupCall(peerobj);
@@ -875,59 +797,54 @@ const Stream = () => {
         });
 
         ScreenSharePeer.on("call", async (call) => {
+            console.log("call", call);
+
             call.answer();
 
             call.on("stream", (incomingStream) => {
                 if (incomingStream) {
+                    console.log("new incoming capture stream");
+
                     addCaptureStream(incomingStream, call.peer);
                 }
             });
             call.on("close", () => {
+                console.log("closing capture listeners", call.peer);
                 removeVideo(call.peer);
             });
             call.on("error", () => {
+                console.log("capture error ------");
                 removeVideo(call.peer);
             });
         });
     };
 
     // new video
-    const createVideo = (createObj, showTurnIcon, turns) => {
-        setRoomChange((prevState) => (prevState += 1));
+    const createVideo = (createObj) => {
+        console.log("trying to create video tag ", createObj);
         if (!createObj) {
             createObj = {};
         }
         let match = document.getElementById(createObj?.id);
-
+        console.log("match", match);
         if (!match) {
-            const roomContainer = document.getElementById("peerContainer");
-
+            console.log("cideo caontainer", videoContainer);
+            const roomContainer = document.getElementById(
+                "stream-window-peer-container"
+            );
+            console.log("video room container", roomContainer);
             const videoContainer = document.createElement("div");
-
+            console.log("video child tag", videoContainer);
             if (videoContainer) {
                 videoContainer.id = `parent-${createObj?.id}`;
-                videoContainer.classList.add(`${styles.videoParent}`);
+                videoContainer.classList.add("video-parent");
                 const video = document.createElement("video");
-                const image = document.createElement("img");
-                const name = document.createElement("p");
                 video.srcObject = createObj?.stream;
                 video.id = createObj?.id;
-                video.classList.add(`${styles.peerVideo}`);
                 video.autoplay = true;
-                if (createObj?.id === "owner") {
-                    video.muted = true;
-                    videoContainer.classList.add(`${styles.ownerVideo}`);
-                }
+                if (createObj?.id === "owner") video.muted = true;
                 videoContainer.appendChild(video);
-                videoContainer.appendChild(image);
-                videoContainer.appendChild(name);
                 roomContainer.append(videoContainer);
-                if (showTurnIcon) {
-                    setTimeout(() => {
-                        setOpenTurnKeeper(turns);
-                        setActiveTurnUser(false);
-                    }, 10);
-                }
             }
         } else {
             let el = document.getElementById(createObj?.id);
@@ -936,14 +853,15 @@ const Stream = () => {
             }
         }
     };
+
     const createCaptureVideo = (createObj) => {
-        setRoomChange((prevState) => (prevState += 1));
         if (!createObj) {
             createObj = {};
         }
         let match = document.getElementById(createObj?.id);
-
+        console.log("match", match);
         if (!match) {
+            console.log("cideo caontainer", videoContainer);
             const roomContainer = document.getElementById(
                 "stream-window-capture-container"
             );
@@ -966,124 +884,155 @@ const Stream = () => {
             }
         }
     };
+
     const removeVideo = (id) => {
-        setRoomChange((prevState) => (prevState += 1));
         if (id) {
             const video = document.getElementById(`parent-${id}`);
             if (video) video.remove();
         }
     };
-
     return (
-        <main className={styles.PartyWindow} ref={mainRef}>
-            <section className={styles.PartyWindowVideoContainer}>
-                {activeTurnUser ? (
-                    <MyTurn endTurnHandler={endTurnHandler} />
-                ) : null}
-                {activeTurnUser === false ? (
-                    <PeerTurn openTurnKeeper={openTurnKeeper} />
-                ) : null}
-                <div className={styles.PartyWindowTitle}>
+        <main id="stream-window" ref={mainRef}>
+            <section id="stream-window-video-container">
+                <div id="stream-window-title">
                     {activeCallRoom && activeCallRoom?.roomName
                         ? `${activeCallRoom?.roomName}`
                         : null}
                 </div>
-                <ul role="nav" className={styles.PartyWindowControls}>
-                    <div className={styles.PartyWindowControlsLeft}>
+                <ul role="nav" id="stream-window-controls">
+                    <div className="list-left">
                         <li onClick={leaveRoom}>
-                            <button className={styles.LeaveRoom}>leave</button>
+                            <button id="leave_room">leave</button>
                         </li>
                     </div>
-                    <div className={styles.PartyWindowControlsCenter}>
+                    <div className="list-center">
                         <li onClick={toggleAudio}>
-                            <button
-                                className={
-                                    muteOn ? styles.Unmuted : styles.Muted
-                                }
-                            >
+                            <button id={muteOn ? "unmuted" : "muted"}>
                                 mute
                             </button>
                         </li>
                         <li onClick={toggleVideo}>
-                            <button
-                                className={
-                                    videoOn ? styles.Stream : styles.NoStream
-                                }
-                            >
+                            <button id={videoOn ? "stream" : "no_stream"}>
                                 stream
                             </button>
                         </li>
-                        <li>
+                        <li onClick={toggleOptions}>
                             <button
-                                className={`${styles.Options} ${
-                                    options ? styles.OptionsActive : null
-                                }`}
-                                // className={options ? 'active' : null}
-                                onClick={() => {
-                                    if (options && voteStarted) {
-                                        voteCallCancelled();
-                                    } else {
-                                        toggleOptions();
-                                        setVoteResults(undefined);
-                                    }
-                                }}
+                                id="options"
+                                className={options ? "active" : null}
                             >
                                 options
                             </button>
                         </li>
                         <li onClick={toggleCapture}>
-                            <button className={styles.ScreenShare}>
-                                share screen
-                            </button>
+                            <button id="screen_share">share screen</button>
                         </li>
                         <li
                             className={`
-                ${unreadMsg ? styles.Unread : ""}
-                ${showChatPannel ? styles.Open : styles.Closed}`}
+                ${unreadMsg ? "unread" : ""}
+                ${showChatPannel ? "open" : "closed"}`}
                             onClick={toggleChat}
                         >
-                            <button className={styles.Chat}>chat</button>
+                            <button id="chat">chat</button>
                         </li>
                     </div>
                 </ul>
-                <div className={styles.PartyMainContent}>
-                    <section
-                        ref={peerContainerRef}
-                        id="peerContainer"
-                        className={`${styles.peerContainer} ${
-                            isSharingCapture ? styles.isScreenShare : ""
-                        }`}
-                    ></section>
-                    <section
-                        id="stream-window-chat"
-                        className={showChatPannel ? "open" : "closed"}
-                    >
-                        <ChatMessagesGeneral
-                            messages={chats}
-                            userName={userName}
-                        />
-                        <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
-                    </section>
-                </div>
-                <section id="stream-window-capture-container"></section>
-                {options ? (
-                    <Options
-                        diceRollHandler={diceRollHandler}
-                        voteCallHandler={voteCallHandler}
-                        userVote={userVote}
-                        outsideVoteCall={outsideVoteCall}
-                        peers={Peers}
-                        turnCallHandler={turnCallHandler}
-                        openTurnKeeper={openTurnKeeper}
-                        activeTurnUser={activeTurnUser}
-                        turnKeeperToggleHandler={turnKeeperToggleHandler}
-                        voteResults={voteResults}
-                    />
-                ) : null}
-            </section>
 
-            <DiceModal outsideDiceRoll={outsideDiceRoll} />
-            <VoteModal outsideVoteCall={outsideVoteCall} userVote={userVote} />
+                <section id="stream-window-grid">
+                    {/* <video
+            ref={localVidRef}
+            id="localVideo"
+            autoPlay
+            playsInline
+            muted={true}
+          /> */}
+                    <section id="stream-window-capture-container">
+                        {/* {ScreenSharePeer &&
+              Object.entries(groupCaptureStreams || []).map((str, idx) => {
+                if (str[0] && str[0] !== ScreenSharePeer.id) {
+                  console.log('video map', idx)
+                  return (
+                    <video
+                      style={{ height: '100px', width: '100px' }}
+                      key={idx}
+                      ref={(el) => (groupCaptureVidRef.current[idx] = el)}
+                      id={`remoteVideo-${idx}`}
+                      autoPlay
+                      playsInline
+                    />
+                  )
+                }
+                return null
+              })} */}
+                    </section>
+                    <section
+                        id="stream-window-peer-container"
+                        className={gridSize}
+                    >
+                        {/* {myPeer &&
+              (Peers || [])
+                .filter((peer) => peer.peerId !== myPeer._id)
+                .map((peer, idx) => {
+                  if (groupCallStreams[peer.peerId]) {
+                    return (
+                      <video
+                        key={idx}
+                        ref={(el) => (groupStreamsRef.current[idx] = el)}
+                        id={`remoteVideo-${idx}`}
+                        autoPlay
+                        playsInline
+                      />
+                    )
+                  }
+                  return (
+                    <div key={idx} id={`peerBox-${peer.name}`}>
+                      <img src={peer.img} alt={`${peer.name} profile pic`} />
+                      <p>{peer.name}</p>
+                    </div>
+                  )
+                })} */}
+                    </section>
+                </section>
+            </section>
+            <section
+                id="stream-window-chat"
+                className={showChatPannel ? "open" : "closed"}
+            >
+                <ul>
+                    {chats.map((chat, index) => {
+                        return (
+                            <li
+                                key={index}
+                                className={chatClassname(chat.creator_name)}
+                            >
+                                {chat.creator_name === "Admin" ? (
+                                    chat.value
+                                ) : (
+                                    <ChatStructure chat={chat} />
+                                )}
+                            </li>
+                        );
+                    })}
+                </ul>
+                <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
+
+                {/* <form id="chat_input_container" onSubmit={chatSubmitHandler}>
+          <textarea
+            id="chat_input_box"
+            type="text"
+            onChange={chatInputHandler}
+            ref={chatInput}
+          />
+          <div>
+            <div className="chat-insert-additional-wrapper"></div>
+            <div className="chat-controls">
+              <button className="send-message" type="submit">
+                Send
+              </button>
+            </div>
+          </div>
+        </form> */}
+            </section>
         </main>
     );
 };
