@@ -20,7 +20,7 @@ const DesktopNav = (props) => {
   const [communityId, setCommunityId] = useState()
   const [harthIcon, setHarthIcon] = useState()
   const [profileIcon, setProfileIcon] = useState()
-  //const [profileImg, setProfileImg] = useState()
+  //update with logic for image pull
   const profileImage = "https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg"
 
   
