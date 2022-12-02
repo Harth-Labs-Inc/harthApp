@@ -1,17 +1,15 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect,} from 'react'
 import { useAuth } from '../../../contexts/auth'
-import { MobileContext } from '../../../contexts/mobile'
-import { ChatFill } from '../../../resources/icons/ChatFill'
-import { ChatNoFill  } from '../../../resources/icons/ChatNoFill'
-import { FireFill } from '../../../resources/icons/FireFill'
-import { FireNoFill  } from '../../../resources/icons/FireNoFill'
-import { ForumFill } from '../../../resources/icons/ForumFill'
-import { ForumNoFill  } from '../../../resources/icons/ForumNoFill'
-
+import {DesktopNavButton} from './DesktopNavButton'
 import Modal from '../../Modal'
 import HarthMenu from '../../HarthMenu/index'
 
+import styles from './desktopNav.module.scss'
+
 import { useComms } from '../../../contexts/comms'
+
+
+
 
 const DesktopNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props
@@ -21,23 +19,20 @@ const DesktopNav = (props) => {
   const [communityId, setCommunityId] = useState()
   const [harthIcon, setHarthIcon] = useState()
   const [profileIcon, setProfileIcon] = useState()
-  const { isMobile } = useContext(MobileContext)
+  //const [profileImg, setProfileImg] = useState()
+  const profileImage = "https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg"
+
+  
   const { user } = useAuth()
   const { comms, setComm, selectedcomm } = useComms()
 
-  const handleHarthMenu = () => {
-    if (!isMobile) {
-      setModal(!modal)
-    }
-    if (isMobile) {
-      onToggleMenu()
-    }
-  }
+
 
   const showModal = () => {
     setModal(!modal)
   }
 
+  
   useEffect(() => {
     if (selectedcomm) {
       setCommunityName(selectedcomm.name)
@@ -71,98 +66,45 @@ const DesktopNav = (props) => {
       ) : (
         ''
       )}
-      <header id="mainNav" className={isMobile ? 'isMobile' : 'isDesktop'}>
+    
+      <header className={styles.desktop}>
         <div style={{width: 240,}}>
         <button
-          id="harth-title"
-          onClick={handleHarthMenu}
+          //id="harth-title"
+          className={styles.harthTitle}
+          onClick={showModal}
           aria-label="Current Harth"
         >
-          {isMobile ? <img src={harthIcon} /> : communityName}
-          
+          {communityName} 
         </button>
         </div>
-        <div role="nav" className="top-buttons">
-          <button
-            role="nav-item"
-            id="chat"
-            aria-label="Community Chat"
-            className={currentPage == 'chat' ? 'active' : undefined}
-            onClick={() => {
-              changePage('chat')
-            }}
-          >
-            <div style={{display: 'flex', flexDirection: 'row', width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              {currentPage == 'chat'
-              ? <div style={{height: 22, width: 22, marginRight: 4,}}><ChatFill color="#f0f"/></div>
-              : <div style={{height: 22, width: 22, marginRight: 4,}}><ChatNoFill /></div>
-              }
-              Chat
-            </div>
-            {currentPage == 'chat'
-            ? <div id="indicator"></div>
-            : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
-            }
-          </button>
+        <div role="nav" className={styles.topButtons}>
 
-          <button
-            role="nav-item"
-            id="gather"
-            aria-label="Gather"
-            className={currentPage == 'gather' ? 'active' : undefined}
-            onClick={() => {
-              // remove page change on mobile for now
-              if (!isMobile) {
-                changePage('gather')
-              } else {
-                alert('mobile gatherings coming soon')
-              }
-            }}
-          >
-            <div style={{display: 'flex', flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-              {currentPage == 'gather'
-              ? <div style={{height: 24, width: 24, marginRight: 4,}}><FireFill /></div>
-              : <div style={{height: 24, width: 24, marginRight: 4,}}><FireNoFill /></div>
-              }
-              Gather
-            </div>
-            {currentPage == 'gather'
-            ? <div id="indicator"></div>
-            : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
-            }
-          </button>
+          {currentPage == 'chat'
+            ? <DesktopNavButton label="Chat" isActive={true} command={() => {changePage('chat')}}/>
+            : <DesktopNavButton label="Chat" isActive={false} command={() => {changePage('chat')}}/>
+          }
 
-          <button
-            role="nav-item"
-            id="message"
-            aria-label="Private Messages"
-            className={currentPage == 'message' ? 'active' : undefined}
-            onClick={() => {
-              changePage('message')
-            }}
-          >
-            <div style={{display: 'flex', flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-              {currentPage == 'message'
-              ? <div style={{height: 24, width: 24, marginRight: 4,}}><ForumFill /></div>
-              : <div style={{height: 24, width: 24, marginRight: 4,}}><ForumNoFill /></div>
-              }
-              Chat
-            </div>
-            {currentPage == 'message'
-            ? <div id="indicator"></div>
-            : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
-            }
-          </button>
+          {currentPage == 'gather'
+            ? <DesktopNavButton label="Gather" isActive={true} command={() => {changePage('gather')}}/>
+            : <DesktopNavButton label="Gather" isActive={false} command={() => {changePage('gather')}}/>
+          }
+
+          {currentPage == 'message'
+            ? <DesktopNavButton label="Message" isActive={true} command={() => {changePage('message')}}/>
+            : <DesktopNavButton label="Message" isActive={false} command={() => {changePage('message')}}/>
+          }
+
         </div>
-        {!isMobile ? (
-          <button
-            id="account-btn"
-            aria-label="My Account"
-            className={profileIcon ? 'hasImage' : undefined}
-          >
-            {profileIcon ? <img src={profileIcon} /> : ''}
-          </button>
-        ) : null}
+
+
+        <button
+          aria-label="My Account"
+          className={styles.avatarButton}
+        >
+          <img className={styles.img} src={profileImage}  /> 
+          
+        </button>
       </header>
     </>
   )

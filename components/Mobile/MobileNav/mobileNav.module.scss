@@ -1,0 +1,75 @@
+@import '../../../styles/globals.scss';
+@import '../../../styles/fonts.scss';
+
+
+.desktop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-area: header;
+    padding: 0 16px;
+    height: 64px;
+    border-bottom: 1px solid $fuel_10;
+    background-color: $light_ash;
+}
+
+.harthTitle {
+    padding-left: 8px;
+    padding-right: 8px;
+    @include contentH1;
+    color: $fuel;
+    border-radius: 6px;
+    text-align: left;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    &:hover {
+      background-color: $fuel_10;
+    }
+  }
+
+.indicator {
+    height: 5px;
+    width: 56px;
+    border-top-right-radius: 9999px;     
+    border-top-left-radius: 9999px;
+    background-color: $fuel;
+}
+
+.topButtons {
+display: flex;
+align-items: center;
+margin-top: 8px;
+
+    button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        @include interfaceR3;
+        height: 56px;
+        width: 104px;
+        color: $fuel;
+        background-color: transparent;
+
+        border: 0;
+        cursor: pointer;
+        padding-top: 6px;
+        padding-bottom: 0px;
+        margin-left: 4px;
+        margin-right: 4px;
+
+        // &:hover {
+        //   @include interfaceH5;
+
+        // }
+
+        &.active {
+        @include interfaceH5;
+
+        }
+
+    }
+}
