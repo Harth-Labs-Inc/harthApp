@@ -38,10 +38,24 @@
     background-color: $fuel;
 }
 
+.alertIndicator {
+  height: 11px;
+  width: 11px;
+  border-radius: 9999px;     
+  background-color: $hot_pink;
+  border-color: $light_ash;
+  border-width: 2px;
+  border-style: solid;
+
+  position: absolute;
+  top: 10px;
+  left: 32px;
+}
+
 .topButtons {
 display: flex;
 align-items: center;
-//margin-top: 2px;    
+margin-top: 8px;    
 }
 
 .navButton {
@@ -52,15 +66,16 @@ align-items: center;
     position: relative;
     @include interfaceR3;
 
-    height: 56px;
-    width: 96px;
+    height: 48px;
     color: $fuel;
     background-color: transparent;
 
     border: 0;
     cursor: pointer;
-    padding-top: 20px;
+    padding-top: 12px;
     padding-bottom: 0px;
+    padding-right: 16px;
+    padding-left: 16px;
     margin-left: 12px;
     margin-right: 12px;
 

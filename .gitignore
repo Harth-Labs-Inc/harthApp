@@ -14,7 +14,7 @@
 
 # production
 /build
-
+package-loack.json
 # misc
 .DS_Store
 *.pem
@@ -43,3 +43,6 @@ pages/index.js
 .expo/settings.json
 .expo/README.md
 pages/index.js
+package-lock.json
+package-lock.json
+package-lock.json

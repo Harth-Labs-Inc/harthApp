@@ -23,7 +23,12 @@ const DesktopNav = (props) => {
   //update with logic for image pull
   const profileImage = "https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg"
 
-  
+  //alert needs logic
+  //this is just a universal setting that makes all
+  //the tabs show their alert.
+  const alert = true
+
+
   const { user } = useAuth()
   const { comms, setComm, selectedcomm } = useComms()
 
@@ -82,18 +87,18 @@ const DesktopNav = (props) => {
         <div role="nav" className={styles.topButtons}>
 
           {currentPage == 'chat'
-            ? <DesktopNavButton label="Chat" isActive={true} command={() => {changePage('chat')}}/>
-            : <DesktopNavButton label="Chat" isActive={false} command={() => {changePage('chat')}}/>
+            ? <DesktopNavButton label="Chat" isActive={true} hasAlert={alert} command={() => {changePage('chat')}}/>
+            : <DesktopNavButton label="Chat" isActive={false} hasAlert={alert} command={() => {changePage('chat')}}/>
           }
 
           {currentPage == 'gather'
-            ? <DesktopNavButton label="Gather" isActive={true} command={() => {changePage('gather')}}/>
-            : <DesktopNavButton label="Gather" isActive={false} command={() => {changePage('gather')}}/>
+            ? <DesktopNavButton label="Gather" isActive={true} hasAlert={alert} command={() => {changePage('gather')}}/>
+            : <DesktopNavButton label="Gather" isActive={false} hasAlert={alert} command={() => {changePage('gather')}}/>
           }
 
           {currentPage == 'message'
-            ? <DesktopNavButton label="Message" isActive={true} command={() => {changePage('message')}}/>
-            : <DesktopNavButton label="Message" isActive={false} command={() => {changePage('message')}}/>
+            ? <DesktopNavButton label="Message" isActive={true} hasAlert={alert} command={() => {changePage('message')}}/>
+            : <DesktopNavButton label="Message" isActive={false} hasAlert={alert} command={() => {changePage('message')}}/>
           }
 
         </div>

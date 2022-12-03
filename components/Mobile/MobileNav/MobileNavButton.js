@@ -11,7 +11,7 @@ import styles from './mobileNav.module.scss'
 
 
 export const MobileNavButton = (props) => {
-    const {label, isActive, command} = props
+    const {label, isActive, hasAlert, command} = props
     const [isHover, setHover] = useState(false)
     const IconActive = FireFill
     const IconInactive = FireNoFill
@@ -44,14 +44,18 @@ export const MobileNavButton = (props) => {
             : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
         }
         <div style={{display: "flex", flexDirection: "column", alignItems:"center", }}>
-            {isActive
-              ? <div style={{height: 24, width: 24, marginBottom: 2,}}><IconActive color="#2f1d2a"/></div> //color is $fuel
-              : <div style={{height: 24, width: 24, marginBottom: 2,}}><IconInactive color="#2f1d2a" /></div> //color is $fuel
-            }
-           {isActive
+          {isActive
+            ? <div style={{height: 24, width: 24, marginBottom: 2,}}><IconActive color="#2f1d2a"/></div> //color is $fuel
+            : <div style={{height: 24, width: 24, marginBottom: 2,}}><IconInactive color="#2f1d2a" /></div> //color is $fuel
+          }
+          {isActive
             ? <div style={{fontWeight: 600,}}>{label}</div>
             : <div>{label}</div>
-        } 
+          }
+          {hasAlert
+            ? <div className={styles.alertIndicator} />
+            : null
+          }  
         </div>
         
       </button>
