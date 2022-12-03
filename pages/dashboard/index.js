@@ -5,6 +5,8 @@ import { SocketProvider } from "../../contexts/socket";
 import { ChatProvider } from "../../contexts/chat";
 import { useAuth } from "../../contexts/auth";
 
+import Cookies from "js-cookie";
+
 import { VideoProvider } from "../../contexts/video";
 import NavLayout from "../../components/dashLayout";
 import { checkIfInviteTokenIsGood } from "../../requests/community";
@@ -16,20 +18,37 @@ import Stream from "./stream";
 import Video from "./video";
 import Messages from "./messages";
 
+import CreateHarthName from "../../components/createHarthName/createHarthName";
+import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
+import HarthInviteAcceptModal from "../../components/harthInviteAcceptModal/harthInviteAcceptModal";
+
 const dashboard = (props) => {
     const [currentPage, setCurrentPage] = useState("chat");
     const [GatherWindow, setGatherWindow] = useState("");
-    const [showInviteModal, setShowInviteModal] = useState(false);
-    const [showFirstTimeModal, setShowFirstTimeModal] = useState(false);
+
     const [invitedHarth, setInvitedHarth] = useState(null);
+    const [newHarth, setNewHarth] = useState(null);
+
+    const [showCreateHarthNameModal, setShowCreateHarthNameModal] =
+        useState(false);
+    const [showCreateHarthProfileModal, setShowCreateHarthProfileModal] =
+        useState(false);
+
+    const [showInviteAcceptModal, setShowInviteAcceptModal] = useState(false);
+    const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
 
     const { inviteTKN } = useAuth();
+
     const router = useRouter();
     const {
-        query: { tkn, fistTimeUser },
+        query: { tkn },
     } = router;
 
     useEffect(() => {
+        const showFirstTimeUser = Cookies.get("showFirstTimeUser");
+        if (showFirstTimeUser) {
+            setShowCreateHarthNameModal(true);
+        }
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const gatherWindow = urlParams.get("gather_window");
@@ -39,47 +58,44 @@ const dashboard = (props) => {
             changePageHandler(roomType);
         }
         return () => {
-            setInvitedHarth(null);
+            setShowCreateHarthProfileModal(false);
+            setShowCreateHarthNameModal(false);
         };
     }, []);
 
     useEffect(() => {
         if (inviteTKN || tkn) {
-            setShowInviteModal(true);
+            setShowInviteAcceptModal(true);
             return () => {
-                setShowInviteModal(false);
+                setShowInviteAcceptModal(false);
             };
         }
     }, [inviteTKN, tkn]);
 
-    useEffect(() => {
-        if (fistTimeUser) {
-            setShowFirstTimeModal(true);
-            return () => {
-                setShowFirstTimeModal(false);
-            };
-        }
-    }, [fistTimeUser]);
-
     const changePageHandler = (pg) => {
         setCurrentPage(pg);
     };
-
-    const invitationAcceptHandler = async () => {
-        let token = "";
-        if (tkn) {
-            token = tkn;
+    const harthNameCreationHandler = async (harth) => {
+        setNewHarth(harth);
+        setShowCreateHarthNameModal(false);
+        setShowCreateHarthProfileModal(true);
+    };
+    const resetNewHarth = () => {
+        const showFirstTimeUser = Cookies.get("showFirstTimeUser");
+        if (showFirstTimeUser) {
+            Cookies.remove("showFirstTimeUser");
         }
-        if (inviteTKN && !token) {
-            token = inviteTKN;
-        }
-        let results = await checkIfInviteTokenIsGood({ token });
-        let { ok, harth } = results;
-        if (ok) {
-            setShowInviteModal(false);
-            setInvitedHarth(harth);
-            console.log("good to name your profile in harth:", harth);
-        }
+        setNewHarth(null);
+        setShowCreateHarthProfileModal(false);
+    };
+    const resetNewInviteHarth = () => {
+        setInvitedHarth(null);
+        setShowInviteProfileModal(false);
+    };
+    const goodInviteHandler = (harth) => {
+        setShowInviteAcceptModal(false);
+        setInvitedHarth(harth);
+        setShowInviteProfileModal(true);
     };
 
     let page;
@@ -110,60 +126,52 @@ const dashboard = (props) => {
             page = <Chat />;
             break;
     }
-
+    showCreateHarthNameModal;
     return (
         <CommsProvider>
             <ChatProvider>
                 <SocketProvider>
-                    {invitedHarth ? (
-                        <div
-                            style={{
-                                position: "absolute",
-                                zIndex: 2,
-                                background: "white",
-                                padding: "100px",
-                            }}
-                        >
-                            <p>by what name would you like to be know</p>
-                            <input type="text" />
-                            <button
-                                onClick={() => setShowFirstTimeModal(false)}
-                            >
-                                Join
-                            </button>
-                        </div>
+                    {showCreateHarthNameModal ? (
+                        <CreateHarthName
+                            header="Create a harth"
+                            talkingHeadMsg="Let's create your harth. Once it's created you can invite your friends"
+                            footer="Give your harth a name and a cool sigil. No need to think too hard, you can change them at any time."
+                            placeholder={`${"First Name"}'s harth`}
+                            submitText="Create"
+                            submitHandler={harthNameCreationHandler}
+                        />
                     ) : null}
-                    {showFirstTimeModal ? (
-                        <div
-                            style={{
-                                position: "absolute",
-                                zIndex: 2,
-                                background: "white",
-                                padding: "100px",
-                            }}
-                        >
-                            <p>name your first harth!!</p>
-                            <button
-                                onClick={() => setShowFirstTimeModal(false)}
-                            >
-                                ACCEPT
-                            </button>
-                        </div>
+                    {showCreateHarthProfileModal ? (
+                        <CreateHarthProfile
+                            header="harth"
+                            talkingHeadMsg="And by what name would you like to be known"
+                            footer="Set your name and profile pic for this harth. You can change these at any time"
+                            placeholder={`${"First Name"}`}
+                            submitText="Join"
+                            submitHandler={resetNewHarth}
+                            harth={newHarth}
+                        />
                     ) : null}
-                    {showInviteModal ? (
-                        <div
-                            style={{
-                                position: "absolute",
-                                zIndex: 1,
-                                background: "white",
-                                padding: "100px",
-                            }}
-                        >
-                            <p>an invitation arrived do you accept?</p>
-                            <button onClick={invitationAcceptHandler}>
-                                ACCEPT
-                            </button>
-                        </div>
+                    {showInviteAcceptModal ? (
+                        <HarthInviteAcceptModal
+                            header=""
+                            talkingHeadMsg="An invitation arrives. Ao you accept?"
+                            footer="You have been invited to join this harth by [profile name]"
+                            submitText="Accept Invite"
+                            submitHandler={goodInviteHandler}
+                            tkn={tkn || inviteTKN || ""}
+                        />
+                    ) : null}
+                    {showInviteProfileModal ? (
+                        <CreateHarthProfile
+                            header="harth"
+                            talkingHeadMsg="And by what name would you like to be known"
+                            footer="Set your name and profile pic for this harth. You can change these at any time"
+                            placeholder={`${"First Name"}`}
+                            submitText="Join"
+                            submitHandler={resetNewInviteHarth}
+                            harth={invitedHarth}
+                        />
                     ) : null}
                     {GatherWindow ? (
                         page

@@ -1,19 +1,25 @@
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
+
 .inputComponent {
-  margin: 0 0 19px;
-  padding: 0 0 14px;
-  border: 0;
+    max-width: 100%;
+    input {
+        @include contentR2;
+        width: 100%;
+        margin: 0 0 4px;
+        padding: 6px;
+        border: 0;
+        border-bottom: 1px solid $fuel;
 
-  input {
-    width: 100%;
-    padding: 16px;
-    font-size: 14px;
-    line-height: 19px;
-    border: 2px solid #333;
-    border-radius: 8px;
-  }
+        &:placeholder {
+            color: $fuel_50;
+        }
+    }
 
-  p {
-    margin: 0;
-    padding: 0;
-  }
+    &ErrorMessage {
+        @include interfaceR2;
+        height: 18px;
+        padding: 3px 0;
+        color: $alert_red;
+    }
 }

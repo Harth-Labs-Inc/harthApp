@@ -62,8 +62,6 @@ const CreateAccount = (props) => {
     return (
         <div className={styles.CreateModule}>
             <TalkingHead text={bubbleText} />
-
-            <h2>Create an account</h2>
             <Form
                 id="login"
                 on_submit={submitHandler}
@@ -72,7 +70,7 @@ const CreateAccount = (props) => {
                 errorData={errorData}
             >
                 <Input
-                    title="Email"
+                    placeholder="Email"
                     name="email"
                     type="text"
                     empty={formData.email}
@@ -88,7 +86,7 @@ const CreateAccount = (props) => {
                     errorData={errorData}
                 />
                 <Input
-                    title="Full Name"
+                    placeholder="Full Name"
                     name="fullName"
                     type="text"
                     empty={formData.fullName}
@@ -99,7 +97,7 @@ const CreateAccount = (props) => {
                     errorData={errorData}
                 />
                 <Input
-                    title="Date of Birth"
+                    placeholder="Date of Birth"
                     name="dob"
                     type="date"
                     empty={true}
@@ -114,26 +112,39 @@ const CreateAccount = (props) => {
                 >
                     <div className="form-bottom">
                         <Button
-                            id="account-create-submit"
+                            tier="secondary"
                             type="submit"
-                            text="Continue"
+                            text="Sign Up"
+                            fullWidth
                             onClick={() => {
                                 setSubmissionType("create");
                             }}
-                        ></Button>
-                        <p className="disclaimer">
-                            By creating an account, you agree to follow
-                            H&auml;rth's <a>Guidelines</a>.
+                        />
+                        <p className={styles.loginModuleDisclaimer}>
+                            By continuing, you are agreeing to our Customer{" "}
+                            <a
+                                href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4edc850907fdf964473/1665512685436/Terms%26Conditions.pdf"
+                                target="_blank"
+                            >
+                                Terms of Service
+                            </a>{" "}
+                            and{" "}
+                            <a
+                                href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4a7a74906570621b492/1665512615431/HarthPrivacyPolicy.pdf"
+                                target="_blank"
+                            >
+                                Privacy Policy
+                            </a>
+                            .
                         </p>
                         <div>
-                            <a
-                                id="return-login"
+                            <Button
+                                size="small"
+                                text="Already have an account?"
                                 onClick={() => {
                                     changePage("login");
                                 }}
-                            >
-                                Already have an account?
-                            </a>
+                            />
                         </div>
                     </div>
                 </fieldset>

@@ -35,13 +35,17 @@ const Login = (props) => {
     };
 
     const submitHandler = async () => {
-        setErrorMessage("");
-        let results = await loginAttempt(formData);
-        let { ok, user } = results;
-        if (ok) {
-            await sendOtpEmailToUser(user);
-            changePage("validateopt", user);
+        if (formData.email) {
+            console.log(formData.email);
+        } else {
+            console.log("error");
         }
+        // let results = await loginAttempt(formData);
+        // let { ok, user } = results;
+        // if (ok) {
+        //     await sendOtpEmailToUser(user);
+        //     changePage("validateopt", user);
+        // }
     };
 
     return (
@@ -55,38 +59,51 @@ const Login = (props) => {
                 errorData={errorData}
             >
                 <Input
-                    title="Email"
                     name="email"
                     type="text"
                     empty={formData.email}
                     value={formData.email}
-                    isrequired={errorData["email"]}
+                    isrequired={true}
                     changeHandler={inputChangeHandler}
                     data={formData}
                     errorData={errorData}
                     changePage={changePage}
+                    placeholder="Email"
                 />
 
                 <div className={styles.formBottom}>
                     <Button
-                        id="login-submit"
                         type="submit"
                         text="Sign In"
-                    ></Button>
-                    <p className={styles.loginDisclaimer}>
-                        By continuing, you are agreeing to our Customer Terms of
-                        Service, Privacy Policy, and Cookie Policy.
+                        tier="secondary"
+                        fullWidth
+                    />
+                    <p className={styles.loginModuleDisclaimer}>
+                        By continuing, you are agreeing to our Customer{" "}
+                        <a
+                            href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4edc850907fdf964473/1665512685436/Terms%26Conditions.pdf"
+                            target="_blank"
+                        >
+                            Terms of Service
+                        </a>{" "}
+                        and{" "}
+                        <a
+                            href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4a7a74906570621b492/1665512615431/HarthPrivacyPolicy.pdf"
+                            target="_blank"
+                        >
+                            Privacy Policy
+                        </a>
+                        .
                     </p>
 
-                    <a
-                        id="sign-up-link"
-                        className={styles.signUpLink}
+                    <Button
+                        size="small"
+                        text="Need an account?"
+                        className={styles.loginModuleSignUpLink}
                         onClick={() => {
                             changePage("createaccount");
                         }}
-                    >
-                        Need an account?
-                    </a>
+                    />
                 </div>
             </Form>
         </div>

@@ -1,5 +1,6 @@
-import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
-import { Wizard } from "../../../resources/icons/wizard";
+import { HarthLogoDark } from "../../public/images/harth-logo-dark";
+import { Wizard } from "../../resources/icons/wizard";
+import styles from "./TalkingHead.module.scss";
 
 const TalkingHead = ({ text }) => {
     return (

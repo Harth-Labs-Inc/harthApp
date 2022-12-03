@@ -1,130 +1,122 @@
-@import '../../../styles/globals.scss';
-@import '../../../styles/config/config-type';
+@import "../../../styles/globals.scss";
+@import "../../../styles/config/config-type";
 
 .button {
-  position: relative;
-  padding: 10px 20px;
+    position: relative;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 125%;
+    border: 2px solid;
+    border-radius: 20px;
+    outline: 0;
+    cursor: pointer;
+    transition: all 0.3s;
 
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.129px;
-  line-height: 19px;
-
-  border: 0;
-  border-radius: 24px;
-  outline: 0;
-  cursor: pointer;
-  transition: all 0.3s;
-
-  &:before {
-    @include x-y-center;
-    color: inherit;
-  }
-
-  &FullWidth {
-    width: 100%;
-  }
-
-  &Primary {
-    color: $white;
-    background-color: $text-black;
-    &:hover {
-      color: #f7f7f7;
-      background-color: #9a9a9a;
+    &:before {
+        @include x-y-center;
+        color: inherit;
     }
-  }
-  &Secondary {
-    color: #333;
-    background-color: #eaeaea;
-    &:hover {
-      color: #f7f7f7;
-      background-color: #9a9a9a;
-    }
-  }
-  &Tertiary {
-    color: #9a9a9a;
-    background-color: #f7f7f7;
-    &:hover {
-      color: #333;
-      background-color: #eaeaea;
-    }
-  }
 
-  + .button {
-    margin-left: 8px;
-  }
+    &FullWidth {
+        width: 100%;
+    }
 
-  &:disabled {
-    color: #9a9a9a;
-    background-color: #eaeaea;
-    cursor: default;
-  }
+    &Primary {
+        color: $fuel;
+        background-color: #fff;
+        border-color: $fuel;
+        &:hover {
+            color: #fff;
+            background-color: $fuel;
+        }
+    }
+    &Secondary {
+        color: #fff;
+        background-color: $hot_pink;
+        border-color: $hot_pink;
+        &:hover {
+            color: #fff;
+            background-color: $fuel;
+            border-color: $fuel;
+        }
+    }
+
+    &Large {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    &Small {
+        padding: 5px 12px;
+        font-size: 14px;
+    }
+
+    &:disabled {
+        color: #9a9a9a;
+        background-color: #eaeaea;
+        cursor: default;
+    }
 }
 
 .backButton {
-  position: absolute;
-  left: 0;
-  height: 32px;
-  width: 32px;
+    position: absolute;
+    left: 0;
+    height: 32px;
+    width: 32px;
 
-  background-color: transparent;
-  border: 0;
-  border-radius: 50%;
+    background-color: transparent;
+    border: 0;
+    border-radius: 50%;
 
-  cursor: pointer;
-  transition: background-color 0.3s;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
-  &:before {
-    @include x-y-center;
-    @include font-icon($icon-caret-right);
-    transform: translate3d(-50%, -50%, 0) rotate(180deg);
-  }
+    &:before {
+        @include x-y-center;
+        @include font-icon($icon-caret-right);
+        transform: translate3d(-50%, -50%, 0) rotate(180deg);
+    }
 
-  &:hover {
-    background-color: $light-grey;
-  }
+    &:hover {
+        background-color: $light-grey;
+    }
 }
 
 .textButton {
-  width: auto;
-  padding: $gutter;
-  color: $text-black;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.89px;
-  line-height: 16px;
-  text-align: left;
-  text-transform: uppercase;
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  transition: all 0.3s;
+    width: auto;
+    padding: $gutter;
+    color: $text-black;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.89px;
+    line-height: 16px;
+    text-align: left;
+    text-transform: uppercase;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: all 0.3s;
 
-  &:hover,
-  &:focus {
-    color: $black;
-  }
+    &:hover,
+    &:focus {
+        color: $black;
+    }
 }
 
 .iconButton {
-  position: relative;
-  font-size: 0;
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  &:before {
-    @include x-y-center;
-    color: #9a9a9a;
-    font-size: 16px;
-  }
-
-  &:hover {
+    position: relative;
+    font-size: 0;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
     &:before {
-      color: #333;
+        @include x-y-center;
+        color: #9a9a9a;
+        font-size: 16px;
     }
-  }
-}
 
-.buttonFullwidth {
-  width: 100%;
+    &:hover {
+        &:before {
+            color: #333;
+        }
+    }
 }

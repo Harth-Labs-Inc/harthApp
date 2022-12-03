@@ -3,29 +3,31 @@ import styles from "./Button.module.scss";
 export const Button = (props) => {
     const {
         text,
-        disabled,
+        isDisabled = false,
         fullWidth = false,
         tier = "primary",
-        textLabel,
+        textLabel, // required if no text is passed
         className,
         onClick,
+        type = "button",
+        size = "large",
     } = props;
-
-    const buttonClasses = () => {
-        if (tier === "secondary") {
-            return styles.buttonSecondary;
-        } else if (tier === "tertiary") {
-            return styles.buttonTertiary;
-        }
-        return styles.buttonPrimary;
-    };
 
     return (
         <button
-            className={`${styles.button} ${buttonClasses()} ${
-                fullWidth ? styles.buttonFullWidth : ""
-            } ${className}`}
-            disabled={disabled}
+            type={type}
+            className={`
+                ${styles.button} 
+                ${
+                    tier === "primary"
+                        ? styles.buttonPrimary
+                        : styles.buttonSecondary
+                }
+                ${size === "large" ? styles.buttonLarge : styles.buttonSmall} 
+                ${fullWidth ? styles.buttonFullWidth : ""}
+                ${className}
+            `}
+            disabled={isDisabled}
             aria-label={textLabel}
             onClick={onClick}
         >

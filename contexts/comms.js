@@ -43,6 +43,15 @@ export const CommsProvider = ({ children }) => {
         localStorage.setItem("selected_topic", JSON.stringify(selectedTopic));
     }, [selectedTopic]);
 
+    const refetchComms = async (comid) => {
+        console.log("fetching new data", user);
+        let result = await getComms(user);
+        console.log(result);
+        const { ok, comms } = result;
+        if (ok) {
+            setComms(comms);
+        }
+    };
     const grabTopics = async (comid) => {
         let result = await getTopics(comid, user._id);
         const { ok, topics } = result;
@@ -50,6 +59,7 @@ export const CommsProvider = ({ children }) => {
             setTopics(topics);
             setSelectedTopic(topics[0] || {});
         }
+        return;
     };
     const grabRooms = async (comid) => {
         if (comid) {
@@ -143,6 +153,7 @@ export const CommsProvider = ({ children }) => {
     return (
         <CommsContext.Provider
             value={{
+                refetchComms,
                 rooms,
                 topicChange,
                 setRooms,

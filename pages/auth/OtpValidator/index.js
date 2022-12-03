@@ -36,9 +36,8 @@ const OtpValidator = ({ newUser, currentPage }) => {
             if (ok) {
                 Cookies.set("token", tkn, { expires: 365 });
                 if (newUser.showFirstTimeUser) {
-                    router.query.fistTimeUser = true;
+                    Cookies.set("showFirstTimeUser", true);
                 }
-                router.push(router);
                 router.reload();
             }
         } else {
@@ -48,10 +47,14 @@ const OtpValidator = ({ newUser, currentPage }) => {
         }
     };
 
+    if (!newUser) {
+        return <p>...Loading</p>;
+    }
+
     return (
         <div className={styles.OtpModule}>
             <TalkingHead text={helpText} />
-            <p>Enter the security code we just sent to [email]</p>
+            <p>Enter the security code we just sent to {newUser?.email}</p>
             <VerificationInput placeholder="" onChange={inputChangeHandler} />
             <button type="submit" onClick={handlerSubmit}>
                 log in

@@ -2,40 +2,39 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-}
-
-&Logo {
-    display: flex;
-    justify-content: flex-start;
-    height: 34px;
-    width: 61px;
-    margin-bottom: 12px;
-}
-
-&HelperContainer {
-    display: flex;
-    justify-content: center;
-    width: 327px;
-    margin-bottom: 12px;
-
-    &TextBubble {
-        width: 223px;
-        padding: 12px;
-        margin-bottom: 94px;
-        text-align: center;
-        border: solid 2px;
-        border-radius: 24px;
-        border-bottom-right-radius: 0;
+    &Logo {
+        display: flex;
+        justify-content: flex-start;
+        height: 34px;
+        width: 61px;
+        margin-bottom: 12px;
     }
-    &Text {
-        font-size: 16px;
-        letter-spacing: 0.02em;
-        line-height: 20px;
-    }
-    &Image {
-        height: 154px;
-        width: 96px;
-        margin-top: auto;
-        margin-left: 8px;
+
+    &HelperContainer {
+        display: flex;
+        justify-content: center;
+        width: 327px;
+        margin-bottom: 12px;
+
+        &TextBubble {
+            width: 223px;
+            padding: 12px;
+            margin-bottom: 94px;
+            text-align: center;
+            border: solid 2px;
+            border-radius: 24px;
+            border-bottom-right-radius: 0;
+        }
+        &Text {
+            font-size: 16px;
+            letter-spacing: 0.02em;
+            line-height: 20px;
+        }
+        &Image {
+            height: 154px;
+            width: 96px;
+            margin-top: auto;
+            margin-left: 8px;
+        }
     }
 }

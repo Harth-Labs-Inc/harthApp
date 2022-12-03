@@ -1,3 +1,6 @@
+@import "../../../styles/fonts.scss";
+@import "../../../styles/globals.scss";
+
 .loginModule {
     display: flex;
     align-items: center;
@@ -6,6 +9,7 @@
     height: 100vh;
     max-width: 340px;
     margin: 0 auto;
+    padding: 0 24px;
 
     svg {
         width: 122px;
@@ -13,9 +17,19 @@
     }
 
     .formBottom {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        max-width: 340px;
         margin-top: 8px;
+    }
+
+    &Disclaimer {
+        @include interfaceR3;
+        width: 316px;
+        margin: 12px auto 20px;
+        color: $fuel_50;
+    }
+
+    &SignUpLink {
+        display: block;
+        margin: 0 auto;
     }
 }

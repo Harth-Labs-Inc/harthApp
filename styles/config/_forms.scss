@@ -1,182 +1,166 @@
 form {
-  [class*='error_message'] {
-    position: absolute;
-    bottom: 0;
-    left: 8px;
-    height: 11px;
-    margin: 0;
-    font-size: 10px;
-    color: $red;
-    opacity: 0;
-    visibility: hidden;
-  }
+    max-width: 100%;
 
-  label,
-  input {
-    display: block;
-  }
-
-  fieldset {
-    position: relative;
-    margin: 0 0 10px;
-    padding: 0 0 14px;
-    border: 0;
-
-    &:last-of-type {
-      margin: 0;
-      // padding: 0;
+    label,
+    input {
+        display: block;
     }
 
-    label {
-      padding: 0;
-      color: $text-black;
-      font-size: 12px;
-      line-height: 16px;
-    }
+    fieldset {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        border: 0;
 
-    input,
-    textarea {
-      z-index: 1;
-      width: 100%;
-      padding: 15px;
-      color: $text-black;
-      font-size: 14px;
-      line-height: 19px;
-      background-color: transparent;
-      border: 2px solid $text-black;
-      border-radius: 8px;
-
-      &:-webkit-autofill {
-        background-color: transparent;
-      }
-
-      &[type='date']::-webkit-calendar-picker-indicator {
-        background: transparent;
-        bottom: 0;
-        color: transparent;
-        cursor: pointer;
-        height: auto;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: auto;
-      }
-    }
-
-    .form-bottom {
-      margin-top: 16px;
-      .btn {
-        width: 100%;
-        margin-bottom: 16px;
-      }
-      a {
-        color: $text-black;
-        font-size: 14px;
-        line-height: 14px;
-        text-decoration: none;
-        cursor: pointer;
-
-        &:hover {
-          color: $black;
+        label {
+            padding: 0;
+            color: $text-black;
+            font-size: 12px;
+            line-height: 16px;
         }
-      }
 
-      a + a {
-        margin-top: 5px;
-      }
+        textarea {
+            z-index: 1;
+            width: 100%;
+            padding: 15px;
+            color: $text-black;
+            font-size: 14px;
+            line-height: 19px;
+            background-color: transparent;
+            border: 2px solid $text-black;
+            border-radius: 8px;
 
-      #email-exists {
-        height: 11px;
-        margin: 0 0 2px 14px;
-        font-size: 10px;
-        color: $red;
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
+            &:-webkit-autofill {
+                background-color: transparent;
+            }
 
-    &.error {
-      #email-exists {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-
-    &:focus-within,
-    &.content {
-      label {
-        bottom: 48px;
-        z-index: 2;
-      }
-    }
-
-    &:focus-within {
-      label {
-        color: $text-black;
-      }
-    }
-    &.content {
-      label {
-        color: $black;
-      }
-    }
-
-    &.error_required,
-    &.error_custom {
-      label {
-        color: $red;
-      }
-      input {
-        border-color: $red;
-      }
-    }
-
-    &.error_custom {
-      .custom_error_message {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-    &.error_required {
-      .empty_error_message,
-      .password_error_message {
-        opacity: 1;
-        visibility: visible;
-        cursor: pointer;
-        a {
-          color: $red;
+            &[type="date"]::-webkit-calendar-picker-indicator {
+                background: transparent;
+                bottom: 0;
+                color: transparent;
+                cursor: pointer;
+                height: auto;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: auto;
+            }
         }
-      }
+
+        .form-bottom {
+            margin-top: 16px;
+            .btn {
+                width: 100%;
+                margin-bottom: 16px;
+            }
+            a {
+                color: $text-black;
+                font-size: 14px;
+                line-height: 14px;
+                text-decoration: none;
+                cursor: pointer;
+
+                &:hover {
+                    color: $black;
+                }
+            }
+
+            a + a {
+                margin-top: 5px;
+            }
+
+            #email-exists {
+                height: 11px;
+                margin: 0 0 2px 14px;
+                font-size: 10px;
+                color: $red;
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        &.error {
+            #email-exists {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        &:focus-within,
+        &.content {
+            label {
+                bottom: 48px;
+                z-index: 2;
+            }
+        }
+
+        &:focus-within {
+            label {
+                color: $text-black;
+            }
+        }
+        &.content {
+            label {
+                color: $black;
+            }
+        }
+
+        // &.error_required,
+        // &.error_custom {
+        //     label {
+        //         color: $red;
+        //     }
+        //     input {
+        //         border-color: $red;
+        //     }
+        // }
+
+        // &.error_custom {
+        //     .custom_error_message {
+        //         opacity: 1;
+        //         visibility: visible;
+        //     }
+        // }
+        // &.error_required {
+        //     .empty_error_message,
+        //     .password_error_message {
+        //         opacity: 1;
+        //         visibility: visible;
+        //         cursor: pointer;
+        //         a {
+        //             color: $red;
+        //         }
+        //     }
+        // }
     }
-  }
 }
 
 .email_wrapper {
-  margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 .email_chip {
-  display: inline-block;
-  margin: 3px;
-  padding: 5px;
-  border: 1px solid $dark-grey;
-  border-radius: 10px;
+    display: inline-block;
+    margin: 3px;
+    padding: 5px;
+    border: 1px solid $dark-grey;
+    border-radius: 10px;
 
-  .email_delete {
-    height: 19px;
-    width: 19px;
-    margin-left: 3px;
-    background-color: transparent;
-    border: 0;
-    border-radius: 50%;
-    cursor: pointer;
-    &:before {
-      @include font-icon($icon-close);
-      color: $black;
-      font-size: 10px;
+    .email_delete {
+        height: 19px;
+        width: 19px;
+        margin-left: 3px;
+        background-color: transparent;
+        border: 0;
+        border-radius: 50%;
+        cursor: pointer;
+        &:before {
+            @include font-icon($icon-close);
+            color: $black;
+            font-size: 10px;
+        }
+        &:hover {
+            background-color: $medium-grey;
+        }
     }
-    &:hover {
-      background-color: $medium-grey;
-    }
-  }
 }
