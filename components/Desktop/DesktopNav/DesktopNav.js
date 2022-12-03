@@ -3,7 +3,7 @@ import { useAuth } from '../../../contexts/auth'
 import {DesktopNavButton} from './DesktopNavButton'
 import Modal from '../../Modal'
 import HarthMenu from '../../HarthMenu/index'
-import { Avatar } from '../../Universal/Avatar/Avatar'
+import { Avatar } from'../../Common/Avatar/Avatar'
 
 import styles from './desktopNav.module.scss'
 

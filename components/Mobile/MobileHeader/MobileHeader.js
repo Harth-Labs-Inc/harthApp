@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../../contexts/auth'
-import { Avatar } from "../../Universal/Avatar/Avatar"
+import { Avatar } from'../../Common/Avatar/Avatar'
 import { useComms } from '../../../contexts/comms'
 import styles from "./mobileHeader.module.scss"
 
