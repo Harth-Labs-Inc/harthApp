@@ -11,12 +11,11 @@ import styles from './desktopNav.module.scss'
 
 
 export const DesktopNavButton = (props) => {
-    const {label, isActive, command} = props
+    const {label, isActive, hasAlert, command} = props
     const [isHover, setHover] = useState(false)
     const IconActive = FireFill
     const IconInactive = FireNoFill
-
-   
+    
     if (label==='Chat'){
         IconInactive = ChatNoFill
         IconActive = ChatFill
@@ -40,19 +39,23 @@ export const DesktopNavButton = (props) => {
         onClick={command}
       >
         <div style={{display: "flex", flexDirection: "row", alignItems:"center", }}>
-            {isActive
-              ? <div style={{height: 24, width: 24, marginRight: 6,}}><IconActive color="#2f1d2a"/></div> //color is $fuel
-              : <div style={{height: 24, width: 24, marginRight: 6,}}><IconInactive color="#2f1d2a" /></div> //color is $fuel
-            }
-           {isActive
-            ? <div style={{fontWeight: 600,}}>{label}</div>
-            : <div>{label}</div>
-        } 
+          {isActive
+            ? <div style={{height: 24, width: 24, marginRight: 6,}}><IconActive color="#2f1d2a"/></div> //color is $fuel
+            : <div style={{height: 24, width: 24, marginRight: 6,}}><IconInactive color="#2f1d2a" /></div> //color is $fuel
+          }
+          {isActive
+          ? <div style={{fontWeight: 600,}}>{label}</div>
+          : <div>{label}</div>
+          } 
         </div>
         {isActive || isHover
             ? <div className={styles.indicator} ></div>
             : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
         }
+        {hasAlert
+          ? <div className={styles.alertIndicator} />
+          : null
+        } 
       </button>
 
       </>
