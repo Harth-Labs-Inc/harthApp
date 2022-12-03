@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { MobileContext } from '../../contexts/mobile'
+
+
 
 import { CloseBtn, TextBtn } from '../Common/Button'
 
 const HarthMenu = (props) => {
   const [currentPage, setCurrentPage] = useState('profile')
-
+  const { isMobile } = useContext(MobileContext)
   const { communityName, onToggleModal } = props
 
   const changePageHandler = (pg) => {
