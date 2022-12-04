@@ -35,7 +35,7 @@ const HarthMenu = (props) => {
       <div className='close-modal'><CloseButton onClick={onToggleModal}/></div>
       </div>
       <div className={styles.navTabs} role="nav">
-        <button className={currentPage == 'notifications' ? 'active' : undefined}
+        <button className={currentPage == 'notifications' ? styles.active : undefined}
           onClick={() => {
             changePageHandler('notifications')
           }}
@@ -43,7 +43,7 @@ const HarthMenu = (props) => {
           <div style={{height: 24, width: 24, marginRight: 4,}}><IconNotificationsNoFill /></div>Notifications
         </button>
 
-        <button className={currentPage == 'members' ? 'active' : undefined}
+        <button className={currentPage == 'members' ? styles.buttonActive : undefined}
           onClick={() => {
             changePageHandler('members')
           }}
@@ -51,7 +51,7 @@ const HarthMenu = (props) => {
           Members
         </button>
 
-        <button className={currentPage == 'admin' ? 'active' : undefined}
+        <button className={currentPage == 'admin' ? styles.active : undefined}
           onClick={() => {
             changePageHandler('admin')
           }}
