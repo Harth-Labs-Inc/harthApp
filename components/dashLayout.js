@@ -1,10 +1,9 @@
 import { useContext, useState } from 'react'
 import { MobileContext } from '../contexts/mobile'
 
-import DesktopNav from './Desktop/DesktopNav/DesktopNav'
-import MobileNav from './Mobile/MobileNav/MobileNav'
 import SideNav from './SideNav'
 import MobileHeader from './Mobile/MobileHeader/MobileHeader'
+import MainNav from './MainNav/MainNav'
 
 
 const NavLayout = (props) => {
@@ -35,7 +34,7 @@ const Dashboard = () => {
     >
       {!isMobile ? (
         <>
-          <DesktopNav
+          <MainNav
             onToggleMenu={toggleMenu}
             changePage={changePage}
             currentPage={currentPage}
@@ -48,7 +47,7 @@ const Dashboard = () => {
             currentPage={currentPage}
             />
           <section id="content_wrapper">{children}</section>
-          <MobileNav
+          <MainNav
             onToggleMenu={toggleMenu}
             changePage={changePage}
             currentPage={currentPage}

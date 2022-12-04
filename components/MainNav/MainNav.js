@@ -1,17 +1,15 @@
 import { useState, useEffect, useContext } from 'react'
 import { useAuth } from '../../contexts/auth'
 import { MobileContext } from '../../contexts/mobile'
-import { ChatFill } from '../../resources/icons/ChatFill'
-import { ChatNoFill  } from '../../resources/icons/ChatNoFill'
-import { FireFill } from '../../resources/icons/FireFill'
-import { FireNoFill  } from '../../resources/icons/FireNoFill'
-import { ForumFill } from '../../resources/icons/ForumFill'
-import { ForumNoFill  } from '../../resources/icons/ForumNoFill'
-
+import { IconChatNoFill  } from '../../resources/icons/IconChatNoFill'
+import { IconFireNoFill  } from '../../resources/icons/IconFireNoFill'
+import { IconForumNoFill } from '../../resources/icons/IconForumNoFill'
+import { Avatar } from '../Common/Avatar/Avatar'
 import Modal from '../Modal'
 import HarthMenu from '../HarthMenu/index'
-
 import { useComms } from '../../contexts/comms'
+
+import styles from './mainNav.module.scss'
 
 const MainNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props
@@ -19,11 +17,23 @@ const MainNav = (props) => {
   //const [communityName, setCommunityName] = useState()
   const communityName = "Blarg"
   const [communityId, setCommunityId] = useState()
-  const [harthIcon, setHarthIcon] = useState()
-  const [profileIcon, setProfileIcon] = useState()
+  //const [harthIcon, setHarthIcon] = useState()
+  const harthIcon = "https://d1mc7wmz9xfkdm.cloudfront.net/eyJidWNrZXQiOiJhc3NldHMud29vZGxhbmRkaXJlY3QuY29tIiwia2V5IjoicHJvZHVjdC1pbWFnZXMvUGV0ZXJzb24tUmVhbC1GeXJlLVJ1c3RpYy1PYWstVmVudGVkLUdhcy1Mb2ctU2V0LW1haW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJoZWlnaHQiOjEyMDAsImZpdCI6ImNvbnRhaW4iLCJiYWNrZ3JvdW5kIjp7InIiOjI1NSwiZyI6MjU1LCJiIjoyNTUsImFscGhhIjoxfX19fQ=="
+
+  //const [profileIcon, setProfileIcon] = useState()
+  //update with logic for image pull
+  const profileIcon = "https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg"
+
+  
   const { isMobile } = useContext(MobileContext)
   const { user } = useAuth()
   const { comms, setComm, selectedcomm } = useComms()
+
+ //alert needs logic
+  //this is just a universal setting that makes all
+  //the tabs show their alert.
+  const hasAlert = true
+
 
   const handleHarthMenu = () => {
     if (!isMobile) {
@@ -61,7 +71,7 @@ const MainNav = (props) => {
   return (
     <>
       {modal ? (
-        <Modal id="comm_preferences" show={modal} onToggleModal={showModal}>
+        <Modal show={modal} onToggleModal={showModal}>
           <HarthMenu
             communityName={communityName}
             communityId={communityId}
@@ -71,99 +81,155 @@ const MainNav = (props) => {
       ) : (
         ''
       )}
-      <header id="mainNav" className={isMobile ? 'isMobile' : 'isDesktop'}>
-        <div style={{width: 240,}}>
-        <button
-          id="harth-title"
-          onClick={handleHarthMenu}
-          aria-label="Current Harth"
-        >
-          {isMobile ? <img src={harthIcon} /> : communityName}
-          
-        </button>
-        </div>
-        <div role="nav" className="top-buttons">
+
+      {isMobile 
+        ?
+        <header className={styles.mobile}>
+          <button className={styles.harthButton} onClick={handleHarthMenu} aria-label="Current Harth">
+            <img className={styles.harthImage} src={harthIcon} />
+          </button>
           <button
             role="nav-item"
             id="chat"
             aria-label="Community Chat"
-            className={currentPage == 'chat' ? 'active' : undefined}
+            className={currentPage == 'chat' ? styles.navButtonActive : styles.navButton}
             onClick={() => {
               changePage('chat')
             }}
           >
-            <div style={{display: 'flex', flexDirection: 'row', width: '100%', flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              {currentPage == 'chat'
-              ? <div style={{height: 22, width: 22, marginRight: 4,}}><ChatFill color="#f0f"/></div>
-              : <div style={{height: 22, width: 22, marginRight: 4,}}><ChatNoFill /></div>
-              }
-              Chat
-            </div>
-            {currentPage == 'chat'
-            ? <div id="indicator"></div>
-            : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
-            }
+            <div className={styles.indicator} ></div>
+            <div style={{height: 24, width: 24, margin: 0,}}><IconChatNoFill /></div> 
+            <div>Chat</div>
+            {hasAlert
+              ? <div className={styles.alertIndicator} />
+              : null
+            } 
           </button>
 
           <button
             role="nav-item"
             id="gather"
             aria-label="Gather"
-            className={currentPage == 'gather' ? 'active' : undefined}
+            className={currentPage == 'gather' ? styles.navButtonActive : styles.navButton}
             onClick={() => {
+              changePage('gather')
               // remove page change on mobile for now
-              if (!isMobile) {
-                changePage('gather')
-              } else {
-                alert('mobile gatherings coming soon')
-              }
+              //if (!isMobile) {
+              //  changePage('gather')
+              //} else {
+              //  alert('mobile gatherings coming soon')
+              //}
             }}
           >
-            <div style={{display: 'flex', flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-              {currentPage == 'gather'
-              ? <div style={{height: 24, width: 24, marginRight: 4,}}><FireFill /></div>
-              : <div style={{height: 24, width: 24, marginRight: 4,}}><FireNoFill /></div>
-              }
-              Gather
-            </div>
-            {currentPage == 'gather'
-            ? <div id="indicator"></div>
-            : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
-            }
+            <div className={styles.indicator} ></div>
+            <div style={{height: 24, width: 24, marginRight: 6,}}><IconFireNoFill /></div> 
+            <div>Gather</div>
+            {hasAlert
+              ? <div className={styles.alertIndicator} />
+              : null
+            } 
           </button>
 
           <button
             role="nav-item"
             id="message"
             aria-label="Private Messages"
-            className={currentPage == 'message' ? 'active' : undefined}
+            className={currentPage == 'message' ? styles.navButtonActive : styles.navButton}
             onClick={() => {
               changePage('message')
             }}
           >
-            <div style={{display: 'flex', flexDirection: 'row', flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-              {currentPage == 'message'
-              ? <div style={{height: 24, width: 24, marginRight: 4,}}><ForumFill /></div>
-              : <div style={{height: 24, width: 24, marginRight: 4,}}><ForumNoFill /></div>
-              }
-              Chat
+            <div className={styles.indicator} ></div>
+            <div style={{height: 24, width: 24, marginRight: 6,}}><IconForumNoFill /></div> 
+            <div>Message</div>
+            {hasAlert
+              ? <div className={styles.alertIndicator} />
+              : null
+            } 
+          </button>
+        </header>
+
+          
+        :
+        <header className={styles.desktop}>
+          <div style={{ width: 240, }}>
+            <button className={styles.harthButton} onClick={handleHarthMenu} aria-label="Current Harth">
+              {communityName}
+            </button>
+          </div>
+
+          <div role="nav" className={styles.topButtons}>
+            <button
+              role="nav-item"
+              id="chat"
+              aria-label="Community Chat"
+              className={currentPage == 'chat' ? styles.navButtonActive : styles.navButton}
+              onClick={() => {
+                changePage('chat')
+              }}
+            >
+            <div style={{display: "flex", flexDirection: "row", alignItems:"center", }}>
+              <div style={{height: 24, width: 24, marginRight: 6,}}><IconChatNoFill /></div> 
+              <div>Chat</div>
             </div>
-            {currentPage == 'message'
-            ? <div id="indicator"></div>
-            : <div style={{height: 5, backgroundColor: 'transparent',}}></div>
-            }
+            <div className={styles.indicator} ></div>
+            {hasAlert
+              ? <div className={styles.alertIndicator} />
+              : null
+            } 
+          </button>
+
+          <button
+            role="nav-item"
+            id="gather"
+            aria-label="Gather"
+            className={currentPage == 'gather' ? styles.navButtonActive : styles.navButton}
+            onClick={() => {
+              changePage('gather')
+              // remove page change on mobile for now
+              //if (!isMobile) {
+              //  changePage('gather')
+              //} else {
+              //  alert('mobile gatherings coming soon')
+              //}
+            }}
+          >
+            <div style={{display: "flex", flexDirection: "row", alignItems:"center", }}>
+              <div style={{height: 24, width: 24, marginRight: 6,}}><IconFireNoFill /></div> 
+              <div>Gather</div>
+            </div>
+            <div className={styles.indicator} ></div>
+            {hasAlert
+              ? <div className={styles.alertIndicator} />
+              : null
+            } 
+          </button>
+
+          <button
+            role="nav-item"
+            id="message"
+            aria-label="Private Messages"
+            className={currentPage == 'message' ? styles.navButtonActive : styles.navButton}
+            onClick={() => {
+              changePage('message')
+            }}
+          >
+            <div style={{display: "flex", flexDirection: "row", alignItems:"center", }}>
+              <div style={{height: 24, width: 24, marginRight: 6,}}><IconForumNoFill /></div> 
+              <div>Message</div>
+            </div>
+            <div className={styles.indicator} ></div>
+            {hasAlert
+              ? <div className={styles.alertIndicator} />
+              : null
+            } 
           </button>
         </div>
-        {!isMobile ? (
-          <button
-            id="account-btn"
-            aria-label="My Account"
-            className={profileIcon ? 'hasImage' : undefined}
-          >
-            {profileIcon ? <img src={profileIcon} /> : ''}
-          </button>
-        ) : null}
-      </header>
+
+        <Avatar aLabel="My Account" isPressable={true} onPress={showModal} picSize={36} imageSrc={profileIcon} />
+
+        </header> 
+      } 
     </>
   )
 }

@@ -7,4 +7,4 @@ export const ForumFill = (props) => (
   </svg>
 )
 
-export default ForumFill
+//export default ForumFill

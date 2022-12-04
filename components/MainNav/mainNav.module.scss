@@ -1,0 +1,257 @@
+@import '../../styles/globals.scss';
+@import '../../styles/fonts.scss';
+
+
+.desktop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-area: header;
+    padding: 0 16px;
+    height: 64px;
+    padding-top: 8px;
+    border-bottom: 1px solid $fuel_10;
+    background-color: $light_ash;
+
+
+    .harthButton{
+        padding-left: 8px;
+        padding-right: 8px;
+        @include contentH1;
+        color: $fuel;
+        border-radius: 6px;
+        text-align: left;
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+        text-overflow: ellipsis;
+        &:hover {
+        background-color: $fuel_10;
+        }
+    }
+
+    .alertIndicator {
+    height: 11px;
+    width: 11px;
+    border-radius: 9999px;     
+    background-color: $hot_pink;
+    border-color: $light_ash;
+    border-width: 2px;
+    border-style: solid;
+
+    position: absolute;
+    top: 10px;
+    left: 32px;
+    }
+
+    .topButtons {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;    
+    }
+
+    .navButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    @include interfaceR3;
+
+    height: 48px;
+    color: $fuel;
+    background-color: transparent;
+
+    border: 0;
+    cursor: pointer;
+    padding-top: 12px;
+    padding-bottom: 0px;
+    padding-right: 16px;
+    padding-left: 16px;
+    margin-left: 12px;
+    margin-right: 12px;
+
+    .indicator {
+        height: 5px;
+        width: 56px;
+        border-top-right-radius: 9999px;     
+        border-top-left-radius: 9999px;
+        background-color: transparent;
+    }
+    &:hover{
+        fill: $fuel;
+
+        .indicator {
+        height: 5px;
+        width: 56px;
+        border-top-right-radius: 9999px;     
+        border-top-left-radius: 9999px;
+        background-color: $fuel;
+    }
+    }
+    }
+
+    .navButtonActive {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        @include interfaceH5;
+        stroke-width: .5px;
+        stroke:$fuel;
+    
+        height: 48px;
+        color: $fuel;
+        background-color: transparent;
+    
+        border: 0;
+        cursor: pointer;
+        padding-top: 12px;
+        padding-bottom: 0px;
+        padding-right: 16px;
+        padding-left: 16px;
+        margin-left: 12px;
+        margin-right: 12px;
+    
+        .indicator {
+            height: 5px;
+            width: 56px;
+            border-top-right-radius: 9999px;     
+            border-top-left-radius: 9999px;
+            background-color: $fuel;
+        }
+    }
+
+    path { //this is the icon color
+        fill: $fuel;
+    
+    }
+
+}
+
+
+.mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-area: header;
+    width: 100%;
+    padding: 0px;
+    padding-right: 36px;
+    padding-left: 12px;
+    height: 64px;
+    //need to remove absolute
+    //temp fix to get botton nav to stop being pushed 
+    //below the fold
+    position: absolute;
+    bottom: 0;
+    
+    //padding-bottom: 8px;
+    //border-top: 1px solid $fuel_10;
+    background-color:  $light_ash;
+
+
+    .harthButton {
+        padding: 8px;
+        position:relative;
+        top: -10px;
+        border-radius: 14px;
+        background-color: $fuel;
+        border-style: solid;
+        border-width: 2px;
+        border-color: $light_ash;
+        &:hover {
+        border-color: $black;
+        }
+    }
+
+    .harthImage {
+        height: 60px;
+        width: 60px;
+        border-radius: 10px;
+        //border-style: solid;
+        //border-width: 1px;
+        //border-color: $black;
+
+    }
+
+    .alertIndicator {
+        height: 11px;
+        width: 11px;
+        border-radius: 9999px;     
+        background-color: $hot_pink;
+        border-color: $light_ash;
+        border-width: 2px;
+        border-style: solid;
+    
+        position: absolute;
+        top: 10px;
+        right: 22px;
+    }
+
+
+    .navButton {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        @include interfaceR3;
+
+        height: 64px;
+        width: 72px;
+        color: $fuel;
+        background-color: transparent;
+
+        border: 0;
+        padding-top: 0px;
+        padding-bottom: 12px;
+
+        .indicator {
+            height: 5px;
+            width: 56px;
+            border-bottom-right-radius: 9999px;     
+            border-bottom-left-radius: 9999px;
+            background-color: transparent;
+        }
+
+    }
+    
+    .navButtonActive {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        @include interfaceH5;
+        stroke-width: .5px;
+        stroke:$fuel;
+
+        height: 64px;
+        width: 72px;
+        color: $fuel;
+        background-color: transparent;
+
+        border: 0;
+        padding-top: 0px;
+        padding-bottom: 12px;
+
+        .indicator {
+            height: 5px;
+            width: 56px;
+            border-bottom-right-radius: 9999px;     
+            border-bottom-left-radius: 9999px;
+            background-color: $fuel;
+        }
+    }
+
+    path { //this is the icon color
+        fill: $fuel;
+    
+    }
+}
+
+
+
+
