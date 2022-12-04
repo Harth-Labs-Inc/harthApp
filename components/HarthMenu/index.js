@@ -103,6 +103,7 @@ const HarthMenu = (props) => {
         <TextBtn text="Leave"></TextBtn>
       </aside>
       <div className="modal_right">{page}</div> */}
+      <div className="modal_right">{page}</div>
     </>
   )
 }
