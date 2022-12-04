@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { addUserToComm, saveCommunity } from "../../requests/community";
-import { useAuth } from "../../contexts/auth";
-import { useComms } from "../../contexts/comms";
+// import { addUserToComm, saveCommunity } from "../../requests/community";
+// import { useAuth } from "../../contexts/auth";
+// import { useComms } from "../../contexts/comms";
 import Modal from "../Modal";
 import TalkingHead from "../TalkingHead/TalkingHead";
 import { Button } from "../Common";
@@ -10,16 +10,13 @@ import { Button } from "../Common";
 import { checkIfInviteTokenIsGood } from "../../requests/community";
 
 export default function HarthInviteAcceptModal({
-    header,
     talkingHeadMsg,
-    footer,
     submitText,
     submitHandler,
     tkn,
 }) {
     const invitationAcceptHandler = async (e) => {
         e.preventDefault();
-        console.log(tkn);
         let results = await checkIfInviteTokenIsGood({ token: tkn });
         console.log(results);
         let { ok, harth } = results;

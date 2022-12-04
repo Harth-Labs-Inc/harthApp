@@ -23,7 +23,7 @@ import Messages from "./messages";
 // import HarthInviteAcceptModal from "../../components/HarthInviteAcceptModal/HarthInviteAcceptModal";
 import CreateHarthName from "../../components/createHarthName/createHarthName";
 import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
-import HarthInviteAcceptModal from "../../components/HarthInviteAcceptModal/HarthInviteAcceptModal";
+import HarthInviteAcceptModal from "../../components/harthInviteAcceptModal/harthInviteAcceptModal";
 
 const dashboard = (props) => {
     const [currentPage, setCurrentPage] = useState("chat");
