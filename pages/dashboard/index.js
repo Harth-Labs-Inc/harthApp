@@ -18,8 +18,11 @@ import Stream from "./stream";
 import Video from "./video";
 import Messages from "./messages";
 
-import CreateHarthName from "../../components/CreateHarthName/CreateHarthName";
-import CreateHarthProfile from "../../components/CreateHarthProfile/CreateHarthProfile";
+// import CreateHarthName from "../../components/CreateHarthName/CreateHarthName";
+// import CreateHarthProfile from "../../components/CreateHarthProfile/CreateHarthProfile";
+// import HarthInviteAcceptModal from "../../components/HarthInviteAcceptModal/HarthInviteAcceptModal";
+import CreateHarthName from "../../components/createHarthName/createHarthName";
+import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
 import HarthInviteAcceptModal from "../../components/HarthInviteAcceptModal/HarthInviteAcceptModal";
 
 const dashboard = (props) => {
