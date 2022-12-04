@@ -1,60 +1,63 @@
 import { useContext, useState } from 'react'
-
 import { MobileContext } from '../contexts/mobile'
 
-import MainNav from './MainNav/MainNav'
 import SideNav from './SideNav'
-import Tavern from '../pages/tavern'
+import MobileHeader from './Mobile/MobileHeader/MobileHeader'
+import MainNav from './MainNav/MainNav'
+
 
 const NavLayout = (props) => {
-  const [menuActive, setmenuActive] = useState(false)
-  const [showTavern, setShowTavern] = useState(false)
-  const { isMobile } = useContext(MobileContext)
+const [menuActive, setmenuActive] = useState(false)
+const { isMobile } = useContext(MobileContext)
 
-  const { changePage, children, currentPage } = props
+const { changePage, children, currentPage } = props
 
-  const toggleMenu = () => {
-    setmenuActive((prevState) => !prevState)
+const toggleMenu = () => {
+  setmenuActive((prevState) => !prevState)
 
-    if (isMobile) {
-    }
+  if (isMobile) {
   }
+}
 
-  const toggleTavern = (active) => {
-    setShowTavern(active)
-  }
+const toggleTavern = (active) => {
+  setShowTavern(active)
+}
 
-  const Dashboard = () => {
-    return (
-      <div
-        id="dashboard"
-        className={`
-          ${menuActive ? 'menu-open' : undefined}
-          ${isMobile ? 'isMobile' : 'isDesktop'}
-        `}
-      >
-        {!isMobile ? (
-          <>
-            <MainNav
-              onToggleMenu={toggleMenu}
-              changePage={changePage}
-              currentPage={currentPage}
+const Dashboard = () => {
+  return (
+    <div
+      id="dashboard"
+      className={`
+        ${menuActive ? 'menu-open' : undefined}
+        ${isMobile ? 'isMobile' : 'isDesktop'}
+      `}
+    >
+      {!isMobile ? (
+        <>
+          <MainNav
+            onToggleMenu={toggleMenu}
+            changePage={changePage}
+            currentPage={currentPage}
+          />
+          <section id="content_wrapper">{children}</section>
+        </>
+      ) : (
+        <>
+          <MobileHeader 
+            currentPage={currentPage}
             />
-            <section id="content_wrapper">{children}</section>
-          </>
-        ) : (
-          <>
-            <section id="content_wrapper">{children}</section>
-            <MainNav
-              onToggleMenu={toggleMenu}
-              changePage={changePage}
-              currentPage={currentPage}
-            />
-          </>
-        )}
-      </div>
-    )
-  }
+          <section id="content_wrapper">{children}</section>
+          <MainNav
+            onToggleMenu={toggleMenu}
+            changePage={changePage}
+            currentPage={currentPage}
+          />
+
+        </>
+      )}
+    </div>
+  )
+}
 
   return (
     <main id="main_content">
@@ -63,7 +66,7 @@ const NavLayout = (props) => {
         menuOpen={menuActive}
         onToggleMenu={toggleMenu}
       />
-      {!showTavern ? <Dashboard></Dashboard> : <Tavern></Tavern>}
+      <Dashboard></Dashboard>
     </main>
   )
 }

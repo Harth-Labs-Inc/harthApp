@@ -1,5 +1,6 @@
 #content_wrapper {
   display: flex;
+  //border-width: 6px;
 
   .isMobile & {
     height: calc(100vh - 46px);

@@ -5,7 +5,7 @@
 
 #dashboard {
   position: relative;
-  // height: 100vh;
+  //height: 100vh;
   width: calc(100vw - 64px);
   background-color: $white;
 
@@ -32,6 +32,9 @@
 #content_wrapper {
   main {
     display: flex;
-    height: 100%;
+    border-width: 6px;
+    border-color: $black;
+    border-style: solid;
+    //height: 100%;
   }
 }
