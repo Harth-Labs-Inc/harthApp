@@ -1,4 +1,4 @@
-import styles from "./button.module.scss";
+import styles from "./Buttons.module.scss";
 
 export const IconButton = ({ onClick, text, className }) => {
     return (

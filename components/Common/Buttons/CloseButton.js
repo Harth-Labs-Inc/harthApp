@@ -1,5 +1,5 @@
 import { IconClose } from "../../../resources/icons/IconClose";
-import styles from "./button.module.scss";
+import styles from "./Buttons.module.scss";
 
 export const CloseButton = (props) => {
     const { onClick, theme } = props;
