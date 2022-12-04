@@ -1,0 +1,142 @@
+@import "../../../styles/globals.scss";
+@import "../../../styles/config/config-type";
+
+
+.closeButton {
+  position: relative;
+  padding: 8px 8px;
+  border: 1px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background-color: transparent;
+  &:hover {
+    background-color: $fuel_10;
+  }
+}
+
+
+
+
+//////////
+/// Below are old styles
+
+.button {
+    position: relative;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 125%;
+    border: 2px solid;
+    border-radius: 20px;
+    outline: 0;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:before {
+        @include x-y-center;
+        color: inherit;
+    }
+
+    &FullWidth {
+        width: 100%;
+    }
+
+    &Primary {
+        color: $fuel;
+        background-color: #fff;
+        border-color: $fuel;
+        &:hover {
+            color: #fff;
+            background-color: $fuel;
+        }
+    }
+    &Secondary {
+        color: #fff;
+        background-color: $hot_pink;
+        border-color: $hot_pink;
+        &:hover {
+            color: #fff;
+            background-color: $fuel;
+            border-color: $fuel;
+        }
+    }
+
+    &Large {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    &Small {
+        padding: 5px 12px;
+        font-size: 14px;
+    }
+
+    &:disabled {
+        color: #9a9a9a;
+        background-color: #eaeaea;
+        cursor: default;
+    }
+}
+
+.backButton {
+    position: absolute;
+    left: 0;
+    height: 32px;
+    width: 32px;
+
+    background-color: transparent;
+    border: 0;
+    border-radius: 50%;
+
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:before {
+        @include x-y-center;
+        @include font-icon($icon-caret-right);
+        transform: translate3d(-50%, -50%, 0) rotate(180deg);
+    }
+
+    &:hover {
+        background-color: $light-grey;
+    }
+}
+
+.textButton {
+    width: auto;
+    padding: $gutter;
+    color: $text-black;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.89px;
+    line-height: 16px;
+    text-align: left;
+    text-transform: uppercase;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover,
+    &:focus {
+        color: $black;
+    }
+}
+
+.iconButton {
+    position: relative;
+    font-size: 0;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    &:before {
+        @include x-y-center;
+        color: #9a9a9a;
+        font-size: 16px;
+    }
+
+    &:hover {
+        &:before {
+            color: #333;
+        }
+    }
+}
