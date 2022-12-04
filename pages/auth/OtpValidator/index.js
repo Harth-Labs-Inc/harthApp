@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VerificationInput from "react-verification-input";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
 import { verifyOtp, login } from "../../../requests/userApi";
 import TalkingHead from "../../../components/TalkingHead/TalkingHead";
-import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
-import { Wizard } from "../../../resources/icons/wizard";
+import CodeInput from "../../../components/CodeInput/CodeInput";
+import { Button } from "../../../components/Common";
 import styles from "./otpValidator.module.scss";
 
 const URLS = {
@@ -26,6 +26,12 @@ const OtpValidator = ({ newUser, currentPage }) => {
     const inputChangeHandler = (text) => {
         setInviteCode(text);
     };
+
+    useEffect(() => {
+        if (inviteCode?.length === 6) {
+            handlerSubmit();
+        }
+    }, [inviteCode]);
 
     const handlerSubmit = async () => {
         let result = await verifyOtp({ inviteCode, newUser });
@@ -54,13 +60,20 @@ const OtpValidator = ({ newUser, currentPage }) => {
     return (
         <div className={styles.OtpModule}>
             <TalkingHead text={helpText} />
-            <p>Enter the security code we just sent to {newUser?.email}</p>
-            <VerificationInput placeholder="" onChange={inputChangeHandler} />
-            <button type="submit" onClick={handlerSubmit}>
+            <p className={styles.OtpModuleText}>
+                Enter the security code we just sent to {newUser?.email}
+            </p>
+            <CodeInput onChange={inputChangeHandler} />
+            <p className={styles.OtpModuleSubText}>
+                Didn't get the code? Check your spam folder.
+            </p>
+            {/* <button type="submit" onClick={handlerSubmit}>
                 log in
-            </button>
-            <button type="button">Start over</button>
-            <button type="button">Resend the code</button>
+            </button> */}
+            <div className={styles.OtpModuleButtons}>
+                <Button size="small" text="Start over" />
+                <Button size="small" text="Resend the code" />
+            </div>
         </div>
     );
 };

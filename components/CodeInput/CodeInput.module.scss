@@ -1,0 +1,24 @@
+@import "../../styles/fonts.scss";
+@import "../../styles/globals.scss";
+
+.CodeInputContainer {
+    height: 68px;
+    width: 294px;
+    padding: 8px 0;
+    gap: 6px;
+}
+
+.CodeInputCharacter {
+    color: $fuel;
+    font-family: "Rubik", sans-serif;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 40px;
+    background-color: $white;
+    border: 4px solid;
+    border-radius: 8px;
+
+    &Inactive {
+        border-color: $fuel;
+    }
+}

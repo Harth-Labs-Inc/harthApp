@@ -1,9 +1,36 @@
+@import "../../../styles/fonts.scss";
+@import "../../../styles/globals.scss";
+
 .CreateModule {
     display: flex;
     align-items: center;
-    flex-direction: column;
     justify-content: center;
     height: 100vh;
-    max-width: 340px;
-    margin: 0 auto;
+    padding: 20px;
+
+    &Content {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        height: 695px;
+        max-width: 340px;
+        margin: auto;
+    }
+
+    &Disclaimer {
+        @include interfaceR3;
+        width: 316px;
+        margin: 12px auto 20px;
+        color: $fuel_50;
+
+        a {
+            font-size: inherit;
+        }
+    }
+
+    &LinkToSignin {
+        display: block;
+        margin: 0 auto;
+    }
 }

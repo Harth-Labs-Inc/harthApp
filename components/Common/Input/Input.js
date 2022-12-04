@@ -1,3 +1,5 @@
+import { useForm } from "react-hook-form";
+
 import ErrorMessage from "./ErrorMessage";
 import styles from "./Input.module.scss";
 
@@ -34,9 +36,9 @@ export const Input = (props) => {
     return (
         <fieldset
             className={`${styles.inputComponent}
-                    ${empty ? "content" : undefined} 
-                    ${matching ? "error_matching" : undefined} 
-                    ${isrequired ? "error_required" : undefined} 
+                    ${empty ? "content" : undefined}
+                    ${matching ? "error_matching" : undefined}
+                    ${isrequired ? "error_required" : undefined}
                     ${customError ? "error_custom" : undefined}`}
         >
             {title ? <label htmlFor={name}>{title}</label> : null}

@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+
 import { addUserToComm, saveCommunity } from "../../requests/community";
-import TalkingHead from "../TalkingHead/TalkingHead";
 import { useAuth } from "../../contexts/auth";
 import { useComms } from "../../contexts/comms";
+
+import Modal from "../Modal";
+import TalkingHead from "../TalkingHead/TalkingHead";
+import { Button } from "../Common";
 
 export default function CreateHarthProfile({
     header,
@@ -46,8 +50,7 @@ export default function CreateHarthProfile({
     };
 
     return (
-        <div>
-            <h1>{header}</h1>
+        <Modal>
             <TalkingHead text={talkingHeadMsg} />
             <form onSubmit={joinHarthHandler}>
                 <input
@@ -58,8 +61,13 @@ export default function CreateHarthProfile({
                     required
                 />
                 <p>{footer}</p>
-                <button>{submitText}</button>
+                <Button
+                    tier="secondary"
+                    fullWidth
+                    text={submitText}
+                    type="submit"
+                />
             </form>
-        </div>
+        </Modal>
     );
 }

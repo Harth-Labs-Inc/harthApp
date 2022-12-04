@@ -18,9 +18,9 @@ import Stream from "./stream";
 import Video from "./video";
 import Messages from "./messages";
 
-import CreateHarthName from "../../components/createHarthName/createHarthName";
-import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
-import HarthInviteAcceptModal from "../../components/harthInviteAcceptModal/harthInviteAcceptModal";
+import CreateHarthName from "../../components/CreateHarthName/CreateHarthName";
+import CreateHarthProfile from "../../components/CreateHarthProfile/CreateHarthProfile";
+import HarthInviteAcceptModal from "../../components/HarthInviteAcceptModal/HarthInviteAcceptModal";
 
 const dashboard = (props) => {
     const [currentPage, setCurrentPage] = useState("chat");
@@ -65,6 +65,7 @@ const dashboard = (props) => {
 
     useEffect(() => {
         if (inviteTKN || tkn) {
+            setShowCreateHarthNameModal(false);
             setShowInviteAcceptModal(true);
             return () => {
                 setShowInviteAcceptModal(false);
@@ -133,7 +134,6 @@ const dashboard = (props) => {
                 <SocketProvider>
                     {showCreateHarthNameModal ? (
                         <CreateHarthName
-                            header="Create a harth"
                             talkingHeadMsg="Let's create your harth. Once it's created you can invite your friends"
                             footer="Give your harth a name and a cool sigil. No need to think too hard, you can change them at any time."
                             placeholder={`${"First Name"}'s harth`}
@@ -143,7 +143,6 @@ const dashboard = (props) => {
                     ) : null}
                     {showCreateHarthProfileModal ? (
                         <CreateHarthProfile
-                            header="harth"
                             talkingHeadMsg="And by what name would you like to be known"
                             footer="Set your name and profile pic for this harth. You can change these at any time"
                             placeholder={`${"First Name"}`}
@@ -154,8 +153,7 @@ const dashboard = (props) => {
                     ) : null}
                     {showInviteAcceptModal ? (
                         <HarthInviteAcceptModal
-                            header=""
-                            talkingHeadMsg="An invitation arrives. Ao you accept?"
+                            talkingHeadMsg="An invitation arrives. Do you accept?"
                             footer="You have been invited to join this harth by [profile name]"
                             submitText="Accept Invite"
                             submitHandler={goodInviteHandler}

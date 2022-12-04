@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+
 import { addUserToComm, saveCommunity } from "../../requests/community";
-import TalkingHead from "../TalkingHead/TalkingHead";
 import { useAuth } from "../../contexts/auth";
 import { useComms } from "../../contexts/comms";
+import Modal from "../Modal";
+import TalkingHead from "../TalkingHead/TalkingHead";
+import { Button } from "../Common";
+
 import { checkIfInviteTokenIsGood } from "../../requests/community";
 
 export default function HarthInviteAcceptModal({
@@ -25,13 +29,19 @@ export default function HarthInviteAcceptModal({
     };
 
     return (
-        <div>
-            <h1>{header}</h1>
+        <Modal>
             <TalkingHead text={talkingHeadMsg} />
             <form onSubmit={invitationAcceptHandler}>
-                <p>{footer}</p>
-                <button>{submitText}</button>
+                <p>
+                    You have been invited to join this harth by [profile name]
+                </p>
+                <Button
+                    tier="secondary"
+                    fullWidth
+                    text={submitText}
+                    type="submit"
+                />
             </form>
-        </div>
+        </Modal>
     );
 }

@@ -1,121 +1,123 @@
+@import "../globals.scss";
+
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  height: 100vh;
-  width: 100vw;
-
-  background-color: $black80;
-
-  opacity: 0;
-  visibility: hidden;
-
-  transition: opacity 0.3s;
-
-  .modal_main {
-    @include x-center;
-    top: 72px;
-    padding: 24px 32px 16px;
-    background-color: $white;
-    border-radius: 8px;
-    width: 100%;
-    max-height: calc(95vh - 72px);
-    max-width: 496px;
-    overflow-y: auto;
-
-    .modal_body {
-      max-width: 280px;
-      margin: 0 auto;
-
-      .close-modal {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-      }
-    }
-
-    .modal-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-  }
-
-  #modal_side {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 296px;
-    background-color: $white;
+    z-index: 3;
+    height: 100vh;
+    width: 100vw;
 
-    #go_back {
-      position: relative;
-      height: 48px;
-      width: 48px;
-      margin-right: 8px;
-      font-size: 0;
-      background-color: transparent;
-      border: 0;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background-color 0.3s;
+    background-color: $black80;
 
-      &:before {
-        @include x-y-center;
-        @include font-icon($icon-caret-right);
-        margin-right: 8px;
-        color: $text-black;
-        font-size: 16px;
-        transform: translate3d(-50%, -50%, 0) rotate(180deg);
-      }
+    opacity: 0;
+    visibility: hidden;
 
-      &:hover {
-        background-color: $light-grey;
-      }
-    }
+    transition: opacity 0.3s;
 
-    h1 {
-      margin: 0;
-      padding: 30px 16px;
-    }
-
-    ul,
-    li {
-      // margin: 0;
-      // padding: 0;
-      // list-style: none;
-
-      button {
+    .modal_main {
+        @include x-center;
+        top: 72px;
+        padding: 24px 32px 16px;
+        background-color: $oxygen;
+        border-radius: 8px;
         width: 100%;
-        padding: 16px;
-        font-size: 14px;
-        text-align: left;
-        background-color: transparent;
-        border: 0;
-        cursor: pointer;
-      }
-    }
+        max-height: calc(95vh - 72px);
+        max-width: 496px;
+        overflow-y: auto;
 
-    > ul > li {
-      &:not(:nth-last-of-type(-n + 2)) {
-        button {
-          position: relative;
-          &:after {
-            @include y-center;
-            @include font-icon($icon-caret-right);
-            right: 16px;
-            color: $icon-grey;
-            font-size: 16px;
-          }
+        .modal_body {
+            max-width: 280px;
+            margin: 0 auto;
+
+            .close-modal {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+            }
         }
-      }
-    }
-  }
 
-  &_open {
-    opacity: 1;
-    visibility: visible;
-  }
+        .modal-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    #modal_side {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 296px;
+        background-color: $white;
+
+        #go_back {
+            position: relative;
+            height: 48px;
+            width: 48px;
+            margin-right: 8px;
+            font-size: 0;
+            background-color: transparent;
+            border: 0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:before {
+                @include x-y-center;
+                @include font-icon($icon-caret-right);
+                margin-right: 8px;
+                color: $text-black;
+                font-size: 16px;
+                transform: translate3d(-50%, -50%, 0) rotate(180deg);
+            }
+
+            &:hover {
+                background-color: $light-grey;
+            }
+        }
+
+        h1 {
+            margin: 0;
+            padding: 30px 16px;
+        }
+
+        ul,
+        li {
+            // margin: 0;
+            // padding: 0;
+            // list-style: none;
+
+            button {
+                width: 100%;
+                padding: 16px;
+                font-size: 14px;
+                text-align: left;
+                background-color: transparent;
+                border: 0;
+                cursor: pointer;
+            }
+        }
+
+        > ul > li {
+            &:not(:nth-last-of-type(-n + 2)) {
+                button {
+                    position: relative;
+                    &:after {
+                        @include y-center;
+                        @include font-icon($icon-caret-right);
+                        right: 16px;
+                        color: $icon-grey;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+
+    &_open {
+        opacity: 1;
+        visibility: visible;
+    }
 }

@@ -1,25 +1,27 @@
-import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import TalkingHead from "../TalkingHead/TalkingHead";
+import Modal from "../Modal";
+import ErrorMessage from "../Common/Input/ErrorMessage";
+import { Button } from "../Common";
+
+import styles from "./CreateHarthName.module.scss";
 
 export default function CreateHarthName({
-    header,
     talkingHeadMsg,
-    footer,
     placeholder,
     submitText,
     submitHandler,
 }) {
-    const [harthName, setHarthName] = useState("");
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-    const handleInputChange = (e) => {
-        const { value } = e.target;
-        setHarthName(value);
-    };
-    const createNewHarth = (e) => {
-        e.preventDefault();
+    const createNewHarth = (data) => {
         let newHarth = {
-            name: harthName,
+            name: data.harthName,
             iconKey: "",
             users: [],
             topics: [],
@@ -28,20 +30,32 @@ export default function CreateHarthName({
     };
 
     return (
-        <div>
-            <h1>{header}</h1>
+        <Modal className={styles.CreateHarthNameModal}>
             <TalkingHead text={talkingHeadMsg} />
-            <form onSubmit={createNewHarth}>
+            <form onSubmit={handleSubmit(createNewHarth)}>
                 <input
+                    {...register("harthName", { required: true })}
                     placeholder={placeholder}
                     type="text"
-                    value={harthName}
-                    onInput={handleInputChange}
-                    required
                 />
-                <p>{footer}</p>
-                <button>{submitText}</button>
+                <ErrorMessage
+                    errorMsg={
+                        errors.harthName
+                            ? "You must set a Harth name to begin."
+                            : null
+                    }
+                />
+                <p>
+                    Give your harth a name and a cool sigil. No need to think
+                    too hard, you can change them at any time.
+                </p>
+                <Button
+                    tier="secondary"
+                    fullWidth
+                    text={submitText}
+                    type="submit"
+                />
             </form>
-        </div>
+        </Modal>
     );
 }

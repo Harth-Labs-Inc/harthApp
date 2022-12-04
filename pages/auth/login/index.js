@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 
 import {
@@ -7,51 +8,71 @@ import {
     loginAttempt,
 } from "../../../requests/userApi";
 
-import Form from "../../../components/Form-comp";
+import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import { Button, Input } from "../../../components/Common";
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 
 import styles from "./login.module.scss";
 
 const Login = (props) => {
-    const [errorMessage, setErrorMessage] = useState("");
-    const [formData, setFormData] = useState({
-        email: "",
-    });
-    const [errorData, setErrorData] = useState({
-        email: false,
-        access_code: false,
-    });
-
     const { changePage, inviteToken, currentPage } = props;
+    const [errorMessage, setErrorMessage] = useState();
+    // const [formData, setFormData] = useState({
+    //     email: "",
+    // });
+    // const [errorData, setErrorData] = useState({
+    //     email: false,
+    //     access_code: false,
+    // });
 
-    const inputChangeHandler = (eData, data) => {
-        setErrorData(eData);
-        setFormData(data);
-    };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-    const setMissing = (missing) => {
-        setErrorData(missing);
-    };
+    // const inputChangeHandler = (eData, data) => {
+    //     setErrorData(eData);
+    //     setFormData(data);
+    // };
 
-    const submitHandler = async () => {
-        if (formData.email) {
-            console.log(formData.email);
+    // const setMissing = (missing) => {
+    //     setErrorData(missing);
+    // };
+
+    const submitHandler = async (data) => {
+        let results = await loginAttempt(data);
+        let { ok, user } = results;
+        if (ok) {
+            await sendOtpEmailToUser(user);
+            changePage("validateopt", user);
         } else {
-            console.log("error");
+            setErrorMessage("Email not found.");
         }
-        // let results = await loginAttempt(formData);
-        // let { ok, user } = results;
-        // if (ok) {
-        //     await sendOtpEmailToUser(user);
-        //     changePage("validateopt", user);
-        // }
     };
 
     return (
         <div className={styles.loginModule}>
             <HarthLogoDark />
-            <Form
+            <form onSubmit={handleSubmit(submitHandler)}>
+                <input
+                    {...register("email", { required: true })}
+                    placeholder="Email"
+                />
+                <ErrorMessage
+                    errorMsg={
+                        errors.email ? "Enter your email to login." : null
+                    }
+                />
+                <ErrorMessage errorMsg={errorMessage} />
+                <Button
+                    type="submit"
+                    text="Sign In"
+                    tier="secondary"
+                    fullWidth
+                />
+            </form>
+            {/* <Form
                 id="login"
                 on_submit={submitHandler}
                 on_missing={setMissing}
@@ -70,42 +91,41 @@ const Login = (props) => {
                     changePage={changePage}
                     placeholder="Email"
                 />
+                <Button
+                    type="submit"
+                    text="Sign In"
+                    tier="secondary"
+                    fullWidth
+                />
+            </Form> */}
+            <div className={styles.formBottom}>
+                <p className={styles.loginModuleDisclaimer}>
+                    By continuing, you are agreeing to our Customer{" "}
+                    <a
+                        href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4edc850907fdf964473/1665512685436/Terms%26Conditions.pdf"
+                        target="_blank"
+                    >
+                        Terms of Service
+                    </a>{" "}
+                    and{" "}
+                    <a
+                        href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4a7a74906570621b492/1665512615431/HarthPrivacyPolicy.pdf"
+                        target="_blank"
+                    >
+                        Privacy Policy
+                    </a>
+                    .
+                </p>
 
-                <div className={styles.formBottom}>
-                    <Button
-                        type="submit"
-                        text="Sign In"
-                        tier="secondary"
-                        fullWidth
-                    />
-                    <p className={styles.loginModuleDisclaimer}>
-                        By continuing, you are agreeing to our Customer{" "}
-                        <a
-                            href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4edc850907fdf964473/1665512685436/Terms%26Conditions.pdf"
-                            target="_blank"
-                        >
-                            Terms of Service
-                        </a>{" "}
-                        and{" "}
-                        <a
-                            href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4a7a74906570621b492/1665512615431/HarthPrivacyPolicy.pdf"
-                            target="_blank"
-                        >
-                            Privacy Policy
-                        </a>
-                        .
-                    </p>
-
-                    <Button
-                        size="small"
-                        text="Need an account?"
-                        className={styles.loginModuleSignUpLink}
-                        onClick={() => {
-                            changePage("createaccount");
-                        }}
-                    />
-                </div>
-            </Form>
+                <Button
+                    size="small"
+                    text="Need an account?"
+                    className={styles.loginModuleSignUpLink}
+                    onClick={() => {
+                        changePage("createaccount");
+                    }}
+                />
+            </div>
         </div>
     );
 };
