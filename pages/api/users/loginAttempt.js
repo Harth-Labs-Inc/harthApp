@@ -11,6 +11,7 @@ export default async (req, res) => {
 
     const findUser = (db, email) => {
         return new Promise((resolve, reject) => {
+            console.log(db, "db");
             db.collection("users")
                 .find({ email: email })
                 .toArray(function (err, results) {

@@ -1,5 +1,4 @@
 import { MongoClient } from "mongodb";
-import { resolve } from "styled-jsx/css";
 
 const { MONGODB_URI, MONGODB_DB } = process.env;
 
