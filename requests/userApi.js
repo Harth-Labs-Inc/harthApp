@@ -2,20 +2,12 @@ import api from "../services/api";
 
 export const loginAttempt = async (data) => {
     try {
-        const res = await api.post(`/api/loginAttempt`, data);
+        const res = await api.post(`/api/users/loginAttempt`, data);
         return res.data;
     } catch (error) {
         console.log(error);
     }
 };
-// export const loginAttempt = async (data) => {
-//     try {
-//         const res = await api.post(`/api/users/loginAttempt`, data);
-//         return res.data;
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
 
 export const verifyOtp = async (data) => {
     try {
