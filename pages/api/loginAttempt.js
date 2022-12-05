@@ -1,5 +1,5 @@
-import { connectToDatabase } from "../../../util/mongodb";
-import { generateOTP } from "../../../services/helper";
+import { connectToDatabase } from "../../util/mongodb";
+import { generateOTP } from "../../services/helper";
 
 export default async (req, res) => {
     let obj;
