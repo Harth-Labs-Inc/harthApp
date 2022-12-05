@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import { resolve } from "styled-jsx/css";
 
 const { MONGODB_URI, MONGODB_DB } = process.env;
 
@@ -19,27 +20,43 @@ let cached = global.mongo;
 if (!cached) {
     cached = global.mongo = { conn: null, promise: null };
 }
-
 export async function connectToDatabase() {
-    if (cached.conn) {
-        return cached.conn;
-    }
-
-    if (!cached.promise) {
-        const opts = {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        };
-        console.log(MONGODB_URI, "MONGODB_URI");
-        cached.promise = MongoClient.connect(MONGODB_URI, opts).then(
-            (client) => {
-                return {
-                    client,
-                    db: client.db(MONGODB_DB),
-                };
+    return new Promise(() => {
+        MongoClient.connect(
+            MONGODB_URI,
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            },
+            function (err, db) {
+                if (err) {
+                    console.log(err, "mongo err");
+                }
+                resolve(db);
             }
         );
-    }
-    cached.conn = await cached.promise;
-    return cached.conn;
+    });
 }
+// export async function connectToDatabase() {
+//     if (cached.conn) {
+//         return cached.conn;
+//     }
+
+//     if (!cached.promise) {
+//         const opts = {
+//             useNewUrlParser: true,
+//             useUnifiedTopology: true,
+//         };
+//         console.log(MONGODB_URI, "MONGODB_URI");
+//         cached.promise = MongoClient.connect(MONGODB_URI, opts).then(
+//             (client) => {
+//                 return {
+//                     client,
+//                     db: client.db(MONGODB_DB),
+//                 };
+//             }
+//         );
+//     }
+//     cached.conn = await cached.promise;
+//     return cached.conn;
+// }

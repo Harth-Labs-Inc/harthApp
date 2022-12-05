@@ -62,7 +62,7 @@ export default async (req, res) => {
         });
     };
 
-    const { db } = await connectToDatabase();
+    const db = await connectToDatabase();
     let user = await findUser(db, obj.email);
     if (!user) {
         return res.json({ msg: "No User Found", ok: 0 });
