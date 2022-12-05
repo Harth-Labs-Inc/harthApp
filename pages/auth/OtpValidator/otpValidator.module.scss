@@ -7,10 +7,10 @@
     flex-direction: column;
     justify-content: center;
     height: 100vh;
-    max-width: 340px;
+    max-width: 360px;
     margin: 0 auto;
-    padding: 20px 10px;
-    overflow: scroll;
+    padding: 24px 24px 56px 24px;
+    overflow: auto;
 
     &Text {
         @include interfaceR2;
@@ -19,7 +19,7 @@
     }
     &SubText {
         @include interfaceR3;
-        margin-top: 8px;
+        margin-top: 4px;
         color: $fuel_50;
         text-align: center;
     }
@@ -28,8 +28,20 @@
         display: flex;
         width: 100%;
         margin-top: 56px;
+        justify-content: center;
+
         button + button {
             margin-left: 16px;
         }
     }
+
+    &Logo {
+        display: flex;
+        justify-content: flex-start;
+        width: 96px;
+        margin-bottom: 36px;
+        margin-right: auto;
+    }
 }
+
+

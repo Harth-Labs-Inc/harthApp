@@ -18,7 +18,7 @@ const MobileHeader = (props) => {
   return (
     <div className={styles.topBar}>
         {currentPage}
-      <Avatar isPressable={true} picSize={40} imageSrc={profileImage} />
+      <Avatar isPressable={true} picSize={40} onPress="" imageSrc={profileImage} />
     </div>
   )
 }

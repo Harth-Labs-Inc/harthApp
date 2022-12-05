@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Cookies from "js-cookie";
-
+import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 import { login, addUser, sendOtpEmailToUser } from "../../../requests/userApi";
 import { Button } from "../../../components/Common";
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
@@ -65,17 +65,20 @@ const CreateAccount = (props) => {
 
     const handleEmailError = () => {
         if (errors?.email?.type === "required")
-            return "You must enter your email.";
+            return "You must enter your email";
         if (errors?.email?.type === "pattern")
-            return "You must enter a valid email.";
+            return "You must enter a valid email";
     };
 
     const bubbleText =
-        "Welcome to the härth beta. Enter your details below and I will create your account.";
+        "Welcome to the early release of Härth. Enter your details below to create an account.";
 
     return (
         <div className={styles.CreateModule}>
             <div className={styles.CreateModuleContent}>
+                <div className={styles.CreateModuleLogo}>
+                    <HarthLogoDark />
+                </div>
                 <TalkingHead text={bubbleText} />
                 <form onSubmit={handleSubmit(submitHandler)}>
                     <input
@@ -85,7 +88,7 @@ const CreateAccount = (props) => {
                     />
                     <ErrorMessage
                         errorMsg={
-                            errors.fullName ? "You must enter your name." : null
+                            errors.fullName ? "You must enter your name" : null
                         }
                     />
                     <input
@@ -104,19 +107,20 @@ const CreateAccount = (props) => {
                         {...register("dob", { required: true })}
                         type="date"
                     />
+                     <div className={styles.small}>Your birthday will not be publically displayed.</div>
+
                     <ErrorMessage
                         errorMsg={
                             errors.dob
-                                ? "You must enter your birthdate to enter."
+                                ? "You must enter a valid birthdate"
                                 : null
                         }
                     />
-                    <p>Your birday will not be publically displayed.</p>
                     <ErrorMessage
                         errorMsg={customErrors ? customErrors.match : null}
                     />
                     <Button
-                        tier="secondary"
+                        tier="primary"
                         type="submit"
                         text="Sign Up"
                         fullWidth
@@ -199,6 +203,7 @@ const CreateAccount = (props) => {
                     .
                 </p>
                 <Button
+                    tier="secondary"
                     size="small"
                     text="Already have an account?"
                     onClick={() => {

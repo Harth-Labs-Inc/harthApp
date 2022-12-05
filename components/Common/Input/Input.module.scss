@@ -17,9 +17,11 @@
     }
 
     &ErrorMessage {
-        @include interfaceR2;
-        height: 18px;
-        padding: 3px 0;
+        display: flex;
+        @include interfaceR3;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 6px 6px 12px 6px;
         color: $alert_red;
     }
 }

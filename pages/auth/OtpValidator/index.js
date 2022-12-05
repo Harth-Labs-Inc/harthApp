@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import VerificationInput from "react-verification-input";
+import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
@@ -14,14 +15,15 @@ const URLS = {
     production: "https://project-blarg-next.vercel.app/",
 };
 
-const OtpValidator = ({ newUser, currentPage }) => {
+const OtpValidator = (props) => {
+    const { newUser, changePage, inviteToken, currentPage } = props;
     console.log(newUser, "asdfadsf");
 
     const router = useRouter();
 
     const [inviteCode, setInviteCode] = useState();
     const [helpText, setHelpText] = useState(
-        "I have sent you a secret code. Enter it below and an account is yours."
+        "Enter your secret code below to pass."
     );
     const inputChangeHandler = (text) => {
         setInviteCode(text);
@@ -59,6 +61,9 @@ const OtpValidator = ({ newUser, currentPage }) => {
 
     return (
         <div className={styles.OtpModule}>
+            <div className={styles.OtpModuleLogo}>
+                <HarthLogoDark />
+            </div>
             <TalkingHead text={helpText} />
             <p className={styles.OtpModuleText}>
                 Enter the security code we just sent to {newUser?.email}
@@ -71,8 +76,15 @@ const OtpValidator = ({ newUser, currentPage }) => {
                 log in
             </button> */}
             <div className={styles.OtpModuleButtons}>
-                <Button size="small" text="Start over" />
-                <Button size="small" text="Resend the code" />
+                <Button 
+                    tier="secondary"  
+                    size="small" 
+                    text="Start over" 
+                    onClick={() => {
+                        changePage("login");
+                    }}
+                />
+                <Button tier="secondary" size="small" text="Resend the code" />
             </div>
         </div>
     );

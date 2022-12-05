@@ -1,5 +1,5 @@
 @import "../../../styles/globals.scss";
-@import "../../../styles/config/config-type";
+@import "../../../styles/fonts.scss";
 
 .closeButton {
     position: relative;
@@ -7,23 +7,17 @@
     border: 1px;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s;
     background-color: transparent;
     &:hover {
         background-color: $fuel_10;
     }
 }
 
-//////////
-/// Below are old styles
-
 .button {
     position: relative;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    line-height: 125%;
     border: 2px solid;
-    border-radius: 20px;
+    border-radius: 9999px;
     outline: 0;
     cursor: pointer;
     transition: all 0.3s;
@@ -38,32 +32,32 @@
     }
 
     &Primary {
-        color: $fuel;
-        background-color: #fff;
-        border-color: $fuel;
-        &:hover {
-            color: #fff;
-            background-color: $fuel;
-        }
-    }
-    &Secondary {
-        color: #fff;
+        color: $white;
         background-color: $hot_pink;
         border-color: $hot_pink;
         &:hover {
-            color: #fff;
+            color: $white;
             background-color: $fuel;
             border-color: $fuel;
+        }
+    }
+    &Secondary {
+        color: $fuel;
+        background-color: transparent;
+        border-color: $fuel;
+        &:hover {
+            color: $white;
+            background-color: $fuel;
         }
     }
 
     &Large {
         padding: 10px 20px;
-        font-size: 16px;
+        @include interfaceH3;
     }
     &Small {
-        padding: 5px 12px;
-        font-size: 14px;
+        padding: 6px 16px;
+        @include interfaceH4;
     }
 
     &:disabled {
@@ -88,7 +82,7 @@
 
     &:before {
         @include x-y-center;
-        @include font-icon($icon-caret-right);
+        //@include font-icon($icon-caret-right);
         transform: translate3d(-50%, -50%, 0) rotate(180deg);
     }
 
