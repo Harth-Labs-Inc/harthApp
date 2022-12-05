@@ -31,8 +31,8 @@ export async function connectToDatabase() {
                 if (err) {
                     console.log(err, "mongo err");
                 }
-                console.log(db, "db");
-                resolve(db);
+                console.log(db);
+                resolve(db.db("blarg"));
             }
         );
     });
