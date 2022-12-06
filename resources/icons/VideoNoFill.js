@@ -1,4 +1,4 @@
-export const IconVideoNoFill = ({ fill = '#2F1D2A', hasGradient }) => (
+export const VideoNoFill = ({ fill = '#2F1D2A', hasGradient }) => (
   <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox={'-2 0 48 48'} >
       <defs>
         <linearGradient id="gradient">

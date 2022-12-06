@@ -1,5 +1,5 @@
 export const IconVideoFill = ({ fill = '#2F1D2A', hasGradient }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox={'-2 0 48 48'} >
+  <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox={'-3 -1 50 50'} >
       <defs>
         <linearGradient id="gradient">
           <stop offset="30%" stop-color="#BB7EC4" />

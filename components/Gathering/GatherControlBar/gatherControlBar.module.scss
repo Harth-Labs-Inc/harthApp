@@ -1,0 +1,66 @@
+@import '../../../styles/globals.scss';
+@import '../../../styles/fonts.scss';
+
+
+.desktop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-area: header;
+    padding: 0 16px;
+    height: 56px;
+    border-bottom: 0px solid transparent;
+    background-color: transparent;
+
+    .optionsContainer {
+        position:relative;
+
+        .moreButton {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            }
+        }
+
+    .leftGroup {
+        display: flex;
+        column-gap: 16px;
+        width: 104px;
+    }
+    .middleGroup {
+        display: flex;
+        align-items: center;
+        column-gap: 16px;
+    }
+    .rightGroup {
+        display: flex;
+        column-gap: 16px;
+    }
+
+    .rightSpace {
+        display: flex;
+        width: 40px;
+    }
+
+
+}
+
+.mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-area: header;
+    padding: 0 16px;
+    height: 56px;
+    border-bottom: 0px solid transparent;
+    background-color: transparent;
+
+   
+    .leftSpace {
+        display: flex;
+        width: 56px;
+    }
+
+
+}
+

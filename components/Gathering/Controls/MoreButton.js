@@ -25,9 +25,10 @@ export const MoreButton = (props) => {
         <button
             className={`
                 ${styles.moreButton} 
+                ${buttonState == "on" ? styles.moreButtonActive : null}
             `}
             aria-label="More"
-            onClick={onPress}
+            onClick={toggleActive}
         >
             <div height="100%" width="100%">
                 <IconChevronLeft />

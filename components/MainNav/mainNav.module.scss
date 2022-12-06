@@ -48,6 +48,7 @@
     display: flex;
     align-items: center;
     margin-top: 8px;    
+    column-gap: 24px;
     }
 
     .navButton {
@@ -66,8 +67,6 @@
     padding-bottom: 0px;
     padding-right: 16px;
     padding-left: 16px;
-    margin-left: 12px;
-    margin-right: 12px;
 
     .indicator {
         height: 5px;
@@ -110,8 +109,6 @@
         padding-bottom: 0px;
         padding-right: 16px;
         padding-left: 16px;
-        margin-left: 12px;
-        margin-right: 12px;
     
         .indicator {
             height: 5px;
@@ -129,6 +126,7 @@
 
 
 }
+
 
 
 .mobile {
