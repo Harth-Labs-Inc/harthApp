@@ -700,7 +700,7 @@ const Stream = () => {
                             test: `http://localhost:3000`,
                             development: "http://localhost:3000/",
                             production:
-                                "https://project-blarg-next.vercel.app/",
+                                "https://harth.vercel.app/",
                         };
 
                         window.location.replace(urls[process.env.NODE_ENV]);

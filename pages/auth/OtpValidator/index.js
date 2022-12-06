@@ -12,7 +12,7 @@ import styles from "./otpValidator.module.scss";
 
 const URLS = {
     development: "http://localhost:3000/",
-    production: "https://project-blarg-next.vercel.app/",
+    production: "https://harth.vercel.app/",
 };
 
 const OtpValidator = (props) => {
@@ -76,10 +76,10 @@ const OtpValidator = (props) => {
                 log in
             </button> */}
             <div className={styles.OtpModuleButtons}>
-                <Button 
-                    tier="secondary"  
-                    size="small" 
-                    text="Start over" 
+                <Button
+                    tier="secondary"
+                    size="small"
+                    text="Start over"
                     onClick={() => {
                         changePage("login");
                     }}

@@ -17,7 +17,7 @@ const InviteComp = (props) => {
     let expiredTime;
     let urls = {
         development: "http://localhost:3000/",
-        production: "https://project-blarg-next.vercel.app/",
+        production: "https://harth.vercel.app/",
     };
     let inviteUrl;
     for (let [key, value] of Object.entries(invites)) {
