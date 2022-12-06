@@ -32,7 +32,7 @@ export async function connectToDatabase() {
                     console.log(err, "mongo err");
                 }
                 console.log(db);
-                resolve(db.db("blarg"));
+                resolve({ db: db.db("blarg") });
             }
         );
     });
