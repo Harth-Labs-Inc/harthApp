@@ -1,10 +1,16 @@
-const MuteMicFill = ({ fill = '#2F1D2A' }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" height={48} width={48}>
-    <path
-      fill={fill}
+export const IconMuteMicFill = ({ fill = '#2F1D2A', hasGradient }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox={'0 0 48 48'} >
+      <defs>
+        <linearGradient id="gradient">
+          <stop offset="30%" stop-color="#BB7EC4" />
+          <stop offset="90%" stop-color="#0DA1B5" />
+        </linearGradient>
+    </defs>
+      
+      <path 
+        fill={hasGradient ? "url(#gradient)" : {fill}}
       d="m34.3 29.95-2.15-2.15q1.05-1.3 1.55-2.925.5-1.625.5-3.325h3q0 2.3-.75 4.45-.75 2.15-2.15 3.95Zm-6.4-6.4-9.75-9.75V9.05q0-2.1 1.475-3.575T23.2 4q2.1 0 3.575 1.475T28.25 9.05v12.5q0 .4-.075 1t-.275 1ZM21.7 42v-6.8q-5.3-.55-8.9-4.45-3.6-3.9-3.6-9.2h3q0 4.55 3.225 7.65 3.225 3.1 7.775 3.1 1.95 0 3.675-.625 1.725-.625 3.175-1.725l2.15 2.15q-1.55 1.3-3.45 2.075-1.9.775-4.05 1.025V42Zm19.85 3.25L1.8 5.5l1.9-1.9 39.75 39.75Z"
     />
   </svg>
 )
 
-export default MuteMicFill
