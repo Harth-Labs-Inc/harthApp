@@ -47,28 +47,32 @@ const Login = (props) => {
             await sendOtpEmailToUser(user);
             changePage("validateopt", user);
         } else {
-            setErrorMessage("Email not found.");
+            setErrorMessage("Invalid Email");
         }
     };
 
     return (
         <div className={styles.loginModule}>
             <HarthLogoDark />
+            <div className={styles.greeting}>
+                A place for friends to gather.
+            </div>
             <form onSubmit={handleSubmit(submitHandler)}>
                 <input
                     {...register("email", { required: true })}
-                    placeholder="Email"
+                    placeholder="Enter your email"
                 />
                 <ErrorMessage
                     errorMsg={
-                        errors.email ? "Enter your email to login." : null
+                        errors.email ? "Enter your email to login." : errorMessage
                     }
                 />
-                <ErrorMessage errorMsg={errorMessage} />
+
                 <Button
+                    className={styles.loginButton}
                     type="submit"
                     text="Sign In"
-                    tier="secondary"
+                    tier="primary"
                     fullWidth
                 />
             </form>
@@ -119,6 +123,7 @@ const Login = (props) => {
 
                 <Button
                     size="small"
+                    tier="secondary"
                     text="Need an account?"
                     className={styles.loginModuleSignUpLink}
                     onClick={() => {

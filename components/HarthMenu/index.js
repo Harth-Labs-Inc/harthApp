@@ -3,11 +3,13 @@ import { MobileContext } from '../../contexts/mobile'
 import { CloseButton } from '../Common/Buttons/CloseButton'
 import { TextBtn } from '../Common/Button'
 import IconNotificationsNoFill from '../../resources/icons/IconNotificationsNoFill'
+import IconAdminPanel from '../../resources/icons/IconAdminPanel'
+import IconAccountNoFill from '../../resources/icons/IconAccountNoFill'
 
 import styles from './harthMenu.module.scss'
 
 const HarthMenu = (props) => {
-  const [currentPage, setCurrentPage] = useState('profile')
+  const [currentPage, setCurrentPage] = useState('notifications')
   const { isMobile } = useContext(MobileContext)
   const { communityName, onToggleModal } = props
 
@@ -35,7 +37,7 @@ const HarthMenu = (props) => {
       <div className='close-modal'><CloseButton onClick={onToggleModal}/></div>
       </div>
       <div className={styles.navTabs} role="nav">
-        <button className={currentPage == 'notifications' ? styles.active : undefined}
+        <button className={currentPage == 'notifications' ? styles.buttonActive : styles.button}
           onClick={() => {
             changePageHandler('notifications')
           }}
@@ -43,20 +45,20 @@ const HarthMenu = (props) => {
           <div style={{height: 24, width: 24, marginRight: 4,}}><IconNotificationsNoFill /></div>Notifications
         </button>
 
-        <button className={currentPage == 'members' ? styles.buttonActive : undefined}
+        <button className={currentPage == 'members' ? styles.buttonActive : styles.button}
           onClick={() => {
             changePageHandler('members')
           }}
         >
-          Members
+          <div style={{height: 24, width: 24, marginRight: 4,}}><IconAccountNoFill /></div>Members
         </button>
 
-        <button className={currentPage == 'admin' ? styles.active : undefined}
+        <button className={currentPage == 'admin' ? styles.buttonActive : styles.button}
           onClick={() => {
             changePageHandler('admin')
           }}
         >
-          Admin
+          <div style={{height: 24, width: 24, marginRight: 4,}}><IconAdminPanel /></div>Admin
         </button>
       </div>
         

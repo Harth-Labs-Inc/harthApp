@@ -7,13 +7,25 @@
     flex-direction: column;
     justify-content: center;
     height: 100vh;
-    max-width: 340px;
+    max-width: 360px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 24px 24px;
+    overflow: auto;
+
 
     svg {
-        width: 122px;
-        margin-bottom: 32px;
+        width: 216px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+
+    }
+
+    .greeting {
+        @include interfaceR2;
+        text-align: center;
+        margin-bottom: 64px;
+        margin-top: 4px;
+        color: $fuel;
     }
 
     .formBottom {
@@ -23,13 +35,18 @@
 
     &Disclaimer {
         @include interfaceR3;
-        width: 316px;
-        margin: 12px auto 20px;
+        text-align: center;
+        width: 280px;
+        margin: 8px auto 28px;
         color: $fuel_50;
     }
 
     &SignUpLink {
         display: block;
-        margin: 0 auto;
+        margin: 0 auto 56px;
+    }
+
+    .loginButton {
+        margin-top:16px;
     }
 }

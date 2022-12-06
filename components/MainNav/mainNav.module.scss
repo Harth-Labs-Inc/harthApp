@@ -57,13 +57,9 @@
     justify-content: space-between;
     position: relative;
     @include interfaceR3;
-    stroke-width: .6px;
-    stroke: transparent;
-
     height: 48px;
     color: $fuel;
     background-color: transparent;
-
     border: 0;
     cursor: pointer;
     padding-top: 12px;
@@ -88,6 +84,11 @@
         border-top-left-radius: 9999px;
         background-color: $fuel;
     }
+
+    path {
+        stroke-width: .6px;
+        stroke: transparent;
+    }
     }
     }
 
@@ -99,9 +100,6 @@
         position: relative;
         @include interfaceR3;
         font-weight: 600;
-        stroke-width: .6px;
-        stroke:$fuel;
-    
         height: 48px;
         color: $fuel;
         background-color: transparent;
@@ -122,12 +120,13 @@
             border-top-left-radius: 9999px;
             background-color: $fuel;
         }
+
+        path {
+            stroke-width: .6px;
+            stroke: $fuel;
+        }
     }
 
-    path { //this is the icon color
-        fill: $fuel;
-    
-    }
 
 }
 
