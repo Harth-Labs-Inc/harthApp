@@ -7,7 +7,7 @@ import Select from "react-select";
 
 const URLS = {
     development: "http://localhost:3000/",
-    production: "https://project-blarg-next.vercel.app/",
+    production: "https://harth.vercel.app/",
 };
 
 const InviteComp = (props) => {
