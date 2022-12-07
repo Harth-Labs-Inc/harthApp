@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 import { login, addUser, sendOtpEmailToUser } from "../../../requests/userApi";
 import { Button } from "../../../components/Common";
@@ -11,6 +13,8 @@ import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 import styles from "./createAccount.module.scss";
 
 const CreateAccount = (props) => {
+    const { changePage, inviteToken } = props;
+    const router = useRouter();
     const [submissionType, setSubmissionType] = useState();
     // const [formData, setFormData] = useState({
     //     fullName: "",
@@ -31,8 +35,6 @@ const CreateAccount = (props) => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-
-    const { changePage, inviteToken } = props;
 
     const submitHandler = async (data) => {
         console.log(data);
@@ -107,7 +109,9 @@ const CreateAccount = (props) => {
                         {...register("dob", { required: true })}
                         type="date"
                     />
-                     <div className={styles.small}>Your birthday will not be publically displayed.</div>
+                    <div className={styles.small}>
+                        Your birthday will not be publically displayed.
+                    </div>
 
                     <ErrorMessage
                         errorMsg={
@@ -207,7 +211,7 @@ const CreateAccount = (props) => {
                     size="small"
                     text="Already have an account?"
                     onClick={() => {
-                        changePage("login");
+                        router.push("/");
                     }}
                     className={styles.CreateModuleLinkToSignin}
                 />

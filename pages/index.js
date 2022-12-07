@@ -18,6 +18,7 @@ const IndexPage = () => {
             <Head>
                 <title>Harth</title>
             </Head>
+
             <AuthOrDashboard user={user} loading={loading}></AuthOrDashboard>
         </>
     );

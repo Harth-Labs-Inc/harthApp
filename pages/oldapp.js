@@ -2,10 +2,9 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import "../styles/Styles.modules.scss";
-import { AuthProvider } from "../contexts/auth";
+import { AuthProvider, ProtectRoute } from "../contexts/auth";
 import { ResponsiveProvider } from "../contexts/mobile";
 import Layout from "../components/layout";
-import TransitionLayout from "../components/Transitions";
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
@@ -31,11 +30,11 @@ function MyApp({ Component, pageProps }) {
     return (
         <ResponsiveProvider>
             <AuthProvider>
-                <Layout>
-                    <TransitionLayout>
+                <ProtectRoute>
+                    <Layout>
                         <Component key={router.asPath} {...pageProps} />
-                    </TransitionLayout>
-                </Layout>
+                    </Layout>
+                </ProtectRoute>
             </AuthProvider>
         </ResponsiveProvider>
     );

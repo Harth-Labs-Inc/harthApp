@@ -37,19 +37,9 @@ export const AuthProvider = ({ children }) => {
         }
     }, [invite, tkn]);
 
-    const setContextUser = (user) => {
-        setUser(user);
-    };
-
     return (
         <AuthContext.Provider
-            value={{
-                isAuthenticated: !!user,
-                user,
-                loading,
-                inviteTKN,
-                setContextUser,
-            }}
+            value={{ isAuthenticated: !!user, user, loading, inviteTKN }}
         >
             {children}
         </AuthContext.Provider>
@@ -57,3 +47,14 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+
+export const ProtectRoute = ({ children }) => {
+    const { pathname } = useRouter();
+    const { isAuthenticated, isLoading } = useAuth();
+    if (isLoading) {
+        return <Loading path={pathname} />;
+    } else if (!isAuthenticated) {
+        return <Auth />;
+    }
+    return children;
+};

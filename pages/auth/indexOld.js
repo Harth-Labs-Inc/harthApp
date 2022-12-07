@@ -78,70 +78,62 @@ const authIndexPage = () => {
         }, 500);
     };
 
-    // let page;
-    // switch (currentPage) {
-    //     case "resetpwd":
-    //         page = <ResetPwd changePage={changePageHandler}></ResetPwd>;
-    //         break;
-    //     case "login":
-    //         page = (
-    //             <Login
-    //                 // animationClass={animationState}
-    //                 changePage={changePageHandler}
-    //                 inviteToken={inviteToken}
-    //                 currentPage={currentPage}
-    //             ></Login>
-    //         );
-    //         break;
-    //     case "createaccount":
-    //         page = (
-    //             <CreateAccount
-    //                 changePage={changePageHandler}
-    //                 inviteToken={inviteToken}
-    //                 currentPage={currentPage}
-    //             ></CreateAccount>
-    //         );
-    //         break;
-    //     case "validateopt":
-    //         page = (
-    //             <OtpValidator
-    //                 changePage={changePageHandler}
-    //                 inviteToken={inviteToken}
-    //                 currentPage={currentPage}
-    //                 newUser={newUser}
-    //             ></OtpValidator>
-    //         );
-    //         break;
-    //     case "updatePwd":
-    //         page = (
-    //             <ChangePassword
-    //                 changePage={changePageHandler}
-    //                 tkn={tkn}
-    //             ></ChangePassword>
-    //         );
-    //         break;
-    //     case "resetInvalid":
-    //         page = (
-    //             <InvalidReset
-    //                 changePage={changePageHandler}
-    //                 currentPage={currentPage}
-    //             ></InvalidReset>
-    //         );
-    //         break;
-    //     default:
-    //         page = <Loading></Loading>;
-    //         break;
-    // }
-    // return page;
-
-    return (
-        <Login
-            animationClass={animationState}
-            changePage={changePageHandler}
-            inviteToken={inviteToken}
-            currentPage={currentPage}
-        ></Login>
-    );
+    let page;
+    switch (currentPage) {
+        case "resetpwd":
+            page = <ResetPwd changePage={changePageHandler}></ResetPwd>;
+            break;
+        case "login":
+            page = (
+                <Login
+                    // animationClass={animationState}
+                    changePage={changePageHandler}
+                    inviteToken={inviteToken}
+                    currentPage={currentPage}
+                ></Login>
+            );
+            break;
+        case "createaccount":
+            page = (
+                <CreateAccount
+                    changePage={changePageHandler}
+                    inviteToken={inviteToken}
+                    currentPage={currentPage}
+                ></CreateAccount>
+            );
+            break;
+        case "validateopt":
+            page = (
+                <OtpValidator
+                    changePage={changePageHandler}
+                    inviteToken={inviteToken}
+                    currentPage={currentPage}
+                    newUser={newUser}
+                ></OtpValidator>
+            );
+            break;
+        case "updatePwd":
+            page = (
+                <ChangePassword
+                    changePage={changePageHandler}
+                    tkn={tkn}
+                ></ChangePassword>
+            );
+            break;
+        case "resetInvalid":
+            page = (
+                <InvalidReset
+                    changePage={changePageHandler}
+                    currentPage={currentPage}
+                ></InvalidReset>
+            );
+            break;
+        default:
+            page = <Loading></Loading>;
+            break;
+    }
+    console.log(page);
+    return page;
 };
 
 export default authIndexPage;

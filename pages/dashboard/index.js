@@ -40,7 +40,8 @@ const dashboard = (props) => {
     const [showInviteAcceptModal, setShowInviteAcceptModal] = useState(false);
     const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
 
-    const { inviteTKN } = useAuth();
+    const { user, loading, inviteTKN } = useAuth();
+    console.log(user, loading);
 
     const router = useRouter();
     const {
@@ -76,6 +77,10 @@ const dashboard = (props) => {
         }
     }, [inviteTKN, tkn]);
 
+    useEffect(() => {
+        if (!loading && !user) router.push("/");
+    }, [loading]);
+
     const changePageHandler = (pg) => {
         setCurrentPage(pg);
     };
@@ -102,92 +107,96 @@ const dashboard = (props) => {
         setShowInviteProfileModal(true);
     };
 
-    let page;
-    switch (currentPage) {
-        case "chat":
-            page = <Chat />;
-            break;
-        case "gather":
-            page = (
-                <VideoProvider>
-                    <Video />
-                </VideoProvider>
-            );
-            break;
-        case "party":
-            page = <Party />;
-            break;
-        case "voice":
-            page = <Voice />;
-            break;
-        case "stream":
-            page = <Stream />;
-            break;
-        case "messages":
-            page = <Messages />;
-            break;
-        default:
-            page = <Chat />;
-            break;
+    if (user) {
+        let page;
+        switch (currentPage) {
+            case "chat":
+                page = <Chat />;
+                break;
+            case "gather":
+                page = (
+                    <VideoProvider>
+                        <Video />
+                    </VideoProvider>
+                );
+                break;
+            case "party":
+                page = <Party />;
+                break;
+            case "voice":
+                page = <Voice />;
+                break;
+            case "stream":
+                page = <Stream />;
+                break;
+            case "messages":
+                page = <Messages />;
+                break;
+            default:
+                page = <Chat />;
+                break;
+        }
+        showCreateHarthNameModal;
+        return (
+            <CommsProvider>
+                <ChatProvider>
+                    <SocketProvider>
+                        {showCreateHarthNameModal ? (
+                            <CreateHarthName
+                                talkingHeadMsg="Let's create your harth. Once it's created you can invite your friends"
+                                footer="Give your harth a name and a cool sigil. No need to think too hard, you can change them at any time."
+                                placeholder={`${"First Name"}'s harth`}
+                                submitText="Create"
+                                submitHandler={harthNameCreationHandler}
+                            />
+                        ) : null}
+                        {showCreateHarthProfileModal ? (
+                            <CreateHarthProfile
+                                talkingHeadMsg="And by what name would you like to be known"
+                                footer="Set your name and profile pic for this harth. You can change these at any time"
+                                placeholder={`${"First Name"}`}
+                                submitText="Join"
+                                submitHandler={resetNewHarth}
+                                harth={newHarth}
+                            />
+                        ) : null}
+                        {showInviteAcceptModal ? (
+                            <HarthInviteAcceptModal
+                                talkingHeadMsg="An invitation arrives. Do you accept?"
+                                footer="You have been invited to join this harth by [profile name]"
+                                submitText="Accept Invite"
+                                submitHandler={goodInviteHandler}
+                                tkn={tkn || inviteTKN || ""}
+                            />
+                        ) : null}
+                        {showInviteProfileModal ? (
+                            <CreateHarthProfile
+                                header="harth"
+                                talkingHeadMsg="And by what name would you like to be known"
+                                footer="Set your name and profile pic for this harth. You can change these at any time"
+                                placeholder={`${"First Name"}`}
+                                submitText="Join"
+                                submitHandler={resetNewInviteHarth}
+                                harth={invitedHarth}
+                            />
+                        ) : null}
+                        {GatherWindow ? (
+                            page
+                        ) : (
+                            <NavLayout
+                                changePage={changePageHandler}
+                                currentPage={currentPage}
+                            >
+                                {page}
+                            </NavLayout>
+                        )}
+                    </SocketProvider>
+                </ChatProvider>
+            </CommsProvider>
+        );
     }
-    showCreateHarthNameModal;
-    return (
-        <CommsProvider>
-            <ChatProvider>
-                <SocketProvider>
-                    {showCreateHarthNameModal ? (
-                        <CreateHarthName
-                            talkingHeadMsg="Let's create your harth. Once it's created you can invite your friends"
-                            footer="Give your harth a name and a cool sigil. No need to think too hard, you can change them at any time."
-                            placeholder={`${"First Name"}'s harth`}
-                            submitText="Create"
-                            submitHandler={harthNameCreationHandler}
-                        />
-                    ) : null}
-                    {showCreateHarthProfileModal ? (
-                        <CreateHarthProfile
-                            talkingHeadMsg="And by what name would you like to be known"
-                            footer="Set your name and profile pic for this harth. You can change these at any time"
-                            placeholder={`${"First Name"}`}
-                            submitText="Join"
-                            submitHandler={resetNewHarth}
-                            harth={newHarth}
-                        />
-                    ) : null}
-                    {showInviteAcceptModal ? (
-                        <HarthInviteAcceptModal
-                            talkingHeadMsg="An invitation arrives. Do you accept?"
-                            footer="You have been invited to join this harth by [profile name]"
-                            submitText="Accept Invite"
-                            submitHandler={goodInviteHandler}
-                            tkn={tkn || inviteTKN || ""}
-                        />
-                    ) : null}
-                    {showInviteProfileModal ? (
-                        <CreateHarthProfile
-                            header="harth"
-                            talkingHeadMsg="And by what name would you like to be known"
-                            footer="Set your name and profile pic for this harth. You can change these at any time"
-                            placeholder={`${"First Name"}`}
-                            submitText="Join"
-                            submitHandler={resetNewInviteHarth}
-                            harth={invitedHarth}
-                        />
-                    ) : null}
-                    {GatherWindow ? (
-                        page
-                    ) : (
-                        <NavLayout
-                            changePage={changePageHandler}
-                            currentPage={currentPage}
-                        >
-                            {page}
-                        </NavLayout>
-                    )}
-                </SocketProvider>
-            </ChatProvider>
-        </CommsProvider>
-    );
+
+    return <p>...loading</p>;
 };
 
 export default dashboard;

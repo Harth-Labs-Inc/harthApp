@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
 import {
@@ -32,8 +31,6 @@ const Login = (props) => {
         formState: { errors },
     } = useForm();
 
-    const router = useRouter();
-
     // const inputChangeHandler = (eData, data) => {
     //     setErrorData(eData);
     //     setFormData(data);
@@ -43,29 +40,12 @@ const Login = (props) => {
     //     setErrorData(missing);
     // };
 
-    // const submitHandler = async (data) => {
-    //     let results = await loginAttempt(data);
-    //     let { ok, user } = results;
-    //     if (ok) {
-    //         await sendOtpEmailToUser(user);
-    //         changePage("validateopt", user);
-    //     } else {
-    //         setErrorMessage("Invalid Email");
-    //     }
-    // };
-
     const submitHandler = async (data) => {
         let results = await loginAttempt(data);
         let { ok, user } = results;
         if (ok) {
             await sendOtpEmailToUser(user);
-            router.push(
-                {
-                    pathname: "/auth/OtpValidator",
-                    query: { user: JSON.stringify(user) },
-                },
-                "/about/OtpValidator"
-            );
+            changePage("validateopt", user);
         } else {
             setErrorMessage("Invalid Email");
         }
@@ -142,14 +122,14 @@ const Login = (props) => {
                     </a>
                     .
                 </p>
+
                 <Button
                     size="small"
                     tier="secondary"
                     text="Need an account?"
                     className={styles.loginModuleSignUpLink}
                     onClick={() => {
-                        router.push("/auth/createAccount");
-                        // changePage("createaccount");
+                        changePage("createaccount");
                     }}
                 />
             </div>

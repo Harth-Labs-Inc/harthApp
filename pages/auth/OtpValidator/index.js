@@ -4,6 +4,7 @@ import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
+import { useAuth } from "../../../contexts/auth";
 import { verifyOtp, login } from "../../../requests/userApi";
 import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 import CodeInput from "../../../components/CodeInput/CodeInput";
@@ -16,10 +17,18 @@ const URLS = {
 };
 
 const OtpValidator = (props) => {
-    const { newUser, changePage, inviteToken, currentPage } = props;
-    console.log(newUser, "asdfadsf");
-
+    const { changePage, inviteToken, currentPage } = props;
+    const [newUser, setNewUser] = useState();
     const router = useRouter();
+    const { user } = router.query;
+
+    const { setContextUser } = useAuth();
+
+    useEffect(() => {
+        if (user) {
+            setNewUser(JSON.parse(user));
+        }
+    }, [user]);
 
     const [inviteCode, setInviteCode] = useState();
     const [helpText, setHelpText] = useState(
@@ -40,13 +49,15 @@ const OtpValidator = (props) => {
         let { ok } = result;
         if (ok) {
             const data = await login(newUser);
+            console.log(newUser);
             const { ok, msg, tkn } = data;
             if (ok) {
                 Cookies.set("token", tkn, { expires: 365 });
                 if (newUser.showFirstTimeUser) {
                     Cookies.set("showFirstTimeUser", true);
                 }
-                router.reload();
+                setContextUser(newUser);
+                router.push("/dashboard");
             }
         } else {
             setHelpText(
@@ -81,7 +92,7 @@ const OtpValidator = (props) => {
                     size="small"
                     text="Start over"
                     onClick={() => {
-                        changePage("login");
+                        router.push("/");
                     }}
                 />
                 <Button tier="secondary" size="small" text="Resend the code" />
