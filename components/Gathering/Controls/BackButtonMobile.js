@@ -1,13 +1,13 @@
-import { IconClose } from "../../../resources/icons/IconClose";
+import { IconChevronLeft } from "../../../resources/icons/IconChevronLeft";
 import styles from "./gatheringButtons.module.scss";
 
-export const LeaveButtonMobile = (props) => {
-    const { onClick, theme } = props;
+export const BackButtonMobile = (props) => {
+    const { onClick } = props;
     return (
         <>
             <button className={styles.controlButtonMobile} onClick={onClick}>
                 <div style={{ height: 24, width: 24 }}>
-                    <IconClose />
+                    <IconChevronLeft />
                 </div>
             </button>
         </>

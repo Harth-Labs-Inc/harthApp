@@ -94,11 +94,10 @@ const MainNav = (props) => {
                         role="nav-item"
                         id="chat"
                         aria-label="Community Chat"
-                        className={
-                            currentPage == "chat"
-                                ? styles.navButtonActive
-                                : styles.navButton
-                        }
+                        className={`
+                            ${styles.navButton} 
+                            ${currentPage == "chat" ? styles.navButtonActive : styles.navButtonInactive} 
+                        `}
                         onClick={() => {
                             changePage("chat");
                         }}
@@ -117,11 +116,10 @@ const MainNav = (props) => {
                         role="nav-item"
                         id="gather"
                         aria-label="Gather"
-                        className={
-                            currentPage == "gather"
-                                ? styles.navButtonActive
-                                : styles.navButton
-                        }
+                        className={`
+                            ${styles.navButton} 
+                            ${currentPage == "gather" ? styles.navButtonActive : styles.navButtonInactive} 
+                        `}
                         onClick={() => {
                             changePage("gather");
                             // remove page change on mobile for now
@@ -146,11 +144,10 @@ const MainNav = (props) => {
                         role="nav-item"
                         id="message"
                         aria-label="Private Messages"
-                        className={
-                            currentPage == "message"
-                                ? styles.navButtonActive
-                                : styles.navButton
-                        }
+                        className={`
+                            ${styles.navButton} 
+                            ${currentPage == "message" ? styles.navButtonActive : styles.navButtonInactive} 
+                        `}
                         onClick={() => {
                             changePage("message");
                         }}
@@ -182,11 +179,10 @@ const MainNav = (props) => {
                             role="nav-item"
                             id="chat"
                             aria-label="Community Chat"
-                            className={
-                                currentPage == "chat"
-                                    ? styles.navButtonActive
-                                    : styles.navButton
-                            }
+                            className={`
+                            ${styles.navButton} 
+                            ${currentPage == "chat" ? styles.navButtonActive : styles.navButtonInactive} 
+                        `}
                             onClick={() => {
                                 changePage("chat");
                             }}
@@ -219,11 +215,10 @@ const MainNav = (props) => {
                             role="nav-item"
                             id="gather"
                             aria-label="Gather"
-                            className={
-                                currentPage == "gather"
-                                    ? styles.navButtonActive
-                                    : styles.navButton
-                            }
+                            className={`
+                                ${styles.navButton} 
+                                ${currentPage == "gather" ? styles.navButtonActive : styles.navButtonInactive} 
+                            `}
                             onClick={() => {
                                 changePage("gather");
                                 // remove page change on mobile for now
@@ -262,11 +257,10 @@ const MainNav = (props) => {
                             role="nav-item"
                             id="message"
                             aria-label="Private Messages"
-                            className={
-                                currentPage == "message"
-                                    ? styles.navButtonActive
-                                    : styles.navButton
-                            }
+                            className={`
+                                ${styles.navButton} 
+                                ${currentPage == "message" ? styles.navButtonActive : styles.navButtonInactive} 
+                            `}
                             onClick={() => {
                                 changePage("message");
                             }}

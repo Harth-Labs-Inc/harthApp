@@ -12,6 +12,7 @@
     padding-top: 8px;
     border-bottom: 1px solid $fuel_10;
     background-color: $light_ash;
+    
 
 
     .harthButton{
@@ -51,77 +52,74 @@
     column-gap: 24px;
     }
 
+
     .navButton {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    @include interfaceR3;
-    height: 48px;
-    color: $fuel;
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-    padding-top: 12px;
-    padding-bottom: 0px;
-    padding-right: 16px;
-    padding-left: 16px;
-
-    .indicator {
-        height: 5px;
-        width: 56px;
-        border-top-right-radius: 9999px;     
-        border-top-left-radius: 9999px;
-        background-color: transparent;
-    }
-    &:hover{
-        .indicator {
-        height: 5px;
-        width: 56px;
-        border-top-right-radius: 9999px;     
-        border-top-left-radius: 9999px;
-        background-color: $fuel;
-    }
-
-    path {
-        stroke-width: .6px;
-        stroke: transparent;
-    }
-    }
-    }
-
-    .navButtonActive {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
         position: relative;
-        @include interfaceR3;
-        font-weight: 600;
         height: 48px;
         color: $fuel;
         background-color: transparent;
-    
         border: 0;
         cursor: pointer;
         padding-top: 12px;
         padding-bottom: 0px;
-        padding-right: 16px;
-        padding-left: 16px;
-    
+        padding-right: 12px;
+        padding-left: 12px;
+
         .indicator {
             height: 5px;
-            width: 56px;
+            width: 32px;
             border-top-right-radius: 9999px;     
             border-top-left-radius: 9999px;
-            background-color: $fuel;
+            background-color: transparent;
         }
 
-        path {
-            stroke-width: .6px;
-            stroke: $fuel;
+        &Inactive{
+            @include interfaceR3;
+
+            path {
+                stroke-width: .6px;
+                stroke: transparent;
+            }
+
+            &:hover{
+
+                .indicator {
+                    height: 5px;
+                    width: 32px;
+                    border-top-right-radius: 9999px;     
+                    border-top-left-radius: 9999px;
+                    background-color: $fuel;
+
+                }
+            }
+
         }
+
+        &Active{
+            @include interfaceR3;
+            font-weight: 600;
+            transition: 1s;
+
+            .indicator {
+                height: 5px;
+                width: 56px;
+                border-top-right-radius: 9999px;     
+                border-top-left-radius: 9999px;
+                background-color: $fuel;
+            }
+            path {
+                stroke-width: .6px;
+                stroke: $fuel;
+            }
+            
+        }
+
+        
+
     }
 
 
