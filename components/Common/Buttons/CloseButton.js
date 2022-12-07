@@ -7,11 +7,10 @@ export const CloseButton = (props) => {
         <>
             <button className={styles.closeButton} onClick={onClick}>
                 <div style={{ height: 24, width: 24 }}>
-                    <IconClose theme={theme} />
+                    <IconClose />
                 </div>
             </button>
         </>
     );
 };
 
-//className={`${styles.iconButton} ${shade}`}
