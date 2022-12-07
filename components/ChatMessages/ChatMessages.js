@@ -275,7 +275,7 @@ const MessageWrapper = () => {
                               <ChatSingleMessage
                                   editMessageText={editMessage}
                                   msg={msg}
-                                  key={msg._id}
+                                  key={msg?._id}
                                   isReply={true}
                               />
                           )
@@ -285,8 +285,8 @@ const MessageWrapper = () => {
                           <ChatSingleMessage
                               editMessageText={editMessage}
                               msg={msg}
-                              key={msg._id}
-                              messageID={msg._id}
+                              key={msg?._id}
+                              messageID={msg?._id}
                           />
                       ))}
                 <ScrollButton />
