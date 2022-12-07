@@ -10,7 +10,7 @@ import { CSSTransition } from "react-transition-group";
 
 import Loading from "../loading";
 
-const authIndexPage = () => {
+const AuthIndexPage = () => {
     const [currentPage, setCurrentPage] = useState();
     const [animationState, setAnimationState] = useState("");
     const [inviteToken, setInviteToken] = useState();
@@ -142,4 +142,4 @@ const authIndexPage = () => {
     );
 };
 
-export default authIndexPage;
+export default AuthIndexPage;

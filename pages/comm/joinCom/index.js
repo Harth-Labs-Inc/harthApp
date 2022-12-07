@@ -38,8 +38,8 @@ const JoinCom = (props) => {
                 Join a h&auml;rth
             </h2>
             <p>
-                Enter your invite code. Don't have one? Ask a friend to send you
-                one or create your own h&auml;rth.
+                Enter your invite code. Don&apos;t have one? Ask a friend to
+                send you one or create your own h&auml;rth.
             </p>
             <p>{errorMessage}</p>
             <VerificationInput placeholder="" onChange={inputChangeHandler} />

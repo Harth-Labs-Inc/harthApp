@@ -194,6 +194,7 @@ const CreateAccount = (props) => {
                     <a
                         href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4edc850907fdf964473/1665512685436/Terms%26Conditions.pdf"
                         target="_blank"
+                        rel="noreferrer"
                     >
                         Terms of Service
                     </a>{" "}
@@ -201,6 +202,7 @@ const CreateAccount = (props) => {
                     <a
                         href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4a7a74906570621b492/1665512615431/HarthPrivacyPolicy.pdf"
                         target="_blank"
+                        rel="noreferrer"
                     >
                         Privacy Policy
                     </a>

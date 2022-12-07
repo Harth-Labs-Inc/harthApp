@@ -26,16 +26,16 @@ const InitialCom = (props) => {
                     <h2>Account Creation Successful</h2>
                     <p>
                         Get started by creating your own h&auml;rth or joining a
-                        friends. Don't have an invite code? Ask your friends to
-                        send you one.
+                        friends. Don&apos;t have an invite code? Ask your
+                        friends to send you one.
                     </p>
                 </>
             );
         } else {
             return (
                 <p>
-                    Create your own h&auml;rth or join a friends. Don't have an
-                    invite code? Ask your friends to send you one.
+                    Create your own h&auml;rth or join a friends. Don&apos;t
+                    have an invite code? Ask your friends to send you one.
                 </p>
             );
         }
