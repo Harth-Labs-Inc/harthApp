@@ -122,7 +122,7 @@ const TopicsNav = (props) => {
     const setMissing = (missing) => {
         setErrorData(missing);
     };
-    console.log("topicsaaaaaaarrrray", topicsArr);
+
     return (
         <>
             {openTopicBuilder && (
