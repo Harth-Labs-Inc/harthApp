@@ -20,23 +20,23 @@ function init(defaultGathering) {
 function gatheringReducer(state, action) {
     switch (action.type) {
         case "GATHERING_NAME_CHANGE":
-            return { ...state, roomName: action.payload };
+            return { ...(state || {}), roomName: action.payload };
         case "GATHERING_DESCRIPTION_CHANGE":
-            return { ...state, gatheringDescription: action.payload };
+            return { ...(state || {}), gatheringDescription: action.payload };
         case "GATHERING_TYPE_CHANGE":
-            return { ...state, gatheringType: action.payload };
+            return { ...(state || {}), gatheringType: action.payload };
         case "GATHERING_DATE_CHANGE":
-            return { ...state, gatheringDate: action.payload };
+            return { ...(state || {}), gatheringDate: action.payload };
         case "GATHERING_TIME_CHANGE":
-            return { ...state, gatheringTime: action.payload };
+            return { ...(state || {}), gatheringTime: action.payload };
         case "GATHERING_EDIT":
-            return { ...state, ...action.payload };
+            return { ...(state || {}), ...action.payload };
         case "RESET":
-            return { ...state, ...defaultGathering };
+            return { ...(state || {}), ...defaultGathering };
         case "SUBMIT":
-            return { ...state, isSubmitLoading: true };
+            return { ...(state || {}), isSubmitLoading: true };
         case "GATHERING_CREATED":
-            return { ...state, isSubmitLoading: false };
+            return { ...(state || {}), isSubmitLoading: false };
         default:
             throw new Error();
     }
