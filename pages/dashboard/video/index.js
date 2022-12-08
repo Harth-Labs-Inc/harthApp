@@ -82,8 +82,10 @@ const Video = (props) => {
     };
 
     const createRoomFormSubmit = (room) => {
-        room.createdTime = new Date();
-        createRoom(room);
+        if (room) {
+            room.createdTime = new Date();
+            createRoom(room);
+        }
     };
 
     if (socketID) {

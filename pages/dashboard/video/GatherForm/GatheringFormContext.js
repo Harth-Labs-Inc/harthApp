@@ -17,7 +17,7 @@ function init(defaultGathering) {
     return { state: defaultGathering };
 }
 
-function gatheringReducer(state = {}, action) {
+function gatheringReducer(state = defaultGathering, action) {
     switch (action.type) {
         case "GATHERING_NAME_CHANGE":
             return { ...(state || {}), roomName: action.payload };
@@ -56,7 +56,9 @@ export const CreateGatheringFormProvider = function ({ children }) {
     );
 
     return (
-        <CreateGatheringFormContext.Provider value={{ state, dispatch }}>
+        <CreateGatheringFormContext.Provider
+            value={{ state: state || defaultGathering, dispatch }}
+        >
             {children}
         </CreateGatheringFormContext.Provider>
     );
