@@ -10,7 +10,7 @@ import { StreamButton } from "../Controls/StreamButton";
 
 import Modal from "../../Modal";
 
-import styles from "./GatherControlBar.module.scss";
+import styles from "./gatheringControlBar.module.scss";
 
 const GatherControlBar = (props) => {
     const { roomType="party" } = props;
@@ -54,7 +54,11 @@ const GatherControlBar = (props) => {
             ) : (
                 <header className={styles.desktop}>
                     
-                    <div className={styles.leftGroup}><LeaveButton /></div>
+                    <div className={styles.leftGroup}>
+                        <LeaveButton />
+                        {roomType == "party" && (<p className={styles.spacer}></p>)}                    
+
+                    </div>
 
                     {roomType != "voice" 
                     ?
@@ -77,11 +81,16 @@ const GatherControlBar = (props) => {
                     }
                     
                     <div className={styles.rightGroup}>
+                        {roomType == "voice" && (<p className={styles.spacer}></p>)}                    
+                        
                         {roomType == "party" && <BagButton size="small"/>}
-                        {roomType != "voice" && <ChatButton size="small"/>}                       
+                        
+                        {roomType != "voice" && <ChatButton size="small"/>}   
+
+
                     </div>
 
-                    {roomType == "voice" && <div className={styles.rightSpace} />}
+                    
 
                 </header>
             )}

@@ -24,8 +24,7 @@
 
     .leftGroup {
         display: flex;
-        column-gap: 16px;
-        width: 104px;
+        column-gap: 12px;
     }
     .middleGroup {
         display: flex;
@@ -34,12 +33,12 @@
     }
     .rightGroup {
         display: flex;
-        column-gap: 16px;
+        column-gap: 12px;
     }
 
-    .rightSpace {
+    .spacer {
         display: flex;
-        width: 40px;
+        width: 44px;
     }
 
 

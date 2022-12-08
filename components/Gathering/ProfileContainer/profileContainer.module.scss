@@ -1,0 +1,261 @@
+@import '../../../styles/fonts.scss';
+@import '../../../styles/globals.scss';
+
+
+.container {
+    visibility: visible;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    align-items: center;
+    justify-content: center;
+    row-gap: 2%;
+    aspect-ratio: 1;
+    width: 100%;
+    min-width: 100px;
+    height: 100%;
+    min-width: 100px;
+    border-radius: 16px;
+    padding: 6%;
+    background-color: darken($fuel, 4%);
+    border: 4px solid $white_10;
+    
+    &:hover {
+        border: 4px solid $white_90;
+
+    }
+    .profileImage {
+        position: relative;
+        aspect-ratio: 1 / 1;
+        height: 70%;
+        width: 70%;
+        min-height: 64px;;
+        min-width: 64px;;
+
+        border-radius: 9999px;
+        padding: 4px;
+        border: 3px solid transparent;
+
+        &Speaking {
+            border: 3px solid $hot_green;
+        }
+    }
+
+    .label {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        @include contentR2;
+        color: $white_90;
+        text-align: center;
+        text-overflow: ellipsis;
+    }
+
+    
+
+}
+
+.volumeButton {
+    position: relative;
+    border-radius: 9999px;
+    cursor: pointer;
+    background: transparent;
+    border:0;
+    border: 2px solid transparent; 
+    padding: 4px;
+    height: 38px;
+    width: 38px;
+    flex: 0 0 38px;
+    path{
+        fill: $white_90;
+    }
+
+    &:hover {
+        path {
+            fill: $hot_pink;
+        }
+    }
+
+    &Active {
+        border: 2px solid hot_pink; 
+    }
+
+}
+
+.muteButton {
+    //display: none;
+    position:relative;
+    border-radius: 9999px;
+    cursor: pointer;
+    border:0;
+    background-color: transparent;   
+    border: 2px solid transparent; 
+    padding: 6px;
+    height: 38px;
+    width: 38px;
+    flex: 0 0 38px;
+
+    path{
+        fill: $white_90;
+    }
+
+    &:hover {
+        border: 2px solid $alert_red; 
+        path {
+            fill: $alert_red;
+        }
+
+    }
+
+    &Active {
+        border: 2px solid $alert_red; 
+        path {
+            fill: $alert_red;
+        }
+
+    }
+
+}
+
+.volumePanel {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    column-gap: 4px;;
+    align-items: center;
+    top: 8px;
+    left: 8px;
+    
+    z-index: 10;
+    border-radius: 9999px;
+    border:0;
+    background-color: $fuel;   
+    border: 2px solid $white_90; 
+    padding: 2px 4px 2px 4px;
+    
+    height: 48px;
+    width: 48px;
+    transition: all 0.3s;    
+    transition: width 0.3s;    
+
+    &Active {
+        background-color: $black;
+        width: 220px;
+
+    }
+
+    &:hover {
+        background-color: $black;
+
+    }
+
+
+
+
+
+}
+
+.volumeSlider {
+    display: flex;
+    width: 40px;
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    //cursor: pointer;
+
+    //webkit
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      margin-top: -6px;
+      height: 16px;
+      width: 16px;
+      background-color: $hot_pink;
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+    &::-webkit-slider-runnable-track {
+      height: 4px;
+      width: 100%;
+      background-color: $white_50;
+      border-radius: 9999px;
+    }
+    //mozilla
+    &::-moz-range-thumb {
+      height: 16px;
+      width: 16px;
+      background-color: $hot_pink;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 0;
+    }
+    &::-moz-range-track {
+      height: 4px;
+      width: 100%;
+      background-color: $white_50;
+      border-radius: 9999px;
+    }
+    &::-moz-range-progress {
+        height: 4px;
+        background-color: $white_50;
+        border-radius: 9999px;
+    }
+    //microsoft
+    &::-ms-thumb {
+      height: 16px;
+      width: 16px;
+      background-color: $hot_pink;
+      border-radius: 9999px;
+      border: 0;
+      cursor: pointer;
+    }
+    &::-ms-track {
+      height: 4px;
+      width: 100%;
+      background-color: $white_50;
+      border-radius: 9999px;
+    }
+    &::-ms-fill-lower {
+      background: $white_50;
+    }
+  }
+
+
+
+.muteLabel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 12px;
+    background-color: $white_5;
+    z-index: 9;
+    border: 0;
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+
+    
+
+    .icon {
+        height: 80px;
+        width: 80px;
+        padding: 16px;
+        background-color: $overlay_dark;
+        border-radius: 9999px;
+        
+        path{
+            fill: $alert_red;
+        }
+    }
+}
+
+
+
+
+
+

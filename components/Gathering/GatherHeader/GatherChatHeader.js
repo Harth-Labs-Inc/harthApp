@@ -9,9 +9,9 @@ const GatherChatHeader = (props) => {
 
 
   const goBack = () => {
-    //does nothing
+
     //return to previous page
-    onClick();
+    
   };
 
 

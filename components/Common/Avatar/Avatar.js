@@ -1,5 +1,4 @@
-import styles from "./avatar.module.scss"
-
+import styles from "./avatar.module.scss";
 
 
 export const Avatar = (props) => {
@@ -12,17 +11,22 @@ export const Avatar = (props) => {
   } = props;
 
 
-  if (isPressable) {
-    return (
-      <button
-      onClick={onPress}
-      className={styles.avatarButton}
-      aria-label={aLabel}
-      >
-
+  return (
+    <>
+    {isPressable 
+      ?
+        <button
+        onClick={onPress}
+        className={styles.avatarButton}
+        aria-label={aLabel}
+        >
+          <img src={imageSrc} aria-label="Profile Image" className={styles.avatar} height={picSize} width={picSize}/>
+        </button>
+      :
+      <div className={styles.avatarIndicator}>
         <img src={imageSrc} aria-label="Profile Image" className={styles.avatar} height={picSize} width={picSize}/>
-      </button>
-    )
-  }
-  return <img src={imageSrc} aria-label={aLabel} className={styles.avatar} height={picSize} width={picSize}/>
+      </div>
+    }
+    </>
+  )
 }
