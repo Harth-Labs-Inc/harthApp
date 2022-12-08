@@ -18,86 +18,88 @@ const GatherCreate = ({ createRoomFormSubmit, createScheduleRoom }) => {
         createRoomFormSubmit(state);
     };
 
-    return (
-        <div className={styles.gatheringCreate}>
-            <div className={styles.gatheringCreateTitle}>
-                Create a Gathering
-            </div>
-            <Input
-                placeholder="Name"
-                onChange={(e) => {
-                    dispatch({
-                        type: "GATHERING_NAME_CHANGE",
-                        payload: e.target.value,
-                    });
-                }}
-            />
-            <div className={styles.gatheringCreateRoomType}>
-                <Button
-                    aria-label="voice gathering"
-                    tier="secondary"
-                    className={`${styles.gatheringCreateRoomTypeVoice} ${
-                        state?.gatheringType === "voice"
-                            ? styles.gatheringCreateRoomTypeActive
-                            : ""
-                    }`}
-                    onClick={(e) => {
+    if (state) {
+        return (
+            <div className={styles.gatheringCreate}>
+                <div className={styles.gatheringCreateTitle}>
+                    Create a Gathering
+                </div>
+                <Input
+                    placeholder="Name"
+                    onChange={(e) => {
                         dispatch({
-                            type: "GATHERING_TYPE_CHANGE",
-                            payload: "voice",
+                            type: "GATHERING_NAME_CHANGE",
+                            payload: e.target.value,
                         });
                     }}
                 />
-                <Button
-                    aria-label="stream gathering"
-                    tier="secondary"
-                    className={`${styles.gatheringCreateRoomTypeStream} ${
-                        state?.gatheringType === "stream"
-                            ? styles.gatheringCreateRoomTypeActive
-                            : ""
-                    }`}
-                    onClick={(e) => {
-                        dispatch({
-                            type: "GATHERING_TYPE_CHANGE",
-                            payload: "stream",
-                        });
-                    }}
-                />
-                <Button
-                    aria-label="party gathering"
-                    tier="secondary"
-                    className={`${styles.gatheringCreateRoomTypeParty} ${
-                        state?.gatheringType === "party"
-                            ? styles.gatheringCreateRoomTypeActive
-                            : ""
-                    }`}
-                    onClick={(e) => {
-                        dispatch({
-                            type: "GATHERING_TYPE_CHANGE",
-                            payload: "party",
-                        });
-                    }}
-                />
+                <div className={styles.gatheringCreateRoomType}>
+                    <Button
+                        aria-label="voice gathering"
+                        tier="secondary"
+                        className={`${styles.gatheringCreateRoomTypeVoice} ${
+                            state?.gatheringType === "voice"
+                                ? styles.gatheringCreateRoomTypeActive
+                                : ""
+                        }`}
+                        onClick={(e) => {
+                            dispatch({
+                                type: "GATHERING_TYPE_CHANGE",
+                                payload: "voice",
+                            });
+                        }}
+                    />
+                    <Button
+                        aria-label="stream gathering"
+                        tier="secondary"
+                        className={`${styles.gatheringCreateRoomTypeStream} ${
+                            state?.gatheringType === "stream"
+                                ? styles.gatheringCreateRoomTypeActive
+                                : ""
+                        }`}
+                        onClick={(e) => {
+                            dispatch({
+                                type: "GATHERING_TYPE_CHANGE",
+                                payload: "stream",
+                            });
+                        }}
+                    />
+                    <Button
+                        aria-label="party gathering"
+                        tier="secondary"
+                        className={`${styles.gatheringCreateRoomTypeParty} ${
+                            state?.gatheringType === "party"
+                                ? styles.gatheringCreateRoomTypeActive
+                                : ""
+                        }`}
+                        onClick={(e) => {
+                            dispatch({
+                                type: "GATHERING_TYPE_CHANGE",
+                                payload: "party",
+                            });
+                        }}
+                    />
+                </div>
+                <div className={styles.gatheringCreateRoomControls}>
+                    <Button
+                        text="Schedule"
+                        tier="tertiary"
+                        className={styles.gatheringCreateRoomControlsSchedule}
+                        onClick={() => createScheduleRoom(state)}
+                    />
+                    <Button
+                        text="Create"
+                        tier="secondary"
+                        className={styles.gatheringCreateRoomControlsCreate}
+                        onClick={() => {
+                            handleSubmitLaunch();
+                        }}
+                        disabled={checkValidation()}
+                    />
+                </div>
             </div>
-            <div className={styles.gatheringCreateRoomControls}>
-                <Button
-                    text="Schedule"
-                    tier="tertiary"
-                    className={styles.gatheringCreateRoomControlsSchedule}
-                    onClick={() => createScheduleRoom(state)}
-                />
-                <Button
-                    text="Create"
-                    tier="secondary"
-                    className={styles.gatheringCreateRoomControlsCreate}
-                    onClick={() => {
-                        handleSubmitLaunch();
-                    }}
-                    disabled={checkValidation()}
-                />
-            </div>
-        </div>
-    );
+        );
+    }
 };
 
 export default GatherCreate;
