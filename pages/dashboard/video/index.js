@@ -93,115 +93,104 @@ const Video = (props) => {
             (usr) => usr?.userId === user?._id
         );
         return (
-            <GatheringFormProvider>
-                <GatheringEditFormProvider>
-                    <section id="gatherings">
-                        {newEditRoomToggled && (
-                            <Modal
-                                id="create_gathering"
-                                show={newEditRoomToggled}
-                                onToggleModal={() => {}}
+            <section id="gatherings">
+                {newEditRoomToggled && (
+                    <Modal
+                        id="create_gathering"
+                        show={newEditRoomToggled}
+                        onToggleModal={() => {}}
+                    >
+                        <CloseBtn onClick={triggerNewEditRoom} />
+                        <GatherEditForm
+                            closeHandler={triggerNewEditRoom}
+                            createRoomFormSubmit={createRoomFormSubmit}
+                            harthId={selectedcomm._id}
+                            harthName={selectedcomm.name}
+                            creator={selectedcomm.users.find(
+                                (usr) => usr.userId === user._id
+                            )}
+                        />
+                    </Modal>
+                )}
+
+                {newRoomToggled && (
+                    <Modal
+                        id="create_gathering"
+                        show={modal}
+                        onToggleModal={showModal}
+                    >
+                        <CloseBtn onClick={triggerNewRoom} />
+                        <GatherForm
+                            createRoomFormSubmit={createRoomFormSubmit}
+                            harthId={selectedcomm._id}
+                            harthName={selectedcomm.name}
+                            creator={selectedcomm.users.find(
+                                (usr) => usr.userId === user._id
+                            )}
+                        />
+                    </Modal>
+                )}
+                <div className={styles.roomContainer}>
+                    <GatherCreate
+                        createRoomFormSubmit={createRoomFormSubmit}
+                        createScheduleRoom={triggerNewRoom}
+                    />
+
+                    <ul
+                        className={styles.roomContainerActiveList}
+                        id="room_card current_rooms"
+                    >
+                        {(callRooms || []).map((room, idx) => {
+                            let owner = false;
+                            if (room?.hostName === creator?.name) {
+                                owner = true;
+                            }
+                            return (
+                                <li
+                                    key={idx}
+                                    className={`${room.gatheringType} ${styles.roomContainerRoomBox}`}
+                                >
+                                    <GatheringCard
+                                        cardType="general"
+                                        room={room}
+                                        joinHandler={() => joinRoom(room)}
+                                        peers={room.peers}
+                                        owner={owner}
+                                    />
+                                </li>
+                            );
+                        })}
+                    </ul>
+
+                    {/* <button id="gathering_create" onClick={triggerNewRoom}>
+  + gathering
+</button> */}
+                </div>
+                <p>Scheduled</p>
+                <ul className="room_card" id="room_card scheduled_rooms">
+                    {(scheduledcallRooms || []).map((room, idx) => {
+                        let owner = false;
+                        if (room?.hostName === creator?.name) {
+                            owner = true;
+                        }
+                        return (
+                            <li
+                                key={idx}
+                                className={`${room.gatheringType} room-container`}
                             >
-                                <CloseBtn onClick={triggerNewEditRoom} />
-                                <GatherEditForm
-                                    closeHandler={triggerNewEditRoom}
-                                    createRoomFormSubmit={createRoomFormSubmit}
-                                    harthId={selectedcomm._id}
-                                    harthName={selectedcomm.name}
-                                    creator={selectedcomm.users.find(
-                                        (usr) => usr.userId === user._id
-                                    )}
+                                <GatheringCard
+                                    cardType="schedule"
+                                    room={room}
+                                    user={creator}
+                                    peers={room.acceptedPeers}
+                                    owner={owner}
+                                    editScheduleRoom={triggerNewEditRoom}
                                 />
-                            </Modal>
-                        )}
-
-                        {newRoomToggled && (
-                            <Modal
-                                id="create_gathering"
-                                show={modal}
-                                onToggleModal={showModal}
-                            >
-                                <CloseBtn onClick={triggerNewRoom} />
-                                <GatherForm
-                                    createRoomFormSubmit={createRoomFormSubmit}
-                                    harthId={selectedcomm._id}
-                                    harthName={selectedcomm.name}
-                                    creator={selectedcomm.users.find(
-                                        (usr) => usr.userId === user._id
-                                    )}
-                                />
-                            </Modal>
-                        )}
-                        <div className={styles.roomContainer}>
-                            <GatherCreate
-                                createRoomFormSubmit={createRoomFormSubmit}
-                                createScheduleRoom={triggerNewRoom}
-                            />
-
-                            <ul
-                                className={styles.roomContainerActiveList}
-                                id="room_card current_rooms"
-                            >
-                                {(callRooms || []).map((room, idx) => {
-                                    let owner = false;
-                                    if (room?.hostName === creator?.name) {
-                                        owner = true;
-                                    }
-                                    return (
-                                        <li
-                                            key={idx}
-                                            className={`${room.gatheringType} ${styles.roomContainerRoomBox}`}
-                                        >
-                                            <GatheringCard
-                                                cardType="general"
-                                                room={room}
-                                                joinHandler={() =>
-                                                    joinRoom(room)
-                                                }
-                                                peers={room.peers}
-                                                owner={owner}
-                                            />
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-
-                            {/* <button id="gathering_create" onClick={triggerNewRoom}>
-              + gathering
-            </button> */}
-                        </div>
-                        <p>Scheduled</p>
-                        <ul
-                            className="room_card"
-                            id="room_card scheduled_rooms"
-                        >
-                            {(scheduledcallRooms || []).map((room, idx) => {
-                                let owner = false;
-                                if (room?.hostName === creator?.name) {
-                                    owner = true;
-                                }
-                                return (
-                                    <li
-                                        key={idx}
-                                        className={`${room.gatheringType} room-container`}
-                                    >
-                                        <GatheringCard
-                                            cardType="schedule"
-                                            room={room}
-                                            user={creator}
-                                            peers={room.acceptedPeers}
-                                            owner={owner}
-                                            editScheduleRoom={
-                                                triggerNewEditRoom
-                                            }
-                                        />
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </section>
-                </GatheringEditFormProvider>
-            </GatheringFormProvider>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </section>
         );
     }
 

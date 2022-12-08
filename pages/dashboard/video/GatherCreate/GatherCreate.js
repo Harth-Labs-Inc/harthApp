@@ -8,7 +8,7 @@ const GatherCreate = ({ createRoomFormSubmit, createScheduleRoom }) => {
     const { state, dispatch } = useGatheringFormState();
 
     const checkValidation = () => {
-        if (!state.roomName.trim() || !state.gatheringType) {
+        if (!state?.roomName?.trim() || !state?.gatheringType) {
             return true;
         }
         return false;

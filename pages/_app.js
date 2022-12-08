@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import "../styles/Styles.modules.scss";
 import { AuthProvider } from "../contexts/auth";
 import { ResponsiveProvider } from "../contexts/mobile";
+import { CreateGatheringFormProvider as GatheringFormProvider } from "../pages/dashboard/video/GatherForm/GatheringFormContext";
+import { CreateGatheringFormProvider as GatheringEditFormProvider } from "../pages/dashboard/video/GatherEditForm/GatheringFormContext";
 import Layout from "../components/layout";
 import TransitionLayout from "../components/Transitions";
 
@@ -33,7 +35,11 @@ function MyApp({ Component, pageProps }) {
             <AuthProvider>
                 <Layout>
                     <TransitionLayout>
-                        <Component key={router.asPath} {...pageProps} />
+                        <GatheringFormProvider>
+                            <GatheringEditFormProvider>
+                                <Component key={router.asPath} {...pageProps} />
+                            </GatheringEditFormProvider>
+                        </GatheringFormProvider>
                     </TransitionLayout>
                 </Layout>
             </AuthProvider>

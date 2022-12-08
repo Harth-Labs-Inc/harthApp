@@ -67,7 +67,7 @@ export function GatheringType(props) {
                             <span>Video chat for gaming</span>
                         </button>
                         <p id="gathering_setup_type_error">
-                            {validate.includes("room_type")
+                            {validate?.includes("room_type")
                                 ? "Must choose a room type"
                                 : ""}
                         </p>

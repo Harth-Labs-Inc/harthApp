@@ -39,7 +39,7 @@ export function GatheringTime(props) {
                                 })
                             }
                             isrequired={
-                                validate.includes("gathering_date")
+                                validate?.includes("gathering_date")
                                     ? true
                                     : false
                             }
@@ -56,7 +56,7 @@ export function GatheringTime(props) {
                                 })
                             }
                             isrequired={
-                                validate.includes("gathering_time")
+                                validate?.includes("gathering_time")
                                     ? true
                                     : false
                             }
