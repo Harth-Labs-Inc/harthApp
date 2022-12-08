@@ -17,7 +17,7 @@ function init(defaultGathering) {
     return { state: defaultGathering };
 }
 
-function gatheringReducer(state, action) {
+function gatheringReducer(state = {}, action) {
     switch (action.type) {
         case "GATHERING_NAME_CHANGE":
             return { ...(state || {}), roomName: action.payload };
