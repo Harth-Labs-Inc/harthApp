@@ -1,18 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
-import styles from './Toggle.module.scss'
+import styles from './hdSwitch.module.scss';
 
-export const Toggle = (props) => {
+export const HDSwitch = (props) => {
+  const { onToggleChange, isChecked } = props
   const [toggle, setToggle] = useState(false)
-
-  const { onToggleChange, toggleName, isChecked } = props
 
   useEffect(() => {
     setToggle(isChecked)
   }, [isChecked])
 
   const triggerToggle = () => {
-   // onToggleChange(!toggle)
+    onToggleChange()
     setToggle(!toggle)
   }
 
@@ -30,10 +29,11 @@ export const Toggle = (props) => {
           <div className={styles.ToggleContainerCircle}>
             <span></span>
           </div>
+          <div className={styles.ToggleContainerLabel}>HD</div>
           <input
             className={styles.ToggleContainerInput}
             type="checkbox"
-            aria-label="Toggle Button"
+            aria-label="HD Toggle Button"
             defaultChecked={toggle}
           />
         </div>

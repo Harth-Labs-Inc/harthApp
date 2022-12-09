@@ -9,7 +9,13 @@
     background-origin: border-box;
     background-clip: content-box, border-box;
     box-shadow: 4px 9999px 1px $ash inset; //interior color
-      
+    
+    &:hover {
+        border: solid 3px transparent;
+        background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
+
+    }
+    
     &Large {
         padding: 10px;
         height: 56px;
@@ -42,13 +48,13 @@
             fill: $alert_red;
         }
 
-    }
-
-    &:hover {
-        border: solid 3px transparent;
-        background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
+        &:hover {
+            border: solid 3px $alert_red;
+        }
 
     }
+
+    
 
 }
 
@@ -78,7 +84,7 @@
 }
 
 
-.leaveButtonMobile {
+.controlButtonMobile {
     position: relative;
     padding: 8px 8px;
     border: 0;
@@ -94,6 +100,7 @@
 }
 
 
+  
 
 .moreButton {
     border-radius: 9999px;

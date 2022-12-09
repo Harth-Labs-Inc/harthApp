@@ -1,0 +1,105 @@
+@import '../../../styles/fonts.scss';
+@import '../../../styles/globals.scss';
+
+
+
+.mobile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  min-height: 40px;
+  width: 100%;
+  padding: 0px 12px 0px 12px;
+  background-color: $fuel;
+  z-index: 10;
+
+  color: $white_90;
+  @include contentR2;
+
+  .labelHolder {
+    display: flex;
+    position: relative;
+    align-items: center;
+    column-gap: 8px;;
+
+    .harthImage {
+      height: 28px;
+      width: 28px;
+      border-radius: 4px;
+      border: 1px solid $white_10;
+
+    }
+  } 
+
+  .hdPosition {
+    border:0;
+    //@include y-center;
+    //left: calc(50% - 28px);
+  }
+    
+}
+
+.desktop {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  min-height: 56px;
+  width: 100%;
+  padding: 0px 24px 0px 24px;
+  background-color: $fuel;
+  z-index: 10;
+
+  color: $white_90;
+  @include contentR2;
+
+  .labelHolder {
+    display: flex;
+    position: relative;
+    align-items: center;
+    column-gap: 8px;;
+
+    .harthImage {
+      height: 28px;
+      width: 28px;
+      border-radius: 4px;
+      border: 1px solid $white_10;
+
+    }
+  } 
+
+  .hdPosition {
+    @include y-center;
+    left: calc(50% - 28px);
+  }
+    
+}
+
+.chatHeader {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  min-height: 48px;
+  width: 100%;
+  padding: 0px 12px 0px 12px;
+  background-color: $fuel;
+  z-index: 10;
+
+  color: $white_90;
+  @include interfaceR2;
+
+    
+}
+
+.rightSpacer {
+  width: 40px;
+}
+
+

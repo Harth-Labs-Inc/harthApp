@@ -1,0 +1,252 @@
+@import '../../../styles/fonts.scss';
+@import '../../../styles/globals.scss';
+
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 6px;
+    aspect-ratio: 1;
+    width: 100%;
+    min-width: 100px;
+    height: 100%;
+    min-width: 100px;
+    border-radius: 16px;
+    padding: 2px 2px 2px 2px;
+    background-color: darken($fuel, 8%);
+    border: 4px solid $white_10;
+    
+    &:hover {
+        border: 4px solid $white_50;
+    }
+
+    &Speaking{
+        border: 4px solid darken($hot_green, 10%);
+    }
+
+
+    .label {
+        width: 100%;
+        padding: 0 6px;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        @include contentR3;
+        color: $white_90;
+        text-align: center;
+        text-overflow: ellipsis;
+
+        &Mobile {
+            @include contentR2;
+        }
+    }
+
+    .webcam {
+        // all this will need to be updated when real webcam is added
+        position: relative;
+        width: 100%;
+    }
+
+
+}
+
+.volumeButton {
+    position: relative;
+    border-radius: 9999px;
+    cursor: pointer;
+    background: transparent;
+    border:0;
+    border: 2px solid transparent; 
+    padding: 4px;
+    height: 32px;
+    width: 32px;
+    flex: 0 0 32px;
+    path{
+        fill: $white_90;
+    }
+
+    &:hover {
+        path {
+            fill: $hot_pink;
+        }
+    }
+
+    &Active {
+        border: 2px solid hot_pink; 
+    }
+
+}
+
+.muteButton {
+    position:relative;
+    border-radius: 9999px;
+    cursor: pointer;
+    border:0;
+    background-color: transparent;   
+    border: 2px solid transparent; 
+    padding: 4px;
+    height: 32px;
+    width: 32px;
+    flex: 0 0 32px;
+    animation: fade;
+    animation-duration: 0.6s;
+
+    path{
+        fill: $white_90;
+    }
+
+    &:hover {
+        border: 2px solid $alert_red; 
+        path {
+            fill: $alert_red;
+        }
+    }
+
+    &Active {
+        border: 2px solid $alert_red; 
+        path {
+            fill: $alert_red;
+        }
+
+    }
+
+}
+
+.volumePanel {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    column-gap: 4px;;
+    align-items: center;
+    top: 8px;
+    left: 8px;
+ 
+
+    z-index: 10;
+    border-radius: 9999px;
+    border:0;
+    background-color: $fuel;   
+    border: 2px solid $white_90; 
+    padding: 2px 2px 2px 2px;
+    
+    height: 40px;
+    width: 40px;
+    transition: width 0.3s;    
+
+    &Active {
+        background-color: $black;
+        width: 200px;
+
+    }
+
+    &:hover {
+        background-color: $black;
+
+    }
+
+
+
+
+
+
+}
+
+.volumeSlider {
+    display: flex;
+    width: 40px;
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    animation: fade;
+    animation-duration: 0.6s;
+
+    //webkit
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      margin-top: -6px;
+      height: 14px;
+      width: 14px;
+      background-color: $hot_pink;
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+    &::-webkit-slider-runnable-track {
+      height: 4px;
+      width: 100%;
+      background-color: $white_50;
+      border-radius: 9999px;
+    }
+    //mozilla
+    &::-moz-range-thumb {
+      height: 14px;
+      width: 14px;
+      background-color: $hot_pink;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 0;
+    }
+    &::-moz-range-track {
+      height: 4px;
+      width: 100%;
+      background-color: $white_50;
+      border-radius: 9999px;
+    }
+    &::-moz-range-progress {
+        height: 4px;
+        background-color: $white_50;
+        border-radius: 9999px;
+    }
+    //microsoft
+    &::-ms-thumb {
+      height: 14px;
+      width: 14px;
+      background-color: $hot_pink;
+      border-radius: 9999px;
+      border: 0;
+      cursor: pointer;
+    }
+    &::-ms-track {
+      height: 4px;
+      width: 100%;
+      background-color: $white_50;
+      border-radius: 9999px;
+    }
+    &::-ms-fill-lower {
+      background: $white_50;
+    }
+  }
+
+
+
+.muteLabel {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    z-index: 8;
+    border: 0;
+    height: 32px;
+    width: 32px;
+    padding: 6px;
+    background-color: $alert_red;
+    border-radius: 9999px;
+    
+    path{
+        fill: $white_90;
+    }
+}
+
+
+
+
+
+
+
+@keyframes fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+
+}
