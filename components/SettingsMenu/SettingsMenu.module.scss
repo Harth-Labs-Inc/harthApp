@@ -1,12 +1,101 @@
-.AccountSettingsHeader {
-  padding: 42px 16px;
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 24px;
-  text-align: center;
-  border-bottom: 1px solid #eaeaea;
+@import "../../styles/fonts.scss";
+@import "../../styles/globals.scss";
 
-  &Back {
-    left: 16px;
-  }
+
+
+.menuContainer {
+  position:relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;;
+  justify-content: flex-start;
+  align-items: center;
+  width: 320px;
+  height: 100vh;
+  padding: 0 6px 0 6px;
+  background-color: $white;
+
 }
+
+.headerImage {
+  width: 140px;
+  margin: 56px 0 56px 0;
+}
+
+.settingsHeader {
+  position:relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  @include interfaceH3;
+
+
+}
+
+.menuItem {
+  position:relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  align-items: center;
+  //cursor: pointer;
+  width: 100%;
+  height: 56px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0px 16px 0px 24px;
+
+
+  background-color: $white;
+  @include interfaceR2;
+
+  &:hover {
+    background-color: $fuel_10;
+  }
+
+  .iconHolder {
+    height: 24px;
+    width: 24px;
+    path {
+      fill: $fuel;
+    }
+  }
+
+}
+
+.sectionLabel {
+  display: flex;
+  @include interfaceH4;
+  width: 100%;
+  border: 0px solid $fuel;
+  border-bottom-width: 1px;
+  align-items:flex-end;
+  padding-bottom: 4px;;
+  height: 36px;
+
+}
+
+.sectionContainer {
+  position:relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 0 8px;
+  //margin-bottom: 16px;
+}
+
+
+.spacer {
+  width: 40px;
+  background: transparent;
+}
+
+
+

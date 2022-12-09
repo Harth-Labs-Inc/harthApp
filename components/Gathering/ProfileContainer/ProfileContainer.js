@@ -19,7 +19,7 @@ const ProfileContainer= (props) => {
 
 
     //shows the streaming label for app streaming, not webcam
-    const [isStreaming, setIsStreaming] = useState(false);
+    const [isStreaming, setIsStreaming] = useState(true);
 
     //if they are broadcasting webcam,
     const [hasWebcam, setHasWebcam] = useState(false);
@@ -28,7 +28,7 @@ const ProfileContainer= (props) => {
     const [isSpeaking, setIsSpeaking] = useState(false);
 
     //if moted
-    const [isMuted, setIsMuted] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
 
 
     
@@ -112,14 +112,22 @@ const ProfileContainer= (props) => {
                 </div>
             )}
 
-
             {/* ///////////////////// */}
-            {/* Muted Overlay*/}
+            {/* Label Streaming Overlay*/}
             {/* ///////////////////// */}
 
-            {isMuted && (
-                <div className={styles.muteLabel} >
-                    <IconMuteIncoming />
+            {(isStreaming || isMuted) && (
+                <div className={styles.labelHolder}>
+                     {isMuted && (
+                        <div className={styles.muteLabel} >
+                            <IconMuteIncoming />
+                        </div>
+                    )}
+                    {/* {isStreaming && (
+                        <div className={styles.streamLabel} >
+                            LIVE
+                        </div>
+                    )} */}
                 </div>
             )}
 

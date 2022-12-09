@@ -1,7 +1,7 @@
 import { IconChevronLeft } from "../../../resources/icons/IconChevronLeft";
 import styles from "./gatheringButtons.module.scss";
 
-export const BackButtonMobile = (props) => {
+const BackButtonMobile = (props) => {
     const { onClick } = props;
     return (
         <>
@@ -11,6 +11,7 @@ export const BackButtonMobile = (props) => {
                 </div>
             </button>
         </>
-    );
-};
+    )
+}
 
+export default BackButtonMobile
