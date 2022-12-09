@@ -48,7 +48,7 @@
     .topButtons {
     display: flex;
     align-items: center;
-    margin-top: 8px;    
+    margin-top: 9px;    
     column-gap: 24px;
     }
 
@@ -69,6 +69,7 @@
         padding-right: 12px;
         padding-left: 12px;
 
+
         .indicator {
             height: 5px;
             width: 32px;
@@ -86,14 +87,8 @@
             }
 
             &:hover{
-
                 .indicator {
-                    height: 5px;
-                    width: 32px;
-                    border-top-right-radius: 9999px;     
-                    border-top-left-radius: 9999px;
                     background-color: $fuel;
-
                 }
             }
 
@@ -101,14 +96,11 @@
 
         &Active{
             @include interfaceR3;
-            font-weight: 600;
+            font-weight: 500;
             transition: 1s;
 
             .indicator {
-                height: 5px;
                 width: 56px;
-                border-top-right-radius: 9999px;     
-                border-top-left-radius: 9999px;
                 background-color: $fuel;
             }
             path {

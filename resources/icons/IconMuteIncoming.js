@@ -1,4 +1,7 @@
-const IconMuteIncoming = ({ fill = '#2F1D2A' }) => (
+
+export const IconMuteIncoming = ({ fill = '#2F1D2A' }) => {
+
+return(
   <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox={'0 0 48 48'}>
     <path
       fill={fill}
@@ -6,6 +9,5 @@ const IconMuteIncoming = ({ fill = '#2F1D2A' }) => (
     />
   </svg>
 )
-
+}
 export default IconMuteIncoming;
-

@@ -4,7 +4,8 @@ import { MobileContext } from "../../../contexts/mobile";
 import { IconVolumeUpFill } from "../../../resources/icons/IconVolumeUpFill";
 import { VolumeButton } from "./VolumeButton";
 import { MuteProfileButton } from "./MuteProfileButton";
-import IconMuteIncoming from '../../../resources/icons/IconMuteIncoming';
+import { IconMuteIncoming } from '../../../resources/icons/IconMuteIncoming';
+import { Avatar } from '../../Common/Avatar/Avatar';
 
 
 
@@ -12,22 +13,28 @@ import styles from './profileContainer.module.scss';
 
 const ProfileContainer= (props) => {
     const { userInfo } = props; //whatever you need to pass
-
     const [hasVolumePanel, setHasVolumePanel] = useState(false);
     const [isVolumeExpanded, setIsVolumeExpanded] = useState(false);
+    const { isMobile } = useContext(MobileContext);
 
+
+    //shows the streaming label for app streaming, not webcam
     const [isStreaming, setIsStreaming] = useState(false);
+
+    //if they are broadcasting webcam,
     const [hasWebcam, setHasWebcam] = useState(false);
+
+    //speaking indicator 
     const [isSpeaking, setIsSpeaking] = useState(false);
+
+    //if moted
     const [isMuted, setIsMuted] = useState(false);
 
 
-
-    const { isMobile } = useContext(MobileContext);
     
     //const [profileName, setProfileName] = useState()
     //update with logic for profile name pull
-    const profileName ="ZilhamGoesBig";
+    const profileName ="themadchiller";
     
     //const [profileIcon, setProfileIcon] = useState()
     //update with logic for image pull
@@ -60,13 +67,9 @@ const ProfileContainer= (props) => {
 
     const hideVolumePanel =() => {
         setHasVolumePanel(false);
+        setIsVolumeExpanded(false);
 
     }
-
-    // // removes all volume components from view
-    // const hideVolumeControl = () => {
-    //     setHasVolumePanel(false);
-    // };
 
 
 
@@ -74,7 +77,10 @@ const ProfileContainer= (props) => {
         <>
           
         <div 
-            className={styles.container} 
+            className={`
+            ${styles.container} 
+            ${isSpeaking && styles.containerSpeaking} 
+            `} 
             onMouseLeave={hideVolumePanel}
             onMouseOver={showVolumePanel}
         >
@@ -90,7 +96,6 @@ const ProfileContainer= (props) => {
                 `} >
                     
                     <VolumeButton onClick={toggleVolumeExpanded} />
-                
                     {isVolumeExpanded && (
                         <>
                         <input 
@@ -101,10 +106,9 @@ const ProfileContainer= (props) => {
 
                         className={styles.volumeSlider}
                         />
-                        <MuteProfileButton onClick={toggleMuted} state={isMuted}/>
+                        <MuteProfileButton onClick={toggleMuted} buttonState={isMuted}/>
                         </>
                     )}
-
                 </div>
             )}
 
@@ -122,14 +126,26 @@ const ProfileContainer= (props) => {
             )}
 
 
+            {!hasWebcam
+                ?(
+                    <>
+                    <Avatar
+                        aLabel="Profile Image"
+                        isPressable={false}
+                        picSize={72}
+                        imageSrc={profileIcon}
+                        />
+                    <div className={styles.label}>
+                        {profileName}
+                    </div>
+                    </>
 
-                <img src={profileIcon} aria-label="Profile Image" className={`
-                    ${styles.profileImage} 
-                    ${isSpeaking && styles.profileImageSpeaking} 
-                `} />
-                <div className={styles.label}>
-                    {profileName}
-                </div>
+                ):(
+                    <>
+                    <img src={webcamStream} aria-label="Profile Image" className={styles.webcam} />
+                    </>
+                )
+}
         </div>
 
 
