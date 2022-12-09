@@ -15,7 +15,7 @@
     height: 100%;
     min-width: 100px;
     border-radius: 16px;
-    padding: 2px;
+    padding: 2px 2px 2px 2px;
     background-color: darken($fuel, 8%);
     border: 4px solid $white_10;
     
@@ -61,9 +61,9 @@
     border:0;
     border: 2px solid transparent; 
     padding: 4px;
-    height: 38px;
-    width: 38px;
-    flex: 0 0 38px;
+    height: 32px;
+    width: 32px;
+    flex: 0 0 32px;
     path{
         fill: $white_90;
     }
@@ -87,10 +87,10 @@
     border:0;
     background-color: transparent;   
     border: 2px solid transparent; 
-    padding: 6px;
-    height: 38px;
-    width: 38px;
-    flex: 0 0 38px;
+    padding: 4px;
+    height: 32px;
+    width: 32px;
+    flex: 0 0 32px;
     animation: fade;
     animation-duration: 0.6s;
 
@@ -130,15 +130,15 @@
     border:0;
     background-color: $fuel;   
     border: 2px solid $white_90; 
-    padding: 2px 4px 2px 4px;
+    padding: 2px 2px 2px 2px;
     
-    height: 48px;
-    width: 48px;
+    height: 40px;
+    width: 40px;
     transition: width 0.3s;    
 
     &Active {
         background-color: $black;
-        width: 220px;
+        width: 200px;
 
     }
 
@@ -168,8 +168,8 @@
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       margin-top: -6px;
-      height: 16px;
-      width: 16px;
+      height: 14px;
+      width: 14px;
       background-color: $hot_pink;
       border-radius: 9999px;
       cursor: pointer;
@@ -182,8 +182,8 @@
     }
     //mozilla
     &::-moz-range-thumb {
-      height: 16px;
-      width: 16px;
+      height: 14px;
+      width: 14px;
       background-color: $hot_pink;
       border-radius: 50%;
       cursor: pointer;
@@ -202,8 +202,8 @@
     }
     //microsoft
     &::-ms-thumb {
-      height: 16px;
-      width: 16px;
+      height: 14px;
+      width: 14px;
       background-color: $hot_pink;
       border-radius: 9999px;
       border: 0;
@@ -224,32 +224,21 @@
 
 .muteLabel {
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    border-radius: 12px;
-    background-color: $white_5;
-    z-index: 9;
+    left: 8px;
+    bottom: 8px;
+    z-index: 8;
     border: 0;
-    backdrop-filter: blur(1px);
-    -webkit-backdrop-filter: blur(1px);
-
+    height: 32px;
+    width: 32px;
+    padding: 6px;
+    background-color: $alert_red;
+    border-radius: 9999px;
     
-
-    .icon {
-        height: 80px;
-        width: 80px;
-        padding: 16px;
-        background-color: $overlay_dark;
-        border-radius: 9999px;
-        
-        path{
-            fill: $alert_red;
-        }
+    path{
+        fill: $white_90;
     }
 }
+
 
 
 

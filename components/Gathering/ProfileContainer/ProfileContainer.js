@@ -119,9 +119,7 @@ const ProfileContainer= (props) => {
 
             {isMuted && (
                 <div className={styles.muteLabel} >
-                    <div className={styles.icon}>
-                        <IconMuteIncoming />
-                    </div>
+                    <IconMuteIncoming />
                 </div>
             )}
 
@@ -141,6 +139,7 @@ const ProfileContainer= (props) => {
                     </>
 
                 ):(
+                    //video stuff goes here
                     <>
                     <img src={webcamStream} aria-label="Profile Image" className={styles.webcam} />
                     </>
