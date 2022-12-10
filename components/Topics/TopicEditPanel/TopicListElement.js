@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { IconBookmarkNoFill } from "../../../resources/icons/IconBookmarkNoFill";
+import { IconTimerNoFill } from "../../../resources/icons/IconTimerNoFill";
 import { Avatar } from "../../Common/Avatar/Avatar";
 
 
@@ -16,6 +17,7 @@ const TopicListElement = (props) => {
         //pictures of the chats that activated the alert are passed in an array
         alertProfiles =[],
         isActive = false,
+        isShort = false, //is this a regular or limited time topic
         label = "topic name",
 
     } = props;
@@ -46,8 +48,12 @@ const TopicListElement = (props) => {
                 onClick={toggleActive}>
 
 
-                <div className={styles.icon}><IconBookmarkNoFill /></div>
-
+                {isShort 
+                ?
+                    <div className={styles.icon}><IconTimerNoFill /></div>
+                :
+                    <div className={styles.icon}><IconBookmarkNoFill /></div>
+                }
                 <div className={styles.topicWithPointer}>
                     <div className={styles.pointer}><p> </p></div>
                     <div className={`

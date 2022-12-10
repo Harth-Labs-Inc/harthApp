@@ -75,7 +75,6 @@
             width: 88px;
             padding-top: 12px;
             padding-bottom: 0px;
-            transition: all 3s;
 
             .indicator {
                 height: 5px;
@@ -88,6 +87,9 @@
             &Inactive{
                 @include interfaceR3;
                 font-weight: 300;
+                .indicator {
+                    width: 32px;
+                }
                 path {
                     stroke-width: 1.5px;
                     stroke: $light_ash;
@@ -96,6 +98,7 @@
                 &:hover{
                     .indicator {
                         background-color: $fuel;
+
                     }
                 }
 
@@ -108,6 +111,8 @@
                 .indicator {
                     width: 56px;
                     background-color: $fuel;
+                    transition: all 2s;
+
                 }
                 path {
                     stroke-width: .6px;
