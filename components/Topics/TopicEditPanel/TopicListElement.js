@@ -10,18 +10,13 @@ const TopicListElement = (props) => {
     const { 
         onClick,
         isMobile,
-        hasAlert = false,
-        alertProfiles,
-        isActive =true,
+        hasAlert = true,
+        //pictures of the chats that activated the alert are passed in an array
+        alertProfiles =[],
+        isActive = false,
         label = "topic name",
 
     } = props;
-
-
-    const profileIcon =
-    "https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg";
-
-
 
     return (
         <>
@@ -50,9 +45,10 @@ const TopicListElement = (props) => {
 
                         {hasAlert && (
                             <div className={styles.alertProfiles}>
-                                <Avatar picSize={24} imageSrc={profileIcon}/>
-                                <Avatar picSize={24} imageSrc={profileIcon}/>
-                                <Avatar picSize={24} imageSrc={profileIcon}/>
+                                {/* picture array is parsed  */}
+                               {alertProfiles.map(e => (
+                                    <Avatar picSize={28} imageSrc={e}/>
+                                ))}                    
                             </div>
                         )}
                     </div>
