@@ -16,6 +16,7 @@
 
 
     .harthButton{
+        position: relative;
         padding-left: 8px;
         padding-right: 8px;
         @include contentH1;
@@ -31,89 +32,94 @@
         }
     }
 
-    .alertIndicator {
-    height: 11px;
-    width: 11px;
-    border-radius: 9999px;     
-    background-color: $hot_pink;
-    border-color: $light_ash;
-    border-width: 2px;
-    border-style: solid;
-
-    position: absolute;
-    top: 10px;
-    left: 32px;
-    }
-
+    
     .topButtons {
-    display: flex;
-    align-items: center;
-    margin-top: 9px;    
-    column-gap: 24px;
-    }
-
-
-    .navButton {
+        position:relative;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        position: relative;
-        height: 48px;
-        color: $fuel;
-        background-color: transparent;
-        border: 0;
-        cursor: pointer;
-        padding-top: 12px;
-        padding-bottom: 0px;
-        padding-right: 12px;
-        padding-left: 12px;
+        margin-top: 9px;    
+        column-gap: 24px;
+    
+        .iconHolder {
+            position:relative;
+            height: 24px;
+            width: 24px;
+            margin-right: 4px;
 
+            .alertIndicator {
+            height: 11px;
+            width: 11px;
+            border-radius: 9999px;     
+            background-color: $hot_pink;
+            border-color: $light_ash;
+            border-width: 2px;
+            border-style: solid;
 
-        .indicator {
-            height: 5px;
-            width: 32px;
-            border-top-right-radius: 9999px;     
-            border-top-left-radius: 9999px;
-            background-color: transparent;
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            }
         }
 
-        &Inactive{
-            @include interfaceR3;
-
-            path {
-                stroke-width: .6px;
-                stroke: transparent;
-            }
-
-            &:hover{
-                .indicator {
-                    background-color: $fuel;
-                }
-            }
-
-        }
-
-        &Active{
-            @include interfaceR3;
-            font-weight: 500;
-            transition: 1s;
+        .navButton {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            height: 48px;
+            background: transparent;
+            color: $fuel;
+            border: 0;
+            cursor: pointer;
+            width: 88px;
+            padding-top: 12px;
+            padding-bottom: 0px;
+            transition: all 3s;
 
             .indicator {
-                width: 56px;
-                background-color: $fuel;
+                height: 5px;
+                width: 32px;
+                border-top-right-radius: 9999px;     
+                border-top-left-radius: 9999px;
+                background-color: transparent;
             }
-            path {
-                stroke-width: .6px;
-                stroke: $fuel;
+
+            &Inactive{
+                @include interfaceR3;
+                font-weight: 300;
+                path {
+                    stroke-width: 1.5px;
+                    stroke: $light_ash;
+                }
+
+                &:hover{
+                    .indicator {
+                        background-color: $fuel;
+                    }
+                }
+
             }
+
+            &Active{
+                @include interfaceR3;
+                font-weight: 500;
+                transition: 1s;
+                .indicator {
+                    width: 56px;
+                    background-color: $fuel;
+                }
+                path {
+                    stroke-width: .6px;
+                    stroke: $fuel;
+                }
+                
+            }
+
             
+
         }
-
-        
-
     }
-
 
 }
 

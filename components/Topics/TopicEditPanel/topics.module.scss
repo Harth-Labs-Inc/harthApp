@@ -1,0 +1,156 @@
+@import '../../../styles/globals.scss';
+@import '../../../styles/fonts.scss';
+
+
+.topic {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding: 4px 4px;
+    border: 0;
+    background-color: transparent;
+
+
+    
+
+    .icon {
+        height: 32px;
+        min-height: 32px;
+        min-width: 32px;
+        width: 32px;
+        padding: 4px;
+        border-radius: 9999px;
+        border: 2px solid $fuel;
+        background-color: $white;
+
+        path {
+            fill: $fuel;
+            stroke-width: 2px;
+            stroke: $fuel;
+        }
+
+
+    }
+
+    .topicWithPointer{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .topicContainer {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            background-color:$white;
+            border: 2px solid $fuel;
+            border-radius: 4px;
+            padding: 8px 16px;
+            row-gap: 4px;
+
+            .label {
+                @include contentR2;
+                width: 100%;
+                color: $fuel;
+                text-align: left;
+        
+            }
+        
+            .alertProfiles {
+                display: flex;
+                flex-direction: row;
+                column-gap: 1px;
+                row-gap: 1px;
+
+                flex-wrap: wrap;
+            }
+
+            &Alert {
+                box-shadow: 4px 4px 0 $hot_pink;
+            }
+
+        }
+
+        .pointer {
+            position: relative;
+            width:16px;
+            height: 20px;
+        
+            p:before,
+            p:after {
+                content: ' ';
+                position: absolute;
+                width: 0;
+                height: 0;
+            }
+        
+            p:before {
+                right: -1px;
+                bottom: 0px;
+                border: 10px solid;
+                border-color: transparent $fuel transparent transparent;
+            }
+        
+            p:after {
+                right: -4px;
+                bottom: 0px;
+                border: 10px solid;
+                border-color: transparent$white transparent transparent ;
+            }
+        
+    
+        }
+    }
+    
+    &Active{
+        .icon {
+            background-color: $fuel;
+            path {
+                fill: $oxygen;
+                stroke: $oxygen;
+            }
+        }
+    
+        .topicWithPointer{    
+            .topicContainer {
+                background-color: $fuel;  
+                .label {
+                    color: $oxygen;           
+                }
+                &Alert {
+                    box-shadow: 4px 4px 0 $hot_pink;
+                }
+            }
+    
+            .pointer {
+                p:after {
+                    border-color: transparent $fuel transparent transparent ;
+                } 
+            }
+        }
+        
+    }
+
+    &:hover {
+
+        .topicWithPointer{
+            .topicContainer {
+                background-color:$fuel;
+                .label {
+                    color: $oxygen;  
+                }
+            }
+
+            .pointer {
+                p:after {
+                    border-color: transparent transparent transparent transparent ;
+                }
+            }
+        }
+        
+    }
+    
+
+}
