@@ -1,3 +1,5 @@
+
+import { useState } from "react";
 import { IconBookmarkNoFill } from "../../../resources/icons/IconBookmarkNoFill";
 import { Avatar } from "../../Common/Avatar/Avatar";
 
@@ -18,15 +20,30 @@ const TopicListElement = (props) => {
 
     } = props;
 
+    const [buttonState, setButtonState] = useState(isActive);
+    const [alertState, setAlertState] = useState(hasAlert);
+
+
+    const toggleActive = () => {
+        if (!buttonState){
+            setButtonState(true);
+            setAlertState(false);
+            //onClick()
+        }
+        else{
+            setButtonState(false);
+        }
+    };
+
     return (
         <>
             <button 
                 className={`
                     ${styles.topic} 
-                    ${isActive && styles.topicActive} 
-                    ${hasAlert && styles.topicAlert} 
+                    ${buttonState && styles.topicActive} 
+                    ${alertState && styles.topicAlert} 
                     `}
-                onClick={onClick}>
+                onClick={toggleActive}>
 
 
                 <div className={styles.icon}><IconBookmarkNoFill /></div>
@@ -35,7 +52,7 @@ const TopicListElement = (props) => {
                     <div className={styles.pointer}><p> </p></div>
                     <div className={`
                     ${styles.topicContainer} 
-                    ${hasAlert && styles.topicContainerAlert} 
+                    ${alertState && styles.topicContainerAlert} 
                     `}
                     >
                         <div className={styles.label}>
@@ -43,7 +60,7 @@ const TopicListElement = (props) => {
 
                         </div>
 
-                        {hasAlert && (
+                        {alertState && (
                             <div className={styles.alertProfiles}>
                                 {/* picture array is parsed  */}
                                {alertProfiles.map(e => (
