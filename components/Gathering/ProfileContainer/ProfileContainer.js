@@ -19,7 +19,7 @@ const ProfileContainer= (props) => {
 
 
     //shows the streaming label for app streaming, not webcam
-    const [isStreaming, setIsStreaming] = useState(true);
+    const [isStreaming, setIsStreaming] = useState(false);
 
     //if they are broadcasting webcam,
     const [hasWebcam, setHasWebcam] = useState(false);
@@ -28,7 +28,7 @@ const ProfileContainer= (props) => {
     const [isSpeaking, setIsSpeaking] = useState(false);
 
     //if moted
-    const [isMuted, setIsMuted] = useState(true);
+    const [isMuted, setIsMuted] = useState(false);
 
 
     
@@ -38,7 +38,7 @@ const ProfileContainer= (props) => {
     
     //const [profileIcon, setProfileIcon] = useState()
     //update with logic for image pull
-    const profileIcon ="https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg";
+    const profileIcon = "https://w7.pngwing.com/pngs/853/421/png-transparent-dwayne-johnson-desktop-high-definition-television-professional-wrestler-4k-resolution-dwayne-johnson-tshirt-hand-fitness-professional.png";
 
 
     //const [webcamStream, setwebcamStream] = useState()
