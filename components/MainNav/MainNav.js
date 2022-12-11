@@ -196,7 +196,11 @@ const MainNav = (props) => {
                             >
                                 <div className={styles.iconHolder}>
                                     <IconChatNoFill />
-                                    {hasAlert && (<div className={styles.alertIndicator} />)}
+                                    {(hasAlert & !(currentPage == "chat"))
+                                    ?
+                                    (<div className={styles.alertIndicator} />)
+                                    :null
+                                    }
                                 </div>
                                 <div>Chat</div>
                             </div>
@@ -230,7 +234,11 @@ const MainNav = (props) => {
                             >
                                 <div className={styles.iconHolder}>
                                     <IconFireNoFill />
-                                    {hasAlert && (<div className={styles.alertIndicator} />)}
+                                    {(hasAlert & !(currentPage == "gather"))
+                                    ?
+                                    (<div className={styles.alertIndicator} />)
+                                    :null
+                                    }
                                 </div>
                                 <div>Gather</div>
                             </div>
@@ -258,7 +266,12 @@ const MainNav = (props) => {
                             >
                                 <div className={styles.iconHolder}>
                                     <IconForumNoFill />
-                                    {hasAlert && (<div className={styles.alertIndicator} />)}
+                                    {(hasAlert & !(currentPage == "message"))
+                                    ?
+                                    (<div className={styles.alertIndicator} />)
+                                    :null
+                                    }
+                                    
                                 </div>
                                 <div>Message</div>
                             </div>

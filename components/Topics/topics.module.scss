@@ -1,5 +1,6 @@
-@import '../../../styles/globals.scss';
-@import '../../../styles/fonts.scss';
+@import '../../styles/globals.scss';
+@import '../../styles/fonts.scss';
+
 
 
 .topic {
@@ -25,13 +26,20 @@
         border: 2px solid $fuel;
         background-color: $white;
 
+        
         path {
             fill: $fuel;
             stroke-width: 2px;
             stroke: $fuel;
         }
 
+        &Mobile {
+            height: 36px;
+             min-height: 36px;
+            min-width: 36px;
+            width: 36px;
 
+        }
     }
 
     .topicWithPointer{
@@ -40,6 +48,7 @@
         flex-direction: row;
         align-items: center;
         cursor: pointer;
+        //transition: all 1s;
 
         .topicContainer {
             display: flex;
@@ -56,6 +65,13 @@
                 width: 100%;
                 color: $fuel;
                 text-align: left;
+
+                &Mobile {
+                    @include contentR1;
+                    margin-top: 2px;
+                    margin-bottom: 2px;
+        
+                }
         
             }
         
@@ -64,8 +80,8 @@
                 flex-direction: row;
                 column-gap: 1px;
                 row-gap: 1px;
-
                 flex-wrap: wrap;
+
             }
 
             &Alert {

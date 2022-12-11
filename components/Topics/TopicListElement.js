@@ -1,8 +1,8 @@
 
 import { useState } from "react";
-import { IconBookmarkNoFill } from "../../../resources/icons/IconBookmarkNoFill";
-import { IconTimerNoFill } from "../../../resources/icons/IconTimerNoFill";
-import { Avatar } from "../../Common/Avatar/Avatar";
+import { IconBookmarkNoFill } from "../../resources/icons/IconBookmarkNoFill";
+import { IconTimerNoFill } from "../../resources/icons/IconTimerNoFill";
+import { Avatar } from "../Common/Avatar/Avatar";
 
 
 import styles from "./topics.module.scss";
@@ -12,7 +12,7 @@ import styles from "./topics.module.scss";
 const TopicListElement = (props) => {
     const { 
         onClick,
-        isMobile,
+        isMobile = false,
         hasAlert = true,
         //pictures of the chats that activated the alert are passed in an array
         alertProfiles =[],
@@ -50,10 +50,27 @@ const TopicListElement = (props) => {
 
                 {isShort 
                 ?
-                    <div className={styles.icon}><IconTimerNoFill /></div>
+                    <div className={`
+                    ${styles.icon} 
+                    ${isMobile && styles.iconMobile} 
+                    `} >
+                        <IconTimerNoFill />
+                    </div>
                 :
-                    <div className={styles.icon}><IconBookmarkNoFill /></div>
+                    <div className={`
+                    ${styles.icon} 
+                    ${isMobile && styles.iconMobile} 
+                    `} >
+                        <IconBookmarkNoFill />
+                    </div>
+                    
                 }
+
+
+
+
+
+
                 <div className={styles.topicWithPointer}>
                     <div className={styles.pointer}><p> </p></div>
                     <div className={`
@@ -61,16 +78,18 @@ const TopicListElement = (props) => {
                     ${alertState && styles.topicContainerAlert} 
                     `}
                     >
-                        <div className={styles.label}>
+                        <div className={`
+                            ${styles.label} 
+                            ${isMobile && styles.labelMobile} 
+                            `} >
                             {label}
-
                         </div>
 
                         {alertState && (
                             <div className={styles.alertProfiles}>
                                 {/* picture array is parsed  */}
                                {alertProfiles.map(e => (
-                                    <Avatar picSize={28} imageSrc={e}/>
+                                    <Avatar picSize={isMobile ? 36 : 28} imageSrc={e}/>
                                 ))}                    
                             </div>
                         )}
