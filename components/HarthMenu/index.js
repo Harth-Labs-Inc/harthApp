@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { MobileContext } from '../../contexts/mobile'
-import { CloseButton } from '../Common/Buttons/CloseButton'
+import CloseButton from '../Common/Buttons/CloseButton'
 import { TextBtn } from '../Common/Button'
 import IconNotificationsNoFill from '../../resources/icons/IconNotificationsNoFill'
 import IconAdminPanel from '../../resources/icons/IconAdminPanel'

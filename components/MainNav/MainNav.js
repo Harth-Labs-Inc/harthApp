@@ -315,21 +315,17 @@ const MainNav = (props) => {
                                     alignItems: "center",
                                 }}
                             >
-                                <div
-                                    style={{
-                                        height: 24,
-                                        width: 24,
-                                        marginRight: 6,
-                                    }}
-                                >
+                                <div className={styles.iconHolder}>
                                     <IconChatNoFill />
+                                    {(hasAlert & !(currentPage == "chat"))
+                                    ?
+                                    (<div className={styles.alertIndicator} />)
+                                    :null
+                                    }
                                 </div>
                                 <div>Chat</div>
                             </div>
                             <div className={styles.indicator}></div>
-                            {hasAlert ? (
-                                <div className={styles.alertIndicator} />
-                            ) : null}
                         </button>
 
                         <button
@@ -361,21 +357,17 @@ const MainNav = (props) => {
                                     alignItems: "center",
                                 }}
                             >
-                                <div
-                                    style={{
-                                        height: 24,
-                                        width: 24,
-                                        marginRight: 6,
-                                    }}
-                                >
+                                <div className={styles.iconHolder}>
                                     <IconFireNoFill />
+                                    {(hasAlert & !(currentPage == "gather"))
+                                    ?
+                                    (<div className={styles.alertIndicator} />)
+                                    :null
+                                    }
                                 </div>
                                 <div>Gather</div>
                             </div>
                             <div className={styles.indicator}></div>
-                            {hasAlert ? (
-                                <div className={styles.alertIndicator} />
-                            ) : null}
                         </button>
 
                         <button
@@ -401,21 +393,18 @@ const MainNav = (props) => {
                                     alignItems: "center",
                                 }}
                             >
-                                <div
-                                    style={{
-                                        height: 24,
-                                        width: 24,
-                                        marginRight: 6,
-                                    }}
-                                >
+                                <div className={styles.iconHolder}>
                                     <IconForumNoFill />
+                                    {(hasAlert & !(currentPage == "message"))
+                                    ?
+                                    (<div className={styles.alertIndicator} />)
+                                    :null
+                                    }
+                                    
                                 </div>
                                 <div>Message</div>
                             </div>
                             <div className={styles.indicator}></div>
-                            {hasAlert ? (
-                                <div className={styles.alertIndicator} />
-                            ) : null}
                         </button>
                     </div>
 

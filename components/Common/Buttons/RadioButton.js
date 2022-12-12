@@ -1,21 +1,22 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import styles from "./Buttons.module.scss";
 
-
-///This one is old. use the radio button from Common/Buttons Folder
 const RadioButton = (props) => {
   const { name, id, onChange, value, isSelected, label } = props
   return (
     <>
+      <div className={styles.radioButton}>
       <input
         name={name}
         id={id}
-        className="radio-button"
+        className={styles.theButton}
         onChange={onChange}
         value={value}
         type="radio"
         checked={isSelected}
       />
-      <label htmlFor={id}>{label}</label>
+      <div className={styles.label} htmlFor={id}>{label}</div>
+      </div>
     </>
   )
 }

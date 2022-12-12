@@ -38,7 +38,7 @@ const ProfileContainer= (props) => {
     
     //const [profileIcon, setProfileIcon] = useState()
     //update with logic for image pull
-    const profileIcon ="https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg";
+    const profileIcon = "https://w7.pngwing.com/pngs/853/421/png-transparent-dwayne-johnson-desktop-high-definition-television-professional-wrestler-4k-resolution-dwayne-johnson-tshirt-hand-fitness-professional.png";
 
 
     //const [webcamStream, setwebcamStream] = useState()
@@ -112,14 +112,22 @@ const ProfileContainer= (props) => {
                 </div>
             )}
 
-
             {/* ///////////////////// */}
-            {/* Muted Overlay*/}
+            {/* Label Streaming Overlay*/}
             {/* ///////////////////// */}
 
-            {isMuted && (
-                <div className={styles.muteLabel} >
-                    <IconMuteIncoming />
+            {(isStreaming || isMuted) && (
+                <div className={styles.labelHolder}>
+                     {isMuted && (
+                        <div className={styles.muteLabel} >
+                            <IconMuteIncoming />
+                        </div>
+                    )}
+                    {/* {isStreaming && (
+                        <div className={styles.streamLabel} >
+                            LIVE
+                        </div>
+                    )} */}
                 </div>
             )}
 

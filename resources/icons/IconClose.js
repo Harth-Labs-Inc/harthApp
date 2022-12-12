@@ -1,17 +1,10 @@
-export const IconClose = ({ fill = '#2F1D2A', hasGradient }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox={'0 0 48 48'} >
-      <defs>
-        <linearGradient id="gradient">
-          <stop offset="30%" stop-color="#BB7EC4" />
-          <stop offset="90%" stop-color="#0DA1B5" />
-        </linearGradient>
-    </defs>
-      
-      <path 
-        fill={hasGradient ? "url(#gradient)" : {fill}}
-      d="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"
-    />
-  </svg>
-)
+export const IconClose = ({ fill = '#2F1D2A' }) => (
 
-
+    <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox={'0 0 48 48'}>
+      <path
+        fill={fill}
+        d="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"
+        />
+    </svg>
+  )
+  

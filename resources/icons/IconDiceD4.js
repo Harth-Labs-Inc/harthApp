@@ -1,0 +1,15 @@
+export const IconDiceD4 = ({ fill = '#2F1D2A', hasGradient }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox={'-1 -2 104 104'} >
+      <defs>
+        <linearGradient id="gradient">
+          <stop offset="30%" stop-color="#BB7EC4" />
+          <stop offset="90%" stop-color="#0DA1B5" />
+        </linearGradient>
+    </defs>
+      
+      <path 
+        fill={hasGradient ? "url(#gradient)" : {fill}}
+      d="M90.68 68.81 46.28 6.93a2 2 0 0 0-3.4.25L13.16 64.86a2 2 0 0 0 .17 2.1l19.23 26.22a2 2 0 0 0 1.61.82 2.11 2.11 0 0 0 .74-.14l54.89-22a2 2 0 0 0 .88-3Zm-73.39-3.22 25.32-49.15-8.94 71.5Zm18.22 23.72 9.64-77.1L86 69.07Zm30.81-28-2.47.82 2.24 6.41-4.53 1.66-2.05-6.6L50 66.77l-1.18-5.17L53 44.51l4.35-1 5 14.45 2.41-.74Zm-8.15-2.08-3.3-10.67L52.44 61Z"
+    />
+  </svg>
+)
