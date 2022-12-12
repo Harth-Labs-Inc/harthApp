@@ -12,18 +12,21 @@ export const CommsProvider = ({ children }) => {
     const [rooms, setRooms] = useState({});
     const [selectedTopic, setSelectedTopic] = useState({});
     const [topicChange, setTopicChange] = useState(0);
+    const [profile, setProfile] = useState(null);
 
     const { user } = useAuth();
     const { incomingTopic } = useAuth();
 
     useEffect(() => {
         if (user) {
-            if (user.comms.length > 0) {
+            if (user?.comms && user?.comms.length > 0) {
                 (async () => {
                     let result = await getComms(user);
                     const { ok, comms } = result;
                     if (ok) {
+                        console.log(comms, user, "context");
                         setComms(comms);
+                        setComm(comms[0]);
                     }
                 })();
             }
@@ -31,13 +34,18 @@ export const CommsProvider = ({ children }) => {
     }, [user]);
 
     useEffect(() => {
-        if (selectedcomm && user) {
+        if (selectedcomm) {
             setTopicChange(0);
-
             grabTopics(selectedcomm._id);
             grabRooms(selectedcomm._id);
+            if (user) {
+                let creator = selectedcomm.users.find(
+                    (usr) => usr.userId === user._id
+                );
+                if (creator) setProfile(creator);
+            }
         }
-    }, [selectedcomm]);
+    }, [selectedcomm, user]);
 
     useEffect(() => {
         localStorage.setItem("selected_topic", JSON.stringify(selectedTopic));
@@ -153,6 +161,7 @@ export const CommsProvider = ({ children }) => {
     return (
         <CommsContext.Provider
             value={{
+                profile,
                 refetchComms,
                 rooms,
                 topicChange,

@@ -1,8 +1,8 @@
-@import '../../../styles/globals.scss';
-@import '../../../styles/fonts.scss';
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
 
-
-.topBar {
+.TopBar {
+    @include interfaceH1;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -11,14 +11,9 @@
     width: 100%;
     padding-right: 12px;
     padding-left: 12px;
-    border-bottom-width: 1px;
-    background-color: $light_ash;
-    border-color: $fuel;
-    z-index: 10;
-
     color: $fuel;
-    @include interfaceH1;
     text-transform: capitalize;
-    
-  }
-
+    border-bottom: 1px solid $fuel_10;
+    background-color: $light_ash;
+    z-index: 10;
+}

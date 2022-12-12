@@ -1,5 +1,16 @@
 import api from "../services/api";
 
+export const updateHarthData = async (data) => {
+    try {
+        const res = await api.post(`/api/comm/udpateHarth`, {
+            data,
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const checkIfInviteTokenIsGood = async (data) => {
     try {
         const res = await api.post(`/api/comm/checkIfInviteTokenIsGood`, {

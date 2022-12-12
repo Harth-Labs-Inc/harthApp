@@ -1,0 +1,21 @@
+.Dashboard {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+
+    &Content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+
+        &Wrapper {
+            display: flex;
+
+            &.Mobile {
+                display: flex;
+                height: calc(100vh - 128px);
+                width: 100%;
+            }
+        }
+    }
+}

@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { getUploadURL, putImageInBucket } from "../requests/s3";
 
 export const generateOTP = () => {
     var digits = "0123456789";
@@ -190,4 +191,39 @@ export function convertToMilitaryTime(time) {
     } catch (error) {
         return time;
     }
+}
+
+export function uploadFile({ file, bucket }) {
+    return new Promise((resolve) => {
+        if (!file || !bucket) {
+            resolve({ ok: 0 });
+        }
+        async function upload() {
+            let extention = file.name.split(".").pop();
+            let id = generateID();
+            let name = `${id}_${file.name.split(".")[0]}.${extention}`;
+            const data = await getUploadURL(name, file.type, bucket);
+            const { ok, msg, uploadURL } = data;
+            if (ok) {
+                let reader = new FileReader();
+                reader.addEventListener("loadend", async (event) => {
+                    let result = await putImageInBucket(
+                        uploadURL,
+                        reader,
+                        file.type
+                    );
+                    let { status } = result;
+                    if (status == 200) {
+                        resolve({ ok: 1, name });
+                    } else {
+                        resolve({ ok: 0 });
+                    }
+                });
+                reader.readAsArrayBuffer(file);
+            } else {
+                resolve({ ok: 0 });
+            }
+        }
+        upload();
+    });
 }

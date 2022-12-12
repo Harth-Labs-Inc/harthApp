@@ -7,7 +7,6 @@ import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 import { login, addUser, sendOtpEmailToUser } from "../../../requests/userApi";
 import { Button } from "../../../components/Common";
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
-// import Form from "../../../components/Form-comp";
 import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 
 import styles from "./createAccount.module.scss";
@@ -15,21 +14,13 @@ import styles from "./createAccount.module.scss";
 const CreateAccount = (props) => {
     const { changePage, inviteToken } = props;
     const router = useRouter();
+
     const [submissionType, setSubmissionType] = useState();
-    // const [formData, setFormData] = useState({
-    //     fullName: "",
-    //     email: "",
-    //     dob: "",
-    // });
-    // const [errorData, setErrorData] = useState({
-    //     fullName: "",
-    //     email: false,
-    //     dob: false,
-    // });
     const [customErrors, setCustomErrors] = useState({
         email: "",
         match: "",
     });
+
     const {
         register,
         handleSubmit,
@@ -50,19 +41,16 @@ const CreateAccount = (props) => {
         }
     };
 
-    // const inputChangeHandler = (eData, data) => {
-    //     setErrorData(eData);
-    //     setFormData(data);
-    // };
-
-    // const setMissing = (missing) => {
-    //     setErrorData(missing);
-    // };
-
     const sendOTPEmail = async (user) => {
         await sendOtpEmailToUser(user);
         user.showFirstTimeUser = true;
-        changePage("validateopt", user);
+        router.push(
+            {
+                pathname: "/auth/OtpValidator",
+                query: { user: JSON.stringify(user) },
+            },
+            "/about/OtpValidator"
+        );
     };
 
     const handleEmailError = () => {
@@ -133,62 +121,6 @@ const CreateAccount = (props) => {
                         }}
                     />
                 </form>
-                {/* <Form
-                    id="login"
-                    on_submit={submitHandler}
-                    on_missing={setMissing}
-                    data={formData}
-                    errorData={errorData}
-                >
-                    <Input
-                        placeholder="Email"
-                        name="email"
-                        type="text"
-                        empty={formData.email}
-                        value={formData.email}
-                        isrequired={errorData["email"]}
-                        changeHandler={inputChangeHandler}
-                        customError={
-                            customErrors["email"] || customErrors["match"]
-                                ? customErrors["email"] || customErrors["match"]
-                                : ""
-                        }
-                        data={formData}
-                        errorData={errorData}
-                    />
-                    <Input
-                        placeholder="Full Name"
-                        name="fullName"
-                        type="text"
-                        empty={formData.fullName}
-                        value={formData.fullName}
-                        isrequired={errorData["fullName"] ? true : false}
-                        changeHandler={inputChangeHandler}
-                        data={formData}
-                        errorData={errorData}
-                    />
-                    <Input
-                        placeholder="Date of Birth"
-                        name="dob"
-                        type="date"
-                        empty={true}
-                        value={formData.dob}
-                        isrequired={errorData["dob"]}
-                        changeHandler={inputChangeHandler}
-                        data={formData}
-                        errorData={errorData}
-                    />
-
-                    <Button
-                        tier="secondary"
-                        type="submit"
-                        text="Sign Up"
-                        fullWidth
-                        onClick={() => {
-                            setSubmissionType("create");
-                        }}
-                    />
-                </Form> */}
                 <p className={styles.CreateModuleDisclaimer}>
                     By continuing, you are agreeing to our Customer{" "}
                     <a

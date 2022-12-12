@@ -1,34 +1,28 @@
 import { useState, useEffect, useContext } from "react";
-import { useAuth } from "../../contexts/auth";
 import { MobileContext } from "../../contexts/mobile";
 import { IconChatNoFill } from "../../resources/icons/IconChatNoFill";
+import { IconChatFill } from "../../resources/icons/IconChatFill";
 import { IconFireNoFill } from "../../resources/icons/IconFireNoFill";
+import { IconFireFill } from "../../resources/icons/IconFireFill";
 import { IconForumNoFill } from "../../resources/icons/IconForumNoFill";
-import { Avatar } from "../Common/Avatar/Avatar";
 import Modal from "../Modal";
 import HarthMenu from "../HarthMenu/index";
 import { useComms } from "../../contexts/comms";
 
 import styles from "./mainNav.module.scss";
 
+const harthIcon =
+    "https://d1mc7wmz9xfkdm.cloudfront.net/eyJidWNrZXQiOiJhc3NldHMud29vZGxhbmRkaXJlY3QuY29tIiwia2V5IjoicHJvZHVjdC1pbWFnZXMvUGV0ZXJzb24tUmVhbC1GeXJlLVJ1c3RpYy1PYWstVmVudGVkLUdhcy1Mb2ctU2V0LW1haW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJoZWlnaHQiOjEyMDAsImZpdCI6ImNvbnRhaW4iLCJiYWNrZ3JvdW5kIjp7InIiOjI1NSwiZyI6MjU1LCJiIjoyNTUsImFscGhhIjoxfX19fQ==";
+
+const profileIcon =
+    "https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg";
+
 const MainNav = (props) => {
     const { changePage, currentPage, onToggleMenu } = props;
     const [modal, setModal] = useState();
-    const [communityName, setCommunityName] = useState();
-    // const communityName = "Blarg";
-    const [communityId, setCommunityId] = useState();
-    // const [harthIcon, setHarthIcon] = useState()
-    const harthIcon =
-        "https://d1mc7wmz9xfkdm.cloudfront.net/eyJidWNrZXQiOiJhc3NldHMud29vZGxhbmRkaXJlY3QuY29tIiwia2V5IjoicHJvZHVjdC1pbWFnZXMvUGV0ZXJzb24tUmVhbC1GeXJlLVJ1c3RpYy1PYWstVmVudGVkLUdhcy1Mb2ctU2V0LW1haW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJoZWlnaHQiOjEyMDAsImZpdCI6ImNvbnRhaW4iLCJiYWNrZ3JvdW5kIjp7InIiOjI1NSwiZyI6MjU1LCJiIjoyNTUsImFscGhhIjoxfX19fQ==";
-
-    //const [profileIcon, setProfileIcon] = useState()
-    //update with logic for image pull
-    const profileIcon =
-        "https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg";
 
     const { isMobile } = useContext(MobileContext);
-    const { user } = useAuth();
-    const { comms, setComm, selectedcomm } = useComms();
+    const { selectedcomm } = useComms();
 
     //alert needs logic
     //this is just a universal setting that makes all
@@ -48,32 +42,13 @@ const MainNav = (props) => {
         setModal(!modal);
     };
 
-    useEffect(() => {
-        if (selectedcomm) {
-            setCommunityName(selectedcomm.name);
-            setCommunityId(selectedcomm._id);
-            // setHarthIcon(selectedcomm.iconKey);
-            selectedcomm.users.forEach((usr) => {
-                if (usr.userId === user._id) {
-                    // setProfileIcon(usr.iconKey);
-                }
-            });
-        }
-    }, [selectedcomm]);
-
-    useEffect(() => {
-        if (!selectedcomm && comms && comms.length > 0) {
-            setComm(comms[0]);
-        }
-    }, [comms]);
-
     return (
         <>
             {modal ? (
                 <Modal show={modal} onToggleModal={showModal}>
                     <HarthMenu
-                        communityName={communityName}
-                        communityId={communityId}
+                        communityName={selectedcomm?.name}
+                        communityId={selectedcomm?._id}
                         onToggleModal={showModal}
                     />
                 </Modal>
@@ -81,7 +56,137 @@ const MainNav = (props) => {
                 ""
             )}
 
-            {isMobile ? (
+            <header
+                className={`${styles.MainNav} ${
+                    isMobile ? styles.Mobile : styles.Desktop
+                }`}
+            >
+                {isMobile ? (
+                    <button
+                        className={styles.MainNavHarthButton}
+                        onClick={handleHarthMenu}
+                        aria-label="Current Harth"
+                    >
+                        <img
+                            className={styles.MainNavHarthButtonImage}
+                            src={harthIcon}
+                        />
+                    </button>
+                ) : (
+                    <div style={{ width: 240 }}>
+                        <button
+                            className={styles.MainNavHarthButton}
+                            onClick={handleHarthMenu}
+                            aria-label="Current Harth"
+                        >
+                            {selectedcomm?.name}
+                        </button>
+                    </div>
+                )}
+
+                <div className={styles.MainNavPages}>
+                    <button
+                        role="nav-item"
+                        id="chat"
+                        aria-label="Community Chat"
+                        className={`
+                            ${styles.MainNavPageButton} 
+                            ${
+                                currentPage === "chat"
+                                    ? styles.Active
+                                    : styles.Inactive
+                            } 
+                        `}
+                        onClick={() => {
+                            changePage("chat");
+                        }}
+                    >
+                        <div style={{ height: 24, width: 24, margin: 0 }}>
+                            {currentPage === "chat" ? (
+                                <IconChatFill />
+                            ) : (
+                                <IconChatNoFill />
+                            )}
+                        </div>
+                        <div>Chat</div>
+                        {hasAlert ? (
+                            <div
+                                className={
+                                    styles.MainNavPageButtonAlertIndicator
+                                }
+                            />
+                        ) : null}
+                    </button>
+
+                    <button
+                        role="nav-item"
+                        id="gather"
+                        aria-label="Gather"
+                        className={`
+                            ${styles.MainNavPageButton} 
+                            ${
+                                currentPage == "gather"
+                                    ? styles.Active
+                                    : styles.Inactive
+                            } 
+                        `}
+                        onClick={() => {
+                            changePage("gather");
+                        }}
+                    >
+                        <div style={{ height: 24, width: 24, marginRight: 6 }}>
+                            {currentPage === "gather" ? (
+                                <IconFireFill />
+                            ) : (
+                                <IconFireNoFill />
+                            )}
+                        </div>
+                        <div>Gather</div>
+                        {hasAlert ? (
+                            <div
+                                className={
+                                    styles.MainNavPageButtonAlertIndicator
+                                }
+                            />
+                        ) : null}
+                    </button>
+
+                    <button
+                        role="nav-item"
+                        id="message"
+                        aria-label="Private Messages"
+                        className={`
+                            ${styles.MainNavPageButton} 
+                            ${
+                                currentPage == "message"
+                                    ? styles.Active
+                                    : styles.Inactive
+                            } 
+                        `}
+                        onClick={() => {
+                            changePage("message");
+                        }}
+                    >
+                        <div style={{ height: 24, width: 24, marginRight: 6 }}>
+                            {currentPage === "message" ? (
+                                <IconForumNoFill />
+                            ) : (
+                                <IconForumNoFill />
+                            )}
+                        </div>
+                        <div>Message</div>
+                        {hasAlert ? (
+                            <div
+                                className={
+                                    styles.MainNavPageButtonAlertIndicator
+                                }
+                            />
+                        ) : null}
+                    </button>
+                </div>
+            </header>
+
+            {/* isMobile ? (
                 <header className={styles.mobile}>
                     <button
                         className={styles.harthButton}
@@ -96,7 +201,11 @@ const MainNav = (props) => {
                         aria-label="Community Chat"
                         className={`
                             ${styles.navButton} 
-                            ${currentPage == "chat" ? styles.navButtonActive : styles.navButtonInactive} 
+                            ${
+                                currentPage == "chat"
+                                    ? styles.navButtonActive
+                                    : styles.navButtonInactive
+                            } 
                         `}
                         onClick={() => {
                             changePage("chat");
@@ -118,7 +227,11 @@ const MainNav = (props) => {
                         aria-label="Gather"
                         className={`
                             ${styles.navButton} 
-                            ${currentPage == "gather" ? styles.navButtonActive : styles.navButtonInactive} 
+                            ${
+                                currentPage == "gather"
+                                    ? styles.navButtonActive
+                                    : styles.navButtonInactive
+                            } 
                         `}
                         onClick={() => {
                             changePage("gather");
@@ -146,7 +259,11 @@ const MainNav = (props) => {
                         aria-label="Private Messages"
                         className={`
                             ${styles.navButton} 
-                            ${currentPage == "message" ? styles.navButtonActive : styles.navButtonInactive} 
+                            ${
+                                currentPage == "message"
+                                    ? styles.navButtonActive
+                                    : styles.navButtonInactive
+                            } 
                         `}
                         onClick={() => {
                             changePage("message");
@@ -170,7 +287,7 @@ const MainNav = (props) => {
                             onClick={handleHarthMenu}
                             aria-label="Current Harth"
                         >
-                            {communityName}
+                            {selectedcomm.name}
                         </button>
                     </div>
 
@@ -181,7 +298,11 @@ const MainNav = (props) => {
                             aria-label="Community Chat"
                             className={`
                             ${styles.navButton} 
-                            ${currentPage == "chat" ? styles.navButtonActive : styles.navButtonInactive} 
+                            ${
+                                currentPage == "chat"
+                                    ? styles.navButtonActive
+                                    : styles.navButtonInactive
+                            } 
                         `}
                             onClick={() => {
                                 changePage("chat");
@@ -217,7 +338,11 @@ const MainNav = (props) => {
                             aria-label="Gather"
                             className={`
                                 ${styles.navButton} 
-                                ${currentPage == "gather" ? styles.navButtonActive : styles.navButtonInactive} 
+                                ${
+                                    currentPage == "gather"
+                                        ? styles.navButtonActive
+                                        : styles.navButtonInactive
+                                } 
                             `}
                             onClick={() => {
                                 changePage("gather");
@@ -259,7 +384,11 @@ const MainNav = (props) => {
                             aria-label="Private Messages"
                             className={`
                                 ${styles.navButton} 
-                                ${currentPage == "message" ? styles.navButtonActive : styles.navButtonInactive} 
+                                ${
+                                    currentPage == "message"
+                                        ? styles.navButtonActive
+                                        : styles.navButtonInactive
+                                } 
                             `}
                             onClick={() => {
                                 changePage("message");
@@ -298,7 +427,7 @@ const MainNav = (props) => {
                         imageSrc={profileIcon}
                     />
                 </header>
-            )}
+            ) */}
         </>
     );
 };

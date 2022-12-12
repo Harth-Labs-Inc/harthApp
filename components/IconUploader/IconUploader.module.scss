@@ -1,0 +1,13 @@
+@import "../../styles/globals.scss";
+
+.IconUploader {
+    margin: 0 auto;
+    height: 80px;
+    width: 80px;
+    border: 3px dashed $fuel;
+    overflow: hidden;
+
+    &.Circle {
+        border-radius: 50%;
+    }
+}

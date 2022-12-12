@@ -1,0 +1,31 @@
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
+
+.SideNav {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 0 4px;
+    background-color: $fuel_10;
+
+    &.Mobile {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        z-index: 10;
+        width: 296px;
+        padding: 0;
+
+        background-color: #fff;
+        overflow: hidden;
+    }
+
+    .SettingsButton {
+        height: 28px;
+        width: 52px;
+        padding: 9px 8px;
+        background-color: transparent;
+        border: 0;
+    }
+}

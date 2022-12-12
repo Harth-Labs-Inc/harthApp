@@ -1,100 +1,173 @@
-@import '../../styles/globals.scss';
-@import '../../styles/fonts.scss';
+@import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
 
-
-.desktop {
+.MainNav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    grid-area: header;
-    padding: 0 16px;
     height: 64px;
-    padding-top: 8px;
-    border-bottom: 1px solid $fuel_10;
+    width: 100%;
     background-color: $light_ash;
-    
 
+    &HarthButton {
+        .Mobile & {
+            position: relative;
+            top: -10px;
+            padding: 8px;
+            background-color: $fuel;
+            border: 2px solid $light_ash;
+            border-radius: 14px;
+            &:hover {
+                border-color: $black;
+            }
 
-    .harthButton{
-        padding-left: 8px;
-        padding-right: 8px;
-        @include contentH1;
-        color: $fuel;
-        border-radius: 6px;
-        text-align: left;
-        background-color: transparent;
-        border: 0;
-        cursor: pointer;
-        text-overflow: ellipsis;
-        &:hover {
-        background-color: $fuel_10;
+            &Image {
+                height: 60px;
+                width: 60px;
+                border-radius: 10px;
+            }
+        }
+        .Desktop & {
+            @include contentH1;
+            padding: 0 8px;
+            color: $fuel;
+            text-overflow: ellipsis;
+            background-color: transparent;
+            border: 0;
+            cursor: pointer;
         }
     }
 
-    .alertIndicator {
-    height: 11px;
-    width: 11px;
-    border-radius: 9999px;     
-    background-color: $hot_pink;
-    border-color: $light_ash;
-    border-width: 2px;
-    border-style: solid;
-
-    position: absolute;
-    top: 10px;
-    left: 32px;
-    }
-
-    .topButtons {
-    display: flex;
-    align-items: center;
-    margin-top: 9px;    
-    column-gap: 24px;
-    }
-
-
-    .navButton {
+    &Pages {
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        // margin-top: 9px;
+        column-gap: 24px;
+    }
+
+    &PageButton {
+        @include interfaceR3;
+        position: relative;
+        display: flex;
         align-items: center;
         justify-content: space-between;
-        position: relative;
-        height: 48px;
         color: $fuel;
         background-color: transparent;
         border: 0;
-        cursor: pointer;
-        padding-top: 12px;
-        padding-bottom: 0px;
-        padding-right: 12px;
-        padding-left: 12px;
 
+        &:before {
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translate3d(-50%, 0, 0);
+            height: 5px;
+            content: "";
+            background-color: transparent;
+            border-top-left-radius: 9999px;
+            border-top-right-radius: 9999px;
+            transition: 1s;
+        }
+
+        &AlertIndicator {
+            position: absolute;
+            top: 15px;
+            height: 11px;
+            width: 11px;
+            background-color: $hot_pink;
+            border: 2px solid $light_ash;
+            border-radius: 50%;
+
+            .Mobile & {
+                right: 22px;
+            }
+            .Desktop & {
+                left: 28px;
+            }
+        }
+
+        &.Active {
+            font-weight: 700;
+            .Desktop & {
+                &:before {
+                    width: 56px;
+                    background-color: $fuel;
+                }
+            }
+        }
+
+        .Mobile & {
+            flex-direction: column;
+            height: 64px;
+            width: 72px;
+            padding: 0 0 12px;
+
+            &:before {
+                width: 56px;
+            }
+        }
+        .Desktop & {
+            height: 48px;
+            padding: 12px 12px 0;
+
+            &:before {
+                width: 32px;
+            }
+        }
+    }
+
+    &.Mobile {
+        height: 72px;
+    }
+    &.Desktop {
+        height: 56px;
+        padding: 0 16px;
+    }
+}
+
+.desktop {
+    .harthButton {
+        border-radius: 6px;
+        &:hover {
+            background-color: $fuel_10;
+        }
+    }
+
+    .topButtons {
+        display: flex;
+        align-items: center;
+        margin-top: 9px;
+        column-gap: 24px;
+    }
+
+    .navButton {
+        cursor: pointer;
 
         .indicator {
             height: 5px;
             width: 32px;
-            border-top-right-radius: 9999px;     
+            border-top-right-radius: 9999px;
             border-top-left-radius: 9999px;
             background-color: transparent;
         }
 
-        &Inactive{
+        &Inactive {
             @include interfaceR3;
 
             path {
-                stroke-width: .6px;
+                stroke-width: 0.6px;
                 stroke: transparent;
             }
 
-            &:hover{
+            &:hover {
                 .indicator {
                     background-color: $fuel;
                 }
             }
-
         }
 
-        &Active{
+        &Active {
             @include interfaceR3;
             font-weight: 500;
             transition: 1s;
@@ -104,111 +177,34 @@
                 background-color: $fuel;
             }
             path {
-                stroke-width: .6px;
+                stroke-width: 0.6px;
                 stroke: $fuel;
             }
-            
         }
-
-        
-
     }
-
-
 }
 
-
-
 .mobile {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    grid-area: header;
     width: 100%;
     padding: 0px;
     padding-right: 36px;
     padding-left: 12px;
-    height: 64px;
-    //need to remove absolute
-    //temp fix to get botton nav to stop being pushed 
-    //below the fold
     position: absolute;
     bottom: 0;
-    
-    //padding-bottom: 8px;
-    //border-top: 1px solid $fuel_10;
-    background-color:  $light_ash;
-
-
-    .harthButton {
-        padding: 8px;
-        position:relative;
-        top: -10px;
-        border-radius: 14px;
-        background-color: $fuel;
-        border-style: solid;
-        border-width: 2px;
-        border-color: $light_ash;
-        &:hover {
-        border-color: $black;
-        }
-    }
-
-    .harthImage {
-        height: 60px;
-        width: 60px;
-        border-radius: 10px;
-        //border-style: solid;
-        //border-width: 1px;
-        //border-color: $black;
-
-    }
-
-    .alertIndicator {
-        height: 11px;
-        width: 11px;
-        border-radius: 9999px;     
-        background-color: $hot_pink;
-        border-color: $light_ash;
-        border-width: 2px;
-        border-style: solid;
-    
-        position: absolute;
-        top: 10px;
-        right: 22px;
-    }
-
 
     .navButton {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        @include interfaceR3;
-
-        height: 64px;
-        width: 72px;
-        color: $fuel;
-        background-color: transparent;
-        @include interfaceR4;
-        stroke-width: .6px;
-        stroke:transparent;
-
-        border: 0;
-        padding-top: 0px;
-        padding-bottom: 12px;
+        stroke-width: 0.6px;
+        stroke: transparent;
 
         .indicator {
             height: 5px;
             width: 56px;
-            border-bottom-right-radius: 9999px;     
+            border-bottom-right-radius: 9999px;
             border-bottom-left-radius: 9999px;
             background-color: transparent;
         }
-
     }
-    
+
     .navButtonActive {
         display: flex;
         flex-direction: column;
@@ -217,8 +213,8 @@
         position: relative;
         @include interfaceR4;
         font-weight: 600;
-        stroke-width: .6px;
-        stroke:$fuel;
+        stroke-width: 0.6px;
+        stroke: $fuel;
 
         height: 64px;
         width: 72px;
@@ -232,18 +228,14 @@
         .indicator {
             height: 5px;
             width: 56px;
-            border-bottom-right-radius: 9999px;     
+            border-bottom-right-radius: 9999px;
             border-bottom-left-radius: 9999px;
             background-color: $fuel;
         }
     }
 
-    path { //this is the icon color
+    path {
+        //this is the icon color
         fill: $fuel;
-    
     }
 }
-
-
-
-

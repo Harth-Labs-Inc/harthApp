@@ -8,8 +8,7 @@ import { useAuth } from "../../contexts/auth";
 import Cookies from "js-cookie";
 
 import { VideoProvider } from "../../contexts/video";
-import NavLayout from "../../components/dashLayout";
-import { checkIfInviteTokenIsGood } from "../../requests/community";
+import DashboardLayout from "../../components/DashboardLayout/DashboardLayout";
 
 import Chat from "./chat";
 import Party from "./party";
@@ -18,9 +17,6 @@ import Stream from "./stream";
 import Video from "./video";
 import Messages from "./messages";
 
-// import CreateHarthName from "../../components/CreateHarthName/CreateHarthName";
-// import CreateHarthProfile from "../../components/CreateHarthProfile/CreateHarthProfile";
-// import HarthInviteAcceptModal from "../../components/HarthInviteAcceptModal/HarthInviteAcceptModal";
 import CreateHarthName from "../../components/createHarthName/createHarthName";
 import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
 import HarthInviteAcceptModal from "../../components/harthInviteAcceptModal/harthInviteAcceptModal";
@@ -41,7 +37,6 @@ const dashboard = (props) => {
     const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
 
     const { user, loading, inviteTKN } = useAuth();
-    console.log(user, loading);
 
     const router = useRouter();
     const {
@@ -136,7 +131,6 @@ const dashboard = (props) => {
                 page = <Chat />;
                 break;
         }
-        showCreateHarthNameModal;
         return (
             <CommsProvider>
                 <ChatProvider>
@@ -147,6 +141,9 @@ const dashboard = (props) => {
                                 footer="Give your harth a name and a cool sigil. No need to think too hard, you can change them at any time."
                                 placeholder={`${"First Name"}'s harth`}
                                 submitText="Create"
+                                closeHandler={() =>
+                                    setShowCreateHarthNameModal(false)
+                                }
                                 submitHandler={harthNameCreationHandler}
                             />
                         ) : null}
@@ -183,12 +180,15 @@ const dashboard = (props) => {
                         {GatherWindow ? (
                             page
                         ) : (
-                            <NavLayout
+                            <DashboardLayout
                                 changePage={changePageHandler}
                                 currentPage={currentPage}
+                                setShowCreateHarthNameModal={
+                                    setShowCreateHarthNameModal
+                                }
                             >
                                 {page}
-                            </NavLayout>
+                            </DashboardLayout>
                         )}
                     </SocketProvider>
                 </ChatProvider>

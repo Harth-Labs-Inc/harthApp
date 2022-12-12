@@ -28,7 +28,6 @@ export default function CreateHarthProfile({
     };
     const joinHarthHandler = async (e) => {
         e.preventDefault();
-        console.log(harth);
         let id;
         if (!invite) {
             let commDbUpload = await saveCommunity(harth);
