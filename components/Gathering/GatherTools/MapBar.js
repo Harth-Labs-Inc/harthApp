@@ -7,7 +7,7 @@ import { DraggableCore } from "react-draggable";
 
 
 
-export const DiceBar = (props) => {
+export const MapBar = (props) => {
     const {
         type = "desktop",
     } = props;
