@@ -22,7 +22,7 @@ const ProfileContainer= (props) => {
     const [isStreaming, setIsStreaming] = useState(false);
 
     //if they are broadcasting webcam,
-    const [hasWebcam, setHasWebcam] = useState(false);
+    const [hasWebcam, setHasWebcam] = useState(true);
 
     //speaking indicator 
     const [isSpeaking, setIsSpeaking] = useState(false);
