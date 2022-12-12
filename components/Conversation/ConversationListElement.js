@@ -1,9 +1,6 @@
 
 import { useState } from "react";
-import { IconBookmarkNoFill } from "../../resources/icons/IconBookmarkNoFill";
-import { IconTimerNoFill } from "../../resources/icons/IconTimerNoFill";
 import { Avatar } from "../Common/Avatar/Avatar";
-
 
 import styles from "./conversation.module.scss";
 
@@ -39,49 +36,49 @@ const ConversationListElement = (props) => {
         <>
             <button 
                 className={`
-                    ${styles.topic} 
-                    ${buttonState && styles.topicActive} 
-                    ${alertState && styles.topicAlert} 
+                    ${styles.conversation} 
+                    ${buttonState && styles.conversationActive} 
+                    ${alertState && styles.conversationAlert} 
                     `}
                 onClick={toggleActive}>
 
 
 
-                    <div className={`
-                    ${styles.icon} 
-                    ${isMobile && styles.iconMobile} 
-                    `} >
-                        <IconTimerNoFill />
+                    <div className={styles.avatarHolder} >
+                        {/* picture array is parsed  */}
+                        {conversationProfiles.map(e => (
+                            <div className={`
+                            ${styles.avatar} 
+                            ${isMobile && styles.avatarMobile} 
+                            `} >
+                            <Avatar picSize={isMobile ? 48 : 36} imageSrc={e.pic}/>
+                            </div>
+                        ))}  
                     </div>
 
 
 
-
-
-
-
-                <div className={styles.topicWithPointer}>
-                    <div className={styles.pointer}><p> </p></div>
+                <div className={styles.conversationWithPointer}>
                     <div className={`
-                    ${styles.topicContainer} 
-                    ${alertState && styles.topicContainerAlert} 
+                            ${styles.pointer} 
+                            ${isMobile && styles.pointerMobile} 
+                            `} >
+                            <p></p>
+                        </div>
+
+
+
+                    <div className={`
+                    ${styles.conversationContainer} 
+                    ${alertState && styles.conversationContainerAlert} 
                     `}
                     >
                         <div className={`
                             ${styles.label} 
                             ${isMobile && styles.labelMobile} 
                             `} >
-                               {conversationProfiles.map(e => (e.name+"<br />"))}
+                               {conversationProfiles.map(e => (<p>{e.name}</p>))}
                         </div>
-
-                        {alertState && (
-                            <div className={styles.conversationProfilePics}>
-                                {/* picture array is parsed  */}
-                               {conversationProfiles.map(e => (
-                                    <Avatar picSize={isMobile ? 36 : 28} imageSrc={e.pic}/>
-                                ))}                    
-                            </div>
-                        )}
                     </div>
                 </div>
 

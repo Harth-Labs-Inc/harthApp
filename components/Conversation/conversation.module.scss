@@ -3,10 +3,10 @@
 
 
 
-.topic {
+.conversation {
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     flex-direction: row;
     padding: 4px 4px;
@@ -14,50 +14,40 @@
     background-color: transparent;
 
 
-    
+    .avatarHolder {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1px;
+        align-items: center;
 
-    .icon {
-        height: 32px;
-        min-height: 32px;
-        min-width: 32px;
-        width: 32px;
-        padding: 4px;
-        border-radius: 9999px;
-        border: 2px solid $fuel;
-        background-color: $white;
-
-        
-        path {
-            fill: $fuel;
-            stroke-width: 2px;
-            stroke: $fuel;
+        .avatar {
+            padding: 0px;
+            border-radius: 9999px;
+            border: 2px solid $fuel;
+            background-color: $white;
         }
 
-        &Mobile {
-            height: 36px;
-             min-height: 36px;
-            min-width: 36px;
-            width: 36px;
-
-        }
     }
 
-    .topicWithPointer{
+    
+
+    .conversationWithPointer{
         position: relative;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items:flex-start;
         cursor: pointer;
         //transition: all 1s;
 
-        .topicContainer {
+        .conversationContainer {
             display: flex;
             flex: 1;
             flex-direction: column;
             background-color:$white;
             border: 2px solid $fuel;
             border-radius: 4px;
-            padding: 8px 16px;
+            padding: 6px 16px;
             row-gap: 4px;
 
             .label {
@@ -65,24 +55,22 @@
                 width: 100%;
                 color: $fuel;
                 text-align: left;
+                 p {
+                    padding: 3px 0px;
+                 }
 
                 &Mobile {
                     @include contentR1;
-                    margin-top: 2px;
-                    margin-bottom: 2px;
+                    margin-top: 4px;
+                    margin-bottom: 4px;
+                    p{
+                        padding: 5px 0px; 
+                    }
         
                 }
         
             }
         
-            .alertProfiles {
-                display: flex;
-                flex-direction: row;
-                column-gap: 1px;
-                row-gap: 1px;
-                flex-wrap: wrap;
-
-            }
 
             &Alert {
                 box-shadow: 4px 4px 0 $hot_pink;
@@ -94,6 +82,8 @@
             position: relative;
             width:16px;
             height: 20px;
+            margin-top: 9px;
+
         
             p:before,
             p:after {
@@ -117,21 +107,18 @@
                 border-color: transparent$white transparent transparent ;
             }
         
+            &Mobile {
+                margin-top: 16px;
+
+            }
     
         }
     }
     
     &Active{
-        .icon {
-            background-color: $fuel;
-            path {
-                fill: $oxygen;
-                stroke: $oxygen;
-            }
-        }
     
-        .topicWithPointer{    
-            .topicContainer {
+        .conversationWithPointer{    
+            .conversationContainer {
                 background-color: $fuel;  
                 .label {
                     color: $oxygen;           
@@ -152,8 +139,8 @@
 
     &:hover {
 
-        .topicWithPointer{
-            .topicContainer {
+        .conversationWithPointer{
+            .conversationContainer {
                 background-color:$fuel;
                 .label {
                     color: $oxygen;  
