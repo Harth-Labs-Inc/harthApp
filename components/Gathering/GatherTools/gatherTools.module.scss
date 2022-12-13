@@ -29,6 +29,143 @@
     
 }
 
+.mapContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    row-gap: 8px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 1px solid $fuel;
+    background-color: $oxygen;
+    width: 320px;
+    height: 260px;
+    padding: 0px 0px 24px 0px;
+
+    .icon {
+        height: 64px;
+        width: 64px;
+    }
+
+    .label {
+        @include interfaceH2;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+ 
+}
+
+.mapContainerActive {
+    overflow: hidden;
+    position:relative;
+    width: auto;
+    height: auto;
+    max-width: 440px;
+    max-height: 440px;
+    background-color: $fuel;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    z-index: 100;
+    
+
+    .bottomBar {
+        position: absolute;
+        background-color: $fuel_50;
+        width: 100%;
+        height: 44px;
+        bottom:0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        button {
+            background-color: $fuel_50;
+            color: $white_50;
+            &:hover {
+                color: $white_90;
+                background-color: $fuel_50;
+                backdrop-filter: blur(4px);
+                border-color: $white_90;
+
+            }
+        }
+    }
+}
+
+.mobileMapContainer {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    row-gap: 8px;
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: 0;
+    background-color: $overlay_dark;
+    align-items: center;
+    backdrop-filter: blur(4px);
+    width: 100%;
+    padding: 12px 0px 64px 0px;
+
+    .icon {
+        height: 64px;
+        width: 64px;
+        path {
+            fill: $oxygen;
+        }
+    }
+
+    .label {
+        @include interfaceH2;
+        color: $oxygen;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .grabber {
+        background-color: $white_50;
+        border-radius: 9999px;
+        height: 4px;
+        width: 48px;
+        margin-bottom: 40px;
+    }
+
+    .closeBar {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        justify-items: end;
+        align-content: flex-end;
+        background: "#888888";
+        background-color: "#888888";
+        font-size: 44px;
+        padding: 0px 12px;
+        
+    }
+    &Active {
+        position: relative;
+        padding: 0px;
+
+        .bottomBar {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+    }
+}
+
 .mobileDiceContainer {
     position: relative;
     display: flex;
@@ -69,13 +206,14 @@
     border-top-right-radius: 8px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    height: 24px;
+    height: 28px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: grab;
-    padding: 0px 2px;
+    padding: 0px 4px;
+
 
     path {
         fill: transparent;
@@ -106,7 +244,6 @@
         path {
             fill: transparent;
         }
-
 
         &:hover {
             background-color: $white_10;

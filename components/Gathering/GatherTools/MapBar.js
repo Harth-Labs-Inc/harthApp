@@ -3,8 +3,10 @@ import { useState } from "react";
 import styles from "./gatherTools.module.scss";
 import { IconClose } from "../../../resources/icons/IconClose";
 import Draggable from "react-draggable";
-import { DraggableCore } from "react-draggable";
-
+import { Button } from "../../Common";
+import { IconMap } from "../../../resources/icons/IconMap";
+import ReactPanZoom from "react-image-pan-zoom-rotate";
+import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
 
 
 export const MapBar = (props) => {
@@ -12,59 +14,147 @@ export const MapBar = (props) => {
         type = "desktop",
     } = props;
 
+    const [hasMap, setHasMap] = useState(false);
+    const [mapImg, setMapImg] = useState();
+    const [hasBottomBar, setHasBottomBar] = useState();
+
+    
+    const addMap = () => {
+        //no logic here yet. 
+        setMapImg("https://i.pinimg.com/originals/9a/d3/df/9ad3df0f61b83d0bfe3e5221430a6df4.jpg");
+
+        setHasMap(true);
+        
+    };
+
+    const clearMap = () => {
+        //no logic here yet. 
+        setMapImg("");
+        
+        setHasMap(false);
+        
+    };
+
+    const showBottomBar =() => {
+        setHasBottomBar(true);
+
+    }
+    
+    const hideBottomBar =() => {
+        setHasBottomBar(false);
+
+    }
+
 
     return (
         <>
 
         {type == "desktop"
         ? (
-        <Draggable>
+
+        <Draggable handle="#handle">
         <div className={styles.mainContainer} >
-        <div className={styles.topBar} >
-            <div className={styles.spacer} />
-            <div className={styles.grabber} />
-            <button
-                className={styles.close}
-                ariaLabel="close dice bar"
-                //onClick={} //need a close function
-            >
-                <IconClose />
-            </button>
-        </div>
 
-        <div
-            className={styles.diceContainer} 
-            aria-label="dice bar"
-        >
-        <Dice number={4} size="small" ariaLabel="D 4"/>
-        <Dice number={6} size="small" ariaLabel="D 6"/>
-        <Dice number={8} size="small" ariaLabel="D 8"/>
-        <Dice number={10} size="small" ariaLabel="D 10"/>
-        <Dice number={12} size="small" ariaLabel="D 12"/>
-        <Dice number={20} size="small" ariaLabel="D 20"/>
+            <div className={styles.topBar} id="handle">
+                <div className={styles.spacer} />
+                <div className={styles.grabber} />
+                <button
+                    className={styles.close}
+                    ariaLabel="close dice bar"
+                    //onClick={} //need a close function
+                >
+                    <IconClose />
+                </button>
+            </div>
 
-        </div>
+            {!hasMap 
+            ? (
+                <div className={styles.mapContainer}>
+                    <div className={styles.icon}><IconMap /></div>
+                    <div className={styles.label} >Game Board</div>
+                    <Button
+                        tier="primary"
+                        size="small"
+                        text="add an image"
+                        onClick={addMap}
+                    />
+                </div>
+
+            ):(
+                <div className={`
+                ${styles.mapContainer} 
+                ${styles.mapContainerActive} 
+                `} 
+                onMouseOver = {showBottomBar}
+                onMouseLeave = {hideBottomBar}
+                >
+                    <ReactPanZoom
+                        image={mapImg}
+                        alt='Image alt text'
+                    />
+                    {hasBottomBar 
+                    && (
+                        <div className={styles.bottomBar}> 
+                            <Button
+                            tier="secondary"
+                            size="small"
+                            text="clear image"
+                            onClick={clearMap}
+                            />
+                        </div>
+
+                    )}
+                    
+                </div>
+            )}
         </div>
         </Draggable>
 
         ):(
 
+            
         <div
-            className={styles.mobileDiceContainer} 
+            className={styles.mobileMapContainer} 
             aria-label="dice bar"
         >
-            <div className={styles.grabber} />
+            {!hasMap 
+            ? (
+                <>
+                <div className={styles.grabber} />
 
-            <div className={styles.diceRow} >
-                <Dice number={4} size="large" ariaLabel="D 4"/>
-                <Dice number={6} size="large" ariaLabel="D 6"/>
-                <Dice number={8} size="large" ariaLabel="D 8"/>
-            </div>
-            <div className={styles.diceRow} >
-                <Dice number={10} size="large" ariaLabel="D 10"/>
-                <Dice number={12} size="large" ariaLabel="D 12"/>
-                <Dice number={20} size="large" ariaLabel="D 20"/>
-            </div>
+                <div className={styles.icon}><IconMap /></div>
+                <div className={styles.label} >Game Board</div>
+                <Button
+                    tier="primary"
+                    size="small"
+                    text="add an image"
+                    onClick={addMap}
+                />
+                </>
+            ):(
+                <>
+                <div className={styles.closeBar} >
+                <LeaveButtonMobile />
+                </div>
+
+                
+                <div className={styles.mobileMapContainerActive} >
+                    <ReactPanZoom
+                        image={mapImg}
+                        alt='Image alt text'
+                    />
+                        <div className={styles.bottomBar}> 
+                            <Button
+                            tier="primary"
+                            size="small"
+                            text="clear image"
+                            onClick={clearMap}
+                            />
+                        </div>
+                    
+                </div>
+                </>
+            )}
 
         </div>
 

@@ -78,7 +78,7 @@
 
             .indicator {
                 height: 5px;
-                width: 32px;
+                width: 56px;
                 border-top-right-radius: 9999px;     
                 border-top-left-radius: 9999px;
                 background-color: transparent;
@@ -87,38 +87,29 @@
             &Inactive{
                 @include interfaceR3;
                 font-weight: 300;
-                .indicator {
-                    width: 32px;
-                }
                 path {
                     stroke-width: 1.5px;
                     stroke: $light_ash;
                 }
-
                 &:hover{
-                    .indicator {
-                        background-color: $fuel;
-
+                    font-weight: 500;
+                    path {
+                        stroke-width: .6px;
+                        stroke: $fuel;
                     }
                 }
-
             }
 
             &Active{
                 @include interfaceR3;
                 font-weight: 500;
-                transition: 1s;
                 .indicator {
-                    width: 56px;
                     background-color: $fuel;
-                    transition: all 2s;
-
                 }
                 path {
                     stroke-width: .6px;
                     stroke: $fuel;
-                }
-                
+                }  
             }
 
             
@@ -196,7 +187,6 @@
         align-items: center;
         justify-content: space-between;
         position: relative;
-        @include interfaceR3;
 
         height: 64px;
         width: 72px;
@@ -242,7 +232,7 @@
 
         .indicator {
             height: 5px;
-            width: 56px;
+            width: 44px;
             border-bottom-right-radius: 9999px;     
             border-bottom-left-radius: 9999px;
             background-color: $fuel;
