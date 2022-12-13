@@ -16,7 +16,10 @@ export default async (req, res) => {
                 function (err, userCreated) {
                     if (err) {
                     }
-                    resolve(userCreated);
+                    if (userCreated && userCreated.insertedId) {
+                        resolve(userCreated.insertedId.toString());
+                    }
+                    resolve("");
                 }
             );
         });
@@ -62,7 +65,7 @@ export default async (req, res) => {
         let tomorrow = today.setDate(today.getDate() + 1);
         obj.otp = otp;
         obj.otp_expiration = new Date(tomorrow);
-        await createUser(db, obj);
-        return res.json({ ok: 1, msg: "", user: obj });
+        let id = await createUser(db, obj);
+        return res.json({ ok: 1, msg: "", user: { ...obj, _id: id } });
     }
 };

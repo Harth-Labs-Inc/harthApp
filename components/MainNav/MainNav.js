@@ -5,8 +5,8 @@ import { IconChatFill } from "../../resources/icons/IconChatFill";
 import { IconFireNoFill } from "../../resources/icons/IconFireNoFill";
 import { IconFireFill } from "../../resources/icons/IconFireFill";
 import { IconForumNoFill } from "../../resources/icons/IconForumNoFill";
-import Modal from "../Modal";
-import HarthMenu from "../HarthMenu/index";
+import Modal from "../Common/Modals/Modal";
+import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
 
 import styles from "./mainNav.module.scss";
@@ -30,6 +30,7 @@ const MainNav = (props) => {
     const hasAlert = true;
 
     const handleHarthMenu = () => {
+        console.log("handleHarthMenu");
         if (!isMobile) {
             setModal(!modal);
         }
@@ -42,11 +43,13 @@ const MainNav = (props) => {
         setModal(!modal);
     };
 
+    console.log(isMobile, modal);
+
     return (
         <>
             {modal ? (
                 <Modal show={modal} onToggleModal={showModal}>
-                    <HarthMenu
+                    <HarthSettings
                         communityName={selectedcomm?.name}
                         communityId={selectedcomm?._id}
                         onToggleModal={showModal}

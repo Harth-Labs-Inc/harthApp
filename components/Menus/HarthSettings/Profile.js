@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { updateUserInfo } from "../../requests/community";
+import { updateUserInfo } from "../../../requests/community";
 
-import { useComms } from "../../contexts/comms";
-import { useAuth } from "../../contexts/auth";
+import { useComms } from "../../../contexts/comms";
+import { useAuth } from "../../../contexts/auth";
 
-import Form from "../Form-comp";
-import { Input, ToggleSwitch } from "../Common";
+import Form from "../../Form-comp";
+import { Input, Toggle } from "../../Common";
 
 const Profile = () => {
     const [bday, setBday] = useState();
@@ -122,31 +122,31 @@ const Profile = () => {
                 <p>Select what you want to share with {selectedcomm.name}</p>
                 <fieldset id="toggle-field">
                     <div>
-                        <ToggleSwitch
+                        <Toggle
                             onToggleChange={toggleHandler}
                             toggleName="name"
                             isChecked={toggleData["name"]}
-                        ></ToggleSwitch>
+                        ></Toggle>
                         <p>
                             {user.fullName} <span>Real Name</span>
                         </p>
                     </div>
                     <div>
-                        <ToggleSwitch
+                        <Toggle
                             onToggleChange={toggleHandler}
                             toggleName="email"
                             isChecked={toggleData["email"]}
-                        ></ToggleSwitch>
+                        ></Toggle>
                         <p>
                             {user.email} <span>Email</span>
                         </p>
                     </div>
                     <div>
-                        <ToggleSwitch
+                        <Toggle
                             onToggleChange={toggleHandler}
                             toggleName="bday"
                             isChecked={toggleData["bday"]}
-                        ></ToggleSwitch>
+                        ></Toggle>
                         <p>
                             {user.bday}
                             <span>Birthday (only month and day)</span>

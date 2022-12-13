@@ -55,7 +55,7 @@ export default async (req, res) => {
                     let tomorrow = today.setDate(today.getDate() + 1);
                     user.otp = otp;
                     user.otp_expiration = new Date(tomorrow);
-                    await saveUser(db, user);
+                    await saveUser(db, { ...user });
                 }
                 resolve(user);
             }

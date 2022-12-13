@@ -8,10 +8,8 @@ import { MobileContext } from "../contexts/mobile";
 import { saveTopics } from "../requests/community";
 import { addRoomToUsers } from "../requests/rooms";
 
-import { Input, TextArea, ToggleSwitch } from "./Common";
-import Modal from "./Modal";
+import { Input, Modal, TextArea, TextBtn, Toggle } from "./Common";
 import Form from "./Form-comp";
-import { TextBtn } from "./Common/Button";
 
 const TopicsNav = (props) => {
     const [modal, setModal] = useState();
@@ -164,10 +162,10 @@ const TopicsNav = (props) => {
                         />
                         <p>Make Private</p>
                         <div id="topic_create_private">
-                            <ToggleSwitch
+                            <Toggle
                                 onToggleChange={toggleHandler}
                                 toggleName="private"
-                            ></ToggleSwitch>
+                            ></Toggle>
                             <p>
                                 Setting this topic to private will hide it from
                                 the community. You must invite people to the

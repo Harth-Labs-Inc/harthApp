@@ -44,10 +44,6 @@ const dashboard = (props) => {
     } = router;
 
     useEffect(() => {
-        const showFirstTimeUser = Cookies.get("showFirstTimeUser");
-        if (showFirstTimeUser) {
-            setShowCreateHarthNameModal(true);
-        }
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const gatherWindow = urlParams.get("gather_window");
@@ -56,6 +52,10 @@ const dashboard = (props) => {
         if (roomType) {
             changePageHandler(roomType);
         }
+        const showFirstTimeUser = Cookies.get("showFirstTimeUser");
+        if (showFirstTimeUser) {
+            setShowCreateHarthNameModal(true);
+        }
         return () => {
             setShowCreateHarthProfileModal(false);
             setShowCreateHarthNameModal(false);
@@ -63,13 +63,15 @@ const dashboard = (props) => {
     }, []);
 
     useEffect(() => {
-        if (inviteTKN || tkn) {
+        const showFirstTimeUser = Cookies.get("showFirstTimeUser");
+
+        if ((inviteTKN || tkn) && !showFirstTimeUser) {
             setShowCreateHarthNameModal(false);
             setShowInviteAcceptModal(true);
-            return () => {
-                setShowInviteAcceptModal(false);
-            };
         }
+        return () => {
+            setShowInviteAcceptModal(false);
+        };
     }, [inviteTKN, tkn]);
 
     useEffect(() => {
@@ -91,14 +93,19 @@ const dashboard = (props) => {
         }
         setNewHarth(null);
         setShowCreateHarthProfileModal(false);
+        if (inviteTKN || tkn) {
+            setShowCreateHarthNameModal(false);
+            setShowInviteAcceptModal(true);
+        }
     };
     const resetNewInviteHarth = () => {
         setInvitedHarth(null);
         setShowInviteProfileModal(false);
     };
     const goodInviteHandler = (harth) => {
+        console.log(harth, "goodInviteHandler");
         setShowInviteAcceptModal(false);
-        setInvitedHarth(harth);
+        setInvitedHarth({ ...harth });
         setShowInviteProfileModal(true);
     };
 
@@ -175,6 +182,7 @@ const dashboard = (props) => {
                                 submitText="Join"
                                 submitHandler={resetNewInviteHarth}
                                 harth={invitedHarth}
+                                invite={true}
                             />
                         ) : null}
                         {GatherWindow ? (

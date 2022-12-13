@@ -1,9 +1,13 @@
 import { useRef, useState, useEffect } from "react";
-import { useComms } from "../../contexts/comms";
-import { generateInvite, getInviteById } from "../../requests/community";
+import { useComms } from "../../../contexts/comms";
+import { generateInvite, getInviteById } from "../../../requests/community";
 
-import { Button } from "../Common";
-import Select from "react-select";
+import BackButton from "../../Common/Buttons/BackButton";
+
+import styles from "./SettingsMenu.module.scss";
+
+import { Button } from "../../Common";
+// import Select from "react-select";
 
 const URLS = {
     development: "http://localhost:3000/",
@@ -17,6 +21,10 @@ const InviteComp = (props) => {
     const { toggleCurrentPage } = props;
 
     const commsRef = useRef([]);
+
+    const handleBack = () => {
+        toggleCurrentPage("");
+    };
 
     const handleClick = async (comm) => {
         const data = await generateInvite(comm);
@@ -63,12 +71,14 @@ const InviteComp = (props) => {
         return <p>No harths found</p>;
     }
 
-    console.log(comms, "coms");
     return (
-        <div>
-            <h3>Your Harths</h3>
-            <hr />
-            <ul>
+        <div className={styles.SettingsContainer}>
+            <div className={styles.SettingsContainerHeader}>
+                <BackButton onClick={handleBack} />
+                <p>Invites</p>
+            </div>
+            <p className={styles.SettingsContainerTitle}>Your Harths</p>
+            <div className={styles.InviteList}>
                 {COMMS.map((comm) => {
                     let { iconKey, name, invite_tkn, invite_expiration } = comm;
                     let validCode = false;
@@ -87,29 +97,42 @@ const InviteComp = (props) => {
                     }
 
                     return (
-                        <li>
-                            <img src={iconKey || ""} />
-                            <p>{name}</p>
+                        <div className={styles.InviteListItem}>
+                            <div className={styles.InviteListItemInfo}>
+                                <img
+                                    src={iconKey || ""}
+                                    className={styles.InviteListItemInfoImage}
+                                />
+                                <p className={styles.InviteListItemInfoName}>
+                                    {name}
+                                </p>
+                            </div>
                             {!validCode ? (
-                                <button onClick={() => handleClick(comm)}>
-                                    Create Invite
-                                </button>
+                                <Button
+                                    text="Create Invite"
+                                    onClick={() => handleClick(comm)}
+                                />
                             ) : (
-                                <p>
-                                    {url}
+                                <div className={styles.InviteListItemCode}>
+                                    <p className={styles.InviteListItemCodeUrl}>
+                                        {url}
+                                    </p>
                                     <button
+                                        className={
+                                            styles.InviteListItemCodeCopy
+                                        }
                                         onClick={() =>
                                             copyInviteToClipboard(url)
                                         }
                                     >
-                                        copy
+                                        Copy
                                     </button>
-                                </p>
+                                </div>
                             )}
-                        </li>
+                        </div>
                     );
                 })}
-            </ul>
+            </div>
         </div>
     );
 };

@@ -10,7 +10,6 @@ import { useSocket } from "../../contexts/socket";
 import { useChat } from "../../contexts/chat";
 import { useComms } from "../../contexts/comms";
 
-import Modal from "../Modal";
 import { TextBtn } from "../Common/Button";
 
 import styles from "./ChatSingleMessage.module.scss";

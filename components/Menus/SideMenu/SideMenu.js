@@ -4,53 +4,30 @@ import { useAuth } from "../../../contexts/auth";
 import { useComms } from "../../../contexts/comms";
 import { useSocket } from "../../../contexts/socket";
 import { MobileContext } from "../../../contexts/mobile";
-import Modal from "../../Modal";
-import SideModal from "../../Common/SideModal";
-import SettingsMenu from "../../SettingsMenu/index";
-import CommBuilder from "../../../pages/comm";
+import { SideModal } from "../../Common";
+import SettingsMenu from "../AccountSettings";
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 
 import styles from "./SideMenu.module.scss";
 import HarthList from "../HarthList/HarthList";
 
 const SideNav = (props) => {
-    const { toggleTavern, menuOpen, onToggleMenu } = props;
-    const [ShowCommBuilder, setShowCommBuilder] = useState(false);
+    const { menuOpen, onToggleMenu, setShowCreateHarthNameModal } = props;
     const [ShowSettingsNav, setShowSettingsNav] = useState(false);
     const { isMobile } = useContext(MobileContext);
 
     const { comms, setComm, selectedcomm, setTopic } = useComms();
     const { unreadMsgs } = useSocket();
-    const { user } = useAuth();
 
     let leftNav = useRef();
 
     const changeSelectedCom = (com) => {
-        toggleTavern(false);
         setComm(com);
         setTopic({});
         onToggleMenu();
     };
-    // const toggleDefaultComm = () => {
-    //     setComm();
-    //     toggleTavern(true);
-    // };
-    const toggleCreateComm = () => {
-        setShowCommBuilder(!ShowCommBuilder);
-    };
     const toggleSettingsNav = () => {
         setShowSettingsNav(!ShowSettingsNav);
-    };
-
-    const DisplayCommBuilder = () => {
-        if (ShowCommBuilder) {
-            return (
-                <Modal onToggleModal={toggleCreateComm}>
-                    <CommBuilder />
-                </Modal>
-            );
-        }
-        return null;
     };
     const DisplaySettingsNav = () => {
         if (ShowSettingsNav) {
@@ -63,36 +40,35 @@ const SideNav = (props) => {
         return null;
     };
 
+    if (isMobile) {
+        return;
+    }
+
     return (
         <>
-            <DisplayCommBuilder />
             <DisplaySettingsNav />
             <aside
                 id="left_nav"
-                className={`${styles.SideNav} ${
-                    isMobile ? styles.Mobile : styles.Desktop
-                }  ${menuOpen ? "active" : ""}`}
+                className={`${styles.SideNav} ${styles.Desktop}  ${
+                    menuOpen ? "active" : ""
+                }`}
                 ref={leftNav}
             >
                 <HarthList
                     comms={comms}
                     selectedcomm={selectedcomm}
                     unreadMsgs={unreadMsgs}
-                    toggleCreateComm={toggleCreateComm}
+                    toggleCreateComm={setShowCreateHarthNameModal}
                     changeSelectedCom={changeSelectedCom}
                 />
 
-                {isMobile ? (
-                    <SettingsMenu />
-                ) : (
-                    <button
-                        className={styles.SettingsButton}
-                        onClick={toggleSettingsNav}
-                        aria-label="Toggle Settings menu"
-                    >
-                        <HarthLogoDark />
-                    </button>
-                )}
+                <button
+                    className={styles.SettingsButton}
+                    onClick={toggleSettingsNav}
+                    aria-label="Toggle Settings menu"
+                >
+                    <HarthLogoDark />
+                </button>
             </aside>
         </>
     );

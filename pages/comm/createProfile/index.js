@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { Button, BackButton, Input } from "../../../components/Common";
 import { checkForFolder, checkForBadFile } from "../../../services/helper";
 import Form from "../../../components/Form-comp";
-import { ToggleSwitch } from "../../../components/Common";
+import { Toggle } from "../../../components/Common";
 
 const CreateProfile = (props) => {
     // to be deleted
@@ -151,28 +151,28 @@ const CreateProfile = (props) => {
                     <span> {commData.comName}</span>
                 </p>
                 <div>
-                    <ToggleSwitch
+                    <Toggle
                         onToggleChange={toggleHandler}
                         toggleName="name"
-                    ></ToggleSwitch>
+                    ></Toggle>
                     <p>
                         {user.fullName} <span>Real Name</span>
                     </p>
                 </div>
                 <div>
-                    <ToggleSwitch
+                    <Toggle
                         onToggleChange={toggleHandler}
                         toggleName="email"
-                    ></ToggleSwitch>
+                    ></Toggle>
                     <p>
                         {user.email} <span>Email</span>
                     </p>
                 </div>
                 <div>
-                    <ToggleSwitch
+                    <Toggle
                         onToggleChange={toggleHandler}
                         toggleName="bday"
-                    ></ToggleSwitch>
+                    ></Toggle>
                     <p>
                         {bday}
                         <span>Birthday (only month and day)</span>

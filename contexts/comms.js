@@ -52,12 +52,13 @@ export const CommsProvider = ({ children }) => {
     }, [selectedTopic]);
 
     const refetchComms = async (comid) => {
-        console.log("fetching new data", user);
         let result = await getComms(user);
-        console.log(result);
         const { ok, comms } = result;
         if (ok) {
             setComms(comms);
+            if (!profile) {
+                setComm(comms[0]);
+            }
         }
     };
     const grabTopics = async (comid) => {

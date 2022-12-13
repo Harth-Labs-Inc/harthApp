@@ -1,0 +1,152 @@
+@import "../../../styles/fonts.scss";
+@import "../../../styles/globals.scss";
+
+.SettingsContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    justify-content: flex-start;
+    align-items: center;
+    width: 320px;
+    height: 100vh;
+    padding: 0 6px 0 6px;
+    background-color: $white;
+
+    &Header {
+        display: flex;
+    }
+
+    &Title {
+        @include interfaceH4;
+        width: 100%;
+        margin: 0 24px;
+        border-bottom: 2px solid $fuel;
+    }
+}
+
+.InviteList {
+    padding: 0 24px;
+    &Item {
+        display: flex;
+        flex-direction: column;
+        padding: 24px 0;
+        &:not(:last-child) {
+            border-bottom: 1px solid $ash_10;
+        }
+        &Info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+
+            &Image {
+                height: 48px;
+                width: 48px;
+                margin-right: 8px;
+                background-color: $fuel;
+                border-radius: 6px;
+            }
+
+            &Name {
+                @include contentR1;
+                font-weight: 900;
+            }
+        }
+
+        &Code {
+            display: flex;
+            width: 277px;
+
+            &Url {
+                width: 197px;
+                padding: 8px;
+                text-overflow: ellipsis;
+                background-color: $fuel_10;
+                border-radius: 8px 0 0 8px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            &Copy {
+                padding: 10px 20px;
+                color: $white;
+                background-color: $hot_pink;
+                border: 0;
+                border-radius: 0 8px 8px 0;
+            }
+        }
+    }
+}
+
+.headerImage {
+    width: 140px;
+    margin: 56px 0 56px 0;
+}
+
+.settingsHeader {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 56px;
+    @include interfaceH3;
+}
+
+.menuItem {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    align-items: center;
+    //cursor: pointer;
+    width: 100%;
+    height: 56px;
+    border: 0;
+    border-radius: 8px;
+    padding: 0px 16px 0px 24px;
+
+    background-color: $white;
+    @include interfaceR2;
+
+    &:hover {
+        background-color: $fuel_10;
+    }
+
+    .iconHolder {
+        height: 24px;
+        width: 24px;
+        path {
+            fill: $fuel;
+        }
+    }
+}
+
+.sectionLabel {
+    display: flex;
+    @include interfaceH4;
+    width: 100%;
+    border: 0px solid $fuel;
+    border-bottom-width: 1px;
+    align-items: flex-end;
+    padding-bottom: 4px;
+    height: 36px;
+}
+
+.sectionContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 0 8px;
+    //margin-bottom: 16px;
+}
+
+.spacer {
+    width: 40px;
+    background: transparent;
+}

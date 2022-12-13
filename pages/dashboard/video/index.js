@@ -3,7 +3,7 @@ import { useComms } from "../../../contexts/comms";
 import { useVideo } from "../../../contexts/video";
 import { useAuth } from "../../../contexts/auth";
 
-import Modal from "../../../components/Modal";
+import { Modal } from "../../../components/Common";
 import { CloseBtn } from "../../../components/Common/Button";
 
 import GatheringCard from "./GatheringCard/GatheringCard";

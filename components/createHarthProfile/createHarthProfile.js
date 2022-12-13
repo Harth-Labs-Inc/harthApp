@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-
+import { uploadFile } from "../../services/helper";
 import { addUserToComm, saveCommunity } from "../../requests/community";
 import { useAuth } from "../../contexts/auth";
 import { useComms } from "../../contexts/comms";
-
-import Modal from "../Modal";
+import IconUploader from "../IconUploader";
 import TalkingHead from "../TalkingHead/TalkingHead";
-import { Button } from "../Common";
+import { Button, Modal } from "../Common";
 
 export default function CreateHarthProfile({
     header,
@@ -18,6 +17,8 @@ export default function CreateHarthProfile({
     harth,
     invite,
 }) {
+    console.log(harth, "CreateHarthProfile");
+    const [newFile, setNewFile] = useState(null);
     const [profileName, setProfileName] = useState("");
     const { refetchComms } = useComms();
     const { user } = useAuth();
@@ -28,29 +29,54 @@ export default function CreateHarthProfile({
     };
     const joinHarthHandler = async (e) => {
         e.preventDefault();
+        console.log(harth, "joinHarthHandler: createHarthProfile");
+        let tempHarth = { ...harth };
         let id;
+        let s3Upload;
+        let profileIconKey;
+        if (newFile) {
+            s3Upload = await uploadFile({
+                file: newFile,
+                bucket: "community-profile-images",
+            });
+            profileIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${s3Upload.name}`;
+        }
+        console.log(invite, "invite");
+        console.log(tempHarth, "tempHarth");
+
         if (!invite) {
-            let commDbUpload = await saveCommunity(harth);
+            let commDbUpload = await saveCommunity(tempHarth);
             if (commDbUpload.ok) {
                 id = commDbUpload.id;
             }
-        } else if (harth._id) {
-            id = harth._id;
+        } else if (tempHarth._id) {
+            id = tempHarth._id;
         }
-        await addUserToComm(id, {
+        console.log(id, "id");
+        let results = await addUserToComm(id, {
             userId: user._id,
-            iconKey: "",
+            iconKey: profileIconKey,
             name: profileName,
             personalInfo: {},
         });
-
+        console.log(results, id);
         refetchComms();
         submitHandler();
+    };
+    const fileUploadHandler = (file) => {
+        setNewFile(file);
     };
 
     return (
         <Modal>
             <TalkingHead text={talkingHeadMsg} />
+            <IconUploader
+                shape="circle"
+                id={""}
+                icon={""}
+                name={""}
+                changeHandler={fileUploadHandler}
+            />
             <form onSubmit={joinHarthHandler}>
                 <input
                     placeholder={placeholder}

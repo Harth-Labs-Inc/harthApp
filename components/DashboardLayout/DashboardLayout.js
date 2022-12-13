@@ -5,10 +5,14 @@ import SideNav from "../Menus/SideMenu/SideMenu";
 import TopBar from "../Menus/TopBar/TopBar";
 import MainNav from "../MainNav/MainNav";
 
+import { Modal } from "../Common";
+
 import styles from "./DashboardLayout.module.scss";
+import MobileSideNav from "../Menus/SideMenu/MobileSideMenu";
 
 const DashboardLayout = (props) => {
     const [menuActive, setmenuActive] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { isMobile } = useContext(MobileContext);
 
     const { changePage, children, currentPage, setShowCreateHarthNameModal } =
@@ -17,28 +21,32 @@ const DashboardLayout = (props) => {
     const { profile } = useComms();
 
     const toggleMenu = () => {
-        setmenuActive((prevState) => !prevState);
-
         if (isMobile) {
+            setMobileMenuOpen((prevState) => !prevState);
+        } else {
+            setmenuActive((prevState) => !prevState);
         }
     };
 
-    const toggleTavern = (active) => {
-        // setShowTavern(active);
-    };
-
-    if (!profile) {
-        return <p>...loading</p>;
-    }
+    // if (!profile) {
+    //     return <p>...loading</p>;
+    // }
 
     return (
         <main className={styles.Dashboard}>
-            <SideNav
-                toggleTavern={toggleTavern}
-                menuOpen={menuActive}
-                onToggleMenu={toggleMenu}
-                setShowCreateHarthNameModal={setShowCreateHarthNameModal}
-            />
+            {!isMobile ? (
+                <SideNav
+                    menuOpen={menuActive}
+                    onToggleMenu={toggleMenu}
+                    setShowCreateHarthNameModal={setShowCreateHarthNameModal}
+                />
+            ) : (
+                <MobileSideNav
+                    mobileMenuOpen={mobileMenuOpen}
+                    onToggleMenu={toggleMenu}
+                    setShowCreateHarthNameModal={setShowCreateHarthNameModal}
+                />
+            )}
             <div className={styles.DashboardContent}>
                 <TopBar currentPage={currentPage}>
                     {!isMobile ? (

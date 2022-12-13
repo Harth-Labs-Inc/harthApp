@@ -3,9 +3,9 @@ import React, { useState } from "react";
 // import { addUserToComm, saveCommunity } from "../../requests/community";
 // import { useAuth } from "../../contexts/auth";
 // import { useComms } from "../../contexts/comms";
-import Modal from "../Modal";
+
 import TalkingHead from "../TalkingHead/TalkingHead";
-import { Button } from "../Common";
+import { Button, Modal } from "../Common";
 
 import { checkIfInviteTokenIsGood } from "../../requests/community";
 

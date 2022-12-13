@@ -4,9 +4,8 @@ import { uploadFile } from "../../services/helper";
 import { updateHarthData } from "../../requests/community";
 import { useComms } from "../../contexts/comms";
 
-import Modal from "../Modal";
 import IconUploader from "../IconUploader";
-import { Button } from "../Common";
+import { Button, Modal } from "../Common";
 
 const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     const [updatedProfile, setUpdatedProfile] = useState({});
@@ -21,6 +20,10 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     }, [profile]);
 
     if (hidden) {
+        return null;
+    }
+
+    if (!updatedProfile) {
         return null;
     }
 
@@ -68,14 +71,13 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
             setHidden();
         }
     };
-
     const handleCancel = () => {
         setHidden();
     };
 
     let { iconKey, name } = updatedProfile;
     return (
-        <Modal onToggleModal={setHidden}>
+        <Modal onToggleModal={setHidden} show={true}>
             <IconUploader
                 shape="circle"
                 id={harth?._id || ""}
