@@ -6,7 +6,7 @@ import { MobileContext } from "../../../contexts/mobile";
 import styles from "./TopBar.module.scss";
 import HarthProfileEditModal from "../../HarthProfileEditModal";
 
-const TopBar = ({ children }) => {
+const TopBar = ({ children, currentPage }) => {
     const [showEditUserModal, setShowEditUserModal] = useState(false);
 
     const { selectedcomm, profile } = useComms();
@@ -34,12 +34,12 @@ const TopBar = ({ children }) => {
             />
             <div className={styles.TopBar}>
                 {isMobile ? (
-                    <div className={styles.TopBarName}>{name}</div>
+                    <div className={styles.TopBarName}>{currentPage}</div> // {name}
                 ) : null}
                 {children}
                 <Avatar
                     isPressable={true}
-                    picSize={40}
+                    picSize={36}
                     pressHandler={editUserModalHandler}
                     imageSrc={iconKey}
                 />

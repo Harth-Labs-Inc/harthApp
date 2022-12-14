@@ -9,7 +9,7 @@
     border-style: solid;
     box-shadow: none;
     text-shadow: none;
-    padding: 2px;
+    padding: 1px;
     border-radius: 9999px;
     border-width: 3px;
     border-color: transparent;
@@ -17,6 +17,6 @@
     overflow: hidden;
     &:hover {
         border-style: solid;
-        border-color: $hot_pink;
+        border-color: $fuel;
     }
 }
