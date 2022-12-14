@@ -104,21 +104,17 @@ const MainNav = (props) => {
                             changePage("chat");
                         }}
                     >
-                        <div style={{ height: 24, width: 24, margin: 0 }}>
-                            {currentPage === "chat" ? (
-                                <IconChatFill />
-                            ) : (
+                        <div style={{ height: 24, width: 24, position: "relative",}}>
                                 <IconChatNoFill />
-                            )}
+                                {hasAlert ? (
+                                    <div
+                                        className={
+                                            styles.MainNavPageButtonAlertIndicator
+                                        }
+                                    />
+                                ) : null}
                         </div>
                         <div>Chat</div>
-                        {hasAlert ? (
-                            <div
-                                className={
-                                    styles.MainNavPageButtonAlertIndicator
-                                }
-                            />
-                        ) : null}
                     </button>
 
                     <button
@@ -137,21 +133,17 @@ const MainNav = (props) => {
                             changePage("gather");
                         }}
                     >
-                        <div style={{ height: 24, width: 24, marginRight: 6 }}>
-                            {currentPage === "gather" ? (
-                                <IconFireFill />
-                            ) : (
+                        <div style={{ height: 24, width: 24, position: "relative" }}>
                                 <IconFireNoFill />
-                            )}
+                                {hasAlert ? (
+                                    <div
+                                        className={
+                                            styles.MainNavPageButtonAlertIndicator
+                                        }
+                                    />
+                                ) : null}
                         </div>
                         <div>Gather</div>
-                        {hasAlert ? (
-                            <div
-                                className={
-                                    styles.MainNavPageButtonAlertIndicator
-                                }
-                            />
-                        ) : null}
                     </button>
 
                     <button
@@ -170,256 +162,21 @@ const MainNav = (props) => {
                             changePage("message");
                         }}
                     >
-                        <div style={{ height: 24, width: 24, marginRight: 6 }}>
-                            {currentPage === "message" ? (
+                        <div style={{ height: 24, width: 24, position: "relative" }}>
                                 <IconForumNoFill />
-                            ) : (
-                                <IconForumNoFill />
-                            )}
+                                {hasAlert ? (
+                                    <div
+                                        className={
+                                            styles.MainNavPageButtonAlertIndicator
+                                        }
+                                    />
+                                ) : null}
                         </div>
                         <div>Message</div>
-                        {hasAlert ? (
-                            <div
-                                className={
-                                    styles.MainNavPageButtonAlertIndicator
-                                }
-                            />
-                        ) : null}
                     </button>
                 </div>
             </header>
 
-            {/* isMobile ? (
-                <header className={styles.mobile}>
-                    <button
-                        className={styles.harthButton}
-                        onClick={handleHarthMenu}
-                        aria-label="Current Harth"
-                    >
-                        <img className={styles.harthImage} src={harthIcon} />
-                    </button>
-                    <button
-                        role="nav-item"
-                        id="chat"
-                        aria-label="Community Chat"
-                        className={`
-                            ${styles.navButton} 
-                            ${
-                                currentPage == "chat"
-                                    ? styles.navButtonActive
-                                    : styles.navButtonInactive
-                            } 
-                        `}
-                        onClick={() => {
-                            changePage("chat");
-                        }}
-                    >
-                        <div className={styles.indicator}></div>
-                        <div style={{ height: 24, width: 24, margin: 0 }}>
-                            <IconChatNoFill />
-                        </div>
-                        <div>Chat</div>
-                        {hasAlert ? (
-                            <div className={styles.alertIndicator} />
-                        ) : null}
-                    </button>
-
-                    <button
-                        role="nav-item"
-                        id="gather"
-                        aria-label="Gather"
-                        className={`
-                            ${styles.navButton} 
-                            ${
-                                currentPage == "gather"
-                                    ? styles.navButtonActive
-                                    : styles.navButtonInactive
-                            } 
-                        `}
-                        onClick={() => {
-                            changePage("gather");
-                            // remove page change on mobile for now
-                            //if (!isMobile) {
-                            //  changePage('gather')
-                            //} else {
-                            //  alert('mobile gatherings coming soon')
-                            //}
-                        }}
-                    >
-                        <div className={styles.indicator}></div>
-                        <div style={{ height: 24, width: 24, marginRight: 6 }}>
-                            <IconFireNoFill />
-                        </div>
-                        <div>Gather</div>
-                        {hasAlert ? (
-                            <div className={styles.alertIndicator} />
-                        ) : null}
-                    </button>
-
-                    <button
-                        role="nav-item"
-                        id="message"
-                        aria-label="Private Messages"
-                        className={`
-                            ${styles.navButton} 
-                            ${
-                                currentPage == "message"
-                                    ? styles.navButtonActive
-                                    : styles.navButtonInactive
-                            } 
-                        `}
-                        onClick={() => {
-                            changePage("message");
-                        }}
-                    >
-                        <div className={styles.indicator}></div>
-                        <div style={{ height: 24, width: 24, marginRight: 6 }}>
-                            <IconForumNoFill />
-                        </div>
-                        <div>Message</div>
-                        {hasAlert ? (
-                            <div className={styles.alertIndicator} />
-                        ) : null}
-                    </button>
-                </header>
-            ) : (
-                <header className={styles.desktop}>
-                    <div style={{ width: 240 }}>
-                        <button
-                            className={styles.harthButton}
-                            onClick={handleHarthMenu}
-                            aria-label="Current Harth"
-                        >
-                            {selectedcomm.name}
-                        </button>
-                    </div>
-
-                    <div role="nav" className={styles.topButtons}>
-                        <button
-                            role="nav-item"
-                            id="chat"
-                            aria-label="Community Chat"
-                            className={`
-                            ${styles.navButton} 
-                            ${
-                                currentPage == "chat"
-                                    ? styles.navButtonActive
-                                    : styles.navButtonInactive
-                            } 
-                        `}
-                            onClick={() => {
-                                changePage("chat");
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <div className={styles.iconHolder}>
-                                    <IconChatNoFill />
-                                    {(hasAlert & !(currentPage == "chat"))
-                                    ?
-                                    (<div className={styles.alertIndicator} />)
-                                    :null
-                                    }
-                                </div>
-                                <div>Chat</div>
-                            </div>
-                            <div className={styles.indicator}></div>
-                        </button>
-
-                        <button
-                            role="nav-item"
-                            id="gather"
-                            aria-label="Gather"
-                            className={`
-                                ${styles.navButton} 
-                                ${
-                                    currentPage == "gather"
-                                        ? styles.navButtonActive
-                                        : styles.navButtonInactive
-                                } 
-                            `}
-                            onClick={() => {
-                                changePage("gather");
-                                // remove page change on mobile for now
-                                //if (!isMobile) {
-                                //  changePage('gather')
-                                //} else {
-                                //  alert('mobile gatherings coming soon')
-                                //}
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <div className={styles.iconHolder}>
-                                    <IconFireNoFill />
-                                    {(hasAlert & !(currentPage == "gather"))
-                                    ?
-                                    (<div className={styles.alertIndicator} />)
-                                    :null
-                                    }
-                                </div>
-                                <div>Gather</div>
-                            </div>
-                            <div className={styles.indicator}></div>
-                        </button>
-
-                        <button
-                            role="nav-item"
-                            id="message"
-                            aria-label="Private Messages"
-                            className={`
-                                ${styles.navButton} 
-                                ${
-                                    currentPage == "message"
-                                        ? styles.navButtonActive
-                                        : styles.navButtonInactive
-                                } 
-                            `}
-                            onClick={() => {
-                                changePage("message");
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <div className={styles.iconHolder}>
-                                    <IconForumNoFill />
-                                    {(hasAlert & !(currentPage == "message"))
-                                    ?
-                                    (<div className={styles.alertIndicator} />)
-                                    :null
-                                    }
-                                    
-                                </div>
-                                <div>Message</div>
-                            </div>
-                            <div className={styles.indicator}></div>
-                        </button>
-                    </div>
-
-                    <Avatar
-                        aLabel="My Account"
-                        isPressable={true}
-                        onPress={showModal}
-                        picSize={36}
-                        imageSrc={profileIcon}
-                    />
-                </header>
-            ) */}
         </>
     );
 };

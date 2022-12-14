@@ -5,15 +5,17 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    align-items: flex-end;
 
     &HelperContainer {
         display: flex;
         justify-content: center;
-        max-width: 327px;
+        max-width: 320px;
         margin-bottom: 12px;
 
         &TextBubble {
-            width: 223px;
+            //width: 223px;
+            width: 100%;
             padding: 12px;
             margin-bottom: 94px;
             text-align: center;
@@ -26,8 +28,10 @@
             @include contentR1;
         }
         &Image {
-            height: 154px;
-            width: 96px;
+            width: 88px;
+            min-width: 88px;
+            height: auto;
+            //height: 154px;
             margin-top: auto;
             margin-left: 8px;
         }
