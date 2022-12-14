@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { checkForBadFile } from "../../services/helper";
+import { IconAdd } from "../../resources/icons/IconAdd";
 
 import styles from "./IconUploader.module.scss";
 
@@ -33,12 +34,14 @@ const IconUploader = ({ shape, icon, changeHandler }) => {
     };
 
     return (
+        <>
         <div
             className={`
                 ${styles.IconUploader} 
-                ${shape === "circle" ? styles.Circle : null}
+                ${shape === "circle" ? styles.Circle : styles.Square}
             `}
         >
+        <div className={styles.iconHolder}><IconAdd /></div>
             <div>
                 <input
                     ref={inputRef}
@@ -50,11 +53,12 @@ const IconUploader = ({ shape, icon, changeHandler }) => {
                 ></input>
                 <img
                     onClick={clickHandler}
-                    style={{ height: "100px" }}
+                    className = {styles.image}
                     src={image}
                 />
             </div>
         </div>
+        </>
     );
 };
 
