@@ -24,6 +24,8 @@ export const AuthProvider = ({ children }) => {
                 if (ok) {
                     setUser(user);
                     setLoading(false);
+                } else {
+                    setLoading(false);
                 }
             } else {
                 setLoading(false);
