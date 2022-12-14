@@ -144,9 +144,9 @@ const dashboard = (props) => {
                     <SocketProvider>
                         {showCreateHarthNameModal ? (
                             <CreateHarthName
-                                talkingHeadMsg="Let's create your harth. Once it's created you can invite your friends"
-                                footer="Give your harth a name and a cool sigil. No need to think too hard, you can change them at any time."
-                                placeholder={`${"First Name"}'s harth`}
+                                talkingHeadMsg="Give your härth a name and and image"
+                                footer="Tip: You can change your härth name and image at any time"
+                                placeholder="härth name"
                                 submitText="Create"
                                 closeHandler={() =>
                                     setShowCreateHarthNameModal(false)
@@ -156,9 +156,9 @@ const dashboard = (props) => {
                         ) : null}
                         {showCreateHarthProfileModal ? (
                             <CreateHarthProfile
-                                talkingHeadMsg="And by what name would you like to be known"
-                                footer="Set your name and profile pic for this harth. You can change these at any time"
-                                placeholder={`${"First Name"}`}
+                                talkingHeadMsg="Now enter the name you would like to be called in your new härth and add a profile picture"
+                                footer="Familiar Tip: You can change your profile name nad picture at any time"
+                                placeholder="your profile name"
                                 submitText="Join"
                                 submitHandler={resetNewHarth}
                                 harth={newHarth}

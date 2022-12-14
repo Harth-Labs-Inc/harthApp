@@ -36,7 +36,7 @@ const IconUploader = ({ shape, icon, changeHandler }) => {
         <div
             className={`
                 ${styles.IconUploader} 
-                ${shape === "circle" ? styles.Circle : null}
+                ${shape === "circle" ? styles.Circle : styles.Square}
             `}
         >
             <div>
@@ -50,7 +50,7 @@ const IconUploader = ({ shape, icon, changeHandler }) => {
                 ></input>
                 <img
                     onClick={clickHandler}
-                    style={{ height: "100px" }}
+                    className = {styles.image}
                     src={image}
                 />
             </div>

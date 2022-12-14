@@ -7,6 +7,8 @@ import IconUploader from "../IconUploader";
 import TalkingHead from "../TalkingHead/TalkingHead";
 import { Button, Modal } from "../Common";
 
+import styles from "./CreateHarthProfile.module.scss";
+
 export default function CreateHarthProfile({
     header,
     talkingHeadMsg,
@@ -69,30 +71,39 @@ export default function CreateHarthProfile({
 
     return (
         <Modal>
-            <TalkingHead text={talkingHeadMsg} />
-            <IconUploader
-                shape="circle"
-                id={""}
-                icon={""}
-                name={""}
-                changeHandler={fileUploadHandler}
-            />
-            <form onSubmit={joinHarthHandler}>
-                <input
-                    placeholder={placeholder}
-                    type="text"
-                    value={profileName}
-                    onInput={handleInputChange}
-                    required
-                />
-                <p>{footer}</p>
-                <Button
-                    tier="secondary"
-                    fullWidth
-                    text={submitText}
-                    type="submit"
-                />
-            </form>
+            <div className={styles.mainContainer}>
+                <div className={styles.title}>Make a profile</div>
+                <TalkingHead text={talkingHeadMsg} />
+                <div className={styles.imageHolder}>
+                    <IconUploader
+                        shape="circle"
+                        id={""}
+                        icon={""}
+                        name={""}
+                        changeHandler={fileUploadHandler}
+                    />
+                </div>
+
+                <form onSubmit={joinHarthHandler} className={styles.form}>
+                    <input
+                        placeholder={placeholder}
+                        type="text"
+                        value={profileName}
+                        onInput={handleInputChange}
+                        required
+                        className={styles.textEntry}
+                    />
+                    <div className={styles.helpText}>{footer}</div>
+                    <div className={styles.buttonBar}>
+                        <Button
+                            tier="primary"
+                            fullWidth
+                            text={submitText}
+                            type="submit"
+                        />
+                    </div>
+                </form>
+            </div>
         </Modal>
     );
 }
