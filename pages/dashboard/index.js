@@ -156,7 +156,7 @@ const dashboard = (props) => {
                         ) : null}
                         {showCreateHarthProfileModal ? (
                             <CreateHarthProfile
-                                talkingHeadMsg="Now enter the name you would like to be called in your new härth and add a profile picture"
+                                talkingHeadMsg="Enter the name you would like to be called in your new härth and add a profile picture"
                                 footer="Familiar Tip: You can change your profile name nad picture at any time"
                                 placeholder="your profile name"
                                 submitText="Join"
