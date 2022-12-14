@@ -1,0 +1,160 @@
+@import '../../styles/globals.scss';
+@import '../../styles/fonts.scss';
+
+
+
+.conversation {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding: 4px 4px;
+    border: 0;
+    background-color: transparent;
+
+
+    .avatarHolder {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1px;
+        align-items: center;
+
+        .avatar {
+            padding: 0px;
+            border-radius: 9999px;
+            border: 2px solid $fuel;
+            background-color: $white;
+        }
+
+    }
+
+    
+
+    .conversationWithPointer{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items:flex-start;
+        cursor: pointer;
+        //transition: all 1s;
+
+        .conversationContainer {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            background-color:$white;
+            border: 2px solid $fuel;
+            border-radius: 4px;
+            padding: 6px 16px;
+            row-gap: 4px;
+
+            .label {
+                @include contentR2;
+                width: 100%;
+                color: $fuel;
+                text-align: left;
+                 p {
+                    padding: 3px 0px;
+                 }
+
+                &Mobile {
+                    @include contentR1;
+                    margin-top: 4px;
+                    margin-bottom: 4px;
+                    p{
+                        padding: 5px 0px; 
+                    }
+        
+                }
+        
+            }
+        
+
+            &Alert {
+                box-shadow: 4px 4px 0 $hot_pink;
+            }
+
+        }
+
+        .pointer {
+            position: relative;
+            width:16px;
+            height: 20px;
+            margin-top: 9px;
+
+        
+            p:before,
+            p:after {
+                content: ' ';
+                position: absolute;
+                width: 0;
+                height: 0;
+            }
+        
+            p:before {
+                right: -1px;
+                bottom: 0px;
+                border: 10px solid;
+                border-color: transparent $fuel transparent transparent;
+            }
+        
+            p:after {
+                right: -4px;
+                bottom: 0px;
+                border: 10px solid;
+                border-color: transparent$white transparent transparent ;
+            }
+        
+            &Mobile {
+                margin-top: 16px;
+
+            }
+    
+        }
+    }
+    
+    &Active{
+    
+        .conversationWithPointer{    
+            .conversationContainer {
+                background-color: $fuel;  
+                .label {
+                    color: $oxygen;           
+                }
+                &Alert {
+                    box-shadow: 4px 4px 0 $hot_pink;
+                }
+            }
+    
+            .pointer {
+                p:after {
+                    border-color: transparent $fuel transparent transparent ;
+                } 
+            }
+        }
+        
+    }
+
+    &:hover {
+
+        .conversationWithPointer{
+            .conversationContainer {
+                background-color:$fuel;
+                .label {
+                    color: $oxygen;  
+                }
+            }
+
+            .pointer {
+                p:after {
+                    border-color: transparent transparent transparent transparent ;
+                }
+            }
+        }
+        
+    }
+    
+
+}

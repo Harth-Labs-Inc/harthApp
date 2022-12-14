@@ -1,12 +1,12 @@
-import { IconDice } from "../../../resources/icons/IconDice";
+import { IconMap } from "../../../resources/icons/IconMap";
 import { useState } from "react";
 import styles from "./gatheringButtons.module.scss";
 
 
-export const DiceButton = (props) => {
+export const MapButton = (props) => {
     const {
         onPress,
-        ariaLabel,
+        ariaLabel = "map button",
     } = props;
     const [buttonState, setButtonState] = useState("off");
 
@@ -14,11 +14,10 @@ export const DiceButton = (props) => {
         if (buttonState == "off"){
             setButtonState("on")
             //OnPress();
-
         }
         else{
             setButtonState("off")
-            //OnPress();
+            //OnPress(); 
 
         }
     };
@@ -38,11 +37,11 @@ export const DiceButton = (props) => {
             {(buttonState == "on")
             ?
                 <div height="100%" width="100%">
-                    <IconDice hasGradient="true"/>
+                    <IconMap hasGradient="true"/>
                 </div>
             :
                 <div height="100%" width="100%">
-                    <IconDice />
+                    <IconMap />
                 </div>
         
             }
