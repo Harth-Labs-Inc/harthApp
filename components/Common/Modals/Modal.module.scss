@@ -8,7 +8,6 @@
     z-index: 300;
     height: 100vh;
     width: 100vw;
-    padding: 12px 24px;
     backdrop-filter: blur(3px);
     background-color: $oxygen_10;
     // opacity: 0;
@@ -16,7 +15,7 @@
     // transition: opacity 0.3s;
 
     &Mid {
-        position: relative;
+        position: absolute;
         max-width: 420px;
         top: 49%;
         left: 50%;
