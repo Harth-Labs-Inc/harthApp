@@ -9,7 +9,7 @@ import { DraggableCore } from "react-draggable";
 
 export const DiceBar = (props) => {
     const {
-        type = "desktop",//not sure if this is needed. 
+        type = "desktop",
     } = props;
 
 
@@ -18,9 +18,9 @@ export const DiceBar = (props) => {
 
         {type == "desktop"
         ? (
-        <Draggable>
+        <Draggable handle="#handle">
         <div className={styles.mainContainer} >
-        <div className={styles.topBar} >
+        <div className={styles.topBar} id="handle">
             <div className={styles.spacer} />
             <div className={styles.grabber} />
             <button
