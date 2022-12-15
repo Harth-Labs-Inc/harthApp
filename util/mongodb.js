@@ -19,7 +19,7 @@ export function connectToDatabase() {
     }
     clientPromise = global._mongoClientPromise;
   } else {
-    client = new MongoClient(uri, options);
+    client = new MongoClient(MONGODB_URI, options);
     clientPromise = client.connect();
   }
 
