@@ -30,21 +30,26 @@ const MobileSideNav = (props) => {
 
     return (
         <SideModal
-            id="left_nav"
-            className={`${styles.SideNav} ${styles.Mobile} `}
             onToggleModal={onToggleMenu}
         >
-            <div className={styles.headerImage}>
-                <HarthLogoDark />
+            <div className={styles.sideNavMobile}>
+                <div className={styles.headerImage}>
+                    <HarthLogoDark />
+                </div>
+                <div className={styles.harthList}>
+                    <HarthList
+                        comms={comms}
+                        selectedcomm={selectedcomm}
+                        unreadMsgs={unreadMsgs}
+                        toggleCreateComm={toggleCreateComm}
+                        changeSelectedCom={changeSelectedCom}
+
+                    />
+                </div>
+                
+                <SettingsMenu />
+
             </div>
-            <HarthList
-                comms={comms}
-                selectedcomm={selectedcomm}
-                unreadMsgs={unreadMsgs}
-                toggleCreateComm={toggleCreateComm}
-                changeSelectedCom={changeSelectedCom}
-            />
-            <SettingsMenu />
         </SideModal>
     );
 };
