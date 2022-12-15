@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 
-import TopicsSideNav from "../../../components/TopicsSideNav";
+import TopicsNav from "../../../components/Menus/TopicsMenu/TopicsSideNav";
 import TopicsMenu from "../../../components/TopicsMenu";
 import ChatMessages from "../../../components/ChatMessages/ChatMessages";
 import TopicEditPanel from "../../../components/Topics/TopicEditPanel/TopicEditPanel";
@@ -50,7 +50,7 @@ const Chat = (prop) => {
 
     return (
         <>
-            {isMobile ? null : <TopicsSideNav />}
+            {isMobile ? null : <TopicsNav />}
             <section id="topic_active" className={topicChatClasses()}>
                 <TopicsMenu
                     on_toggle_panel={toggleEditPanel}
@@ -61,13 +61,13 @@ const Chat = (prop) => {
                     <ChatMessages />
                 </div>
             </section>
-            <CSSTransition
+            {/* <CSSTransition
                 in={showEditPanel}
                 timeout={0}
                 classNames="topicPanelAnimation"
             >
                 <TopicPanel />
-            </CSSTransition>
+            </CSSTransition> */}
         </>
     );
 };

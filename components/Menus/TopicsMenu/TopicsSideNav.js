@@ -1,14 +1,16 @@
 import { useContext, useState, useEffect } from "react";
 
-import { useComms } from "../contexts/comms";
-import { useAuth } from "../contexts/auth";
-import { useChat } from "../contexts/chat";
-import { useSocket } from "../contexts/socket";
-import { MobileContext } from "../contexts/mobile";
+import { useComms } from "../../../contexts/comms";
+import { useAuth } from "../../../contexts/auth";
+import { useChat } from "../../../contexts/chat";
+import { useSocket } from "../../../contexts/socket";
+import { MobileContext } from "../../../contexts/mobile";
 
-import TopicListElement from "./Topics/TopicListElement";
+import TopicListElement from "../../Topics/TopicListElement";
+import { IconAdd } from "../../../resources/icons/IconAdd";
 
 import CreateNewTopicModal from "./CreateNewTopicModal/CreateNewTopicModal";
+import styles from "./TopicsNav.module.scss";
 
 const TopicsNav = (props) => {
     const [topicsArr, setTopicsArr] = useState([]);
@@ -43,8 +45,9 @@ const TopicsNav = (props) => {
             {openTopicBuilder && (
                 <CreateNewTopicModal toggleModal={openCreateTopic} />
             )}
-            <aside id="topicNav">
-                <ul id="left_nav_topics">
+            <aside className={styles.TopicsNav}>
+                <p className={styles.TopicsNavTitle}>Topics</p>
+                <div className={styles.TopicsNavContainer}>
                     {topicsArr &&
                         topicsArr.map((topic) => {
                             let isActive = false;
@@ -90,12 +93,17 @@ const TopicsNav = (props) => {
                                 />
                             );
                         })}
-                    <li key="add new button">
-                        <button id="create_topic" onClick={openCreateTopic}>
+                    <div className={styles.TopicsNavCreate}>
+                        <button
+                            className={styles.TopicsNavCreateButton}
+                            id="create_topic"
+                            onClick={openCreateTopic}
+                        >
                             topic
+                            <IconAdd />
                         </button>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </aside>
         </>
     );

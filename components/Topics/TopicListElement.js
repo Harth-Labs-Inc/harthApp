@@ -52,9 +52,6 @@ const TopicListElement = (props) => {
                 )}
 
                 <div className={styles.topicWithPointer}>
-                    <div className={styles.pointer}>
-                        <p> </p>
-                    </div>
                     <div
                         className={`
                     ${styles.topicContainer} 
