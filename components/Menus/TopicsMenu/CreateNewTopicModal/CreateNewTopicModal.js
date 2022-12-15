@@ -52,6 +52,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
             title: data.topicName,
             invites: [],
             contentAge: data.contentAge,
+            private: false,
         };
         const saveResults = await saveTopics(topic);
         const { ok, id } = saveResults;

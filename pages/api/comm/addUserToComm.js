@@ -49,7 +49,7 @@ export default async (req, res) => {
     const getPublicTopicsForComm = (db, commId) => {
         return new Promise((resolve, reject) => {
             db.collection("topics")
-                .find({ comm_id: commId, private: { $eq: false } })
+                .find({ comm_id: commId, private: { $ne: true } })
                 .toArray(function (err, results) {
                     if (err) {
                         console.log(err);
