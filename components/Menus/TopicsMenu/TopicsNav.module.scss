@@ -1,0 +1,55 @@
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
+
+.TopicsNav {
+    width: 264px;
+    padding: 12px 8px 0 24px;
+
+    &Title {
+        @include interfaceH5;
+        padding: 4px 0;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    &Container {
+        position: relative;
+        margin: 0;
+        padding: 8px 0 0;
+        overflow: scroll;
+
+        &:before {
+            position: absolute;
+            top: 0;
+            left: 19px;
+            height: calc(100% - 5px);
+            width: 2px;
+            content: "";
+            background-color: $fuel;
+        }
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 4px;
+            height: 2px;
+            width: 30px;
+            content: "";
+            background-color: $fuel;
+        }
+    }
+
+    &Create {
+        position: relative;
+        z-index: 2;
+        padding: 4px;
+        &Button {
+            height: 32px;
+            width: 32px;
+            font-size: 0;
+            background-color: $white;
+            border: 2px solid $fuel;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    }
+}

@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useComms } from "../../../contexts/comms";
 import { generateInvite, getInviteById } from "../../../requests/community";
 
-import BackButton from "../../Common/Buttons/BackButton";
+import { BackButton } from "../../Common/Buttons/BackButton";
 
 import styles from "./SettingsMenu.module.scss";
 
