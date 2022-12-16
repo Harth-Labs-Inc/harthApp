@@ -8,6 +8,8 @@ import HarthList from "../HarthList/HarthList";
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 import styles from "./SideMenu.module.scss";
 
+import SettingsList from "../AccountSettings/AccountSettings";
+
 const MobileSideNav = (props) => {
     const { mobileMenuOpen, onToggleMenu, setShowCreateHarthNameModal } = props;
     const [ShowCommBuilder, setShowCommBuilder] = useState(false);
@@ -36,7 +38,9 @@ const MobileSideNav = (props) => {
                 <div className={styles.headerImage}>
                     <HarthLogoDark />
                 </div>
-                <div className={styles.harthList}>
+                <div className={styles.text}>
+                    Your härths
+                </div>
                     <HarthList
                         comms={comms}
                         selectedcomm={selectedcomm}
@@ -45,9 +49,7 @@ const MobileSideNav = (props) => {
                         changeSelectedCom={changeSelectedCom}
 
                     />
-                </div>
-                
-                <SettingsMenu />
+                <SettingsList />
 
             </div>
         </SideModal>

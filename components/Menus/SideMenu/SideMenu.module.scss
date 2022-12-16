@@ -8,6 +8,7 @@
     justify-content: space-between;
     padding: 20px 0px 8px 0px;
     width: 64px;
+    min-width: 64px;
     background-color: $hot_salmon_dark;
 
     .SettingsButton {
@@ -33,30 +34,33 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-between;
     padding: 0px 0px 0px 0px;
     width: 100%;
-    background-color: $oxygen;
+    height: 100%;
+    row-gap: 0px;
+    //background-color: $hot_pink;
+
+    .text {
+        width: 100%;
+        text-align: left;
+        padding: 4px 20px;
+        border: 0;
+        border-bottom: solid 1px $fuel_10;
+        margin: 0;
+        @include interfaceR2;
+
+    }
 
     .headerImage {
+        flex:none;
         display: flex;
         align-items: center;
         justify-content: center;
+
         width: 164px;
-        margin: 40px 0px;
+        margin: 48px 0px;
 
     }
 
-    .harthList {
-        display: flex;
-        align-items: flex-start;
-        //background-color: aqua;
-        width: 100%;
-
-    }
-
-    .settingsItems {
-        width: 100%;
-    }
 
 }
