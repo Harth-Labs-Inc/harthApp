@@ -1,22 +1,23 @@
 @import "../../../styles/globals.scss";
 
-.avatar {
-    border-radius: 9999px;
-    overflow: hidden;
-}
+
 
 .avatarButton {
-    border-style: solid;
-    box-shadow: none;
-    text-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid transparent;
     padding: 1px;
     border-radius: 9999px;
-    border-width: 3px;
-    border-color: transparent;
     background-color: transparent;
     overflow: hidden;
     &:hover {
         border-style: solid;
         border-color: $fuel;
+    }
+
+    .avatar {
+        border-radius: 9999px;
+        overflow: hidden;
     }
 }

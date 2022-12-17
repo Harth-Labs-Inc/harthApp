@@ -68,7 +68,7 @@
         border: 0;
 
         path {
-            stroke-width: 1.5px;
+            stroke-width: 1px;
             stroke: $light_ash;
         }
 
@@ -106,13 +106,13 @@
         &.Active {
             font-weight: 500;
             path {
-                stroke-width: 1.5px;
+                stroke-width: 1px;
                 stroke: $fuel;
             }
             .Desktop & {
                 &:before {
                     width: 48px;
-                    background-color: $fuel;
+                    background-color: $hot_salmon;
                 }
             }
 
@@ -152,7 +152,7 @@
             &:hover {
                 font-weight: 500;
                 path {
-                    stroke-width: 1.5px;
+                    stroke-width: 1px;
                     stroke: $fuel;
                 }
             }

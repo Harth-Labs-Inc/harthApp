@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { uploadFile } from "../../services/helper";
 import { updateHarthData } from "../../requests/community";
 import { useComms } from "../../contexts/comms";
-
 import IconUploader from "../IconUploader";
 import { Button, Modal } from "../Common";
+
+import styles from "./harthProfileEditModal.module.scss";
 
 const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     const [updatedProfile, setUpdatedProfile] = useState({});
@@ -78,29 +79,40 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     let { iconKey, name } = updatedProfile;
     return (
         <Modal onToggleModal={setHidden} show={true}>
-            <IconUploader
-                shape="circle"
-                id={harth?._id || ""}
-                icon={iconKey}
-                name={name}
-                changeHandler={fileUploadHandler}
-            />
-            <form onSubmit={submitHandler}>
-                <input
-                    placeholder={name || "User Name"}
-                    value={name}
-                    onChange={nameChangeHandler}
-                    required
+            <div className={styles.mainContainer}>
+                <div className={styles.title}>Your profile</div>
+                <IconUploader
+                    shape="circle"
+                    id={harth?._id || ""}
+                    icon={iconKey}
+                    name={name}
+                    changeHandler={fileUploadHandler}
                 />
-                <div>
-                    <Button
-                        text="Cancel"
-                        tier="secondary"
-                        onClick={handleCancel}
+                <form onSubmit={submitHandler} className={styles.form}>
+                    <input
+                        placeholder={name || "Profile Name"}
+                        value={name}
+                        onChange={nameChangeHandler}
+                        required
+                        className={styles.textEntry}
                     />
-                    <Button type="submit" text="Update" />
-                </div>
-            </form>
+                    <div className={styles.harthTitle}>[{harth.name}]</div>
+                    <div className={styles.buttonBar}>
+                        <Button
+                            text="Cancel"
+                            tier="secondary"
+                            onClick={handleCancel}
+                            className={styles.cancelButton}
+                        />
+                        <Button 
+                            type="submit" 
+                            text="Update" 
+                            className={styles.submitButton}
+                        />
+                    </div>
+                </form>
+            </div>
+            
         </Modal>
     );
 };
