@@ -1,18 +1,16 @@
 //app colors
-@import './utility/ui-mixins';
-
+@import "./utility/ui-mixins";
 
 // Oxygen
 $oxygen: #fcfff6;
 $oxygen_5: rgba(252, 255, 246, 0.05);
 $oxygen_10: rgba(252, 255, 246, 0.1);
 
-
 // White
 $white: #ffffff;
-$white_90: rgba(255, 255, 255, 0.90);
-$white_50: rgba(255, 255, 255, 0.50);
-$white_10: rgba(255, 255, 255, 0.10);
+$white_90: rgba(255, 255, 255, 0.9);
+$white_50: rgba(255, 255, 255, 0.5);
+$white_10: rgba(255, 255, 255, 0.1);
 $white_5: rgba(255, 255, 255, 0.05);
 
 // Black
@@ -23,12 +21,12 @@ $black_50: rgba(0, 0, 0, 0.5);
 
 // Ash
 $ash: #282828;
-$ash_80: rgba(40, 40, 40, 0.80);
-$ash_60: rgba(40, 40, 40, 0.60);
-$ash_50: rgba(40, 40, 40, 0.50);
-$ash_40: rgba(40, 40, 40, 0.40);
-$ash_20: rgba(40, 40, 40, 0.20);
-$ash_10: rgba(40, 40, 40, 0.10);
+$ash_80: rgba(40, 40, 40, 0.8);
+$ash_60: rgba(40, 40, 40, 0.6);
+$ash_50: rgba(40, 40, 40, 0.5);
+$ash_40: rgba(40, 40, 40, 0.4);
+$ash_20: rgba(40, 40, 40, 0.2);
+$ash_10: rgba(40, 40, 40, 0.1);
 $ash_05: rgba(40, 40, 40, 0.05);
 
 // Light Ash
@@ -36,12 +34,11 @@ $light_ash: #f8f8f8;
 
 // Fuel
 $fuel: #2f1d2a;
-$fuel_50: rgba(47, 29, 42, 0.50);
-$fuel_10: rgba(47, 29, 42, 0.10);
+$fuel_50: rgba(47, 29, 42, 0.5);
+$fuel_10: rgba(47, 29, 42, 0.1);
 $fuel_7: rgba(47, 29, 42, 0.07);
 $fuel_10F: #eae8e9;
 $fuel_5: rgba(47, 29, 42, 0.05);
-
 
 // Hot Blue
 $hot_blue: rgb(13, 161, 181, 1);
@@ -51,15 +48,15 @@ $hot_green: #00a396;
 $hot_purple: #bb7ec4;
 // Hot Pink
 $hot_pink: #d96fab;
-$hot_pink_20: rgba(217, 111, 171, 0.20);
+$hot_pink_20: rgba(217, 111, 171, 0.2);
 // Hot Orange
 $hot_orange: #ffa773;
 // Hot Red
 $hot_red: #f06573;
-$hot_red_20: rgba(240, 101, 115, 0.20);
+$hot_red_20: rgba(240, 101, 115, 0.2);
 
-$hot_salmon: #FF8682;
-$hot_salmon_dark: darken($hot_salmon, 70%);
+$hot_salmon: #ff8682;
+$hot_salmon_dark: darken($hot_salmon, 63%);
 
 // ========================
 // System
@@ -72,7 +69,7 @@ $background_light: #f2f5eb;
 // ========================
 // Overlays
 // ========================
-$overlay_dark: rgba(0, 0, 0, 0.70);
+$overlay_dark: rgba(0, 0, 0, 0.7);
 // overlay_light: $white,
 
 ///OLD COLORS BELOW
@@ -102,8 +99,8 @@ $black80: rgba(#000, 0.8);
 
 $white: #fff;
 
-$font-family-1: 'Roboto', sans-serif;
-$font-icon: 'IcoMoon';
+$font-family-1: "Roboto", sans-serif;
+$font-icon: "IcoMoon";
 
 $gutter: 8px;
 
@@ -117,20 +114,20 @@ $gutter: 8px;
 .topicPanelAnimation-enter,
 .editFormAnimation-enter,
 .memberListAnimation-enter {
-  right: -375px;
+    right: -375px;
 }
 .topicPanelAnimation-enter-done,
 .editFormAnimation-enter-done,
 .memberListAnimation-enter-done {
-  right: 0px;
+    right: 0px;
 }
 .topicPanelAnimation-exit,
 .editFormAnimation-exit,
 .memberListAnimation-exit {
-  right: 0px;
+    right: 0px;
 }
 .topicPanelAnimation-exit-done,
 .editFormAnimation-exit-done,
 .memberListAnimation-exit-done {
-  right: -375px;
+    right: -375px;
 }

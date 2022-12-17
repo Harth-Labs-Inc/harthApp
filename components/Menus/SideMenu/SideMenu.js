@@ -6,7 +6,8 @@ import { useSocket } from "../../../contexts/socket";
 import { MobileContext } from "../../../contexts/mobile";
 import { SideModal } from "../../Common";
 import SettingsMenu from "../AccountSettings";
-import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
+import { HarthLogoLight } from "../../../public/images/harth-logo-light";
+
 
 import styles from "./SideMenu.module.scss";
 import HarthList from "../HarthList/HarthList";
@@ -67,7 +68,8 @@ const SideNav = (props) => {
                     onClick={toggleSettingsNav}
                     aria-label="Toggle Settings menu"
                 >
-                    <HarthLogoDark />
+                    <HarthLogoLight />
+
                 </button>
             </aside>
         </>
