@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import App from "next/app";
 
 export function connectToDatabase() {
   const { MONGODB_URI, NODE_ENV } = process.env;
@@ -8,24 +9,37 @@ export function connectToDatabase() {
     useNewUrlParser: true,
   };
 
-  let client;
-  let clientPromise;
-
-  console.log(NODE_ENV, "NODE_ENV");
-  if (NODE_ENV === "development") {
-    if (!global._mongoClientPromise) {
-      client = new MongoClient(MONGODB_URI, options);
-      global._mongoClientPromise = client.connect();
-    }
-    clientPromise = global._mongoClientPromise;
-  } else {
-    client = new MongoClient(MONGODB_URI, options);
-    clientPromise = client.connect();
+  if (!App.db) {
+    App.client = new MongoClient(MONGODB_URI, options);
+    App.clientPromise = App.client.connect();
   }
+
+  //   let client;
+  // let clientPromise;
+
+  // if (NODE_ENV === "development") {
+  //   if (!global._mongoClientPromise) {
+  //     client = new MongoClient(MONGODB_URI, options);
+  //     global._mongoClientPromise = client.connect();
+  //   }
+  //   clientPromise = global._mongoClientPromise;
+  // } else {
+  //   client = new MongoClient(MONGODB_URI, options);
+  //   clientPromise = client.connect();
+  // }
 
   return new Promise((resolve) => {
     async function callConnection() {
-      const db = await clientPromise;
+      let db;
+      console.log("asking for db connetion");
+      if (!App.db) {
+        console.log("has to build new");
+        db = await App.clientPromise;
+        App.db = db;
+      } else {
+        db = App.db;
+        console.log("has existing");
+      }
       resolve({ db: db.db("blarg") });
     }
     callConnection();

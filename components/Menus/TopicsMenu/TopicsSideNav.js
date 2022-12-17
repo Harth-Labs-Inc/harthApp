@@ -13,100 +13,98 @@ import CreateNewTopicModal from "./CreateNewTopicModal/CreateNewTopicModal";
 import styles from "./TopicsNav.module.scss";
 
 const TopicsNav = (props) => {
-    const [topicsArr, setTopicsArr] = useState([]);
-    const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
-    const { isMobile } = useContext(MobileContext);
-    const { unreadMsgs, incomingTopic } = useSocket();
-    const { user } = useAuth();
-    const { topics, setTopic, selectedTopic } = useComms();
-    const { setSelectedReplyOwner } = useChat();
+  const [topicsArr, setTopicsArr] = useState([]);
+  const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
+  const { isMobile } = useContext(MobileContext);
+  const { unreadMsgs, incomingTopic } = useSocket();
+  const { user } = useAuth();
+  const { topics, setTopic, selectedTopic } = useComms();
+  const { setSelectedReplyOwner } = useChat();
 
-    console.log("selectedTopic", selectedTopic);
+  console.log("selectedTopic", selectedTopic);
 
-    useEffect(() => {
-        setTopicsArr(topics);
-    }, [topics]);
-    useEffect(() => {
-        if (incomingTopic._id) {
-            setTopicsArr([...topics, incomingTopic]);
-        }
-    }, [incomingTopic]);
+  useEffect(() => {
+    setTopicsArr(topics);
+  }, [topics]);
+  useEffect(() => {
+    if (incomingTopic._id) {
+      setTopicsArr([...topics, incomingTopic]);
+    }
+  }, [incomingTopic]);
 
-    const changeSelectedTopic = (topic) => {
-        setTopic(topic);
-        setSelectedReplyOwner({});
-    };
-    const openCreateTopic = () => {
-        setOpenTopicBuilder(!openTopicBuilder);
-    };
+  const changeSelectedTopic = (topic) => {
+    setTopic(topic);
+    setSelectedReplyOwner({});
+  };
+  const openCreateTopic = () => {
+    setOpenTopicBuilder(!openTopicBuilder);
+  };
 
-    return (
-        <>
-            {openTopicBuilder && (
-                <CreateNewTopicModal toggleModal={openCreateTopic} />
-            )}
-            <aside className={styles.TopicsNav}>
-                <p className={styles.TopicsNavTitle}>Topics</p>
-                <div className={styles.TopicsNavContainer}>
-                    {topicsArr &&
-                        topicsArr.map((topic) => {
-                            let isActive = false;
-                            let isShort = false;
-                            let hasAlert = false;
-                            let alertProfiles = [];
-                            if (
-                                (selectedTopic || {})._id == (topic || {})._id
-                            ) {
-                                isActive = true;
-                            }
-                            unreadMsgs.forEach((msg) => {
-                                if (
-                                    msg.topic_id === topic._id &&
-                                    msg.creator_id !== user._id &&
-                                    (selectedTopic || {})._id !== msg.topic_id
-                                ) {
-                                    let owner = topic?.members.find(
-                                        (member) => member?.user_id === user._id
-                                    );
-                                    if (!owner || !owner.muted) {
-                                        hasAlert = true;
-                                        alertProfiles.push(msg);
-                                    }
-                                }
-                            });
+  return (
+    <>
+      {openTopicBuilder && (
+        <CreateNewTopicModal toggleModal={openCreateTopic} />
+      )}
+      <aside className={styles.TopicsNav}>
+        <p className={styles.TopicsNavTitle}>Topics</p>
+        <div className={styles.TopicsNavContainer}>
+          {topicsArr &&
+            topicsArr.map((topic) => {
+              let isActive = false;
+              let isShort = false;
+              let hasAlert = false;
+              let alertProfiles = [];
+              if ((selectedTopic || {})._id == (topic || {})._id) {
+                isActive = true;
+              }
+              unreadMsgs.forEach((msg) => {
+                if (
+                  msg.topic_id === topic._id &&
+                  msg.creator_id !== user._id &&
+                  (selectedTopic || {})._id !== msg.topic_id
+                ) {
+                  let owner = topic?.members.find(
+                    (member) => member?.user_id === user._id
+                  );
+                  if (!owner || !owner.muted) {
+                    hasAlert = true;
+                    alertProfiles.push(msg);
+                  }
+                }
+              });
 
-                            if (topic?.contentAge == "short") {
-                                isShort = true;
-                            }
-                            console.log("alertProfiles", alertProfiles);
-                            return (
-                                <TopicListElement
-                                    clickHandler={changeSelectedTopic}
-                                    key={topic._id}
-                                    topic={topic}
-                                    isMobile={isMobile}
-                                    hasAlert={hasAlert}
-                                    alertProfiles={alertProfiles}
-                                    isActive={isActive}
-                                    isShort={isShort}
-                                    label={topic?.title}
-                                />
-                            );
-                        })}
-                    <div className={styles.TopicsNavCreate}>
-                        <button
-                            className={styles.TopicsNavCreateButton}
-                            id="create_topic"
-                            onClick={openCreateTopic}
-                        >
-                            topic
-                            <IconAdd />
-                        </button>
-                    </div>
-                </div>
-            </aside>
-        </>
-    );
+              if (topic?.contentAge == "short") {
+                isShort = true;
+              }
+              console.log("alertProfiles", alertProfiles);
+              return (
+                <TopicListElement
+                  clickHandler={changeSelectedTopic}
+                  key={topic._id}
+                  topic={topic}
+                  isMobile={isMobile}
+                  hasAlert={hasAlert}
+                  alertProfiles={alertProfiles}
+                  isActive={isActive}
+                  isShort={isShort}
+                  label={topic?.title}
+                />
+              );
+            })}
+          <div className={styles.TopicsNavCreate}>
+            <button
+              className={styles.TopicsNavCreateButton}
+              id="create_topic"
+              onClick={openCreateTopic}
+            >
+              topic
+              <IconAdd />
+            </button>
+          </div>
+        </div>
+      </aside>
+    </>
+  );
 };
 
 export default TopicsNav;
