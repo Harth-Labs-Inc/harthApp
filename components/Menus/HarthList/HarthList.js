@@ -15,11 +15,7 @@ const HarthList = ({
 }) => {
     const { isMobile } = useContext(MobileContext);
     return (
-        <ul className={styles.HarthList} id="left_nav_comms">
-            {isMobile ? (
-                <p className="left_nav_title">Your H&auml;rths</p>
-            ) : null}
-
+        <ul className={isMobile ? styles.HarthListMobile : styles.HarthList} id="left_nav_comms">
             {comms &&
                 comms.map((com) => {
                     let active = false;
@@ -40,9 +36,9 @@ const HarthList = ({
                     return (
                         <li
                             className={`
-                              ${styles.HarthListItem}
-                              ${active ? styles.Active : null}
-                              ${newMessage ? styles.UnreadMessage : null}
+                              ${styles.Item}
+                              ${active ? styles.ItemActive : null}
+                              ${(newMessage && !active) ? styles.ItemUnreadMessage : null}
                             `}
                             key={com?._id}
                         >
@@ -51,25 +47,25 @@ const HarthList = ({
                                     changeSelectedCom(com);
                                 }}
                                 aria-label={com.name}
-                                className={styles.HarthListItemButton}
+                                className={styles.ItemButton}
                             >
                                 {com.iconKey ? (
-                                    <span className={styles.HarthListItemIcon}>
+                                    <span className={styles.ItemImage}>
                                         <img src={com.iconKey} />
                                     </span>
                                 ) : (
-                                    <span className={styles.HarthListItemIcon}>
+                                    <span className={styles.ItemIcon}>
                                         <span
                                             className={
-                                                styles.HarthListItemIconFiller
+                                                styles.ItemIconFiller
                                             }
-                                        >
+                                        >   
                                             <IconFireFill />
                                         </span>
                                     </span>
                                 )}
                                 {isMobile ? (
-                                    <span className={styles.HarthListItemName}>
+                                    <span className={styles.ItemName}>
                                         {com.name}
                                     </span>
                                 ) : null}
@@ -77,11 +73,13 @@ const HarthList = ({
                         </li>
                     );
                 })}
-            <li className={styles.HarthListNewHarth}>
+            <li className={styles.NewHarth}>
                 <button
-                    className={styles.HarthListItemButton}
+                    className={styles.ItemButton}
                     onClick={toggleCreateComm}
-                ></button>
+                >
+                    <IconAdd />
+                </button>
             </li>
         </ul>
     );

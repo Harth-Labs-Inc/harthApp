@@ -4,7 +4,7 @@
     position: relative;
     margin: 0 auto;
     border: 4px dashed $fuel;
-    padding: 2px;
+    padding: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,8 +34,8 @@
 
         }
         .iconHolder{
-            top: -6px;
-            left: -6px;
+            top: -10px;
+            left: -10px;
         }
     }
 
