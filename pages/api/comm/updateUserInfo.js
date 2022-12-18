@@ -1,40 +1,41 @@
-import { connectToDatabase } from '../../../util/mongodb'
+import clientPromise from "../../../util/mongodb";
 
 export default async (req, res) => {
-  let obj
+  let obj;
   try {
-    obj = JSON.parse(req.body)
+    obj = JSON.parse(req.body);
   } catch (e) {
-    obj = req.body
+    obj = req.body;
   }
 
-  const { data } = obj
+  const { data } = obj;
 
   const pushUserToComm = (db, id, data) => {
     return new Promise((resolve, reject) => {
-      let mongo = require('mongodb')
-      let o_id = new mongo.ObjectID(id)
-      db.collection('communities').updateOne(
+      let mongo = require("mongodb");
+      let o_id = new mongo.ObjectID(id);
+      db.collection("communities").updateOne(
         { _id: o_id },
         { $push: { users: data } },
         function (err, results) {
           if (err) {
-            resolve(false)
+            resolve(false);
           }
-          resolve(results)
-        },
-      )
-    })
-  }
+          resolve(results);
+        }
+      );
+    });
+  };
 
-  const { db } = await connectToDatabase()
+  const client = await clientPromise;
+  const db = client.db("blarg");
   ///////////
-  let getProfResult = await pushUserToComm(db, obj.id, obj.prof)
+  let getProfResult = await pushUserToComm(db, obj.id, obj.prof);
   if (!getProfResult) {
-    return res.json({ ok: 0, msg: 'something went wrong' })
+    return res.json({ ok: 0, msg: "something went wrong" });
   }
   if (!getProfResult.modifiedCount) {
-    return res.json({ ok: 0, msg: 'something went wrong' })
+    return res.json({ ok: 0, msg: "something went wrong" });
   }
-  return res.json({ ok: 1, msg: 'success' })
-}
+  return res.json({ ok: 1, msg: "success" });
+};

@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../../util/mongodb";
+import clientPromise from "../../../util/mongodb";
 
 export default async (req, res) => {
   let obj;
@@ -21,7 +21,8 @@ export default async (req, res) => {
     });
   };
 
-  const { db } = await connectToDatabase();
+  const client = await clientPromise;
+  const db = client.db("blarg");
   let fetchResults = await getMsgs(db, obj.id);
   if (!fetchResults) {
     return res.json({ msg: "Something Went Wrong", ok: 0 });

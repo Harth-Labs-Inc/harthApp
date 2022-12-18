@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../../util/mongodb";
+import clientPromise from "../../../util/mongodb";
 import bcrypt from "bcrypt";
 
 export default async (req, res) => {
@@ -52,7 +52,8 @@ export default async (req, res) => {
     });
   };
 
-  const { db } = await connectToDatabase();
+  const client = await clientPromise;
+  const db = client.db("blarg");
   let user = await findUser(db, obj.tkn);
   if (!user) {
     return res.json({ msg: "token has expired or invalid token", ok: 0 });

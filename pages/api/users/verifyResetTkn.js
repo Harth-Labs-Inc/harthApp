@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../../util/mongodb";
+import clientPromise from "../../../util/mongodb";
 
 export default async (req, res) => {
   let obj;
@@ -24,7 +24,8 @@ export default async (req, res) => {
     });
   };
 
-  const { db } = await connectToDatabase();
+  const client = await clientPromise;
+  const db = client.db("blarg");
   let user = await findUser(db, obj.tkn);
   if (!user) {
     return res.json({ msg: "No User Found", ok: 0 });

@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../../util/mongodb";
+import clientPromise from "../../../util/mongodb";
 
 export default async (req, res) => {
   let obj;
@@ -23,7 +23,8 @@ export default async (req, res) => {
         });
     });
   };
-  const { db } = await connectToDatabase();
+  const client = await clientPromise;
+  const db = client.db("blarg");
   let rms = await getRooms(db, commId, UserId);
 
   return res.json({ msg: "rooms found", ok: 1, rms });

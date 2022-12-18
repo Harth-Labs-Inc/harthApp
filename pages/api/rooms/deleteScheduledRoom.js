@@ -1,32 +1,33 @@
-import { connectToDatabase } from '../../../util/mongodb'
+import clientPromise from "../../../util/mongodb";
 
 export default async (req, res) => {
-  let obj
+  let obj;
 
   try {
-    obj = JSON.parse(req.body)
+    obj = JSON.parse(req.body);
   } catch (e) {
-    obj = req.body
+    obj = req.body;
   }
 
   const deleteRoom = (db, id) => {
     return new Promise((resolve, reject) => {
-      let mongo = require('mongodb')
-      let o_id = new mongo.ObjectID(id)
-      db.collection('rooms').remove({ _id: o_id }, function (err, result) {
+      let mongo = require("mongodb");
+      let o_id = new mongo.ObjectID(id);
+      db.collection("rooms").remove({ _id: o_id }, function (err, result) {
         if (err) {
-          resolve(false)
+          resolve(false);
         }
-        resolve(true)
-      })
-    })
-  }
+        resolve(true);
+      });
+    });
+  };
 
-  const { db } = await connectToDatabase()
-  let deleteResult = await deleteRoom(db, obj.id)
+  const client = await clientPromise;
+  const db = client.db("blarg");
+  let deleteResult = await deleteRoom(db, obj.id);
   if (!deleteResult) {
-    return res.json({ ok: 0, msg: 'something went wrong' })
+    return res.json({ ok: 0, msg: "something went wrong" });
   }
 
-  return res.json({ ok: 1, msg: 'success' })
-}
+  return res.json({ ok: 1, msg: "success" });
+};
