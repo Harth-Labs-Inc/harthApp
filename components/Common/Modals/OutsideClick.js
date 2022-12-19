@@ -14,7 +14,7 @@ export default class OutsideClickHandler extends React.Component {
     renderComponent() {
         return React.createElement(
             this.props.component || "span",
-            this.getProps(),
+            { ...this.getProps(), className: this.props.className },
             this.props.children
         );
     }

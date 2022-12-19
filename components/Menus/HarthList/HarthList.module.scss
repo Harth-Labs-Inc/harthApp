@@ -14,7 +14,7 @@
     .Item {
         border: 2px solid transparent;
         border-radius: 12px;
-        
+
         &Button {
             position: relative;
             display: flex;
@@ -26,12 +26,10 @@
         }
         &Icon {
             width: 100%;
-            height: auto;
+            height: 100%;
             padding: 4px;
             border-radius: 8px;
             background-color: $oxygen;
-
-
         }
 
         &Image {
@@ -54,7 +52,6 @@
 
         &:hover {
             border: 2px solid $oxygen;
-
         }
 
         &UnreadMessage {
@@ -101,14 +98,12 @@
         &:hover {
             border: 1px solid $white_90;
 
-        path {
-            fill: $white_90;
+            path {
+                fill: $white_90;
+            }
         }
-        }
-
     }
 }
-
 
 .HarthListMobile {
     display: flex;
@@ -126,7 +121,6 @@
         border-radius: 12px;
         width: 100%;
 
-        
         &Button {
             position: relative;
             display: flex;
@@ -138,22 +132,19 @@
             padding: 0px 8px;
             border: 0;
             background: transparent;
-
         }
-        
+
         &Icon {
             width: 44px;
-            min-width: 44px;;
+            min-width: 44px;
             height: 44px;
             padding: 6px;
             border-radius: 8px;
             background-color: $fuel_10;
             border: solid 1px $fuel_5;
-
         }
 
         &Image {
-
             img {
                 height: 44px;
                 width: 44px;
@@ -179,7 +170,6 @@
 
         &:hover {
             background-color: $oxygen_10;
-
         }
 
         &UnreadMessage {
@@ -227,10 +217,9 @@
         &:hover {
             border: 1px solid $white_90;
 
-        path {
-            fill: $white_90;
+            path {
+                fill: $white_90;
+            }
         }
-        }
-
     }
 }
