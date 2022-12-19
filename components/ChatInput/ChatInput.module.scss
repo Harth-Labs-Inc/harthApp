@@ -14,7 +14,9 @@
   .imageBar {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     column-gap: 8px;
+    row-gap: 8px;
     justify-content: flex-start;
     width: auto;
     background: $hot_pink_20;
