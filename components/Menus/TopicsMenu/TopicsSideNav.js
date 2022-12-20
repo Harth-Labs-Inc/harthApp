@@ -5,107 +5,283 @@ import { useAuth } from "../../../contexts/auth";
 import { useChat } from "../../../contexts/chat";
 import { useSocket } from "../../../contexts/socket";
 import { MobileContext } from "../../../contexts/mobile";
-
+import { Modal } from "../../Common";
+import { updatedTopic } from "../../../requests/community";
+import TopicEditModal from "../../TopicEditModal";
 import TopicListElement from "../../Topics/TopicListElement";
 import { IconAdd } from "../../../resources/icons/IconAdd";
 
+import { CustomContextMenu } from "../../CustomContextMenu/CustomContextMenu";
 import CreateNewTopicModal from "./CreateNewTopicModal/CreateNewTopicModal";
 import styles from "./TopicsNav.module.scss";
 
-const TopicsNav = (props) => {
-    const [topicsArr, setTopicsArr] = useState([]);
-    const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
-    const { isMobile } = useContext(MobileContext);
-    const { unreadMsgs, incomingTopic } = useSocket();
-    const { user } = useAuth();
-    const { topics, setTopic, selectedTopic } = useComms();
-    const { setSelectedReplyOwner } = useChat();
+const TopicsNav = () => {
+  const [topicsArr, setTopicsArr] = useState([]);
+  const [hiddenTopicsArr, setHiddenTopicsArr] = useState([]);
+  const [showRenameTopicModal, setShowRenameTopicModal] = useState(false);
+  const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
+  const [openEditTopicMenu, setOpenEditTopicMenu] = useState(null);
 
-    console.log("selectedTopic", selectedTopic);
+  const { isMobile } = useContext(MobileContext);
+  const { unreadMsgs, incomingTopic } = useSocket();
+  const { user } = useAuth();
+  const { topics, setTopic, selectedTopic, updateSelectedTopic } = useComms();
+  const { setSelectedReplyOwner } = useChat();
 
-    useEffect(() => {
-        setTopicsArr(topics);
-    }, [topics]);
-    useEffect(() => {
-        if (incomingTopic._id) {
-            setTopicsArr([...topics, incomingTopic]);
+  useEffect(() => {
+    if (topics) {
+      let unhiddenTopics = topics.filter(({ members }) => {
+        let userIndex = members.findIndex(({ user_id }) => {
+          return user_id == user._id;
+        });
+
+        let isHidden;
+
+        if (userIndex >= 0) {
+          let profile = members[userIndex];
+          isHidden = profile?.hidden;
         }
-    }, [incomingTopic]);
+        if (!isHidden) {
+          return true;
+        }
+      });
+      let hiddenTopics = topics.filter(({ members }) => {
+        let userIndex = members.findIndex(({ user_id }) => {
+          return user_id == user._id;
+        });
 
-    const changeSelectedTopic = (topic) => {
-        setTopic(topic);
-        setSelectedReplyOwner({});
+        let isHidden;
+
+        if (userIndex >= 0) {
+          let profile = members[userIndex];
+          isHidden = profile?.hidden;
+        }
+        if (isHidden) {
+          return true;
+        }
+      });
+
+      setTopicsArr(unhiddenTopics);
+      setHiddenTopicsArr(hiddenTopics);
+    }
+  }, [topics]);
+  useEffect(() => {
+    if (incomingTopic._id) {
+      setTopicsArr([...topics, incomingTopic]);
+    }
+  }, [incomingTopic]);
+  useEffect(() => {
+    document.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    });
+
+    return () => {
+      window.removeEventListener("contextmenu", () => {});
     };
-    const openCreateTopic = () => {
-        setOpenTopicBuilder(!openTopicBuilder);
-    };
+  }, []);
 
-    return (
-        <>
-            {openTopicBuilder && (
-                <CreateNewTopicModal toggleModal={openCreateTopic} />
-            )}
-            <aside className={styles.TopicsNav}>
-                <p className={styles.TopicsNavTitle}>Topics</p>
-                <div className={styles.TopicsNavContainer}>
-                    {topicsArr &&
-                        topicsArr.map((topic) => {
-                            let isActive = false;
-                            let isShort = false;
-                            let hasAlert = false;
-                            let alertProfiles = [];
-                            if (
-                                (selectedTopic || {})._id == (topic || {})._id
-                            ) {
-                                isActive = true;
-                            }
-                            unreadMsgs.forEach((msg) => {
-                                if (
-                                    msg.topic_id === topic._id &&
-                                    msg.creator_id !== user._id &&
-                                    (selectedTopic || {})._id !== msg.topic_id
-                                ) {
-                                    let owner = topic?.members.find(
-                                        (member) => member?.user_id === user._id
-                                    );
-                                    if (!owner || !owner.muted) {
-                                        hasAlert = true;
-                                        alertProfiles.push(msg);
-                                    }
-                                }
-                            });
+  const changeSelectedTopic = (topic) => {
+    setTopic(topic);
+    setSelectedReplyOwner({});
+  };
+  const openCreateTopic = () => {
+    setOpenTopicBuilder(!openTopicBuilder);
+  };
+  const toggleTopicEditModal = ({ topic, pos }) => {
+    setOpenEditTopicMenu({ topic, pos });
+  };
+  const closeTopicEditModal = () => {
+    if (!showRenameTopicModal) {
+      setOpenEditTopicMenu(null);
+    }
+  };
+  const onMuteHandler = async () => {
+    updateSelectedTopic({
+      newTopic: {
+        ...openEditTopicMenu.topic,
+        members: [
+          ...(openEditTopicMenu.topic.members || []).map((usr) => {
+            if (usr.user_id == user._id) {
+              return {
+                ...usr,
+                muted: !usr.muted,
+              };
+            } else {
+              return usr;
+            }
+          }),
+        ],
+      },
+    });
+    closeTopicEditModal();
+  };
+  const onHideHandler = () => {
+    updateSelectedTopic({
+      newTopic: {
+        ...openEditTopicMenu.topic,
+        members: [
+          ...(openEditTopicMenu.topic.members || []).map((usr) => {
+            if (usr.user_id == user._id) {
+              return {
+                ...usr,
+                hidden: !usr.hidden,
+              };
+            } else {
+              return usr;
+            }
+          }),
+        ],
+      },
+    });
+    closeTopicEditModal();
+  };
+  const onRenameHandler = () => {
+    console.log("onRenameHandler");
+    setShowRenameTopicModal(true);
+  };
+  const onCloseRenameModal = () => {
+    setShowRenameTopicModal(false);
+  };
+  const submitTopicChangeHandler = (updatedTopic) => {
+    console.log("changeing topic ", updatedTopic);
+  };
+  const onDeleteHandler = () => {
+    console.log("onDeleteHandler");
+  };
 
-                            if (topic?.contentAge == "short") {
-                                isShort = true;
-                            }
-                            return (
-                                <TopicListElement
-                                    clickHandler={changeSelectedTopic}
-                                    key={topic._id}
-                                    topic={topic}
-                                    isMobile={isMobile}
-                                    hasAlert={hasAlert}
-                                    alertProfiles={alertProfiles}
-                                    isActive={isActive}
-                                    isShort={isShort}
-                                    label={topic?.title}
-                                />
-                            );
-                        })}
-                    <div className={styles.TopicsNavCreate}>
-                        <button
-                            className={styles.TopicsNavCreateButton}
-                            id="create_topic"
-                            onClick={openCreateTopic}
-                        >
-                            add new topic
-                            <IconAdd />
-                        </button>
-                    </div>
-                </div>
-            </aside>
-        </>
-    );
+  return (
+    <>
+      {openTopicBuilder && (
+        <CreateNewTopicModal toggleModal={openCreateTopic} />
+      )}
+      {openEditTopicMenu ? (
+        <CustomContextMenu
+          user={user}
+          topic={openEditTopicMenu.topic}
+          pos={openEditTopicMenu.pos}
+          closeModal={closeTopicEditModal}
+          onMuteHandler={onMuteHandler}
+          onHideHandler={onHideHandler}
+          onRenameHandler={onRenameHandler}
+          onDeleteHandler={onDeleteHandler}
+        />
+      ) : null}
+      {showRenameTopicModal ? (
+        <Modal onToggleModal={() => {}}>
+          <TopicEditModal
+            submitTopicChange={submitTopicChangeHandler}
+            hidden={!showRenameTopicModal}
+            setHidden={onCloseRenameModal}
+            topic={{
+              ...(openEditTopicMenu?.topic || {}),
+            }}
+          />
+        </Modal>
+      ) : null}
+      <aside className={styles.TopicsNav}>
+        <p className={styles.TopicsNavTitle}>Topics</p>
+        <div className={styles.TopicsNavContainer}>
+          {topicsArr &&
+            topicsArr.map((topic) => {
+              let isActive = false;
+              let isShort = false;
+              let hasAlert = false;
+              let alertProfiles = [];
+              if ((selectedTopic || {})._id == (topic || {})._id) {
+                isActive = true;
+              }
+              unreadMsgs.forEach((msg) => {
+                if (
+                  msg.topic_id === topic._id &&
+                  msg.creator_id !== user._id &&
+                  (selectedTopic || {})._id !== msg.topic_id
+                ) {
+                  let owner = topic?.members.find(
+                    (member) => member?.user_id === user._id
+                  );
+                  if (!owner || !owner.muted) {
+                    hasAlert = true;
+                    alertProfiles.push(msg);
+                  }
+                }
+              });
+
+              if (topic?.contentAge == "short") {
+                isShort = true;
+              }
+              return (
+                <TopicListElement
+                  clickHandler={changeSelectedTopic}
+                  key={topic._id}
+                  topic={topic}
+                  isMobile={isMobile}
+                  hasAlert={hasAlert}
+                  alertProfiles={alertProfiles}
+                  isActive={isActive}
+                  isShort={isShort}
+                  label={topic?.title}
+                  toggleTopicEditModal={toggleTopicEditModal}
+                />
+              );
+            })}
+
+          <div className={styles.TopicsNavCreate}>
+            <button
+              className={styles.TopicsNavCreateButton}
+              id="create_topic"
+              onClick={openCreateTopic}
+            >
+              add new topic
+              <IconAdd />
+            </button>
+          </div>
+          {hiddenTopicsArr &&
+            hiddenTopicsArr.map((topic) => {
+              let isActive = false;
+              let isShort = false;
+              let hasAlert = false;
+              let alertProfiles = [];
+              if ((selectedTopic || {})._id == (topic || {})._id) {
+                isActive = true;
+              }
+              unreadMsgs.forEach((msg) => {
+                if (
+                  msg.topic_id === topic._id &&
+                  msg.creator_id !== user._id &&
+                  (selectedTopic || {})._id !== msg.topic_id
+                ) {
+                  let owner = topic?.members.find(
+                    (member) => member?.user_id === user._id
+                  );
+                  if (!owner || (!owner.muted && !owner.hidden)) {
+                    hasAlert = true;
+                    alertProfiles.push(msg);
+                  }
+                }
+              });
+
+              if (topic?.contentAge == "short") {
+                isShort = true;
+              }
+              return (
+                <TopicListElement
+                  clickHandler={changeSelectedTopic}
+                  key={topic._id}
+                  topic={topic}
+                  isMobile={isMobile}
+                  hasAlert={hasAlert}
+                  alertProfiles={alertProfiles}
+                  isActive={isActive}
+                  isShort={isShort}
+                  label={topic?.title}
+                  toggleTopicEditModal={toggleTopicEditModal}
+                />
+              );
+            })}
+        </div>
+      </aside>
+    </>
+  );
 };
 
 export default TopicsNav;

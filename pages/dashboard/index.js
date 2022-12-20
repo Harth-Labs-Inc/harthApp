@@ -57,13 +57,9 @@ const dashboard = (props) => {
       setShowCreateHarthNameModal(true);
     }
 
-    document.addEventListener("contextmenu", (event) => {
-      event.preventDefault();
-    });
     return () => {
       setShowCreateHarthProfileModal(false);
       setShowCreateHarthNameModal(false);
-      window.removeEventListener("contextmenu", () => {});
     };
   }, []);
 
