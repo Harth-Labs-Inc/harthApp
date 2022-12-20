@@ -1,4 +1,9 @@
 import { useContext, useState, useRef, useEffect } from "react";
+import { IconSend } from "../../resources/icons/IconSend";
+import { IconCancelFill } from "../../resources/icons/IconCancelFill";
+import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
+import { IconImage } from "../../resources/icons/IconImage";
+import { IconClose } from "../../resources/icons/IconClose";
 
 import {
     saveMessage,
@@ -243,24 +248,23 @@ const ChatInput = (props) => {
     const ImageHolder = () => {
         if (attachments.length > 0) {
             return (
-                <div className="image-holder">
+                <div className={styles.imageBar}>
                     {(attachments || []).map((file, idx) => (
-                        <div className="image-to-attach">
+                        <div className={styles.imageContainer}>
+                            <button
+                                onClick={() => {
+                                    removeAttachment(idx);
+                                }}
+                            >
+                            <IconClose />
+                            </button>
                             <img
                                 id={file.name}
                                 key={file.name}
                                 ref={(el) => (attRefs.current[idx] = el)}
                                 alt=""
-                                style={{ height: "100px", width: "100px" }}
                             />
-                            <button
-                                className="remove-image"
-                                onClick={() => {
-                                    removeAttachment(idx);
-                                }}
-                            >
-                                remove image
-                            </button>
+                            
                         </div>
                     ))}
                 </div>
@@ -303,15 +307,16 @@ const ChatInput = (props) => {
         if (Object.keys(selectedEditMsg).length > 0) {
             return (
                 <div id={styles.ChatInputControlsRight}>
-                    <button className={styles.CancelEdit} onClick={cancelEdit}>
-                        cancel
+                    <button onClick={cancelEdit} aria-label="cancel chat message">
+                        <IconCancelFill />
                     </button>
                     <button
-                        className={styles.SendMessage}
+                        className={styles.SendActive}
+                        aria-label="send chat message"
                         disabled={isDisabled}
                         onClick={updateMsg}
                     >
-                        send
+                        <IconSend />
                     </button>
                 </div>
             );
@@ -319,13 +324,13 @@ const ChatInput = (props) => {
             return (
                 <div id={styles.ChatInputControlsRight}>
                     <button
-                        className={styles.SendMessage}
                         disabled={isDisabled}
+                        aria-label="send chat message"
                         onClick={() => {
                             submitMessageLogic();
                         }}
                     >
-                        send
+                        <IconSend />
                     </button>
                 </div>
             );
@@ -333,64 +338,65 @@ const ChatInput = (props) => {
     };
     return (
         <div id={styles.ChatInput}>
-            <ImageHolder />
-            <textarea
-                id={styles.ChatInputText}
-                ref={textRef}
-                onChange={inputHandler}
-                value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
-                onKeyDown={(e) => {
-                    let input = topicInputs[selectedTopic?._id] || "";
-                    if (e.altKey) {
-                        setAltKey(true);
-                    }
-                    if (e.key == "Enter" && altKey) {
-                        input = input + "\r\n";
-                        setTopicInputs({
-                            ...topicInputs,
-                            [selectedTopic?._id]: input,
-                        });
-                        textRef.current.style.height =
-                            calcHeight(textRef.current.value) + "px";
-                    } else if (e.key === "Enter" && input.trim().length > 0) {
-                        submitMessageLogic();
-                    }
-                }}
-                onKeyUp={(e) => {
-                    setAltKey(false);
-                }}
-                onPaste={getPastedData}
-                onDragEnter={(e) => {
-                    e.preventDefault();
-                    return false;
-                }}
-                onDragOver={(e) => {
-                    e.preventDefault();
-                }}
-                onDrop={(e) => {
-                    e.preventDefault();
-                    dropHandler(e);
-                }}
-                onDragLeave={(e) => {
-                    e.preventDefault();
-                }}
-            ></textarea>
+            <div className={styles.entryBox}>
+                <ImageHolder />
+                <textarea
+                    id={styles.ChatInputText}
+                    ref={textRef}
+                    onChange={inputHandler}
+                    value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
+                    onKeyDown={(e) => {
+                        let input = topicInputs[selectedTopic?._id] || "";
+                        if (e.altKey) {
+                            setAltKey(true);
+                        }
+                        if (e.key == "Enter" && altKey) {
+                            input = input + "\r\n";
+                            setTopicInputs({
+                                ...topicInputs,
+                                [selectedTopic?._id]: input,
+                            });
+                            textRef.current.style.height =
+                                calcHeight(textRef.current.value) + "px";
+                        } else if (e.key === "Enter" && input.trim().length > 0) {
+                            submitMessageLogic();
+                        }
+                    }}
+                    onKeyUp={(e) => {
+                        setAltKey(false);
+                    }}
+                    onPaste={getPastedData}
+                    onDragEnter={(e) => {
+                        e.preventDefault();
+                        return false;
+                    }}
+                    onDragOver={(e) => {
+                        e.preventDefault();
+                    }}
+                    onDrop={(e) => {
+                        e.preventDefault();
+                        dropHandler(e);
+                    }}
+                    onDragLeave={(e) => {
+                        e.preventDefault();
+                    }}
+                ></textarea>
+            </div>
             {!isMobile ? (
                 <div id={styles.ChatInputControls}>
                     <div id={styles.ChatInputControlsLeft}>
                         <button
-                            className={styles.AttachEmoji}
                             onClick={triggerPicker}
+                            aria-label="add emoji reaction"
                         >
-                            attach emoji
+                            <IconAddReactionNoFill />
                         </button>
                         <EmojiPicker />
-                        {/* <button className={styles.AttachGif}>attach gif</button> */}
                         <button
+                            aria-label="attach an image"
                             onClick={openFileSelector}
-                            className={styles.AttachFile}
                         >
-                            attach file
+                            <IconImage />
                         </button>
                         <input
                             ref={fileRef}

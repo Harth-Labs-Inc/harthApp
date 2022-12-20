@@ -1,29 +1,57 @@
 @import '../../styles/globals.scss';
 @import '../../styles/config/config-type';
+@import '../../styles/fonts.scss';
 
 #ChatInput {
-  // width: 100%;
-  margin: 19px 16px 8px;
-  border: 1px solid $black50;
-  border-radius: 4px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+  margin: 8px 0px 0px 0px;
+  //background-color: bisque;
 
-  .image-holder {
+
+  .imageBar {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 8px;
+    row-gap: 8px;
     justify-content: flex-start;
-    background-color: #f7f7f7;
+    width: auto;
+    background: $hot_pink_20;
+    padding: 8px;
+    border: 0;
+    border-bottom: 1px solid $fuel_50;
 
-    .image-to-attach {
+    .imageContainer {
       position: relative;
-      margin: 5px;
+
+      img {
+        position: relative;
+        border-radius: 12px;
+        height: 80px;
+        width: auto;
+        border: 1px solid $fuel;
+      }
       button {
         position: absolute;
         top: 0;
         right: 0;
-        height: 20px;
-        width: 20px;
-        &:before {
-          @include x-y-center;
-          @include font-icon($icon-cancel);
+        height: 24px;
+        width: 24px;
+        padding: 3px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 12px;
+        border: 0;
+        background-color: $fuel;
+        z-index: 1;
+        cursor: pointer;
+
+        path {
+          fill: $oxygen;
         }
       }
     }
@@ -32,39 +60,79 @@
   &Text {
     resize: none;
     display: block;
+
     width: 100%;
-    min-height: 55px;
+    min-height: 40px;
     max-height: 50vh;
-    padding: 8px 8px 0;
-    font-size: 14px;
-    background-color: #f7f7f7;
+    margin: 0;
+
+    padding: 8px 12px;
+    @include contentR2;
+    background: transparent;
     border: 0;
-    border-radius: 4px;
+
+  }
+
+  .entryBox {
+    background-color: $light_ash;
+    border: 1px solid $fuel_50;
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
   }
 
   &Controls {
     display: flex;
     justify-content: space-between;
-    padding: 0 4px;
-    border-top: 1px solid $black60;
+    padding: 0px;
+   
 
     &Right,
     &Left {
       position: relative;
+      display: flex;
+      flex-direction: row;
+      column-gap: 12px;
 
       > button {
         position: relative;
-        margin: 0 4px;
-        height: 36px;
-        width: 36px;
-        font-size: 0;
+        margin: 0 0px;
+        height: 28px;
+        width: 28px;
+        padding: 4px;
         background-color: transparent;
-        border: 0;
-        border-radius: 50%;
+        border-radius: 4px;
+        border: 0px;
         cursor: pointer;
+
+        path {
+          fill: $fuel_50;
+        }
+
+        &Mobile {
+          height: 40px;
+          width: 40px;
+          padding: 8px;
+
+        }
+
+        &:hover {
+          background-color: $fuel_10;
+          path {
+            fill: $fuel;
+          }
+        }
+
+        &.SendActive {
+          border: 1px solid $fuel_10;
+          path {
+            fill: $hot_pink;
+          }
+        }
+
         &:before {
           @include x-y-center;
-          color: #9a9a9a;
+          color: $fuel_50;
           font-size: 16px;
         }
 
@@ -90,7 +158,8 @@
         }
         &.SendMessage {
           &:before {
-            @include font-icon($icon-check-circle);
+            //@include font-icon($icon-check-circle);
+            color: red;
           }
           &:not(:disabled) {
             &:before {
