@@ -2,27 +2,12 @@
 
 .TopicButtonClickWrapper {
     position: relative;
-
-    &:first-of-type {
-        .CustomContextMenu {
-            top: 0;
-            transform: none;
-        }
-    }
-    &:last-of-type {
-        .CustomContextMenu {
-            top: auto;
-            bottom: 0;
-            transform: none;
-        }
-    }
+    z-index: 3;
 }
 
 .CustomContextMenu {
-    position: absolute;
-    top: 50%;
-    left: 70px;
-    transform: translateY(-50%);
+    position: fixed;
+
     z-index: 1;
     display: flex;
     flex-direction: column;
