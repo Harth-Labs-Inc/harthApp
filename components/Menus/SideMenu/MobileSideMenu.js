@@ -6,6 +6,7 @@ import SettingsMenu from "../AccountSettings";
 import HarthList from "../HarthList/HarthList";
 
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
+import { HarthLogoLight } from "../../../public/images/harth-logo-light";
 import styles from "./SideMenu.module.scss";
 
 import SettingsList from "../AccountSettings/AccountSettings";
@@ -36,7 +37,7 @@ const MobileSideNav = (props) => {
         >
             <div className={styles.sideNavMobile}>
                 <div className={styles.headerImage}>
-                    <HarthLogoDark />
+                    <HarthLogoLight />
                 </div>
                 <div className={styles.text}>
                     Your härths
