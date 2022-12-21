@@ -5,30 +5,41 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0px;
+    padding: 8px 0px 64px 0px;
     row-gap: 4px;
     background-color: transparent;
     width: 100%;
     list-style-type: none;
+    overflow-y: scroll;
+
 
     .Item {
-        border: 2px solid transparent;
-        border-radius: 12px;
-
+        width: 100%;
+        border: 0;
+        border-left: 2px solid transparent;
+        border-right: 2px solid transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        padding: 4px 0px;
         &Button {
             position: relative;
             display: flex;
-            height: 44px;
-            width: 44px;
-            padding: 3px;
+            height: 38px;
+            width: 38px;
+            padding: 0px;
             background-color: transparent;
             border: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
         }
         &Icon {
             width: 100%;
             height: 100%;
             padding: 4px;
-            border-radius: 8px;
+            //border-radius: 8px;
             background-color: $oxygen;
         }
 
@@ -36,46 +47,43 @@
             img {
                 height: 100%;
                 width: 100%;
-                border-radius: 8px;
+                //border-radius: 8px;
             }
         }
 
         &Active {
-            border-color: $oxygen;
+            border-left: 2px solid $oxygen;
+            background-color: $oxygen_10;
         }
 
-        &Name {
-            @include contentR1;
-            margin-left: 8px;
-            font-weight: 800;
-        }
+
 
         &:hover {
-            border: 2px solid $oxygen;
+            border-left: 2px solid $oxygen;
         }
 
         &UnreadMessage {
             position: relative;
             &:before {
                 position: absolute;
-                top: 15px;
-                left: 0px;
+                top: 16px;
+                left: 8px;
                 z-index: 2;
                 height: 14px;
                 width: 4px;
                 content: "";
-                background-color: $hot_salmon;
+                background-color: $oxygen;
                 border-radius: 9999px;
             }
             &:after {
                 position: absolute;
-                top: 12px;
-                left: -3px;
+                top: 13px;
+                left: 5px;
                 z-index: 1;
                 height: 20px;
                 width: 10px;
                 content: "";
-                background-color: $hot_salmon_dark;
+                background-color: $ash;
                 border-radius: 9999px;
             }
         }
@@ -110,9 +118,8 @@
     flex: 1;
     flex-direction: column;
     align-items: flex-start;
-    padding: 8px 12px;
+    padding: 0px 12px;
     row-gap: 4px;
-    //background-color: $hot_salmon;
     width: 100%;
     list-style-type: none;
     overflow-y: scroll;
@@ -140,8 +147,7 @@
             height: 44px;
             padding: 6px;
             border-radius: 8px;
-            background-color: $fuel_10;
-            border: solid 1px $fuel_5;
+            background-color: $oxygen;
         }
 
         &Image {
@@ -150,21 +156,18 @@
                 width: 44px;
                 min-width: 44px;
                 border-radius: 8px;
-                border: 1px solid $fuel_5;
             }
         }
 
         &Active {
-            border-color: $oxygen;
+            background-color: $oxygen_10;
         }
 
         &Name {
             width: 100%;
-            @include contentH1;
-            color: $fuel;
+            @include harthTitle1;
+            color: $oxygen;
             margin-left: 8px;
-            //font-weight: 800;
-            font-size: 22px;
             text-align: left;
         }
 
@@ -182,7 +185,7 @@
                 height: 18px;
                 width: 6px;
                 content: "";
-                background-color: $hot_salmon;
+                background-color: $oxygen;
                 border-radius: 9999px;
             }
             &:after {
@@ -193,7 +196,7 @@
                 height: 24px;
                 width: 12px;
                 content: "";
-                background-color: $oxygen;
+                background-color: $ash;
                 border-radius: 9999px;
             }
         }
