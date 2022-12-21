@@ -176,11 +176,13 @@
 
         .Mobile & {
             flex-direction: column;
+            border: 0;
             height: 64px;
             width: 72px;
             row-gap: 4px;
             padding: 0;
             margin-bottom: 8px;
+            padding-top: 8px;
 
             &:before {
                 width: 56px;
