@@ -27,7 +27,7 @@ export default async (req, res) => {
             transporter.sendMail(
                 {
                     from: "noreply@harthapp.com",
-                    to: "jorge.piquer@harthapp.com",
+                    to: email,
                     subject: "test",
                     html: `<p>one time password is ${otp}</p>`,
                 },
