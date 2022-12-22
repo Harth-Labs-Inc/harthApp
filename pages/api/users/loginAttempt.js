@@ -52,9 +52,10 @@ export default async (req, res) => {
         if (getNewCode) {
           let otp = generateOTP();
           let today = new Date();
-          let tomorrow = today.setDate(today.getDate() + 1);
+          let exp = new Date(today.getTime() + 15 * 60000);
+
           user.otp = otp;
-          user.otp_expiration = new Date(tomorrow);
+          user.otp_expiration = new Date(exp);
           await saveUser(db, { ...user });
         }
         resolve(user);
