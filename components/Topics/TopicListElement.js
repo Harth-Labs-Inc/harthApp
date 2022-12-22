@@ -49,7 +49,6 @@ const TopicListElement = (props) => {
                     ${styles.topic} 
                     ${isMobile && styles.topicMobile} 
                     ${isActive && styles.topicActive} 
-                    ${(isActive && isMobile) && styles.topicActiveMobile}
                     ${hasAlert && styles.topicAlert} 
                     `}
       onClick={toggleActive}
@@ -75,7 +74,10 @@ const TopicListElement = (props) => {
         </div>
       )} */}
 
-
+        <div className={`
+                    ${styles.topicIndicatorBox} 
+                    ${isActive && styles.topicIndicatorBoxActive} 
+                    `}>
           <div className={styles.label}
           >
             {label}
@@ -91,7 +93,7 @@ const TopicListElement = (props) => {
               ))}
             </div>
           )}
-
+    </div>
     </button>
   );
   // return (

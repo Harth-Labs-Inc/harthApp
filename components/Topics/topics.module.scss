@@ -9,7 +9,7 @@
     flex-direction: row;
     height: 40px;
     width: 100%;
-    padding: 0px px;
+    padding: 0px 0px;
     border: 0;
     background-color: transparent;
     color: $oxygen_40;
@@ -36,26 +36,67 @@
         &:before {
             position: absolute;
             right: 0px;
-            top: -4px;
+            top: -5px;
             width: 24px;
             height: 24px;
+            z-index: 1;
             background: $white;
             content: "";
-            -webkit-mask-image: radial-gradient(circle 10px at 0 0, transparent 0, transparent 24px, black 24px);
         }
 
         &:after {
             position: absolute;
             right: 0px;
-            bottom: -4px;
+            top: -5px;
             width: 24px;
             height: 24px;
-            background: $white;
+            z-index: 2;
+            background: $warm_blue;
             content: "";
-            -webkit-mask-image: radial-gradient(circle 10px at 0px 24px, transparent 0, transparent 24px, black 24px);
+            border-bottom-right-radius: 9999px;
+
         }
 
     }
+
+    &IndicatorBox {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        
+        &Active {
+
+            &:before {
+                position: absolute;
+                right: 0px;
+                bottom: -3px;
+                width: 24px;
+                height: 24px;
+                z-index: 1;
+                background: $white;
+                content: "";
+            }
+    
+            &:after {
+                position: absolute;
+                right: 0px;
+                bottom: -3px;
+                width: 24px;
+                height: 24px;
+                z-index: 2;
+                background: $warm_blue;
+                content: "";
+                border-top-right-radius: 9999px;
+            }
+    
+        }
+
+    }
+    
 
     &Alert {
         color: $oxygen_80;
