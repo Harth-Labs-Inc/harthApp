@@ -61,6 +61,34 @@ export const CommsProvider = ({ children }) => {
             }
         }
     };
+    const updateSelectedTopic = async ({ newTopic }) => {
+        return new Promise((resolve) => {
+            async function run() {
+                console.log(newTopic, "newtopci");
+                let tmpTopics = [...topics];
+                let matchingTopicIndex = -1;
+                tmpTopics.forEach((topic, index) => {
+                    if (topic._id === newTopic._id) {
+                        matchingTopicIndex = index;
+                    }
+                });
+                if (matchingTopicIndex >= 0) {
+                    tmpTopics[matchingTopicIndex] = newTopic;
+                    setTopics(tmpTopics);
+                    if (selectedTopic._id == newTopic._id) {
+                        setSelectedTopic(newTopic);
+                    }
+                    await updatedTopic({
+                        type: "replace",
+                        topic: newTopic,
+                    });
+                    resolve(true);
+                }
+            }
+            run();
+        });
+    };
+
     const grabTopics = async (comid) => {
         let result = await getTopics(comid, user._id);
         const { ok, topics } = result;
@@ -162,6 +190,7 @@ export const CommsProvider = ({ children }) => {
     return (
         <CommsContext.Provider
             value={{
+                updateSelectedTopic,
                 profile,
                 refetchComms,
                 rooms,

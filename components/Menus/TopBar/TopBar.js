@@ -34,15 +34,20 @@ const TopBar = ({ children, currentPage }) => {
             />
             <div className={styles.TopBar}>
                 {isMobile ? (
-                    <div className={styles.TopBarName}>{currentPage}</div> // {name}
+                    <div className={styles.TopBarName}>{currentPage}</div> 
                 ) : null}
                 {children}
-                <Avatar
-                    isPressable={true}
-                    picSize={36}
-                    pressHandler={editUserModalHandler}
-                    imageSrc={iconKey}
-                />
+                <div className={isMobile ? styles.avatarMobile : styles.avatarDesktop}>
+                    <Avatar
+                        isPressable={true}
+                        picSize={isMobile ? 36 : 32}
+                        pressHandler={editUserModalHandler}
+                        imageSrc={iconKey}
+                        darkBackground={true}
+                        className={styles.avatarDesktop}
+                    />
+                </div> 
+
             </div>
         </>
     );

@@ -73,14 +73,16 @@ const HarthList = ({
                         </li>
                     );
                 })}
-            <li className={styles.NewHarth}>
-                <button
-                    className={styles.ItemButton}
-                    onClick={toggleCreateComm}
-                >
-                    <IconAdd />
-                </button>
-            </li>
+            {isMobile ? (
+                <li className={styles.NewHarth}>
+                    <button
+                        className={styles.ItemButton}
+                        onClick={toggleCreateComm}
+                    >
+                        <IconAdd />
+                    </button>
+                </li>
+                ) : ( null)}
         </ul>
     );
 };

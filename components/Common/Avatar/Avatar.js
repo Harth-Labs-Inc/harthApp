@@ -7,6 +7,7 @@ export const Avatar = (props) => {
         picSize = 40,
         imageSrc,
         aLabel = "Profile Image",
+        darkBackground = false,
     } = props;
 
     return (
@@ -14,7 +15,10 @@ export const Avatar = (props) => {
             {isPressable ? (
                 <button
                     onClick={pressHandler}
-                    className={styles.avatarButton}
+                    className={`
+                            ${styles.avatarButton} 
+                            ${darkBackground &&  styles.avatarButtonDark}
+                            `}
                     aria-label={aLabel}
                 >
                     <img

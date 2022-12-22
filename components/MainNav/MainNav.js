@@ -29,6 +29,9 @@ const MainNav = (props) => {
     //the tabs show their alert.
     const hasAlert = true;
 
+    //dummy variable for unread messages on other harths
+    const unreadMessagesOther = true;
+
     const handleHarthMenu = () => {
         console.log("handleHarthMenu");
         if (!isMobile) {
@@ -66,7 +69,10 @@ const MainNav = (props) => {
             >
                 {isMobile ? (
                     <button
-                        className={styles.MainNavHarthButton}
+                        className={`
+                        ${styles.MainNavHarthButton}
+                        ${unreadMessagesOther ? styles.MainNavHarthButtonUnreadMessage : null}
+                        `}
                         onClick={handleHarthMenu}
                         aria-label="Current Harth"
                     >
@@ -87,32 +93,30 @@ const MainNav = (props) => {
                     </div>
                 )}
 
-                <div className={styles.MainNavPages}>
+                <div className={`
+                    ${styles.MainNavPages} 
+                    ${isMobile && styles.MainNavPagesMobile}
+
+                `}>
                     <button
                         role="nav-item"
                         id="chat"
                         aria-label="Community Chat"
                         className={`
                             ${styles.MainNavPageButton} 
-                            ${
-                                currentPage === "chat"
-                                    ? styles.Active
-                                    : styles.Inactive
-                            } 
+                            ${(currentPage == "chat") && styles.Active}
+
                         `}
                         onClick={() => {
                             changePage("chat");
                         }}
                     >
-                        <div style={{ height: 24, width: 24, position: "relative",}}>
+                        <div className={`
+                            ${styles.iconHolder} 
+                            ${(hasAlert &&  currentPage != "chat") && styles.iconHolderUnreadMessage}
+
+                            `}>
                                 <IconChatNoFill />
-                                {hasAlert ? (
-                                    <div
-                                        className={
-                                            styles.MainNavPageButtonAlertIndicator
-                                        }
-                                    />
-                                ) : null}
                         </div>
                         <div>Chat</div>
                     </button>
@@ -126,22 +130,18 @@ const MainNav = (props) => {
                             ${
                                 currentPage == "gather"
                                     ? styles.Active
-                                    : styles.Inactive
+                                    : null
                             } 
                         `}
                         onClick={() => {
                             changePage("gather");
                         }}
                     >
-                        <div style={{ height: 24, width: 24, position: "relative" }}>
-                                <IconFireNoFill />
-                                {hasAlert ? (
-                                    <div
-                                        className={
-                                            styles.MainNavPageButtonAlertIndicator
-                                        }
-                                    />
-                                ) : null}
+                        <div className={`
+                            ${styles.iconHolder} 
+                            ${(hasAlert &&  currentPage != "gather") && styles.iconHolderUnreadMessage}
+                            `}>
+                             <IconFireNoFill />
                         </div>
                         <div>Gather</div>
                     </button>
@@ -155,22 +155,18 @@ const MainNav = (props) => {
                             ${
                                 currentPage == "message"
                                     ? styles.Active
-                                    : styles.Inactive
+                                    : null
                             } 
                         `}
                         onClick={() => {
                             changePage("message");
                         }}
                     >
-                        <div style={{ height: 24, width: 24, position: "relative" }}>
-                                <IconForumNoFill />
-                                {hasAlert ? (
-                                    <div
-                                        className={
-                                            styles.MainNavPageButtonAlertIndicator
-                                        }
-                                    />
-                                ) : null}
+                        <div className={`
+                            ${styles.iconHolder} 
+                            ${(hasAlert &&  currentPage != "message") && styles.iconHolderUnreadMessage}
+                            `}>
+                             <IconForumNoFill />
                         </div>
                         <div>Message</div>
                     </button>

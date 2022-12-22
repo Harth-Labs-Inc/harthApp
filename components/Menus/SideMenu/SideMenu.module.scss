@@ -2,29 +2,77 @@
 @import "../../../styles/fonts.scss";
 
 .SideNav {
+    position: relative;
     display: flex;
-    align-items: center;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 20px 0px 8px 0px;
+    padding: 0px 0px 0px 0px;
     width: 64px;
     min-width: 64px;
-    background-color: $hot_salmon_dark;
+    background-color: $ash;
+    border-right: 1px solid $ash_border;
 
-    .SettingsButton {
+    .titleHolder {
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 28px;
+        height: 60px;
+        min-height: 60px;
+        width: 64px;;
+        border: 0;
+        border-bottom: 1px solid $ash_border;
+    }
+
+    .SettingsButton {
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 32px;
         width: 52px;
         padding: 6px;
         background-color: transparent;
         border: 0;
-        border-radius: 6px;;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        cursor: pointer;
+
 
         &:hover {
-            background-color: $white_10;
-            border: 1px solid $white_10;
+            border: 1px solid $oxygen_80;
+        }
+    }
+
+    .bottomHolder {
+
+        position: absolute;
+        bottom: 0px;
+        height: 48px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $ash;
+        border-top: 1px solid $ash_border;
+        z-index: 20;
+
+        .addHarthButton {
+            border: 1px solid $oxygen_40;
+            background-color: transparent;
+            border-radius: 8px;
+            height: 24px;
+            width: 24px;
+            padding: 2px;
+
+            path {
+                fill: $oxygen_40;
+            }
+
+            &:hover {
+                border-color: $oxygen_80;
+                path {
+                    fill: $oxygen_80;
+                }
+            }
         }
     }
 }
@@ -38,16 +86,17 @@
     width: 100%;
     height: 100%;
     row-gap: 0px;
-    //background-color: $hot_pink;
+    background-color: $ash;
 
     .text {
         width: 100%;
         text-align: left;
         padding: 4px 20px;
         border: 0;
-        border-bottom: solid 1px $fuel_10;
+        border-bottom: solid 1px $ash_border;
         margin: 0;
         @include interfaceR2;
+        color: $oxygen_80;
 
     }
 
@@ -57,7 +106,7 @@
         align-items: center;
         justify-content: center;
 
-        width: 164px;
+        width: 124px;
         margin: 48px 0px;
 
     }

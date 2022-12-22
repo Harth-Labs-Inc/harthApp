@@ -63,9 +63,10 @@ export default async (req, res) => {
   } else {
     let otp = generateOTP();
     let today = new Date();
-    let tomorrow = today.setDate(today.getDate() + 1);
+    let exp = new Date(today.getTime() + 15 * 60000);
+
     obj.otp = otp;
-    obj.otp_expiration = new Date(tomorrow);
+    obj.otp_expiration = new Date(exp);
     let id = await createUser(db, obj);
     return res.json({ ok: 1, msg: "", user: { ...obj, _id: id } });
   }

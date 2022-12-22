@@ -4,7 +4,7 @@ import { CommsProvider } from "../../contexts/comms";
 import { SocketProvider } from "../../contexts/socket";
 import { ChatProvider } from "../../contexts/chat";
 import { useAuth } from "../../contexts/auth";
-
+import { sendWelcomeEmailToUser } from "../../requests/userApi";
 import Cookies from "js-cookie";
 
 import { VideoProvider } from "../../contexts/video";
@@ -52,36 +52,62 @@ const dashboard = (props) => {
     if (roomType) {
       changePageHandler(roomType);
     }
-    const showFirstTimeUser = Cookies.get("showFirstTimeUser");
-    if (showFirstTimeUser) {
-      setShowCreateHarthNameModal(true);
-    }
+    // const showFirstTimeUser = Cookies.get("showFirstTimeUser");
+    // if (showFirstTimeUser) {
+    //   if (!inviteTKN && !tkn) {
+    //     setShowCreateHarthNameModal(true);
+    //   }
+    // }
 
-    document.addEventListener("contextmenu", (event) => {
-      event.preventDefault();
-    });
-    return () => {
-      setShowCreateHarthProfileModal(false);
-      setShowCreateHarthNameModal(false);
-      window.removeEventListener("contextmenu", () => {});
-    };
+    // return () => {
+    //   setShowCreateHarthProfileModal(false);
+    //   setShowCreateHarthNameModal(false);
+    // };
   }, []);
 
-  useEffect(() => {
-    const showFirstTimeUser = Cookies.get("showFirstTimeUser");
+  // useEffect(() => {
+  //   const showFirstTimeUser = Cookies.get("showFirstTimeUser");
 
-    if ((inviteTKN || tkn) && !showFirstTimeUser) {
-      setShowCreateHarthNameModal(false);
-      setShowInviteAcceptModal(true);
+  //   if (inviteTKN || tkn) {
+  //     if (showFirstTimeUser) {
+  //       Cookies.remove("showFirstTimeUser");
+  //     }
+  //     setShowCreateHarthNameModal(false);
+  //     setShowInviteAcceptModal(true);
+  //   }
+  //   return () => {
+  //     setShowInviteAcceptModal(false);
+  //   };
+  // }, [inviteTKN, tkn]);
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.push("/");
+      } else {
+        const showFirstTimeUser = Cookies.get("showFirstTimeUser");
+        if (showFirstTimeUser) {
+          sendWelcomeEmailToUser({ user, subject: "Welcome To Harth" });
+          if (!inviteTKN && !tkn) {
+            setShowCreateHarthNameModal(true);
+          } else {
+            Cookies.remove("showFirstTimeUser");
+            setShowCreateHarthNameModal(false);
+            setShowInviteAcceptModal(true);
+          }
+        } else {
+          if (inviteTKN || tkn) {
+            setShowCreateHarthNameModal(false);
+            setShowInviteAcceptModal(true);
+          }
+        }
+      }
     }
-    return () => {
-      setShowInviteAcceptModal(false);
-    };
-  }, [inviteTKN, tkn]);
-
-  useEffect(() => {
-    if (!loading && !user) router.push("/");
   }, [loading]);
+
+  // useEffect(() => {
+  //   if (!loading && !user) router.push("/");
+  // }, [loading]);
 
   const changePageHandler = (pg) => {
     setCurrentPage(pg);
