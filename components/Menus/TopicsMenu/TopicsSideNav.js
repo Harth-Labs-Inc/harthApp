@@ -231,7 +231,10 @@ const TopicsNav = () => {
                 </Modal>
             ) : null}
 
-            <aside className={styles.TopicsNav}>
+            <aside className={`
+                ${styles.TopicsNav}
+                ${isMobile && styles.TopicsNavMobile}
+                `}>
                 <p className={styles.TopicsNavTitle}>Topics</p>
                 <div className={styles.TopicsNavContainer}>
                     {topicsArr &&
@@ -282,12 +285,14 @@ const TopicsNav = () => {
 
                     <div className={styles.TopicsNavCreate}>
                         <button
-                            className={styles.TopicsNavCreateButton}
+                            className={isMobile ? styles.TopicsNavCreateMobileButton : styles.TopicsNavCreateButton}
                             id="create_topic"
                             onClick={openCreateTopic}
                         >
-                            add new topic
-                            <IconAdd />
+                            <div className={styles.iconHolder}>
+                                <IconAdd />
+                            </div>
+                            topic
                         </button>
                     </div>
                     {hiddenTopicsArr &&
