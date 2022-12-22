@@ -2,14 +2,25 @@
 @import "../../../styles/fonts.scss";
 
 .TopicsNav {
-    width: 264px;
-    padding: 12px 8px 0 24px;
+    position: relative;
+    width: 240px;
+    min-width: 240px;
+    padding: 12px 0px 0 24px;
+    background-color: $warm_blue;
+    overflow-y: scroll;
+
+    &Mobile {
+        width: 90%;
+        padding: 16px 0px 24px 24px;
+
+
+    }
 
     &Title {
-        @include interfaceH5;
-        padding: 4px 0;
-        font-weight: 800;
+        @include smallTitle;
+        padding: 4px 0px;
         text-transform: uppercase;
+        color: $oxygen_80;
     }
 
     &Container {
@@ -20,36 +31,88 @@
 
         &:before {
             position: absolute;
-            top: 0;
-            left: 19px;
-            height: calc(100% - 5px);
-            width: 2px;
-            content: "";
-            background-color: $fuel;
-        }
-        &::after {
-            position: absolute;
-            top: 0;
-            left: 4px;
-            height: 2px;
+            top: 0px;
+            left: 0px;
+            height: 1px;
             width: 30px;
             content: "";
-            background-color: $fuel;
+            background-color: $oxygen_80;
         }
     }
 
     &Create {
         position: relative;
-        z-index: 2;
-        padding: 4px;
+        padding: 0px 0px; 
         &Button {
-            height: 32px;
-            width: 32px;
-            font-size: 0;
-            background-color: $white;
-            border: 2px solid $fuel;
-            border-radius: 50%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            column-gap: 4px;
+            color: $oxygen_40;
+            @include topicTitle;
+            height: 40px;
+            background: transparent;
+            border: 0;
             cursor: pointer;
+            margin-bottom: 32px;
+
+
+            .iconHolder{
+                height: 16px;
+                width: 16px;
+                path {
+                    fill: $oxygen_40;
+                    stroke-width: 3px;
+                    stroke: $oxygen_40;
+                }
+            }
+
+            &:hover {
+                color: $oxygen;
+                path {
+                    fill: $oxygen;
+                    stroke: $oxygen;
+                }
+
+            }
+        }
+    }
+
+    &CreateMobile {
+        position: relative;
+        padding: 0px 0px; 
+        &Button {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            column-gap: 4px;
+            color: $oxygen_40;
+            @include topicTitleMobile;
+            height: 40px;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            margin-top: 8px;
+            margin-bottom: 32px;
+
+            .iconHolder{
+                height: 18px;
+                width: 18px;
+                path {
+                    fill: $oxygen_40;
+                    stroke-width: 3px;
+                    stroke: $oxygen_40;
+                }
+            }
+
+            &:hover {
+                color: $oxygen;
+                path {
+                    fill: $oxygen;
+                    stroke: $oxygen;
+                }
+
+            }
         }
     }
 }

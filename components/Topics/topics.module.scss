@@ -7,173 +7,121 @@
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
-    padding: 4px 4px;
+    height: 40px;
+    width: 100%;
+    padding: 0px 0px;
     border: 0;
     background-color: transparent;
+    color: $oxygen_40;
 
-    .icon {
-        height: 32px;
-        min-height: 32px;
-        min-width: 32px;
-        width: 32px;
-        padding: 4px;
-        border-radius: 9999px;
-        border: 2px solid $fuel;
-        background-color: $white;
-
-        path {
-            fill: $fuel;
-            stroke-width: 2px;
-            stroke: $fuel;
-        }
-
-        &Mobile {
-            height: 36px;
-            min-height: 36px;
-            min-width: 36px;
-            width: 36px;
-        }
+    .label {
+        text-align: left;
+        @include topicTitle;
+        padding-right: 24px;
+        padding-left: 8px;
     }
 
-    .topicWithPointer {
-        position: relative;
+
+    .alertProfiles {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        cursor: pointer;
-        //transition: all 1s;
-
-        .topicContainer {
-            position: relative;
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-            margin-left: 13px;
-            background-color: $white;
-            border: 2px solid $fuel;
-            border-radius: 4px;
-            padding: 8px 16px;
-            row-gap: 4px;
-
-            &:before {
-                position: absolute;
-                top: 50%;
-                left: -7px;
-                z-index: -1;
-                transform: translateY(-50%);
-                width: 0;
-                height: 0;
-                content: "";
-                border-style: solid;
-                border-width: 10px 12px 10px 0;
-                border-color: transparent $fuel transparent transparent;
-            }
-            &:after {
-                position: absolute;
-                top: 50%;
-                left: -5px;
-                transform: translateY(-50%);
-                width: 0;
-                height: 0;
-                content: "";
-                border-style: solid;
-                border-width: 10px 12px 10px 0;
-                border-color: transparent $white transparent transparent;
-            }
-
-            .label {
-                @include contentR2;
-                width: 100%;
-                color: $fuel;
-                text-align: left;
-
-                &Mobile {
-                    @include contentR1;
-                    margin-top: 2px;
-                    margin-bottom: 2px;
-                }
-            }
-
-            .alertProfiles {
-                display: flex;
-                flex-direction: row;
-                column-gap: 1px;
-                row-gap: 1px;
-                flex-wrap: wrap;
-            }
-
-            &Alert {
-                box-shadow: 4px 4px 0 $hot_pink;
-            }
-        }
-
-        // .pointer {
-        //     position: relative;
-        //     width:16px;
-        //     height: 20px;
-
-        //     p:before,
-        //     p:after {
-        //         content: ' ';
-        //         position: absolute;
-        //         width: 0;
-        //         height: 0;
-        //     }
-
-        //     p:before {
-        //         right: -1px;
-        //         bottom: 0px;
-        //         border: 10px solid;
-        //         border-color: transparent $fuel transparent transparent;
-        //     }
-
-        //     p:after {
-        //         right: -4px;
-        //         bottom: 0px;
-        //         border: 10px solid;
-        //         border-color: transparent$white transparent transparent ;
-        //     }
-
-        // }
+        column-gap: 1px;
+        row-gap: 1px;
+        flex-wrap: wrap;
     }
 
     &Active {
-        .icon {
-            background-color: $fuel;
-            path {
-                fill: $oxygen;
-                stroke: $oxygen;
-            }
+        color: $oxygen;
+       // background-color:bisque;
+
+        &:before {
+            position: absolute;
+            right: 0px;
+            top: -5px;
+            width: 24px;
+            height: 24px;
+            z-index: 1;
+            background: $white;
+            content: "";
         }
 
-        .topicWithPointer {
-            .topicContainer {
-                background-color: $fuel;
-                &:after {
-                    border-color: transparent $fuel transparent transparent;
-                }
-                .label {
-                    color: $oxygen;
-                }
-                &Alert {
-                    box-shadow: 4px 4px 0 $hot_pink;
-                }
-            }
+        &:after {
+            position: absolute;
+            right: 0px;
+            top: -5px;
+            width: 24px;
+            height: 24px;
+            z-index: 2;
+            background: $warm_blue;
+            content: "";
+            border-bottom-right-radius: 9999px;
+
         }
+
+    }
+
+    &IndicatorBox {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        
+        
+        &Active {
+
+            &:before {
+                position: absolute;
+                right: 0px;
+                bottom: -3px;
+                width: 24px;
+                height: 24px;
+                z-index: 1;
+                background: $white;
+                content: "";
+            }
+    
+            &:after {
+                position: absolute;
+                right: 0px;
+                bottom: -3px;
+                width: 24px;
+                height: 24px;
+                z-index: 2;
+                background: $warm_blue;
+                content: "";
+                border-top-right-radius: 9999px;
+            }
+    
+        }
+
+    }
+    
+
+    &Alert {
+        color: $oxygen_80;
+
+
     }
 
     &:hover {
-        .topicWithPointer {
-            .topicContainer {
-                background-color: $fuel;
-                .label {
-                    color: $oxygen;
-                }
-
-                &:after {
-                    border-color: transparent $fuel transparent transparent;
-                }
-            }
-        }
+        color: $oxygen;
     }
+
+    &Mobile {
+        height: 40px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        width: 100%;
+
+        .label {
+            @include topicTitleMobile;
+        }
+
+        
+    }
+
+
 }

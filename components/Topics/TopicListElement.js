@@ -47,13 +47,14 @@ const TopicListElement = (props) => {
       id={topic._id}
       className={`
                     ${styles.topic} 
+                    ${isMobile && styles.topicMobile} 
                     ${isActive && styles.topicActive} 
                     ${hasAlert && styles.topicAlert} 
                     `}
       onClick={toggleActive}
       onMouseUp={toggleEditMenu}
     >
-      {isShort ? (
+      {/* {isShort ? (
         <div
           className={`
                     ${styles.icon} 
@@ -71,20 +72,13 @@ const TopicListElement = (props) => {
         >
           <IconBookmarkNoFill />
         </div>
-      )}
+      )} */}
 
-      <div className={styles.topicWithPointer}>
-        <div
-          className={`
-                    ${styles.topicContainer} 
-                    ${hasAlert && styles.topicContainerAlert} 
-                    `}
-        >
-          <div
-            className={`
-                            ${styles.label} 
-                            ${isMobile && styles.labelMobile} 
-                            `}
+        <div className={`
+                    ${styles.topicIndicatorBox} 
+                    ${isActive && styles.topicIndicatorBoxActive} 
+                    `}>
+          <div className={styles.label}
           >
             {label}
           </div>
@@ -99,8 +93,7 @@ const TopicListElement = (props) => {
               ))}
             </div>
           )}
-        </div>
-      </div>
+    </div>
     </button>
   );
   // return (

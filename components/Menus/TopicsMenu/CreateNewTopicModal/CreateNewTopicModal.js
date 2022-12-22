@@ -80,68 +80,72 @@ export default function CreateNewTopicModal({ toggleModal }) {
 
   return (
     <Modal onToggleModal={toggleModal}>
-      <form
-        className={styles.CreateTopic}
-        onSubmit={handleSubmit(createNewTopic)}
-      >
-        <input
-          {...register("topicName", { required: true })}
-          placeholder="Topic name"
-          type="text"
-        />
-        <ErrorMessage
-          errorMsg={
-            errors.topicName ? "You must set a Topic name to begin." : null
-          }
-        />
-        <p className={styles.CreateTopicTimeText}>
-          Keep content posted to this topic for:
-        </p>
-        <div className={styles.CreateTopicTime}>
-          <label
-            className={`${styles.CreateTopicTimeButton} ${
-              watchAge === "long" ? styles.Active : null
-            }`}
-            htmlFor="field-long"
-          >
-            <input
-              {...register("contentAge", { required: true })}
-              type="radio"
-              value="long"
-              id="field-long"
-            />
-            <IconBookmarkNoFill />
-            90 days
-          </label>
-          <label
-            className={`${styles.CreateTopicTimeButton} ${
-              watchAge === "short" ? styles.Active : null
-            }`}
-            htmlFor="field-short"
-          >
-            <input
-              {...register("contentAge")}
-              type="radio"
-              value="short"
-              id="field-short"
-            />
-            <IconTimerNoFill />
-            24 hours
-          </label>
-        </div>
-        <ErrorMessage
-          errorMsg={errors.contentAge ? "You must set contents age" : null}
-        />
-        <div className={styles.CreateTopicButtons}>
-          <Button
-            size="small"
-            tier="secondary"
-            text="Cancel"
-            onClick={toggleModal}
+      <div className={styles.mainContainer}>
+      <div className={styles.title}>Create a härth</div>
+
+        <form
+          className={styles.CreateTopic}
+          onSubmit={handleSubmit(createNewTopic)}
+        >
+          <input
+            {...register("topicName", { required: true })}
+            placeholder="Topic name"
+            type="text"
           />
-          <Button fullWidth size="small" text="Create Topic" type="submit" />
-        </div>
-      </form>
+          <ErrorMessage
+            errorMsg={
+              errors.topicName ? "You must set a Topic name to begin." : null
+            }
+          />
+          <p className={styles.CreateTopicTimeText}>
+            Content in this topic will be kept for 90 days
+          </p>
+          {/* <div className={styles.CreateTopicTime}>
+            <label
+              className={`${styles.CreateTopicTimeButton} ${
+                watchAge === "long" ? styles.Active : null
+              }`}
+              htmlFor="field-long"
+            >
+              <input
+                {...register("contentAge", { required: true })}
+                type="radio"
+                value="long"
+                id="field-long"
+              />
+              <IconBookmarkNoFill />
+              90 days
+            </label>
+            <label
+              className={`${styles.CreateTopicTimeButton} ${
+                watchAge === "short" ? styles.Active : null
+              }`}
+              htmlFor="field-short"
+            >
+              <input
+                {...register("contentAge")}
+                type="radio"
+                value="short"
+                id="field-short"
+              />
+              <IconTimerNoFill />
+              24 hours
+            </label>
+          </div>
+          <ErrorMessage
+            errorMsg={errors.contentAge ? "You must set contents age" : null}
+          /> */}
+          <div className={styles.CreateTopicButtons}>
+            <Button
+              size="large"
+              tier="secondary"
+              text="cancel"
+              onClick={toggleModal}
+            />
+            <Button fullWidth size="large" text="Create Topic" type="submit" />
+          </div>
+        </form>
+      </div>
     </Modal>
   );
 }
