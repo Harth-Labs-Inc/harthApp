@@ -29,6 +29,41 @@
 
 }
 
+
+@mixin smallTitle {
+    font-family: "Rubik", sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.20em;
+    line-height: 125%;
+}
+
+@mixin smallTitleMobile {
+    font-family: "Rubik", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.20em;
+    line-height: 125%;
+}
+
+@mixin topicTitle {
+    font-family: "Rubik", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    line-height: 125%;
+}
+
+
+@mixin topicTitleMobile {
+    font-family: "Rubik", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    line-height: 125%;
+}
+
+
 @mixin interfaceH1 {
     font-family: "Work Sans", sans-serif;
     font-weight: 600;

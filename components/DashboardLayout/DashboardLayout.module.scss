@@ -17,6 +17,10 @@
                 height: calc(100vh - 128px);
                 width: 100%;
             }
+
+            &.Desktop {
+                height: 100%;
+            }
         }
     }
 }
