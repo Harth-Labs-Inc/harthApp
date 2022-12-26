@@ -23,6 +23,37 @@
         color: $oxygen_80;
     }
 
+    &Hidden {
+        position: relative;
+        @include smallTitle;
+        padding: 4px 0px;
+        text-transform: uppercase;
+        color: $oxygen_40;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+
+        &:hover {
+            color: $oxygen_80;
+
+        }
+
+        &Active {
+            color: $oxygen_80;
+
+            &:after {
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                height: 1px;
+                width: 30px;
+                content: "";
+                background-color: $oxygen_80;
+            }
+
+        }
+    }
+
     &Container {
         position: relative;
         margin: 0;

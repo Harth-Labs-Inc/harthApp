@@ -81,7 +81,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
   return (
     <Modal onToggleModal={toggleModal}>
       <div className={styles.mainContainer}>
-      <div className={styles.title}>Create a härth</div>
+      <div className={styles.title}>New topic</div>
 
         <form
           className={styles.CreateTopic}

@@ -20,6 +20,7 @@ import styles from "./TopicsNav.module.scss";
 const TopicsNav = () => {
     const [topicsArr, setTopicsArr] = useState([]);
     const [hiddenTopicsArr, setHiddenTopicsArr] = useState([]);
+    const [isHiddenView, setIsHiddenView] = useState(false);
     const [showRenameTopicModal, setShowRenameTopicModal] = useState(false);
     const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
     const [openEditTopicMenu, setOpenEditTopicMenu] = useState(null);
@@ -96,6 +97,9 @@ const TopicsNav = () => {
     const openCreateTopic = () => {
         setOpenTopicBuilder(!openTopicBuilder);
     };
+    const toggleHidden = () => {
+        setIsHiddenView(!isHiddenView);
+    }
     const toggleTopicEditModal = ({ topic, pos }) => {
         setOpenEditTopicMenu({ topic, pos });
     };
@@ -295,8 +299,16 @@ const TopicsNav = () => {
                             topic
                         </button>
                     </div>
-                    {hiddenTopicsArr &&
-                        hiddenTopicsArr.map((topic) => {
+                    <button 
+                        className = {`
+                        ${styles.TopicsNavHidden}
+                        ${isHiddenView && styles.TopicsNavHiddenActive}
+                        `}
+                        onClick = {toggleHidden}
+                    >
+                        Hidden
+                    </button>
+                    {isHiddenView && hiddenTopicsArr && hiddenTopicsArr.map((topic) => {
                             let isActive = false;
                             let isShort = false;
                             let hasAlert = false;
@@ -329,6 +341,7 @@ const TopicsNav = () => {
                                 isShort = true;
                             }
                             return (
+                                <>
                                 <TopicListElement
                                     clickHandler={changeSelectedTopic}
                                     key={topic._id}
@@ -341,6 +354,7 @@ const TopicsNav = () => {
                                     label={topic?.title}
                                     toggleTopicEditModal={toggleTopicEditModal}
                                 />
+                                </>
                             );
                         })}
                 </div>
