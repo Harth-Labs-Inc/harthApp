@@ -1,63 +1,83 @@
+import { useState } from "react";
 import { Button, Input } from "../../Common";
 
+import { GatheringButton } from "./GatheringButton";
 import styles from "./GatheringCreate.module.scss";
 
-const GatheringCreate = () => {
+const GatheringCreate = ({ hanldeScheduleRoom, handleCreateRoom }) => {
+    const [activeButton, setActiveButton] = useState("voice");
+    const [roomName, setRoomName] = useState("");
+
+    const inputChangeHandler = (e) => {
+        const { value } = e.target;
+        setRoomName(value);
+    };
+
+    console.log(roomName);
+
     return (
-        <div style={styles.GatheringCreate}>
-            <div style={styles.GatheringCreateSetup}>
+        <div className={styles.GatheringCreate}>
+            <div className={styles.GatheringCreateSetup}>
                 <Input
                     placeholder="Profile Name's Room"
-                    onChange={roomNameHandler}
-                    isError={isSubmitting ? !roomName.VALID : false}
-                    error={roomName.ERROR}
-                    value={roomName.VALUE}
-                    style={styles.input}
+                    // onChange={roomNameHandler}
+                    // isError={isSubmitting ? !roomName.VALID : false}
+                    // error={roomName.ERROR}
+                    // value={roomName.VALUE}
+                    className={styles.GatheringCreateInput}
+                    changeHandler={() => {}}
+                    inputhandler={inputChangeHandler}
                 />
-                <div style={styles.GatheringCreateType}>
+                <div className={styles.GatheringCreateType}>
                     <GatheringButton
                         type="voice"
-                        activeButtonHandler={activeButtonHandler}
+                        activeButtonHandler={setActiveButton}
                         active={activeButton == "voice"}
                     />
                     <GatheringButton
                         type="stream"
-                        activeButtonHandler={activeButtonHandler}
+                        activeButtonHandler={setActiveButton}
                         active={activeButton == "stream"}
                     />
                     <GatheringButton
                         type="party"
-                        activeButtonHandler={activeButtonHandler}
+                        activeButtonHandler={setActiveButton}
                         active={activeButton == "party"}
                     />
                 </div>
                 {activeButton == "voice" && (
-                    <p style={styles.GatheringSubText}>Voice and text chat</p>
+                    <p className={styles.GatheringCreateSubText}>
+                        Voice and text chat
+                    </p>
                 )}
                 {activeButton == "stream" && (
-                    <p style={styles.GatheringSubText}>
+                    <p className={styles.GatheringCreateSubText}>
                         Stream games and video
                     </p>
                 )}
                 {activeButton == "party" && (
-                    <p style={styles.GatheringSubText}>
+                    <p className={styles.GatheringCreateSubText}>
                         Video chat and tabletop play
                     </p>
                 )}
                 {/* <AppText>{isSubmitting && !activeButton ? "button required" : null}</AppText> */}
             </div>
-            <div style={styles.GatheringCreateLaunch}>
-                <Button
-                    text="Schedule"
+            <div className={styles.GatheringCreateLaunch}>
+                <button
+                    className={styles.GatheringCreateSubmit}
+                    onClick={() => hanldeScheduleRoom(activeButton, roomName)}
                     // style={({ pressed }) => [
                     //   {
                     //     backgroundColor: pressed ? theme.color_black : theme.color_fuel,
                     //   },
                     //   styles.GatheringScheduleSubmit,
                     // ]}
-                />
-                <Button
-                    text="Start Now"
+                >
+                    Schedule
+                </button>
+                <button
+                    className={styles.GatheringCreateSubmit}
+                    onClick={() => handleCreateRoom(activeButton, roomName)}
                     // onPress={startNowHandler}
                     // style={({ pressed }) => [
                     //   {
@@ -65,7 +85,9 @@ const GatheringCreate = () => {
                     //   },
                     //   styles.GatheringCreateSubmit,
                     // ]}
-                />
+                >
+                    Start Now
+                </button>
             </div>
         </div>
     );

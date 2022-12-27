@@ -14,6 +14,7 @@ import { CreateGatheringFormProvider as GatheringFormProvider } from "./GatherFo
 import { CreateGatheringFormProvider as GatheringEditFormProvider } from "./GatherEditForm/GatheringFormContext";
 import styles from "./GatheringDashboard.module.scss";
 import GatheringCreate from "../../../components/Gathering/GatheringCreate/GatheringCreate";
+import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
 
 const Video = (props) => {
     const [socketData, setSocketData] = useState({});
@@ -82,9 +83,19 @@ const Video = (props) => {
         setModal(!modal);
     };
 
-    const createRoomFormSubmit = (room) => {
-        if (room) {
+    // const createRoomFormSubmit = (room) => {
+    //     if (room) {
+    //         room.createdTime = new Date();
+    //         createRoom(room);
+    //     }
+    // };
+
+    const createRoomFormSubmit = (type, name) => {
+        let room = {};
+        if (type && name) {
             room.createdTime = new Date();
+            room.roomName = name;
+            room.gatheringType = type;
             createRoom(room);
         }
     };
@@ -132,11 +143,14 @@ const Video = (props) => {
                     </Modal>
                 )}
                 <div className={styles.roomContainer}>
-                    <GatherCreate
+                    {/* <GatherCreate
                         createRoomFormSubmit={createRoomFormSubmit}
                         createScheduleRoom={triggerNewRoom}
+                    /> */}
+                    <GatheringCreate
+                        handleCreateRoom={createRoomFormSubmit}
+                        // handleCreateRoom={}
                     />
-                    <GatheringCreate />
 
                     <ul
                         className={styles.roomContainerActiveList}
@@ -159,6 +173,7 @@ const Video = (props) => {
                                         peers={room.peers}
                                         owner={owner}
                                     />
+                                    <GatheringTile />
                                 </li>
                             );
                         })}
