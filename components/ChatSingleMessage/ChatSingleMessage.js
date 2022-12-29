@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Picker } from "emoji-mart";
 // import 'emoji-mart/css/emoji-mart.css'
+import { Avatar } from "../Common/Avatar/Avatar";
+
 
 import { getDownloadURL } from "../../requests/s3";
-import { deleteMessage, updateMessage, updateReply } from "../../requests/chat";
+import { deleteMessage, updateMessage, } from "../../requests/chat";
 import { getURLMetaData } from "../../requests/urls";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
@@ -28,16 +30,13 @@ const ChatSingleMessage = (props) => {
         message,
         attachments = [],
         reactions = [],
-        flames = [],
-        replies = [],
         topic_id,
     } = props.msg;
-    const { editMessageText, isReply, messageID } = props;
+    const { editMessageText, messageID } = props;
 
     const { user } = useAuth();
     const { emitUpdate } = useSocket();
     const { selectedcomm } = useComms();
-    const { setSelectedReplyOwner } = useChat();
 
     useEffect(() => {
         async function fetchDownloadURL() {
@@ -95,11 +94,7 @@ const ChatSingleMessage = (props) => {
     };
     const updateMsg = async () => {
         let msg = props.msg;
-        if (isReply) {
-            const data = await updateReply(msg);
-        } else {
-            const data = await updateMessage(msg);
-        }
+        const data = await updateMessage(msg);
         msg.updateType = "message update";
         msg.action = "update";
         emitUpdate(selectedcomm._id, msg, async (err, status) => {
@@ -146,24 +141,7 @@ const ChatSingleMessage = (props) => {
         }
         return timeStamp;
     };
-    const addFlame = () => {
-        let index;
-        flames.forEach((flame, idx) => {
-            if (flame.id == user._id) {
-                index = idx;
-            }
-        });
-        if (index >= 0) {
-            flames.splice(index, 1);
-        } else {
-            let creator = selectedcomm.users.find(
-                (usr) => usr.userId === user._id
-            );
-            flames.push({ name: creator.name, id: user._id });
-        }
 
-        updateMsg();
-    };
     const triggerPicker = (e) => {
         e.preventDefault();
         setEmojiPicker(!emojiPickerState);
@@ -173,9 +151,7 @@ const ChatSingleMessage = (props) => {
         updateMsg();
         setEmojiPicker(!emojiPickerState);
     };
-    const addReplyOwner = () => {
-        setSelectedReplyOwner(props.msg);
-    };
+
     const EmojiPicker = () => {
         if (emojiPickerState) {
             return (
@@ -194,10 +170,10 @@ const ChatSingleMessage = (props) => {
     const CreatorImage = () => {
         if (creator_image) {
             return (
-                <img src={creator_image} alt={creator_name} loading="lazy" />
+                 <img className={styles.SingleMessageAvatar} src={creator_image} alt={creator_name} loading="lazy" />
             );
         }
-        return <span className={styles.SingleMessageAvatar}></span>;
+        return <span className={styles.SingleMessageAvatarNo}></span>;
     };
     const EditBar = () => {
         if (showEditBar && showEditBar == _id) {
@@ -205,28 +181,12 @@ const ChatSingleMessage = (props) => {
                 return (
                     <div className={styles.SingleMessageControls}>
                         <button
-                            value="flame"
-                            title="flame"
-                            className={styles.SingleMessageControlsFlame}
-                            onClick={addFlame}
-                        >
-                            flame
-                        </button>
-                        <button
                             value="reaction"
                             title="reaction"
                             className={styles.SingleMessageControlsReaction}
                             onClick={triggerPicker}
                         >
                             react
-                        </button>
-                        <button
-                            value="reply"
-                            title="reply"
-                            className={styles.SingleMessageControlsReply}
-                            onClick={addReplyOwner}
-                        >
-                            reply
                         </button>
                         <button
                             value="edit"
@@ -250,28 +210,12 @@ const ChatSingleMessage = (props) => {
                 return (
                     <div className={styles.SingleMessageControls}>
                         <button
-                            value="flame"
-                            title="flame"
-                            className={styles.SingleMessageControlsFlame}
-                            onClick={addFlame}
-                        >
-                            flame
-                        </button>
-                        <button
                             value="reaction"
                             title="reaction"
                             className={styles.SingleMessageControlsReaction}
                             onClick={triggerPicker}
                         >
                             react
-                        </button>
-                        <button
-                            value="reply"
-                            title="reply"
-                            className={styles.SingleMessageControlsReply}
-                            onClick={addReplyOwner}
-                        >
-                            reply
                         </button>
                     </div>
                 );
@@ -381,30 +325,6 @@ const ChatSingleMessage = (props) => {
                     className={styles.SingleMessageBodyContent}
                 ></div>
                 <div className={styles.SingleMessageBodyReactions}>
-                    {[...(replies || [])].length > 0 ? (
-                        <p
-                            className={
-                                styles.SingleMessageBodyReactionsReplyCount
-                            }
-                        >
-                            {replies.length}
-                        </p>
-                    ) : null}
-                    <div
-                        className={
-                            styles.SingleMessageBodyReactionsFlamesWrapper
-                        }
-                    >
-                        {[...(flames || [])].map((flame, index) => (
-                            <p
-                                className={
-                                    styles.SingleMessageBodyControlsFlame
-                                }
-                                title={flame.name}
-                                key={index}
-                            ></p>
-                        ))}
-                    </div>
                     {[...(reactions || [])].map((reaction, index) => (
                         <p
                             className={styles.SingleMessageBodyReactionsEmoji}
