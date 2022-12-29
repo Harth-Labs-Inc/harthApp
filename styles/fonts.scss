@@ -64,6 +64,31 @@
 }
 
 
+@mixin chatText {
+    font-family: "Rubik", sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    line-height: 125%;
+}
+
+@mixin chatProfile {
+    font-family: "Rubik", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    line-height: 12px;
+}
+
+@mixin timeStamp {
+    font-family: "Work Sans", serif;
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0;
+    line-height: 12px;
+}
+
+
 @mixin interfaceH1 {
     font-family: "Work Sans", sans-serif;
     font-weight: 600;

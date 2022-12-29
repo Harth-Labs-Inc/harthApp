@@ -1,12 +1,17 @@
 @import '../../styles/globals.scss';
 @import '../../styles/config/config-type';
+@import '../../styles/fonts.scss';
 
 .SingleMessage {
   display: inline-flex;
   position: relative;
+  background-color: transparent;
   width: 100%;
-  margin: 16px 0 2px;
-  border-radius: 16px;
+  margin: 8px 8px;
+  padding: 4px;
+  column-gap: 12px;
+  border-radius: 8px;
+  
 
   .emoji-mart {
     position: absolute;
@@ -17,54 +22,68 @@
 
   > img,
   &Avatar {
-    height: 40px;
-    width: 40px;
-    margin-right: $gutter;
-    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+    //margin-right: $gutter;
+    border-radius: 9999px;
     object-fit: cover;
   }
 
   &Avatar {
     position: relative;
-    &:before {
-      @include font-icon($icon-user);
-      @include x-y-center;
-      z-index: 2;
 
-      color: $black50;
-      font-size: 40px;
-      line-height: 40px;
-    }
+  }
+
+
+  &AvatarNo {
+    position: relative;
+    height: 36px;
+    width: 36px;
+    max-height: 36px;
+    max-width: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    background-color: $warm_blue;
+    border-radius: 9999px;
+    @include topicTitleMobile;
+    color: $oxygen;
   }
 
   &Body {
-    width: calc(100% - 48px);
+   width: 100%; 
+   //background-color: aqua;
 
     &Info {
       display: flex;
-      align-items: center;
-      line-height: 19px;
+      align-items: baseline;
+      column-gap: 4px;
+
       &Creator {
-        margin: 0 10px 0 0;
-        font-size: 14px;
-        font-weight: 500;
-        letter-spacing: 0.316px;
+        @include chatProfile;
+        color: $fuel;
       }
       &Timestamp {
-        margin: 0;
-        color: $black60;
-        font-size: 11px;
+//        display: none;
+        color: $fuel_50;
+        @include timeStamp;
+
+
       }
+      
     }
 
     &Content {
-      width: 100%;
-      margin-bottom: $gutter / 2;
-      font-size: 14px;
-      line-height: 20px;
-      resize: none;
-      background-color: transparent;
+      //width: 100%;
+      width: fit-content;
+      max-width: 540px;
+      @include chatText;
+      background-color: $warm_blue_light;
+      padding: 8px 12px;
       border: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 12px;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
 
       .message-text {
         margin: 0;
@@ -80,7 +99,7 @@
     }
 
     img {
-      max-height: 180px;
+      max-height: 120px;
       max-width: 100%;
     }
 
@@ -191,7 +210,16 @@
   }
 
   &:hover {
-    background-color: $medium-grey-2;
+    background-color: $fuel_5;
+
+    &Body {
+       &Info {
+         &Timestamp {
+          display: none;
+         }
+       }
+      }
+
   }
 
   .og-card {
