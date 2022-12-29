@@ -97,9 +97,6 @@ const TopicsNav = () => {
     const openCreateTopic = () => {
         setOpenTopicBuilder(!openTopicBuilder);
     };
-    const toggleHidden = () => {
-        setIsHiddenView(!isHiddenView);
-    }
     const toggleTopicEditModal = ({ topic, pos }) => {
         setOpenEditTopicMenu({ topic, pos });
     };
@@ -107,6 +104,9 @@ const TopicsNav = () => {
         if (!showRenameTopicModal && !showDeleteTopicModal) {
             setOpenEditTopicMenu(null);
         }
+    };
+    const toggleHidden = () => {
+        setIsHiddenView(!isHiddenView);
     };
     const onMuteHandler = async () => {
         await updateSelectedTopic({
@@ -235,10 +235,12 @@ const TopicsNav = () => {
                 </Modal>
             ) : null}
 
-            <aside className={`
+            <aside
+                className={`
                 ${styles.TopicsNav}
                 ${isMobile && styles.TopicsNavMobile}
-                `}>
+                `}
+            >
                 <p className={styles.TopicsNavTitle}>Topics</p>
                 <div className={styles.TopicsNavContainer}>
                     {topicsArr &&
@@ -289,7 +291,11 @@ const TopicsNav = () => {
 
                     <div className={styles.TopicsNavCreate}>
                         <button
-                            className={isMobile ? styles.TopicsNavCreateMobileButton : styles.TopicsNavCreateButton}
+                            className={
+                                isMobile
+                                    ? styles.TopicsNavCreateMobileButton
+                                    : styles.TopicsNavCreateButton
+                            }
                             id="create_topic"
                             onClick={openCreateTopic}
                         >
@@ -299,16 +305,18 @@ const TopicsNav = () => {
                             topic
                         </button>
                     </div>
-                    <button 
-                        className = {`
+                    <button
+                        className={`
                         ${styles.TopicsNavHidden}
                         ${isHiddenView && styles.TopicsNavHiddenActive}
                         `}
-                        onClick = {toggleHidden}
+                        onClick={toggleHidden}
                     >
                         Hidden
                     </button>
-                    {isHiddenView && hiddenTopicsArr && hiddenTopicsArr.map((topic) => {
+                    {isHiddenView &&
+                        hiddenTopicsArr &&
+                        hiddenTopicsArr.map((topic) => {
                             let isActive = false;
                             let isShort = false;
                             let hasAlert = false;
@@ -342,18 +350,20 @@ const TopicsNav = () => {
                             }
                             return (
                                 <>
-                                <TopicListElement
-                                    clickHandler={changeSelectedTopic}
-                                    key={topic._id}
-                                    topic={topic}
-                                    isMobile={isMobile}
-                                    hasAlert={hasAlert}
-                                    alertProfiles={alertProfiles}
-                                    isActive={isActive}
-                                    isShort={isShort}
-                                    label={topic?.title}
-                                    toggleTopicEditModal={toggleTopicEditModal}
-                                />
+                                    <TopicListElement
+                                        clickHandler={changeSelectedTopic}
+                                        key={topic._id}
+                                        topic={topic}
+                                        isMobile={isMobile}
+                                        hasAlert={hasAlert}
+                                        alertProfiles={alertProfiles}
+                                        isActive={isActive}
+                                        isShort={isShort}
+                                        label={topic?.title}
+                                        toggleTopicEditModal={
+                                            toggleTopicEditModal
+                                        }
+                                    />
                                 </>
                             );
                         })}

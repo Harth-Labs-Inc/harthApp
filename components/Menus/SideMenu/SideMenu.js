@@ -3,87 +3,202 @@ import { useContext, useState, useRef } from "react";
 import { useAuth } from "../../../contexts/auth";
 import { useComms } from "../../../contexts/comms";
 import { useSocket } from "../../../contexts/socket";
+import { user } from "../../../contexts/auth";
+import { updateHarthData } from "../../../requests/community";
+import { Modal } from "../../Common";
+import HarthEditModal from "../../HarthEditModal";
+import HarthDeleteModal from "../../HarthDeleteModal";
+import { deleteHarthByID } from "../../../requests/community";
 import { MobileContext } from "../../../contexts/mobile";
 import { SideModal } from "../../Common";
 import SettingsMenu from "../AccountSettings";
 import { HarthLogoLight } from "../../../public/images/harth-logo-light";
 import { IconAdd } from "../../../resources/icons/IconAdd";
-
+import { CustomHarthContextMenu } from "../../CustomHarthContextMenu/CustomHarthContextMenu";
 
 import styles from "./SideMenu.module.scss";
 import HarthList from "../HarthList/HarthList";
 
 const SideNav = (props) => {
-    const { menuOpen, onToggleMenu, setShowCreateHarthNameModal } = props;
-    const [ShowSettingsNav, setShowSettingsNav] = useState(false);
-    const { isMobile } = useContext(MobileContext);
+  const { menuOpen, onToggleMenu, setShowCreateHarthNameModal } = props;
+  const [ShowSettingsNav, setShowSettingsNav] = useState(false);
+  const [openEditHarthMenu, setOpenEditHarthMenu] = useState(null);
+  const [showRenameHarthModal, setShowRenameHarthModal] = useState(false);
+  const [showDeleteHarthModal, setShowDeleteHarthModal] = useState(false);
 
-    const { comms, setComm, selectedcomm, setTopic } = useComms();
-    const { unreadMsgs } = useSocket();
+  const { isMobile } = useContext(MobileContext);
+  const { user } = useAuth();
+  const { comms, setComm, selectedcomm, setTopic, updateSelectedHarth } =
+    useComms();
+  const { unreadMsgs, emitUpdate } = useSocket();
 
-    let leftNav = useRef();
+  let leftNav = useRef();
 
-    const changeSelectedCom = (com) => {
-        setComm(com);
-        setTopic({});
-        onToggleMenu();
-    };
-    const toggleSettingsNav = () => {
-        setShowSettingsNav(!ShowSettingsNav);
-    };
-    const DisplaySettingsNav = () => {
-        if (ShowSettingsNav) {
-            return (
-                <SideModal onToggleModal={toggleSettingsNav}>
-                    <SettingsMenu />
-                </SideModal>
-            );
-        }
-        return null;
-    };
-
-    if (isMobile) {
-        return;
+  const changeSelectedCom = (com) => {
+    setComm(com);
+    setTopic({});
+    onToggleMenu();
+  };
+  const toggleSettingsNav = () => {
+    setShowSettingsNav(!ShowSettingsNav);
+  };
+  const DisplaySettingsNav = () => {
+    if (ShowSettingsNav) {
+      return (
+        <SideModal onToggleModal={toggleSettingsNav}>
+          <SettingsMenu />
+        </SideModal>
+      );
     }
+    return null;
+  };
+  const toggleHarthEditModal = ({ harth, pos }) => {
+    setOpenEditHarthMenu({ harth, pos });
+  };
+  const closeHarthEditModal = () => {
+    if (!showRenameHarthModal && !showDeleteHarthModal) {
+      setOpenEditHarthMenu(null);
+    }
+  };
+  const onMuteHandler = async () => {
+    await updateSelectedHarth({
+      newHarth: {
+        ...openEditHarthMenu.harth,
+        users: [
+          ...(openEditHarthMenu.harth.users || []).map((usr) => {
+            if (usr.userId == user._id) {
+              return {
+                ...usr,
+                muted: !usr.muted,
+              };
+            } else {
+              return usr;
+            }
+          }),
+        ],
+      },
+    });
+    closeHarthEditModal();
+  };
+  const onRenameHandler = () => {
+    setShowRenameHarthModal(true);
+  };
+  const onCloseRenameModal = () => {
+    setShowRenameHarthModal(false);
+  };
+  const submitHarthChangeHandler = async (newHarth) => {
+    console.log(newHarth);
 
-    return (
-        <>
-            <DisplaySettingsNav />
-            <aside
-                id="left_nav"
-                className={`${styles.SideNav} ${styles.Desktop}  ${
-                    menuOpen ? "active" : ""
-                }`}
-                ref={leftNav}
-            >
-                <div className={styles.titleHolder}>
-                    <button
-                        className={styles.SettingsButton}
-                        onClick={toggleSettingsNav}
-                        aria-label="Toggle Settings menu"
-                    >
-                        <HarthLogoLight />
+    await updateHarthData(newHarth);
+    let msg = {};
+    msg.updateType = "harth edited";
+    msg.comm = newHarth;
+    emitUpdate(selectedcomm._id, msg, async (err, status) => {
+      if (err) {
+      }
+      setShowRenameHarthModal(false);
+      setOpenEditHarthMenu(null);
+    });
+  };
+  const onDeleteHandler = () => {
+    setShowDeleteHarthModal(true);
+  };
+  const onCloseDeleteModal = () => {
+    setShowDeleteHarthModal(false);
+  };
+  const submitHarthDeleteHandler = async (newHarth) => {
+    console.log(newHarth);
+    await deleteHarthByID(newHarth._id);
+    let msg = {};
+    msg.updateType = "harth deleted";
+    msg.comm = newHarth;
+    emitUpdate(selectedcomm._id, msg, async (err, status) => {
+      if (err) {
+        console.log(err);
+      }
+      setShowDeleteHarthModal(false);
+      setOpenEditHarthMenu(null);
+    });
+  };
 
-                    </button>
-                </div>
-                <HarthList
-                    comms={comms}
-                    selectedcomm={selectedcomm}
-                    unreadMsgs={unreadMsgs}
-                    toggleCreateComm={setShowCreateHarthNameModal}
-                    changeSelectedCom={changeSelectedCom}
-                />
-                <div className={styles.bottomHolder}>
-                    <button
-                        className={styles.addHarthButton}
-                        onClick={setShowCreateHarthNameModal}
-                    >
-                        <IconAdd />
-                    </button>
-                </div>
-            </aside>
-        </>
-    );
+  if (isMobile) {
+    return;
+  }
+
+  return (
+    <>
+      {showDeleteHarthModal ? (
+        <Modal onToggleModal={() => {}}>
+          <HarthDeleteModal
+            submitHarthChange={submitHarthDeleteHandler}
+            hidden={!showDeleteHarthModal}
+            setHidden={onCloseDeleteModal}
+            harth={{
+              ...(openEditHarthMenu?.harth || {}),
+            }}
+          />
+        </Modal>
+      ) : null}
+      {showRenameHarthModal ? (
+        <Modal onToggleModal={() => {}}>
+          <HarthEditModal
+            submitHarthChangeHandler={submitHarthChangeHandler}
+            hidden={!showRenameHarthModal}
+            setHidden={onCloseRenameModal}
+            harth={{
+              ...(openEditHarthMenu?.harth || {}),
+            }}
+          />
+        </Modal>
+      ) : null}
+
+      {openEditHarthMenu ? (
+        <CustomHarthContextMenu
+          user={user}
+          harth={openEditHarthMenu.harth}
+          pos={openEditHarthMenu.pos}
+          closeModal={closeHarthEditModal}
+          onMuteHandler={onMuteHandler}
+          onRenameHandler={onRenameHandler}
+          onDeleteHandler={onDeleteHandler}
+        />
+      ) : null}
+      <DisplaySettingsNav />
+      <aside
+        id="left_nav"
+        className={`${styles.SideNav} ${styles.Desktop}  ${
+          menuOpen ? "active" : ""
+        }`}
+        ref={leftNav}
+      >
+        <div className={styles.titleHolder}>
+          <button
+            className={styles.SettingsButton}
+            onClick={toggleSettingsNav}
+            aria-label="Toggle Settings menu"
+          >
+            <HarthLogoLight />
+          </button>
+        </div>
+        <HarthList
+          comms={comms}
+          selectedcomm={selectedcomm}
+          unreadMsgs={unreadMsgs}
+          toggleCreateComm={setShowCreateHarthNameModal}
+          changeSelectedCom={changeSelectedCom}
+          toggleHarthEditModal={toggleHarthEditModal}
+        />
+        <div className={styles.bottomHolder}>
+          <button
+            className={styles.addHarthButton}
+            onClick={setShowCreateHarthNameModal}
+          >
+            <IconAdd />
+          </button>
+        </div>
+      </aside>
+    </>
+  );
 };
 
 export default SideNav;
