@@ -8,7 +8,9 @@ import { updateHarthData } from "../../../requests/community";
 import { Modal } from "../../Common";
 import HarthEditModal from "../../HarthEditModal";
 import HarthDeleteModal from "../../HarthDeleteModal";
-import { deleteHarthByID } from "../../../requests/community";
+import HarthLeaveModal from "../../HarthLeaveModal";
+
+import { deleteHarthByID, leaveHarthByID } from "../../../requests/community";
 import { MobileContext } from "../../../contexts/mobile";
 import { SideModal } from "../../Common";
 import SettingsMenu from "../AccountSettings";
@@ -25,6 +27,7 @@ const SideNav = (props) => {
   const [openEditHarthMenu, setOpenEditHarthMenu] = useState(null);
   const [showRenameHarthModal, setShowRenameHarthModal] = useState(false);
   const [showDeleteHarthModal, setShowDeleteHarthModal] = useState(false);
+  const [showLeaveHarthModal, setShowLeaveHarthModal] = useState(false);
 
   const { isMobile } = useContext(MobileContext);
   const { user } = useAuth();
@@ -56,7 +59,11 @@ const SideNav = (props) => {
     setOpenEditHarthMenu({ harth, pos });
   };
   const closeHarthEditModal = () => {
-    if (!showRenameHarthModal && !showDeleteHarthModal) {
+    if (
+      !showRenameHarthModal &&
+      !showDeleteHarthModal &&
+      !showLeaveHarthModal
+    ) {
       setOpenEditHarthMenu(null);
     }
   };
@@ -120,6 +127,27 @@ const SideNav = (props) => {
       setOpenEditHarthMenu(null);
     });
   };
+  const onLeaveHandler = () => {
+    setShowLeaveHarthModal(true);
+  };
+  const onCloseLeaveModal = () => {
+    setShowLeaveHarthModal(false);
+  };
+
+  const submitHarthLeaveHandler = async (newHarth) => {
+    console.log(newHarth);
+    await leaveHarthByID({ harth: newHarth, user });
+    let msg = {};
+    msg.updateType = "harth deleted";
+    msg.comm = newHarth;
+    emitUpdate(selectedcomm._id, msg, async (err, status) => {
+      if (err) {
+        console.log(err);
+      }
+      setShowLeaveHarthModal(false);
+      setOpenEditHarthMenu(null);
+    });
+  };
 
   if (isMobile) {
     return;
@@ -133,6 +161,18 @@ const SideNav = (props) => {
             submitHarthChange={submitHarthDeleteHandler}
             hidden={!showDeleteHarthModal}
             setHidden={onCloseDeleteModal}
+            harth={{
+              ...(openEditHarthMenu?.harth || {}),
+            }}
+          />
+        </Modal>
+      ) : null}
+      {showLeaveHarthModal ? (
+        <Modal onToggleModal={() => {}}>
+          <HarthLeaveModal
+            submitHarthChange={submitHarthLeaveHandler}
+            hidden={!showLeaveHarthModal}
+            setHidden={onCloseLeaveModal}
             harth={{
               ...(openEditHarthMenu?.harth || {}),
             }}
@@ -161,6 +201,7 @@ const SideNav = (props) => {
           onMuteHandler={onMuteHandler}
           onRenameHandler={onRenameHandler}
           onDeleteHandler={onDeleteHandler}
+          onLeaveHandler={onLeaveHandler}
         />
       ) : null}
       <DisplaySettingsNav />

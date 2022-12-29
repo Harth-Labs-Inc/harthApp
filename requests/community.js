@@ -22,6 +22,15 @@ export const checkIfInviteTokenIsGood = async (data) => {
   }
 };
 
+export const leaveHarthByID = async (data) => {
+  try {
+    const res = await api.post(`/api/comm/leaveHarthByID`, data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const deleteHarthByID = async (id) => {
   try {
     const res = await api.post(`/api/comm/deleteHarthByID`, {
