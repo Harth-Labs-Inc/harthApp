@@ -1,5 +1,5 @@
-@import '../../styles/globals.scss';
-@import '../../styles/fonts.scss';
+@import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
 
 .Holder {
   position: relative;
@@ -7,7 +7,7 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
- // overflow: auto;
+  // overflow: auto;
   //background-color: #ee5500;
 }
 
@@ -18,7 +18,7 @@
   background-color: transparent;
   height: 100%;
   width: 100%;
-  padding: 30px 24px;
+  padding: 15px 24px 0px 24px;
   overflow-y: scroll;
   -ms-overflow-style: none;
   //scrollbar-width: 0px;
@@ -36,7 +36,7 @@
   text-align: center;
   &:before,
   &:after {
-    content: '--';
+    content: "--";
   }
 
   p {
@@ -100,13 +100,10 @@
   cursor: pointer;
 }
 
-
 .Input {
-
-  &Mobile{
+  &Mobile {
     width: 100%;
     //background-color: aqua;
-
   }
 
   &Desktop {
@@ -116,6 +113,5 @@
     //min-height: 100px;
     padding: 2px 24px 8px 24px;
     //background-color: aqua;
-
   }
 }
