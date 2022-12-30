@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useComms } from "../../contexts/comms";
 import { useChat } from "../../contexts/chat";
 import { useSocket } from "../../contexts/socket";
+import { MobileContext } from "../../contexts/mobile";
 
 import ChatInput from "../ChatInput/ChatInput";
 import ChatSingleMessage from "../ChatSingleMessage/ChatSingleMessage";
@@ -24,6 +25,8 @@ const MessageWrapper = () => {
         useSocket();
 
     const messagesEndRef = useRef(null);
+    const { isMobile } = useContext(MobileContext);
+
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -258,14 +261,9 @@ const MessageWrapper = () => {
 
     return (
         <>
+        <div className={styles.Holder}>
             <div
                 id={styles.ChatMessages}
-                style={{
-                    justifyContent:
-                        selectedReplyOwnerLength > 0
-                            ? "column"
-                            : "column-reverse",
-                }}
             >
                 <div ref={messagesEndRef} />
                 <div ref={setBottom} />
@@ -291,13 +289,30 @@ const MessageWrapper = () => {
                       ))}
                 <ScrollButton />
             </div>
-            <ChatInput
-                selectedEdit={editMessageObj}
-                isReply={selectedReplyOwnerLength > 0}
-                replyOwner={selectedReplyOwner}
-                topicInputs={topicInputs}
-                setTopicInputs={setTopicInputs}
-            ></ChatInput>
+
+            {isMobile ? (
+                <div className={styles.InputMobile}>
+                    <ChatInput
+                        selectedEdit={editMessageObj}
+                        isReply={selectedReplyOwnerLength > 0}
+                        replyOwner={selectedReplyOwner}
+                        topicInputs={topicInputs}
+                        setTopicInputs={setTopicInputs}
+                    ></ChatInput>
+                </div>
+                ) : (
+                <div className={styles.InputDesktop}>
+                    <ChatInput
+                        selectedEdit={editMessageObj}
+                        isReply={selectedReplyOwnerLength > 0}
+                        replyOwner={selectedReplyOwner}
+                        topicInputs={topicInputs}
+                        setTopicInputs={setTopicInputs}
+                    ></ChatInput>
+                </div>
+                )
+            }
+        </div>
         </>
     );
 };

@@ -8,6 +8,7 @@ import TopicEditPanel from "../../../components/Topics/TopicEditPanel/TopicEditP
 import { useSocket } from "../../../contexts/socket";
 import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "../../../contexts/mobile.js";
+import styles from './chatPage.module.scss';
 
 const Chat = (prop) => {
     const { topicChange } = useComms();
@@ -50,19 +51,32 @@ const Chat = (prop) => {
 
     return (
         <>
-            <TopicsNav />
-            {!isMobile ? (
-                <section id="topic_active" className={topicChatClasses()}>
-                    <TopicsMenu
-                        on_toggle_panel={toggleEditPanel}
-                        toggleMobileMenu={toggleMobileMenu}
-                    />
+            {isMobile ? (
+                <>
+                <div style={{width: "100%", position:"relative"}}>
+                <div className={styles.topicHolderMobile}>
+                    <TopicsNav />
+                </div>
+                {/* <div className={styles.chatHolderMobile}>
+                    <ChatMessages />
+                </div> */}
+                </div>
+                </>
+            ) : (
 
-                    <div id="topic_messages_container">
-                        <ChatMessages />
-                    </div>
-                </section>
-            ) : null }
+                <>
+                <TopicsNav />
+                <ChatMessages />
+                </>
+
+                // <TopicsMenu
+                //         on_toggle_panel={toggleEditPanel}
+                //         toggleMobileMenu={toggleMobileMenu}
+                //     />
+            )
+            
+            
+            }
 
             {/* <CSSTransition
                 in={showEditPanel}

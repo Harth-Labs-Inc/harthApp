@@ -36,7 +36,7 @@ export const Avatar = (props) => {
                         aria-label="Profile Image"
                         className={styles.avatar}
                         height={picSize}
-                        width={picSize}
+                        width={picSize}  
                     />
                 </div>
             )}

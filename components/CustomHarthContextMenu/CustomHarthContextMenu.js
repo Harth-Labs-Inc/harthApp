@@ -15,6 +15,7 @@ export const CustomHarthContextMenu = ({
   onMuteHandler,
   onRenameHandler,
   onDeleteHandler,
+  onLeaveHandler,
 }) => {
   const contextRef = useRef(null);
 
@@ -75,10 +76,18 @@ export const CustomHarthContextMenu = ({
                 onClick={onDeleteHandler}
               >
                 <IconDeleteNoFill fill="#fff" />
-                Delete or leave
+                Delete
               </button>
             </>
-          ) : null}
+          ) : (
+            <button
+              className={styles.CustomContextMenuButton}
+              onClick={onLeaveHandler}
+            >
+              <IconDeleteNoFill fill="#fff" />
+              Leave
+            </button>
+          )}
         </div>
       </div>
     </OutsideClickHandler>

@@ -28,7 +28,7 @@ export const SocketProvider = ({ children }) => {
         production: "https://project-blarg-socket.herokuapp.com",
       };
       setSocket(
-        io.connect(urls[process.env.NODE_ENV], {
+        io.connect("https://project-blarg-socket.herokuapp.com", {
           transports: ["websocket"],
         })
       );

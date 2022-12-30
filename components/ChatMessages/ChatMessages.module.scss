@@ -1,93 +1,117 @@
-@import '../../styles/globals.scss';
+@import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
+
+.Holder {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 60px);
+    width: 100%;
+    // overflow: auto;
+    //background-color: #ee5500;
+}
 
 #ChatMessages {
-  display: flex;
-  flex-direction: column-reverse;
-  position: relative;
-  height: 100%;
-  width: 360px;
-  padding: 30px 16px 0;
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+    background-color: transparent;
+    min-height: calc(100% - 98px);
+    width: 100%;
+    padding: 15px 24px 0px 24px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    //scrollbar-width: 0px;
+    color: $fuel;
 
-  > div {
-    width: 296px;
-    margin-bottom: 16px;
-  }
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .AdminMessage {
-  color: #ee5500;
-  font-size: 12px;
-  font-weight: 500;
-  text-align: center;
-  &:before,
-  &:after {
-    content: '--';
-  }
+    color: #ee5500;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    &:before,
+    &:after {
+        content: "--";
+    }
 
-  p {
-    display: inline-block;
-  }
+    p {
+        display: inline-block;
+    }
 }
 
 .SelfMessage,
 .IncomingMessage {
-  > p {
-    margin: 0 0 4px 0;
-    padding: 8px;
-  }
+    > p {
+        margin: 0 0 4px 0;
+        padding: 8px;
+    }
 }
 
 .SelfMessage {
-  margin-left: auto;
-  > p {
-    background-color: #f7f7f7;
-  }
-  .TimeStamp {
-    display: block;
-    margin-right: 16px;
-    text-align: right;
-  }
+    margin-left: auto;
+    > p {
+        background-color: #f7f7f7;
+    }
+    .TimeStamp {
+        display: block;
+        margin-right: 16px;
+        text-align: right;
+    }
 }
 .IncomingMessage {
-  > p {
-    background-color: #eaeaea;
-  }
-  .TimeStamp {
-    display: flex;
-    align-items: center;
-    img {
-      height: 24px;
-      width: 24px;
-      margin-right: 8px;
-      border-radius: 50%;
-      object-fit: cover;
+    > p {
+        background-color: #eaeaea;
     }
-  }
+    .TimeStamp {
+        display: flex;
+        align-items: center;
+        img {
+            height: 24px;
+            width: 24px;
+            margin-right: 8px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
 }
 
 .TimeStamp {
-  font-size: 11px;
-  line-height: 15px;
+    font-size: 11px;
+    line-height: 15px;
 }
 
 .ScrollButton {
-  @include x-center;
-  bottom: 15%;
-  z-index: 999;
-  padding: 4px 14px;
-  color: $white;
-  font-size: 9px;
-  line-height: 11px;
-  text-transform: uppercase;
-  background-color: #ee5500;
-  border: 0;
-  border-radius: 9px;
-  cursor: pointer;
+    @include x-center;
+    bottom: 15%;
+    z-index: 999;
+    padding: 4px 14px;
+    color: $white;
+    font-size: 9px;
+    line-height: 11px;
+    text-transform: uppercase;
+    background-color: #ee5500;
+    border: 0;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.Input {
+    &Mobile {
+        width: 100%;
+        //background-color: aqua;
+    }
+
+    &Desktop {
+        //position: absolute;
+        //bottom: 0px;
+        width: 100%;
+        //min-height: 100px;
+        padding: 2px 24px 8px 24px;
+        //background-color: aqua;
+    }
 }
