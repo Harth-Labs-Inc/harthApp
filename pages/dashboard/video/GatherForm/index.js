@@ -1,115 +1,116 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
-import { saveRoom } from '../../../../requests/rooms'
+import { saveRoom } from "../../../../requests/rooms";
 
-import GatheringText from './GatheringText'
-import GatheringType from './GatheringType'
-import GatheringTime from './GatheringTime'
-import { useGatheringFormState } from './GatheringFormContext'
-import { convertToAmPm, combineDateTime } from '../../../../services/helper'
-import { useVideo } from '../../../../contexts/video'
+import GatheringText from "./GatheringText";
+import GatheringType from "./GatheringType";
+import GatheringTime from "./GatheringTime";
+import { useGatheringFormState } from "./GatheringFormContext";
+import { convertToAmPm, combineDateTime } from "../../../../services/helper";
+import { useVideo } from "../../../../contexts/video";
 
-import { Button } from '../../../../components/Common'
+import { Button } from "../../../../components/Common";
 
-import styles from './GatheringForm.module.scss'
+import styles from "./GatheringForm.module.scss";
 
 function GatherForm(props) {
-  const [isSchedule, setIsSchedule] = useState(false)
-  const [validationIds, setValidationIds] = useState([])
-  const { dispatch, state } = useGatheringFormState()
+  const { newRoomData } = props;
+  const [isSchedule, setIsSchedule] = useState(false);
+  const [validationIds, setValidationIds] = useState([]);
+  const { dispatch, state } = useGatheringFormState();
   const steps = [
     <GatheringText validate={validationIds} />,
     <GatheringType validate={validationIds} />,
     <GatheringTime validate={validationIds} />,
-  ]
+  ];
 
-  const { pushScheduledRoom, socketID } = useVideo()
+  const { pushScheduledRoom, socketID } = useVideo();
 
   const useFormProgress = () => {
-    const [currentStep, setCurrentStep] = useState(0)
+    const [currentStep, setCurrentStep] = useState(0);
 
     function nextStep() {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     }
 
     function previousStep() {
-      setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1);
     }
 
     function customStep(step) {
-      setCurrentStep(step)
+      setCurrentStep(step);
 
       if (currentStep !== 2) {
-        setIsSchedule(false)
+        setIsSchedule(false);
       }
     }
 
-    return [currentStep, nextStep, previousStep, customStep]
-  }
+    return [currentStep, nextStep, previousStep, customStep];
+  };
 
-  const [currentStep, nextStep, previousStep, customStep] = useFormProgress()
+  const [currentStep, nextStep, previousStep, customStep] = useFormProgress();
 
   const ButtonText = () => {
     if (currentStep !== 2) {
-      return 'Continue'
+      return "Continue";
     } else {
-      return 'Create'
+      return "Create";
     }
-  }
+  };
 
   const checkValidation = () => {
-    let validations = []
+    let validations = [];
     switch (currentStep) {
       case 0:
         if (!state.roomName.trim()) {
-          validations.push('roomName')
+          validations.push("roomName");
         }
-        break
+        break;
       case 1:
         if (!state.gatheringType) {
-          validations.push('room_type')
+          validations.push("room_type");
         }
-        break
+        break;
       case 2:
         if (!state.gatheringDate) {
-          validations.push('gathering_date')
+          validations.push("gathering_date");
         }
         if (!state.gatheringTime) {
-          validations.push('gathering_time')
+          validations.push("gathering_time");
         }
-        break
+        break;
       default:
-        break
+        break;
     }
-    setValidationIds(validations)
+    setValidationIds(validations);
     if (validations.length) {
-      return false
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   async function handleSubmitSchedule() {
-    let newRoom = { ...state }
+    let newRoom = { ...state };
 
     if (newRoom && newRoom.gatheringTime) {
-      newRoom.gatheringTime = convertToAmPm(newRoom.gatheringTime)
+      newRoom.gatheringTime = convertToAmPm(newRoom.gatheringTime);
     }
-    newRoom.harthId = props.harthId
-    newRoom.hostName = props.creator.name
-    newRoom.icon = props.creator.iconKey
-    newRoom.harthName = props.harthName
-    newRoom.socketId = socketID
-    newRoom.acceptedPeers = [{ ...props.creator, img: props.creator.iconKey }]
+    newRoom.harthId = props.harthId;
+    newRoom.hostName = props.creator.name;
+    newRoom.icon = props.creator.iconKey;
+    newRoom.harthName = props.harthName;
+    newRoom.socketId = socketID;
+    newRoom.acceptedPeers = [{ ...props.creator, img: props.creator.iconKey }];
 
-    dispatch({ type: 'SUBMIT' })
-    const data = await saveRoom(newRoom)
+    dispatch({ type: "SUBMIT" });
+    const data = await saveRoom(newRoom);
 
-    let { id, ok } = data || {}
+    let { id, ok } = data || {};
     if (ok) {
       if (id) {
-        newRoom._id = id
-        pushScheduledRoom(newRoom)
-        dispatch({ type: 'GATHERING_CREATED' })
+        newRoom._id = id;
+        pushScheduledRoom(newRoom);
+        dispatch({ type: "GATHERING_CREATED" });
       }
     }
   }
@@ -120,11 +121,11 @@ function GatherForm(props) {
   // }
 
   if (state.isSubmitLoading) {
-    return <div>Creating Gathering</div>
+    return <div>Creating Gathering</div>;
   }
 
   if (state.isGatheringCreated) {
-    return <div>Created</div>
+    return <div>Created</div>;
   }
 
   return (
@@ -164,20 +165,20 @@ function GatherForm(props) {
         fullWidth={true}
         text={ButtonText()}
         onClick={(e) => {
-          e.preventDefault()
-          const isValid = checkValidation()
+          e.preventDefault();
+          const isValid = checkValidation();
           if (isValid) {
             if (currentStep !== 2) {
-              nextStep()
+              nextStep();
             }
             if (currentStep === 2) {
-              handleSubmitSchedule()
+              handleSubmitSchedule();
             }
           }
         }}
       />
     </>
-  )
+  );
 }
 
-export default GatherForm
+export default GatherForm;
