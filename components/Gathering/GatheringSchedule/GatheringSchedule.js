@@ -5,17 +5,24 @@ import { Button, Modal } from "../../Common";
 import { useVideo } from "../../../contexts/video";
 import { saveRoom } from "../../../requests/rooms";
 
+import { IconHeadsetMic } from "../../../resources/icons/IconHeadsetMic";
+import { IconCastNoFill } from "../../../resources/icons/IconCastNoFill";
+import { IconWorkspace } from "../../../resources/icons/IconWorkspace";
+import styles from "./GatheringSchedule.module.scss";
+
 const GatheringSchedule = (props) => {
     const {
         register,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm();
 
     const { pushScheduledRoom, socketID } = useVideo();
 
+    const watchType = watch("gatheringType");
+
     async function scheduleGathering(formData) {
-        console.log(props);
         let newRoom = { ...formData };
 
         if (newRoom && newRoom.gatheringTime) {
@@ -44,6 +51,9 @@ const GatheringSchedule = (props) => {
 
     return (
         <Modal onToggleModal={props.closeHandler}>
+            <p className={styles.GatheringScheduleTitle}>
+                Schedule a gathering
+            </p>
             <form onSubmit={handleSubmit(scheduleGathering)}>
                 <input
                     {...register("roomName", { required: true })}
@@ -57,24 +67,95 @@ const GatheringSchedule = (props) => {
                             : null
                     }
                 />
-                <p>Choose date</p>
-                <input
-                    {...register("gatheringDate", { required: true })}
-                    type="date"
-                />
-                <input
-                    {...register("gatheringTime", { required: true })}
-                    type="time"
-                />
-                <p>Choose type</p>
-                <p>Give a description (optional)</p>
+                <p className={styles.GatheringScheduleSubTitle}>Choose date</p>
+                <div className={styles.GatheringScheduleDateTime}>
+                    <input
+                        {...register("gatheringDate", { required: true })}
+                        type="date"
+                    />
+                    <input
+                        {...register("gatheringTime", { required: true })}
+                        type="time"
+                    />
+                </div>
+
+                <p className={styles.GatheringScheduleSubTitle}>Choose type</p>
+                <div className={styles.GatheringScheduleType}>
+                    <label
+                        className={`${styles.GatheringScheduleTypeSelect} ${
+                            watchType === "voice" ? styles.Active : null
+                        }`}
+                    >
+                        <span>
+                            <IconHeadsetMic
+                                fill={
+                                    watchType === "voice" ? "#fff" : "#2F1D2A80"
+                                }
+                            />
+                        </span>
+                        Voice
+                        <input
+                            {...register("gatheringType", { required: true })}
+                            type="radio"
+                            value="voice"
+                        />
+                    </label>
+                    <label
+                        className={`${styles.GatheringScheduleTypeSelect} ${
+                            watchType === "stream" ? styles.Active : null
+                        }`}
+                    >
+                        <span>
+                            <IconCastNoFill
+                                fill={
+                                    watchType === "stream"
+                                        ? "#fff"
+                                        : "#2F1D2A80"
+                                }
+                            />
+                        </span>
+                        Stream
+                        <input
+                            {...register("gatheringType", { required: true })}
+                            type="radio"
+                            value="stream"
+                        />
+                    </label>
+                    <label
+                        className={`${styles.GatheringScheduleTypeSelect} ${
+                            watchType === "party" ? styles.Active : null
+                        }`}
+                    >
+                        <span>
+                            <IconWorkspace
+                                fill={
+                                    watchType === "party" ? "#fff" : "#2F1D2A80"
+                                }
+                            />
+                        </span>
+                        Party
+                        <input
+                            {...register("gatheringType", { required: true })}
+                            type="radio"
+                            value="party"
+                        />
+                    </label>
+                </div>
+
+                <p className={styles.GatheringScheduleSubTitle}>
+                    Give a description (optional)
+                </p>
                 <input
                     {...register("gatheringDescription")}
                     placeholder="let's all..."
                 />
-                <div>
-                    <Button text="Cancel" onClick={props.closeHandler} />
-                    <Button type="Submit" text="Schedule" />
+                <div className={styles.GatheringScheduleButtons}>
+                    <Button
+                        tier="secondary"
+                        text="Cancel"
+                        onClick={props.closeHandler}
+                    />
+                    <Button fullWidth type="Submit" text="Schedule" />
                 </div>
             </form>
         </Modal>
