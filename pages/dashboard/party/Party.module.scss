@@ -153,6 +153,9 @@
   //height: calc(100% - 94px);
   height: 100%;
   background-color: aqua;
+  height: 500px;
+  background-color: aqua;
+
 }
 
 .peerContainer {
@@ -165,7 +168,7 @@
   flex: 1;
   position: relative;
   height: 100%;
-  background: #eaeaea;
+  background: aquamarine;
 
   .videoParent {
     position: relative;
@@ -219,15 +222,16 @@
     padding: 8px;
 
     .videoParent {
-      min-height: 100px;
-      min-width: 100px;
+      min-height: 200px;
+      min-width: 200px;
     }
 
     .ownerVideo {
-      position: relative;
+      position: absolute;
       right: 0;
       bottom: 0;
       height: 100%;
+      min-height: 200px;
     }
   }
 }

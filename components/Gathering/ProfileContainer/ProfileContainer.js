@@ -12,7 +12,10 @@ import { Avatar } from '../../Common/Avatar/Avatar';
 import styles from './profileContainer.module.scss';
 
 const ProfileContainer= (props) => {
-    const { userInfo } = props; //whatever you need to pass
+    const { 
+        webcamStream = "https://media.abc10.com/assets/KXTV/images/fbe592a9-8f75-4c63-8ba9-97d624e3e15b/fbe592a9-8f75-4c63-8ba9-97d624e3e15b_1920x1080.jpg",
+    } = props; //whatever you need to pass
+
     const [hasVolumePanel, setHasVolumePanel] = useState(false);
     const [isVolumeExpanded, setIsVolumeExpanded] = useState(false);
     const { isMobile } = useContext(MobileContext);
@@ -42,9 +45,7 @@ const ProfileContainer= (props) => {
 
 
     //const [webcamStream, setwebcamStream] = useState()
-    //update with logic for webcam
-    const webcamStream = "https://media.abc10.com/assets/KXTV/images/fbe592a9-8f75-4c63-8ba9-97d624e3e15b/fbe592a9-8f75-4c63-8ba9-97d624e3e15b_1920x1080.jpg";
-
+ 
 
     
     

@@ -14,6 +14,7 @@ import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
 import GatherControlBar from '../../../components/Gathering/GatherControlBar/GatherControlBar';
 import GatherHeader from '../../../components/Gathering/GatherHeader/GatherHeader';
+import ProfileContainer from '../../../components/Gathering/ProfileContainer/ProfileContainer';
 
 import styles from "./Party.module.scss";
 import { CameraButton } from "../../../components/Gathering/Controls/CameraButton";
@@ -981,83 +982,8 @@ const Party = () => {
             <GatherHeader gatheringName={activeCallRoom?.roomName} />
 
             {/* <section className={styles.PartyWindowVideoContainer}> */}
-                {/* {activeTurnUser ? (
-                    <MyTurn endTurnHandler={endTurnHandler} />
-                ) : null}
-                {activeTurnUser === false ? (
-                    <PeerTurn openTurnKeeper={openTurnKeeper} />
-                ) : null} */}
-
-                {/* <div className={styles.PartyWindowTitle}>
-                    {activeCallRoom && activeCallRoom?.roomName
-                        ? `${activeCallRoom?.roomName}`
-                        : null}
-                </div> */}
-                
-                {/* <ul role="nav" className={styles.PartyWindowControls}>
-                    <div className={styles.PartyWindowControlsLeft}>
-                        <li onClick={leaveRoom}>
-                            <button className={styles.LeaveRoom}>leave</button>
-                            leave
-                        </li>
-                    </div>
-                    <div className={styles.PartyWindowControlsCenter}>
-                        <li onClick={toggleAudio}>
-                            <button
-                                className={
-                                    muteOn ? styles.Unmuted : styles.Muted
-                                }
-                            >
-                                mute
-                            </button>
-                        </li>
-                        <li onClick={toggleVideo}>
-                            <button
-                                className={
-                                    videoOn ? styles.Stream : styles.NoStream
-                                }
-                            >
-                                stream
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                className={`${styles.Options} ${
-                                    options ? styles.OptionsActive : null
-                                }`}
-                                // className={options ? 'active' : null}
-                                onClick={() => {
-                                    toggleOptions();
-
-                                    // if (options && voteStarted) {
-                                    //     voteCallCancelled();
-                                    // } else {
-                                    //     toggleOptions();
-                                    //     setVoteResults(undefined);
-                                    // }
-                                }}
-                            >
-                                options
-                            </button>
-                        </li>
-                        <li onClick={toggleCapture}>
-                            <button className={styles.ScreenShare}>
-                                share screen
-                            </button>
-                        </li>
-                        <li
-                            className={`
-                ${unreadMsg ? styles.Unread : ""}
-                ${showChatPannel ? styles.Open : styles.Closed}`}
-                            onClick={toggleChat}
-                        >
-                            <button className={styles.Chat}>chat</button>
-                        </li>
-                    </div>
-                </ul> */}
 
                 
-
                 <div className={styles.PartyMainContent}>
                     <section
                         ref={peerContainerRef}
@@ -1077,7 +1003,7 @@ const Party = () => {
                         <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
                     </section>
                 </div>
-                {/* <section id="stream-window-capture-container"></section>
+                {/* <section id="stream-window-capture-container"></section> */}
                 {options ? (
                     <Options
                         diceRollHandler={diceRollHandler}
@@ -1091,7 +1017,7 @@ const Party = () => {
                         //turnKeeperToggleHandler={turnKeeperToggleHandler}
                         //voteResults={voteResults}
                     />
-                ) : null} */}
+                ) : null} 
                 
             {/* </section> */}
             <GatherControlBar 
