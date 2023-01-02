@@ -12,8 +12,11 @@ import MyTurn from "./Options/TurnKeeper/MyTurn";
 import PeerTurn from "./Options/TurnKeeper/PeerTurn";
 import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
+import GatherControlBar from '../../../components/Gathering/GatherControlBar/GatherControlBar';
+import GatherHeader from '../../../components/Gathering/GatherHeader/GatherHeader';
 
 import styles from "./Party.module.scss";
+import { CameraButton } from "../../../components/Gathering/Controls/CameraButton";
 
 let myPeer;
 let ScreenSharePeer;
@@ -24,13 +27,13 @@ let userInfo = {};
 
 const Party = () => {
     //turn keeper
-    const [activeTurnUser, setActiveTurnUser] = useState();
-    const [openTurnKeeper, setOpenTurnKeeper] = useState();
+    // const [activeTurnUser, setActiveTurnUser] = useState();
+    // const [openTurnKeeper, setOpenTurnKeeper] = useState();
 
     //vote
-    const [voteStarted, setVoteStarted] = useState(false);
-    const [voteResults, setVoteResults] = useState();
-    const [voteTally, setVoteTally] = useState({});
+    // const [voteStarted, setVoteStarted] = useState(false);
+    // const [voteResults, setVoteResults] = useState();
+    // const [voteTally, setVoteTally] = useState({});
 
     //chat
     const [unreadMsg, setUnreadMsg] = useState(false);
@@ -63,7 +66,7 @@ const Party = () => {
 
     // part state
     const [outsideDiceRoll, setOutsideDiceRoll] = useState({});
-    const [outsideVoteCall, setOutsideVoteCall] = useState({});
+   // const [outsideVoteCall, setOutsideVoteCall] = useState({});
 
     const mainRef = useRef();
     const localVidRef = useRef();
@@ -246,30 +249,30 @@ const Party = () => {
                 setIsSharingVideo(!!activeVideoStream);
             });
             // vote
-            socket.on("incoming-vote", (data) => {
-                setOutsideVoteCall({ ...data });
-            });
-            socket.on("vote-result", (data) => {
-                setVoteTally(data);
-            });
-            socket.on("cancel-vote", () => {
-                setVoteStarted(false);
-                setVoteResults(undefined);
-            });
+            // socket.on("incoming-vote", (data) => {
+            //     setOutsideVoteCall({ ...data });
+            // });
+            // socket.on("vote-result", (data) => {
+            //     setVoteTally(data);
+            // });
+            // socket.on("cancel-vote", () => {
+            //     setVoteStarted(false);
+            //     setVoteResults(undefined);
+            // });
 
             // turns
-            socket.on("incoming-turn", (data) => {
-                data.forEach((peer) => {
-                    if (peer.name === userName) {
-                        setActiveTurnUser(peer.activeTurnUser);
-                    }
-                });
-                setOpenTurnKeeper(data);
-            });
-            socket.on("close-turn", () => {
-                setOpenTurnKeeper(undefined);
-                setActiveTurnUser(false);
-            });
+            // socket.on("incoming-turn", (data) => {
+            //     data.forEach((peer) => {
+            //         if (peer.name === userName) {
+            //             setActiveTurnUser(peer.activeTurnUser);
+            //         }
+            //     });
+            //     setOpenTurnKeeper(data);
+            // });
+            // socket.on("close-turn", () => {
+            //     setOpenTurnKeeper(undefined);
+            //     setActiveTurnUser(false);
+            // });
         }
     }, [socket]);
 
@@ -297,94 +300,94 @@ const Party = () => {
     };
 
     // ---------- votes --------------
-    useEffect(() => {
-        if (Object.keys(voteTally).length) {
-            let votePassed;
-            let { voteType, votes, Peers } = voteTally;
+    // useEffect(() => {
+    //     if (Object.keys(voteTally).length) {
+    //         let votePassed;
+    //         let { voteType, votes, Peers } = voteTally;
 
-            if (voteType === "majority") {
-                let yesses = votes.filter((v) => v === "yes").length;
-                if (yesses / Peers.length > 0.5) {
-                    votePassed = true;
-                } else {
-                    votePassed = false;
-                }
-            }
-            if (voteType === "unanimous") {
-                if (votes.includes("no")) {
-                    votePassed = false;
-                } else {
-                    votePassed = true;
-                }
-            }
-            setVoteResults(votePassed);
-            setVoteStarted(false);
-        }
-    }, [voteTally]);
-    const userVote = (vote) => {
-        socket &&
-            socket.emit("user-voted", { userName, roomId, vote }, (result) => {
-                if (result.ok) {
-                    setVoteTally(result.vote);
-                }
-            });
-    };
-    const voteCallHandler = (data) => {
-        socket &&
-            socket.emit(
-                "vote-called",
-                { ...data, roomId, userName, Peers, votes: [] },
-                () => {
-                    setVoteStarted(true);
-                }
-            );
-    };
-    const voteCallCancelled = () => {
-        socket &&
-            socket.emit("vote-cancelled", { roomId }, () => {
-                setVoteStarted(false);
-                setVoteResults(undefined);
-            });
-    };
+    //         if (voteType === "majority") {
+    //             let yesses = votes.filter((v) => v === "yes").length;
+    //             if (yesses / Peers.length > 0.5) {
+    //                 votePassed = true;
+    //             } else {
+    //                 votePassed = false;
+    //             }
+    //         }
+    //         if (voteType === "unanimous") {
+    //             if (votes.includes("no")) {
+    //                 votePassed = false;
+    //             } else {
+    //                 votePassed = true;
+    //             }
+    //         }
+    //         setVoteResults(votePassed);
+    //         setVoteStarted(false);
+    //     }
+    // }, [voteTally]);
+    // const userVote = (vote) => {
+    //     socket &&
+    //         socket.emit("user-voted", { userName, roomId, vote }, (result) => {
+    //             if (result.ok) {
+    //                 setVoteTally(result.vote);
+    //             }
+    //         });
+    // };
+    // const voteCallHandler = (data) => {
+    //     socket &&
+    //         socket.emit(
+    //             "vote-called",
+    //             { ...data, roomId, userName, Peers, votes: [] },
+    //             () => {
+    //                 setVoteStarted(true);
+    //             }
+    //         );
+    // };
+    // const voteCallCancelled = () => {
+    //     socket &&
+    //         socket.emit("vote-cancelled", { roomId }, () => {
+    //             setVoteStarted(false);
+    //             setVoteResults(undefined);
+    //         });
+    // };
 
     // --------- turns -----------------
-    const turnCallHandler = (data) => {
-        socket &&
-            socket.emit("turn-called", { data, roomId }, () => {
-                data.forEach((peer) => {
-                    if (peer.name === userName) {
-                        setActiveTurnUser(peer.activeTurnUser);
-                    }
-                });
-                setOpenTurnKeeper(data);
-            });
-    };
-    const endTurnHandler = () => {
-        let mergedArr = openTurnKeeper;
-        let activeIndex;
+    // const turnCallHandler = (data) => {
+    //     socket &&
+    //         socket.emit("turn-called", { data, roomId }, () => {
+    //             data.forEach((peer) => {
+    //                 if (peer.name === userName) {
+    //                     setActiveTurnUser(peer.activeTurnUser);
+    //                 }
+    //             });
+    //             setOpenTurnKeeper(data);
+    //         });
+    // };
+    // const endTurnHandler = () => {
+    //     let mergedArr = openTurnKeeper;
+    //     let activeIndex;
 
-        mergedArr.forEach((peer, idx) => {
-            if (peer.activeTurnUser) {
-                peer.activeTurnUser = false;
-                activeIndex = idx;
-            }
-        });
+    //     mergedArr.forEach((peer, idx) => {
+    //         if (peer.activeTurnUser) {
+    //             peer.activeTurnUser = false;
+    //             activeIndex = idx;
+    //         }
+    //     });
 
-        if (activeIndex + 1 === mergedArr.length) {
-            mergedArr[0].activeTurnUser = true;
-        } else {
-            mergedArr[activeIndex + 1].activeTurnUser = true;
-        }
+    //     if (activeIndex + 1 === mergedArr.length) {
+    //         mergedArr[0].activeTurnUser = true;
+    //     } else {
+    //         mergedArr[activeIndex + 1].activeTurnUser = true;
+    //     }
 
-        turnCallHandler(mergedArr);
-    };
-    const turnKeeperToggleHandler = () => {
-        socket &&
-            socket.emit("turn-closed", { roomId }, () => {
-                setOpenTurnKeeper(undefined);
-                setActiveTurnUser(false);
-            });
-    };
+    //     turnCallHandler(mergedArr);
+    // };
+    // const turnKeeperToggleHandler = () => {
+    //     socket &&
+    //         socket.emit("turn-closed", { roomId }, () => {
+    //             setOpenTurnKeeper(undefined);
+    //             setActiveTurnUser(false);
+    //         });
+    // };
 
     // ---------- dice roll --------------
     const diceRollHandler = (data) => {
@@ -975,22 +978,27 @@ const Party = () => {
 
     return (
         <main className={styles.PartyWindow} ref={mainRef}>
-            <section className={styles.PartyWindowVideoContainer}>
-                {activeTurnUser ? (
+            <GatherHeader gatheringName={activeCallRoom?.roomName} />
+
+            {/* <section className={styles.PartyWindowVideoContainer}> */}
+                {/* {activeTurnUser ? (
                     <MyTurn endTurnHandler={endTurnHandler} />
                 ) : null}
                 {activeTurnUser === false ? (
                     <PeerTurn openTurnKeeper={openTurnKeeper} />
-                ) : null}
-                <div className={styles.PartyWindowTitle}>
+                ) : null} */}
+
+                {/* <div className={styles.PartyWindowTitle}>
                     {activeCallRoom && activeCallRoom?.roomName
                         ? `${activeCallRoom?.roomName}`
                         : null}
-                </div>
-                <ul role="nav" className={styles.PartyWindowControls}>
+                </div> */}
+                
+                {/* <ul role="nav" className={styles.PartyWindowControls}>
                     <div className={styles.PartyWindowControlsLeft}>
                         <li onClick={leaveRoom}>
                             <button className={styles.LeaveRoom}>leave</button>
+                            leave
                         </li>
                     </div>
                     <div className={styles.PartyWindowControlsCenter}>
@@ -1019,12 +1027,14 @@ const Party = () => {
                                 }`}
                                 // className={options ? 'active' : null}
                                 onClick={() => {
-                                    if (options && voteStarted) {
-                                        voteCallCancelled();
-                                    } else {
-                                        toggleOptions();
-                                        setVoteResults(undefined);
-                                    }
+                                    toggleOptions();
+
+                                    // if (options && voteStarted) {
+                                    //     voteCallCancelled();
+                                    // } else {
+                                    //     toggleOptions();
+                                    //     setVoteResults(undefined);
+                                    // }
                                 }}
                             >
                                 options
@@ -1044,7 +1054,10 @@ const Party = () => {
                             <button className={styles.Chat}>chat</button>
                         </li>
                     </div>
-                </ul>
+                </ul> */}
+
+                
+
                 <div className={styles.PartyMainContent}>
                     <section
                         ref={peerContainerRef}
@@ -1064,25 +1077,33 @@ const Party = () => {
                         <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
                     </section>
                 </div>
-                <section id="stream-window-capture-container"></section>
+                {/* <section id="stream-window-capture-container"></section>
                 {options ? (
                     <Options
                         diceRollHandler={diceRollHandler}
-                        voteCallHandler={voteCallHandler}
-                        userVote={userVote}
-                        outsideVoteCall={outsideVoteCall}
+                        //voteCallHandler={voteCallHandler}
+                        //userVote={userVote}
+                        //outsideVoteCall={outsideVoteCall}
                         peers={Peers}
-                        turnCallHandler={turnCallHandler}
-                        openTurnKeeper={openTurnKeeper}
-                        activeTurnUser={activeTurnUser}
-                        turnKeeperToggleHandler={turnKeeperToggleHandler}
-                        voteResults={voteResults}
+                        //turnCallHandler={turnCallHandler}
+                        //openTurnKeeper={openTurnKeeper}
+                       // activeTurnUser={activeTurnUser}
+                        //turnKeeperToggleHandler={turnKeeperToggleHandler}
+                        //voteResults={voteResults}
                     />
-                ) : null}
-            </section>
-
-            <DiceModal outsideDiceRoll={outsideDiceRoll} />
-            <VoteModal outsideVoteCall={outsideVoteCall} userVote={userVote} />
+                ) : null} */}
+                
+            {/* </section> */}
+            <GatherControlBar 
+                    roomType="party" 
+                    onCameraClick={toggleVideo} 
+                    videoOn={videoOn} 
+                    onMicClick={toggleAudio} 
+                    muteOn={muteOn}
+                    onLeaveClick={leaveRoom}
+                />
+            {/* <DiceModal outsideDiceRoll={outsideDiceRoll} /> */}
+            {/* <VoteModal outsideVoteCall={outsideVoteCall} userVote={userVote} /> */}
         </main>
     );
 };

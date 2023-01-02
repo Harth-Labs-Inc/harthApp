@@ -3,18 +3,15 @@
 
 .PartyWindow {
   display: flex;
-  background-color: #eaeaea;
+  flex-direction: column;
+  background-color: $fuel;
+  height: 100%;
 
   &VideoContainer {
     position: relative;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-  }
-
-  &Title {
-    padding: 6px 16px;
-    color: #fff;
-    background-color: #333;
+    background-color: aqua;
   }
 
   &Controls {
@@ -153,7 +150,9 @@
 
 .PartyMainContent {
   display: flex;
-  height: calc(100% - 94px);
+  //height: calc(100% - 94px);
+  height: 100%;
+  background-color: aqua;
 }
 
 .peerContainer {

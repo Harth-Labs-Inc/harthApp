@@ -8,12 +8,25 @@ import { MicButton } from "../Controls/MicButton";
 import { MoreButton } from "../Controls/MoreButton";
 import { StreamButton } from "../Controls/StreamButton";
 
-import Modal from "../../Modal";
+import { Modal } from "../../Common";
 
 import styles from "./gatheringControlBar.module.scss";
 
 const GatherControlBar = (props) => {
-    const { roomType="party" } = props;
+    const { 
+        roomType="party",
+        onBagClick,
+        onCameraClick,
+        onChatClick,
+        onLeaveClick, 
+        onMicClick,
+        onMicMoreClick,
+        onCameraMoreClick,
+        onStreamClick,
+        videoOn,
+        muteOn,
+        
+    } = props;
     const [modal, setModal] = useState();
     const { isMobile } = useContext(MobileContext);
 
@@ -25,6 +38,10 @@ const GatherControlBar = (props) => {
     //         setModal(!modal);
     //     }
     // };
+
+    const cameraToggle = () => {
+        onCameraClick();
+    }
 
     const showModal = () => {
         setModal(!modal);
@@ -44,18 +61,18 @@ const GatherControlBar = (props) => {
             {isMobile ? (
                 <header className={styles.mobile}>
                     {roomType == "voice" && <div className={styles.leftSpace} />}
-                    {roomType == "party" && <BagButton />}
-                    {roomType != "voice" && <CameraButton />}
-                    <MicButton />
-                    {roomType != "voice" && <StreamButton />}
-                    <ChatButton />
+                    {roomType == "party" && <BagButton onPress={onBagClick}/>}
+                    {roomType != "voice" && <CameraButton onPress={onCameraClick} videoOn={videoOn}/>}
+                    <MicButton onPress={onMicClick} />
+                    {roomType != "voice" && <StreamButton onPress={onStreamClick} />}
+                    <ChatButton onPress={onChatClick}/>
 
                 </header>
             ) : (
                 <header className={styles.desktop}>
                     
                     <div className={styles.leftGroup}>
-                        <LeaveButton />
+                        <LeaveButton onPress={onLeaveClick}/>
                         {roomType == "party" && (<p className={styles.spacer}></p>)}                    
 
                     </div>
@@ -64,28 +81,28 @@ const GatherControlBar = (props) => {
                     ?
                         <div className={styles.middleGroup}>
                             <div className={styles.optionsContainer}>
-                                <div className={styles.mainButton}><CameraButton /></div>
-                                <div className={styles.moreButton}><MoreButton /></div>
+                                <div className={styles.mainButton}><CameraButton onPress={onCameraClick} videoOn={videoOn}/></div>
+                                <div className={styles.moreButton}><MoreButton onPress={onCameraMoreClick}/></div>
                             </div>
                             <div className={styles.optionsContainer}>
-                                <div className={styles.mainButton}><MicButton /></div>
-                                <div className={styles.moreButton}><MoreButton /></div>
+                                <div className={styles.mainButton}><MicButton onPress={onMicClick} muteOn={muteOn}/></div>
+                                <div className={styles.moreButton}><MoreButton onPress={onMicMoreClick}/></div>
                             </div>
-                        <StreamButton />
+                        <StreamButton onPress={onStreamClick} />
                         </div>
                     :
                         <div className={styles.optionsContainer}>
-                            <div className={styles.mainButton}><MicButton /></div>
-                            <div className={styles.moreButton}><MoreButton /></div>
+                            <div className={styles.mainButton}><MicButton onPress={onMicClick}/></div>
+                            <div className={styles.moreButton}><MoreButton onPress={onMicMoreClick}/></div>
                         </div>
                     }
                     
                     <div className={styles.rightGroup}>
                         {roomType == "voice" && (<p className={styles.spacer}></p>)}                    
                         
-                        {roomType == "party" && <BagButton size="small"/>}
+                        {roomType == "party" && <BagButton onPress={onBagClick} size="small"/>}
                         
-                        {roomType != "voice" && <ChatButton size="small"/>}   
+                        {roomType != "voice" && <ChatButton onPress={onChatClick} size="small"/>}   
 
 
                     </div>

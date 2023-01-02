@@ -7,16 +7,20 @@ export const CameraButton = (props) => {
     const {
         size = "large",
         onPress,
+        videoOn,
     } = props;
     const [buttonState, setButtonState] = useState("off");
 
     const toggleActive = () => {
-        if (buttonState == "off"){
-            setButtonState("on")
-        }
-        else{
-            setButtonState("off")
-        }
+        onPress();
+        // if (buttonState == "off"){
+        //     setButtonState("on");
+        //     onPress();
+        // }
+        // else{
+        //     setButtonState("off");
+        //     onPress();
+        // }
     };
 
 
@@ -26,12 +30,12 @@ export const CameraButton = (props) => {
             className={`
                 ${styles.basicButton} 
                 ${size == "large" ? styles.basicButtonLarge : styles.basicButtonSmall} 
-                ${buttonState == "on" ? styles.basicButtonActive : styles.basicButtonInactive}
+                ${videoOn ? styles.basicButtonActive : styles.basicButtonInactive}
             `}
             aria-label="Webcam"
-            onClick={toggleActive}
+            onClick={onPress}
         >
-            {(buttonState == "on")
+            {(videoOn)
             ?
                 <div height="100%" width="100%">
                     <IconVideoFill hasGradient="true"/>

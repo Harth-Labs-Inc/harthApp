@@ -8,6 +8,7 @@ export const MicButton = (props) => {
     const {
         size = "large",
         onPress,
+        muteOn,
     } = props;
     const [buttonState, setButtonState] = useState("on");
 
@@ -33,12 +34,12 @@ export const MicButton = (props) => {
             className={`
                 ${styles.basicButton} 
                 ${size == "large" ? styles.basicButtonLarge : styles.basicButtonSmall} 
-                ${buttonState == "on" ? styles.basicButtonInactive : styles.basicButtonMuted}
+                ${muteOn ? styles.basicButtonInactive : styles.basicButtonMuted}
             `}
             aria-label="Microphone"
-            onClick={toggleActive}
+            onClick={onPress}
         >
-            {(buttonState == "on")
+            {(muteOn)
             ?
                 <div height="100%" width="100%">
                     <IconMicFill hasGradient="true"/>
