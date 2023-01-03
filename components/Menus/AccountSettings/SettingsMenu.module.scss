@@ -10,31 +10,56 @@
     align-items: center;
     width: 320px;
     width: 100%;
-    //height: 100;
+    height: 100%;
     padding: 8px 8px 8px 8px;
     border-top: 1px solid $ash_border;
     //background-color: aqua;
+    //overflow-y: auto;
 
     &Header {
         display: flex;
+        align-content: flex-start;
+        align-items: center;
+        width: 100%;
+        background-color: transparent;
+        color: $oxygen;
+        padding-right: 40px;
+        p {
+            width: 100%;
+            @include interfaceH3;
+            text-align: center;
+        }
     }
 
     &Title {
-        @include interfaceH4;
-        width: 100%;
-        margin: 0 24px;
-        border-bottom: 2px solid $fuel;
+        @include interfaceR2;
+        color: $oxygen;
+        width: calc(100% - 16px);
+        margin-top: 24px;
+        padding: 4px 0px;
+        border-bottom: 1px solid $oxygen;
+        text-transform: capitalize;
     }
 }
 
 .InviteList {
-    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    width: 100%;
+    padding: 8px 12px;
+    overflow-y: auto;
+    background-color: transparent;
+
     &Item {
         display: flex;
         flex-direction: column;
-        padding: 24px 0;
+        row-gap: 8px;
+        padding: 24px 0 40px 0;
+        background-color: transparent;
+
         &:not(:last-child) {
-            border-bottom: 1px solid $ash_10;
+            border-bottom: 1px solid $oxygen_10;
         }
         &Info {
             display: flex;
@@ -45,35 +70,47 @@
                 height: 48px;
                 width: 48px;
                 margin-right: 8px;
-                background-color: $fuel;
+                //background-color: $fuel;
                 border-radius: 6px;
             }
 
             &Name {
-                @include contentR1;
-                font-weight: 900;
+                @include harthTitle1;
+                color: $oxygen;
             }
         }
 
         &Code {
             display: flex;
-            width: 277px;
+            width: 100%;
 
             &Url {
-                width: 197px;
-                padding: 8px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                width: 100%;
+                padding: 0px 8px;
                 text-overflow: ellipsis;
-                background-color: $fuel_10;
+                background-color: $oxygen_10;
                 border-radius: 8px 0 0 8px;
                 overflow: hidden;
                 white-space: nowrap;
+                @include interfaceR3;
+                color: $oxygen;
             }
             &Copy {
-                padding: 10px 20px;
+                padding: 8px 16px;
                 color: $white;
                 background-color: $hot_pink;
                 border: 0;
                 border-radius: 0 8px 8px 0;
+                transition: .3s;
+                cursor: pointer;
+
+                &:active {
+                    background-color: $fuel;
+
+                }
             }
         }
     }
@@ -147,7 +184,63 @@
     width: 100%;
     padding: 0px 8px;
     //margin-bottom: 16px;
+    //background-color: aqua;
 }
+
+.optionHolder {
+    display: flex;
+    flex-direction: row;
+    column-gap: 4px;
+    justify-content:space-between;
+    align-items: center;
+    width: 100%;
+    padding: 4px 12px;
+    //background-color: aquamarine;
+    @include chatText;
+    color: $oxygen_80;
+
+}
+
+.EditContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+    justify-content:space-between;
+    align-items: center;
+    width: 100%;
+    padding: 48px 12px 24px 12px;
+    //background-color: aquamarine;
+    @include chatText;
+    color: $oxygen_80;
+
+    .inputEdit {
+        width: 100%;
+        margin: 0;
+        padding: 4px 4px;
+       // background-color: aqua;
+        color: $oxygen;
+        border-color: $oxygen;
+    
+    }
+
+    .buttonBar {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        column-gap: 8px;
+        width: 100%;
+    }
+    .cancelButton {
+        background-color: transparent;
+        color: $oxygen_80;
+        border-color: $oxygen_80;
+        
+    
+    }
+
+}
+
+
 
 .spacer {
     width: 40px;

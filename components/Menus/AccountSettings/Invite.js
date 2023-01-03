@@ -6,7 +6,7 @@ import { BackButton } from "../../Common/Buttons/BackButton";
 
 import styles from "./SettingsMenu.module.scss";
 
-import { Button } from "../../Common";
+import { Button } from "../../Common/Buttons/Button";
 // import Select from "react-select";
 
 const URLS = {
@@ -74,10 +74,10 @@ const InviteComp = (props) => {
     return (
         <div className={styles.SettingsContainer}>
             <div className={styles.SettingsContainerHeader}>
-                <BackButton onClick={handleBack} />
+                <BackButton clickHandler={handleBack} />
                 <p>Invites</p>
             </div>
-            <p className={styles.SettingsContainerTitle}>Your Harths</p>
+            <div className={styles.SettingsContainerTitle}>Your Harths</div>
             <div className={styles.InviteList}>
                 {COMMS.map((comm) => {
                     let { iconKey, name, invite_tkn, invite_expiration } = comm;
@@ -110,6 +110,7 @@ const InviteComp = (props) => {
                             {!validCode ? (
                                 <Button
                                     text="Create Invite"
+                                    size="small"
                                     onClick={() => handleClick(comm)}
                                 />
                             ) : (

@@ -11,6 +11,9 @@ import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
 import { useChat } from "../../contexts/chat";
 import { useComms } from "../../contexts/comms";
+import { IconDeleteNoFill } from "../../resources/icons/IconDeleteNoFill";
+import { IconEditNoFill } from "../../resources/icons/IconEditNoFill";
+import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 
 import { TextBtn } from "../Common/Button";
 
@@ -156,7 +159,7 @@ const ChatSingleMessage = (props) => {
         if (emojiPickerState) {
             return (
                 <Picker
-                    className="attach-emoji"
+                    //className="attach-emoji"
                     native={true}
                     onSelect={addEmoji}
                     emoji=""
@@ -183,26 +186,23 @@ const ChatSingleMessage = (props) => {
                         <button
                             value="reaction"
                             title="reaction"
-                            className={styles.SingleMessageControlsReaction}
                             onClick={triggerPicker}
                         >
-                            react
+                            <IconAddReactionNoFill />
                         </button>
                         <button
                             value="edit"
                             onClick={editBarSelection}
                             title="edit"
-                            className={styles.SingleMessageControlsEdit}
                         >
-                            edit
+                            <IconEditNoFill />
                         </button>
                         <button
                             value="delete"
                             onClick={deleteMsg}
                             title="delete"
-                            className={styles.SingleMessageControlsDelete}
                         >
-                            delete
+                          <IconDeleteNoFill />
                         </button>
                     </div>
                 );
@@ -212,10 +212,9 @@ const ChatSingleMessage = (props) => {
                         <button
                             value="reaction"
                             title="reaction"
-                            className={styles.SingleMessageControlsReaction}
                             onClick={triggerPicker}
                         >
-                            react
+                            <IconAddReactionNoFill />
                         </button>
                     </div>
                 );
@@ -308,22 +307,25 @@ const ChatSingleMessage = (props) => {
             <EmojiPicker />
             <EditBar />
             <div className={styles.SingleMessageBody}>
-                <span className={styles.SingleMessageBodyInfo}>
-                    <p className={styles.SingleMessageBodyInfoCreator}>
+                <span className={styles.Info}>
+                    <p className={styles.Creator}>
                         {creator_name}
                     </p>
-                    <p className={styles.SingleMessageBodyInfoTimestamp}>
+                    <p className={styles.Timestamp}>
                         {timeStamp}
                     </p>
                 </span>
                 {(urls || []).map((url) => (
-                    <img src={url} key={url} />
-                ))}
+                        <img src={url} key={url} />
+                    ))} 
 
                 <div
                     id={`message-content${messageID}`}
-                    className={styles.SingleMessageBodyContent}
-                ></div>
+                    className={styles.Content}
+                >
+                   
+
+                </div>
                 <div className={styles.SingleMessageBodyReactions}>
                     {[...(reactions || [])].map((reaction, index) => (
                         <p
