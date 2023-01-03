@@ -60,13 +60,11 @@
   &Text {
     resize: none;
     display: block;
-
     width: 100%;
-    min-height: 48px;
+    min-height: 40px;
+    height: 40px;
     max-height: 50vh;
-
     margin: 0;
-
     padding: 8px 12px;
     @include contentR2;
     //background: aqua;
@@ -77,7 +75,7 @@
   .entryBox {
     background-color: $light_ash;
     border: 1px solid $fuel_50;
-    border-radius: 24px;
+    border-radius: 20px;
     padding: 0;
     overflow: hidden;
   }
