@@ -152,13 +152,13 @@
 
     > button {
       position: relative;
-      height: 32px;
-      width: 32px;
+      height: 28px;
+      width: 28px;
       border-radius: 6px;
       background-color: transparent;
       cursor: pointer;
       border: 0;
-      padding: 4px 4px;
+      padding: 4px;
 
       path {
         fill: $fuel_50;
