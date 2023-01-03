@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { useAuth } from "./auth";
 import { useComms } from "./comms";
@@ -18,8 +18,17 @@ export const SocketProvider = ({ children }) => {
   const [unreadMsgs, setUnreadMsgs] = useState([]);
 
   const { user } = useAuth();
-  const { selectedTopic, setTopics, setSelectedTopic, comms, refetchComms } =
-    useComms();
+  const {
+    selectedTopic,
+    setTopics,
+    setSelectedTopic,
+    comms,
+    setComm,
+    refetchComms,
+    selectedcomm,
+  } = useComms();
+
+  const selectedHarthRef = useRef();
 
   useEffect(() => {
     if (user) {
@@ -34,6 +43,12 @@ export const SocketProvider = ({ children }) => {
       );
     }
   }, [user]);
+
+  useEffect(() => {
+    if (selectedcomm) {
+      selectedHarthRef.current = selectedcomm;
+    }
+  }, [selectedcomm]);
 
   useEffect(() => {
     if (socket && user && comms) {
@@ -94,6 +109,17 @@ export const SocketProvider = ({ children }) => {
             break;
           case "harth deleted":
             refetchComms();
+
+            break;
+          case "selected harth reload":
+            if (incomingUpdate?.comm._id == selectedHarthRef?.current?._id) {
+              setComm(incomingUpdate?.comm);
+            }
+            break;
+          case "selected user reload":
+            if (incomingUpdate?.comm?.selectedUserID == user?._id) {
+              refetchComms();
+            }
 
             break;
 

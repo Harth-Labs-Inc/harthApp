@@ -8,10 +8,8 @@ export default async (req, res) => {
     obj = req.body;
   }
   const { harth, user } = obj;
-  let harthID = harth._id;
-  let userID = user._id;
-  console.log(harthID, "harthID");
-  console.log(userID, "userID");
+  let harthID = harth?._id;
+  let userID = user?._id || user?.userId;
 
   const deleteFromUser = (db, harthID, userID) => {
     return new Promise((resolve, reject) => {
@@ -47,7 +45,6 @@ export default async (req, res) => {
       );
     });
   };
-
   const deleteFromHarth = (db, harthID, userID) => {
     return new Promise((resolve, reject) => {
       let mongo = require("mongodb");

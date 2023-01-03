@@ -53,6 +53,17 @@ export const deleteTopicByID = async (id) => {
   }
 };
 
+export const getHarthByID = async (id) => {
+  try {
+    const res = await api.post(`/api/comm/getHarthByID`, {
+      id,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getTopicByID = async (id) => {
   try {
     const res = await api.post(`/api/comm/getTopicByID`, {
