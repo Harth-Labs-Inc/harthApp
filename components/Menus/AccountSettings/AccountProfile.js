@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useAuth } from "../../../contexts/auth";
-import { Button, Input } from "../../Common";
+import { BackButton } from "../../Common/Buttons/BackButton";
+import { EditButton } from "../../Common/Buttons/EditButton";
+import { Button } from "../../Common/Buttons/Button";
+import styles from "./SettingsMenu.module.scss";
 
 const AccountProfile = (props) => {
     const { toggleCurrentPage } = props;
@@ -15,101 +18,92 @@ const AccountProfile = (props) => {
         console.log("change email");
     };
 
+    const handleBack = () => {
+        toggleCurrentPage("");
+    };
+
     const SettingsMenu = () => {
         return (
-            <>
-                <div id="account_settings_header">
-                    <Button id="go_back" onClick={() => toggleCurrentPage("")}>
-                        back
-                    </Button>
-                    <span>Your Account</span>
+            <div className={styles.SettingsContainer}>
+                <div className={styles.SettingsContainerHeader}>
+                    <BackButton clickHandler={handleBack} />
+                    <p>Your Account</p>
                 </div>
 
-                <div id="account_settings">
-                    <ul>
-                        <li>
-                            <h4>email</h4>
-                            <button
-                                id="account_email"
-                                onClick={() => toggleCurrentSetting("email")}
-                            >
-                                {user.email}
-                            </button>
-                        </li>
-                        <li>
-                            <h4>Full Name</h4>
-                            <button
-                                id="account_fullName"
-                                onClick={() => toggleCurrentSetting("fullName")}
-                            >
-                                {user.fullName}
-                            </button>
-                        </li>
-                        <li>
-                            <h4>Password</h4>
-                            <button
-                                id="account_password"
-                                onClick={() => toggleCurrentSetting("password")}
-                            >
-                                ********
-                            </button>
-                        </li>
-                        <li>
-                            <h4>Birthday</h4>
-                            <button
-                                id="dob"
-                                onClick={() => toggleCurrentSetting("dob")}
-                            >
-                                {user.dob}
-                            </button>
-                        </li>
-                    </ul>
+                <div className={styles.sectionContainer}>
+                    <div className={styles.SettingsContainerTitle}>Email</div>
+                    <div className={styles.optionHolder}>
+                        {user.email}
+                        <EditButton clickHandler={() => toggleCurrentSetting("email")} />
+                    </div>
+
+
+                    <div className={styles.SettingsContainerTitle}>Full Name</div>
+                    <div className={styles.optionHolder}>
+                        {user.fullName}
+                        <EditButton clickHandler={() => toggleCurrentSetting("fullName")} />
+                    </div>
+
+                    <div className={styles.SettingsContainerTitle}>Birthday</div>
+                    <div className={styles.optionHolder}>
+                        {user.dob}
+                        <EditButton clickHandler={() => toggleCurrentSetting("dob")} />
+                    </div>
                 </div>
-            </>
+            </div>
         );
     };
 
     const ActiveSetting = () => {
-        if (currentTab !== "password") {
-            return (
-                <>
-                    <div id="change_header">
-                        <button
-                            id="go_back"
-                            onClick={() => toggleCurrentSetting("")}
-                        >
-                            back
-                        </button>
-                        <span>Edit {currentTab}</span>
+
+        return (
+            <>
+            <div className={styles.SettingsContainer}>
+
+            <div className={styles.SettingsContainerHeader}>
+                <BackButton clickHandler={() => toggleCurrentSetting("")} />
+                <p>
+                {currentTab == "dob" && "Edit Birthday"}
+                {currentTab == "fullName" && "Edit Name"}
+                {currentTab == "email" && "Edit Email"}
+                </p>
+            </div>
+
+                <form className={styles.EditContainer} onSubmit={submitHandler}>
+
+                    {currentTab == "dob" 
+                    ? (
+                        <input
+                        value={user[currentTab]}
+                        // setting value here means the user can't edit.
+                        // using placeholder instead of value doesn't
+                        // show the user birthday 
+                        type="date"
+                        className={styles.inputEdit}
+
+                        />
+                    ):(
+                        <input
+                        placeholder={user[currentTab]}
+                        
+                        type="text"
+                        className={styles.inputEdit}
+
+                        />
+                    )}
+                   
+                    <div className={styles.buttonBar}>
+                        <Button size="small" text="Cancel" tier="secondary" onClick={() => toggleCurrentSetting("")} className={styles.cancelButton}></Button>
+                        <Button size="small" text="Confirm" onClick={() => toggleCurrentSetting("")}></Button> 
+                        {/* The logic on the confirm button needs to be updated.  */}
+
                     </div>
 
-                    <form id="change_form" onSubmit={submitHandler}>
-                        <Input title={user[currentTab]}></Input>
-                        <Button text="Confirm"></Button>
-                    </form>
-                </>
-            );
-        } else {
-            return (
-                <>
-                    <div id="change_header">
-                        <button
-                            id="go_back"
-                            onClick={() => toggleCurrentSetting("")}
-                        >
-                            back
-                        </button>
-                        <span>Edit {currentTab}</span>
-                    </div>
+                </form>
+            </div>
+            </>
+        );
 
-                    <form id="change_form" onSubmit={submitHandler}>
-                        <Input title="Old Password"></Input>
-                        <Input title="New Password"></Input>
-                        <Button text="Change Password"></Button>
-                    </form>
-                </>
-            );
-        }
     };
 
     if (!currentTab) {
