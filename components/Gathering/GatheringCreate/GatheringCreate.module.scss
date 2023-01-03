@@ -1,0 +1,70 @@
+@import "../../../styles/fonts.scss";
+@import "../../../styles/globals.scss";
+
+.GatheringCreate {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: $white;
+    border: 2px solid $fuel;
+    border-radius: 24px;
+    overflow: hidden;
+
+    &Setup {
+        padding: 20px 48px 0 48px;
+    }
+
+    &Input {
+        text-align: center;
+    }
+
+    &Type {
+        display: flex;
+        justify-content: space-between;
+        width: 212px;
+        background-color: $fuel_10;
+        border-radius: 100px;
+    }
+
+    &SubText {
+        @include interfaceR3;
+        margin-top: 12px;
+        text-align: center;
+    }
+
+    &Launch {
+        width: 100%;
+        margin-top: 24px;
+    }
+
+    &Submit {
+        width: 50%;
+        padding: 16px 32px;
+        color: $white;
+        background-color: $fuel;
+        border: 0;
+    }
+}
+
+.GatheringButton {
+    height: 60px;
+    width: 60px;
+    padding: 12px;
+    background-color: transparent;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &.Active {
+        &.voice {
+            background-color: $hot_blue;
+        }
+        &.stream {
+            background-color: $hot_red;
+        }
+        &.party {
+            background-color: $hot_pink;
+        }
+    }
+}

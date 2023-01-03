@@ -9,6 +9,7 @@ export const Input = (props) => {
         title,
         isrequired,
         changeHandler,
+        inputhandler,
         value,
         type,
         empty,
@@ -18,7 +19,6 @@ export const Input = (props) => {
         customError,
         placeholder,
     } = props;
-    console.log("input", props);
 
     const inputChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -49,6 +49,7 @@ export const Input = (props) => {
                 type={type}
                 value={value}
                 onChange={inputChangeHandler}
+                onInput={inputhandler}
                 autoComplete="off"
                 placeholder={placeholder}
                 {...props}

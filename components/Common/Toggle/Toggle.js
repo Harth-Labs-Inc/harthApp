@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
-import styles from './Toggle.module.scss'
+import styles from "./Toggle.module.scss";
 
 export const Toggle = (props) => {
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(false);
 
-  const { onToggleChange, toggleName, isChecked } = props
+  const { onToggleChange, toggleName, isChecked } = props;
 
   useEffect(() => {
-    setToggle(isChecked)
-  }, [isChecked])
+    setToggle(isChecked);
+  }, [isChecked]);
 
   const triggerToggle = () => {
-   // onToggleChange(!toggle)
-    setToggle(!toggle)
-  }
+    onToggleChange(!toggle, toggleName);
+    setToggle(!toggle);
+  };
 
   return (
     <>
@@ -39,5 +39,5 @@ export const Toggle = (props) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
