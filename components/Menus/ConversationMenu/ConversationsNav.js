@@ -174,6 +174,8 @@ const ConversationsNav = () => {
                             );
                         })}
 
+                        {/* These are placed here to for visual design purposes. 
+                        remove when logic is added to pull real conversations */}
                         <ConversationListElement />
                         <ConversationListElement />
                     <div className={styles.ConversationsNavCreate}>
