@@ -1,160 +1,156 @@
-@import '../../styles/globals.scss';
-@import '../../styles/fonts.scss';
-
-
+@import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
 
 .conversation {
     position: relative;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
-    flex-direction: row;
-    padding: 4px 4px;
+    flex-direction: column;
+    height: fit-content;
+    min-height: 40px;
+    width: 100%;
+    padding: 0px 0px;
     border: 0;
     background-color: transparent;
+    color: $oxygen_40;
+    margin-top: 8px;
+    margin-bottom: 16px;
 
-
-    .avatarHolder {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        row-gap: 1px;
-        align-items: center;
-
-        .avatar {
-            padding: 0px;
-            border-radius: 9999px;
-            border: 2px solid $fuel;
-            background-color: $white;
-        }
-
+    img {
+        opacity: .7;
     }
 
-    
+    .label {
+        text-align: left;
+        @include topicTitle;
+        padding-right: 24px;
+        padding-left: 8px;
+    }
 
-    .conversationWithPointer{
-        position: relative;
+
+    .alertProfiles {
         display: flex;
         flex-direction: row;
-        align-items:flex-start;
-        cursor: pointer;
-        //transition: all 1s;
+        column-gap: 1px;
+        row-gap: 1px;
+        flex-wrap: wrap;
+    }
 
-        .conversationContainer {
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-            background-color:$white;
-            border: 2px solid $fuel;
-            border-radius: 4px;
-            padding: 6px 16px;
-            row-gap: 4px;
+    &Active {
+        color: $oxygen;
+       // background-color:bisque;
 
-            .label {
-                @include contentR2;
-                width: 100%;
-                color: $fuel;
-                text-align: left;
-                 p {
-                    padding: 3px 0px;
-                 }
+       img {
+        opacity: 1;
+        }
 
-                &Mobile {
-                    @include contentR1;
-                    margin-top: 4px;
-                    margin-bottom: 4px;
-                    p{
-                        padding: 5px 0px; 
-                    }
-        
-                }
-        
-            }
-        
+        &:before {
+            position: absolute;
+            right: 0px;
+            top: -5px;
+            width: 24px;
+            height: 24px;
+            z-index: 1;
+            background: $white;
+            content: "";
+        }
 
-            &Alert {
-                box-shadow: 4px 4px 0 $hot_pink;
-            }
+        &:after {
+            position: absolute;
+            right: 0px;
+            top: -5px;
+            width: 24px;
+            height: 24px;
+            z-index: 2;
+            background: $warm_blue;
+            content: "";
+            border-bottom-right-radius: 9999px;
 
         }
 
-        .pointer {
-            position: relative;
-            width:16px;
-            height: 20px;
-            margin-top: 9px;
+    }
 
-        
-            p:before,
-            p:after {
-                content: ' ';
+    .indicatorBox {
+        width: 100%;
+        height: fit-content;
+
+        &Active {
+
+            &:before {
                 position: absolute;
-                width: 0;
-                height: 0;
+                right: 0px;
+                top: 19px;
+                width: 24px;
+                height: 24px;
+                z-index: 1;
+                background: $white;
+                content: "";
             }
-        
-            p:before {
-                right: -1px;
-                bottom: 0px;
-                border: 10px solid;
-                border-color: transparent $fuel transparent transparent;
-            }
-        
-            p:after {
-                right: -4px;
-                bottom: 0px;
-                border: 10px solid;
-                border-color: transparent$white transparent transparent ;
-            }
-        
-            &Mobile {
-                margin-top: 16px;
-
+    
+            &:after {
+                position: absolute;
+                right: 0px;
+                top: 19px;
+                width: 24px;
+                height: 24px;
+                z-index: 2;
+                background: $warm_blue;
+                content: "";
+                border-top-right-radius: 9999px;
             }
     
         }
     }
-    
-    &Active{
-    
-        .conversationWithPointer{    
-            .conversationContainer {
-                background-color: $fuel;  
-                .label {
-                    color: $oxygen;           
-                }
-                &Alert {
-                    box-shadow: 4px 4px 0 $hot_pink;
-                }
-            }
-    
-            .pointer {
-                p:after {
-                    border-color: transparent $fuel transparent transparent ;
-                } 
+
+    .participantElement {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        margin-bottom: -6px;
+
+        .avatar {
+            //margin-bottom: -6px;
+            border: 2px solid $warm_blue;
+            height: 36px;
+            width: 36px;
+            border-radius: 9999px;
+
+            &Mobile {
+                height: 40px;
+                width: 40px;
             }
         }
+
         
+
+    }
+    
+
+    &Alert {
+        color: $oxygen_80;
+        img {
+            opacity: .85;
+        }
+
     }
 
     &:hover {
+        color: $oxygen;
+    }
 
-        .conversationWithPointer{
-            .conversationContainer {
-                background-color:$fuel;
-                .label {
-                    color: $oxygen;  
-                }
-            }
-
-            .pointer {
-                p:after {
-                    border-color: transparent transparent transparent transparent ;
-                }
-            }
+    &Mobile {
+        .label {
+            @include topicTitleMobile;
         }
+
         
     }
-    
+
 
 }
