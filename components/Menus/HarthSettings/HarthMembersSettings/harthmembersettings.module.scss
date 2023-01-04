@@ -1,0 +1,141 @@
+@import "../../../../styles/globals.scss";
+@import "../../../../styles/fonts.scss";
+
+.listHolder{
+    display: flex;
+    flex-direction: column;
+    //align-items: flex-start;
+    //row-gap: 4px;
+    width: 100%;
+    padding: 4px 0px;
+
+
+    .peopleRow {
+        display: flex;
+        flex-direction: row;
+        column-gap: 12px;
+        justify-content:space-between;
+        align-items: center;
+        background-color: transparent;
+        width: 100%;
+        height: 52px;
+        padding: 0px 8px 0px 8px;
+        //background-color: aqua;
+        border: 2px solid transparent;
+        margin-top: 4px;
+
+        &Active {
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+            border-color: $warm_blue_light;
+        }
+
+        .userInfo {
+            display: flex;
+            flex-direction: column;
+
+            @include contentR2;
+            width: 100%;
+            p{
+                @include interfaceR4;
+            }
+
+        }
+
+
+        img {
+            height: 40px;
+            width: 40px;
+            max-width: 40px;
+            min-width: 40px;
+            max-height: 40px;
+            min-height: 40px;
+            border-radius: 9999px;
+        }
+
+        .adminButton {
+            height: 36px;
+            min-height: 36px;
+            width: 36px;
+            min-width: 36px;
+            border: 0;
+            background: transparent;
+            border-radius: 8px;
+            padding: 6px;
+
+            &:hover {
+                background: $fuel_10;
+
+            }
+
+        }
+    }
+
+    .adminPanel {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        flex-direction: row;
+        justify-content:space-between;
+        align-items: center;
+        background-color: $warm_blue_light;
+        padding: 0px 20px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+        
+
+        .makeAdmin {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            //background-color: aquamarine;
+            column-gap: 6px;
+    
+            p {
+                @include interfaceR2;
+            }
+    
+    
+        }
+
+
+    }
+
+    .remainingRow{
+        display: flex;
+        flex-direction: row;
+        column-gap: 12px;
+        justify-content:flex-start;
+        align-items: center;
+        background-color: transparent;
+        width: 100%;
+        height: 52px;
+        padding: 0px 8px 0px 8px;
+        //background-color: aqua;
+        border: 2px solid transparent;
+        margin-top: 4px;
+        @include contentR2;
+        color: $fuel_50;
+
+        .numberHolder {
+            display: flex;
+            height: 40px;
+            width: 40px;
+            max-width: 40px;
+            min-width: 40px;
+            max-height: 40px;
+            min-height: 40px;
+            border-radius: 9999px;
+            align-items: center;
+            justify-content: center;
+            background-color: $warm_blue_light;
+            color: $fuel_50;
+            @include interfaceH2;
+        }
+    }
+
+}

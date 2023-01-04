@@ -2,6 +2,8 @@ import { Toggle } from "../../../Common/Toggle/Toggle";
 import { useComms } from "../../../../contexts/comms";
 import { useAuth } from "../../../../contexts/auth";
 
+import styles from "./harthnotificationsettings.module.scss";
+
 const HarthNotificationSettings = () => {
   const { selectedcomm, updateSelectedHarth, topics, updateSelectedTopic } =
     useComms();
@@ -61,42 +63,62 @@ const HarthNotificationSettings = () => {
 
   return (
     <>
-      <div>
-        <span>Chat</span>
-        <div style={{ width: "max-content" }}>
+      <div className={styles.listHolder}>
+        <div className={styles.sectionRow}>
+          <p>Chat</p>
           <Toggle
             onToggleChange={muteHarthHandler}
             toggleName="chat"
             isChecked={isHarthMuted}
-          ></Toggle>
+          />
+        </div>
+
+        <div className={styles.chatListHolder}>
+          {topics.map((topic) => {
+          let userIndex = topic.members.findIndex(({ user_id }) => {
+            return user_id == user._id;
+          });
+
+          let profile;
+          let isMuted;
+
+          if (userIndex >= 0) {
+            profile = topic.members[userIndex];
+            isMuted = profile?.muted;
+          }
+
+          return (
+            <div className={styles.individualRow}>
+              <p>{topic?.title}</p>
+                <Toggle
+                  onToggleChange={() => muteTopicHandler(topic)}
+                  toggleName="chat"
+                  isChecked={!isMuted}
+                ></Toggle>
+            </div>
+          );
+          })}
+        </div>
+
+        <div className={styles.sectionRow}>
+          <p>Gather</p>
+          <Toggle
+            //onToggleChange={muteHarthHandler}
+            //toggleName="chat"
+            //isChecked={!isHarthMuted}
+          />
+        </div>
+
+        <div className={styles.sectionRow}>
+          <p>Messages</p>
+          <Toggle
+            //onToggleChange={muteHarthHandler}
+            //toggleName="chat"
+            //isChecked={!isHarthMuted}
+          />
         </div>
       </div>
-      {topics.map((topic) => {
-        let userIndex = topic.members.findIndex(({ user_id }) => {
-          return user_id == user._id;
-        });
-
-        let profile;
-        let isMuted;
-
-        if (userIndex >= 0) {
-          profile = topic.members[userIndex];
-          isMuted = profile?.muted;
-        }
-
-        return (
-          <div>
-            <span>{topic?.title}</span>
-            <div style={{ width: "max-content" }}>
-              <Toggle
-                onToggleChange={() => muteTopicHandler(topic)}
-                toggleName="chat"
-                isChecked={isMuted}
-              ></Toggle>
-            </div>
-          </div>
-        );
-      })}
+      
     </>
   );
 };
