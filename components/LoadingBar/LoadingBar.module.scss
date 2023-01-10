@@ -1,0 +1,24 @@
+@import "../../styles/fonts.scss";
+@import "../../styles/globals.scss";
+
+.headerImage {
+    width: 140px;
+    margin: 56px 0 56px 0;
+}
+
+.outerContainer {
+    position: relative;
+    height: 24px;
+    width: 280px;
+    background-color: $fuel_50;
+    border-radius: 9999px;
+
+    .innerContainer {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        background-color: $hot_pink;
+        height: 24px;
+    }
+
+}
