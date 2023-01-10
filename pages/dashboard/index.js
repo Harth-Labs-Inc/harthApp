@@ -15,7 +15,7 @@ import Party from "./party";
 import Voice from "./voice";
 import Stream from "./stream";
 import Video from "./video";
-import Messages from "./messages";
+import Message from "./message";
 
 import CreateHarthName from "../../components/createHarthName/createHarthName";
 import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
@@ -162,8 +162,8 @@ const dashboard = (props) => {
       case "stream":
         page = <Stream />;
         break;
-      case "messages":
-        page = <Messages />;
+      case "message":
+        page = <Message />;
         break;
       default:
         page = <Chat />;

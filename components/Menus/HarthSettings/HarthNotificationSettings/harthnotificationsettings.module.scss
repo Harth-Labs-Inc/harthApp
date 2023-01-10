@@ -1,0 +1,46 @@
+@import "../../../../styles/globals.scss";
+@import "../../../../styles/fonts.scss";
+
+.listHolder{
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    width: 100%;
+    padding: 8px 0px;
+    //background-color: aqua;
+
+
+    .sectionRow {
+        display: flex;
+        flex-direction: row;
+        justify-content:space-between;
+        align-items: center;
+        background-color: $warm_blue_light;
+        width: 100%;
+        height: 40px;
+        @include interfaceH4;
+        padding: 0px 8px;
+        border-radius: 8px;
+    }
+    
+    .individualRow {
+        display: flex;
+        flex-direction: row;
+        justify-content:space-between;
+        align-items: center;
+        background-color: transparent;
+        width: 100%;
+        height: 40px;
+        padding: 0px 8px 0px 24px;
+        @include interfaceR2;
+    }
+
+    .chatListHolder{
+        margin-top: -4px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 0px;
+        width: 100%;
+    }
+
+}
