@@ -4,7 +4,7 @@ import styles from "./LoadingBar.module.scss";
 
 const LoadingBar = (props) => {
     const {
-        value,
+        value, //pass value as 0-100
     } = props;
 
     return (
