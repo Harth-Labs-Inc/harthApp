@@ -6,6 +6,7 @@ import { IconNotificationsNoFill } from "../../../resources/icons/IconNotificati
 import IconAdminPanel from "../../../resources/icons/IconAdminPanel";
 import IconAccountNoFill from "../../../resources/icons/IconAccountNoFill";
 import HarthNotificationSettings from "./HarthNotificationSettings/HarthNotificationSettings";
+import HarthAdminSettings from "./HarthAdminSettings/HarthAdminSettings";
 import HarthMembersSettings from "./HarthMembersSettings/HarthMembersSettings";
 import { getHarthByID } from "../../../requests/community";
 
@@ -45,7 +46,7 @@ const HarthSettings = (props) => {
       page = <HarthMembersSettings />;
       break;
     case "admin":
-      page = <p>admin</p>;
+      page = <HarthAdminSettings />;
       break;
     default:
       page = <HarthNotificationSettings />;
@@ -54,12 +55,13 @@ const HarthSettings = (props) => {
 
   return (
     <>
-      <div className="modal-top">
-        {communityName} Settings
-        <div className="close-modal">
-          <CloseButton onClick={onToggleModal} />
-        </div>
-      </div>
+      <div className={styles.mainContainer}>
+          <div className={styles.topBar}>
+            <div className={styles.title}>{communityName}</div>
+            <CloseButton onClick={onToggleModal} />
+
+          </div>
+
       <div className={styles.navTabs} role="nav">
         <button
           className={
@@ -103,7 +105,9 @@ const HarthSettings = (props) => {
           Admin
         </button>
       </div>
-      <div className="modal_right">{page}</div>
+      <div className={styles.content}>{page}</div>
+      </div>
+
     </>
   );
 };
