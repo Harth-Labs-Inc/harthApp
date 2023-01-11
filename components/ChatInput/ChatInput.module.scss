@@ -60,15 +60,14 @@
   &Text {
     resize: none;
     display: block;
-
     width: 100%;
     min-height: 40px;
+    height: 40px;
     max-height: 50vh;
     margin: 0;
-
     padding: 8px 12px;
     @include contentR2;
-    background: transparent;
+    //background: aqua;
     border: 0;
 
   }

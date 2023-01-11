@@ -304,15 +304,17 @@ const TopicsNav = () => {
                             topic
                         </button>
                     </div>
-                    <button
-                        className={`
-                        ${styles.TopicsNavHidden}
-                        ${isHiddenView && styles.TopicsNavHiddenActive}
-                        `}
-                        onClick={toggleHidden}
-                    >
-                        Hidden
-                    </button>
+                    {(hiddenTopicsArr.length > 0) &&
+                        <button
+                            className={`
+                            ${styles.TopicsNavHidden}
+                            ${isHiddenView && styles.TopicsNavHiddenActive}
+                            `}
+                            onClick={toggleHidden}
+                        >
+                            Hidden
+                        </button>
+                    }
                     {isHiddenView &&
                         hiddenTopicsArr &&
                         hiddenTopicsArr.map((topic) => {

@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { Avatar } from "../Common/Avatar/Avatar";
 
 import styles from "./conversation.module.scss";
 
@@ -10,12 +9,18 @@ const ConversationListElement = (props) => {
     const { 
         onClick,
         isMobile = false,
-        hasAlert = true,
-        //currently the names and pictures are passed as an array of objects
-        conversationProfiles =[],
+        hasAlert = false,
+        //currently the names and pictures are passed as an array of objects with the attributes of name, pic, and zindex (for stacking)
+        conversationProfiles =[
+            {name: "themadchiller",  pic: "https://w7.pngwing.com/pngs/853/421/png-transparent-dwayne-johnson-desktop-high-definition-television-professional-wrestler-4k-resolution-dwayne-johnson-tshirt-hand-fitness-professional.png"},
+            {name: "abuc", pic: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"},
+            {name: "nightmode", pic: "https://w7.pngwing.com/pngs/853/421/png-transparent-dwayne-johnson-desktop-high-definition-television-professional-wrestler-4k-resolution-dwayne-johnson-tshirt-hand-fitness-professional.png"},
+            {name: "rend", pic: "https://w7.pngwing.com/pngs/853/421/png-transparent-dwayne-johnson-desktop-high-definition-television-professional-wrestler-4k-resolution-dwayne-johnson-tshirt-hand-fitness-professional.png"},
+            ],
         isActive = false,
 
     } = props;
+
 
     const [buttonState, setButtonState] = useState(isActive);
     const [alertState, setAlertState] = useState(hasAlert);
@@ -34,54 +39,37 @@ const ConversationListElement = (props) => {
 
     return (
         <>
-            <button 
+            <button
+                //id={conversation._id}
                 className={`
                     ${styles.conversation} 
-                    ${buttonState && styles.conversationActive} 
-                    ${alertState && styles.conversationAlert} 
+                    ${isMobile && styles.conversationMobile} 
+                    ${isActive && styles.conversationActive} 
+                    ${hasAlert && styles.conversationAlert} 
                     `}
-                onClick={toggleActive}>
-
-
-
-                    <div className={styles.avatarHolder} >
-                        {/* picture array is parsed  */}
-                        {conversationProfiles.map(e => (
-                            <div className={`
-                            ${styles.avatar} 
-                            ${isMobile && styles.avatarMobile} 
-                            `} >
-                            <Avatar picSize={isMobile ? 48 : 36} imageSrc={e.pic}/>
-                            </div>
-                        ))}  
-                    </div>
-
-
-
-                <div className={styles.conversationWithPointer}>
+                onClick={toggleActive}
+                //onMouseUp={toggleEditMenu}
+                >
                     <div className={`
-                            ${styles.pointer} 
-                            ${isMobile && styles.pointerMobile} 
-                            `} >
-                            <p></p>
-                        </div>
-
-
-
-                    <div className={`
-                    ${styles.conversationContainer} 
-                    ${alertState && styles.conversationContainerAlert} 
-                    `}
+                        ${styles.indicatorBox} 
+                        ${isActive && styles.indicatorBoxActive} 
+                        `}
                     >
-                        <div className={`
-                            ${styles.label} 
-                            ${isMobile && styles.labelMobile} 
-                            `} >
-                               {conversationProfiles.map(e => (<p>{e.name}</p>))}
-                        </div>
-                    </div>
-                </div>
+                        {/* array is parsed  */}
+                        {conversationProfiles.map(e => (
+                            <div className={styles.participantElement} >
+                                <img className={`
+                                    ${styles.avatar} 
+                                    ${isMobile && styles.avatarMobile} 
+                                    `}
+                                    src={e.pic}
+                                />
+                                <div className={styles.label}>{e.name}</div>
+                            </div>
+                        ))
+                        }
 
+                    </div>          
             </button>
         </>
     )

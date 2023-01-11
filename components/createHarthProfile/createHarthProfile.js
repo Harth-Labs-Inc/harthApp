@@ -42,9 +42,11 @@ export default function CreateHarthProfile({
             profileIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${s3Upload.name}`;
         }
         let admin = false;
+        let owner = false;
 
         if (!invite) {
             admin = true;
+            owner = true;
             let commDbUpload = await saveCommunity(tempHarth);
             if (commDbUpload.ok) {
                 id = commDbUpload.id;
@@ -58,6 +60,7 @@ export default function CreateHarthProfile({
             name: profileName,
             personalInfo: {},
             admin: admin,
+            owner,
             muted: false,
         });
         refetchComms();

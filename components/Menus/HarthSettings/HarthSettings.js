@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import CloseButton from "../../Common/Buttons/CloseButton";
 import { TextBtn } from "../../Common/Button";
@@ -6,18 +6,39 @@ import { IconNotificationsNoFill } from "../../../resources/icons/IconNotificati
 import IconAdminPanel from "../../../resources/icons/IconAdminPanel";
 import IconAccountNoFill from "../../../resources/icons/IconAccountNoFill";
 import HarthNotificationSettings from "./HarthNotificationSettings/HarthNotificationSettings";
+import HarthAdminSettings from "./HarthAdminSettings/HarthAdminSettings";
 import HarthMembersSettings from "./HarthMembersSettings/HarthMembersSettings";
+import { getHarthByID } from "../../../requests/community";
 
 import styles from "./HarthSettings.module.scss";
+import { useComms } from "../../../contexts/comms";
 
 const HarthSettings = (props) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState("notifications");
   const { isMobile } = useContext(MobileContext);
-  const { communityName, onToggleModal } = props;
+  const { communityName, onToggleModal, communityId } = props;
+  const { updateLocalSelectedHarth } = useComms();
+
+  useEffect(() => {
+    async function getUpdatedHarthData() {
+      let result = await getHarthByID(communityId);
+      const { ok, data } = result;
+      if (ok) {
+        await updateLocalSelectedHarth({ newHarth: data });
+        setIsLoading(false);
+      }
+    }
+    getUpdatedHarthData();
+  }, []);
 
   const changePageHandler = (pg) => {
     setCurrentPage(pg);
   };
+
+  if (isLoading) {
+    return <p>some kind of spinner would be nice</p>;
+  }
 
   let page;
   switch (currentPage) {
@@ -25,7 +46,7 @@ const HarthSettings = (props) => {
       page = <HarthMembersSettings />;
       break;
     case "admin":
-      page = <p>admin</p>;
+      page = <HarthAdminSettings />;
       break;
     default:
       page = <HarthNotificationSettings />;
@@ -34,12 +55,13 @@ const HarthSettings = (props) => {
 
   return (
     <>
-      <div className="modal-top">
-        {communityName} Settings
-        <div className="close-modal">
-          <CloseButton onClick={onToggleModal} />
-        </div>
-      </div>
+      <div className={styles.mainContainer}>
+          <div className={styles.topBar}>
+            <div className={styles.title}>{communityName}</div>
+            <CloseButton onClick={onToggleModal} />
+
+          </div>
+
       <div className={styles.navTabs} role="nav">
         <button
           className={
@@ -83,7 +105,9 @@ const HarthSettings = (props) => {
           Admin
         </button>
       </div>
-      <div className="modal_right">{page}</div>
+      <div className={styles.content}>{page}</div>
+      </div>
+
     </>
   );
 };

@@ -53,26 +53,29 @@
    width: 100%; 
    //background-color: aqua;
 
-    &Info {
+    .Info {
       display: flex;
-      align-items: baseline;
+      align-items: center;
+      align-content: center;
+      justify-items: center;
       column-gap: 4px;
-
-      &Creator {
+      height: 18px;
+      //background-color: aquamarine;
+      .Creator {
         @include chatProfile;
         color: $fuel;
       }
-      &Timestamp {
-//        display: none;
+      .Timestamp {
+        display: none;
         color: $fuel_50;
         @include timeStamp;
 
 
       }
-      
     }
 
-    &Content {
+
+    .Content {
       //width: 100%;
       width: fit-content;
       max-width: 540px;
@@ -111,116 +114,69 @@
         margin-right: $gutter;
       }
 
-      &ReplyCount {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 32px;
-        width: 32px;
-        color: $white;
-        background-color: #333;
-        border-radius: 50%;
-      }
 
-      &FlamesWrapper {
-        display: flex;
-      }
-
-      &Flame {
-        display: inline-block;
-        position: relative;
-        height: 32px;
-        width: 26px;
-        &:before {
-          @include x-y-center;
-          @include font-icon($icon-fire);
-          color: $orange;
-          font-size: 32px;
-          line-height: 32px;
-        }
-
-        &:not(:first-of-type) {
-          margin-left: -$gutter;
-        }
-      }
 
       &Emoji {
         font-size: 32px;
         line-height: 32px;
       }
     }
+
+    &:hover {
+      //background-color: $fuel_5;
+      .Info {
+        .Timestamp{
+          display: contents;
+          background-color: red;
+        }
+      }
+      .Content {
+        background-color: $warm_blue_light2;
+      }
+  
+    }
+
   }
 
   &Controls {
     position: absolute;
-    top: -16px;
-    right: 0;
+    display: flex;
+
+    column-gap: 8px;
+    top: -8px;
+    right: 40px;
+    background-color: $light_ash;
+    border-radius: 6px;
+    padding: 4px 6px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 
     > button {
       position: relative;
-      height: 40px;
-      width: 40px;
-      margin: 0 $gutter / 2;
-      padding: 0;
-      color: #fff;
-      font-size: 0;
-      background-color: #333;
-      border: 4px solid #fff;
-      border-radius: 50%;
+      height: 28px;
+      width: 28px;
+      border-radius: 6px;
+      background-color: transparent;
       cursor: pointer;
+      border: 0;
+      padding: 4px;
+
+      path {
+        fill: $fuel_50;
+      }
 
       &:hover {
-        background-color: $orange;
+        background-color: $fuel_10;
+        path {
+          fill: $fuel;
+        }
       }
 
-      &:before {
-        @include x-y-center;
-        font-size: 16px;
-      }
-    }
 
-    &Flame {
-      &:before {
-        @include font-icon($icon-fire);
-      }
     }
-    &Reaction {
-      &:before {
-        @include font-icon($icon-emoji);
-      }
-    }
-    &Reply {
-      &:before {
-        @include font-icon($icon-reply);
-      }
-    }
-    &Edit {
-      &:before {
-        @include font-icon($icon-edit);
-      }
-    }
-    &Delete {
-      &:hover {
-        background-color: #b00020;
-      }
-      &:before {
-        @include font-icon($icon-delete);
-      }
-    }
-  }
-
-  &:hover {
-    background-color: $fuel_5;
-
-    &Body {
-       &Info {
-         &Timestamp {
-          display: none;
-         }
-       }
-      }
 
   }
+
+
 
   .og-card {
     padding: 5px;

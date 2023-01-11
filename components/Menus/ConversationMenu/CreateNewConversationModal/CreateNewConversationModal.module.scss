@@ -1,0 +1,92 @@
+@import "../../../../styles/globals.scss";
+@import "../../../../styles/fonts.scss";
+
+
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+        @include interfaceH1;
+        width: 100%;
+        text-align: left;
+        margin-top: 8px;
+        margin-bottom: 40px;
+        font-size: 28px;
+    }
+}
+
+.CreateTopic {
+    &Time {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 18px;
+
+        &Text {
+            @include interfaceR3;
+            margin-bottom: 12px;
+        }
+
+        &Button {
+            @include interfaceH2;
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 148px;
+            padding: 20.5px 10px;
+            border: 2px solid $fuel;
+            border-radius: 12px;
+            cursor: pointer;
+
+            svg {
+                margin-right: 6px;
+                height: 28px;
+                width: 28px;
+            }
+
+            input {
+                position: absolute;
+                z-index: -1;
+                opacity: 0;
+            }
+
+            &.Active {
+                border-color: transparent;
+                &:before {
+                    position: absolute;
+                    inset: -2px;
+                    padding: 3px;
+                    content: "";
+                    background: linear-gradient(
+                        to right,
+                        #ffa773 0%,
+                        #d96fab 100%
+                    );
+                    border-radius: 12px;
+                    mask: linear-gradient(#fff 0 0) content-box,
+                        linear-gradient(#fff 0 0);
+                    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                        linear-gradient(#fff 0 0);
+                    -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+                }
+
+                svg {
+                    path {
+                        fill: $fuel;
+                        stroke: $fuel;
+                    }
+                }
+            }
+        }
+    }
+
+    &Buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: space-between;
+        margin-top: 32px;
+
+    }
+}

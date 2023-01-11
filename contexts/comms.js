@@ -120,6 +120,29 @@ export const CommsProvider = ({ children }) => {
       run();
     });
   };
+  const updateLocalSelectedHarth = async ({ newHarth }) => {
+    return new Promise((resolve) => {
+      async function run() {
+        let tmpComms = [...comms];
+        let matchingIndex = -1;
+        tmpComms.forEach((com, index) => {
+          if (com._id === newHarth._id) {
+            matchingIndex = index;
+          }
+        });
+        if (matchingIndex >= 0) {
+          tmpComms[matchingIndex] = newHarth;
+          setComms(tmpComms);
+          if (selectedcomm._id == newHarth._id) {
+            setSelectedcomm(newHarth);
+          }
+
+          resolve(true);
+        }
+      }
+      run();
+    });
+  };
 
   const grabTopics = async (comid) => {
     let result = await getTopics(comid, user._id);
@@ -218,6 +241,7 @@ export const CommsProvider = ({ children }) => {
   return (
     <CommsContext.Provider
       value={{
+        updateLocalSelectedHarth,
         updateSelectedHarth,
         updateSelectedTopic,
         profile,
