@@ -89,7 +89,6 @@ const Video = (props) => {
     };
 
     const createRoomFormSubmit = (room) => {
-        console.log(room);
         if (room) {
             room.createdTime = new Date();
             createRoom(room);
@@ -130,84 +129,76 @@ const Video = (props) => {
                         )}
                         closeHandler={() => setNewRoomToggled(false)}
                     />
-                    // <Modal id="create_gathering" show={modal} onToggleModal={showModal}>
-                    //   <CloseBtn onClick={triggerNewRoom} />
-                    //   <GatherForm
-                    //     createRoomFormSubmit={createRoomFormSubmit}
-                    //     harthId={selectedcomm._id}
-                    //     harthName={selectedcomm.name}
-                    //     creator={selectedcomm.users.find(
-                    //       (usr) => usr.userId === user._id
-                    //     )}
-                    //     newRoomData={newRoomData}
-                    //   />
-                    // </Modal>
                 )}
+                <p className={styles.gatheringSection}>NOW</p>
                 <div className={styles.roomContainer}>
-                    {/* <GatherCreate
-            createRoomFormSubmit={createRoomFormSubmit}
-            createScheduleRoom={triggerNewRoom}
-          /> */}
                     <GatheringCreate
                         createRoomFormSubmit={createRoomFormSubmit}
                         createScheduleRoom={triggerNewRoom}
                     />
 
-                    <ul
-                        className={styles.roomContainerActiveList}
-                        id="room_card current_rooms"
-                    >
-                        {(callRooms || []).map((room, idx) => {
-                            let owner = false;
-                            if (room?.hostName === creator?.name) {
-                                owner = true;
-                            }
-                            return (
-                                <li
-                                    key={idx}
-                                    className={`${room.gatheringType} ${styles.roomContainerRoomBox}`}
-                                >
-                                    <GatheringCard
-                                        cardType="general"
-                                        room={room}
-                                        joinHandler={() => joinRoom(room)}
-                                        peers={room.peers}
-                                        owner={owner}
-                                    />
-                                    <GatheringTile />
-                                </li>
-                            );
-                        })}
-                    </ul>
-
-                    {/* <button id="gathering_create" onClick={triggerNewRoom}>
-  + gathering
-</button> */}
-                </div>
-                <p>Scheduled</p>
-                <ul className="room_card" id="room_card scheduled_rooms">
-                    {(scheduledcallRooms || []).map((room, idx) => {
+                    {(callRooms || []).map((room, idx) => {
                         let owner = false;
                         if (room?.hostName === creator?.name) {
                             owner = true;
                         }
                         return (
-                            <li
+                            <div
                                 key={idx}
-                                className={`${room.gatheringType} room-container`}
+                                className={`${room.gatheringType} ${styles.roomContainerRoomBox}`}
                             >
-                                <GatheringCard
+                                {/* <GatheringCard
+                                        cardType="general"
+                                        room={room}
+                                        joinHandler={() => joinRoom(room)}
+                                        peers={room.peers}
+                                        owner={owner}
+                                    /> */}
+                                <GatheringTile
+                                    room={room}
+                                    joinHandler={() => joinRoom(room)}
+                                    peers={room.peers}
+                                    owner={owner}
+                                />
+                            </div>
+                        );
+                    })}
+
+                    {/* <button id="gathering_create" onClick={triggerNewRoom}>
+  + gathering
+</button> */}
+                </div>
+                <p className={styles.gatheringSection}>UPCOMING</p>
+
+                {(scheduledcallRooms || []).map((room, idx) => {
+                    let owner = false;
+                    if (room?.hostName === creator?.name) {
+                        owner = true;
+                    }
+                    return (
+                        <div
+                            key={idx}
+                            className={`${room.gatheringType} room-container`}
+                        >
+                            <GatheringTile
+                                cardType="schedule"
+                                room={room}
+                                user={creator}
+                                peers={room.acceptedPeers}
+                                owner={owner}
+                                editScheduleRoom={triggerNewEditRoom}
+                            />
+                            {/* <GatheringCard
                                     cardType="schedule"
                                     room={room}
                                     user={creator}
                                     peers={room.acceptedPeers}
                                     owner={owner}
                                     editScheduleRoom={triggerNewEditRoom}
-                                />
-                            </li>
-                        );
-                    })}
-                </ul>
+                                /> */}
+                        </div>
+                    );
+                })}
             </section>
         );
     }

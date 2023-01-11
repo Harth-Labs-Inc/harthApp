@@ -1,16 +1,26 @@
-.roomContainer {
-  display: flex;
-  flex-wrap: wrap;
+@import "../../../styles/fonts.scss";
+@import "../../../styles/globals.scss";
 
-  &ActiveList {
+.roomContainer {
     display: flex;
     flex-wrap: wrap;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+    gap: 16px;
+    margin-bottom: 16px;
 
-  &RoomBox {
-    margin-left: 16px;
-  }
+    &ActiveList {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.gatheringSection {
+    @include interfaceH5;
+    display: inline-block;
+    font-weight: 800;
+    margin-bottom: 16px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid $fuel;
 }

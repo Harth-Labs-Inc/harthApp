@@ -81,13 +81,12 @@ const TopicsNav = () => {
         }
     }, [incomingTopic]);
     useEffect(() => {
-        document.addEventListener("contextmenu", (event) => {
-            event.preventDefault();
-        });
-
-        return () => {
-            window.removeEventListener("contextmenu", () => {});
-        };
+        // document.addEventListener("contextmenu", (event) => {
+        //     event.preventDefault();
+        // });
+        // return () => {
+        //     window.removeEventListener("contextmenu", () => {});
+        // };
     }, []);
 
     const changeSelectedTopic = (topic) => {
