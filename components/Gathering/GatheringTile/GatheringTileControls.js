@@ -2,12 +2,18 @@ import { Button } from "../../Common";
 
 import styles from "./GatheringTile.module.scss";
 
-const GatheringTileControls = ({ isInRoom, cardType, handleJoinRoom }) => {
+const GatheringTileControls = ({
+    isInRoom,
+    cardType,
+    handleJoinRoom,
+    handleDropRoom,
+}) => {
+    console.log("isInRoom", isInRoom);
     if (!isInRoom) {
         return (
             <Button
                 text={cardType === "schedule" ? "Join" : "Enter"}
-                onPress={handleJoinRoom}
+                onClick={handleJoinRoom}
                 className={styles.GatheringTileActionButton}
             />
         );
@@ -15,7 +21,7 @@ const GatheringTileControls = ({ isInRoom, cardType, handleJoinRoom }) => {
     return (
         <Button
             text={cardType === "schedule" ? "Drop" : "Leave"}
-            onPress={handleJoinRoom}
+            onClick={handleDropRoom}
             className={styles.GatheringTileActionButton}
         />
     );

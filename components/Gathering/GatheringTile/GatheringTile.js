@@ -13,7 +13,15 @@ import styles from "./GatheringTile.module.scss";
 
 export const GatheringTile = (props) => {
     const [isInRoom, setIsInRoom] = useState(false);
-    const { room, user, peers, owner, cardType, joinHandler } = props;
+    const {
+        room,
+        user,
+        peers,
+        owner,
+        cardType,
+        joinHandler,
+        editScheduleRoom,
+    } = props;
     // const navigation = useNavigation();
 
     //not sure how timestamp shows up but probably need to process it somehow
@@ -41,7 +49,14 @@ export const GatheringTile = (props) => {
     };
 
     const handleJoinRoom = () => {
+        if (cardType === "schedule") {
+        } else {
+            joinHandler();
+        }
         joinHandler();
+    };
+    const handleDropRoom = () => {
+        console.log("drop");
     };
 
     const dateFormat = () => {
@@ -59,7 +74,11 @@ export const GatheringTile = (props) => {
     }, [room]);
 
     return (
-        <div className={styles.GatheringTile}>
+        <div
+            className={`${styles.GatheringTile} ${
+                cardType !== "schedule" ? styles[room.gatheringType] : null
+            }`}
+        >
             <div className={styles.GatheringTileLabel}>
                 <div className={styles.GatheringTileLabelIcon}>
                     <Icon />
@@ -110,7 +129,10 @@ export const GatheringTile = (props) => {
                 </div>
                 <div className={styles.GatheringTileActionBar}>
                     {owner ? (
-                        <button className={styles.GatheringTileActionBarEdit}>
+                        <button
+                            onClick={editScheduleRoom}
+                            className={styles.GatheringTileActionBarEdit}
+                        >
                             <IconEditFill />
                             edit
                         </button>
@@ -120,6 +142,7 @@ export const GatheringTile = (props) => {
                         isInRoom={isInRoom}
                         cardType={cardType}
                         handleJoinRoom={handleJoinRoom}
+                        handleDropRoom={handleDropRoom}
                     />
                 </div>
             </div>

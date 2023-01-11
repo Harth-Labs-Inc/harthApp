@@ -10,6 +10,16 @@
     border-radius: 18px;
     overflow: hidden;
 
+    &.party {
+        border-color: $hot_pink;
+    }
+    &.stream {
+        border-color: $hot_red;
+    }
+    &.voice {
+        border-color: $hot_blue;
+    }
+
     &Label {
         display: flex;
         align-items: center;
@@ -19,6 +29,25 @@
         &Icon {
             width: 48px;
             transform: rotate(90deg);
+        }
+
+        .party & {
+            background-color: $hot_pink;
+            svg path {
+                fill: $white;
+            }
+        }
+        .stream & {
+            background-color: $hot_red;
+            svg path {
+                fill: $white;
+            }
+        }
+        .voice & {
+            background-color: $hot_blue;
+            svg path {
+                fill: $white;
+            }
         }
     }
 
@@ -85,6 +114,15 @@
             background-color: transparent;
             border: 2px solid $fuel;
             border-radius: 50%;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $fuel;
+
+                svg path {
+                    fill: #fff;
+                }
+            }
         }
     }
 }
