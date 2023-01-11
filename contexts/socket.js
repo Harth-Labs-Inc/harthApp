@@ -37,7 +37,7 @@ export const SocketProvider = ({ children }) => {
         production: "https://project-blarg-socket.herokuapp.com",
       };
       setSocket(
-        io.connect("https://project-blarg-socket.herokuapp.com", {
+        io.connect("http://localhost:3030", {
           transports: ["websocket"],
         })
       );

@@ -25,14 +25,12 @@ export const VideoProvider = ({ children }) => {
       production: "https://project-blarg-video-socket.herokuapp.com",
     };
     axios
-      .get(
-        `https://project-blarg-video-socket.herokuapp.com/api/get-turn-credentials`
-      )
+      .get(`http://localhost:5000/api/get-turn-credentials`)
       .then((responseData) => {
         setTurnServers(responseData.data.token.iceServers);
 
         setSocket(
-          io.connect("https://project-blarg-video-socket.herokuapp.com", {
+          io.connect("http://localhost:5000", {
             transports: ["websocket"],
           })
         );

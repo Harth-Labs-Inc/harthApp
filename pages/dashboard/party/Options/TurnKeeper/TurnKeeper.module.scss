@@ -1,119 +1,118 @@
-@import '../../../../../styles/globals.scss';
-@import '../../../../../styles/config/config-type';
+@import "../../../../../styles/globals.scss";
 
 .TurnKeeper {
-  position: absolute;
-  bottom: 193px;
-  width: 375px;
-  max-height: 336px;
-  max-width: 100%;
-  min-height: 195px;
-  padding: 24px 52px 40px;
-  background-color: #333;
-  border-top-right-radius: 16px;
-  border-top-left-radius: 16px;
+    position: absolute;
+    bottom: 193px;
+    width: 375px;
+    max-height: 336px;
+    max-width: 100%;
+    min-height: 195px;
+    padding: 24px 52px 40px;
+    background-color: #333;
+    border-top-right-radius: 16px;
+    border-top-left-radius: 16px;
 
-  &Header {
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
-    padding: 0 27.5px 15px;
-    width: 200px;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 700;
-    border-bottom: 1px solid #eaeaea;
+    &Header {
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+        padding: 0 27.5px 15px;
+        width: 200px;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        border-bottom: 1px solid #eaeaea;
 
-    > div {
-      margin-left: 15px;
+        > div {
+            margin-left: 15px;
+        }
     }
-  }
 
-  &List {
-    padding: 15px 0;
-    overflow-y: auto;
-    &Peer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18.5px 0;
-      color: #fff;
+    &List {
+        padding: 15px 0;
+        overflow-y: auto;
+        &Peer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18.5px 0;
+            color: #fff;
 
-      button {
-        position: relative;
-        height: 48px;
-        width: 48px;
-        font-size: 0;
-        background-color: transparent;
-        border: 0;
-        cursor: pointer;
+            button {
+                position: relative;
+                height: 48px;
+                width: 48px;
+                font-size: 0;
+                background-color: transparent;
+                border: 0;
+                cursor: pointer;
 
-        &:before {
-          @include x-y-center;
-          color: #f7f7f7;
-          font-size: 16px;
-          line-height: 16px;
+                &:before {
+                    @include x-y-center;
+                    color: #f7f7f7;
+                    font-size: 16px;
+                    line-height: 16px;
+                }
+
+                &:disabled {
+                    opacity: 0.4;
+                    cursor: default;
+                }
+            }
         }
 
-        &:disabled {
-          opacity: 0.4;
-          cursor: default;
+        &Up {
+            &:before {
+                content: "up";
+            }
         }
-      }
+        &Down {
+            &:before {
+                content: "down";
+            }
+        }
     }
-
-    &Up {
-      &:before {
-        content: 'up';
-      }
-    }
-    &Down {
-      &:before {
-        content: 'down';
-      }
-    }
-  }
 }
 
 .MyTurn {
-  @include x-center;
-  display: flex;
-  align-items: center;
-  top: 50px;
-  z-index: 1;
-  padding: 15px 21px;
-  background-color: #333;
-  border-radius: 24px;
+    @include x-center;
+    display: flex;
+    align-items: center;
+    top: 50px;
+    z-index: 1;
+    padding: 15px 21px;
+    background-color: #333;
+    border-radius: 24px;
 
-  &:before {
-    @include font-icon($icon-marker);
-    margin-right: 8px;
-    color: #ee5500;
-    font-size: 40px;
-    line-height: 40px;
-  }
+    &:before {
+        // @include font-icon($icon-marker);
+        margin-right: 8px;
+        color: #ee5500;
+        font-size: 40px;
+        line-height: 40px;
+    }
 
-  button {
-    padding: 10px 44px;
-    border: 2px solid #fff;
-  }
+    button {
+        padding: 10px 44px;
+        border: 2px solid #fff;
+    }
 }
 
 .PeerTurn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  height: 48px;
-  width: 48px;
-  padding: 8px 12px;
-  background-color: #333;
-  border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    height: 48px;
+    width: 48px;
+    padding: 8px 12px;
+    background-color: #333;
+    border-radius: 50%;
 
-  &:before {
-    @include x-y-center;
-    @include font-icon($icon-marker);
-    color: #ee5500;
-    font-size: 32px;
-    line-height: 32px;
-  }
+    &:before {
+        @include x-y-center;
+        // @include font-icon($icon-marker);
+        color: #ee5500;
+        font-size: 32px;
+        line-height: 32px;
+    }
 }

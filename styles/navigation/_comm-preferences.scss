@@ -1,64 +1,64 @@
 #settings_toggle {
-  position: relative;
-  height: 40px;
-  width: 40px;
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  &:before {
-    @include x-y-center;
-    @include font-icon($icon-menu);
-    color: $icon-grey;
-    font-size: 10px;
-    transition: color 0.3s;
-  }
-
-  &:hover {
+    position: relative;
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
     &:before {
-      color: $text-black;
+        @include x-y-center;
+        // @include font-icon($icon-menu);
+        color: $icon-grey;
+        font-size: 10px;
+        transition: color 0.3s;
     }
-  }
+
+    &:hover {
+        &:before {
+            color: $text-black;
+        }
+    }
 }
 
 #nav_comm_preferences {
-  margin: 0;
-  padding: 0;
-  li {
-    position: relative;
-    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+        position: relative;
+        list-style: none;
 
-    &:after {
-      position: absolute;
-      left: 0;
-      bottom: 10px;
-      height: 2px;
-      width: 0%;
-      content: '';
-      background-color: $text-black;
-      transition: width 0.3s;
+        &:after {
+            position: absolute;
+            left: 0;
+            bottom: 10px;
+            height: 2px;
+            width: 0%;
+            content: "";
+            background-color: $text-black;
+            transition: width 0.3s;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 14px 0px;
+
+            text-align: left;
+
+            background-color: transparent;
+            border: 0;
+
+            cursor: pointer;
+
+            &:hover {
+                background-color: $medium-grey;
+            }
+        }
+
+        &.active {
+            &:after {
+                width: 100%;
+            }
+        }
     }
-
-    button {
-      display: block;
-      width: 100%;
-      padding: 14px 0px;
-
-      text-align: left;
-
-      background-color: transparent;
-      border: 0;
-
-      cursor: pointer;
-
-      &:hover {
-        background-color: $medium-grey;
-      }
-    }
-
-    &.active {
-      &:after {
-        width: 100%;
-      }
-    }
-  }
 }

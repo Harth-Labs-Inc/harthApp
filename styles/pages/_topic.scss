@@ -57,7 +57,7 @@
                 border: 0;
                 &:before {
                     @include x-y-center;
-                    @include font-icon($icon-back);
+                    // @include font-icon($icon-back);
                     font-size: 14px;
                 }
             }
@@ -85,7 +85,7 @@
                     border: 0;
                     &:before {
                         @include x-y-center;
-                        @include font-icon($icon-back);
+                        // @include font-icon($icon-back);
                         font-size: 14px;
                     }
                 }
@@ -103,7 +103,7 @@
                 cursor: pointer;
                 transition: all 0.3s;
                 &:before {
-                    @include font-icon($icon-dots);
+                    // @include font-icon($icon-dots);
                     @include x-y-center;
                     color: $placeholder-black;
                     font-size: 26px;
