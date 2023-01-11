@@ -1,5 +1,4 @@
 @import "../../../styles/globals.scss";
-@import "../../../styles/config/config-type";
 
 .PartyWindow {
     display: flex;
@@ -68,61 +67,61 @@
                     font-size: 20px;
                 }
 
-                &.LeaveRoom {
-                    &:before {
-                        @include font-icon($icon-leave);
-                    }
-                }
+                // &.LeaveRoom {
+                //     &:before {
+                //         @include font-icon($icon-leave);
+                //     }
+                // }
 
-                &.Muted {
-                    &:before {
-                        @include font-icon($icon-muted);
-                    }
-                }
-                &.Unmuted {
-                    &:before {
-                        @include font-icon($icon-mic);
-                    }
-                }
+                // &.Muted {
+                //     &:before {
+                //         @include font-icon($icon-muted);
+                //     }
+                // }
+                // &.Unmuted {
+                //     &:before {
+                //         @include font-icon($icon-mic);
+                //     }
+                // }
 
-                &.Stream {
-                    &:before {
-                        @include font-icon($icon-camera);
-                    }
-                }
-                &.NoStream {
-                    &:before {
-                        @include font-icon($icon-stopcamera);
-                    }
-                }
+                // &.Stream {
+                //     &:before {
+                //         @include font-icon($icon-camera);
+                //     }
+                // }
+                // &.NoStream {
+                //     &:before {
+                //         @include font-icon($icon-stopcamera);
+                //     }
+                // }
                 &.Options {
                     height: 80px;
                     width: 80px;
                     border: 4px solid #fff;
                     background-color: #333;
                     &:before {
-                        @include font-icon($icon-sack);
+                        // @include font-icon($icon-sack);
                         font-size: 37px;
                     }
 
                     &Active {
                         background-color: #fff;
                         &:before {
-                            @include font-icon($icon-close);
+                            // @include font-icon($icon-close);
                             color: #333;
                         }
                     }
                 }
-                &.ScreenShare {
-                    &:before {
-                        @include font-icon($icon-startshare);
-                    }
-                }
-                &.Chat {
-                    &:before {
-                        @include font-icon($icon-inner-chat);
-                    }
-                }
+                // &.ScreenShare {
+                //     &:before {
+                //         @include font-icon($icon-startshare);
+                //     }
+                // }
+                // &.Chat {
+                //     &:before {
+                //         @include font-icon($icon-inner-chat);
+                //     }
+                // }
             }
 
             &.Open {

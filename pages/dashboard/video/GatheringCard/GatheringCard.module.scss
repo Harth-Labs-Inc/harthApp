@@ -1,126 +1,125 @@
-@import '../../../../styles/globals.scss';
-@import '../../../../styles/config/config-type';
+@import "../../../../styles/globals.scss";
 
 .gatheringCard {
-  position: relative;
-  padding: 64px 16px 16px;
-  width: 280px;
-  margin: 0 16px 16px 0;
-  border: 1px solid #eaeaea;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(#000, 0.16);
-
-  &Type {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 56px;
-    height: 48px;
-    color: #fff;
-    font-size: 0;
-    background-color: #ee5500;
-    border-bottom-left-radius: 50%;
-    border-bottom-right-radius: 50%;
-    &:before {
-      @include x-y-center;
-      font-size: 31px;
-    }
-  }
-
-  &Name {
-    margin: 16px 0 8px;
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 26px;
-  }
-
-  &PeersList {
-    display: flex;
-    justify-content: flex-end;
-    list-style: none;
-    margin-bottom: 20px;
-    padding: 0;
-    width: 100%;
-  }
-
-  &Footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &Timer {
-    display: flex;
-    flex-direction: column;
-    color: #ee5500;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 16px;
-    span {
-      font-size: 18px;
-      line-height: 24px;
-    }
-  }
-
-  &Join {
-    display: block;
     position: relative;
-    height: 40px;
-    width: 40px;
-    font-size: 0;
-    background-color: #ee5500;
-    border: 0;
-    border-radius: 20px;
-    filter: none;
-    cursor: pointer;
-    &:before {
-      @include x-y-center;
-      @include font-icon($icon-popup);
-      color: #fff;
-      font-size: 16px;
-    }
-  }
+    padding: 64px 16px 16px;
+    width: 280px;
+    margin: 0 16px 16px 0;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(#000, 0.16);
 
-  &Leave {
-  }
-
-  &Edit {
-    &:before {
-      @include font-icon($icon-edit);
-    }
-  }
-  &Delete {
-    &:before {
-      @include font-icon($icon-delete);
-    }
-  }
-
-  &.party {
-    .gatheringCardType {
-      &:before {
-        @include font-icon($icon-party);
-      }
-    }
-  }
-  &.voice {
-    .gatheringCardType {
-      &:before {
-        @include font-icon($icon-voice);
-      }
-    }
-  }
-  &.stream {
-    .gatheringCardType {
-      &:before {
-        @include font-icon($icon-stream);
-      }
-    }
-  }
-
-  &Scheduled {
     &Type {
-      background-color: #333;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 56px;
+        height: 48px;
+        color: #fff;
+        font-size: 0;
+        background-color: #ee5500;
+        border-bottom-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+        &:before {
+            @include x-y-center;
+            font-size: 31px;
+        }
     }
-  }
+
+    &Name {
+        margin: 16px 0 8px;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 26px;
+    }
+
+    &PeersList {
+        display: flex;
+        justify-content: flex-end;
+        list-style: none;
+        margin-bottom: 20px;
+        padding: 0;
+        width: 100%;
+    }
+
+    &Footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &Timer {
+        display: flex;
+        flex-direction: column;
+        color: #ee5500;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px;
+        span {
+            font-size: 18px;
+            line-height: 24px;
+        }
+    }
+
+    &Join {
+        display: block;
+        position: relative;
+        height: 40px;
+        width: 40px;
+        font-size: 0;
+        background-color: #ee5500;
+        border: 0;
+        border-radius: 20px;
+        filter: none;
+        cursor: pointer;
+        &:before {
+            @include x-y-center;
+            // @include font-icon($icon-popup);
+            color: #fff;
+            font-size: 16px;
+        }
+    }
+
+    &Leave {
+    }
+
+    // &Edit {
+    //   &:before {
+    //     @include font-icon($icon-edit);
+    //   }
+    // }
+    // &Delete {
+    //   &:before {
+    //     @include font-icon($icon-delete);
+    //   }
+    // }
+
+    // &.party {
+    //   .gatheringCardType {
+    //     &:before {
+    //       @include font-icon($icon-party);
+    //     }
+    //   }
+    // }
+    // &.voice {
+    //   .gatheringCardType {
+    //     &:before {
+    //       @include font-icon($icon-voice);
+    //     }
+    //   }
+    // }
+    // &.stream {
+    //   .gatheringCardType {
+    //     &:before {
+    //       @include font-icon($icon-stream);
+    //     }
+    //   }
+    // }
+
+    &Scheduled {
+        &Type {
+            background-color: #333;
+        }
+    }
 }
