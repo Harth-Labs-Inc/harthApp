@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import BackButton from "../../Common/Buttons/BackButton";
-import RadioButton from "../../Common/Buttons/RadioButton";
+import { BackButton, RadioButton } from "../../Common";
 
 import styles from "./SettingsMenu.module.scss";
 //import styles from './Devices.module.scss'
