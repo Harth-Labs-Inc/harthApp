@@ -1,0 +1,83 @@
+@import "../../../../styles/globals.scss";
+
+.gatherLoading {
+    display: flex;
+    height: 232px;
+    width: 330px;
+    background-color: $white;
+    border-radius: 24px;
+    border: 2px solid $fuel_50;
+    overflow: hidden;
+    
+    animation: container 1.5s infinite;
+
+
+    .left {
+        width: 48px;
+        min-width: 48px;
+        height: 100%;
+        background-color: $fuel_50;
+    }
+
+    .right {
+        display: flex;
+        flex-direction: column;
+        row-gap: 4px;
+        width: 100%;
+        height: 100%;
+        //background-color: aqua;
+        padding: 24px 12px;
+
+        .title {
+            height: 32px;
+            width: 80%;
+            border-radius: 9999px;
+            background-color: $fuel_50;
+
+            animation: load 1.5s infinite;
+
+        }
+
+        .peopleHolder{
+            display: flex;
+            column-gap: 4px;
+        }
+        .person {
+            height: 36px;
+            width: 36px;
+            border-radius: 9999px;
+            background-color: $fuel_50;
+
+            animation: load 1.5s infinite;
+        }
+    }
+  }
+
+  @keyframes load {
+    0% {
+        background-color: $fuel_50;
+        opacity: .4;
+    }
+    50% {
+        background-color: $warm_blue;
+        opacity: .4;
+
+    }
+    100% {
+    background-color: $fuel_50;
+    opacity: .4;
+    }
+}
+
+@keyframes container {
+    0% {
+        opacity: .4;
+    }
+    50% {
+        opacity: .8;
+
+    }
+    100% {
+    opacity: .4;
+    }
+}
