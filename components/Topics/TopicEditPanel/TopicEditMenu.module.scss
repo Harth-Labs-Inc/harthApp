@@ -1,180 +1,179 @@
-@import '../../../styles/globals.scss';
-@import '../../../styles/config/config-type';
+@import "../../../styles/globals.scss";
 
 .topicSettings {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  height: 100%;
-  width: 375px;
-  padding: 42px 16px;
-  background-color: #fff;
-  box-shadow: 0px 2px 4px rgba(#000, 0.2);
-  transition: right 0.5s ease-in;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    height: 100%;
+    width: 375px;
+    padding: 42px 16px;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(#000, 0.2);
+    transition: right 0.5s ease-in;
 
-  &Header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 25px;
-    font-size: 12px;
-    line-height: 24px;
+    &Header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 25px;
+        font-size: 12px;
+        line-height: 24px;
 
-    &Title {
-      margin: 0;
-      font-size: 22px;
-    }
-  }
-
-  &Description {
-    margin: 32px 0 8px;
-    font-size: 14px;
-    text-align: center;
-  }
-
-  &Mute {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    height: 72px;
-    width: 72px;
-    margin: 0 auto;
-    font-size: 12px;
-    > div {
-      margin-bottom: 8px;
-    }
-  }
-
-  &Controls {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  &Button {
-    position: relative;
-    width: 100%;
-    padding: 18px 8px;
-    font-size: 14px;
-    text-align: left;
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-
-    &:after {
-      @include y-center;
-      right: 8px;
+        &Title {
+            margin: 0;
+            font-size: 22px;
+        }
     }
 
-    &:hover {
-      background-color: #efefef;
+    &Description {
+        margin: 32px 0 8px;
+        font-size: 14px;
+        text-align: center;
     }
 
-    &Arrow {
-      &:after {
-        @include font-icon($icon-caret-right);
-      }
+    &Mute {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        height: 72px;
+        width: 72px;
+        margin: 0 auto;
+        font-size: 12px;
+        > div {
+            margin-bottom: 8px;
+        }
     }
-    &Edit {
-      &:after {
-        @include font-icon($icon-edit);
-      }
+
+    &Controls {
+        margin: 0;
+        padding: 0;
+        list-style: none;
     }
-  }
-}
 
-.TopicEdit {
-  position: absolute;
-  top: 0;
-  // right: 0;
-  z-index: 2;
-  height: 100%;
-  width: 375px;
-  padding: 0 16px;
-  background-color: #fff;
-  box-shadow: 0px 2px 4px rgba(#000, 0.2);
-  transition: right 0.5s ease-in;
-
-  #TopicEditForm {
-    width: 280px;
-    max-width: 100%;
-    margin: 32px auto;
-  }
-
-  &Header {
-    padding: 40px 0;
-    font-size: 22px;
-    font-weight: 500;
-    text-align: center;
-    border-bottom: 1px solid #eaeaea;
-  }
-}
-
-.topicMembers {
-  position: absolute;
-  top: 0;
-  // right: 0;
-  z-index: 2;
-  height: 100%;
-  width: 375px;
-  padding: 0 16px;
-  background-color: #fff;
-  box-shadow: 0px 2px 4px rgba(#000, 0.2);
-  transition: right 0.5s ease-in;
-
-  &Header {
-    padding: 40px 0;
-    font-size: 22px;
-    font-weight: 500;
-    text-align: center;
-    border-bottom: 1px solid #eaeaea;
-  }
-
-  &List {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    &Item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 8px 24px;
-      overflow: hidden;
-
-      img,
-      span {
-        object-fit: cover;
-      }
-
-      &Button {
+    &Button {
         position: relative;
-        height: 48px;
-        width: 48px;
-        font-size: 0;
+        width: 100%;
+        padding: 18px 8px;
+        font-size: 14px;
+        text-align: left;
         background-color: transparent;
         border: 0;
-        border-radius: 50%;
-        transition: all 0.3s;
         cursor: pointer;
 
-        &:before {
-          @include x-y-center;
-          @include font-icon($icon-plus);
-          font-size: 16px;
+        &:after {
+            @include y-center;
+            right: 8px;
         }
 
         &:hover {
-          background-color: #ee5500;
-          &:before {
-            color: #fff;
-          }
+            background-color: #efefef;
         }
-      }
+
+        &Arrow {
+            &:after {
+                // @include font-icon($icon-caret-right);
+            }
+        }
+        &Edit {
+            &:after {
+                // @include font-icon($icon-edit);
+            }
+        }
     }
-  }
+}
+
+.TopicEdit {
+    position: absolute;
+    top: 0;
+    // right: 0;
+    z-index: 2;
+    height: 100%;
+    width: 375px;
+    padding: 0 16px;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(#000, 0.2);
+    transition: right 0.5s ease-in;
+
+    #TopicEditForm {
+        width: 280px;
+        max-width: 100%;
+        margin: 32px auto;
+    }
+
+    &Header {
+        padding: 40px 0;
+        font-size: 22px;
+        font-weight: 500;
+        text-align: center;
+        border-bottom: 1px solid #eaeaea;
+    }
+}
+
+.topicMembers {
+    position: absolute;
+    top: 0;
+    // right: 0;
+    z-index: 2;
+    height: 100%;
+    width: 375px;
+    padding: 0 16px;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(#000, 0.2);
+    transition: right 0.5s ease-in;
+
+    &Header {
+        padding: 40px 0;
+        font-size: 22px;
+        font-weight: 500;
+        text-align: center;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    &List {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        &Item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 8px 24px;
+            overflow: hidden;
+
+            img,
+            span {
+                object-fit: cover;
+            }
+
+            &Button {
+                position: relative;
+                height: 48px;
+                width: 48px;
+                font-size: 0;
+                background-color: transparent;
+                border: 0;
+                border-radius: 50%;
+                transition: all 0.3s;
+                cursor: pointer;
+
+                &:before {
+                    @include x-y-center;
+                    // @include font-icon($icon-plus);
+                    font-size: 16px;
+                }
+
+                &:hover {
+                    background-color: #ee5500;
+                    &:before {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
 }

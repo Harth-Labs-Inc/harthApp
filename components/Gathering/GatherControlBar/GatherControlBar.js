@@ -7,95 +7,126 @@ import { LeaveButton } from "../Controls/LeaveButton";
 import { MicButton } from "../Controls/MicButton";
 import { MoreButton } from "../Controls/MoreButton";
 import { StreamButton } from "../Controls/StreamButton";
-
-import Modal from "../../Modal";
+import { DiceBar } from "../GatherTools/DiceBar";
+import { MapBar } from "../GatherTools/MapBar";
+import { Modal } from "../../Common/Modals/Modal";
 
 import styles from "./gatheringControlBar.module.scss";
 
 const GatherControlBar = (props) => {
-    const { roomType="party" } = props;
-    const [modal, setModal] = useState();
-    const { isMobile } = useContext(MobileContext);
+  const {
+    roomType = "party",
+    onLeaveHandler,
+    onToggleVideo,
+    onToggleAudio,
+    onToggleScreenShare,
+    captureIsActice,
+    onToggleChat,
+    diceRollHandler,
+  } = props;
+  const [modal, setModal] = useState();
+  const [showDiceModal, setShowDiceModal] = useState();
+  const [showMapModal, setShowMapModal] = useState();
 
-    // const handleHarthMenu = () => {
-    //     if (!isMobile) {
-    //         setModal(!modal);
-    //     }
-    //     if (isMobile) {
-    //         setModal(!modal);
-    //     }
-    // };
+  const { isMobile } = useContext(MobileContext);
 
-    const showModal = () => {
-        setModal(!modal);
-    };
+  const showModal = () => {
+    setModal(!modal);
+  };
 
+  const togggleDiceModal = () => {
+    setShowDiceModal((prevState) => !prevState);
+  };
+  const togggleMapModal = () => {
+    setShowMapModal((prevState) => !prevState);
+  };
 
-    return (
-        <>
-            {modal ? (
-                <Modal show={modal} onToggleModal={showModal}>
-                    <div>something</div>
-                </Modal>
-            ) : (
-                ""
+  return (
+    <>
+      {showMapModal ? <MapBar togggleMapModal={togggleMapModal} /> : null}
+      {showDiceModal ? (
+        <DiceBar
+          diceRollHandler={diceRollHandler}
+          togggleDiceModal={togggleDiceModal}
+        />
+      ) : null}
+      {modal ? (
+        <Modal show={modal} onToggleModal={showModal}>
+          <div>something</div>
+        </Modal>
+      ) : (
+        ""
+      )}
+
+      {isMobile ? (
+        <header className={styles.mobile}>
+          {roomType == "voice" && <div className={styles.leftSpace} />}
+          {roomType == "party" && <BagButton />}
+          {roomType != "voice" && <CameraButton />}
+          <MicButton />
+          {roomType != "voice" && <StreamButton />}
+          <ChatButton />
+        </header>
+      ) : (
+        <header className={styles.desktop}>
+          <div className={styles.leftGroup}>
+            <LeaveButton onPress={onLeaveHandler} />
+            {roomType == "party" && <p className={styles.spacer}></p>}
+          </div>
+
+          {roomType != "voice" ? (
+            <div className={styles.middleGroup}>
+              <div className={styles.optionsContainer}>
+                <div className={styles.mainButton}>
+                  <CameraButton onPress={onToggleVideo} />
+                </div>
+                <div className={styles.moreButton}>
+                  <MoreButton />
+                </div>
+              </div>
+              <div className={styles.optionsContainer}>
+                <div className={styles.mainButton}>
+                  <MicButton onPress={onToggleAudio} />
+                </div>
+                <div className={styles.moreButton}>
+                  <MoreButton />
+                </div>
+              </div>
+              <StreamButton
+                onPress={onToggleScreenShare}
+                show={captureIsActice}
+              />
+            </div>
+          ) : (
+            <div className={styles.optionsContainer}>
+              <div className={styles.mainButton}>
+                <MicButton />
+              </div>
+              <div className={styles.moreButton}>
+                <MoreButton />
+              </div>
+            </div>
+          )}
+
+          <div className={styles.rightGroup}>
+            {roomType == "voice" && <p className={styles.spacer}></p>}
+
+            {roomType == "party" && (
+              <BagButton
+                size="small"
+                onDicePress={togggleDiceModal}
+                onMapPress={togggleMapModal}
+              />
             )}
 
-            {isMobile ? (
-                <header className={styles.mobile}>
-                    {roomType == "voice" && <div className={styles.leftSpace} />}
-                    {roomType == "party" && <BagButton />}
-                    {roomType != "voice" && <CameraButton />}
-                    <MicButton />
-                    {roomType != "voice" && <StreamButton />}
-                    <ChatButton />
-
-                </header>
-            ) : (
-                <header className={styles.desktop}>
-                    
-                    <div className={styles.leftGroup}>
-                        <LeaveButton />
-                        {roomType == "party" && (<p className={styles.spacer}></p>)}                    
-
-                    </div>
-
-                    {roomType != "voice" 
-                    ?
-                        <div className={styles.middleGroup}>
-                            <div className={styles.optionsContainer}>
-                                <div className={styles.mainButton}><CameraButton /></div>
-                                <div className={styles.moreButton}><MoreButton /></div>
-                            </div>
-                            <div className={styles.optionsContainer}>
-                                <div className={styles.mainButton}><MicButton /></div>
-                                <div className={styles.moreButton}><MoreButton /></div>
-                            </div>
-                        <StreamButton />
-                        </div>
-                    :
-                        <div className={styles.optionsContainer}>
-                            <div className={styles.mainButton}><MicButton /></div>
-                            <div className={styles.moreButton}><MoreButton /></div>
-                        </div>
-                    }
-                    
-                    <div className={styles.rightGroup}>
-                        {roomType == "voice" && (<p className={styles.spacer}></p>)}                    
-                        
-                        {roomType == "party" && <BagButton size="small"/>}
-                        
-                        {roomType != "voice" && <ChatButton size="small"/>}   
-
-
-                    </div>
-
-                    
-
-                </header>
+            {roomType != "voice" && (
+              <ChatButton size="small" onPress={onToggleChat} />
             )}
-        </>
-            );
+          </div>
+        </header>
+      )}
+    </>
+  );
 };
 
 export default GatherControlBar;

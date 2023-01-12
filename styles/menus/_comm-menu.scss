@@ -103,7 +103,7 @@
                     background-color: transparent;
                     transition: border 0.3s;
                     &:before {
-                        @include font-icon($icon-plus);
+                        // @include font-icon($icon-plus);
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -209,7 +209,7 @@
 
     &:before {
         @include x-y-center;
-        @include font-icon($icon-gear);
+        // @include font-icon($icon-gear);
     }
 
     &:hover {
