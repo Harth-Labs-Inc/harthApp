@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState, useReducer } from "react";
 import io from "socket.io-client";
-
+import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
+import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import { getTurnServers } from "../../../util/TURN";
 import { useSize, useMobile } from "../../../contexts/mobile";
 import { resize } from "../../../util/resize";
+import { useComms } from "../../../contexts/comms";
 
-import Options from "./Options";
-import DiceModal from "./Options/OutsideCalls/Dice";
-import VoteModal from "./Options/OutsideCalls/Vote";
-import MyTurn from "./Options/TurnKeeper/MyTurn";
-import PeerTurn from "./Options/TurnKeeper/PeerTurn";
 import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
+
+import { DiceAlert } from "../../../components/Gathering/GatherTools/DiceAlert";
 
 import styles from "./Party.module.scss";
 
@@ -23,14 +22,7 @@ let chatPannel = false;
 let userInfo = {};
 
 const Party = () => {
-    //turn keeper
-    const [activeTurnUser, setActiveTurnUser] = useState();
-    const [openTurnKeeper, setOpenTurnKeeper] = useState();
-
-    //vote
-    const [voteStarted, setVoteStarted] = useState(false);
-    const [voteResults, setVoteResults] = useState();
-    const [voteTally, setVoteTally] = useState({});
+    const [isCaptureButtonActive, setisCaptureButtonActive] = useState(false);
 
     //chat
     const [unreadMsg, setUnreadMsg] = useState(false);
@@ -59,11 +51,11 @@ const Party = () => {
     const [Peers, setPeers] = useState([]);
     const [muteOn, setMuteOn] = useState(true);
     const [videoOn, setVideoOn] = useState(false);
-    const [options, setOptions] = useState(false);
+
+    const [selectedHarth, setSelectedHarth] = useState(null);
 
     // part state
     const [outsideDiceRoll, setOutsideDiceRoll] = useState({});
-    const [outsideVoteCall, setOutsideVoteCall] = useState({});
 
     const mainRef = useRef();
     const localVidRef = useRef();
@@ -75,19 +67,18 @@ const Party = () => {
 
     const { width } = useSize();
     const { isMobile } = useMobile();
+    const { comms } = useComms();
 
     // ---------- video grid sizing --------------
     useEffect(() => {
         const container = document.getElementById("peerContainer");
         resize(container);
-    }, [width, roomChange, isSharingCapture]);
+    }, [width, roomChange, isSharingCapture, showChatPannel]);
 
     useEffect(() => {
         let tempactiveCallRoom = {};
         if (roomId) {
             tempactiveCallRoom = callRooms?.filter((room) => {
-                // console.log(room)
-                // console.log(roomId)
                 return room.roomId === roomId;
             });
         }
@@ -141,6 +132,13 @@ const Party = () => {
         }
     }, [localStreamChange]);
 
+    useEffect(() => {
+        if (harthId && comms && comms.length) {
+            let harth = comms.find((harthObj) => harthObj._id == harthId);
+            setSelectedHarth(harth);
+        }
+    }, [harthId, comms]);
+
     // ---------- mobile view --------------
     useEffect(() => {
         if (isMobile) {
@@ -180,7 +178,11 @@ const Party = () => {
             });
 
             socket.on("party-event", (data) => {
+                console.log(data, "party-event updated");
                 setOutsideDiceRoll({ ...data });
+                setTimeout(() => {
+                    setOutsideDiceRoll({});
+                }, 3000);
             });
 
             socket.on("user-left", (data) => {
@@ -245,31 +247,6 @@ const Party = () => {
                 setIsSharingCapture(!!activeScreenShare);
                 setIsSharingVideo(!!activeVideoStream);
             });
-            // vote
-            socket.on("incoming-vote", (data) => {
-                setOutsideVoteCall({ ...data });
-            });
-            socket.on("vote-result", (data) => {
-                setVoteTally(data);
-            });
-            socket.on("cancel-vote", () => {
-                setVoteStarted(false);
-                setVoteResults(undefined);
-            });
-
-            // turns
-            socket.on("incoming-turn", (data) => {
-                data.forEach((peer) => {
-                    if (peer.name === userName) {
-                        setActiveTurnUser(peer.activeTurnUser);
-                    }
-                });
-                setOpenTurnKeeper(data);
-            });
-            socket.on("close-turn", () => {
-                setOpenTurnKeeper(undefined);
-                setActiveTurnUser(false);
-            });
         }
     }, [socket]);
 
@@ -291,107 +268,12 @@ const Party = () => {
         }
     }, [captureStream]);
 
-    // ---------- options menu (vote, turns, dice) --------------
-    const toggleOptions = () => {
-        setOptions((prevOptions) => !prevOptions);
-    };
-
-    // ---------- votes --------------
-    useEffect(() => {
-        if (Object.keys(voteTally).length) {
-            let votePassed;
-            let { voteType, votes, Peers } = voteTally;
-
-            if (voteType === "majority") {
-                let yesses = votes.filter((v) => v === "yes").length;
-                if (yesses / Peers.length > 0.5) {
-                    votePassed = true;
-                } else {
-                    votePassed = false;
-                }
-            }
-            if (voteType === "unanimous") {
-                if (votes.includes("no")) {
-                    votePassed = false;
-                } else {
-                    votePassed = true;
-                }
-            }
-            setVoteResults(votePassed);
-            setVoteStarted(false);
-        }
-    }, [voteTally]);
-    const userVote = (vote) => {
-        socket &&
-            socket.emit("user-voted", { userName, roomId, vote }, (result) => {
-                if (result.ok) {
-                    setVoteTally(result.vote);
-                }
-            });
-    };
-    const voteCallHandler = (data) => {
-        socket &&
-            socket.emit(
-                "vote-called",
-                { ...data, roomId, userName, Peers, votes: [] },
-                () => {
-                    setVoteStarted(true);
-                }
-            );
-    };
-    const voteCallCancelled = () => {
-        socket &&
-            socket.emit("vote-cancelled", { roomId }, () => {
-                setVoteStarted(false);
-                setVoteResults(undefined);
-            });
-    };
-
-    // --------- turns -----------------
-    const turnCallHandler = (data) => {
-        socket &&
-            socket.emit("turn-called", { data, roomId }, () => {
-                data.forEach((peer) => {
-                    if (peer.name === userName) {
-                        setActiveTurnUser(peer.activeTurnUser);
-                    }
-                });
-                setOpenTurnKeeper(data);
-            });
-    };
-    const endTurnHandler = () => {
-        let mergedArr = openTurnKeeper;
-        let activeIndex;
-
-        mergedArr.forEach((peer, idx) => {
-            if (peer.activeTurnUser) {
-                peer.activeTurnUser = false;
-                activeIndex = idx;
-            }
-        });
-
-        if (activeIndex + 1 === mergedArr.length) {
-            mergedArr[0].activeTurnUser = true;
-        } else {
-            mergedArr[activeIndex + 1].activeTurnUser = true;
-        }
-
-        turnCallHandler(mergedArr);
-    };
-    const turnKeeperToggleHandler = () => {
-        socket &&
-            socket.emit("turn-closed", { roomId }, () => {
-                setOpenTurnKeeper(undefined);
-                setActiveTurnUser(false);
-            });
-    };
-
     // ---------- dice roll --------------
     const diceRollHandler = (data) => {
         socket &&
             socket.emit(
                 "user-dice-roll",
-                { ...data, roomId, userName },
+                { ...data, roomId, userName, userIcon },
                 ({ chats }) => {
                     setChats(chats);
                 }
@@ -524,8 +406,10 @@ const Party = () => {
     const toggleCapture = () => {
         if (!captureStream || captureStream.active === false) {
             startCapture();
+            setisCaptureButtonActive(true);
         } else {
             stopCapture(captureStream);
+            setisCaptureButtonActive(false);
         }
     };
     const getLocalStream = async (startWith) => {
@@ -579,6 +463,7 @@ const Party = () => {
                                 reactions: [],
                                 attachments: [],
                             };
+                            setisCaptureButtonActive(false);
 
                             sendNewChatMessage(newMsg);
                             onScreenShareClose();
@@ -600,7 +485,9 @@ const Party = () => {
                 sendNewChatMessage(newMsg);
                 setCaptureStream(capture);
             }
-        } catch (err) {}
+        } catch (err) {
+            setisCaptureButtonActive(false);
+        }
     };
     const onScreenShareClose = () => {
         if (socket) {
@@ -921,12 +808,6 @@ const Party = () => {
                 videoContainer.appendChild(image);
                 videoContainer.appendChild(name);
                 roomContainer.append(videoContainer);
-                if (showTurnIcon) {
-                    setTimeout(() => {
-                        setOpenTurnKeeper(turns);
-                        setActiveTurnUser(false);
-                    }, 10);
-                }
             }
         } else {
             let el = document.getElementById(createObj?.id);
@@ -973,78 +854,24 @@ const Party = () => {
         }
     };
 
+    // hd switch
+    const toggleHDSwitch = () => {};
+
     return (
         <main className={styles.PartyWindow} ref={mainRef}>
+            {Object.keys(outsideDiceRoll).length ? (
+                <DiceAlert
+                    rollResult={outsideDiceRoll?.number}
+                    profileImage={outsideDiceRoll?.userIcon}
+                    dice={outsideDiceRoll?.sides}
+                />
+            ) : null}
             <section className={styles.PartyWindowVideoContainer}>
-                {activeTurnUser ? (
-                    <MyTurn endTurnHandler={endTurnHandler} />
-                ) : null}
-                {activeTurnUser === false ? (
-                    <PeerTurn openTurnKeeper={openTurnKeeper} />
-                ) : null}
-                <div className={styles.PartyWindowTitle}>
-                    {activeCallRoom && activeCallRoom?.roomName
-                        ? `${activeCallRoom?.roomName}`
-                        : null}
-                </div>
-                <ul role="nav" className={styles.PartyWindowControls}>
-                    <div className={styles.PartyWindowControlsLeft}>
-                        <li onClick={leaveRoom}>
-                            <button className={styles.LeaveRoom}>leave</button>
-                        </li>
-                    </div>
-                    <div className={styles.PartyWindowControlsCenter}>
-                        <li onClick={toggleAudio}>
-                            <button
-                                className={
-                                    muteOn ? styles.Unmuted : styles.Muted
-                                }
-                            >
-                                mute
-                            </button>
-                        </li>
-                        <li onClick={toggleVideo}>
-                            <button
-                                className={
-                                    videoOn ? styles.Stream : styles.NoStream
-                                }
-                            >
-                                stream
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                className={`${styles.Options} ${
-                                    options ? styles.OptionsActive : null
-                                }`}
-                                // className={options ? 'active' : null}
-                                onClick={() => {
-                                    if (options && voteStarted) {
-                                        voteCallCancelled();
-                                    } else {
-                                        toggleOptions();
-                                        setVoteResults(undefined);
-                                    }
-                                }}
-                            >
-                                options
-                            </button>
-                        </li>
-                        <li onClick={toggleCapture}>
-                            <button className={styles.ScreenShare}>
-                                share screen
-                            </button>
-                        </li>
-                        <li
-                            className={`
-                ${unreadMsg ? styles.Unread : ""}
-                ${showChatPannel ? styles.Open : styles.Closed}`}
-                            onClick={toggleChat}
-                        >
-                            <button className={styles.Chat}>chat</button>
-                        </li>
-                    </div>
-                </ul>
+                <GatherHeader
+                    gatheringName={activeCallRoom?.roomName}
+                    selectedHarthIcon={selectedHarth?.iconKey}
+                    toggleHDSwitch={toggleHDSwitch}
+                />
                 <div className={styles.PartyMainContent}>
                     <section
                         ref={peerContainerRef}
@@ -1057,32 +884,29 @@ const Party = () => {
                         id="stream-window-chat"
                         className={showChatPannel ? "open" : "closed"}
                     >
-                        <ChatMessagesGeneral
-                            messages={chats}
-                            userName={userName}
-                        />
-                        <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
+                        <div className={styles.ChatPanelContainer}>
+                            <ChatMessagesGeneral
+                                messages={chats}
+                                userName={userName}
+                            />
+                            <GeneralChatInput
+                                onSubmitHandler={chatSubmitHandler}
+                            />
+                        </div>
                     </section>
                 </div>
                 <section id="stream-window-capture-container"></section>
-                {options ? (
-                    <Options
-                        diceRollHandler={diceRollHandler}
-                        voteCallHandler={voteCallHandler}
-                        userVote={userVote}
-                        outsideVoteCall={outsideVoteCall}
-                        peers={Peers}
-                        turnCallHandler={turnCallHandler}
-                        openTurnKeeper={openTurnKeeper}
-                        activeTurnUser={activeTurnUser}
-                        turnKeeperToggleHandler={turnKeeperToggleHandler}
-                        voteResults={voteResults}
-                    />
-                ) : null}
+                <GatherControlBar
+                    onLeaveHandler={leaveRoom}
+                    onToggleVideo={toggleVideo}
+                    onToggleAudio={toggleAudio}
+                    onToggleScreenShare={toggleCapture}
+                    captureIsActice={isCaptureButtonActive}
+                    onToggleChat={toggleChat}
+                    unreadMsg={unreadMsg}
+                    diceRollHandler={diceRollHandler}
+                />
             </section>
-
-            <DiceModal outsideDiceRoll={outsideDiceRoll} />
-            <VoteModal outsideVoteCall={outsideVoteCall} userVote={userVote} />
         </main>
     );
 };

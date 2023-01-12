@@ -80,14 +80,15 @@ const TopicsNav = () => {
             setTopicsArr([...topics, incomingTopic]);
         }
     }, [incomingTopic]);
-    useEffect(() => {
-        // document.addEventListener("contextmenu", (event) => {
-        //     event.preventDefault();
-        // });
-        // return () => {
-        //     window.removeEventListener("contextmenu", () => {});
-        // };
-    }, []);
+    // useEffect(() => {
+    //     document.addEventListener("contextmenu", (event) => {
+    //         event.preventDefault();
+    //     });
+
+    //     return () => {
+    //         window.removeEventListener("contextmenu", () => {});
+    //     };
+    // }, []);
 
     const changeSelectedTopic = (topic) => {
         setTopic(topic);
@@ -304,7 +305,7 @@ const TopicsNav = () => {
                             topic
                         </button>
                     </div>
-                    {(hiddenTopicsArr.length > 0) &&
+                    {hiddenTopicsArr.length > 0 && (
                         <button
                             className={`
                             ${styles.TopicsNavHidden}
@@ -314,7 +315,7 @@ const TopicsNav = () => {
                         >
                             Hidden
                         </button>
-                    }
+                    )}
                     {isHiddenView &&
                         hiddenTopicsArr &&
                         hiddenTopicsArr.map((topic) => {

@@ -1,76 +1,75 @@
-@import '../../../../styles/globals.scss';
-@import '../../../../styles/config/config-type';
+@import "../../../../styles/globals.scss";
 
 .gatheringCreate {
-  height: 280px;
-  padding: 0 16px 20px;
-  border: #eaeaea;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(#000, 0.16);
+    height: 280px;
+    padding: 0 16px 20px;
+    border: #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(#000, 0.16);
 
-  &Title {
-    width: 100%;
-    margin-bottom: 24px;
-    padding: 4px 0;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 19px;
-    text-align: center;
-    background-color: #ee5500;
-    border-radius: 0 0 28px 28px;
-  }
-
-  &RoomType {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin: 0 16px 24px;
-
-    button {
-      height: 56px;
-      width: 56px;
-      color: #9a9a9a;
-      background-color: #eaeaea;
-      border-radius: 50%;
-      &:before {
-        @include x-y-center;
-        font-size: 32px;
-      }
-
-      + button {
-        margin-left: 24px !important;
-      }
-
-      &.gatheringCreateRoomTypeActive {
-        color: #333;
-        background-color: #9a9a9a;
-      }
+    &Title {
+        width: 100%;
+        margin-bottom: 24px;
+        padding: 4px 0;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 19px;
+        text-align: center;
+        background-color: #ee5500;
+        border-radius: 0 0 28px 28px;
     }
 
-    &Voice {
-      &:before {
-        @include font-icon($icon-voice);
-      }
-    }
-    &Stream {
-      &:before {
-        @include font-icon($icon-stream);
-      }
-    }
-    &Party {
-      &:before {
-        @include font-icon($icon-party);
-      }
-    }
-  }
+    &RoomType {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin: 0 16px 24px;
 
-  &RoomControls {
-    display: flex;
-    justify-content: space-between;
+        button {
+            height: 56px;
+            width: 56px;
+            color: #9a9a9a;
+            background-color: #eaeaea;
+            border-radius: 50%;
+            &:before {
+                @include x-y-center;
+                font-size: 32px;
+            }
 
-    &Create {
-      width: 100%;
+            + button {
+                margin-left: 24px !important;
+            }
+
+            &.gatheringCreateRoomTypeActive {
+                color: #333;
+                background-color: #9a9a9a;
+            }
+        }
+
+        // &Voice {
+        //   &:before {
+        //     @include font-icon($icon-voice);
+        //   }
+        // }
+        // &Stream {
+        //   &:before {
+        //     @include font-icon($icon-stream);
+        //   }
+        // }
+        // &Party {
+        //   &:before {
+        //     @include font-icon($icon-party);
+        //   }
+        // }
     }
-  }
+
+    &RoomControls {
+        display: flex;
+        justify-content: space-between;
+
+        &Create {
+            width: 100%;
+        }
+    }
 }

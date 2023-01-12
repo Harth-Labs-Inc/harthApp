@@ -1,28 +1,24 @@
-@import './globals';
+@import "./globals";
 
 //fonts
-@import './fonts';
+@import "./fonts";
 
 //utility
-@import './utility/ui-mixins';
+@import "./utility/ui-mixins";
 
 //config
-@import './config/html', './config/config-type', './config/headings',
-  './config/forms', './config/modal';
+@import "./config/html", "./config/headings", "./config/forms", "./config/modal";
 
 //old navigation
-@import  './navigation/main', './navigation/top', 
-  './navigation/comm-preferences', './navigation/topic-nav',
-  './navigation/invite', './navigation/settings';
-
-
+@import "./navigation/main", "./navigation/top", "./navigation/comm-preferences",
+    "./navigation/topic-nav", "./navigation/invite", "./navigation/settings";
 
 //menus
-@import './menus/comm-menu', './menus/harth-menu', './menus/party-options';
+@import "./menus/comm-menu", "./menus/harth-menu", "./menus/party-options";
 
 //settings
-@import './settings/topic-settings';
+@import "./settings/topic-settings";
 
 //pages
-@import './pages/auth', './pages/dashboard', './pages/topic', './pages/chat',
-  './pages/gather', './pages/tavern';
+@import "./pages/auth", "./pages/dashboard", "./pages/topic", "./pages/chat",
+    "./pages/gather", "./pages/tavern";

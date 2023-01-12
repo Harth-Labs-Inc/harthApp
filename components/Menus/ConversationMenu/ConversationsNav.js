@@ -6,7 +6,7 @@ import { useChat } from "../../../contexts/chat";
 import { useSocket } from "../../../contexts/socket";
 import { MobileContext } from "../../../contexts/mobile";
 import { Modal } from "../../Common";
-import { deleteConversationByID } from "../../../requests/community";
+// import { deleteConversationByID } from "../../../requests/community";
 import ConversationDeleteModal from "../ConversationDeleteModal";
 
 import ConversationListElement from "../../Conversation/ConversationListElement";
@@ -17,8 +17,10 @@ import styles from "./ConversationsNav.module.scss";
 
 const ConversationsNav = () => {
     const [conversationsArr, setConversationsArr] = useState([]);
-    const [openConversationBuilder, setOpenConversationBuilder] = useState(false);
-    const [showDeleteConversationModal, setShowDeleteConversationModal] = useState(false);
+    const [openConversationBuilder, setOpenConversationBuilder] =
+        useState(false);
+    const [showDeleteConversationModal, setShowDeleteConversationModal] =
+        useState(false);
 
     const { isMobile } = useContext(MobileContext);
     const { unreadMsgs, incomingConversation, emitUpdate } = useSocket();
@@ -51,7 +53,6 @@ const ConversationsNav = () => {
         }
     }, [conversations]);
 
-
     // useEffect(() => {
     //     if (incomingConversation._id) {
     //         setConversationsArr([...conversations, incomingConversation]);
@@ -76,8 +77,6 @@ const ConversationsNav = () => {
         setOpenConversationBuilder(!openConversationBuilder);
     };
 
-
-
     const onDeleteHandler = () => {
         console.log("onDeleteHandler");
         setShowDeleteConversationModal(true);
@@ -86,7 +85,7 @@ const ConversationsNav = () => {
         setShowDeleteConversationModal(false);
     };
     const submitConversationDeleteHandler = async (newConversation) => {
-        await deleteConversationByID(newConversation._id);
+        // await deleteConversationByID(newConversation._id);
         let msg = {};
         msg.updateType = "conversation deleted";
         msg.comm = selectedcomm;
@@ -103,13 +102,17 @@ const ConversationsNav = () => {
     return (
         <>
             {openConversationBuilder && (
-                <CreateNewConversationModal toggleModal={openCreateConversation} />
+                <CreateNewConversationModal
+                    toggleModal={openCreateConversation}
+                />
             )}
 
             {showDeleteConversationModal ? (
                 <Modal onToggleModal={() => {}}>
                     <ConversationDeleteModal
-                        submitConversationChange={submitConversationDeleteHandler}
+                        submitConversationChange={
+                            submitConversationDeleteHandler
+                        }
                         hidden={!showDeleteConversationModal}
                         setHidden={onCloseDeleteModal}
                         conversation={{
@@ -118,7 +121,6 @@ const ConversationsNav = () => {
                     />
                 </Modal>
             ) : null}
-
 
             <aside
                 className={`
@@ -135,7 +137,8 @@ const ConversationsNav = () => {
                             let hasAlert = false;
                             let alertProfiles = [];
                             if (
-                                (selectedConversation || {})._id == (conversation || {})._id
+                                (selectedConversation || {})._id ==
+                                (conversation || {})._id
                             ) {
                                 isActive = true;
                             }
@@ -143,7 +146,8 @@ const ConversationsNav = () => {
                                 if (
                                     msg.conversation_id === conversation._id &&
                                     msg.creator_id !== user._id &&
-                                    (selectedConversation || {})._id !== msg.conversation_id
+                                    (selectedConversation || {})._id !==
+                                        msg.conversation_id
                                 ) {
                                     let owner = conversation?.members.find(
                                         (member) => member?.user_id === user._id
@@ -169,15 +173,17 @@ const ConversationsNav = () => {
                                     isActive={isActive}
                                     isShort={isShort}
                                     label={conversation?.title}
-                                    toggleConversationEditModal={toggleConversationEditModal}
+                                    toggleConversationEditModal={
+                                        toggleConversationEditModal
+                                    }
                                 />
                             );
                         })}
 
-                        {/* These are placed here to for visual design purposes. 
+                    {/* These are placed here to for visual design purposes. 
                         remove when logic is added to pull real conversations */}
-                        <ConversationListElement />
-                        <ConversationListElement />
+                    <ConversationListElement />
+                    <ConversationListElement />
                     <div className={styles.ConversationsNavCreate}>
                         <button
                             className={
@@ -194,8 +200,6 @@ const ConversationsNav = () => {
                             conversation
                         </button>
                     </div>
-
-                    
                 </div>
             </aside>
         </>

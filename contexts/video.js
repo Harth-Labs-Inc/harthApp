@@ -25,14 +25,12 @@ export const VideoProvider = ({ children }) => {
             production: "https://project-blarg-video-socket.herokuapp.com",
         };
         axios
-            .get(
-                `https://project-blarg-video-socket.herokuapp.com/api/get-turn-credentials`
-            )
+            .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
             .then((responseData) => {
                 setTurnServers(responseData.data.token.iceServers);
 
                 setSocket(
-                    io.connect("http://localhost:5000", {
+                    io.connect(urls[process.env.NODE_ENV], {
                         transports: ["websocket"],
                     })
                 );
@@ -55,11 +53,9 @@ export const VideoProvider = ({ children }) => {
 
                         break;
                     case "GROUP_CALL_PEERS":
-                        console.log("test");
                         let rooms = [...callRooms];
                         rooms.forEach((room, index) => {
                             if (peers[0] && room.roomId === peers[0].roomId) {
-                                console.log("triggered");
                                 rooms[index].peers = peers;
                                 setCallRooms(rooms);
                             }

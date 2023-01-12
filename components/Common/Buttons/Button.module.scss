@@ -1,22 +1,18 @@
 @import "../../../styles/globals.scss";
 @import "../../../styles/config/config-type";
 
-
 .closeButton {
-  position: relative;
-  padding: 8px 8px;
-  border: 1px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-  background-color: transparent;
-  &:hover {
-    background-color: $fuel_10;
-  }
+    position: relative;
+    padding: 8px 8px;
+    border: 1px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: transparent;
+    &:hover {
+        background-color: $fuel_10;
+    }
 }
-
-
-
 
 //////////
 /// Below are old styles
@@ -92,7 +88,7 @@
 
     &:before {
         @include x-y-center;
-        @include font-icon($icon-caret-right);
+        // @include font-icon($icon-caret-right);
         transform: translate3d(-50%, -50%, 0) rotate(180deg);
     }
 
