@@ -8,9 +8,8 @@ export const Avatar = (props) => {
         imageSrc,
         aLabel = "Profile Image",
         darkBackground = false,
+        customStyle,
     } = props;
-
-    console.log(isPressable);
 
     return (
         <>
@@ -21,6 +20,7 @@ export const Avatar = (props) => {
                             ${styles.avatarButton} 
                             ${darkBackground && styles.avatarButtonDark}
                             `}
+                    style={{ zIndex: customStyle }}
                     aria-label={aLabel}
                 >
                     <img
@@ -32,7 +32,10 @@ export const Avatar = (props) => {
                     />
                 </button>
             ) : (
-                <div className={styles.avatarIndicator}>
+                <div
+                    className={styles.avatarIndicator}
+                    style={{ zIndex: customStyle }}
+                >
                     <img
                         src={
                             imageSrc

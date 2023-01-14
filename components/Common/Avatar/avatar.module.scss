@@ -1,7 +1,5 @@
 @import "../../../styles/globals.scss";
 
-
-
 .avatarButton {
     display: flex;
     align-items: center;
@@ -12,7 +10,7 @@
     background-color: transparent;
     overflow: hidden;
     cursor: pointer;
-    
+
     &:hover {
         border-style: solid;
         border-color: $fuel;
@@ -31,7 +29,6 @@
     }
 }
 
-
 .avatarIndicator {
     display: flex;
     align-items: center;
@@ -45,7 +42,5 @@
     .avatar {
         border-radius: 9999px;
         overflow: hidden;
-        cursor: none;
     }
-
 }

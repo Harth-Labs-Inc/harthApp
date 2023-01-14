@@ -12,6 +12,15 @@
     width: 336px;
     min-height: 220px;
 
+    &.party {
+        border-color: $hot_purple;
+    }
+    &.stream {
+        border-color: $hot_red;
+    }
+    &.voice {
+        border-color: $hot_blue;
+    }
 
     &Label {
         position: relative;
@@ -29,23 +38,18 @@
             width: 48px;
             height: 48px;
             //background-color: aliceblue;
-            padding: 4px;;
+            padding: 4px;
         }
-        
+
         &Text {
             position: absolute;
             top: 72px;
             width: 100%;
             transform: rotate(90deg);
             @include roomType;
-            
-            
-
-
         }
         .party & {
-            background-color: $fuel;
-            color: $hot_purple_80;
+            background-color: $hot_purple;
             svg path {
                 fill: $hot_purple_80;
             }
@@ -96,7 +100,6 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
     }
 
     &Name {
@@ -150,6 +153,19 @@
         width: 100%;
         color: $fuel;
         @include contentR2;
+    }
+
+    &AttendeeWrapper {
+        display: flex;
+
+        > div {
+            position: relative;
+            height: 44px;
+            width: 44px;
+            margin-right: -16px;
+            padding: 0;
+            border-color: $white;
+        }
     }
 
     &ActionBar {

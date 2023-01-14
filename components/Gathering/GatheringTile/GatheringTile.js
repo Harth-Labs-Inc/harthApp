@@ -29,7 +29,7 @@ export const GatheringTile = (props) => {
     useEffect(() => {
         if (peers && peers.length && user) {
             let inRoom = peers?.find((peer) => {
-                return peer.name === user.name;
+                return peer.userId === user.userId;
             });
 
             setIsInRoom(inRoom);
@@ -119,9 +119,15 @@ export const GatheringTile = (props) => {
                     </div>
                     <div className={styles.GatheringTilePeopleDescription}>
                         <div className={styles.GatheringTileAttendeeWrapper}>
-                            {peers.forEach((peer) => {
-                                console.log(peer, "peer");
-                                return <Avatar imageSrc={peer.img} />;
+                            {peers.map((peer, index) => {
+                                const zIndex = peers.length - index;
+                                return (
+                                    <Avatar
+                                        key={peer.peerId}
+                                        imageSrc={peer.img}
+                                        customStyle={zIndex}
+                                    />
+                                );
                             })}
                         </div>
                         <p className={styles.GatheringTileDescription}>

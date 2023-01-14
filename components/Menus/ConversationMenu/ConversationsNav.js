@@ -59,15 +59,15 @@ const ConversationsNav = () => {
     //     }
     // }, [incomingConversation]);
 
-    useEffect(() => {
-        document.addEventListener("contextmenu", (event) => {
-            event.preventDefault();
-        });
+    // useEffect(() => {
+    //     document.addEventListener("contextmenu", (event) => {
+    //         event.preventDefault();
+    //     });
 
-        return () => {
-            window.removeEventListener("contextmenu", () => {});
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener("contextmenu", () => {});
+    //     };
+    // }, []);
 
     const changeSelectedConversation = (conversation) => {
         setConversation(conversation);
