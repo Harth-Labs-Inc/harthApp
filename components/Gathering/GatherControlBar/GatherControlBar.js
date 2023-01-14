@@ -23,10 +23,14 @@ const GatherControlBar = (props) => {
     captureIsActice,
     onToggleChat,
     diceRollHandler,
+    changeAudioDevice,
+    changeVideoDevice,
   } = props;
   const [modal, setModal] = useState();
   const [showDiceModal, setShowDiceModal] = useState();
   const [showMapModal, setShowMapModal] = useState();
+  const [audioList, setAudioList] = useState();
+  const [videoList, setVideoList] = useState();
 
   const { isMobile } = useContext(MobileContext);
 
@@ -41,22 +45,55 @@ const GatherControlBar = (props) => {
     setShowMapModal((prevState) => !prevState);
   };
 
+  const onToggleAudioDevicesModal = () => {
+    if (!!audioList) {
+      setAudioList(null);
+    } else if (!navigator.mediaDevices?.enumerateDevices) {
+    } else {
+      navigator.mediaDevices
+        .enumerateDevices()
+        .then((devices) => {
+          let audioInputs = devices.filter(({ kind }) => kind == "audioinput");
+          setAudioList(audioInputs);
+        })
+        .catch((err) => {});
+    }
+  };
+
+  const onToggleVideoDevicesModal = () => {
+    if (!!videoList) {
+      setVideoList(null);
+    } else if (!navigator.mediaDevices?.enumerateDevices) {
+    } else {
+      navigator.mediaDevices
+        .enumerateDevices()
+        .then((devices) => {
+          console.log(devices);
+          let videoInputs = devices.filter(({ kind }) => kind == "videoinput");
+          setVideoList(videoInputs);
+        })
+        .catch((err) => {});
+    }
+  };
+
   return (
     <>
-      {showMapModal ? <MapBar togggleMapModal={togggleMapModal} /> : null}
-      {showDiceModal ? (
-        <DiceBar
-          diceRollHandler={diceRollHandler}
-          togggleDiceModal={togggleDiceModal}
-        />
-      ) : null}
-      {modal ? (
-        <Modal show={modal} onToggleModal={showModal}>
-          <div>something</div>
-        </Modal>
-      ) : (
-        ""
-      )}
+      <div className="conditionals">
+        {showMapModal ? <MapBar togggleMapModal={togggleMapModal} /> : null}
+        {showDiceModal ? (
+          <DiceBar
+            diceRollHandler={diceRollHandler}
+            togggleDiceModal={togggleDiceModal}
+          />
+        ) : null}
+        {modal ? (
+          <Modal show={modal} onToggleModal={showModal}>
+            <div>something</div>
+          </Modal>
+        ) : (
+          ""
+        )}
+      </div>
 
       {isMobile ? (
         <header className={styles.mobile}>
@@ -78,18 +115,34 @@ const GatherControlBar = (props) => {
             <div className={styles.middleGroup}>
               <div className={styles.optionsContainer}>
                 <div className={styles.mainButton}>
-                  <CameraButton onPress={onToggleVideo} />
+                  <CameraButton
+                    onPress={onToggleVideo}
+                    videoList={videoList}
+                    changeVideoDevice={changeVideoDevice}
+                    clearVideoList={() => setVideoList(null)}
+                  />
                 </div>
                 <div className={styles.moreButton}>
-                  <MoreButton />
+                  <MoreButton
+                    onPress={onToggleVideoDevicesModal}
+                    isActive={!!videoList}
+                  />
                 </div>
               </div>
               <div className={styles.optionsContainer}>
                 <div className={styles.mainButton}>
-                  <MicButton onPress={onToggleAudio} />
+                  <MicButton
+                    onPress={onToggleAudio}
+                    audioList={audioList}
+                    changeAudioDevice={changeAudioDevice}
+                    clearAudioList={() => setAudioList(null)}
+                  />
                 </div>
                 <div className={styles.moreButton}>
-                  <MoreButton />
+                  <MoreButton
+                    onPress={onToggleAudioDevicesModal}
+                    isActive={!!audioList}
+                  />
                 </div>
               </div>
               <StreamButton

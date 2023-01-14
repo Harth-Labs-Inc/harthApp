@@ -1,29 +1,50 @@
 import { useState } from "react";
 import { IconMicFill } from "../../../resources/icons/IconMicFill";
 import { IconMuteMicFill } from "../../../resources/icons/IconMuteMicFill";
+import OutsideClickHandler from "../../Common/Modals/OutsideClick";
 import styles from "./gatheringButtons.module.scss";
 
 export const MicButton = (props) => {
-  const { size = "large", onPress } = props;
+  const {
+    size = "large",
+    onPress,
+    audioList,
+    changeAudioDevice,
+    clearAudioList,
+  } = props;
   const [buttonState, setButtonState] = useState("on");
 
   const toggleActive = () => {
     if (buttonState == "muted") {
-      //onPress()
-      //Does this need an await function for onPress
-      //before it sets the button
       setButtonState("on");
     } else {
-      //onPress()
-      //Does this need an await function for onPress
-      //before it sets the button
       setButtonState("muted");
     }
     onPress();
   };
 
   return (
-    <>
+    <div>
+      {audioList ? (
+        <div className={styles.BagButtonOptions}>
+          <div className={styles.BagButtonOptionsContainer}>
+            {audioList.map((device) => {
+              const { label, deviceId } = device;
+              return (
+                <button
+                  key={deviceId}
+                  onClick={() => {
+                    clearAudioList();
+                    changeAudioDevice(device);
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
       <button
         className={`
                 ${styles.basicButton} 
@@ -51,6 +72,6 @@ export const MicButton = (props) => {
           </div>
         )}
       </button>
-    </>
+    </div>
   );
 };

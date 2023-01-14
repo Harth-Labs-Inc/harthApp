@@ -1,51 +1,51 @@
 import React from "react";
 
 export default class OutsideClickHandler extends React.Component {
-    clickCaptured = false;
+  clickCaptured = false;
 
-    render() {
-        if (typeof this.props.children === "function") {
-            return this.props.children(this.getProps());
-        }
-
-        return this.renderComponent();
+  render() {
+    if (typeof this.props.children === "function") {
+      return this.props.children(this.getProps());
     }
 
-    renderComponent() {
-        return React.createElement(
-            this.props.component || "span",
-            { ...this.getProps(), className: this.props.className },
-            this.props.children
-        );
-    }
+    return this.renderComponent();
+  }
 
-    getProps() {
-        return {
-            onMouseDown: this.innerClick,
-            onTouchStart: this.innerClick,
-        };
-    }
+  renderComponent() {
+    return React.createElement(
+      this.props.component || "span",
+      { ...this.getProps(), className: this.props.className },
+      this.props.children
+    );
+  }
 
-    innerClick = () => {
-        this.clickCaptured = true;
+  getProps() {
+    return {
+      onMouseDown: this.innerClick,
+      onTouchStart: this.innerClick,
     };
+  }
 
-    componentDidMount() {
-        document.addEventListener("mousedown", this.documentClick);
-        document.addEventListener("touchstart", this.documentClick);
+  innerClick = () => {
+    this.clickCaptured = true;
+  };
+
+  componentDidMount() {
+    document.addEventListener("mousedown", this.documentClick);
+    document.addEventListener("touchstart", this.documentClick);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.documentClick);
+    document.removeEventListener("touchstart", this.documentClick);
+  }
+
+  documentClick = (event) => {
+    if (!this.clickCaptured && this.props.onClickOutside) {
+      this.props.onClickOutside(event);
     }
-
-    componentWillUnmount() {
-        document.removeEventListener("mousedown", this.documentClick);
-        document.removeEventListener("touchstart", this.documentClick);
-    }
-
-    documentClick = (event) => {
-        if (!this.clickCaptured && this.props.onClickOutside) {
-            this.props.onClickOutside(event);
-        }
-        this.clickCaptured = false;
-    };
+    this.clickCaptured = false;
+  };
 }
 
 // const OutsideClickHandler = (props) => {
