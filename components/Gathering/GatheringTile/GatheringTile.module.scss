@@ -3,50 +3,88 @@
 
 .GatheringTile {
     display: flex;
-    width: 332px;
-    // min-height: 240px;
-    background-color: $white;
-    border: 2px solid $fuel;
-    border-radius: 18px;
+    width: 336px;
+    gap: 0;
+    background-color: transparent;
+    border-radius: 24px;
     overflow: hidden;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
+    width: 336px;
+    min-height: 220px;
 
-    &.party {
-        border-color: $hot_pink;
-    }
-    &.stream {
-        border-color: $hot_red;
-    }
-    &.voice {
-        border-color: $hot_blue;
-    }
 
     &Label {
+        position: relative;
         display: flex;
+        flex-direction: column;
         align-items: center;
         width: 56px;
+        min-width: 56px;
         background-color: $fuel;
+        padding: 8px 0 0 0;
+        border: 0;
+        outline: 0;
 
         &Icon {
             width: 48px;
-            transform: rotate(90deg);
+            height: 48px;
+            //background-color: aliceblue;
+            padding: 4px;;
         }
+        
+        &Text {
+            position: absolute;
+            top: 72px;
+            width: 100%;
+            transform: rotate(90deg);
+            @include roomType;
+            
+            
 
+
+        }
         .party & {
-            background-color: $hot_pink;
+            background-color: $fuel;
+            color: $hot_purple_80;
             svg path {
-                fill: $white;
+                fill: $hot_purple_80;
             }
         }
         .stream & {
-            background-color: $hot_red;
+            background-color: $fuel;
+            color: $hot_red_80;
             svg path {
-                fill: $white;
+                fill: $hot_red_80;
             }
         }
         .voice & {
-            background-color: $hot_blue;
+            background-color: $fuel;
+            color: $hot_blue_80;
             svg path {
-                fill: $white;
+                fill: $hot_blue_80;
+            }
+        }
+
+        .partyActive & {
+            background-color: $hot_purple;
+            color: darken($hot_purple, 14);
+
+            svg path {
+                fill: darken($hot_purple, 14);
+            }
+        }
+        .streamActive & {
+            background-color: $hot_red;
+            color: darken($hot_red, 14);
+            svg path {
+                fill: darken($hot_red, 14);
+            }
+        }
+        .voiceActive & {
+            background-color: $hot_blue;
+            color: darken($hot_blue, 14);
+            svg path {
+                fill: darken($hot_blue, 14);
             }
         }
     }
@@ -54,6 +92,11 @@
     &Info {
         width: 100%;
         padding: 20px 16px;
+        background-color: $oxygen;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
     }
 
     &Name {
@@ -61,42 +104,52 @@
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
-        height: 60px;
+        //min-height: 60px;
+        padding: 0px 0px 16px 0px;
         text-overflow: ellipsis;
         overflow: hidden;
     }
 
     &InfoStructure {
         display: flex;
+        flex-direction: row;
+        min-height: 60px;
     }
 
     &Scheduled {
         width: 80px;
+        min-width: 80px;
         padding: 8px 5px 8px 0;
         text-align: center;
+        //background-color: aqua;
 
         &Time {
-            @include interfaceH1;
+            @include interfaceH3;
             font-weight: 700;
-            line-height: 25px;
-            text-transform: lowercase;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
         }
         &Date {
-            @include interfaceH2;
+            margin-top: 4px;
+            @include interfaceR2;
         }
 
         &Now {
             @include interfaceH5;
-            padding: 14.5px 7px;
-            color: $white;
+            padding: 8px 8px;
+            color: $oxygen;
             background-color: $fuel;
-            border-radius: 50%;
+            border-radius: 9999px;
         }
     }
 
     &PeopleDescription {
         padding: 8px 0 8px 8px;
         border-left: 1px solid $fuel;
+        //background-color: aquamarine;
+        width: 100%;
+        color: $fuel;
+        @include contentR2;
     }
 
     &ActionBar {

@@ -12,13 +12,13 @@ export const GatheringButton = (props) => {
 
     const Icon = () => {
         if (type === "voice") {
-            return <IconHeadsetMic fill={active ? "#fff" : "#282828"} />;
+            return <IconHeadsetMic fill={active ? "#fff" : "#2f1d2a"} />;
         }
         if (type === "stream") {
-            return <IconCastNoFill fill={active ? "#fff" : "#282828"} />;
+            return <IconCastNoFill fill={active ? "#fff" : "#2f1d2a"} />;
         }
         if (type === "party") {
-            return <IconWorkspace fill={active ? "#fff" : "#282828"} />;
+            return <IconWorkspace fill={active ? "#fff" : "#2f1d2a"} />;
         }
     };
 

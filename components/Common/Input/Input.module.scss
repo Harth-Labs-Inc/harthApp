@@ -25,3 +25,31 @@
         color: $alert_red;
     }
 }
+
+.inputComponentRoom {
+    width: 260px;
+    input {
+        @include contentH2;
+        width: 100%;
+        margin: 0 0 4px;
+        padding: 8px 0px 8px 0px;
+        border: 0;
+        border-bottom: 1px solid $fuel;
+        color: $ash;
+
+
+
+        &::placeholder {
+            color: $ash_40;
+        }
+    }
+
+    &ErrorMessage {
+        display: flex;
+        @include interfaceR3;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 6px 6px 12px 6px;
+        color: $alert_red;
+    }
+}

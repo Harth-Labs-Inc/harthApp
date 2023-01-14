@@ -1,4 +1,4 @@
-import { Button } from "../../Common";
+import { Button } from "../../Common/Buttons/Button";
 
 import styles from "./GatheringTile.module.scss";
 
@@ -14,7 +14,8 @@ const GatheringTileControls = ({
             <Button
                 text={cardType === "schedule" ? "Join" : "Enter"}
                 onClick={handleJoinRoom}
-                className={styles.GatheringTileActionButton}
+                tier="primary"
+                //className={styles.GatheringTileActionButton}
             />
         );
     }
@@ -22,7 +23,8 @@ const GatheringTileControls = ({
         <Button
             text={cardType === "schedule" ? "Drop" : "Leave"}
             onClick={handleDropRoom}
-            className={styles.GatheringTileActionButton}
+            tier="secondary"
+            //className={styles.GatheringTileActionButtonEnd}
         />
     );
 };

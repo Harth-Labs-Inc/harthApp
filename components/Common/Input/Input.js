@@ -18,6 +18,7 @@ export const Input = (props) => {
         matching,
         customError,
         placeholder,
+        isRoom= false,
     } = props;
 
     const inputChangeHandler = (e) => {
@@ -35,7 +36,8 @@ export const Input = (props) => {
 
     return (
         <fieldset
-            className={`${styles.inputComponent}
+            className={`
+            ${isRoom ? styles.inputComponentRoom : styles.inputComponent}
                     ${empty ? "content" : undefined}
                     ${matching ? "error_matching" : undefined}
                     ${isrequired ? "error_required" : undefined}
@@ -43,7 +45,6 @@ export const Input = (props) => {
         >
             {title ? <label htmlFor={name}>{title}</label> : null}
             <input
-                className="form-input"
                 id={name}
                 name={name}
                 type={type}

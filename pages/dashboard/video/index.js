@@ -100,7 +100,7 @@ const Video = (props) => {
             (usr) => usr?.userId === user?._id
         );
         return (
-            <section id="gatherings">
+            <section id="gatherings" className={styles.gatheringPage}>
                 {newEditRoomToggled && (
                     <Modal
                         id="create_gathering"
@@ -169,7 +169,7 @@ const Video = (props) => {
 </button> */}
                 </div>
                 <p className={styles.gatheringSection}>UPCOMING</p>
-
+                <div className={styles.roomContainer}>
                 {(scheduledcallRooms || []).map((room, idx) => {
                     let owner = false;
                     if (room?.hostName === creator?.name) {
@@ -199,6 +199,7 @@ const Video = (props) => {
                         </div>
                     );
                 })}
+                </div>
             </section>
         );
     }

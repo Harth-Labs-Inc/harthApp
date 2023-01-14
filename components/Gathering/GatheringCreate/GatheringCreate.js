@@ -17,7 +17,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
 
     return (
         <div className={styles.GatheringCreate}>
-            <div className={styles.GatheringCreateSetup}>
+            <div className={styles.GatheringCreateContent}>
                 <Input
                     placeholder="Profile Name's Room"
                     // onChange={roomNameHandler}
@@ -27,39 +27,42 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                     className={styles.GatheringCreateInput}
                     changeHandler={() => {}}
                     inputhandler={inputChangeHandler}
+                    isRoom = {true}
                 />
-                <div className={styles.GatheringCreateType}>
-                    <GatheringButton
-                        type="voice"
-                        activeButtonHandler={() => setActiveButton("voice")}
-                        active={activeButton == "voice"}
-                    />
-                    <GatheringButton
-                        type="stream"
-                        activeButtonHandler={() => setActiveButton("stream")}
-                        active={activeButton == "stream"}
-                    />
-                    <GatheringButton
-                        type="party"
-                        activeButtonHandler={() => setActiveButton("party")}
-                        active={activeButton == "party"}
-                    />
+                <div className={styles.GatheringCreateLabelHolder}>
+                    <div className={styles.GatheringCreateType}>
+                        <GatheringButton
+                            type="voice"
+                            activeButtonHandler={() => setActiveButton("voice")}
+                            active={activeButton == "voice"}
+                        />
+                        <GatheringButton
+                            type="stream"
+                            activeButtonHandler={() => setActiveButton("stream")}
+                            active={activeButton == "stream"}
+                        />
+                        <GatheringButton
+                            type="party"
+                            activeButtonHandler={() => setActiveButton("party")}
+                            active={activeButton == "party"}
+                        />
+                    </div>
+                    {activeButton == "voice" && (
+                        <p className={styles.GatheringCreateSubText}>
+                            Voice and text chat
+                        </p>
+                    )}
+                    {activeButton == "stream" && (
+                        <p className={styles.GatheringCreateSubText}>
+                            Stream games and video
+                        </p>
+                    )}
+                    {activeButton == "party" && (
+                        <p className={styles.GatheringCreateSubText}>
+                            Video chat and tabletop play
+                        </p>
+                    )}
                 </div>
-                {activeButton == "voice" && (
-                    <p className={styles.GatheringCreateSubText}>
-                        Voice and text chat
-                    </p>
-                )}
-                {activeButton == "stream" && (
-                    <p className={styles.GatheringCreateSubText}>
-                        Stream games and video
-                    </p>
-                )}
-                {activeButton == "party" && (
-                    <p className={styles.GatheringCreateSubText}>
-                        Video chat and tabletop play
-                    </p>
-                )}
                 {/* <AppText>{isSubmitting && !activeButton ? "button required" : null}</AppText> */}
             </div>
             <div className={styles.GatheringCreateLaunch}>
@@ -78,7 +81,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                     //   styles.GatheringScheduleSubmit,
                     // ]}
                 >
-                    <IconEvent fill="#fff" />
+                    <IconEvent />
                     Schedule
                 </button>
                 <button
@@ -97,7 +100,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                     //   styles.GatheringCreateSubmit,
                     // ]}
                 >
-                    <IconPlayCircle fill="#fff" />
+                    <IconPlayCircle />
                     Start Now
                 </button>
             </div>

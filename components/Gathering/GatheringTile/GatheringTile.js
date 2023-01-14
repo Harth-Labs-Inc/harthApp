@@ -38,13 +38,13 @@ export const GatheringTile = (props) => {
 
     const Icon = () => {
         if (room.gatheringType === "voice") {
-            return <IconHeadsetMic fill="#0DA1B5" />;
+            return <IconHeadsetMic />;
         }
         if (room.gatheringType === "stream") {
-            return <IconCastNoFill fill="#F06573" />;
+            return <IconCastNoFill />;
         }
         if (room.gatheringType === "party") {
-            return <IconWorkspace fill="#BB7EC4" />;
+            return <IconWorkspace />;
         }
     };
 
@@ -76,13 +76,15 @@ export const GatheringTile = (props) => {
     return (
         <div
             className={`${styles.GatheringTile} ${
-                cardType !== "schedule" ? styles[room.gatheringType] : null
+                cardType == "schedule" ? styles[room.gatheringType] : styles[room.gatheringType +"Active"]
             }`}
         >
             <div className={styles.GatheringTileLabel}>
                 <div className={styles.GatheringTileLabelIcon}>
                     <Icon />
                 </div>
+                <div className={styles.GatheringTileLabelText}>{room.gatheringType}</div>
+                
             </div>
 
             <div className={styles.GatheringTileInfo}>
@@ -128,7 +130,7 @@ export const GatheringTile = (props) => {
                     </div>
                 </div>
                 <div className={styles.GatheringTileActionBar}>
-                    {owner ? (
+                    {(owner && cardType === "schedule") ? (
                         <button
                             onClick={editScheduleRoom}
                             className={styles.GatheringTileActionBarEdit}

@@ -6,6 +6,8 @@
     font-size: 28px;
     letter-spacing: 0.05em;
     line-height: 26px;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin harthTitle2 {
@@ -14,6 +16,8 @@
     font-size: 24px;
     letter-spacing: 0.05em;
     line-height: 25px;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin titleNav {
@@ -22,6 +26,8 @@
     font-size: 12px;
     letter-spacing: 0.04em;
     line-height: 13px;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin smallTitle {
@@ -30,6 +36,8 @@
     font-size: 10px;
     letter-spacing: 0.2em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin smallTitleMobile {
@@ -38,6 +46,8 @@
     font-size: 12px;
     letter-spacing: 0.2em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin topicTitle {
@@ -46,6 +56,8 @@
     font-size: 14px;
     letter-spacing: 0.02em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin topicTitleMobile {
@@ -54,6 +66,8 @@
     font-size: 16px;
     letter-spacing: 0.04em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin chatText {
@@ -62,6 +76,8 @@
     font-size: 13px;
     letter-spacing: 0.02em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin chatProfile {
@@ -70,6 +86,8 @@
     font-size: 11px;
     letter-spacing: 0.02em;
     line-height: 12px;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin timeStamp {
@@ -78,7 +96,31 @@
     font-size: 11px;
     letter-spacing: 0;
     line-height: 12px;
+    text-rendering: optimizeLegibility;
+
 }
+
+@mixin roomType {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    letter-spacing: 0em;
+    line-height: 22px;
+    text-rendering: optimizeLegibility;
+    text-transform: capitalize;
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 @mixin interfaceH1 {
     font-family: "Work Sans", sans-serif;
@@ -86,6 +128,8 @@
     font-size: 20px;
     letter-spacing: 0.02em;
     line-height: 22px;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin interfaceH2 {
     font-family: "Work Sans", sans-serif;
@@ -93,6 +137,8 @@
     font-size: 18px;
     letter-spacing: 0.02em;
     line-height: 20px;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin interfaceH3 {
     font-family: "Work Sans", sans-serif;
@@ -100,6 +146,8 @@
     font-size: 16px;
     letter-spacing: 0.02em;
     line-height: 18px;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin interfaceH4 {
     font-family: "Work Sans", sans-serif;
@@ -107,6 +155,7 @@
     font-size: 14px;
     letter-spacing: 0.02em;
     line-height: 16px;
+    text-rendering: optimizeLegibility;
 }
 @mixin interfaceH5 {
     font-family: "Work Sans", sans-serif;
@@ -114,6 +163,8 @@
     font-size: 12px;
     letter-spacing: 0.02em;
     line-height: 14px;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin interfaceR1 {
@@ -122,6 +173,8 @@
     font-size: 16px;
     letter-spacing: 0.02em;
     line-height: 18px;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin interfaceR2 {
     font-family: "Work Sans", sans-serif;
@@ -129,6 +182,8 @@
     font-size: 13px;
     letter-spacing: 0.04em;
     line-height: 14px;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin interfaceR3 {
     font-family: "Work Sans", sans-serif;
@@ -136,6 +191,8 @@
     font-size: 12px;
     letter-spacing: 0.02em;
     line-height: 14px;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin interfaceR4 {
     font-family: "Work Sans", sans-serif;
@@ -143,6 +200,8 @@
     font-size: 11px;
     letter-spacing: 0.02em;
     line-height: 12px;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin contentH1 {
@@ -151,6 +210,8 @@
     font-size: 24px;
     letter-spacing: -0.02em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin contentH2 {
     font-family: "Rubik", sans-serif;
@@ -158,6 +219,8 @@
     font-size: 18px;
     letter-spacing: 0.02em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin contentH3 {
     font-family: "Rubik", sans-serif;
@@ -165,6 +228,8 @@
     font-size: 16px;
     letter-spacing: 0.02em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin contentH4 {
     font-family: "Rubik", sans-serif;
@@ -172,6 +237,8 @@
     font-size: 14px;
     letter-spacing: 0.02em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin contentH5 {
     font-family: "Rubik", sans-serif;
@@ -179,6 +246,8 @@
     font-size: 12px;
     letter-spacing: 0.02em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 
 @mixin contentR1 {
@@ -187,6 +256,8 @@
     font-size: 16px;
     letter-spacing: 0.02em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin contentR2 {
     font-family: "Rubik", sans-serif;
@@ -194,6 +265,8 @@
     font-size: 13px;
     letter-spacing: 0.04em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
 @mixin contentR3 {
     font-family: "Rubik", sans-serif;
@@ -201,4 +274,6 @@
     font-size: 12px;
     letter-spacing: 0.04em;
     line-height: 125%;
+    text-rendering: optimizeLegibility;
+
 }
