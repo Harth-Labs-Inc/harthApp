@@ -53,7 +53,6 @@ export const GatheringTile = (props) => {
         } else {
             joinHandler();
         }
-        joinHandler();
     };
     const handleDropRoom = () => {
         console.log("drop");
@@ -76,15 +75,18 @@ export const GatheringTile = (props) => {
     return (
         <div
             className={`${styles.GatheringTile} ${
-                cardType == "schedule" ? styles[room.gatheringType] : styles[room.gatheringType +"Active"]
+                cardType == "schedule"
+                    ? styles[room.gatheringType]
+                    : styles[room.gatheringType + "Active"]
             }`}
         >
             <div className={styles.GatheringTileLabel}>
                 <div className={styles.GatheringTileLabelIcon}>
                     <Icon />
                 </div>
-                <div className={styles.GatheringTileLabelText}>{room.gatheringType}</div>
-                
+                <div className={styles.GatheringTileLabelText}>
+                    {room.gatheringType}
+                </div>
             </div>
 
             <div className={styles.GatheringTileInfo}>
@@ -136,7 +138,7 @@ export const GatheringTile = (props) => {
                     </div>
                 </div>
                 <div className={styles.GatheringTileActionBar}>
-                    {(owner && cardType === "schedule") ? (
+                    {owner && cardType === "schedule" ? (
                         <button
                             onClick={editScheduleRoom}
                             className={styles.GatheringTileActionBarEdit}

@@ -9,8 +9,6 @@ import { saveCommunity } from "../../requests/community";
 
 import styles from "./CreateHarthName.module.scss";
 
-
-
 export default function CreateHarthName({
     talkingHeadMsg,
     placeholder,
@@ -53,9 +51,7 @@ export default function CreateHarthName({
     console.log(newFile, "newFile");
 
     return (
-        <Modal
-            onToggleModal={closeHandler}
-        >
+        <Modal onToggleModal={closeHandler}>
             <div className={styles.mainContainer}>
                 <div className={styles.title}>Create a härth</div>
                 <TalkingHead text={talkingHeadMsg} />
@@ -67,21 +63,22 @@ export default function CreateHarthName({
                         name={""}
                         changeHandler={fileUploadHandler}
                     />
-                    </div>
-                <form onSubmit={handleSubmit(createNewHarth)} className={styles.form}>
+                </div>
+                <form
+                    onSubmit={handleSubmit(createNewHarth)}
+                    className={styles.form}
+                >
                     <input
                         {...register("harthName", { required: true })}
                         placeholder={placeholder}
                         type="text"
                         className={styles.textEntry}
-
                     />
-                    {errors.harthName
-                    ?
+                    {errors.harthName ? (
                         <ErrorMessage errorMsg="You must set a Harth name to begin." />
-                    :
+                    ) : (
                         <div className={styles.helpText}>{footer}</div>
-                    }
+                    )}
 
                     <div className={styles.buttonBar}>
                         <Button

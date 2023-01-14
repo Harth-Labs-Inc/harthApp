@@ -1,3 +1,5 @@
+import { IconAccountNoFill } from "../../../resources/icons/IconAccountNoFill";
+
 import styles from "./avatar.module.scss";
 
 export const Avatar = (props) => {
@@ -17,36 +19,46 @@ export const Avatar = (props) => {
                 <button
                     onClick={pressHandler}
                     className={`
-                            ${styles.avatarButton} 
-                            ${darkBackground && styles.avatarButtonDark}
+                            ${styles.Avatar} 
+                            ${styles.AvatarButton}
+                            ${darkBackground && styles.AvatarDark}
                             `}
                     style={{ zIndex: customStyle }}
                     aria-label={aLabel}
                 >
-                    <img
-                        src={imageSrc}
-                        aria-label="Profile Image"
-                        className={styles.avatar}
-                        height={picSize}
-                        width={picSize}
-                    />
+                    {imageSrc & (imageSrc != "undefined") ? (
+                        <img
+                            src={imageSrc}
+                            aria-label="Profile Image"
+                            className={styles.AvatarImage}
+                            height={picSize}
+                            width={picSize}
+                        />
+                    ) : (
+                        <span className={styles.AvatarImage}>
+                            <IconAccountNoFill
+                                fill={darkBackground && "#fff"}
+                            />
+                        </span>
+                    )}
                 </button>
             ) : (
-                <div
-                    className={styles.avatarIndicator}
-                    style={{ zIndex: customStyle }}
-                >
-                    <img
-                        src={
-                            imageSrc
-                                ? imageSrc
-                                : "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
-                        }
-                        aria-label="Profile Image"
-                        className={styles.avatar}
-                        height={picSize}
-                        width={picSize}
-                    />
+                <div className={styles.Avatar} style={{ zIndex: customStyle }}>
+                    {imageSrc & (imageSrc != "undefined") ? (
+                        <img
+                            src={imageSrc}
+                            aria-label="Profile Image"
+                            className={styles.AvatarImage}
+                            height={picSize}
+                            width={picSize}
+                        />
+                    ) : (
+                        <span className={styles.AvatarImage}>
+                            <IconAccountNoFill
+                                fill={darkBackground && "#fff"}
+                            />
+                        </span>
+                    )}
                 </div>
             )}
         </>

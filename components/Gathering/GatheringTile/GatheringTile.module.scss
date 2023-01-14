@@ -12,16 +12,6 @@
     width: 336px;
     min-height: 220px;
 
-    &.party {
-        border-color: $hot_purple;
-    }
-    &.stream {
-        border-color: $hot_red;
-    }
-    &.voice {
-        border-color: $hot_blue;
-    }
-
     &Label {
         position: relative;
         display: flex;
@@ -49,21 +39,22 @@
             @include roomType;
         }
         .party & {
-            background-color: $hot_purple;
+            color: $hot_purple_80;
+            background-color: $fuel;
             svg path {
                 fill: $hot_purple_80;
             }
         }
         .stream & {
-            background-color: $fuel;
             color: $hot_red_80;
+            background-color: $fuel;
             svg path {
                 fill: $hot_red_80;
             }
         }
         .voice & {
-            background-color: $fuel;
             color: $hot_blue_80;
+            background-color: $fuel;
             svg path {
                 fill: $hot_blue_80;
             }

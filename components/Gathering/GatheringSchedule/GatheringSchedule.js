@@ -36,7 +36,7 @@ const GatheringSchedule = (props) => {
         newRoom.acceptedPeers = [
             { ...props.creator, img: props.creator.iconKey },
         ];
-        console.log(newRoom);
+
         const data = await saveRoom(newRoom);
 
         let { id, ok } = data || {};
