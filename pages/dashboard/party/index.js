@@ -27,16 +27,32 @@ const Party = () => {
   const [socketID, setSocketID] = useState(null);
   const [chats, setChats] = useState([]);
   const [udpate, triggerUpdate] = useState(0);
+  const [selectedHarth, setSelectedHarth] = useState(null);
+  const [outsideDiceRoll, setOutsideDiceRoll] = useState({});
+  const [isCaptureButtonActive, setisCaptureButtonActive] = useState(false);
+  const [showChatPannel, setShowChatPannel] = useState(false);
+  const [unreadMsg, setUnreadMsg] = useState(false);
+  const [activeCallRoom, setActiveCallRoom] = useState({});
+  const [callRooms, setCallRooms] = useState([]);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
   const audioSharePeer = useRef();
   const videoSharePeer = useRef();
   const ScreenSharePeer = useRef();
+  const chatPannel = useRef(false);
 
   const localAudioStream = useRef();
   const localVideoStream = useRef();
   const localCaptureStream = useRef();
+
+  const { comms } = useComms();
+
+  // const { width } = useSize();
+  // useEffect(() => {
+  //   const container = document.getElementById("peerContainer");
+  //   resize(container);
+  // }, [width, showChatPannel, triggerUpdate]);
 
   useEffect(() => {
     let urls = {
@@ -59,7 +75,7 @@ const Party = () => {
         let { event, groupCallRooms, peers } = data;
         switch (event) {
           case "GROUP_CALL_ROOMS":
-            // setCallRooms(groupCallRooms);
+            setCallRooms(groupCallRooms);
             break;
           case "GROUP_CALL_PEERS":
             PEERS.current = peers;
@@ -69,10 +85,11 @@ const Party = () => {
             break;
         }
       });
-      socket.on("chat-update", (chats, newMsg) => {
+      socket.on("chat-update", (newMsg) => {
         console.log(newMsg, "chat-update");
         if (newMsg?.code == 8) {
           removeElement(newMsg.socketID);
+          remoteUserLeft(newMsg);
         }
         if (newMsg?.code == 9) {
           if (localVideoStream.current) {
@@ -94,7 +111,7 @@ const Party = () => {
             );
           }
         }
-        setChats(chats);
+        setChats((prevChats) => [newMsg, ...(prevChats || [])]);
       });
       socket.on("incoming-chat-message", (newMsg) => {
         console.log(newMsg, "incoming-chat-message");
@@ -106,9 +123,20 @@ const Party = () => {
           removeElement(newMsg.peerId);
         }
         if (newMsg?.code == 2) {
+          console.log(newMsg);
           removeElement(newMsg.capturePeer);
         }
-        setChats((prevChats) => [newMsg, ...prevChats]);
+        if (!chatPannel.current) {
+          setUnreadMsg(true);
+        }
+        setChats((prevChats) => [newMsg, ...(prevChats || [])]);
+      });
+      socket.on("party-event", (data) => {
+        console.log(data, "party-event updated");
+        setOutsideDiceRoll({ ...data });
+        setTimeout(() => {
+          setOutsideDiceRoll({});
+        }, 3000);
       });
     }
   }, [socket]);
@@ -121,6 +149,23 @@ const Party = () => {
     }
   }, [socketID]);
 
+  useEffect(() => {
+    let tempactiveCallRoom = {};
+    if (roomId) {
+      tempactiveCallRoom = callRooms?.filter((room) => {
+        return room.roomId === roomId;
+      });
+    }
+    setActiveCallRoom(tempactiveCallRoom[0] || {});
+  }, [callRooms]);
+
+  useEffect(() => {
+    if (harthId && comms && comms.length) {
+      let harth = comms.find((harthObj) => harthObj._id == harthId);
+      setSelectedHarth(harth);
+    }
+  }, [harthId, comms]);
+
   const getLocalAudioStream = async (
     constraints = {
       audio: { echoCancellation: true, noiseSuppression: true },
@@ -129,9 +174,13 @@ const Party = () => {
   ) => {
     return new Promise((resolve) => {
       async function run() {
-        let stream = await navigator.mediaDevices.getUserMedia(constraints);
+        try {
+          let stream = await navigator.mediaDevices.getUserMedia(constraints);
 
-        resolve(stream);
+          resolve(stream);
+        } catch (error) {
+          resolve(false);
+        }
       }
       run();
     });
@@ -144,9 +193,13 @@ const Party = () => {
   ) => {
     return new Promise((resolve) => {
       async function run() {
-        let stream = await navigator.mediaDevices.getUserMedia(constraints);
+        try {
+          let stream = await navigator.mediaDevices.getUserMedia(constraints);
 
-        resolve(stream);
+          resolve(stream);
+        } catch (error) {
+          resolve(false);
+        }
       }
       run();
     });
@@ -162,12 +215,25 @@ const Party = () => {
     return new Promise((resolve) => {
       async function run() {
         try {
-          let stream = await navigator.mediaDevices.getDisplayMedia(
+          let capture = await navigator.mediaDevices.getDisplayMedia(
             constraints
           );
 
-          resolve(stream);
+          if (capture) {
+            capture.getTracks().forEach((track) => {
+              if (track) {
+                track.onended = () => {
+                  disconnectCaptures();
+                };
+              }
+            });
+
+            resolve(capture);
+          } else {
+            resolve(false);
+          }
         } catch (error) {
+          resolve(false);
           console.log("has canceled selection do something");
         }
       }
@@ -261,7 +327,7 @@ const Party = () => {
       joinRoomSocket(peerobj);
     });
     ScreenSharePeer.current.on("error", function (err) {
-      ScreenSharePeer.reconnect();
+      ScreenSharePeer.current.reconnect();
     });
     ScreenSharePeer.current.on("call", async (call) => {
       call.answer();
@@ -275,6 +341,7 @@ const Party = () => {
   const joinRoomSocket = (obj) => {
     socket &&
       socket.emit("group-call-join-request", obj, ({ peers, chats }) => {
+        console.log(chats);
         PEERS.current = peers;
         ownerData.current = obj;
         triggerUpdate();
@@ -304,71 +371,122 @@ const Party = () => {
   };
   const connectAudioToUsers = async () => {
     let audioStream = await getLocalAudioStream();
-    localAudioStream.current = audioStream;
-    PEERS.current.forEach((peer) => {
-      if (peer.peerId !== audioSharePeer.current.id) {
-        // let options = { metadata: { peer } };
-        // audioSharePeer.current.call(peer.peerId, audioStream, options);
-        audioSharePeer.current.call(peer.peerId, audioStream);
-      }
-    });
-    let newMsg = {
-      value: `${userName} enabled audio`,
-      code: 3,
-      userName: userName,
-      roomId: roomId,
-      date: new Date(),
-      creator_name: "Admin",
-      flames: [],
-      reactions: [],
-      attachments: [],
-      ...ownerData.current,
-    };
-    sendNewChatMessage(newMsg);
+    if (audioStream) {
+      localAudioStream.current = audioStream;
+      PEERS.current.forEach((peer) => {
+        if (peer.peerId !== audioSharePeer.current.id) {
+          // let options = { metadata: { peer } };
+          // audioSharePeer.current.call(peer.peerId, audioStream, options);
+          audioSharePeer.current.call(peer.peerId, audioStream);
+        }
+      });
+      let newMsg = {
+        value: `${userName} enabled audio`,
+        code: 3,
+        userName: userName,
+        roomId: roomId,
+        date: new Date(),
+        creator_name: "Admin",
+        flames: [],
+        reactions: [],
+        attachments: [],
+        ...ownerData.current,
+      };
+      sendNewChatMessage(newMsg);
+    }
   };
   const connectVideoToUsers = async () => {
     let videoStream = await getLocalVideoStream();
-    localVideoStream.current = videoStream;
-    PEERS.current.forEach((peer) => {
-      if (peer.videoPeer !== videoSharePeer.current.id) {
-        videoSharePeer.current.call(peer.videoPeer, videoStream);
-      }
-    });
-    let newMsg = {
-      value: `${userName} enabled video`,
-      code: 5,
-      userName: userName,
-      roomId: roomId,
-      date: new Date(),
-      creator_name: "Admin",
-      flames: [],
-      reactions: [],
-      attachments: [],
-      ...ownerData.current,
-    };
-    sendNewChatMessage(newMsg);
+    if (videoStream) {
+      localVideoStream.current = videoStream;
+      PEERS.current.forEach((peer) => {
+        if (peer.videoPeer !== videoSharePeer.current.id) {
+          videoSharePeer.current.call(peer.videoPeer, videoStream);
+        }
+      });
+      let newMsg = {
+        value: `${userName} enabled video`,
+        code: 5,
+        userName: userName,
+        roomId: roomId,
+        date: new Date(),
+        creator_name: "Admin",
+        flames: [],
+        reactions: [],
+        attachments: [],
+        ...ownerData.current,
+      };
+      sendNewChatMessage(newMsg);
+    }
   };
   const connectCaptureToUsers = async () => {
     let captureStream = await getLocalCaptureStream();
-    localCaptureStream.current = captureStream;
-    PEERS.current.forEach((peer) => {
-      if (peer.capturePeer !== ScreenSharePeer.current.id) {
-        ScreenSharePeer.current.call(peer.capturePeer, captureStream);
+    if (captureStream) {
+      localCaptureStream.current = captureStream;
+      PEERS.current.forEach((peer) => {
+        if (peer.capturePeer !== ScreenSharePeer.current.id) {
+          ScreenSharePeer.current.call(peer.capturePeer, captureStream);
+        }
+      });
+      let newMsg = {
+        value: `${userName} enabled screen share`,
+        code: 1,
+        userName: userName,
+        roomId: roomId,
+        date: new Date(),
+        creator_name: "Admin",
+        flames: [],
+        reactions: [],
+        attachments: [],
+        ...ownerData.current,
+      };
+      sendNewChatMessage(newMsg);
+    }
+  };
+  const remoteUserLeft = (data) => {
+    console.log("closing connections for ", data);
+    if (audioSharePeer.current) {
+      for (let conns in audioSharePeer.current.connections) {
+        audioSharePeer.current.connections[conns].forEach((conn) => {
+          if (data.peerId === conns) {
+            try {
+              conn.peerConnection?.close();
+              if (conn.close) conn.close();
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        });
       }
-    });
-    let newMsg = {
-      value: `${userName} enabled screen share`,
-      code: 1,
-      userName: userName,
-      roomId: roomId,
-      date: new Date(),
-      creator_name: "Admin",
-      flames: [],
-      reactions: [],
-      attachments: [],
-      ...ownerData.current,
-    };
-    sendNewChatMessage(newMsg);
+    }
+    if (videoSharePeer.current) {
+      for (let conns in videoSharePeer.current.connections) {
+        videoSharePeer.current.connections[conns].forEach((conn) => {
+          if (data.videoPeer === conns) {
+            try {
+              conn.peerConnection?.close();
+              if (conn.close) conn.close();
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        });
+      }
+    }
+    if (ScreenSharePeer.current) {
+      for (let conns in ScreenSharePeer.current.connections) {
+        ScreenSharePeer.current.connections[conns].forEach((conn) => {
+          if (data.capturePeer === conns) {
+            try {
+              conn.peerConnection?.close();
+              if (conn.close) conn.close();
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        });
+      }
+    }
   };
   const disconnectVideos = () => {
     for (let conns in videoSharePeer.current.connections) {
@@ -472,7 +590,7 @@ const Party = () => {
   const sendNewChatMessage = (message) => {
     socket &&
       socket.emit("send-chat-message", message, () => {
-        setChats((prevChats) => [message, ...prevChats]);
+        setChats((prevChats) => [message, ...(prevChats || [])]);
       });
   };
   const createVideo = (incomingStream, peer, call) => {
@@ -586,6 +704,16 @@ const Party = () => {
       }
     });
   };
+  const toggleChat = () => {
+    setShowChatPannel((prevState) => {
+      let newvalue = !prevState;
+      if (newvalue === true) {
+        setUnreadMsg(false);
+      }
+      chatPannel.current = newvalue;
+      return newvalue;
+    });
+  };
   const chatSubmitHandler = (msg) => {
     let message = {
       ...msg,
@@ -633,17 +761,118 @@ const Party = () => {
         });
     });
   };
+  const diceRollHandler = (data) => {
+    socket &&
+      socket.emit(
+        "user-dice-roll",
+        { ...data, roomId, userName, userIcon },
+        ({ chats }) => {
+          setChats((prevChats) => [chats, ...(prevChats || [])]);
+        }
+      );
+  };
+  const changeVideoDevice = async (device) => {
+    const tracks = localVideoStream.current?.getTracks();
+    if (tracks && tracks.length) {
+      tracks.forEach((track) => {
+        if (track.kind === "video") {
+          track.stop();
+        }
+      });
+
+      let videoTrack;
+
+      let newStream = await getLocalVideoStream({
+        video: { deviceId: { exact: device.deviceId } },
+        audio: false,
+      });
+
+      newStream.getTracks().forEach((trk) => {
+        if (trk.kind == "video") {
+          videoTrack = trk;
+        }
+      });
+
+      try {
+        for (let conns in videoSharePeer.current.connections) {
+          videoSharePeer.current.connections[conns].forEach((conn) => {
+            for (const sender of conn.peerConnection.getSenders()) {
+              if (sender && sender.track.kind == "video") {
+                console.log(sender, "sender");
+                sender.replaceTrack(videoTrack);
+              }
+            }
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  const changeAudioDevice = async (device) => {
+    const tracks = localAudioStream.current?.getTracks();
+    if (tracks && tracks.length) {
+      tracks.forEach((track) => {
+        if (track.kind === "audio") {
+          track.stop();
+        }
+      });
+
+      let audioTrack;
+
+      let newStream = await getLocalAudioStream({
+        audio: { deviceId: { exact: device.deviceId } },
+        video: false,
+      });
+
+      newStream.getTracks().forEach((trk) => {
+        if (trk.kind == "audio") {
+          audioTrack = trk;
+        }
+      });
+
+      try {
+        for (let conns in audioSharePeer.current.connections) {
+          audioSharePeer.current.connections[conns].forEach((conn) => {
+            for (const sender of conn.peerConnection.getSenders()) {
+              if (sender && sender.track.kind == "audio") {
+                sender.replaceTrack(audioTrack);
+              }
+            }
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   setPeerContainers();
+  console.log(ownerData.current, "woner");
 
   return (
     <>
       <main className={styles.PartyWindow}>
+        <div className="conditionals">
+          {Object.keys(outsideDiceRoll).length ? (
+            <DiceAlert
+              rollResult={outsideDiceRoll?.number}
+              profileImage={outsideDiceRoll?.userIcon}
+              dice={outsideDiceRoll?.sides}
+            />
+          ) : null}
+        </div>
         <section className={styles.PartyWindowVideoContainer}>
-          <GatherHeader />
+          <GatherHeader
+            gatheringName={activeCallRoom?.roomName}
+            selectedHarthIcon={selectedHarth?.iconKey}
+          />
           <div className={styles.PartyMainContent}>
             <section id="peerContainer"></section>
-            <section id="stream-window-chat">
+            <section
+              id="stream-window-chat"
+              className={showChatPannel ? "open" : "closed"}
+            >
               <div className={styles.ChatPanelContainer}>
                 <ChatMessagesGeneral messages={chats} userName={userName} />
                 <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
@@ -656,6 +885,11 @@ const Party = () => {
             onToggleVideo={toggleVideo}
             onToggleAudio={toggleAudio}
             onToggleScreenShare={toggleCapture}
+            diceRollHandler={diceRollHandler}
+            onToggleChat={toggleChat}
+            unreadMsg={unreadMsg}
+            changeAudioDevice={changeAudioDevice}
+            changeVideoDevice={changeVideoDevice}
           />
         </section>
       </main>

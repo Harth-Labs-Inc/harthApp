@@ -25,6 +25,7 @@ const GatherControlBar = (props) => {
     diceRollHandler,
     changeAudioDevice,
     changeVideoDevice,
+    unreadMsg,
   } = props;
   const [modal, setModal] = useState();
   const [showDiceModal, setShowDiceModal] = useState();
@@ -173,7 +174,11 @@ const GatherControlBar = (props) => {
             )}
 
             {roomType != "voice" && (
-              <ChatButton size="small" onPress={onToggleChat} />
+              <ChatButton
+                unreadMsg={unreadMsg}
+                size="small"
+                onPress={onToggleChat}
+              />
             )}
           </div>
         </header>

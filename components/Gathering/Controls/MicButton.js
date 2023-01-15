@@ -24,7 +24,7 @@ export const MicButton = (props) => {
   };
 
   return (
-    <div>
+    <div className={styles.BagButton}>
       {audioList ? (
         <div className={styles.BagButtonOptions}>
           <div className={styles.BagButtonOptionsContainer}>
