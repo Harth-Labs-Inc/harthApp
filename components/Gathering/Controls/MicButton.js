@@ -12,7 +12,7 @@ export const MicButton = (props) => {
     changeAudioDevice,
     clearAudioList,
   } = props;
-  const [buttonState, setButtonState] = useState("muted");
+  const [buttonState, setButtonState] = useState("on");
 
   const toggleActive = () => {
     if (buttonState == "muted") {
