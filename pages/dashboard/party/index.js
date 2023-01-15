@@ -647,7 +647,6 @@ const Party = () => {
       video.playsInline = true;
       videoContainer.appendChild(video);
       parentContainer.appendChild(videoContainer);
-      video.play();
     }
   };
   const createAudio = (incomingStream, peer, call) => {
@@ -670,15 +669,13 @@ const Party = () => {
       }
 
       const audioContainer = document.createElement("div");
-      const audio = document.createElement("audio");
+      const audio = document.createElement("video");
       audioContainer.id = peer.peerId;
       audio.srcObject = incomingStream;
       audio.autoplay = true;
-      audio.controls = true;
-
+      audio.playsInline = true;
       audioContainer.appendChild(audio);
       parentContainer.appendChild(audioContainer);
-      audio.play();
     }
   };
   const createCapture = (incomingStream, peer, call) => {
