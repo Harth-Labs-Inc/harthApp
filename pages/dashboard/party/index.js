@@ -74,11 +74,25 @@ const Party = () => {
         if (newMsg?.code == 8) {
           removeElement(newMsg.socketID);
         }
-        if (newMsg?.code == 9 && localVideoStream.current) {
-          videoSharePeer.current.call(
-            newMsg.videoPeer,
-            localVideoStream.current
-          );
+        if (newMsg?.code == 9) {
+          if (localVideoStream.current) {
+            videoSharePeer.current.call(
+              newMsg.videoPeer,
+              localVideoStream.current
+            );
+          }
+          if (localAudioStream.current) {
+            audioSharePeer.current.call(
+              newMsg.peerId,
+              localAudioStream.current
+            );
+          }
+          if (localCaptureStream.current) {
+            ScreenSharePeer.current.call(
+              newMsg.capturePeer,
+              localCaptureStream.current
+            );
+          }
         }
         setChats(chats);
       });
@@ -434,7 +448,6 @@ const Party = () => {
     sendNewChatMessage(newMsg);
     triggerUpdate();
   };
-
   const toggleVideo = async () => {
     if (localVideoStream.current) {
       disconnectVideos();
