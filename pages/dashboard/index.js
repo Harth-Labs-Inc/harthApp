@@ -22,7 +22,7 @@ import CreateHarthProfile from "../../components/createHarthProfile/createHarthP
 import HarthInviteAcceptModal from "../../components/harthInviteAcceptModal/harthInviteAcceptModal";
 
 const dashboard = (props) => {
-    const [currentPage, setCurrentPage] = useState("chat");
+    const [currentPage, setCurrentPage] = useState();
     const [GatherWindow, setGatherWindow] = useState("");
 
     const [invitedHarth, setInvitedHarth] = useState(null);
@@ -43,27 +43,16 @@ const dashboard = (props) => {
         query: { tkn },
     } = router;
 
-    useEffect(() => {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const gatherWindow = urlParams.get("gather_window");
-        const roomType = urlParams.get("room_type");
-        if (gatherWindow) setGatherWindow(gatherWindow);
-        if (roomType) {
-            changePageHandler(roomType);
-        }
-        // const showFirstTimeUser = Cookies.get("showFirstTimeUser");
-        // if (showFirstTimeUser) {
-        //   if (!inviteTKN && !tkn) {
-        //     setShowCreateHarthNameModal(true);
-        //   }
-        // }
-
-        // return () => {
-        //   setShowCreateHarthProfileModal(false);
-        //   setShowCreateHarthNameModal(false);
-        // };
-    }, []);
+    // useEffect(() => {
+    //   const queryString = window.location.search;
+    //   const urlParams = new URLSearchParams(queryString);
+    //   const gatherWindow = urlParams.get("gather_window");
+    //   const roomType = urlParams.get("room_type");
+    //   if (gatherWindow) setGatherWindow(gatherWindow);
+    //   if (roomType) {
+    //     changePageHandler(roomType);
+    //   }
+    // }, []);
 
     // useEffect(() => {
     //   const showFirstTimeUser = Cookies.get("showFirstTimeUser");
@@ -81,10 +70,18 @@ const dashboard = (props) => {
     // }, [inviteTKN, tkn]);
 
     useEffect(() => {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const gatherWindow = urlParams.get("gather_window");
+        const roomType = urlParams.get("room_type");
+
         if (!loading) {
             if (!user) {
                 router.push("/");
+            } else if (roomType) {
+                changePageHandler(roomType);
             } else {
+                changePageHandler("chat");
                 const showFirstTimeUser = Cookies.get("showFirstTimeUser");
                 if (showFirstTimeUser) {
                     sendWelcomeEmailToUser({
@@ -105,6 +102,7 @@ const dashboard = (props) => {
                     }
                 }
             }
+            if (gatherWindow) setGatherWindow(gatherWindow);
         }
     }, [loading]);
 
@@ -143,7 +141,7 @@ const dashboard = (props) => {
         setShowInviteProfileModal(true);
     };
 
-    if (user) {
+    if (user && currentPage) {
         let page;
         switch (currentPage) {
             case "chat":

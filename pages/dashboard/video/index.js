@@ -103,22 +103,31 @@ const Video = (props) => {
         return (
             <section id="gatherings" className={styles.gatheringPage}>
                 {newEditRoomToggled && (
-                    <Modal
-                        id="create_gathering"
-                        show={newEditRoomToggled}
-                        onToggleModal={() => {}}
-                    >
-                        <CloseBtn onClick={triggerNewEditRoom} />
-                        <GatherEditForm
-                            closeHandler={triggerNewEditRoom}
-                            createRoomFormSubmit={createRoomFormSubmit}
-                            harthId={selectedcomm._id}
-                            harthName={selectedcomm.name}
-                            creator={selectedcomm.users.find(
-                                (usr) => usr.userId === user._id
-                            )}
-                        />
-                    </Modal>
+                    <GatheringSchedule
+                        type="edit"
+                        harthId={selectedcomm._id}
+                        harthName={selectedcomm.name}
+                        creator={selectedcomm.users.find(
+                            (usr) => usr.userId === user._id
+                        )}
+                        closeHandler={() => setNewRoomToggled(false)}
+                    />
+                    // <Modal
+                    //     id="create_gathering"
+                    //     show={newEditRoomToggled}
+                    //     onToggleModal={() => {}}
+                    // >
+                    //     <CloseBtn onClick={triggerNewEditRoom} />
+                    //     <GatherEditForm
+                    //         closeHandler={triggerNewEditRoom}
+                    //         createRoomFormSubmit={createRoomFormSubmit}
+                    //         harthId={selectedcomm._id}
+                    //         harthName={selectedcomm.name}
+                    //         creator={selectedcomm.users.find(
+                    //             (usr) => usr.userId === user._id
+                    //         )}
+                    //     />
+                    // </Modal>
                 )}
 
                 {newRoomToggled && (

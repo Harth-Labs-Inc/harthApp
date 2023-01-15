@@ -9,6 +9,7 @@ import { IconHeadsetMic } from "../../../resources/icons/IconHeadsetMic";
 import { IconCastNoFill } from "../../../resources/icons/IconCastNoFill";
 import { IconWorkspace } from "../../../resources/icons/IconWorkspace";
 import styles from "./GatheringSchedule.module.scss";
+import { IconDeleteNoFill } from "../../../resources/icons/IconDeleteNoFill";
 
 const GatheringSchedule = (props) => {
     const {
@@ -49,10 +50,14 @@ const GatheringSchedule = (props) => {
         }
     }
 
+    function handleDelete() {
+        console.log("delete");
+    }
+
     return (
         <Modal onToggleModal={props.closeHandler}>
             <p className={styles.GatheringScheduleTitle}>
-                Schedule a gathering
+                {props.type === "edit" ? "Edit" : "Schedule a"} gathering
             </p>
             <form onSubmit={handleSubmit(scheduleGathering)}>
                 <input
@@ -150,6 +155,11 @@ const GatheringSchedule = (props) => {
                     placeholder="let's all..."
                 />
                 <div className={styles.GatheringScheduleButtons}>
+                    {props.type === "edit" ? (
+                        <button onClick={handleDelete}>
+                            <IconDeleteNoFill />
+                        </button>
+                    ) : null}
                     <Button
                         tier="secondary"
                         text="Cancel"

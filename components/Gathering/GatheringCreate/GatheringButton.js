@@ -24,10 +24,13 @@ export const GatheringButton = (props) => {
 
     return (
         <button
+            type="button"
             className={`${styles.GatheringButton} ${styles[type]} ${
                 active ? styles.Active : null
             }`}
-            onClick={() => activeButtonHandler(type)}
+            onClick={() => {
+                activeButtonHandler(type);
+            }}
         >
             <Icon />
         </button>

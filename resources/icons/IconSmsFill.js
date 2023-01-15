@@ -1,15 +1,20 @@
-export const IconSmsFill = ({ fill = '#2F1D2A', hasGradient }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox={'0 -1 48 48'} >
-      <defs>
-        <linearGradient id="gradient">
-          <stop offset="30%" stop-color="#BB7EC4" />
-          <stop offset="90%" stop-color="#0DA1B5" />
-        </linearGradient>
+export const IconSmsFill = ({ fill = "#2F1D2A", hasGradient }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="100%"
+    width="100%"
+    viewBox={"0 -1 48 48"}
+  >
+    <defs>
+      <linearGradient id="gradient">
+        <stop offset="30%" stopColor="#BB7EC4" />
+        <stop offset="90%" stopColor="#0DA1B5" />
+      </linearGradient>
     </defs>
-      
-      <path 
-        fill={hasGradient ? "url(#gradient)" : {fill}}
+
+    <path
+      fill={hasGradient ? "url(#gradient)" : { fill }}
       d="M15.3 21.85q.85 0 1.425-.575.575-.575.575-1.425 0-.85-.575-1.425-.575-.575-1.425-.575-.85 0-1.425.575Q13.3 19 13.3 19.85q0 .85.575 1.425.575.575 1.425.575Zm8.85 0q.85 0 1.425-.575.575-.575.575-1.425 0-.85-.575-1.425-.575-.575-1.425-.575-.85 0-1.425.575-.575.575-.575 1.425 0 .85.575 1.425.575.575 1.425.575Zm8.5 0q.85 0 1.425-.575.575-.575.575-1.425 0-.85-.575-1.425-.575-.575-1.425-.575-.85 0-1.425.575-.575.575-.575 1.425 0 .85.575 1.425.575.575 1.425.575ZM4 44V7q0-1.15.9-2.075Q5.8 4 7 4h34q1.15 0 2.075.925Q44 5.85 44 7v26q0 1.15-.925 2.075Q42.15 36 41 36H12Z"
     />
   </svg>
-)
+);
