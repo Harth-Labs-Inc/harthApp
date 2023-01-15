@@ -87,6 +87,9 @@ const Party = () => {
         if (newMsg?.code == 6) {
           removeElement(newMsg.videoPeer);
         }
+        if (newMsg?.code == 4) {
+          removeElement(newMsg.peerId);
+        }
         setChats((prevChats) => [newMsg, ...prevChats]);
       });
     }
@@ -143,15 +146,15 @@ const Party = () => {
     });
 
     audioSharePeer.current.on("open", async (peerid) => {
-      let audioStream = await getLocalAudioStream();
-      localAudioStream.current = audioStream;
+      // let audioStream = await getLocalAudioStream();
+      // localAudioStream.current = audioStream;
       let obj = {
         userName,
         userIcon,
         peerId: peerid,
         socketID,
         roomId,
-        localStreamId: (audioStream || {}).id || "",
+        // localStreamId: (audioStream || {}).id || "",
         harthId,
       };
       createVideoSharePeer(obj);
@@ -160,12 +163,19 @@ const Party = () => {
       audioSharePeer.current.reconnect();
     });
     audioSharePeer.current.on("call", async (call) => {
-      console.log("...receiving call", localAudioStream.current);
-      call.answer(localAudioStream.current);
+      console.log("...receiving call from: ", call.peer);
+      // call.answer(localAudioStream.current);
+      call.answer();
 
       call.on("stream", (incomingStream) => {
-        console.log("incoming stream");
-        let peer = call.metadata?.peer;
+        console.log("...incoming stream from: ", call);
+        // let peer = call.metadata?.peer;
+        console.log(PEERS);
+        let peer = PEERS.current.find((p) => {
+          console.log(p, call);
+          return p.peerId == call.peer;
+        });
+        // console.log(peer);
         createAudio(incomingStream, peer, call);
       });
     });
@@ -190,10 +200,16 @@ const Party = () => {
       videoSharePeer.current.reconnect();
     });
     videoSharePeer.current.on("call", async (call) => {
+      console.log("...receiving call from: ", call.peer);
+
       call.answer();
 
       call.on("stream", (incomingStream) => {
+        console.log("...incoming stream from: ", call);
+
         let peer = PEERS.current.find((p) => p.videoPeer == call.peer);
+        console.log(peer);
+
         createVideo(incomingStream, peer, call);
       });
     });
@@ -235,7 +251,7 @@ const Party = () => {
         PEERS.current = peers;
         ownerData.current = obj;
         triggerUpdate();
-        connectToUsers(peers, obj);
+        // connectToUsers(peers, obj);
         setChats(chats);
       });
   };
@@ -244,7 +260,7 @@ const Party = () => {
       peers.forEach((peer) => {
         if (peer.peerId !== audioSharePeer.current.id) {
           let options = { metadata: { peer: { ...obj } } };
-          console.log("...calling", localAudioStream.current);
+          console.log("...calling: ", peer.peerId);
           const call = audioSharePeer.current.call(
             peer.peerId,
             localAudioStream.current,
@@ -252,7 +268,7 @@ const Party = () => {
           );
           call &&
             call.on("stream", (incomingStream) => {
-              console.log("receiving answer...");
+              console.log("...receiving answer from: ", peer.peerId);
               createAudio(incomingStream, peer, call);
             });
         }
@@ -270,6 +286,30 @@ const Party = () => {
     let newMsg = {
       value: `${userName} enabled video`,
       code: 5,
+      userName: userName,
+      roomId: roomId,
+      date: new Date(),
+      creator_name: "Admin",
+      flames: [],
+      reactions: [],
+      attachments: [],
+      ...ownerData.current,
+    };
+    sendNewChatMessage(newMsg);
+  };
+  const connectAudioToUsers = async () => {
+    let audioStream = await getLocalAudioStream();
+    localAudioStream.current = audioStream;
+    PEERS.current.forEach((peer) => {
+      if (peer.peerId !== audioSharePeer.current.id) {
+        // let options = { metadata: { peer } };
+        // audioSharePeer.current.call(peer.peerId, audioStream, options);
+        audioSharePeer.current.call(peer.peerId, audioStream);
+      }
+    });
+    let newMsg = {
+      value: `${userName} enabled audio`,
+      code: 3,
       userName: userName,
       roomId: roomId,
       date: new Date(),
@@ -307,11 +347,44 @@ const Party = () => {
     sendNewChatMessage(newMsg);
     triggerUpdate();
   };
+  const disconnectAudios = () => {
+    for (let conns in audioSharePeer.current.connections) {
+      audioSharePeer.current.connections[conns].forEach((conn) => {
+        if (conn.close) conn.close();
+      });
+    }
+    const tracks = localAudioStream.current.getTracks();
+    tracks.forEach((track) => {
+      track.stop();
+    });
+    localAudioStream.current = null;
+    let newMsg = {
+      value: `${userName} disconnected audio`,
+      code: 4,
+      userName: userName,
+      roomId: roomId,
+      date: new Date(),
+      creator_name: "Admin",
+      flames: [],
+      reactions: [],
+      attachments: [],
+      ...ownerData.current,
+    };
+    sendNewChatMessage(newMsg);
+    triggerUpdate();
+  };
   const toggleVideo = async () => {
     if (localVideoStream.current) {
       disconnectVideos();
     } else {
       connectVideoToUsers();
+    }
+  };
+  const toggleAudio = async () => {
+    if (localAudioStream.current) {
+      disconnectAudios();
+    } else {
+      connectAudioToUsers();
     }
   };
   const sendNewChatMessage = (message) => {
@@ -321,7 +394,6 @@ const Party = () => {
       });
   };
   const createVideo = (incomingStream, peer, call) => {
-    console.log(incomingStream, peer, call);
     let existingVideoContainer = document.getElementById(peer.videoPeer);
     if (!existingVideoContainer) {
       let parentContainer = document.getElementById(peer.socketID);
@@ -350,7 +422,7 @@ const Party = () => {
     }
   };
   const createAudio = (incomingStream, peer, call) => {
-    console.log(incomingStream, peer, call);
+    console.log(peer);
     let existingVideoContainer = document.getElementById(peer.peerId);
     if (!existingVideoContainer) {
       let parentContainer = document.getElementById(peer.socketID);
@@ -472,7 +544,7 @@ const Party = () => {
           <GatherControlBar
             onLeaveHandler={leaveRoom}
             onToggleVideo={toggleVideo}
-            // onToggleAudio={toggleAudio}
+            onToggleAudio={toggleAudio}
           />
         </section>
       </main>
