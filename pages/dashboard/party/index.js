@@ -16,12 +16,12 @@ import { DiceAlert } from "../../../components/Gathering/GatherTools/DiceAlert";
 import styles from "./Party.module.scss";
 
 const Party = () => {
-    const queryString = window?.location?.search;
-    const urlParams = new URLSearchParams(queryString);
-    const userName = urlParams.get("user_name");
-    const userIcon = urlParams.get("user_img");
-    const roomId = urlParams.get("room_id");
-    const harthId = urlParams.get("harth_id");
+    // const queryString = window?.location?.search;
+    // const urlParams = new URLSearchParams(queryString);
+    // const userName = urlParams.get("user_name");
+    // const userIcon = urlParams.get("user_img");
+    // const roomId = urlParams.get("room_id");
+    // const harthId = urlParams.get("harth_id");
 
     const [socket, setSocket] = useState(null);
     const [socketID, setSocketID] = useState(null);
@@ -34,6 +34,10 @@ const Party = () => {
     const [unreadMsg, setUnreadMsg] = useState(false);
     const [activeCallRoom, setActiveCallRoom] = useState({});
     const [callRooms, setCallRooms] = useState([]);
+    const [userName, setUserName] = useState("");
+    const [userIcon, setUserIcon] = useState("");
+    const [roomId, setRoomId] = useState("");
+    const [harthId, setHarthId] = useState("");
 
     const ownerData = useRef({});
     const PEERS = useRef([]);
@@ -64,6 +68,24 @@ const Party = () => {
                 transports: ["websocket"],
             })
         );
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const USRNM = urlParams.get("user_name");
+        const USRIMG = urlParams.get("user_img");
+        const ROOMID = urlParams.get("room_id");
+        const HARTHID = urlParams.get("harth_id");
+        if (USRIMG) {
+            setUserIcon(USRIMG);
+        }
+        if (USRNM) {
+            setUserName(USRNM);
+        }
+        if (ROOMID) {
+            setRoomId(ROOMID);
+        }
+        if (HARTHID) {
+            setHarthId(HARTHID);
+        }
     }, []);
 
     useEffect(() => {
