@@ -37,7 +37,7 @@ export const Avatar = (props) => {
                     ) : (
                         <span className={styles.AvatarImage}>
                             <IconAccountNoFill
-                                fill={darkBackground && "#fff"}
+                                fill={darkBackground ? "#fff" : "#2f1d2a"}
                             />
                         </span>
                     )}
@@ -55,7 +55,7 @@ export const Avatar = (props) => {
                     ) : (
                         <span className={styles.AvatarImage}>
                             <IconAccountNoFill
-                                fill={darkBackground && "#fff"}
+                                fill={darkBackground ? "#fff" : "#2f1d2a"}
                             />
                         </span>
                     )}
