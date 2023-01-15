@@ -1,113 +1,121 @@
 @import "../../../styles/globals.scss";
 
 .PartyWindow {
+  display: flex;
+  background-color: $fuel;
+
+  &VideoContainer {
+    position: relative;
     display: flex;
-    background-color: $fuel;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+  }
 
-    &VideoContainer {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        width: 100%;
-    }
-
-    &Title {
-        padding: 6px 16px;
-        color: #fff;
-        background-color: #333;
-    }
+  &Title {
+    padding: 6px 16px;
+    color: #fff;
+    background-color: #333;
+  }
 }
 
 .PartyMainContent {
-    display: flex;
-    flex: 1;
-    height: calc(100% - 136px);
-    padding: 16px 0;
+  display: flex;
+  flex: 1;
+  height: calc(100% - 136px);
+  padding: 16px 0;
 
-    .ChatPanelContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-        background-color: $white;
-        border: 4px solid $white_10;
-        border-radius: 18px;
-    }
+  .ChatPanelContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    background-color: $white;
+    border: 4px solid $white_10;
+    border-radius: 18px;
+  }
 }
 
 .peerContainer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    flex: 1;
-    position: relative;
-    height: 100%;
-    // background: #eaeaea;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex: 1;
+  position: relative;
+  height: 100%;
+  // background: #eaeaea;
+
+  &:not(.isScreenShare) {
+    .ownerVideo {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      z-index: 1;
+      height: 108px !important;
+      width: 108px !important;
+      object-fit: cover;
+    }
+  }
+
+  &.isScreenShare {
+    height: 150px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px;
 
     .videoParent {
-        position: relative;
-        max-height: 600px;
-        max-width: 600px;
-        border-radius: 16px;
-        overflow: hidden;
-        background-color: #9a9a9a;
-
-        &.ownerVideo {
-            transform: scaleX(-1);
-        }
-
-        video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate3d(-50%, -50%, 0);
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            border-radius: 10px;
-            overflow: hidden;
-            background-size: cover;
-            overflow: hidden;
-            -webkit-transition: margin-top 1s ease-in-out;
-            -moz-transition: margin-top 1s ease-in-out;
-            -o-transition: margin-top 1s ease-in-out;
-            transition: margin-top 1s ease-in-out;
-        }
+      min-height: 100px;
+      min-width: 100px;
     }
 
-    &:not(.isScreenShare) {
-        .ownerVideo {
-            position: absolute;
-            right: 8px;
-            bottom: 8px;
-            z-index: 1;
-            height: 108px !important;
-            width: 108px !important;
-            object-fit: cover;
-        }
+    .ownerVideo {
+      position: relative;
+      right: 0;
+      bottom: 0;
+      height: 100%;
     }
+  }
+}
 
-    &.isScreenShare {
-        height: 150px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding: 8px;
+// new styles 2023
 
-        .videoParent {
-            min-height: 100px;
-            min-width: 100px;
-        }
+.videoContainer {
+  position: relative;
+  max-height: 600px;
+  max-width: 600px;
+  min-height: 300px;
+  min-width: 300px;
+  overflow: hidden;
+  border: 1px solid $white_10;
+  border-radius: 8px;
 
-        .ownerVideo {
-            position: relative;
-            right: 0;
-            bottom: 0;
-            height: 100%;
-        }
-    }
+  &.ownerVideo {
+    transform: scaleX(-1);
+  }
+
+  video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    background-size: cover;
+    overflow: hidden;
+    -webkit-transition: margin-top 1s ease-in-out;
+    -moz-transition: margin-top 1s ease-in-out;
+    -o-transition: margin-top 1s ease-in-out;
+    transition: margin-top 1s ease-in-out;
+  }
+}
+
+.peerName {
+  color: $white;
 }
