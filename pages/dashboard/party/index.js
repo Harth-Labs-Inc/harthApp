@@ -36,6 +36,7 @@ const Party = () => {
 
   const localAudioStream = useRef();
   const localVideoStream = useRef();
+  const localCaptureStream = useRef();
 
   useEffect(() => {
     let urls = {
@@ -90,6 +91,9 @@ const Party = () => {
         if (newMsg?.code == 4) {
           removeElement(newMsg.peerId);
         }
+        if (newMsg?.code == 2) {
+          removeElement(newMsg.capturePeer);
+        }
         setChats((prevChats) => [newMsg, ...prevChats]);
       });
     }
@@ -133,6 +137,29 @@ const Party = () => {
       run();
     });
   };
+  const getLocalCaptureStream = async (
+    constraints = {
+      video: {
+        cursor: "always",
+      },
+      audio: false,
+    }
+  ) => {
+    return new Promise((resolve) => {
+      async function run() {
+        try {
+          let stream = await navigator.mediaDevices.getDisplayMedia(
+            constraints
+          );
+
+          resolve(stream);
+        } catch (error) {
+          console.log("has canceled selection do something");
+        }
+      }
+      run();
+    });
+  };
   const createAudioSharePeer = () => {
     audioSharePeer.current = new window.Peer(undefined, {
       config: {
@@ -163,19 +190,14 @@ const Party = () => {
       audioSharePeer.current.reconnect();
     });
     audioSharePeer.current.on("call", async (call) => {
-      console.log("...receiving call from: ", call.peer);
       // call.answer(localAudioStream.current);
       call.answer();
 
       call.on("stream", (incomingStream) => {
-        console.log("...incoming stream from: ", call);
         // let peer = call.metadata?.peer;
-        console.log(PEERS);
         let peer = PEERS.current.find((p) => {
-          console.log(p, call);
           return p.peerId == call.peer;
         });
-        // console.log(peer);
         createAudio(incomingStream, peer, call);
       });
     });
@@ -200,22 +222,15 @@ const Party = () => {
       videoSharePeer.current.reconnect();
     });
     videoSharePeer.current.on("call", async (call) => {
-      console.log("...receiving call from: ", call.peer);
-
       call.answer();
 
       call.on("stream", (incomingStream) => {
-        console.log("...incoming stream from: ", call);
-
         let peer = PEERS.current.find((p) => p.videoPeer == call.peer);
-        console.log(peer);
-
         createVideo(incomingStream, peer, call);
       });
     });
   };
   const createScreenSharePeer = (peerobj) => {
-    let pID = "";
     ScreenSharePeer.current = new window.Peer(undefined, {
       config: {
         iceServers: [
@@ -228,7 +243,6 @@ const Party = () => {
     });
 
     ScreenSharePeer.current.on("open", (peerid) => {
-      pID = peerid;
       peerobj.capturePeer = peerid;
       joinRoomSocket(peerobj);
     });
@@ -239,9 +253,8 @@ const Party = () => {
       call.answer();
 
       call.on("stream", (incomingStream) => {
-        if (incomingStream) {
-          addCaptureStream(incomingStream, call.peer);
-        }
+        let peer = PEERS.current.find((p) => p.capturePeer == call.peer);
+        createCapture(incomingStream, peer, call);
       });
     });
   };
@@ -275,6 +288,30 @@ const Party = () => {
       });
     }
   };
+  const connectAudioToUsers = async () => {
+    let audioStream = await getLocalAudioStream();
+    localAudioStream.current = audioStream;
+    PEERS.current.forEach((peer) => {
+      if (peer.peerId !== audioSharePeer.current.id) {
+        // let options = { metadata: { peer } };
+        // audioSharePeer.current.call(peer.peerId, audioStream, options);
+        audioSharePeer.current.call(peer.peerId, audioStream);
+      }
+    });
+    let newMsg = {
+      value: `${userName} enabled audio`,
+      code: 3,
+      userName: userName,
+      roomId: roomId,
+      date: new Date(),
+      creator_name: "Admin",
+      flames: [],
+      reactions: [],
+      attachments: [],
+      ...ownerData.current,
+    };
+    sendNewChatMessage(newMsg);
+  };
   const connectVideoToUsers = async () => {
     let videoStream = await getLocalVideoStream();
     localVideoStream.current = videoStream;
@@ -297,19 +334,17 @@ const Party = () => {
     };
     sendNewChatMessage(newMsg);
   };
-  const connectAudioToUsers = async () => {
-    let audioStream = await getLocalAudioStream();
-    localAudioStream.current = audioStream;
+  const connectCaptureToUsers = async () => {
+    let captureStream = await getLocalCaptureStream();
+    localCaptureStream.current = captureStream;
     PEERS.current.forEach((peer) => {
-      if (peer.peerId !== audioSharePeer.current.id) {
-        // let options = { metadata: { peer } };
-        // audioSharePeer.current.call(peer.peerId, audioStream, options);
-        audioSharePeer.current.call(peer.peerId, audioStream);
+      if (peer.capturePeer !== ScreenSharePeer.current.id) {
+        ScreenSharePeer.current.call(peer.capturePeer, captureStream);
       }
     });
     let newMsg = {
-      value: `${userName} enabled audio`,
-      code: 3,
+      value: `${userName} enabled screen share`,
+      code: 1,
       userName: userName,
       roomId: roomId,
       date: new Date(),
@@ -373,6 +408,33 @@ const Party = () => {
     sendNewChatMessage(newMsg);
     triggerUpdate();
   };
+  const disconnectCaptures = () => {
+    for (let conns in ScreenSharePeer.current.connections) {
+      ScreenSharePeer.current.connections[conns].forEach((conn) => {
+        if (conn.close) conn.close();
+      });
+    }
+    const tracks = localCaptureStream.current.getTracks();
+    tracks.forEach((track) => {
+      track.stop();
+    });
+    localCaptureStream.current = null;
+    let newMsg = {
+      value: `${userName} disconnected screen share`,
+      code: 2,
+      userName: userName,
+      roomId: roomId,
+      date: new Date(),
+      creator_name: "Admin",
+      flames: [],
+      reactions: [],
+      attachments: [],
+      ...ownerData.current,
+    };
+    sendNewChatMessage(newMsg);
+    triggerUpdate();
+  };
+
   const toggleVideo = async () => {
     if (localVideoStream.current) {
       disconnectVideos();
@@ -385,6 +447,13 @@ const Party = () => {
       disconnectAudios();
     } else {
       connectAudioToUsers();
+    }
+  };
+  const toggleCapture = async () => {
+    if (localCaptureStream.current) {
+      disconnectCaptures();
+    } else {
+      connectCaptureToUsers();
     }
   };
   const sendNewChatMessage = (message) => {
@@ -448,6 +517,34 @@ const Party = () => {
       audio.controls = true;
       audioContainer.appendChild(audio);
       parentContainer.appendChild(audioContainer);
+    }
+  };
+  const createCapture = (incomingStream, peer, call) => {
+    let existingVideoContainer = document.getElementById(peer.capturePeer);
+    if (!existingVideoContainer) {
+      let parentContainer = document.getElementById(peer.socketID);
+      if (!parentContainer) {
+        parentContainer = document.createElement("div");
+        parentContainer.id = peer.socketID;
+        parentContainer.className = styles.videoContainer;
+
+        let nameContainer = document.createElement("p");
+        var nameText = document.createTextNode(peer.name);
+        nameContainer.className = styles.peerName;
+        nameContainer.appendChild(nameText);
+        parentContainer.append(nameContainer);
+        const roomContainer = document.getElementById("peerContainer");
+        roomContainer.append(parentContainer);
+      }
+
+      const videoContainer = document.createElement("div");
+      const video = document.createElement("video");
+      videoContainer.id = peer.capturePeer;
+      video.srcObject = incomingStream;
+      video.autoplay = true;
+      video.controls = true;
+      videoContainer.appendChild(video);
+      parentContainer.appendChild(videoContainer);
     }
   };
   const removeElement = (id) => {
@@ -545,6 +642,7 @@ const Party = () => {
             onLeaveHandler={leaveRoom}
             onToggleVideo={toggleVideo}
             onToggleAudio={toggleAudio}
+            onToggleScreenShare={toggleCapture}
           />
         </section>
       </main>
