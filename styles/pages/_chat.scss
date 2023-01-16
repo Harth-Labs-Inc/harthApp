@@ -1,13 +1,14 @@
 #stream-window-chat {
     position: relative;
-    padding: 0 24px;
+    // padding: 0 24px;
 
     &.closed {
         width: 0;
         visibility: hidden;
     }
     &.open {
-        width: 360px;
+        width: 420px;
+        padding: 0 24px;
         visibility: visible;
     }
 

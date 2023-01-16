@@ -2,178 +2,191 @@
 @import "../../../styles/fonts.scss";
 
 .BagButton {
-  position: relative;
+    position: relative;
 
-  &Options {
-    position: absolute;
-    bottom: 75px;
-    left: -6px;
-    z-index: 1;
+    &Options {
+        position: absolute;
+        bottom: 75px;
+        left: -6px;
+        z-index: 1;
 
-    border-radius: 8px;
+        border-radius: 8px;
 
-    &Container {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 8px 6px;
-      background-color: $black;
-      border-radius: 8px;
+        &Container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 8px 6px;
+            background-color: $black;
+            border-radius: 8px;
+        }
+
+        &:before {
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            z-index: 0;
+            height: calc(100% + 6px);
+            width: calc(100% + 6px);
+            content: "";
+            background-image: linear-gradient(
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 0)
+                ),
+                linear-gradient(35deg, $hot_blue, $hot_pink);
+            border-radius: 8px;
+        }
     }
-
-    &:before {
-      position: absolute;
-      top: -3px;
-      left: -3px;
-      z-index: 0;
-      height: calc(100% + 6px);
-      width: calc(100% + 6px);
-      content: "";
-      background-image: linear-gradient(
-          rgba(255, 255, 255, 0),
-          rgba(255, 255, 255, 0)
-        ),
-        linear-gradient(35deg, $hot_blue, $hot_pink);
-      border-radius: 8px;
-    }
-  }
 }
 
 .basicButton {
-  border-radius: 9999px;
-  cursor: pointer;
-  border: solid 3px $white_10;
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  box-shadow: 4px 9999px 1px $ash inset; //interior color
-
-  &:hover {
-    border: solid 3px transparent;
-    background-image: linear-gradient(
-        rgba(255, 255, 255, 0),
-        rgba(255, 255, 255, 0)
-      ),
-      linear-gradient(35deg, $hot_blue, $hot_pink);
-  }
-
-  &Large {
-    padding: 10px;
-    height: 56px;
-    width: 56px;
-  }
-
-  &Small {
-    padding: 8px;
-    height: 44px;
-    width: 44px;
-  }
-  &Bag {
-    border-radius: 8px;
-    padding: 6px;
-    height: 44px;
-    width: 44px;
-  }
-
-  &Active {
-    box-shadow: 2px 1000px 1px $black inset;
-    border: solid 3px transparent;
-    background-image: linear-gradient(
-        rgba(255, 255, 255, 0),
-        rgba(255, 255, 255, 0)
-      ),
-      linear-gradient(35deg, $hot_blue, $hot_pink);
-  }
-
-  &Inactive {
-    path {
-      fill: $white_90;
-    }
-  }
-
-  &Muted {
-    box-shadow: 2px 1000px 1px $black inset;
-    border: solid 3px $alert_red;
-    path {
-      fill: $alert_red;
-    }
+    position: relative;
+    border-radius: 9999px;
+    cursor: pointer;
+    border: solid 3px $white_10;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 4px 9999px 1px $ash inset; //interior color
 
     &:hover {
-      border: solid 3px $alert_red;
+        border: solid 3px transparent;
+        background-image: linear-gradient(
+                rgba(255, 255, 255, 0),
+                rgba(255, 255, 255, 0)
+            ),
+            linear-gradient(35deg, $hot_blue, $hot_pink);
     }
-  }
+
+    &Large {
+        padding: 10px;
+        height: 56px;
+        width: 56px;
+    }
+
+    &Small {
+        padding: 8px;
+        height: 44px;
+        width: 44px;
+    }
+    &Bag {
+        border-radius: 8px;
+        padding: 6px;
+        height: 44px;
+        width: 44px;
+    }
+
+    &Active {
+        box-shadow: 2px 1000px 1px $black inset;
+        border: solid 3px transparent;
+        background-image: linear-gradient(
+                rgba(255, 255, 255, 0),
+                rgba(255, 255, 255, 0)
+            ),
+            linear-gradient(35deg, $hot_blue, $hot_pink);
+    }
+
+    &Inactive {
+        path {
+            fill: $white_90;
+        }
+    }
+
+    &Muted {
+        box-shadow: 2px 1000px 1px $black inset;
+        border: solid 3px $alert_red;
+        path {
+            fill: $alert_red;
+        }
+
+        &:hover {
+            border: solid 3px $alert_red;
+        }
+    }
+
+    .unreadMsg {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        height: 10px;
+        width: 10px;
+        font-size: 0;
+        background-color: $hot_pink;
+        border: 2px solid $ash;
+        border-radius: 50%;
+    }
 }
 
 .leaveButton {
-  border-radius: 9999px;
-  cursor: pointer;
-  border: solid 3px $white_10;
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  box-shadow: 4px 9999px 1px $ash inset;
+    border-radius: 9999px;
+    cursor: pointer;
+    border: solid 3px $white_10;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 4px 9999px 1px $ash inset;
 
-  padding: 8px;
-  height: 44px;
-  width: 44px;
+    padding: 8px;
+    height: 44px;
+    width: 44px;
 
-  path {
-    fill: $white_90;
-  }
-
-  &:hover {
-    border: solid 3px darken($alert_red, 10%);
     path {
-      fill: darken($alert_red, 10%);
+        fill: $white_90;
     }
-  }
+
+    &:hover {
+        border: solid 3px darken($alert_red, 10%);
+        path {
+            fill: darken($alert_red, 10%);
+        }
+    }
 }
 
 .controlButtonMobile {
-  position: relative;
-  padding: 8px 8px;
-  border: 0;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: transparent;
-  path {
-    fill: $white_90;
-  }
-  &:hover {
-    background-color: $white_5;
-  }
+    position: relative;
+    padding: 8px 8px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: transparent;
+    path {
+        fill: $white_90;
+    }
+    &:hover {
+        background-color: $white_5;
+    }
 }
 
 .moreButton {
-  border-radius: 9999px;
-  cursor: pointer;
-  border: solid 2px $white_10;
-  background-color: $fuel;
-  box-shadow: 4px 9999px 1px $ash inset;
-  transform: rotate(90deg);
+    border-radius: 9999px;
+    cursor: pointer;
+    border: solid 2px $white_10;
+    background-color: $fuel;
+    box-shadow: 4px 9999px 1px $ash inset;
+    transform: rotate(90deg);
 
-  padding: 0px;
-  height: 20px;
-  width: 20px;
+    padding: 0px;
+    height: 20px;
+    width: 20px;
 
-  path {
-    fill: $white_90;
-  }
-
-  &:hover {
-    border: solid 2px $white;
-    background-color: $black;
     path {
-      fill: $white;
+        fill: $white_90;
     }
-  }
 
-  &Active {
-    border: solid 2px $black;
-    background-color: $black;
-    box-shadow: 4px 9999px 1px $black inset;
-    path {
-      fill: $white;
+    &:hover {
+        border: solid 2px $white;
+        background-color: $black;
+        path {
+            fill: $white;
+        }
     }
-  }
+
+    &Active {
+        border: solid 2px $black;
+        background-color: $black;
+        box-shadow: 4px 9999px 1px $black inset;
+        path {
+            fill: $white;
+        }
+    }
 }
