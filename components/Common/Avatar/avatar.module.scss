@@ -1,51 +1,32 @@
 @import "../../../styles/globals.scss";
 
-
-
-.avatarButton {
+.Avatar {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid transparent;
     padding: 2px;
-    border-radius: 9999px;
     background-color: transparent;
+    border: 2px solid transparent;
+    border-radius: 50%;
     overflow: hidden;
-    cursor: pointer;
-    
-    &:hover {
-        border-style: solid;
-        border-color: $fuel;
-    }
 
-    .avatar {
-        border-radius: 9999px;
-        overflow: hidden;
-    }
-
-    &Dark {
+    &.AvatarButton {
+        cursor: pointer;
         &:hover {
-            border-style: solid;
-            border-color: $oxygen;
+            border-color: $fuel;
+        }
+
+        &.AvatarDark {
+            &:hover {
+                border-color: $oxygen;
+            }
         }
     }
-}
 
-
-.avatarIndicator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid transparent;
-    padding: 2px;
-    border-radius: 9999px;
-    background-color: transparent;
-    overflow: hidden;
-
-    .avatar {
-        border-radius: 9999px;
+    &Image {
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
         overflow: hidden;
-        cursor: none;
     }
-
 }

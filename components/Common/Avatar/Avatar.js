@@ -1,13 +1,16 @@
+import { IconAccountNoFill } from "../../../resources/icons/IconAccountNoFill";
+
 import styles from "./avatar.module.scss";
 
 export const Avatar = (props) => {
     const {
-        isPressable,
+        isPressable = false,
         pressHandler,
         picSize = 40,
         imageSrc,
         aLabel = "Profile Image",
         darkBackground = false,
+        customStyle,
     } = props;
 
     return (
@@ -16,28 +19,46 @@ export const Avatar = (props) => {
                 <button
                     onClick={pressHandler}
                     className={`
-                            ${styles.avatarButton} 
-                            ${darkBackground &&  styles.avatarButtonDark}
+                            ${styles.Avatar} 
+                            ${styles.AvatarButton}
+                            ${darkBackground && styles.AvatarDark}
                             `}
+                    style={{ zIndex: customStyle }}
                     aria-label={aLabel}
                 >
-                    <img
-                        src={imageSrc}
-                        aria-label="Profile Image"
-                        className={styles.avatar}
-                        height={picSize}
-                        width={picSize}
-                    />
+                    {imageSrc & (imageSrc != "undefined") ? (
+                        <img
+                            src={imageSrc}
+                            aria-label="Profile Image"
+                            className={styles.AvatarImage}
+                            height={picSize}
+                            width={picSize}
+                        />
+                    ) : (
+                        <span className={styles.AvatarImage}>
+                            <IconAccountNoFill
+                                fill={darkBackground ? "#fff" : "#2f1d2a"}
+                            />
+                        </span>
+                    )}
                 </button>
             ) : (
-                <div className={styles.avatarIndicator}>
-                    <img
-                        src={imageSrc}
-                        aria-label="Profile Image"
-                        className={styles.avatar}
-                        height={picSize}
-                        width={picSize}  
-                    />
+                <div className={styles.Avatar} style={{ zIndex: customStyle }}>
+                    {imageSrc & (imageSrc != "undefined") ? (
+                        <img
+                            src={imageSrc}
+                            aria-label="Profile Image"
+                            className={styles.AvatarImage}
+                            height={picSize}
+                            width={picSize}
+                        />
+                    ) : (
+                        <span className={styles.AvatarImage}>
+                            <IconAccountNoFill
+                                fill={darkBackground ? "#fff" : "#2f1d2a"}
+                            />
+                        </span>
+                    )}
                 </div>
             )}
         </>

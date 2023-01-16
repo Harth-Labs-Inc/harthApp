@@ -6,51 +6,85 @@
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    background-color: $white;
-    border: 2px solid $fuel;
+    background-color: transparent;
     border-radius: 24px;
     overflow: hidden;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
+    width: 336px;
 
-    &Setup {
-        padding: 20px 48px 0 48px;
+    &Content {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-color: $oxygen;
+        width: 100%;
+
+        padding: 20px 12px 20px 12px;
     }
 
     &Input {
         text-align: center;
+        width: 100%;
+    }
+
+    &LabelHolder {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
     }
 
     &Type {
         display: flex;
         justify-content: space-between;
-        width: 212px;
-        background-color: $fuel_10;
+        width: 240px;
+        background-color: $warm_blue_light;
         border-radius: 100px;
     }
 
     &SubText {
         @include interfaceR3;
+        color: $ash_60;
+        font-weight: 500;
         margin-top: 12px;
         text-align: center;
     }
 
     &Launch {
+        display: flex;
         width: 100%;
-        margin-top: 24px;
+        background-color: $fuel;
     }
 
     &Submit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
         width: 50%;
-        padding: 16px 32px;
-        color: $white;
-        background-color: $fuel;
+        padding: 16px 0px;
+        color: $oxygen;
+        background-color: transparent;
         border: 0;
+        cursor: pointer;
+        @include interfaceH4;
+        path {
+            fill: $oxygen;
+        }
+
+        svg {
+            width: 24px;
+        }
+
+        &:hover {
+            background-color: darken($fuel, 5%);
+        }
     }
 }
 
 .GatheringButton {
     height: 60px;
     width: 60px;
-    padding: 12px;
+    padding: 10px;
     background-color: transparent;
     border: 0;
     border-radius: 50%;
@@ -64,7 +98,7 @@
             background-color: $hot_red;
         }
         &.party {
-            background-color: $hot_pink;
+            background-color: $hot_purple;
         }
     }
 }
