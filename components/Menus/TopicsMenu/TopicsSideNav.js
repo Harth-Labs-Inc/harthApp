@@ -80,15 +80,15 @@ const TopicsNav = () => {
             setTopicsArr([...topics, incomingTopic]);
         }
     }, [incomingTopic]);
-    // useEffect(() => {
-    //     document.addEventListener("contextmenu", (event) => {
-    //         event.preventDefault();
-    //     });
+    useEffect(() => {
+        document.addEventListener("contextmenu", (event) => {
+            event.preventDefault();
+        });
 
-    //     return () => {
-    //         window.removeEventListener("contextmenu", () => {});
-    //     };
-    // }, []);
+        return () => {
+            window.removeEventListener("contextmenu", () => {});
+        };
+    }, []);
 
     const changeSelectedTopic = (topic) => {
         setTopic(topic);
