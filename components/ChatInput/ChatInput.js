@@ -18,7 +18,8 @@ import { MobileContext } from "../../contexts/mobile";
 import { getUploadURL, putImageInBucket } from "../../requests/s3";
 import { addKeyToDB } from "../../requests/chat";
 
-import { Picker } from "emoji-mart";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 // import 'emoji-mart/css/emoji-mart.css'
 
 import styles from "./ChatInput.module.scss";
@@ -229,14 +230,27 @@ const ChatInput = (props) => {
     const EmojiPicker = () => {
         if (emojiPickerState) {
             return (
-                <Picker
-                    className="attach-emoji"
-                    native={true}
-                    onSelect={addEmoji}
-                    emoji=""
-                    color="#1d0a6c"
-                    autoFocus={true}
-                />
+                <div className={styles.EmojiPicker}>
+                    <style>
+                        {`em-emoji-picker {
+                            --em-rgb-background: 47, 29, 42;
+
+                        }`}
+                    </style>
+                    <Picker
+                        data={data}
+                        className="attach-emoji"
+                        onEmojiSelect={addEmoji}
+                        autoFocus={true}
+                        emojiButtonColors={[
+                            "rgba(187, 126, 196, 0.8)",
+                            "rgb(13, 161, 181, .8)",
+                            "rgba(240, 101, 115, 0.8)",
+                            "rgb(0, 163, 150, 0.8)",
+                        ]}
+                        // onClickOutside={setEmojiPicker(!emojiPickerState)}
+                    />
+                </div>
             );
         }
         return null;
@@ -256,7 +270,7 @@ const ChatInput = (props) => {
                                     removeAttachment(idx);
                                 }}
                             >
-                            <IconClose />
+                                <IconClose />
                             </button>
                             <img
                                 id={file.name}
@@ -264,7 +278,6 @@ const ChatInput = (props) => {
                                 ref={(el) => (attRefs.current[idx] = el)}
                                 alt=""
                             />
-                            
                         </div>
                     ))}
                 </div>
@@ -307,7 +320,10 @@ const ChatInput = (props) => {
         if (Object.keys(selectedEditMsg).length > 0) {
             return (
                 <div id={styles.ChatInputControlsRight}>
-                    <button onClick={cancelEdit} aria-label="cancel chat message">
+                    <button
+                        onClick={cancelEdit}
+                        aria-label="cancel chat message"
+                    >
                         <IconCancelFill />
                     </button>
                     <button
@@ -344,7 +360,9 @@ const ChatInput = (props) => {
                     id={styles.ChatInputText}
                     ref={textRef}
                     onChange={inputHandler}
-                    value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
+                    value={
+                        (topicInputs && topicInputs[selectedTopic?._id]) || ""
+                    }
                     onKeyDown={(e) => {
                         let input = topicInputs[selectedTopic?._id] || "";
                         if (e.altKey) {
@@ -358,7 +376,10 @@ const ChatInput = (props) => {
                             });
                             textRef.current.style.height =
                                 calcHeight(textRef.current.value) + "px";
-                        } else if (e.key === "Enter" && input.trim().length > 0) {
+                        } else if (
+                            e.key === "Enter" &&
+                            input.trim().length > 0
+                        ) {
                             submitMessageLogic();
                         }
                     }}
