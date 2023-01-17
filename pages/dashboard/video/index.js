@@ -15,6 +15,7 @@ import { CreateGatheringFormProvider as GatheringEditFormProvider } from "./Gath
 import styles from "./GatheringDashboard.module.scss";
 import GatheringCreate from "../../../components/Gathering/GatheringCreate/GatheringCreate";
 import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
+import { GatherLoading } from "../../../components/Gathering/GatherLoading/GatherLoading";
 
 const Video = (props) => {
   const [socketData, setSocketData] = useState({});
@@ -137,7 +138,7 @@ const Video = (props) => {
             createRoomFormSubmit={createRoomFormSubmit}
             createScheduleRoom={triggerNewRoom}
           />
-
+ <GatherLoading />
           <ul
             className={styles.roomContainerActiveList}
             id="room_card current_rooms"
@@ -194,7 +195,13 @@ const Video = (props) => {
     );
   }
 
-  return <p>loading...</p>;
+  return (
+    <div>
+   
+
+  <p>loading...</p>;
+  </div>
+  )
 };
 
 export default Video;

@@ -7,14 +7,24 @@ export const GatherLoading = () => {
 
             <div className={styles.right}>
                 <div className={styles.title} />
-                <div className={styles.peopleHolder}>
-                    <div className={styles.person} />
-                    <div className={styles.person} />
-                    <div className={styles.person} />
+                <div className={styles.middleContent}>
+                    <div className={styles.timeHolder}>
+                        <div className={styles.time} />
+                        <div className={styles.date} />
+                    </div>
+                    <div className={styles.contentHolder} >
+                        <div className={styles.description} />
+                        <div className={styles.description} />
+                        <div className={styles.peopleHolder}>
+                            <div className={styles.person} />
+                            <div className={styles.person} />
+                            <div className={styles.person} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
 
-export default GatherLoading;
+//xexport default GatherLoading;
