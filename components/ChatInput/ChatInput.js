@@ -403,36 +403,34 @@ const ChatInput = (props) => {
                     }}
                 ></textarea>
             </div>
-            {!isMobile ? (
-                <div id={styles.ChatInputControls}>
-                    <div id={styles.ChatInputControlsLeft}>
-                        <button
-                            onClick={triggerPicker}
-                            aria-label="add emoji reaction"
-                        >
-                            <IconAddReactionNoFill />
-                        </button>
-                        <EmojiPicker />
-                        <button
-                            aria-label="attach an image"
-                            onClick={openFileSelector}
-                        >
-                            <IconImage />
-                        </button>
-                        <input
-                            ref={fileRef}
-                            type="file"
-                            id="file-input"
-                            onChange={(e) => {
-                                const { files } = e.target;
-                                addAttachment(files[0]);
-                            }}
-                            style={{ display: "none" }}
-                        />
-                    </div>
-                    <MessageSubmits />
+            <div id={styles.ChatInputControls}>
+                <div id={styles.ChatInputControlsLeft}>
+                    <button
+                        onClick={triggerPicker}
+                        aria-label="add emoji reaction"
+                    >
+                        <IconAddReactionNoFill />
+                    </button>
+                    <EmojiPicker />
+                    <button
+                        aria-label="attach an image"
+                        onClick={openFileSelector}
+                    >
+                        <IconImage />
+                    </button>
+                    <input
+                        ref={fileRef}
+                        type="file"
+                        id="file-input"
+                        onChange={(e) => {
+                            const { files } = e.target;
+                            addAttachment(files[0]);
+                        }}
+                        style={{ display: "none" }}
+                    />
                 </div>
-            ) : null}
+                <MessageSubmits />
+            </div>
         </div>
     );
 };

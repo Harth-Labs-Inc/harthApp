@@ -11,10 +11,8 @@
     overflow-y: scroll;
 
     &Mobile {
-        width: 90%;
+        width: 100%;
         padding: 16px 0px 24px 24px;
-
-
     }
 
     &Title {
@@ -36,7 +34,6 @@
 
         &:hover {
             color: $oxygen_80;
-
         }
 
         &Active {
@@ -51,7 +48,6 @@
                 content: "";
                 background-color: $oxygen_80;
             }
-
         }
     }
 
@@ -74,7 +70,7 @@
 
     &Create {
         position: relative;
-        padding: 0px 0px; 
+        padding: 0px 0px;
         &Button {
             display: flex;
             flex-direction: row;
@@ -88,8 +84,7 @@
             cursor: pointer;
             margin-bottom: 16px;
 
-
-            .iconHolder{
+            .iconHolder {
                 height: 14px;
                 width: 14px;
                 path {
@@ -105,14 +100,13 @@
                     fill: $oxygen;
                     stroke: $oxygen;
                 }
-
             }
         }
     }
 
     &CreateMobile {
         position: relative;
-        padding: 0px 0px; 
+        padding: 0px 0px;
         &Button {
             display: flex;
             flex-direction: row;
@@ -127,7 +121,7 @@
             margin-top: 8px;
             margin-bottom: 32px;
 
-            .iconHolder{
+            .iconHolder {
                 height: 18px;
                 width: 18px;
                 path {
@@ -143,7 +137,6 @@
                     fill: $oxygen;
                     stroke: $oxygen;
                 }
-
             }
         }
     }
