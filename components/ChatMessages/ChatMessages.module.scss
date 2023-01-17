@@ -7,8 +7,11 @@
     flex-direction: column;
     height: calc(100vh - 60px);
     width: 100%;
-    // overflow: auto;
-    //background-color: #ee5500;
+
+    @media screen and (max-width: 640px) {
+        height: 100vh;
+        padding: 8px;
+    }
 }
 
 #ChatMessages {
@@ -26,6 +29,11 @@
 
     &::-webkit-scrollbar {
         display: none;
+    }
+
+    @media screen and (max-width: 640px) {
+        min-height: calc(100% - 80px);
+        padding: 0;
     }
 }
 

@@ -53,22 +53,6 @@ const ConversationsNav = () => {
         }
     }, [conversations]);
 
-    // useEffect(() => {
-    //     if (incomingConversation._id) {
-    //         setConversationsArr([...conversations, incomingConversation]);
-    //     }
-    // }, [incomingConversation]);
-
-    // useEffect(() => {
-    //     document.addEventListener("contextmenu", (event) => {
-    //         event.preventDefault();
-    //     });
-
-    //     return () => {
-    //         window.removeEventListener("contextmenu", () => {});
-    //     };
-    // }, []);
-
     const changeSelectedConversation = (conversation) => {
         setConversation(conversation);
         setSelectedReplyOwner({});
