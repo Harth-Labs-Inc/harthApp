@@ -1,36 +1,37 @@
 @import "../../../styles/globals.scss";
 
 .Avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
-  background-color: transparent;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  overflow: hidden;
-
-  &.AvatarButton {
-    cursor: pointer;
-    &:hover {
-      border-color: $fuel;
-    }
-
-    &.AvatarDark {
-      &:hover {
-        border-color: $oxygen;
-      }
-    }
-  }
-
-  &Image {
-    height: 36px;
-    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    background-color: transparent;
+    border: 2px solid transparent;
     border-radius: 50%;
     overflow: hidden;
-  }
 
-  &.Faded {
-    opacity: 0.5;
-  }
+    &.AvatarButton {
+        cursor: pointer;
+        &:hover {
+            border-color: $fuel;
+        }
+
+        &.AvatarDark {
+            &:hover {
+                border-color: $oxygen;
+            }
+        }
+    }
+
+    &Image {
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
+        background-color: $black_10;
+        overflow: hidden;
+    }
+
+    &.Faded {
+        opacity: 0.5;
+    }
 }
