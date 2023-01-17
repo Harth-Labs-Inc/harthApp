@@ -4,7 +4,7 @@ import CloseButton from "../../Common/Buttons/CloseButton";
 import { TextBtn } from "../../Common/Button";
 import { IconNotificationsNoFill } from "../../../resources/icons/IconNotificationsNoFill";
 import IconAdminPanel from "../../../resources/icons/IconAdminPanel";
-import IconAccountNoFill from "../../../resources/icons/IconAccountNoFill";
+import { IconAccountNoFill } from "../../../resources/icons/IconAccountNoFill";
 import HarthNotificationSettings from "./HarthNotificationSettings/HarthNotificationSettings";
 import HarthAdminSettings from "./HarthAdminSettings/HarthAdminSettings";
 import HarthMembersSettings from "./HarthMembersSettings/HarthMembersSettings";

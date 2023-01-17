@@ -24,7 +24,26 @@
 
     &Input {
         text-align: center;
-        width: 100%;
+        width: 90%;
+        height: fit-content;
+        @include contentH1;
+        border: none;
+        outline: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        resize: none;
+
+
+        background:transparent;
+        border-bottom: 1px solid $fuel;
+        padding: 0px;
+
+
+
+        &::placeholder {
+            color: $fuel_30;
+        }
     }
 
     &LabelHolder {

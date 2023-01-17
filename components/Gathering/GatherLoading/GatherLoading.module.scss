@@ -8,9 +8,8 @@
     border-radius: 24px;
     border: 0;
     overflow: hidden;
-    opacity: .5;
     
-    animation: container 3s infinite;
+    animation: container 2s infinite;
 
 
 
@@ -18,7 +17,7 @@
         width: 56px;
         min-width: 56px;
         height: 100%;
-        background-color: $fuel_50;
+        background-color: $ash_20;
     }
 
     .right {
@@ -111,12 +110,12 @@
 
 @keyframes container {
     0% {
-        opacity: .5;
+        opacity: .3;
     }
     50% {
-        opacity: .2;
+        opacity: 1;
     }
     100% {
-    opacity: .5;
+    opacity: .3;
     }
 }
