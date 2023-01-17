@@ -1,22 +1,23 @@
-@import "../../../../styles/globals.scss";
+@import "../../../styles/globals.scss";
 
 .gatherLoading {
     display: flex;
     height: 232px;
     width: 330px;
-    background-color: $white;
+    background-color: transparent;
     border-radius: 24px;
-    border: 2px solid $fuel_50;
+    border: 0;
     overflow: hidden;
     
-    animation: container 1.5s infinite;
+    animation: container 2s infinite;
+
 
 
     .left {
-        width: 48px;
-        min-width: 48px;
+        width: 56px;
+        min-width: 56px;
         height: 100%;
-        background-color: $fuel_50;
+        background-color: $ash_20;
     }
 
     .right {
@@ -25,59 +26,96 @@
         row-gap: 4px;
         width: 100%;
         height: 100%;
-        //background-color: aqua;
+        background-color: $oxygen;
         padding: 24px 12px;
+        gap: 8px;
+
+
 
         .title {
-            height: 32px;
-            width: 80%;
-            border-radius: 9999px;
-            background-color: $fuel_50;
-
-            animation: load 1.5s infinite;
-
-        }
-
-        .peopleHolder{
-            display: flex;
-            column-gap: 4px;
-        }
-        .person {
             height: 36px;
-            width: 36px;
+            width: 90%;
             border-radius: 9999px;
-            background-color: $fuel_50;
-
-            animation: load 1.5s infinite;
+            background-color: $ash_20;
         }
+
+        .middleContent {
+            display: flex;
+            flex-direction: row;
+
+        }
+
+        .timeHolder {
+            display: flex;
+            flex-direction: column;
+            width: 72px;
+            min-width: 72px;
+            height: 100%;
+            border: 0;
+            border-right: 1px solid $ash_20;
+            align-items: center;
+            gap: 4px;
+
+            .time {
+                height: 32px;
+                width: 80%;
+                border-radius: 9999px;
+                background-color: $ash_20;
+            }
+
+            .date {
+                height: 24px;
+                width: 60%;
+                border-radius: 9999px;
+                background-color: $ash_20;
+            }
+        }
+
+        .contentHolder {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            //height: 64px;
+            border: 0;
+            padding: 0px 8px;
+            gap: 4px;
+
+            .description {
+                height: 20px;
+                width: 80%;
+                border-radius: 9999px;
+                background-color: $ash_20;
+            }
+
+            .peopleHolder{
+                display: flex;
+                column-gap: 2px;
+                margin-top: 2px;
+    
+                .person {
+                    height: 36px;
+                    width: 36px;
+                    border-radius: 9999px;
+                    background-color: $ash_20;
+                }
+            }
+
+        }
+
+        
+       
     }
   }
 
-  @keyframes load {
-    0% {
-        background-color: $fuel_50;
-        opacity: .4;
-    }
-    50% {
-        background-color: $warm_blue;
-        opacity: .4;
-
-    }
-    100% {
-    background-color: $fuel_50;
-    opacity: .4;
-    }
-}
 
 @keyframes container {
     0% {
-        opacity: .4;
+        opacity: .3;
     }
     50% {
-        opacity: .8;
-
+        opacity: 1;
     }
     100% {
-    opacity: .4;
+    opacity: .3;
     }
 }

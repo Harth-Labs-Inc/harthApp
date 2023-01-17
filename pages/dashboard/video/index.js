@@ -16,6 +16,7 @@ import { CreateGatheringFormProvider as GatheringEditFormProvider } from "./Gath
 import styles from "./GatheringDashboard.module.scss";
 import GatheringCreate from "../../../components/Gathering/GatheringCreate/GatheringCreate";
 import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
+import { GatherLoading } from "../../../components/Gathering/GatherLoading/GatherLoading";
 
 const Video = (props) => {
   const [socketData, setSocketData] = useState({});
@@ -170,7 +171,39 @@ const Video = (props) => {
     );
   }
 
-  return <p>loading...</p>;
+    return (
+        <section id="gatherings" className={styles.gatheringPage}>
+            {newRoomToggled && (
+                <GatheringSchedule
+                    harthId={selectedcomm._id}
+                    harthName={selectedcomm.name}
+                    creator={selectedcomm.users.find(
+                        (usr) => usr.userId === user._id
+                    )}
+                    closeHandler={() => setNewRoomToggled(false)}
+                />
+            )}
+            <p className={styles.gatheringSection}>NOW</p>
+            <div className={styles.roomContainer}>
+                <GatheringCreate
+                    createRoomFormSubmit={createRoomFormSubmit}
+                    createScheduleRoom={triggerNewRoom}
+                />
+                <GatherLoading />
+            </div>
+            <p className={styles.gatheringSection}>UPCOMING</p>
+            <div className={styles.roomContainer}>
+                <GatherLoading />
+                <GatherLoading />
+                <GatherLoading />
+                <GatherLoading />
+                <GatherLoading />
+                <GatherLoading />
+            </div>
+        </section>
+    );
+    
+    
 };
 
 export default Video;
