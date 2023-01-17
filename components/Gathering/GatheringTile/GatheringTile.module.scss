@@ -2,187 +2,187 @@
 @import "../../../styles/globals.scss";
 
 .GatheringTile {
+  display: flex;
+  width: 336px;
+  gap: 0;
+  background-color: transparent;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
+  width: 336px;
+  min-height: 220px;
+
+  &Label {
+    position: relative;
     display: flex;
-    width: 336px;
-    gap: 0;
-    background-color: transparent;
-    border-radius: 24px;
+    flex-direction: column;
+    align-items: center;
+    width: 56px;
+    min-width: 56px;
+    background-color: $fuel;
+    padding: 8px 0 0 0;
+    border: 0;
+    outline: 0;
+
+    &Icon {
+      width: 48px;
+      height: 48px;
+      //background-color: aliceblue;
+      padding: 4px;
+    }
+
+    &Text {
+      position: absolute;
+      top: 72px;
+      width: 100%;
+      transform: rotate(90deg);
+      @include roomType;
+    }
+    .party & {
+      color: $hot_purple_80;
+      background-color: $fuel;
+      svg path {
+        fill: $hot_purple_80;
+      }
+    }
+    .stream & {
+      color: $hot_red_80;
+      background-color: $fuel;
+      svg path {
+        fill: $hot_red_80;
+      }
+    }
+    .voice & {
+      color: $hot_blue_80;
+      background-color: $fuel;
+      svg path {
+        fill: $hot_blue_80;
+      }
+    }
+
+    .partyActive & {
+      background-color: $hot_purple;
+      color: darken($hot_purple, 14);
+
+      svg path {
+        fill: darken($hot_purple, 14);
+      }
+    }
+    .streamActive & {
+      background-color: $hot_red;
+      color: darken($hot_red, 14);
+      svg path {
+        fill: darken($hot_red, 14);
+      }
+    }
+    .voiceActive & {
+      background-color: $hot_blue;
+      color: darken($hot_blue, 14);
+      svg path {
+        fill: darken($hot_blue, 14);
+      }
+    }
+  }
+
+  &Info {
+    width: 100%;
+    padding: 20px 16px;
+    background-color: $oxygen;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &Name {
+    @include contentH1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    //min-height: 60px;
+    padding: 0px 0px 16px 0px;
+    text-overflow: ellipsis;
     overflow: hidden;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
-    width: 336px;
-    min-height: 220px;
+  }
 
-    &Label {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 56px;
-        min-width: 56px;
+  &InfoStructure {
+    display: flex;
+    flex-direction: row;
+    min-height: 60px;
+  }
+
+  &Scheduled {
+    width: 80px;
+    min-width: 80px;
+    padding: 8px 5px 8px 0;
+    text-align: center;
+    //background-color: aqua;
+
+    &Time {
+      @include interfaceH3;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+    }
+    &Date {
+      margin-top: 4px;
+      @include interfaceR2;
+    }
+
+    &Now {
+      @include interfaceH5;
+      padding: 8px 8px;
+      color: $oxygen;
+      background-color: $fuel;
+      border-radius: 9999px;
+    }
+  }
+
+  &PeopleDescription {
+    padding: 8px 0 8px 8px;
+    border-left: 1px solid $fuel;
+    //background-color: aquamarine;
+    width: 100%;
+    color: $fuel;
+    @include contentR2;
+  }
+
+  &AttendeeWrapper {
+    display: flex;
+
+    > div {
+      position: relative;
+      height: 44px;
+      width: 44px;
+      margin-right: -16px;
+      padding: 0;
+      border-color: $white;
+    }
+  }
+
+  &ActionBar {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    width: 100%;
+
+    &Edit {
+      height: 40px;
+      width: 40px;
+      padding: 8px;
+      font-size: 0px;
+      background-color: transparent;
+      border: 2px solid $fuel;
+      border-radius: 50%;
+      cursor: pointer;
+
+      &:hover {
         background-color: $fuel;
-        padding: 8px 0 0 0;
-        border: 0;
-        outline: 0;
 
-        &Icon {
-            width: 48px;
-            height: 48px;
-            //background-color: aliceblue;
-            padding: 4px;
+        svg path {
+          fill: #fff;
         }
-
-        &Text {
-            position: absolute;
-            top: 72px;
-            width: 100%;
-            transform: rotate(90deg);
-            @include roomType;
-        }
-        .party & {
-            color: $hot_purple_80;
-            background-color: $fuel;
-            svg path {
-                fill: $hot_purple_80;
-            }
-        }
-        .stream & {
-            color: $hot_red_80;
-            background-color: $fuel;
-            svg path {
-                fill: $hot_red_80;
-            }
-        }
-        .voice & {
-            color: $hot_blue_80;
-            background-color: $fuel;
-            svg path {
-                fill: $hot_blue_80;
-            }
-        }
-
-        .partyActive & {
-            background-color: $hot_purple;
-            color: darken($hot_purple, 14);
-
-            svg path {
-                fill: darken($hot_purple, 14);
-            }
-        }
-        .streamActive & {
-            background-color: $hot_red;
-            color: darken($hot_red, 14);
-            svg path {
-                fill: darken($hot_red, 14);
-            }
-        }
-        .voiceActive & {
-            background-color: $hot_blue;
-            color: darken($hot_blue, 14);
-            svg path {
-                fill: darken($hot_blue, 14);
-            }
-        }
+      }
     }
-
-    &Info {
-        width: 100%;
-        padding: 20px 16px;
-        background-color: $oxygen;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    &Name {
-        @include contentH1;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        //min-height: 60px;
-        padding: 0px 0px 16px 0px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-
-    &InfoStructure {
-        display: flex;
-        flex-direction: row;
-        min-height: 60px;
-    }
-
-    &Scheduled {
-        width: 80px;
-        min-width: 80px;
-        padding: 8px 5px 8px 0;
-        text-align: center;
-        //background-color: aqua;
-
-        &Time {
-            @include interfaceH3;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            text-transform: uppercase;
-        }
-        &Date {
-            margin-top: 4px;
-            @include interfaceR2;
-        }
-
-        &Now {
-            @include interfaceH5;
-            padding: 8px 8px;
-            color: $oxygen;
-            background-color: $fuel;
-            border-radius: 9999px;
-        }
-    }
-
-    &PeopleDescription {
-        padding: 8px 0 8px 8px;
-        border-left: 1px solid $fuel;
-        //background-color: aquamarine;
-        width: 100%;
-        color: $fuel;
-        @include contentR2;
-    }
-
-    &AttendeeWrapper {
-        display: flex;
-
-        > div {
-            position: relative;
-            height: 44px;
-            width: 44px;
-            margin-right: -16px;
-            padding: 0;
-            border-color: $white;
-        }
-    }
-
-    &ActionBar {
-        display: flex;
-        gap: 8px;
-        justify-content: flex-end;
-        margin-top: 24px;
-        width: 100%;
-
-        &Edit {
-            height: 40px;
-            width: 40px;
-            padding: 8px;
-            font-size: 0px;
-            background-color: transparent;
-            border: 2px solid $fuel;
-            border-radius: 50%;
-            cursor: pointer;
-
-            &:hover {
-                background-color: $fuel;
-
-                svg path {
-                    fill: #fff;
-                }
-            }
-        }
-    }
+  }
 }
