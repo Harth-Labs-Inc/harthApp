@@ -8,7 +8,8 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  let { token } = obj.data;
+  let { token, user } = obj.data;
+
   const findHarth = (db, id) => {
     return new Promise((resolve, reject) => {
       let mongo = require("mongodb");
@@ -45,6 +46,10 @@ export default async (req, res) => {
   }
   if (new Date() > new Date(harth.invite_expiration)) {
     return res.json({ msg: "expired token", ok: 0 });
+  }
+  let userAlreadyInHarth = harth.users.find((usr) => usr.userId == user._id);
+  if (userAlreadyInHarth) {
+    return res.json({ msg: "already in harth", ok: 0 });
   }
 
   return res.json({ msg: "harth found", harth, ok: 1 });
