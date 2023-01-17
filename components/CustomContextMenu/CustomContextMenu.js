@@ -8,98 +8,106 @@ import { IconEditNoFill } from "../../resources/icons/IconEditNoFill";
 import { IconDeleteNoFill } from "../../resources/icons/IconDeleteNoFill";
 
 export const CustomContextMenu = ({
-  user,
-  topic,
-  pos,
-  closeModal,
-  onMuteHandler,
-  onHideHandler,
-  onRenameHandler,
-  onDeleteHandler,
+    user,
+    topic,
+    pos,
+    closeModal,
+    onMuteHandler,
+    onHideHandler,
+    onRenameHandler,
+    onDeleteHandler,
 }) => {
-  const contextRef = useRef(null);
+    const contextRef = useRef(null);
 
-  let userIndex = topic.members.findIndex(({ user_id }) => {
-    return user_id == user._id;
-  });
+    let userIndex = topic.members.findIndex(({ user_id }) => {
+        return user_id == user._id;
+    });
 
-  let profile;
-  let isMuted;
-  let isHidden;
-  let isAdmin;
+    let profile;
+    let isMuted;
+    let isHidden;
+    let isAdmin;
 
-  if (userIndex >= 0) {
-    profile = topic.members[userIndex];
-    isHidden = profile?.hidden;
-    isMuted = profile?.muted;
-    isAdmin = profile?.admin;
-  }
+    if (userIndex >= 0) {
+        profile = topic.members[userIndex];
+        isHidden = profile?.hidden;
+        isMuted = profile?.muted;
+        isAdmin = profile?.admin;
+    }
 
-  return (
-    <OutsideClickHandler
-      className={styles.TopicButtonClickWrapper}
-      onClickOutside={closeModal}
-      onFocusOutside={closeModal}
-    >
-      <div ref={contextRef} className={styles.TopicButtonWrapper}>
-        <div
-          className={styles.CustomContextMenu}
-          style={{ top: `${pos.y}px`, left: `${pos.x}px` }}
-        >
-          <button
-            className={styles.CustomContextMenuButton}
-            onClick={onMuteHandler}
-          >
-            {isMuted ? (
-              <>
-                <IconNotificationsNoFill fill="#fff" />
-                Unmute
-              </>
-            ) : (
-              <>
-                <IconNotificationsNoFill fill="#fff" />
-                Mute
-              </>
-            )}
-          </button>
-          <button
-            className={styles.CustomContextMenuButton}
-            onClick={onHideHandler}
-          >
-            {isHidden ? (
-              <>
-                <IconVisibilityNoFill fill="#fff" />
-                Unhide
-              </>
-            ) : (
-              <>
-                <IconVisibilityNoFill fill="#fff" />
-                Hide
-              </>
-            )}
-          </button>
-          {isAdmin ? (
-            <>
-              <button
-                className={styles.CustomContextMenuButton}
-                onClick={onRenameHandler}
-              >
-                <IconEditNoFill fill="#fff" />
-                Rename
-              </button>
-              <button
-                className={styles.CustomContextMenuButton}
-                onClick={onDeleteHandler}
-              >
-                <IconDeleteNoFill fill="#fff" />
-                Delete
-              </button>
-            </>
-          ) : null}
+    return (
+        <div ref={contextRef} className={styles.TopicButtonWrapper}>
+            <OutsideClickHandler
+                className={styles.TopicButtonClickWrapper}
+                onClickOutside={closeModal}
+                onFocusOutside={closeModal}
+            >
+                <div
+                    className={styles.CustomContextMenu}
+                    style={
+                        pos
+                            ? { top: `${pos.y}px`, left: `${pos.x}px` }
+                            : {
+                                  top: "50%",
+                                  left: "50%",
+                                  transform: "translate3d(-50%,-50%,0)",
+                              }
+                    }
+                >
+                    <button
+                        className={styles.CustomContextMenuButton}
+                        onClick={onMuteHandler}
+                    >
+                        {isMuted ? (
+                            <>
+                                <IconNotificationsNoFill fill="#fff" />
+                                Unmute
+                            </>
+                        ) : (
+                            <>
+                                <IconNotificationsNoFill fill="#fff" />
+                                Mute
+                            </>
+                        )}
+                    </button>
+                    <button
+                        className={styles.CustomContextMenuButton}
+                        onClick={onHideHandler}
+                    >
+                        {isHidden ? (
+                            <>
+                                <IconVisibilityNoFill fill="#fff" />
+                                Unhide
+                            </>
+                        ) : (
+                            <>
+                                <IconVisibilityNoFill fill="#fff" />
+                                Hide
+                            </>
+                        )}
+                    </button>
+                    {isAdmin ? (
+                        <>
+                            <button
+                                className={styles.CustomContextMenuButton}
+                                onClick={onRenameHandler}
+                            >
+                                <IconEditNoFill fill="#fff" />
+                                Rename
+                            </button>
+                            <button
+                                className={styles.CustomContextMenuButton}
+                                onClick={onDeleteHandler}
+                            >
+                                <IconDeleteNoFill fill="#fff" />
+                                Delete
+                            </button>
+                        </>
+                    ) : null}
+                </div>
+            </OutsideClickHandler>
         </div>
-      </div>
-    </OutsideClickHandler>
-  );
+    );
 };
 
 // import { useEffect, useState, useCallback, useRef } from "react";

@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 // import { CSSTransition } from "react-transition-group";
+import { useComms } from "../../../contexts/comms";
 
 import TopicsNav from "../../../components/Menus/TopicsMenu/TopicsSideNav";
 import MobileChatHeader from "../../../components/Topics/MobileChatHeader/MobileChatHeader";
@@ -15,7 +16,7 @@ import styles from "./chatPage.module.scss";
 const Chat = (prop) => {
     // const { topicChange } = useComms();
     const { isMobile } = useContext(MobileContext);
-    // const [showEditPanel, setShowEditPanel] = useState(false);
+    const { selectedTopic } = useComms();
     const [chatVisible, setChatVisible] = useState(false);
 
     // useEffect(() => {
@@ -64,7 +65,9 @@ const Chat = (prop) => {
                     ) : (
                         <div className={styles.chatHolderMobile}>
                             <MobileChatHeader
+                                selectedTopic={selectedTopic}
                                 handleMobileChat={handleMobileChat}
+                                toggleTopicEditModal
                             />
                             <ChatMessages />
                         </div>

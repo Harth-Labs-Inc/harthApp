@@ -97,7 +97,9 @@ const TopicsNav = (props) => {
     const changeSelectedTopic = (topic) => {
         setTopic(topic);
         setSelectedReplyOwner({});
-        handleMobileChatWindow(true);
+        {
+            isMobile && handleMobileChatWindow(true);
+        }
     };
     const openCreateTopic = () => {
         setOpenTopicBuilder(!openTopicBuilder);
@@ -154,7 +156,6 @@ const TopicsNav = (props) => {
         closeTopicEditModal();
     };
     const onRenameHandler = () => {
-        console.log("onRenameHandler");
         setShowRenameTopicModal(true);
     };
     const onCloseRenameModal = () => {
