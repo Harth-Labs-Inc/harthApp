@@ -1,5 +1,5 @@
 import { Dice } from "../Dice/Dice";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./gatherTools.module.scss";
 import { IconClose } from "../../../resources/icons/IconClose";
 import Draggable from "react-draggable";
@@ -7,40 +7,125 @@ import { Button } from "../../Common";
 import { IconMap } from "../../../resources/icons/IconMap";
 import ReactPanZoom from "react-image-pan-zoom-rotate";
 import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
+import {
+  checkForBadFile,
+  uploadCustomNamedFile,
+} from "../../../services/helper";
+
+import {
+  checkForFileWithPrefix,
+  getDownloadURL,
+  deleteS3File,
+} from "../../../requests/s3";
 
 export const MapBar = (props) => {
-  const { type = "desktop", togggleMapModal } = props;
+  const { type = "desktop", togggleMapModal, roomId } = props;
 
+  const [loading, setLoading] = useState(true);
   const [hasMap, setHasMap] = useState(false);
   const [mapImg, setMapImg] = useState();
+  const [imageKey, setImageKey] = useState();
+
   const [hasBottomBar, setHasBottomBar] = useState();
+  const [image, setImage] = useState();
 
-  const addMap = () => {
-    //no logic here yet.
-    setMapImg(
-      "https://i.pinimg.com/originals/9a/d3/df/9ad3df0f61b83d0bfe3e5221430a6df4.jpg"
-    );
+  const inputRef = useRef();
+  const imageRef = useRef();
 
-    setHasMap(true);
-  };
+  useEffect(() => {
+    async function checkForExistingMap() {
+      let results = await checkForFileWithPrefix(
+        `${roomId}_map-image`,
+        "room-map-image"
+      );
+      let { files } = results;
+      if (files && files.length) {
+        files.forEach(({ Key }) => {
+          async function getURL() {
+            let extention = Key.split(".").pop();
+            let mimeType = "application/pdf";
+            if (extention === "PNG" || extention === "png") {
+              mimeType = "image/png";
+            }
+            if (
+              extention === "jpeg" ||
+              extention === "jpg" ||
+              extention === "JPG"
+            ) {
+              mimeType = "image/jpeg";
+            }
+            const data = await getDownloadURL(Key, mimeType, "room-map-image");
+            const { downloadURL } = data;
+            if (downloadURL) {
+              setImageKey(Key);
+              setImage(downloadURL);
+              setMapImg(downloadURL);
+              setHasMap(true);
+              setLoading(false);
+            } else {
+              setLoading(false);
+            }
+          }
+          getURL();
+        });
+      } else {
+        setLoading(false);
+      }
+    }
+    checkForExistingMap();
+  }, [roomId]);
 
   const clearMap = () => {
-    //no logic here yet.
-    setMapImg("");
-
-    setHasMap(false);
+    async function deleteFile() {
+      let results = await deleteS3File(imageKey, "room-map-image");
+      setImageKey(null);
+      setImage(null);
+      setMapImg(null);
+      setHasMap(false);
+    }
+    deleteFile();
   };
-
   const showBottomBar = () => {
     setHasBottomBar(true);
   };
-
   const hideBottomBar = () => {
     setHasBottomBar(false);
   };
+  const saveFile = async (e) => {
+    let file = e.target.files[0];
+    let isBadFile = checkForBadFile(file);
+    if (!isBadFile) {
+      let s3Upload = await uploadCustomNamedFile({
+        file: file,
+        bucket: "room-map-image",
+        name: `${roomId}_map-image`,
+      });
+      let profileIconKey = `https://room-map-image.s3.us-east-2.amazonaws.com/${s3Upload.name}`;
+      imageRef.current = profileIconKey;
+      setImageKey(s3Upload.name);
+      setImage(profileIconKey);
+      setMapImg(profileIconKey);
+      setHasMap(true);
+    } else {
+    }
+  };
+  const clickHandler = () => {
+    inputRef?.current.click();
+  };
 
+  if (loading) {
+    return <p>loadding.....</p>;
+  }
   return (
     <>
+      <input
+        ref={inputRef}
+        hidden
+        type="file"
+        name="image-uploader"
+        id="image-uploader"
+        onChange={saveFile}
+      ></input>
       {type == "desktop" ? (
         <Draggable handle="#handle">
           <div className={styles.mainContainer}>
@@ -66,7 +151,7 @@ export const MapBar = (props) => {
                   tier="primary"
                   size="small"
                   text="add an image"
-                  onClick={addMap}
+                  onClick={clickHandler}
                 />
               </div>
             ) : (
@@ -107,7 +192,7 @@ export const MapBar = (props) => {
                 tier="primary"
                 size="small"
                 text="add an image"
-                onClick={addMap}
+                onClick={clickHandler}
               />
             </>
           ) : (
