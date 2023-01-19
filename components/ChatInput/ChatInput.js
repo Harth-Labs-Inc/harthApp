@@ -231,12 +231,6 @@ const ChatInput = (props) => {
         if (emojiPickerState) {
             return (
                 <div className={styles.EmojiPicker}>
-                    <style>
-                        {`em-emoji-picker {
-                            --em-rgb-background: 47, 29, 42;
-
-                        }`}
-                    </style>
                     <Picker
                         data={data}
                         className="attach-emoji"

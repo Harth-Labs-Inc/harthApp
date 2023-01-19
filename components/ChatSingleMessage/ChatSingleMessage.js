@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Picker } from "emoji-mart";
-// import 'emoji-mart/css/emoji-mart.css'
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 import { Avatar } from "../Common/Avatar/Avatar";
 
-
 import { getDownloadURL } from "../../requests/s3";
-import { deleteMessage, updateMessage, } from "../../requests/chat";
+import { deleteMessage, updateMessage } from "../../requests/chat";
 import { getURLMetaData } from "../../requests/urls";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
@@ -158,14 +157,21 @@ const ChatSingleMessage = (props) => {
     const EmojiPicker = () => {
         if (emojiPickerState) {
             return (
-                <Picker
-                    //className="attach-emoji"
-                    native={true}
-                    onSelect={addEmoji}
-                    emoji=""
-                    color="#1d0a6c"
-                    autoFocus={true}
-                />
+                <div className={styles.EmojiPicker}>
+                    <Picker
+                        data={data}
+                        className={`attach-emoji ${styles.emojiPicker}`}
+                        onEmojiSelect={addEmoji}
+                        autoFocus={true}
+                        emojiButtonColors={[
+                            "rgba(187, 126, 196, 0.8)",
+                            "rgb(13, 161, 181, .8)",
+                            "rgba(240, 101, 115, 0.8)",
+                            "rgb(0, 163, 150, 0.8)",
+                        ]}
+                        // onClickOutside={setEmojiPicker(!emojiPickerState)}
+                    />
+                </div>
             );
         }
         return null;
@@ -173,7 +179,12 @@ const ChatSingleMessage = (props) => {
     const CreatorImage = () => {
         if (creator_image) {
             return (
-                 <img className={styles.SingleMessageAvatar} src={creator_image} alt={creator_name} loading="lazy" />
+                <img
+                    className={styles.SingleMessageAvatar}
+                    src={creator_image}
+                    alt={creator_name}
+                    loading="lazy"
+                />
             );
         }
         return <span className={styles.SingleMessageAvatarNo}></span>;
@@ -202,7 +213,7 @@ const ChatSingleMessage = (props) => {
                             onClick={deleteMsg}
                             title="delete"
                         >
-                          <IconDeleteNoFill />
+                            <IconDeleteNoFill />
                         </button>
                     </div>
                 );
@@ -308,24 +319,17 @@ const ChatSingleMessage = (props) => {
             <EditBar />
             <div className={styles.SingleMessageBody}>
                 <span className={styles.Info}>
-                    <p className={styles.Creator}>
-                        {creator_name}
-                    </p>
-                    <p className={styles.Timestamp}>
-                        {timeStamp}
-                    </p>
+                    <p className={styles.Creator}>{creator_name}</p>
+                    <p className={styles.Timestamp}>{timeStamp}</p>
                 </span>
                 {(urls || []).map((url) => (
-                        <img src={url} key={url} />
-                    ))} 
+                    <img src={url} key={url} />
+                ))}
 
                 <div
                     id={`message-content${messageID}`}
                     className={styles.Content}
-                >
-                   
-
-                </div>
+                ></div>
                 <div className={styles.SingleMessageBodyReactions}>
                     {[...(reactions || [])].map((reaction, index) => (
                         <p

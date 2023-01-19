@@ -1,5 +1,6 @@
 import { useContext, useState, useRef, useEffect } from "react";
-import { Picker } from "emoji-mart";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
 import { MobileContext } from "../../contexts/mobile";
 
@@ -98,14 +99,21 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
     const EmojiPicker = () => {
         if (emojiPickerState) {
             return (
-                <Picker
-                    className={`attach-emoji ${styles.emojiPicker}`}
-                    native={true}
-                    onSelect={addEmoji}
-                    emoji=""
-                    color="#1d0a6c"
-                    autoFocus={true}
-                />
+                <div className={styles.EmojiPicker}>
+                    <Picker
+                        data={data}
+                        className={`attach-emoji ${styles.emojiPicker}`}
+                        onEmojiSelect={addEmoji}
+                        autoFocus={true}
+                        emojiButtonColors={[
+                            "rgba(187, 126, 196, 0.8)",
+                            "rgb(13, 161, 181, .8)",
+                            "rgba(240, 101, 115, 0.8)",
+                            "rgb(0, 163, 150, 0.8)",
+                        ]}
+                        // onClickOutside={setEmojiPicker(!emojiPickerState)}
+                    />
+                </div>
             );
         }
         return null;
