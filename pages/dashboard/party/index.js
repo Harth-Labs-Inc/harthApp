@@ -447,6 +447,7 @@ const Party = () => {
     let captureStream = await getLocalCaptureStream();
     if (captureStream) {
       localCaptureStream.current = captureStream;
+      createCapture(captureStream, ownerData.current);
       PEERS.current.forEach((peer) => {
         if (peer.capturePeer !== ScreenSharePeer.current.id) {
           let options = { metadata: { streamID: captureStream.id } };
@@ -589,6 +590,7 @@ const Party = () => {
       track.stop();
     });
     localCaptureStream.current = null;
+    removeElement(ownerData.current?.capturePeer);
     let newMsg = {
       value: `${userName} disconnected screen share`,
       code: 2,
@@ -734,37 +736,35 @@ const Party = () => {
     }
   };
   const createCapture = (incomingStream, peer, call) => {
-    let existingVideoContainer = document.getElementById(peer?.capturePeer);
-    if (!existingVideoContainer) {
-      let parentContainer = document.getElementById(peer?.socketID);
-      if (!parentContainer) {
-        parentContainer = document.createElement("div");
-        parentContainer.id = peer?.socketID;
-        parentContainer.className = styles.videoContainer;
-
-        const profileImage = document.createElement("img");
-        profileImage.src = peer?.img;
-        profileImage.className = styles.peerImage;
-        parentContainer.append(profileImage);
-        const nameContainer = document.createElement("p");
-        const nameText = document.createTextNode(peer?.name);
-        nameContainer.className = styles.peerName;
-        nameContainer.appendChild(nameText);
-        parentContainer.append(nameContainer);
-
-        const roomContainer = document.getElementById("peerContainer");
-        roomContainer.append(parentContainer);
-      }
-
-      const videoContainer = document.createElement("div");
-      const video = document.createElement("video");
-      videoContainer.id = peer?.capturePeer;
-      video.srcObject = incomingStream;
-      video.autoplay = true;
-      video.controls = true;
-      videoContainer.appendChild(video);
-      parentContainer.appendChild(videoContainer);
+    let existingVideoContainer =
+      document.getElementsByClassName("stream-window");
+    if (existingVideoContainer) {
+      try {
+        for (let container of existingVideoContainer) {
+          if (container) {
+            try {
+              container?.remove();
+            } catch (error) {}
+          }
+        }
+      } catch (error) {}
     }
+
+    let parentContainer = document.getElementById(
+      "stream-window-capture-container"
+    );
+
+    const videoContainer = document.createElement("div");
+    const video = document.createElement("video");
+    videoContainer.className = "stream-window";
+    videoContainer.id = peer?.capturePeer;
+    video.srcObject = incomingStream;
+    video.autoplay = true;
+    video.muted = true;
+    video.className = "video";
+    video.playsInline = true;
+    videoContainer.appendChild(video);
+    parentContainer.appendChild(videoContainer);
   };
   const removeElement = (id) => {
     let Container = document.getElementById(id);
@@ -964,7 +964,7 @@ const Party = () => {
 
   return (
     <>
-      <main className={styles.PartyWindow}>
+      <main className={styles.PartyWindow} id="main-container">
         <div className="conditionals">
           {Object.keys(outsideDiceRoll).length ? (
             <DiceAlert
