@@ -37,3 +37,26 @@ export const getDownloadURL = async (name, fileType, bucket) => {
     console.log(error);
   }
 };
+export const checkForFileWithPrefix = async (prefix, bucket) => {
+  try {
+    const res = await api.post(`/api/s3/checkForFileWithPrefix`, {
+      prefix,
+      bucket,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteS3File = async (name, bucket) => {
+  try {
+    const res = await api.post(`/api/s3/deleteS3File`, {
+      name,
+      bucket,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
