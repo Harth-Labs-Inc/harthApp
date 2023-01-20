@@ -46,7 +46,7 @@ const HarthSettings = (props) => {
       page = <HarthMembersSettings />;
       break;
     case "admin":
-      page = <HarthAdminSettings />;
+      page = <HarthAdminSettings onToggleModal={onToggleModal} />;
       break;
     default:
       page = <HarthNotificationSettings />;
@@ -56,58 +56,58 @@ const HarthSettings = (props) => {
   return (
     <>
       <div className={styles.mainContainer}>
-          <div className={styles.topBar}>
-            <div className={styles.title}>{communityName}</div>
-            <CloseButton onClick={onToggleModal} />
+        <div className={styles.topBar}>
+          <div className={styles.title}>{communityName}</div>
+          <CloseButton onClick={onToggleModal} />
+        </div>
 
-          </div>
+        <div className={styles.navTabs} role="nav">
+          <button
+            className={
+              currentPage == "notifications"
+                ? styles.buttonActive
+                : styles.button
+            }
+            onClick={() => {
+              changePageHandler("notifications");
+            }}
+          >
+            <div style={{ height: 24, width: 24, marginRight: 4 }}>
+              <IconNotificationsNoFill />
+            </div>
+            Notifications
+          </button>
 
-      <div className={styles.navTabs} role="nav">
-        <button
-          className={
-            currentPage == "notifications" ? styles.buttonActive : styles.button
-          }
-          onClick={() => {
-            changePageHandler("notifications");
-          }}
-        >
-          <div style={{ height: 24, width: 24, marginRight: 4 }}>
-            <IconNotificationsNoFill />
-          </div>
-          Notifications
-        </button>
+          <button
+            className={
+              currentPage == "members" ? styles.buttonActive : styles.button
+            }
+            onClick={() => {
+              changePageHandler("members");
+            }}
+          >
+            <div style={{ height: 24, width: 24, marginRight: 4 }}>
+              <IconAccountNoFill />
+            </div>
+            Members
+          </button>
 
-        <button
-          className={
-            currentPage == "members" ? styles.buttonActive : styles.button
-          }
-          onClick={() => {
-            changePageHandler("members");
-          }}
-        >
-          <div style={{ height: 24, width: 24, marginRight: 4 }}>
-            <IconAccountNoFill />
-          </div>
-          Members
-        </button>
-
-        <button
-          className={
-            currentPage == "admin" ? styles.buttonActive : styles.button
-          }
-          onClick={() => {
-            changePageHandler("admin");
-          }}
-        >
-          <div style={{ height: 24, width: 24, marginRight: 4 }}>
-            <IconAdminPanel />
-          </div>
-          Admin
-        </button>
+          <button
+            className={
+              currentPage == "admin" ? styles.buttonActive : styles.button
+            }
+            onClick={() => {
+              changePageHandler("admin");
+            }}
+          >
+            <div style={{ height: 24, width: 24, marginRight: 4 }}>
+              <IconAdminPanel />
+            </div>
+            Admin
+          </button>
+        </div>
+        <div className={styles.content}>{page}</div>
       </div>
-      <div className={styles.content}>{page}</div>
-      </div>
-
     </>
   );
 };

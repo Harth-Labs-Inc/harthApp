@@ -18,7 +18,7 @@ const HarthMembersSettings = () => {
   const { user } = useAuth();
   const { emitUpdate } = useSocket();
   const [showAdminPanel, setShowAdminPanel] = useState(false);
-
+  const [selectedMembers, setSelectedMembers] = useState([]);
 
   const toggleAdminHandler = async (usr) => {
     let newHarth = {
@@ -67,9 +67,22 @@ const HarthMembersSettings = () => {
     }
   };
 
-  const toggleAdminPanel = () => {
-    setShowAdminPanel(!showAdminPanel);
-  }
+  const toggleAdminPanel = (usr) => {
+    let members = [...selectedMembers];
+    let index = members.findIndex((memberId) => memberId == usr.userId);
+    if (index >= 0) {
+      members.splice(index, 1);
+    } else {
+      members.push(usr.userId);
+    }
+    setSelectedMembers(members);
+
+    if (members.length) {
+      setShowAdminPanel(true);
+    } else {
+      setShowAdminPanel(false);
+    }
+  };
 
   let isSuperUser = false;
   let isAdminUser = false;
@@ -88,93 +101,106 @@ const HarthMembersSettings = () => {
 
   return (
     <>
-    <div className={styles.listHolder}>
+      <div className={styles.listHolder}>
+        {selectedcomm?.users.map((usr) => {
+          let isOwner = false;
+          let isAdmin = false;
+          let hasAdminControls = false;
+          let membershipStatus = "";
 
-      {selectedcomm?.users.map((usr) => {
-        let isOwner = false;
-        let isAdmin = false;
-        let hasAdminControls = false;
-        let membershipStatus = "";
+          if (usr.admin) {
+            isAdmin = true;
+            membershipStatus = "ADMIN";
+          }
+          if (usr.owner) {
+            isOwner = true;
+            membershipStatus = "OWNER";
+          }
 
-        if (usr.admin) {
-          isAdmin = true;
-          membershipStatus = "ADMIN";
-        }
-        if (usr.owner) {
-          isOwner = true;
-          membershipStatus = "OWNER";
-        }
+          // if (isSuperUser || isAdminUser) {
+          //   if (usr.userId !== user._id && isOwner) {
+          //     hasAdminControls = false;
+          //   } else {
+          //     hasAdminControls = true;
+          //   }
+          // }
 
-        if (isSuperUser || isAdminUser) {
-          if (usr.userId !== user._id && isOwner) {
-            hasAdminControls = false;
-          } else {
+          if (isAdminUser && !isAdmin) {
             hasAdminControls = true;
           }
-        }
 
-        return (
-            <>
-            <div className={`
-              ${styles.peopleRow}
-              ${showAdminPanel && styles.peopleRowActive}
-            `}
-            >
-            <img src={usr?.iconKey} />
-
-            <div className={styles.userInfo}>
-              {usr?.name}
-              <p>{membershipStatus}</p>
-            </div>
-
-
-            {hasAdminControls ? (
-              <button className={styles.adminButton} onClick={toggleAdminPanel}>
-                <IconMoreDots />
-              </button>
-            ) : null}
-          </div>
-          
-          {showAdminPanel ? (
-            <div className={styles.adminPanel}>
-              <Button tier="secondary" size="small" onClick={() => kickMemberHandler(usr)} text="Kick User" />
-
-              {isSuperUser ? (
-                <div className={styles.makeAdmin}>
-                  <Toggle
-                    onToggleChange={() => toggleAdminHandler(usr)}
-                    toggleName="chat"
-                    isChecked={isAdmin}
-                  />
-                  <p>Make Admin</p>
-                </div>
-              ) : null}
-            </div>
-            ) : ( null)
+          if (isSuperUser) {
+            hasAdminControls = true;
           }
 
+          return (
+            <>
+              <div
+                className={`
+              ${styles.peopleRow}
+              ${
+                hasAdminControls &&
+                showAdminPanel &&
+                selectedMembers?.includes(usr.userId) &&
+                styles.peopleRowActive
+              }
+            `}
+              >
+                <img src={usr?.iconKey} />
 
-          </>
+                <div className={styles.userInfo}>
+                  {usr?.name}
+                  <p>{membershipStatus}</p>
+                </div>
+
+                {hasAdminControls ? (
+                  <button
+                    className={styles.adminButton}
+                    onClick={() => toggleAdminPanel(usr)}
+                  >
+                    <IconMoreDots />
+                  </button>
+                ) : null}
+              </div>
+
+              {hasAdminControls &&
+              showAdminPanel &&
+              selectedMembers?.includes(usr.userId) ? (
+                <div className={styles.adminPanel}>
+                  <Button
+                    tier="secondary"
+                    size="small"
+                    onClick={() => kickMemberHandler(usr)}
+                    text="Kick User"
+                  />
+
+                  <div className={styles.makeAdmin}>
+                    <Toggle
+                      onToggleChange={() => toggleAdminHandler(usr)}
+                      toggleName="chat"
+                      isChecked={isAdmin}
+                    />
+                    <p>Make Admin</p>
+                  </div>
+                </div>
+              ) : null}
+            </>
           );
-      })}
+        })}
 
-
-      
-      {(() => {
-            const arr = [];
-            for (let i = ((selectedcomm?.users || []).length + 1); i < 16; i++) {
-                arr.push(
-                    <div className={styles.remainingRow}>
-                      <div className={styles.numberHolder}>{i}</div>
-                      Open
-                    </div>
-                );
-            }
-            return arr;
+        {(() => {
+          const arr = [];
+          for (let i = (selectedcomm?.users || []).length + 1; i < 16; i++) {
+            arr.push(
+              <div className={styles.remainingRow}>
+                <div className={styles.numberHolder}>{i}</div>
+                Open
+              </div>
+            );
+          }
+          return arr;
         })()}
-
-    </div>
-
+      </div>
     </>
   );
 };

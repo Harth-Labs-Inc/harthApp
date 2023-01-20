@@ -56,17 +56,22 @@ export const CommsProvider = ({ children }) => {
   }, [selectedTopic]);
 
   const refetchComms = async (newCom) => {
-    console.log(newCom);
-    let result = await getComms(user);
-    const { ok, comms } = result;
-    if (ok) {
-      setComms(comms);
-      if (newCom) {
-        setComm(newCom);
-      } else if (!profile) {
-        setComm(comms[0]);
+    return new Promise((resolve) => {
+      async function run() {
+        let result = await getComms(user);
+        const { ok, comms } = result;
+        if (ok) {
+          setComms(comms);
+          if (newCom) {
+            setComm(newCom);
+          } else if (!profile) {
+            setComm(comms[0]);
+          }
+          resolve(comms);
+        }
       }
-    }
+      run();
+    });
   };
   const updateSelectedTopic = async ({ newTopic }) => {
     return new Promise((resolve) => {

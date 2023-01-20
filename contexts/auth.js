@@ -53,6 +53,7 @@ export const AuthProvider = ({ children }) => {
         user,
         loading,
         inviteTKN,
+        setInviteTKN,
         setContextUser,
       }}
     >
