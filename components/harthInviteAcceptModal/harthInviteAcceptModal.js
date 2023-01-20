@@ -11,6 +11,7 @@ export default function HarthInviteAcceptModal({
   submitHandler,
   tkn,
   user,
+  closeHandler,
 }) {
   const invitationAcceptHandler = async (e) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ export default function HarthInviteAcceptModal({
   };
 
   return (
-    <Modal>
+    <Modal onToggleModal={closeHandler}>
       <TalkingHead text={talkingHeadMsg} />
       <form onSubmit={invitationAcceptHandler}>
         <p>You have been invited to join this harth by [profile name]</p>

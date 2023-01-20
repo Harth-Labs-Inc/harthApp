@@ -22,7 +22,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
   } = useForm();
 
   const { user } = useAuth();
-  const { selectedcomm } = useComms();
+  const { selectedcomm, setTopic, selectedTopic } = useComms();
   const { emitUpdate } = useSocket();
 
   const watchAge = watch("contentAge", "long");
@@ -65,6 +65,9 @@ export default function CreateNewTopicModal({ toggleModal }) {
     if (ok) {
       topic._id = id;
       toggleModal();
+      if (!selectedTopic?._id) {
+        setTopic(topic);
+      }
       if (id) {
         const results = await addRoomToUsers(userIds, id);
         topic.updateType = "new topic";
@@ -81,7 +84,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
   return (
     <Modal onToggleModal={toggleModal}>
       <div className={styles.mainContainer}>
-      <div className={styles.title}>New topic</div>
+        <div className={styles.title}>New topic</div>
 
         <form
           className={styles.CreateTopic}
