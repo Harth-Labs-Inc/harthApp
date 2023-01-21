@@ -25,12 +25,17 @@ export default async (req, res) => {
 
   const client = await clientPromise;
   const db = client.db("blarg");
+
   let user = await findUser(db, obj.newUser);
   if (!user || !user.otp || !obj.inviteCode) {
     return res.json({ msg: "no user found", ok: 0 });
   }
   if (user.otp != obj.inviteCode) {
     return res.json({ msg: "invalid code", ok: 0 });
+  }
+
+  if (new Date() > new Date(user.otp_expiration)) {
+    return res.json({ msg: "expired token", ok: 0 });
   }
 
   return res.json({ msg: "success", ok: 1 });
