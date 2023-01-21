@@ -51,6 +51,7 @@ export default async (req, res) => {
   date.setFullYear(date.getFullYear() + 1);
   user.token = token;
   user.token_expiration = date;
+  user.otp_expiration = new Date();
   await saveUser(db, { ...user });
 
   return res.json({ msg: "login successful", tkn: token, ok: 1 });

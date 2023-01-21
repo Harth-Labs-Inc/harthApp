@@ -16,8 +16,10 @@ const TopicListElement = (props) => {
     isShort = false,
     label = "topic name",
     toggleTopicEditModal,
+    isHidden,
   } = props;
 
+  console.log(topic, "topic");
   const toggleActive = () => {
     clickHandler(topic);
   };
@@ -33,6 +35,7 @@ const TopicListElement = (props) => {
             x: evt.clientX,
             y: evt.clientY,
           },
+          isHidden: isHidden,
         });
       }
     }
@@ -74,26 +77,25 @@ const TopicListElement = (props) => {
         </div>
       )} */}
 
-        <div className={`
+      <div
+        className={`
                     ${styles.topicIndicatorBox} 
                     ${isActive && styles.topicIndicatorBoxActive} 
-                    `}>
-          <div className={styles.label}
-          >
-            {label}
-          </div>
+                    `}
+      >
+        <div className={styles.label}>{label}</div>
 
-          {hasAlert && (
-            <div className={styles.alertProfiles}>
-              {alertProfiles.map((e) => (
-                <Avatar
-                  picSize={isMobile ? 36 : 28}
-                  imageSrc={e?.creator_image}
-                />
-              ))}
-            </div>
-          )}
-    </div>
+        {hasAlert && (
+          <div className={styles.alertProfiles}>
+            {alertProfiles.map((e) => (
+              <Avatar
+                picSize={isMobile ? 36 : 28}
+                imageSrc={e?.creator_image}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </button>
   );
   // return (

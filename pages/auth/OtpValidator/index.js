@@ -23,6 +23,9 @@ const URLS = {
 const OtpValidator = (props) => {
   const { changePage, inviteToken, currentPage } = props;
   const [newUser, setNewUser] = useState();
+  const [hasResent, setHasResent] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+
   const router = useRouter();
   const { user } = router.query;
 
@@ -53,7 +56,6 @@ const OtpValidator = (props) => {
     let { ok } = result;
     if (ok) {
       const data = await login(newUser);
-      console.log(newUser);
       const { ok, msg, tkn } = data;
       if (ok) {
         Cookies.set("token", tkn, { expires: 365 });
@@ -68,10 +70,13 @@ const OtpValidator = (props) => {
     }
   };
   const resendOTP = async () => {
+    setIsResending(true);
     await sendOtpEmailToUser({ user: newUser, subject: "Email Verification" });
+    setHasResent(true);
+    setIsResending(false);
   };
 
-  if (!newUser) {
+  if (!newUser || isResending) {
     return <p>...Loading</p>;
   }
 
@@ -85,12 +90,20 @@ const OtpValidator = (props) => {
         Enter the security code we just sent to {newUser?.email}
       </p>
       <CodeInput onChange={inputChangeHandler} />
-      <p className={styles.OtpModuleSubText}>
-        Didn't get the code? Check your spam folder.
-      </p>
-      {/* <button type="submit" onClick={handlerSubmit}>
-                log in
-            </button> */}
+      {hasResent ? (
+        <>
+          <p className={styles.OtpModuleSubText}>Your code has been resent.</p>
+          <p className={styles.OtpModuleSubText}>
+            Please wait up to 15 minutes for your code to arrive and remember to
+            check your spam folder.
+          </p>
+        </>
+      ) : (
+        <p className={styles.OtpModuleSubText}>
+          Didn't get the code? Check your spam folder.
+        </p>
+      )}
+
       <div className={styles.OtpModuleButtons}>
         <Button
           tier="secondary"

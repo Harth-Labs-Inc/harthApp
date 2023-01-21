@@ -99,8 +99,8 @@ const TopicsNav = (props) => {
   const openCreateTopic = () => {
     setOpenTopicBuilder(!openTopicBuilder);
   };
-  const toggleTopicEditModal = ({ topic, pos }) => {
-    setOpenEditTopicMenu({ topic, pos });
+  const toggleTopicEditModal = ({ topic, pos, isHidden }) => {
+    setOpenEditTopicMenu({ topic, pos, isHidden });
   };
   const closeTopicEditModal = () => {
     if (!showRenameTopicModal && !showDeleteTopicModal) {
@@ -204,6 +204,7 @@ const TopicsNav = (props) => {
           user={user}
           topic={openEditTopicMenu.topic}
           pos={openEditTopicMenu.pos}
+          isHiddenTopic={openEditTopicMenu.isHidden}
           closeModal={closeTopicEditModal}
           onMuteHandler={onMuteHandler}
           onHideHandler={onHideHandler}
@@ -357,6 +358,7 @@ const TopicsNav = (props) => {
                     isShort={isShort}
                     label={topic?.title}
                     toggleTopicEditModal={toggleTopicEditModal}
+                    isHidden={true}
                   />
                 </>
               );
