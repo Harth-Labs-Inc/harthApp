@@ -51,7 +51,7 @@ const Voice = () => {
 
     useEffect(() => {
         let urls = {
-            development: "http://localhost:5000",
+            development: "http://localhost:5030",
             production: "https://project-blarg-video-socket.herokuapp.com",
         };
         setSocket(

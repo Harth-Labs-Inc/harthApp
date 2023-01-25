@@ -57,7 +57,7 @@ const Stream = () => {
 
     useEffect(() => {
         let urls = {
-            development: "http://localhost:5000",
+            development: "http://localhost:5030",
             production: "https://project-blarg-video-socket.herokuapp.com",
         };
         setSocket(
@@ -699,8 +699,7 @@ const Stream = () => {
                         let urls = {
                             test: `http://localhost:3000`,
                             development: "http://localhost:3000/",
-                            production:
-                                "https://harth.vercel.app/",
+                            production: "https://harth.vercel.app/",
                         };
 
                         window.location.replace(urls[process.env.NODE_ENV]);
