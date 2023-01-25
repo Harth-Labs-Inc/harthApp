@@ -24,13 +24,22 @@
     }
 
     .gatheringSection {
-        @include smallTitle;// @include interfaceH5;
+        position: relative;
+        @include smallTitle;
         padding: 4px 0px;
         text-transform: uppercase;
-        display: inline-block;
-        margin-top: 24px;
+        margin-top: 20px;
         margin-bottom: 24px;
+        border: 0;
 
-        border-bottom: 2px solid $fuel;
+        &:after {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            height: 1px;
+            width: 30px;
+            content: "";
+            background-color: $fuel;
+        }
     }
 }

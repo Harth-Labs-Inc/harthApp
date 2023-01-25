@@ -323,7 +323,10 @@ const ChatSingleMessage = (props) => {
                     <p className={styles.Timestamp}>{timeStamp}</p>
                 </span>
                 {(urls || []).map((url) => (
-                    <img src={url} key={url} />
+                    <img 
+                        src={url} 
+                        key={url} 
+                    />
                 ))}
 
                 <div

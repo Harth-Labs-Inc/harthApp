@@ -6,7 +6,7 @@
     flex-direction: column;
     align-items: center;
     padding: 8px 0px 64px 0px;
-    row-gap: 4px;
+    row-gap: 1px;
     background-color: transparent;
     width: 100%;
     list-style-type: none;
@@ -22,18 +22,19 @@
         align-items: center;
         justify-content: center;
         background-color: transparent;
-        padding: 4px 0px;
+        padding: 6px 0px;
         &Button {
             position: relative;
             display: flex;
-            height: 38px;
-            width: 38px;
+            height: 40px;
+            width: 40px;
             padding: 0px;
             background-color: transparent;
             border: 0;
             border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
+            border: 1px solid $oxygen_20;
         }
         &Icon {
             width: 100%;
@@ -115,15 +116,22 @@
 
 .HarthListMobile {
     display: flex;
-    flex: 1;
+    //flex: 1;
     flex-direction: column;
     align-items: flex-start;
     padding: 0px 12px;
     row-gap: 4px;
     width: 100%;
+    height: auto;
     list-style-type: none;
     overflow-y: scroll;
+    background-color: transparent;
+
     .Item {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         border: 0;
         border-radius: 12px;
         width: 100%;
@@ -152,10 +160,11 @@
 
         &Image {
             img {
-                height: 44px;
-                width: 44px;
-                min-width: 44px;
+                height: 48px;
+                width: 48px;
+                min-width: 48px;
                 border-radius: 8px;
+                border: 1px solid $oxygen_20;
             }
         }
 
@@ -165,14 +174,33 @@
 
         &Name {
             width: 100%;
-            @include harthTitle1;
+            @include harthTitle2;
             color: $oxygen;
-            margin-left: 8px;
+            margin-left: 4px;
             text-align: left;
         }
 
         &:hover {
             background-color: $oxygen_10;
+        }
+
+        &SettingsButton {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            min-height: 36px;
+            width: 36px;
+            min-width: 36px;
+            padding: 4px;
+            border: 0;
+            background: transparent;
+            
+            path {
+                fill: $oxygen_40;
+            }
+            
         }
 
         &UnreadMessage {
@@ -203,26 +231,38 @@
     }
 
     .NewHarth {
-        height: 36px;
-        width: 36px;
-        border: 1px solid $white_50;
-        border-radius: 6px;
+        height: 32px;
+        width: 32px;
+        border: 0px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-top: 12px;
-        margin-left: 12px;
+        margin-left: 16px;
+        margin-bottom: 12px;
 
-        path {
-            fill: $white_50;
-        }
+        button {
+                position: relative;
+                display: flex;
+                align-items: center;
+                height: 100%;
+                width: 100%;
+                border: 1px solid $oxygen_40;
+                border-radius: 8px;
+                background: transparent;
+                padding: 3px;
+                
 
-        &:hover {
-            border: 1px solid $white_90;
+                path {
+                    fill: $oxygen_40;
+                }
+        
+                &:hover {
+                    background-color: $oxygen_80;
 
-            path {
-                fill: $white_90;
+                }
             }
-        }
+
+        
     }
 }

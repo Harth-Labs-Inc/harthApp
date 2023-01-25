@@ -18,6 +18,7 @@ const MobileSideNav = (props) => {
     const { comms, setComm, selectedcomm, setTopic } = useComms();
     const { unreadMsgs } = useSocket();
 
+
     const changeSelectedCom = (com) => {
         setComm(com);
         setTopic({});
@@ -42,6 +43,7 @@ const MobileSideNav = (props) => {
                 <div className={styles.text}>
                     Your härths
                 </div>
+                <div className={styles.harthList}>
                     <HarthList
                         comms={comms}
                         selectedcomm={selectedcomm}
@@ -50,7 +52,8 @@ const MobileSideNav = (props) => {
                         changeSelectedCom={changeSelectedCom}
 
                     />
-                <SettingsList />
+                </div>
+                    <SettingsList />
 
             </div>
         </SideModal>

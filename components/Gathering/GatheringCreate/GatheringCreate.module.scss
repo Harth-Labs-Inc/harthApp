@@ -60,11 +60,12 @@
         border-radius: 100px;
     }
 
+
     &SubText {
-        @include interfaceR3;
+        @include rubik;
         color: $ash_60;
         font-weight: 500;
-        margin-top: 12px;
+        margin-top: 8px;
         text-align: center;
     }
 
@@ -101,15 +102,42 @@
 }
 
 .GatheringButton {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
     height: 60px;
     width: 60px;
-    padding: 10px;
+    padding: 4px;
     background-color: transparent;
     border: 0;
-    border-radius: 50%;
+    border-radius: 999px;
+    color: $fuel;
     cursor: pointer;
 
+    &Text {
+        @include rubik;
+        font-weight: 400;
+        font-size: 11px;
+        text-align: center;
+        text-transform: capitalize;
+    }
+
+    &Icon {
+        height: 28px;
+        width: 28px;
+    }
+
+    
+
     &.Active {
+        color: $oxygen;
+
+        path {
+            fill: $oxygen;
+        }
         &.voice {
             background-color: $hot_blue;
         }

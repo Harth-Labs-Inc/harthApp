@@ -19,11 +19,10 @@
     }
 
     .title {
-        @include interfaceH1;
+        @include overlayMenuTitle;
         width: 100%;
         text-align: left;
         margin-top: 8px;
-        font-size: 28px;
     }
 
     .navTabs {

@@ -1,9 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { MobileContext } from "../../contexts/mobile";
 import { IconChatNoFill } from "../../resources/icons/IconChatNoFill";
-import { IconChatFill } from "../../resources/icons/IconChatFill";
 import { IconFireNoFill } from "../../resources/icons/IconFireNoFill";
-import { IconFireFill } from "../../resources/icons/IconFireFill";
 import { IconForumNoFill } from "../../resources/icons/IconForumNoFill";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
@@ -14,8 +12,6 @@ import styles from "./mainNav.module.scss";
 const harthIcon =
   "https://d1mc7wmz9xfkdm.cloudfront.net/eyJidWNrZXQiOiJhc3NldHMud29vZGxhbmRkaXJlY3QuY29tIiwia2V5IjoicHJvZHVjdC1pbWFnZXMvUGV0ZXJzb24tUmVhbC1GeXJlLVJ1c3RpYy1PYWstVmVudGVkLUdhcy1Mb2ctU2V0LW1haW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJoZWlnaHQiOjEyMDAsImZpdCI6ImNvbnRhaW4iLCJiYWNrZ3JvdW5kIjp7InIiOjI1NSwiZyI6MjU1LCJiIjoyNTUsImFscGhhIjoxfX19fQ==";
 
-const profileIcon =
-  "https://thehill.com/wp-content/uploads/sites/2/2022/11/f026baa605674c8d92f28b0c1855cd8e.jpg";
 
 const MainNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props;
@@ -79,14 +75,14 @@ const MainNav = (props) => {
             onClick={handleHarthMenu}
             aria-label="Current Harth"
           >
-            <img className={styles.MainNavHarthButtonImage} src={harthIcon} />
+            <img className={styles.MainNavHarthButtonImage} src={selectedcomm?.iconKey} />
           </button>
         ) : (
           <div style={{ width: 240 }}>
             <button
               className={styles.MainNavHarthButton}
               onClick={handleHarthMenu}
-              aria-label="Current Harth"
+              aria-label="Current Harth Settings"
             >
               {selectedcomm?.name}
             </button>

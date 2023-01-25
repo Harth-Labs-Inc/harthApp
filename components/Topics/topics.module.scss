@@ -15,12 +15,18 @@
     color: $oxygen_40;
 
     .label {
+        display: flex;
+        align-items: center;
         text-align: left;
         @include topicTitle;
         padding-right: 24px;
-        padding-left: 8px;
-    }
+        padding-left: 12px;
+        height: 32px;
+        width: 100%;
+        border-top-left-radius: 999px;
+        border-bottom-left-radius: 999px;
 
+    }
 
     .alertProfiles {
         display: flex;
@@ -30,98 +36,36 @@
         flex-wrap: wrap;
     }
 
+    &InActive {
+        &:hover {
+            .label{
+                background-color:$oxygen_10;
+            }
+
+        }
+    }
+
     &Active {
-        color: $oxygen;
-       // background-color:bisque;
-
-        &:before {
-            position: absolute;
-            right: 0px;
-            top: -5px;
-            width: 24px;
-            height: 24px;
-            z-index: 1;
-            background: $white;
-            content: "";
+        .label {
+            color: $oxygen_80;
+            background-color:$oxygen_20;
         }
-
-        &:after {
-            position: absolute;
-            right: 0px;
-            top: -5px;
-            width: 24px;
-            height: 24px;
-            z-index: 2;
-            background: $warm_blue;
-            content: "";
-            border-bottom-right-radius: 9999px;
-
-        }
-
-    }
-
-    &IndicatorBox {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        flex-direction: row;
-        width: 100%;
-        height: 100%;
         
         
-        &Active {
-
-            &:before {
-                position: absolute;
-                right: 0px;
-                bottom: -3px;
-                width: 24px;
-                height: 24px;
-                z-index: 1;
-                background: $white;
-                content: "";
-            }
-    
-            &:after {
-                position: absolute;
-                right: 0px;
-                bottom: -3px;
-                width: 24px;
-                height: 24px;
-                z-index: 2;
-                background: $warm_blue;
-                content: "";
-                border-top-right-radius: 9999px;
-            }
-    
-        }
-
     }
-    
 
     &Alert {
         color: $oxygen_80;
-
-
-    }
-
-    &:hover {
-        color: $oxygen;
     }
 
     &Mobile {
-        height: 40px;
-        margin-top: 8px;
-        margin-bottom: 8px;
+        height: 48px;
         width: 100%;
+        margin: 8px 0px;
 
         .label {
             @include topicTitleMobile;
+            height: 40px;
         }
-
-        
     }
-
-
 }

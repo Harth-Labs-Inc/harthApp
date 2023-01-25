@@ -5,7 +5,7 @@
     position: relative;
     width: 240px;
     min-width: 240px;
-    padding: 12px 0px 0 24px;
+    padding: 20px 0px 0px 24px;
     background-color: $warm_blue;
     height: 100%;
     overflow-y: scroll;
@@ -20,6 +20,7 @@
         padding: 4px 0px;
         text-transform: uppercase;
         color: $oxygen_80;
+
     }
 
     &Hidden {
@@ -31,6 +32,7 @@
         border: 0;
         background: transparent;
         cursor: pointer;
+        margin-bottom: 12px;
 
         &:hover {
             color: $oxygen_80;
@@ -54,7 +56,7 @@
     &Container {
         position: relative;
         margin: 0;
-        padding: 8px 0 80px 0;
+        padding: 12px 0 80px 0;
         overflow: scroll;
 
         &:before {
@@ -68,14 +70,16 @@
         }
     }
 
+
+
     &Create {
         position: relative;
-        padding: 0px 0px;
+        padding: 0px 8px;
         &Button {
             display: flex;
             flex-direction: row;
             align-items: center;
-            column-gap: 3px;
+            column-gap: 6px;
             color: $oxygen_40;
             @include topicTitle;
             height: 40px;
@@ -85,21 +89,25 @@
             margin-bottom: 16px;
 
             .iconHolder {
-                height: 14px;
-                width: 14px;
+                display: flex;
+                height: 16px;
+                width: 16px;
+                background-color: $oxygen_40;
+                border-radius: 4px;
+                padding: 1px;
                 path {
-                    fill: $oxygen_40;
-                    stroke-width: 3px;
-                    stroke: $oxygen_20;
+                    fill: $warm_blue;
+                    stroke-width: 1px;
+                    stroke: $warm_blue;
                 }
             }
 
             &:hover {
-                color: $oxygen;
-                path {
-                    fill: $oxygen;
-                    stroke: $oxygen;
+                color: $oxygen_80;
+                .iconHolder {
+                    background-color: $oxygen_80;
                 }
+
             }
         }
     }
@@ -111,10 +119,10 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            column-gap: 4px;
+            column-gap: 8px;
             color: $oxygen_40;
             @include topicTitleMobile;
-            height: 40px;
+            height: 48px;
             background: transparent;
             border: 0;
             cursor: pointer;
@@ -122,12 +130,14 @@
             margin-bottom: 32px;
 
             .iconHolder {
-                height: 18px;
-                width: 18px;
+                height: 16px;
+                width: 16px;
+                background-color: $oxygen_40;
+                border-radius: 4px;
                 path {
-                    fill: $oxygen_40;
-                    stroke-width: 3px;
-                    stroke: $oxygen_40;
+                    fill: $warm_blue;
+                    stroke-width: 1px;
+                    stroke: $warm_blue;
                 }
             }
 
