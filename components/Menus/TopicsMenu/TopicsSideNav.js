@@ -347,6 +347,7 @@ const TopicsNav = (props) => {
               }
               return (
                 <>
+                <p className={styles.spacer} />
                   <TopicListElement
                     clickHandler={changeSelectedTopic}
                     key={topic._id}

@@ -8,12 +8,11 @@
     flex-direction: column;
 
     .title {
-        @include interfaceH1;
+        @include overlayMenuTitle;
         width: 100%;
         text-align: left;
         margin-top: 8px;
         margin-bottom: 40px;
-        font-size: 28px;
     }
 }
 

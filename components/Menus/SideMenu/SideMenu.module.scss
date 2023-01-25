@@ -77,8 +77,8 @@
     }
 }
 
-.sideNavMobile {
 
+.sideNavMobile {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -95,7 +95,7 @@
         border: 0;
         border-bottom: solid 1px $ash_border;
         margin: 0;
-        @include interfaceR2;
+        @include menuSubTitle;
         color: $oxygen_80;
 
     }
@@ -109,6 +109,11 @@
         width: 124px;
         margin: 48px 0px;
 
+    }
+
+    .harthList {
+        width: 100%;
+        padding: 0px 8px;
     }
 
 

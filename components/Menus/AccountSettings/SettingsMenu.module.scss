@@ -26,13 +26,13 @@
         padding-right: 40px;
         p {
             width: 100%;
-            @include interfaceH3;
+            @include menuTitle;
             text-align: center;
         }
     }
 
     &Title {
-        @include interfaceR2;
+        @include menuSubTitle;
         color: $oxygen;
         width: calc(100% - 16px);
         margin-top: 24px;
@@ -95,7 +95,7 @@
                 border-radius: 8px 0 0 8px;
                 overflow: hidden;
                 white-space: nowrap;
-                @include interfaceR3;
+                @include chatText;
                 color: $oxygen;
             }
             &Copy {
@@ -147,7 +147,7 @@
     padding: 0px 16px 0px 24px;
 
     background-color: transparent;
-    @include interfaceR2;
+    @include menuText;
     color: $oxygen;
 
     &:hover {

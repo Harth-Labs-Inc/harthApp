@@ -1,10 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState} from "react";
 
 import { MobileContext } from "../../../contexts/mobile";
 import { useAuth } from "../../../contexts/auth";
-
+import { IconSettings } from "../../../resources/icons/IconSettings";
 import { IconAdd } from "../../../resources/icons/IconAdd";
 import { IconFireFill } from "../../../resources/icons/IconFireFill";
+import { Modal } from "../../Common/Modals/Modal";
+import HarthSettings from "../../Menus/HarthSettings/HarthSettings";
 
 import styles from "./HarthList.module.scss";
 
@@ -18,6 +20,7 @@ const HarthList = ({
 }) => {
   const { isMobile } = useContext(MobileContext);
   const { user } = useAuth();
+  const [modal, setModal] = useState(false);
 
   const toggleEditMenu = (evt, id, harth) => {
     if (evt.button === 2) {
@@ -34,6 +37,14 @@ const HarthList = ({
         });
       }
     }
+  };
+
+  const handleHarthMenu = () => {
+    setModal((prevState) => !prevState);
+  };
+
+  const showModal = () => {
+    setModal((prevState) => !prevState);
   };
 
   return (
@@ -62,16 +73,29 @@ const HarthList = ({
           }
 
           return (
-            <li
+            <>
+            {modal ? (
+              <Modal onToggleModal={showModal}>
+                <HarthSettings
+                  communityName={selectedcomm?.name}
+                  communityId={selectedcomm?._id}
+                  onToggleModal={showModal}
+                />
+              </Modal>
+            ) : (
+              ""
+            )}
+            
+            <li 
               className={`
-                              ${styles.Item}
-                              ${active ? styles.ItemActive : null}
-                              ${
-                                newMessage && !active
-                                  ? styles.ItemUnreadMessage
-                                  : null
-                              }
-                            `}
+                ${styles.Item}
+                ${active ? styles.ItemActive : null}
+                ${
+                  newMessage && !active
+                    ? styles.ItemUnreadMessage
+                    : null
+                }
+              `}
               key={com?._id}
               id={com._id}
             >
@@ -98,12 +122,22 @@ const HarthList = ({
                   <span className={styles.ItemName}>{com.name}</span>
                 ) : null}
               </button>
+              {isMobile ? (
+                  <button 
+                    className={styles.ItemSettingsButton}
+                    onClick={handleHarthMenu}
+                    aria-label="Current Harth Settings"
+                  >
+                    <IconSettings />
+                  </button>
+                ) : null}
             </li>
+            </>
           );
         })}
       {isMobile ? (
         <li className={styles.NewHarth}>
-          <button className={styles.ItemButton} onClick={toggleCreateComm}>
+          <button onClick={toggleCreateComm}>
             <IconAdd />
           </button>
         </li>

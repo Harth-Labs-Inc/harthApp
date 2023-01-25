@@ -21,7 +21,9 @@
     > img,
     &Avatar {
         height: 36px;
+        max-height: 36px;
         width: 36px;
+        max-width: 36px;
         //margin-right: $gutter;
         border-radius: 9999px;
         object-fit: cover;
@@ -29,6 +31,7 @@
 
     &Avatar {
         position: relative;
+
     }
 
     &AvatarNo {
@@ -49,12 +52,16 @@
         width: 100%;
         //background-color: aqua;
 
+        .profileImage {
+            height: 36px;
+            width: 36px;
+        }
         .Info {
             display: flex;
             align-items: center;
             align-content: center;
             justify-items: center;
-            column-gap: 4px;
+            column-gap: 8px;
             height: 18px;
             //background-color: aquamarine;
             .Creator {
@@ -72,9 +79,10 @@
             //width: 100%;
             width: fit-content;
             max-width: 540px;
+            color: $fuel;
             @include chatText;
             background-color: $warm_blue_light;
-            padding: 8px 12px;
+            padding: 10px 14px;
             border: 0;
             border-top-left-radius: 0;
             border-top-right-radius: 12px;

@@ -49,118 +49,28 @@ const TopicListElement = (props) => {
     <button
       id={topic._id}
       className={`
-                    ${styles.topic} 
-                    ${isMobile && styles.topicMobile} 
-                    ${isActive && styles.topicActive} 
-                    ${hasAlert && styles.topicAlert} 
-                    `}
+        ${styles.topic} 
+        ${isMobile && styles.topicMobile} 
+        ${isActive ? styles.topicActive : styles.topicInActive} 
+        ${hasAlert && styles.topicAlert} 
+        `}
       onClick={toggleActive}
       onMouseUp={toggleEditMenu}
     >
-      {/* {isShort ? (
-        <div
-          className={`
-                    ${styles.icon} 
-                    ${isMobile && styles.iconMobile} 
-                    `}
-        >
-          <IconTimerNoFill />
+      <div className={styles.label}>{label}</div>
+      {hasAlert && (
+        <div className={styles.alertProfiles}>
+          {alertProfiles.map((e) => (
+            <Avatar
+              picSize={isMobile ? 36 : 28}
+              imageSrc={e?.creator_image}
+            />
+          ))}
         </div>
-      ) : (
-        <div
-          className={`
-                    ${styles.icon} 
-                    ${isMobile && styles.iconMobile} 
-                    `}
-        >
-          <IconBookmarkNoFill />
-        </div>
-      )} */}
-
-      <div
-        className={`
-                    ${styles.topicIndicatorBox} 
-                    ${isActive && styles.topicIndicatorBoxActive} 
-                    `}
-      >
-        <div className={styles.label}>{label}</div>
-
-        {hasAlert && (
-          <div className={styles.alertProfiles}>
-            {alertProfiles.map((e) => (
-              <Avatar
-                picSize={isMobile ? 36 : 28}
-                imageSrc={e?.creator_image}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      )}
     </button>
   );
-  // return (
-  //   <CustomContextMenu targetID={topic._id}>
-  //     <button
-  //       id={topic._id}
-  //       className={`
-  //                   ${styles.topic}
-  //                   ${isActive && styles.topicActive}
-  //                   ${hasAlert && styles.topicAlert}
-  //                   `}
-  //       onClick={toggleActive}
-  //       onMouseDown={toggleEditMenu}
-  //     >
-  //       {isShort ? (
-  //         <div
-  //           className={`
-  //                   ${styles.icon}
-  //                   ${isMobile && styles.iconMobile}
-  //                   `}
-  //         >
-  //           <IconTimerNoFill />
-  //         </div>
-  //       ) : (
-  //         <div
-  //           className={`
-  //                   ${styles.icon}
-  //                   ${isMobile && styles.iconMobile}
-  //                   `}
-  //         >
-  //           <IconBookmarkNoFill />
-  //         </div>
-  //       )}
 
-  //       <div className={styles.topicWithPointer}>
-  //         <div
-  //           className={`
-  //                   ${styles.topicContainer}
-  //                   ${hasAlert && styles.topicContainerAlert}
-  //                   `}
-  //         >
-  //           <div
-  //             className={`
-  //                           ${styles.label}
-  //                           ${isMobile && styles.labelMobile}
-  //                           `}
-  //           >
-  //             {label}
-  //           </div>
-
-  //           {hasAlert && (
-  //             <div className={styles.alertProfiles}>
-  //               {alertProfiles.map((e) => (
-  //                 <Avatar
-  //                   picSize={isMobile ? 36 : 28}
-  //                   imageSrc={e?.creator_image}
-  //                 />
-  //               ))}
-  //             </div>
-  //           )}
-  //         </div>
-  //       </div>
-  //     </button>
-  //   </CustomContextMenu>
-  // );
 };
 
 export default TopicListElement;
