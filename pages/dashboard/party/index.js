@@ -1002,6 +1002,7 @@ const Party = () => {
                         gatheringName={activeCallRoom?.roomName}
                         selectedHarthIcon={selectedHarth?.iconKey}
                         toggleHDSwitch={toggleHDSwitch}
+                        leaveMethod={leaveRoom}
                     />
                     <div className={styles.PartyMainContent}>
                         <section

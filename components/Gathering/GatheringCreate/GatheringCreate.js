@@ -3,13 +3,12 @@ import { useForm } from "react-hook-form";
 
 import { IconEvent } from "../../../resources/icons/IconEvent";
 import { IconPlayCircle } from "../../../resources/icons/IconPlayCircle";
-import { Button, Input } from "../../Common";
 import ErrorMessage from "../../Common/Input/ErrorMessage";
 
 import { GatheringButton } from "./GatheringButton";
 import styles from "./GatheringCreate.module.scss";
 
-const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
+const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit, }) => {
     const [activeButton, setActiveButton] = useState("voice");
     const [roomName, setRoomName] = useState("");
 
@@ -44,7 +43,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
             <form onSubmit={handleSubmit(createRoomSubmit)}>
                 <div className={styles.GatheringCreateContent}>
                     <input
-                        placeholder="Profile Name's Room"
+                        placeholder="room name"
                         // onChange={roomNameHandler}
                         // isError={isSubmitting ? !roomName.VALID : false}
                         // error={roomName.ERROR}
@@ -62,6 +61,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                         }
                     />
                     <div className={styles.GatheringCreateLabelHolder}>
+                        <div className={styles.GatheringCreateLabelText}>Select a gathering type</div>
                         <div className={styles.GatheringCreateType}>
                             <GatheringButton
                                 type="voice"

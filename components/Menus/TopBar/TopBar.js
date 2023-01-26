@@ -34,7 +34,7 @@ const TopBar = ({ children, currentPage }) => {
             />
             <div className={styles.TopBar}>
                 {isMobile ? (
-                    <div className={styles.TopBarName}>{name}<span className={styles.TopBarSection}>\ {currentPage}</span></div> 
+                    <div className={styles.TopBarName}>{selectedcomm?.name}<span className={styles.TopBarSection}>\ {currentPage}</span></div> 
                 ) : null}
                 {children}
                 <div className={isMobile ? styles.avatarMobile : styles.avatarDesktop}>

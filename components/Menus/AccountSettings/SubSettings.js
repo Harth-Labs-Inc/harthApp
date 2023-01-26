@@ -14,7 +14,8 @@ export const SubSettings = ({ toggleCurrentTab }) => {
                 </div>
             </button>
 
-            <button
+
+            {/* <button
                 className={styles.menuItem}
                 onClick={() => toggleCurrentTab("devices")}
             >
@@ -22,7 +23,7 @@ export const SubSettings = ({ toggleCurrentTab }) => {
                 <div className={styles.iconHolder}>
                     <IconChevronRight />
                 </div>
-            </button>
+            </button> */}
         </>
     );
 };

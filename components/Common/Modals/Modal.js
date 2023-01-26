@@ -5,7 +5,7 @@ import styles from "./Modal.module.scss";
 
 export const Modal = (props) => {
     const [transitionClass, setTransitionClass] = useState();
-    const { show, children, id, onToggleModal } = props;
+    const { show, children, id, onToggleModal, isDark=false, } = props;
 
     const ref = useRef();
 
@@ -25,7 +25,8 @@ export const Modal = (props) => {
                 onClickOutside={closeModal}
                 onFocusOutside={closeModal}
             >
-                <section ref={ref} className={styles.ModalMid}>
+                <section ref={ref} className={`${styles.ModalMid} 
+                                                ${isDark && styles.ModalMidDark}`}>
                     <div className="modal_body">{children}</div>
                 </section>
             </OutsideClickHandler>

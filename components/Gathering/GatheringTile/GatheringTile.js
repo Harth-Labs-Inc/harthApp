@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { Avatar, Button } from "../../Common";
-// import { EditGathering } from "../Buttons/EditGathering";
 import { updateScheduleRoom } from "../../../requests/rooms";
 import { IconHeadsetMic } from "../../../resources/icons/IconHeadsetMic";
 import { IconCastNoFill } from "../../../resources/icons/IconCastNoFill";
@@ -120,11 +118,12 @@ export const GatheringTile = (props) => {
               {peers.map((peer, index) => {
                 const zIndex = peers.length - index;
                 return (
-                  <Avatar
-                    key={peer.peerId}
-                    imageSrc={peer.img}
-                    customStyle={zIndex}
-                  />
+                  <>
+                  {peer.img 
+                    ? <div className={styles.profileImage} title={peer.name}><img src={peer.img} /></div>
+                    : <div className={styles.empty} title={peer.name}>?</div>
+                  }
+                  </>
                 );
               })}
             </div>
