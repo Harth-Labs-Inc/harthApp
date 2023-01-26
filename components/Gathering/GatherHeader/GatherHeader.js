@@ -4,11 +4,12 @@ import { Modal } from "../../Common/Modals/Modal";
 import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
 import { HDSwitch } from "../HDSwitch/HDSwitch";
 import { Toggle } from "../../Common/Toggle/Toggle";
-
+import { IconPower } from "../../../resources/icons/IconPower";
+import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScreen";
 import styles from "./gatherHeader.module.scss";
 
 const GatherHeader = (props) => {
-  const { gatheringName, selectedHarthIcon, toggleHDSwitch } = props;
+  const { gatheringName, selectedHarthIcon, toggleHDSwitch, leaveMethod } = props;
   const [modal, setModal] = useState();
   const { isMobile } = useContext(MobileContext);
 
@@ -23,8 +24,21 @@ const GatherHeader = (props) => {
   return (
     <>
       {modal ? (
-        <Modal show={modal} onToggleModal={showMobileMenu}>
-          leave menu
+        <Modal show={modal} onToggleModal={showMobileMenu} isDark={true}>
+          <div className={styles.leaveMenu}>
+          <button
+            className={styles.menuItem}
+            onClick={leaveMethod}
+          >
+          <IconCloseFullScreen /><p>Minimize Gathering</p>
+          </button>
+          <button
+            className={styles.menuItem}
+            onClick={leaveMethod}
+          >
+          <IconPower /><p>Leave Gathering</p>
+          </button>
+          </div>
         </Modal>
       ) : (
         ""

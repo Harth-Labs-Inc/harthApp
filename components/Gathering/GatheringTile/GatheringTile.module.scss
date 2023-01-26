@@ -147,16 +147,57 @@
   }
 
   &AttendeeWrapper {
+    position: relative;
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    row-gap: 0px;
+    margin-bottom: 8px;
 
-    > div {
+    .profileImage {
       position: relative;
-      height: 44px;
-      width: 44px;
-      margin-right: -16px;
+      height: 40px;
+      width: 40px;
+      border-radius: 999px;
+      margin-right: -6px;
       padding: 0;
-      border-color: $white;
+      border: 2px solid $oxygen;
+
+      img {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        border-radius: 999px;
+      }
     }
+
+    .empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      height: 40px;
+      width: 40px;
+      border-radius: 999px;
+      margin-right: -6px;
+      padding: 0;
+      border: 2px solid $oxygen;
+      background-color: $fuel_10F;
+      color: $fuel_50;
+      @include rubik;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    // > div {
+    //   position: relative;
+    //   height: 44px;
+    //   width: 44px;
+    //   margin-right: -16px;
+    //   padding: 0;
+    //   border-color: $white;
+    // }
   }
 
   &ActionBar {

@@ -119,7 +119,7 @@
     //flex: 1;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0px 12px;
+    padding: 0px 4px;
     row-gap: 4px;
     width: 100%;
     height: auto;
@@ -142,7 +142,7 @@
             flex-direction: row;
             column-gap: 8px;
             align-items: center;
-            height: 56px;
+            height: 60px;
             width: 100%;
             padding: 0px 8px;
             border: 0;
@@ -150,12 +150,12 @@
         }
 
         &Icon {
-            width: 44px;
-            min-width: 44px;
-            height: 44px;
+            width: 48px;
+            min-width: 48px;
+            height: 48px;
             padding: 6px;
             border-radius: 8px;
-            background-color: $oxygen;
+            background-color: $oxygen_40;
         }
 
         &Image {
@@ -169,7 +169,16 @@
         }
 
         &Active {
-            background-color: $oxygen_10;
+            &::after {
+                position: absolute;
+                left: -4px;
+                content: " ";
+                height: 32px;
+                width: 4px;
+                border-radius: 999px;
+                background-color: $oxygen;
+
+            }
         }
 
         &Name {
@@ -193,12 +202,12 @@
             min-height: 36px;
             width: 36px;
             min-width: 36px;
-            padding: 4px;
+            padding: 7px;
             border: 0;
             background: transparent;
             
             path {
-                fill: $oxygen_40;
+                fill: $oxygen_20;
             }
             
         }
@@ -258,7 +267,7 @@
                 }
         
                 &:hover {
-                    background-color: $oxygen_80;
+                    background-color: $oxygen_20;
 
                 }
             }
