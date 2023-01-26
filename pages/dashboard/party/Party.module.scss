@@ -34,117 +34,133 @@
         border: 4px solid $white_10;
         border-radius: 18px;
     }
-}
 
-.peerContainer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    flex: 1;
-    position: relative;
-    z-index: 1;
-    height: 100%;
-    overflow: scroll;
+    .peerContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        width: 200px;
+        padding: 0 10px;
+        overflow: scroll;
 
-    &:not(.isScreenShare) {
-        .ownerVideo {
-            position: absolute;
-            right: 8px;
-            bottom: 8px;
+        &.isScreenShare {
+            height: 150px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 8px;
+
+            .videoParent {
+                min-height: 100px;
+                min-width: 100px;
+            }
+
+            .ownerVideo {
+                position: relative;
+                right: 0;
+                bottom: 0;
+                height: 100%;
+            }
+        }
+    }
+
+    .videoContainer {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        max-height: 600px;
+        max-width: 600px;
+        overflow: hidden;
+        border: 1px solid $white_10;
+        border-radius: 8px;
+
+        .peerName {
+            color: $white;
+        }
+        .peerImage {
+            margin-bottom: 8px;
+            height: 64px;
+            width: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        &.ownerVideo {
+            transform: scaleX(-1);
+        }
+
+        audio {
+            position: relative;
             z-index: 2;
-            height: 145px !important;
-            width: 145px !important;
+        }
 
-            > div {
+        video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            z-index: 1;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            background-size: cover;
+            overflow: hidden;
+            -webkit-transition: margin-top 1s ease-in-out;
+            -moz-transition: margin-top 1s ease-in-out;
+            -o-transition: margin-top 1s ease-in-out;
+            transition: margin-top 1s ease-in-out;
+        }
+    }
+
+    &:not(.PartyMainContentScreenShare) {
+        .peerContainer {
+            display: flex;
+            flex: 1;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 24px;
+            justify-content: center;
+            .ownerVideo {
+                position: absolute;
+                right: 8px;
+                bottom: 8px;
+                z-index: 2;
                 height: 145px !important;
                 width: 145px !important;
-                border-radius: 12px;
-                object-fit: cover;
-                overflow: hidden;
 
-                video {
-                    height: 145px;
-                    width: 145px;
+                > div {
+                    height: 145px !important;
+                    width: 145px !important;
+                    border-radius: 12px;
                     object-fit: cover;
+                    overflow: hidden;
+
+                    video {
+                        height: 145px;
+                        width: 145px;
+                        object-fit: cover;
+                    }
                 }
             }
         }
     }
 
-    &.isScreenShare {
-        height: 150px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding: 8px;
-
-        .videoParent {
-            min-height: 100px;
-            min-width: 100px;
-        }
-
+    &.PartyMainContentScreenShare {
         .ownerVideo {
-            position: relative;
-            right: 0;
-            bottom: 0;
-            height: 100%;
+            @extend .videoContainer;
         }
-    }
-}
 
-// new styles 2023
-
-.videoContainer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    max-height: 600px;
-    max-width: 600px;
-    overflow: hidden;
-    border: 1px solid $white_10;
-    border-radius: 8px;
-
-    .peerName {
-        color: $white;
-    }
-    .peerImage {
-        margin-bottom: 8px;
-        height: 64px;
-        width: 64px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    &.ownerVideo {
-        transform: scaleX(-1);
-    }
-
-    audio {
-        position: relative;
-        z-index: 2;
-    }
-
-    video {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate3d(-50%, -50%, 0);
-        z-index: 1;
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-        background: #000;
-        border-radius: 10px;
-        overflow: hidden;
-        background-size: cover;
-        overflow: hidden;
-        -webkit-transition: margin-top 1s ease-in-out;
-        -moz-transition: margin-top 1s ease-in-out;
-        -o-transition: margin-top 1s ease-in-out;
-        transition: margin-top 1s ease-in-out;
+        .PartyStreamContainer {
+            flex: 1;
+            padding: 18px;
+        }
     }
 }

@@ -23,6 +23,7 @@ const Party = () => {
     const [selectedHarth, setSelectedHarth] = useState(null);
     const [outsideDiceRoll, setOutsideDiceRoll] = useState({});
     const [isCaptureButtonActive, setisCaptureButtonActive] = useState(false);
+    const [screenShareActive, setScreenShareActive] = useState(false);
     const [showChatPannel, setShowChatPannel] = useState(false);
     const [unreadMsg, setUnreadMsg] = useState(false);
     const [activeCallRoom, setActiveCallRoom] = useState({});
@@ -49,7 +50,7 @@ const Party = () => {
     useEffect(() => {
         const container = document.getElementById("peerContainer");
         resize(container);
-    }, [width, showChatPannel, chats]);
+    }, [width, showChatPannel, chats, screenShareActive]);
 
     useEffect(() => {
         let urls = {
@@ -640,8 +641,10 @@ const Party = () => {
     };
     const toggleCapture = async () => {
         if (localCaptureStream.current) {
+            setScreenShareActive(false);
             disconnectCaptures();
         } else {
+            setScreenShareActive(true);
             connectCaptureToUsers();
         }
     };
@@ -681,7 +684,7 @@ const Party = () => {
         }
     };
     const createVideo = (incomingStream, peer, call) => {
-        let existingVideoContainer = document.getElementById(peer.videoPeer);
+        let existingVideoContainer = document.getElementById(peer?.videoPeer);
         if (!existingVideoContainer) {
             let parentContainer = document.getElementById(peer.socketID);
             if (!parentContainer) {
@@ -982,8 +985,6 @@ const Party = () => {
     };
 
     setPeerContainers();
-    console.log(ownerData.current, "woner");
-    console.log(videoSharePeer);
 
     return (
         <>
@@ -1004,10 +1005,20 @@ const Party = () => {
                         toggleHDSwitch={toggleHDSwitch}
                         leaveMethod={leaveRoom}
                     />
-                    <div className={styles.PartyMainContent}>
+                    <div
+                        className={`${styles.PartyMainContent} ${
+                            screenShareActive
+                                ? styles.PartyMainContentScreenShare
+                                : null
+                        }`}
+                    >
                         <section
                             className={styles.peerContainer}
                             id="peerContainer"
+                        ></section>
+                        <section
+                            id="stream-window-capture-container"
+                            className={styles.PartyStreamContainer}
                         ></section>
                         <section
                             id="stream-window-chat"
@@ -1024,7 +1035,6 @@ const Party = () => {
                             </div>
                         </section>
                     </div>
-                    <section id="stream-window-capture-container"></section>
 
                     <GatherControlBar
                         onLeaveHandler={leaveRoom}

@@ -17,10 +17,11 @@
 
 #ChatMessages {
     display: flex;
+    flex: 1;
     flex-direction: column-reverse;
     position: relative;
     background-color: transparent;
-    min-height: calc(100% - 98px);
+    // min-height: calc(100% - 98px);
     width: 100%;
     padding: 15px 24px 0px 24px;
     overflow-y: scroll;
