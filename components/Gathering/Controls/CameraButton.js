@@ -5,7 +5,7 @@ import styles from "./gatheringButtons.module.scss";
 
 export const CameraButton = (props) => {
     const {
-        size = "large",
+        isMobile = false,
         onPress,
         videoList,
         changeVideoDevice,
@@ -25,8 +25,8 @@ export const CameraButton = (props) => {
     return (
         <div>
             {videoList ? (
-                <div className={styles.BagButtonOptions}>
-                    <div className={styles.BagButtonOptionsContainer}>
+                <div className={styles.OptionsMenu}>
+                    <div className={styles.OptionsMenuContainer}>
                         {videoList.map((device) => {
                             const { label, deviceId } = device;
                             return (
@@ -47,15 +47,14 @@ export const CameraButton = (props) => {
             <button
                 className={`
                 ${styles.basicButton} 
-                ${
-                    size == "large"
+                ${isMobile
                         ? styles.basicButtonLarge
                         : styles.basicButtonSmall
                 } 
                 ${
                     buttonState == "on"
                         ? styles.basicButtonActive
-                        : styles.basicButtonMuted
+                        : styles.basicButtonInactive
                 }
             `}
                 aria-label="Webcam"
@@ -67,7 +66,7 @@ export const CameraButton = (props) => {
                     </div>
                 ) : (
                     <div height="100%" width="100%">
-                        <IconVideoOffFill />
+                        <IconVideoFill hasGradient={true} />
                     </div>
                 )}
             </button>

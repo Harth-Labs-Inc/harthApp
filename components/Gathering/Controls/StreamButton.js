@@ -4,7 +4,7 @@ import { IconCancelCastFill } from "../../../resources/icons/IconCancelCastFill"
 import styles from "./gatheringButtons.module.scss";
 
 export const StreamButton = (props) => {
-  const { size = "large", helpText, onPress, show } = props;
+  const { isMobile = false, helpText, onPress, } = props;
   const [buttonState, setButtonState] = useState("off");
 
   const toggleActive = () => {
@@ -14,7 +14,7 @@ export const StreamButton = (props) => {
       //before it sets the button
       setButtonState("on");
     } else {
-      //onPress()
+      onPress()
       //Does this need an await function for onPress
       //before it sets the button
       setButtonState("off");
@@ -25,17 +25,16 @@ export const StreamButton = (props) => {
     <button
       className={`
                 ${styles.basicButton} 
-                ${
-                  size == "large"
+                ${isMobile
                     ? styles.basicButtonLarge
                     : styles.basicButtonSmall
                 } 
-                ${show ? styles.basicButtonActive : styles.basicButtonInactive}
+                ${buttonState == "on"  ? styles.basicButtonActive : styles.basicButtonInactive}
             `}
-      aria-label="Microphone"
-      onClick={onPress}
+      aria-label="Stream"
+      onClick={toggleActive}
     >
-      {show ? (
+      {buttonState == "on" ? (
         <div height="100%" width="100%">
           <IconCancelCastFill hasGradient="true" />
         </div>

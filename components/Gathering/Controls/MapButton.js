@@ -3,17 +3,10 @@ import { useState } from "react";
 import styles from "./gatheringButtons.module.scss";
 
 export const MapButton = (props) => {
-  const { onPress, ariaLabel = "map button" } = props;
+  const { isMobile = false, onPress, ariaLabel = "map button" } = props;
   const [buttonState, setButtonState] = useState("off");
 
   const toggleActive = () => {
-    if (buttonState == "off") {
-      setButtonState("on");
-      //OnPress();
-    } else {
-      setButtonState("off");
-      //OnPress();
-    }
     onPress();
   };
 
@@ -22,25 +15,19 @@ export const MapButton = (props) => {
       <button
         className={`
                 ${styles.basicButton} 
-                ${styles.basicButtonBag} 
-                ${
-                  buttonState == "on"
-                    ? styles.basicButtonActive
-                    : styles.basicButtonInactive
-                }
+                ${styles.basicButtonBagButtonBottom} 
+                ${isMobile
+                  ? styles.basicButtonLarge
+                  : styles.basicButtonSmall
+                } 
             `}
         aria-label={ariaLabel}
         onClick={toggleActive}
       >
-        {buttonState == "on" ? (
-          <div height="100%" width="100%">
-            <IconMap hasGradient="true" />
-          </div>
-        ) : (
-          <div height="100%" width="100%">
-            <IconMap />
-          </div>
-        )}
+        <div height="100%" width="100%">
+          <IconMap />
+        </div>
+
       </button>
     </>
   );

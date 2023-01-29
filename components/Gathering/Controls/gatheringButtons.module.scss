@@ -1,15 +1,55 @@
 @import "../../../styles/globals.scss";
 @import "../../../styles/fonts.scss";
 
+.OptionsMenu {
+    position: relative;
+    position: absolute;
+    bottom: 52px;
+    z-index: 1;
+
+    border-radius: 8px;
+
+    &Container {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 8px 6px;
+        background-color: $black;
+        border-radius: 8px;
+    }
+
+    &:before {
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        z-index: 0;
+        height: calc(100% + 6px);
+        width: calc(100% + 6px);
+        content: "";
+        background-image: linear-gradient(
+                rgba(255, 255, 255, 0),
+                rgba(255, 255, 255, 0)
+            ),
+            linear-gradient(35deg, $hot_blue, $hot_pink);
+        border-radius: 8px;
+    }
+}
+
 .BagButton {
     position: relative;
-
+    
     &Options {
         position: absolute;
-        bottom: 75px;
-        left: -6px;
+        top: calc(-100% * 2 - 6px);
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
         z-index: 1;
-
         border-radius: 8px;
 
         &Container {
@@ -17,92 +57,92 @@
             z-index: 1;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding: 8px 6px;
-            background-color: $black;
-            border-radius: 8px;
+            gap: 0px;
+            border: 0;
         }
 
-        &:before {
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            z-index: 0;
-            height: calc(100% + 6px);
-            width: calc(100% + 6px);
-            content: "";
-            background-image: linear-gradient(
-                    rgba(255, 255, 255, 0),
-                    rgba(255, 255, 255, 0)
-                ),
-                linear-gradient(35deg, $hot_blue, $hot_pink);
-            border-radius: 8px;
-        }
+
     }
 }
 
 .basicButton {
     position: relative;
-    border-radius: 9999px;
+    border-radius: 10px;
     cursor: pointer;
-    border: solid 3px $white_10;
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    box-shadow: 4px 9999px 1px $ash inset; //interior color
-
-    &:hover {
-        border: solid 3px transparent;
-        background-image: linear-gradient(
-                rgba(255, 255, 255, 0),
-                rgba(255, 255, 255, 0)
-            ),
-            linear-gradient(35deg, $hot_blue, $hot_pink);
-    }
+    border: solid 1px $oxygen_10;
+    background-color: $ash;
 
     &Large {
         padding: 10px;
-        height: 56px;
-        width: 56px;
+        height: 52px;
+        width: 52px;
     }
 
     &Small {
-        padding: 8px;
-        height: 44px;
-        width: 44px;
-    }
-    &Bag {
-        border-radius: 8px;
-        padding: 6px;
+        padding: 10px;
         height: 44px;
         width: 44px;
     }
 
+    &BagButtonTop {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border: solid 1px $oxygen_40;
+        path {
+            fill: $oxygen_40;
+        }
+
+        &:hover {    
+            path {
+                fill: $oxygen_80;
+            }
+        }
+
+    }
+
+    &BagButtonBottom {
+        border: solid 1px $oxygen_40;
+        border-top: 1px solid transparent;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+
+        path {
+            fill: $oxygen_40;
+        }
+
+        &:hover {    
+            path {
+                fill: $oxygen_80;
+            }
+        }
+    }
+
     &Active {
-        box-shadow: 2px 1000px 1px $black inset;
-        border: solid 3px transparent;
-        background-image: linear-gradient(
-                rgba(255, 255, 255, 0),
-                rgba(255, 255, 255, 0)
-            ),
-            linear-gradient(35deg, $hot_blue, $hot_pink);
+
+        &:hover {
+            border: solid 1px $oxygen_80;
+        }
     }
 
     &Inactive {
         path {
-            fill: $white_90;
+            fill: $oxygen_40;
+        }
+
+        &:hover {
+            border: solid 1px $oxygen_80;
+    
+            path {
+                fill: $oxygen_80;
+            }
         }
     }
 
     &Muted {
-        box-shadow: 2px 1000px 1px $black inset;
-        border: solid 3px $alert_red;
         path {
             fill: $alert_red;
         }
 
-        &:hover {
-            border: solid 3px $alert_red;
-        }
     }
 
     .unreadMsg {
@@ -113,38 +153,69 @@
         width: 10px;
         font-size: 0;
         background-color: $hot_pink;
-        border: 2px solid $ash;
+        border: 1px solid $ash;
         border-radius: 50%;
     }
 }
 
+
+
 .leaveButton {
-    border-radius: 9999px;
-    cursor: pointer;
-    border: solid 3px $white_10;
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    box-shadow: 4px 9999px 1px $ash inset;
+    position: relative;
 
-    padding: 8px;
-    height: 44px;
-    width: 44px;
+    &:hover{
+        &::before{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            content: "Leave";
+            width: fit-content;
+            top: -38px;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+            transform: translateX(-50%);
+            padding: 6px 10px;
+            background-color: $ash;
+            border-radius: 2px;
+            @include rubik;
+            letter-spacing: 0.05em;
+            font-size: 12px;
+            font-weight: 300;
+            color: $oxygen_80;
+            z-index: 10;
+        
 
-    path {
-        fill: $white_90;
-    }
+        }
 
-    &:hover {
-        border: solid 3px darken($alert_red, 10%);
-        path {
-            fill: darken($alert_red, 10%);
+        &::after{
+            position: absolute;
+            content: " ";
+            top: -17px;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+            transform: translateX(-50%);
+            width: 0; 
+            height: 0; 
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 12px solid $ash;
+            z-index: 9;
         }
     }
 }
 
 .controlButtonMobile {
     position: relative;
-    padding: 8px 8px;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
     border: 0;
     border-radius: 8px;
     cursor: pointer;
@@ -158,35 +229,33 @@
 }
 
 .moreButton {
-    border-radius: 9999px;
+    position: absolute;
+    top: -6px;
+    right: -4px;
+    border-radius: 6px;
     cursor: pointer;
-    border: solid 2px $white_10;
-    background-color: $fuel;
-    box-shadow: 4px 9999px 1px $ash inset;
+    border: solid 1px $oxygen_10;
+    background-color: $ash;
     transform: rotate(90deg);
-
     padding: 0px;
-    height: 20px;
-    width: 20px;
+    height: 18px;
+    width: 18px;
 
     path {
-        fill: $white_90;
+        fill: $oxygen_40;
     }
 
     &:hover {
-        border: solid 2px $white;
-        background-color: $black;
+        border-color: $oxygen_80;
         path {
-            fill: $white;
+            fill: $oxygen_80;
         }
     }
 
     &Active {
-        border: solid 2px $black;
-        background-color: $black;
-        box-shadow: 4px 9999px 1px $black inset;
+        border-color: $oxygen_80;
         path {
-            fill: $white;
+            fill: $oxygen_80;
         }
     }
 }

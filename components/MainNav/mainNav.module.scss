@@ -60,7 +60,7 @@
         }
         .Desktop & {
             @include harthTitle1;
-            color: $oxygen_80;
+            color: $oxygen;
             padding: 6px 6px;
             border-radius: 8px;
             text-overflow: ellipsis;
@@ -152,19 +152,19 @@
         &.Active {
 
             path {
-                fill: $oxygen_80;
+                fill: $oxygen;
             }
             .Desktop & {
-                color: $oxygen_80;
+                color: $oxygen;
                 &:before {
-                    background-color: $oxygen_80;
+                    background-color: $oxygen;
                 }
             }
 
             .Mobile & {
-                color: $oxygen_80;
+                color: $oxygen;
                 &:before {
-                    background-color: $oxygen_80;
+                    background-color: $oxygen;
                 }
             }
         }
@@ -202,9 +202,9 @@
             padding: 8px 16px 0px 16px;
 
             &:hover {
-                color: $oxygen_80;
+                color: $oxygen;
                 path {
-                    fill: $oxygen_80;
+                    fill: $oxygen;
                 }
             }
             &:before {

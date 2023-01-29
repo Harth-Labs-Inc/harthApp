@@ -7,7 +7,7 @@ import { MapButton } from "./MapButton";
 import styles from "./gatheringButtons.module.scss";
 
 export const BagButton = (props) => {
-    const { size = "large", onDicePress, onMapPress } = props;
+    const { onDicePress, onMapPress, isMobile = false } = props;
     const [buttonState, setButtonState] = useState("off");
 
     const toggleActive = () => {
@@ -23,26 +23,31 @@ export const BagButton = (props) => {
             {buttonState == "on" ? (
                 <div className={styles.BagButtonOptions}>
                     <div className={styles.BagButtonOptionsContainer}>
+
                         <DiceButton
                             onPress={() => {
                                 setButtonState("off");
                                 onDicePress();
                             }}
+                            isMobile={isMobile}
+                        
                         />
                         <MapButton
                             onPress={() => {
                                 setButtonState("off");
                                 onMapPress();
                             }}
+                            isMobile={isMobile}
                         />
                     </div>
                 </div>
             ) : null}
+
+
             <button
                 className={`
                 ${styles.basicButton} 
-                ${
-                    size == "large"
+                ${isMobile
                         ? styles.basicButtonLarge
                         : styles.basicButtonSmall
                 } 
@@ -51,7 +56,7 @@ export const BagButton = (props) => {
                         ? styles.basicButtonActive
                         : styles.basicButtonInactive
                 }
-            `}
+                `}
                 aria-label="Game Bag"
                 onClick={toggleActive}
             >

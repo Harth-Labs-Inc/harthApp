@@ -27,7 +27,7 @@ export const HDSwitch = (props) => {
         <div className={styles.ToggleContainer}>
           <div className={styles.ToggleContainerBackground}></div>
           <div className={styles.ToggleContainerCircle}>
-            <span></span>
+            <span> </span>
           </div>
           <div className={styles.ToggleContainerLabel}>HD</div>
           <input

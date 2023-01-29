@@ -114,7 +114,7 @@ export const MapBar = (props) => {
   };
 
   if (loading) {
-    return <p>loadding.....</p>;
+    return null; //<p>loadding.....</p>;
   }
   return (
     <>

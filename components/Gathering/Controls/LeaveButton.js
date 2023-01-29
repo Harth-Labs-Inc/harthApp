@@ -1,10 +1,10 @@
-import { IconClose } from "../../../resources/icons/IconClose"
-import styles from "./gatheringButtons.module.scss"
+import { IconPower } from "../../../resources/icons/IconPower";
+import styles from "./gatheringButtons.module.scss";
 
 
 export const LeaveButton = (props) => {
     const {
-        size = "large",
+        isMobile = false,
         onPress,
     } = props;
 
@@ -12,14 +12,19 @@ export const LeaveButton = (props) => {
         <>
         <button
             className={`
+                ${styles.basicButton} 
+                ${isMobile
+                    ? styles.basicButtonLarge
+                    : styles.basicButtonSmall
+                } 
                 ${styles.leaveButton} 
-                ${size == "large" ? styles.leaveButtonLarge : styles.leaveButtonSmall} 
+                ${styles.basicButtonInactive}
             `}
             aria-label="Leave Gathering"
             onClick={onPress}
         >
             <div height="100%" width="100%">
-                <IconClose />
+                <IconPower />
             </div>
         </button>
         </>

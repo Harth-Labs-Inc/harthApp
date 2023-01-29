@@ -46,13 +46,9 @@ const GatherHeader = (props) => {
 
       <div className={isMobile ? styles.mobile : styles.desktop}>
         {isMobile && <LeaveButtonMobile onClick={showMobileMenu} />}
-        <div className={styles.labelHolder}>
-          <img className={styles.harthImage} src={selectedHarthIcon || ""} />
-          {gatheringName}
-        </div>
-        <div className={styles.hdPosition}>
-          <HDSwitch onToggleChange={toggleHDSwitch} isChecked={false} />
-        </div>
+        {isMobile ? null : (<img className={styles.harthImage} src={selectedHarthIcon || ""} />)}
+        <div className={styles.labelHolder}>{gatheringName}</div>
+        <HDSwitch onToggleChange={toggleHDSwitch} isChecked={false} />
       </div>
     </>
   );

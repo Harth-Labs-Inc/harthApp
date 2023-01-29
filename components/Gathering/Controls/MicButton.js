@@ -5,7 +5,7 @@ import styles from "./gatheringButtons.module.scss";
 
 export const MicButton = (props) => {
     const {
-        size = "large",
+        isMobile = false,
         onPress,
         audioList,
         changeAudioDevice,
@@ -47,8 +47,7 @@ export const MicButton = (props) => {
             <button
                 className={`
                 ${styles.basicButton} 
-                ${
-                    size == "large"
+                ${isMobile
                         ? styles.basicButtonLarge
                         : styles.basicButtonSmall
                 } 
