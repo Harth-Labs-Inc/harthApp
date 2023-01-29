@@ -103,19 +103,40 @@ const GatherControlBar = (props) => {
 
       {isMobile ? (
         <header className={styles.mobile}>
-          {roomType == "voice" && <div className={styles.leftSpace} />}
-          {roomType == "party" && <BagButton />}
-          {roomType != "voice" && <CameraButton />}
-          <MicButton />
-          {roomType != "voice" && <StreamButton />}
-          <ChatButton />
+          {roomType == "voice" && <div className={styles.spacerLarge} />}
+          {roomType == "party" && <BagButton isMobile={true} />}
+          {roomType != "voice" && 
+            <CameraButton
+              onPress={onToggleVideo}
+              videoList={videoList}
+              changeVideoDevice={changeVideoDevice}
+              clearVideoList={() => setVideoList(null)}
+              isMobile = {true}
+            />
+          }
+          <MicButton
+            onPress={onToggleAudio}
+            audioList={audioList}
+            changeAudioDevice={changeAudioDevice}
+            clearAudioList={() => setAudioList(null)}
+            isMobile = {true}
+          />
+          {roomType != "voice" && 
+            <StreamButton
+              onPress={onToggleScreenShare}
+              show={captureIsActice}
+              isMobile = {true}
+            />
+          }
+          <ChatButton
+            unreadMsg={unreadMsg}
+            onPress={onToggleChat}
+            isMobile = {true}
+          />
         </header>
       ) : (
         <header className={styles.desktop}>
-          <div className={styles.leftGroup}>
-            <LeaveButton onPress={onLeaveHandler} />
-            {roomType == "party" && <p className={styles.spacer}></p>}
-          </div>
+          <LeaveButton onPress={onLeaveHandler} />
 
           {roomType != "voice" ? (
             <div className={styles.middleGroup}>
@@ -155,6 +176,12 @@ const GatherControlBar = (props) => {
                 onPress={onToggleScreenShare}
                 show={captureIsActice}
               />
+              {roomType == "party" && (
+                <BagButton
+                  onDicePress={togggleDiceModal}
+                  onMapPress={togggleMapModal}
+                />
+              )}
             </div>
           ) : (
             <div className={styles.optionsContainer}>
@@ -167,25 +194,14 @@ const GatherControlBar = (props) => {
             </div>
           )}
 
-          <div className={styles.rightGroup}>
-            {roomType == "voice" && <p className={styles.spacer}></p>}
-
-            {roomType == "party" && (
-              <BagButton
-                size="small"
-                onDicePress={togggleDiceModal}
-                onMapPress={togggleMapModal}
-              />
-            )}
-
-            {roomType != "voice" && (
+          {roomType == "voice" 
+            ? (<p className={styles.spacerSmall}></p>)
+            : (
               <ChatButton
                 unreadMsg={unreadMsg}
-                size="small"
                 onPress={onToggleChat}
               />
-            )}
-          </div>
+          )}
         </header>
       )}
     </>

@@ -3,7 +3,7 @@ import { IconSmsFill } from "../../../resources/icons/IconSmsFill";
 import styles from "./gatheringButtons.module.scss";
 
 export const ChatButton = (props) => {
-    const { size = "large", onPress, unreadMsg } = props;
+    const { isMobile = false, onPress, unreadMsg } = props;
     const [buttonState, setButtonState] = useState("off");
 
     const toggleActive = () => {
@@ -20,8 +20,7 @@ export const ChatButton = (props) => {
             <button
                 className={`
                 ${styles.basicButton} 
-                ${
-                    size == "large"
+                ${isMobile
                         ? styles.basicButtonLarge
                         : styles.basicButtonSmall
                 } 

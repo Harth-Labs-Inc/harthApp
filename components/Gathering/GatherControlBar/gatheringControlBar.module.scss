@@ -6,9 +6,10 @@
     align-items: center;
     justify-content: space-between;
     grid-area: header;
-    padding: 0 16px 24px;
-    border-bottom: 0px solid transparent;
+    padding: 8px 16px 8px 16px;
+    border: 0;
     background-color: transparent;
+    //column-gap: 16px;
 
     .optionsContainer {
         position: relative;
@@ -20,23 +21,23 @@
         }
     }
 
-    .leftGroup {
-        display: flex;
-        column-gap: 12px;
-    }
     .middleGroup {
         display: flex;
         align-items: center;
         column-gap: 16px;
-    }
-    .rightGroup {
-        display: flex;
-        column-gap: 12px;
+        //background-color: aqua;
     }
 
-    .spacer {
-        display: flex;
+    .spacerSmall {
         width: 44px;
+        background-color: red;
+
+    }
+
+    .spacerLarge {
+        width: 52px;
+        background-color: red;
+
     }
 }
 
@@ -45,13 +46,13 @@
     align-items: center;
     justify-content: space-between;
     grid-area: header;
-    padding: 0 16px;
-    height: 56px;
+    padding: 0 16px 16px 16px;
+    height: fit-content;
     border-bottom: 0px solid transparent;
     background-color: transparent;
 
     .leftSpace {
         display: flex;
-        width: 56px;
+        width: 52px;
     }
 }

@@ -62,24 +62,24 @@
 
     .partyActive & {
       background-color: $hot_purple;
-      color: darken($hot_purple, 14);
+      color: $black_60; 
 
       svg path {
-        fill: darken($hot_purple, 14);
+        fill: $black_60; 
       }
     }
     .streamActive & {
       background-color: $hot_red;
-      color: darken($hot_red, 14);
+      color: $black_60; 
       svg path {
-        fill: darken($hot_red, 14);
+        fill: $black_60; 
       }
     }
     .voiceActive & {
       background-color: $hot_blue;
-      color: darken($hot_blue, 14);
+      color: $black_60; 
       svg path {
-        fill: darken($hot_blue, 14);
+        fill: $black_60; 
       }
     }
   }
@@ -113,7 +113,7 @@
   &Scheduled {
     width: 80px;
     min-width: 80px;
-    padding: 8px 5px 8px 0;
+    padding: 12px 5px 8px 0;
     text-align: center;
     //background-color: aqua;
 
@@ -129,8 +129,11 @@
     }
 
     &Now {
-      @include interfaceH5;
-      padding: 8px 8px;
+      @include rubik;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      padding: 9px 12px;
       color: $oxygen;
       background-color: $fuel;
       border-radius: 9999px;
