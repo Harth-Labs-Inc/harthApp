@@ -989,7 +989,7 @@ const Party = () => {
     return (
         <>
             <main className={styles.PartyWindow} id="main-container">
-                <div className="conditionals">
+                <div className={styles.alertContainer}>
                     {Object.keys(outsideDiceRoll).length ? (
                         <DiceAlert
                             rollResult={outsideDiceRoll?.number}
@@ -998,14 +998,16 @@ const Party = () => {
                         />
                     ) : null}
                 </div>
+                <GatherHeader
+                    gatheringName={activeCallRoom?.roomName}
+                    selectedHarthIcon={selectedHarth?.iconKey}
+                    toggleHDSwitch={toggleHDSwitch}
+                    leaveMethod={leaveRoom}
+                />
+
                 <section className={styles.PartyWindowVideoContainer}>
-                    <GatherHeader
-                        gatheringName={activeCallRoom?.roomName}
-                        selectedHarthIcon={selectedHarth?.iconKey}
-                        toggleHDSwitch={toggleHDSwitch}
-                        leaveMethod={leaveRoom}
-                    />
-                    <div
+            
+                    <div 
                         className={`${styles.PartyMainContent} ${
                             screenShareActive
                                 ? styles.PartyMainContentScreenShare
