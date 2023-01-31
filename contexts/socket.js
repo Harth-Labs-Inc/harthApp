@@ -4,6 +4,7 @@ import { useAuth } from "./auth";
 import { useComms } from "./comms";
 import { useChat } from "./chat";
 import { getTopics } from "../requests/community";
+import { getConversations } from "../requests/conversations";
 
 const SocketContext = createContext({});
 
@@ -26,6 +27,8 @@ export const SocketProvider = ({ children }) => {
         setComm,
         refetchComms,
         selectedcomm,
+        setConversations,
+        setUnreadConversationMessagesHandler,
     } = useComms();
 
     const selectedHarthRef = useRef();
@@ -143,12 +146,32 @@ export const SocketProvider = ({ children }) => {
                             }
 
                             break;
-
                         case "new room":
                             setIncomingRoom(incomingUpdate);
                             break;
                         case "room update":
                             setIncomingRoomUpdate(incomingUpdate);
+                            break;
+                        case "new conversation":
+                            let isForYou = incomingUpdate.users?.find(
+                                (usr) => usr.userId == user._id
+                            );
+                            if (isForYou) {
+                                let newConversationsResult =
+                                    await getConversations(
+                                        incomingUpdate?.harthId,
+                                        user._id
+                                    );
+                                setConversations(
+                                    newConversationsResult.conversations
+                                );
+                            }
+                            break;
+                        case "new conversation message":
+                            setUnreadConversationMessagesHandler(
+                                incomingUpdate
+                            );
+
                             break;
                         default:
                             break;
