@@ -657,23 +657,24 @@ const Party = () => {
     const createLocalVideo = (incomingStream, peer, call) => {
         let existingVideoContainer = document.getElementById(incomingStream.id);
         if (!existingVideoContainer) {
-            let parentContainer = document.getElementById("local-container");
-            if (!parentContainer) {
-                parentContainer = document.createElement("div");
-                parentContainer.className = styles.ownerVideo;
+            let parentContainer = document.getElementById("video-container");
+            // if (!parentContainer) {
+            //     parentContainer = document.createElement("div");
+            //     parentContainer.className = styles.ownerVideo;
 
-                // let nameContainer = document.createElement("p");
-                // var nameText = document.createTextNode(peer?.name);
-                // nameContainer.className = styles.peerName;
-                // nameContainer.appendChild(nameText);
-                // parentContainer.append(nameContainer);
-                const roomContainer = document.getElementById("peerContainer");
-                roomContainer.append(parentContainer);
-            }
+            //     // let nameContainer = document.createElement("p");
+            //     // var nameText = document.createTextNode(peer?.name);
+            //     // nameContainer.className = styles.peerName;
+            //     // nameContainer.appendChild(nameText);
+            //     // parentContainer.append(nameContainer);
+            //     const roomContainer = document.getElementById("peerContainer");
+            //     roomContainer.append(parentContainer);
+            // }
 
             const videoContainer = document.createElement("div");
             const video = document.createElement("video");
             videoContainer.id = incomingStream.id;
+            videoContainer.className = styles.ownerVideo;
             video.srcObject = incomingStream;
             video.autoplay = true;
             video.muted = true;
@@ -724,6 +725,7 @@ const Party = () => {
         if (!existingVideoContainer) {
             let parentContainer = document.getElementById(peer?.socketID);
             if (!parentContainer) {
+
                 parentContainer = document.createElement("div");
                 parentContainer.id = peer?.socketID;
                 parentContainer.className = styles.videoContainer;
@@ -772,12 +774,12 @@ const Party = () => {
         }
 
         let parentContainer = document.getElementById(
-            "stream-window-capture-container"
+            "stream-window-container"
         );
 
         const videoContainer = document.createElement("div");
         const video = document.createElement("video");
-        videoContainer.className = "stream-window";
+        videoContainer.className = styles.streamContainer;
         videoContainer.id = peer?.capturePeer;
         video.srcObject = incomingStream;
         video.autoplay = true;
@@ -786,6 +788,10 @@ const Party = () => {
         video.playsInline = true;
         videoContainer.appendChild(video);
         parentContainer.appendChild(videoContainer);
+
+        //I added this to trigger a screen share for the reciever as well.
+        //whomever shares, the screen shoudl change to the same format for everyone.
+        setScreenShareActive(true);
     };
     const removeElement = (id) => {
         let Container = document.getElementById(id);
@@ -988,55 +994,55 @@ const Party = () => {
 
     return (
         <>
-            <main className={styles.PartyWindow} id="main-container">
-                <div className="conditionals">
-                    {Object.keys(outsideDiceRoll).length ? (
-                        <DiceAlert
-                            rollResult={outsideDiceRoll?.number}
-                            profileImage={outsideDiceRoll?.userIcon}
-                            dice={outsideDiceRoll?.sides}
-                        />
-                    ) : null}
-                </div>
-                <section className={styles.PartyWindowVideoContainer}>
-                    <GatherHeader
-                        gatheringName={activeCallRoom?.roomName}
-                        selectedHarthIcon={selectedHarth?.iconKey}
-                        toggleHDSwitch={toggleHDSwitch}
-                        leaveMethod={leaveRoom}
-                    />
-                    <div
-                        className={`${styles.PartyMainContent} ${
-                            screenShareActive
-                                ? styles.PartyMainContentScreenShare
-                                : null
-                        }`}
-                    >
-                        <section
-                            className={styles.peerContainer}
-                            id="peerContainer"
-                        ></section>
-                        <section
-                            id="stream-window-capture-container"
-                            className={styles.PartyStreamContainer}
-                        ></section>
-                        <section
-                            id="stream-window-chat"
-                            className={showChatPannel ? "open" : "closed"}
-                        >
-                            <div className={styles.ChatPanelContainer}>
-                                <ChatMessagesGeneral
-                                    messages={chats}
-                                    userName={userName}
-                                />
-                                <GeneralChatInput
-                                    onSubmitHandler={chatSubmitHandler}
-                                />
-                            </div>
-                        </section>
+            <main className={styles.PartyWindow} >
+                
+                <GatherHeader
+                    gatheringName={activeCallRoom?.roomName}
+                    selectedHarthIcon={selectedHarth?.iconKey}
+                    toggleHDSwitch={toggleHDSwitch}
+                    leaveMethod={leaveRoom}
+                />
+
+                <section className={styles.ContentContainer} id="video-container">
+                    <div className={styles.alertContainer}>
+                        {Object.keys(outsideDiceRoll).length ? (
+                            <DiceAlert
+                                rollResult={outsideDiceRoll?.number}
+                                profileImage={outsideDiceRoll?.userIcon}
+                                dice={outsideDiceRoll?.sides}
+                            />
+                        ) : null}
                     </div>
 
-                    <GatherControlBar
+                    <section
+                        className={`
+                        ${styles.peerContainer}
+                        ${screenShareActive && styles.peerContainerActive}
+                        `}
+                        id="peerContainer"
+                    ></section>
+
+                    <section
+                        id="stream-window-container"
+                        className={`
+                            ${styles.streamContainer}
+                            ${screenShareActive && styles.streamContainerActive}
+                            `}>
+                    </section>
+
+                    <section
+                        className={` ${styles.ChatPanelContainer} ${showChatPannel ? styles.ChatPanelContainerOpen : null} `}
+                    >
+                        <ChatMessagesGeneral
+                            messages={chats}
+                            userName={userName}
+                        />
+                        <GeneralChatInput
+                            onSubmitHandler={chatSubmitHandler}
+                        />
+                    </section>
+                </section>
+                <GatherControlBar
                         onLeaveHandler={leaveRoom}
                         onToggleVideo={toggleVideo}
                         onToggleAudio={toggleAudio}
@@ -1048,7 +1054,6 @@ const Party = () => {
                         changeVideoDevice={changeVideoDevice}
                         roomId={roomId}
                     />
-                </section>
             </main>
         </>
     );
