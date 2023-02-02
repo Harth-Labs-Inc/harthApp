@@ -17,7 +17,7 @@ export const Dice = (props) => {
   const rollAnimation = () => {
     setIsDisabled(true);
     //timeout for animation roll
-    setTimeout(() => rollDice(), 1200);
+    setTimeout(() => rollDice(), 1300);
   };
 
   const rollDice = () => {
@@ -28,7 +28,7 @@ export const Dice = (props) => {
     setTimeout(() => {
       setShowRoll(false);
       setIsDisabled(false);
-    }, 1500);
+    }, 2000);
   };
 
   return (

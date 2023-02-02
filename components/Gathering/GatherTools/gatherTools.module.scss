@@ -1,32 +1,48 @@
 @import "../../../styles/globals.scss";
 @import "../../../styles/fonts.scss";
 
-.mainContainer {
+.mainContainerDice {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 12%;
+    left: 10%;
     z-index: 99;
     display: flex;
     flex-direction: column;
     row-gap: 0;
     width: fit-content;
+    background: transparent;
+    border: 1px solid $oxygen_10;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: $ash;
+}
+
+.mainContainerMap {
+    position: absolute;
+    top: 12%;
+    right: 10%;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0;
+    width: fit-content;
+    background: transparent;
+    border: 1px solid $oxygen_10;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: $ash;
 }
 
 .diceContainer {
     position: relative;
     display: flex;
     flex-direction: column;
-    row-gap: 4px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    gap: 0px;
     border: 0;
-    background-color: $overlay_dark;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    width: 72px;
-    padding: 6px 0px;
+    background-color: $ash; 
+    width: 56px;
+    padding: 4px 0px 6px 0px; // 0px;
+    border-top: 1px solid $oxygen_10;
 }
 
 .mapContainer {
@@ -37,25 +53,29 @@
     justify-content: center;
 
     row-gap: 8px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border: 1px solid $fuel;
-    background-color: $oxygen;
+    border: 0;
+    border-top: 1px solid $oxygen_10;
+    background-color: $ash;
     width: 320px;
     height: 260px;
     padding: 0px 0px 24px 0px;
 
     .icon {
-        height: 64px;
-        width: 64px;
+        height: 48px;
+        width: 48px;
+
+        path {
+            fill: $oxygen;
+        }
     }
 
     .label {
-        @include interfaceH2;
+        @include rubik;
+        font-size: 16px;
+        font-weight: 400;
         margin-bottom: 24px;
         text-align: center;
+        color: $oxygen;
     }
 }
 
@@ -64,18 +84,14 @@
     position: relative;
     width: auto;
     height: auto;
-    max-width: 440px;
-    max-height: 440px;
-    background-color: $fuel;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    max-width: 540px;
+    max-height: 540px;
+    background-color: $ash;
     z-index: 100;
 
     .bottomBar {
         position: absolute;
-        background-color: $fuel_50;
+        background-color: $overlay_dark;
         width: 100%;
         height: 44px;
         bottom: 0;
@@ -83,13 +99,13 @@
         align-items: center;
         justify-content: center;
         button {
-            background-color: $fuel_50;
-            color: $white_50;
+            background-color: $overlay_dark;
+            color: $oxygen;
             &:hover {
-                color: $white_90;
-                background-color: $fuel_50;
+                //color: $oxygen;
+                background-color: $black;
                 backdrop-filter: blur(4px);
-                border-color: $white_90;
+                border-color: $oxygen_80;
             }
         }
     }
@@ -193,18 +209,14 @@
 }
 
 .topBar {
-    background-color: $black;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    height: 28px;
+    background-color: $black_20;
+    height: 24px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: grab;
-    padding: 0px 4px;
+    padding: 0px 2px 0px 10px;
 
     path {
         fill: transparent;
@@ -213,13 +225,13 @@
     &:hover {
         .close {
             path {
-                fill: $white_50;
+                fill: $oxygen_40;
             }
         }
     }
 
     .grabber {
-        background-color: $white_50;
+        background-color: $oxygen_20;
         border-radius: 9999px;
         height: 4px;
         width: 24px;
@@ -231,15 +243,15 @@
         width: 18px;
         border: 0px;
         border-radius: 4px;
-        padding: 1px;
+        padding: 3px;
         path {
             fill: transparent;
         }
 
         &:hover {
-            background-color: $white_10;
+            background-color: $oxygen_20;
             path {
-                fill: $white_90;
+                fill: $oxygen_80;
             }
         }
     }
@@ -251,25 +263,23 @@
     }
 }
 
+
 .alertContainer {
     position: relative;
     border-radius: 8px;
     box-shadow: 0px 2px 6px 0px $black;
-    height: 72px;
-    width: 164px;
+    height: 68px;
+    width: 148px;
 
     .contents {
         position: relative;
         background-origin: border-box;
         background-clip: content-box, border-box;
         border: solid 4px transparent;
-        border-radius: 8px;
-        box-shadow: 4px 9999px 1px $white inset; //interior color
-        background-image: linear-gradient(
-                rgba(255, 255, 255, 0),
-                rgba(255, 255, 255, 0)
-            ),
-            linear-gradient(35deg, $hot_blue, $hot_pink);
+        border-radius: 12px;
+        box-shadow: 4px 9999px 1px $ash inset; //interior color
+        background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
+
 
         height: 100%;
         width: 100%;
@@ -278,13 +288,17 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 0px 4px 0px 8px;
+        padding: 0px 8px 0px 4px;
 
         .label {
-            @include contentH1;
+            @include rubik;
             font-size: 48px;
+            font-weight: 600;
+            letter-spacing: -.05em;
             text-align: center;
-            width: 72px;
+            width: 64px;
+            color: $oxygen;
+            //background-color: aqua;
         }
 
         .attributeContainer {
@@ -295,16 +309,27 @@
             .icon {
                 height: 52px;
                 width: 52px;
+                path {
+                    fill: $oxygen;
+                }
             }
 
             .avatarWrapper {
                 position: absolute;
                 border-radius: 9999px;
-                border: 2px solid $white;
-                width: 34px;
-                height: 34px;
+                border: 2px solid $ash;
+                width: 38px;
+                height: 38px;
                 bottom: 0px;
-                left: 0px;
+                left: -4px;
+                overflow: hidden;
+
+                img {
+                    width:100%;
+                    height: 100%;
+                    border-radius: 9999px;
+                    //border: 1px solid $oxygen;
+                }
             }
         }
     }

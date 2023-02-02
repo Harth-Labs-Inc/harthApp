@@ -128,7 +128,7 @@ export const MapBar = (props) => {
       ></input>
       {type == "desktop" ? (
         <Draggable handle="#handle">
-          <div className={styles.mainContainer}>
+          <div className={styles.mainContainerMap}>
             <div className={styles.topBar} id="handle">
               <div className={styles.spacer} />
               <div className={styles.grabber} />

@@ -779,7 +779,7 @@ const Party = () => {
 
         const videoContainer = document.createElement("div");
         const video = document.createElement("video");
-        videoContainer.className = styles.streamContainer;
+        videoContainer.className = styles.streamVideoContainer;
         videoContainer.id = peer?.capturePeer;
         video.srcObject = incomingStream;
         video.autoplay = true;
@@ -1006,11 +1006,13 @@ const Party = () => {
                 <section className={styles.ContentContainer} id="video-container">
                     <div className={styles.alertContainer}>
                         {Object.keys(outsideDiceRoll).length ? (
+                            <>
                             <DiceAlert
                                 rollResult={outsideDiceRoll?.number}
                                 profileImage={outsideDiceRoll?.userIcon}
                                 dice={outsideDiceRoll?.sides}
                             />
+                            </>
                         ) : null}
                     </div>
 
@@ -1042,6 +1044,7 @@ const Party = () => {
                         />
                     </section>
                 </section>
+                <>
                 <GatherControlBar
                         onLeaveHandler={leaveRoom}
                         onToggleVideo={toggleVideo}
@@ -1054,6 +1057,7 @@ const Party = () => {
                         changeVideoDevice={changeVideoDevice}
                         roomId={roomId}
                     />
+                    </>
             </main>
         </>
     );
