@@ -13,9 +13,8 @@ export const DiceBar = (props) => {
         <>
             {type == "desktop" ? (
                 <Draggable handle="#handle">
-                    <div className={styles.mainContainer}>
+                    <div className={styles.mainContainerDice}>
                         <div className={styles.topBar} id="handle">
-                            <div className={styles.spacer} />
                             <div className={styles.grabber} />
                             <button
                                 className={styles.close}

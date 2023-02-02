@@ -81,7 +81,7 @@ export const DiceAlert = (props) => {
                 }
 
                 <div className={styles.avatarWrapper}>
-                    <Avatar picSize={30} imageSrc={profileImage}/>
+                    <img src={profileImage}/>
                 </div>
 
 

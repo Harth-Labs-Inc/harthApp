@@ -4,15 +4,15 @@
 
 .diceButton {
     position: relative;
-    border-radius: 9999px;
+    //border-radius: 9999px;
     cursor: pointer;
-    border: solid 3px $white_10;
+    border: solid 3px transparent; 
     background-origin: border-box;
     background-clip: content-box, border-box;
-    
-    
-    
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     &Large {
         height: 80px;
         width: 80px;
@@ -39,13 +39,12 @@
     
 
     &Small {
-        height: 58px;
-        width: 58px;
+        height: 56px;
+        width: 56px;
+        padding: 0;
+        background-color: $ash;
 
         .icon {
-            position: relative;
-            top: 0px;
-            left: 0px;
             width: 44px;
             height: 44px;
         }
@@ -54,9 +53,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            @include interfaceH1;
+            @include rubik;
             font-size: 34px;
-            color: $white_90;
+            font-weight: 500;
+            color: $oxygen;
 
         }
     }
@@ -65,66 +65,52 @@
         border: solid 3px transparent;
         box-shadow: 4px 9999px 1px $white inset; //interior color
         background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
+
     }
 
     &Inactive {
         box-shadow: 4px 9999px 1px $ash inset; //interior color
 
         path{
-            fill: $white_90;
+            fill: $oxygen_40;
         }
         &:hover {
-            border: solid 3px $white_90;
-            background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
-    
+           // border: solid 3px $white_90;
+            //background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
+            path {
+                fill: $oxygen;
+            }
         }
     }
 
 
     &Animated {
-        border: solid 3px transparent;
+        border: solid 1px transparent;
         box-shadow: 4px 9999px 1px $black inset; //interior color
         background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
         
         .icon {
-            animation: roll 1s;
+            //animation: roll 1s;
+            animation: roll 600ms 2 linear;
         }
     }
 }
 
 
 
+
+
 @keyframes roll {
     0% {
-    transform: translate(0, 0);
-    }
-    10% {
-    transform: translate(15%, 15%) rotate(-120deg);
-    }
-    20% {
-    transform: translate(-15%, 15%) rotate(-240eg);
-    }
-    30% {
-    transform: translate(10%, -15%) rotate(-360deg);
-    }
-    40% {
-    transform: translate(-15%, -15%) rotate(-120deg);
-    }
-    50% {
-    transform: translate(15%, 10%) rotate(-240deg);
-    }
-    60% {
-    transform: translate(-15%, 15%) rotate(-360deg);
-    }
-    70% {
-    transform: translate(10%, -10%) rotate(-120deg);
-    }
-    80% {
-    transform: translate(-10%, -10%) rotate(-240deg);
-    }
-    100% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-}
-
-
+       transform: rotate( 0deg ) scale( 1 );
+     }
+     10% {
+       transform: rotate( 15deg ) scale( 1 );
+     }
+     50% {
+       transform: rotate( -180deg ) scale( 1.4 );
+     }
+     80%,100% {
+       transform: rotate( -360deg ) scale( 1 );
+     }
+   }
