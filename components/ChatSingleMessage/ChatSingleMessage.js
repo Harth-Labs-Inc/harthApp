@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { Avatar } from "../Common/Avatar/Avatar";
-
 import { getDownloadURL } from "../../requests/s3";
 import { deleteMessage, updateMessage } from "../../requests/chat";
 import { getURLMetaData } from "../../requests/urls";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
-import { useChat } from "../../contexts/chat";
 import { useComms } from "../../contexts/comms";
 import { IconDeleteNoFill } from "../../resources/icons/IconDeleteNoFill";
 import { IconEditNoFill } from "../../resources/icons/IconEditNoFill";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 
-import { TextBtn } from "../Common/Button";
+
 
 import styles from "./ChatSingleMessage.module.scss";
 
@@ -157,7 +154,7 @@ const ChatSingleMessage = (props) => {
         <div className={styles.EmojiPicker}>
           <Picker
             data={data}
-            className={`attach-emoji ${styles.emojiPicker}`}
+            className={`attach-emoji`}
             onEmojiSelect={addEmoji}
             autoFocus={true}
             emojiButtonColors={[
@@ -166,7 +163,7 @@ const ChatSingleMessage = (props) => {
               "rgba(240, 101, 115, 0.8)",
               "rgb(0, 163, 150, 0.8)",
             ]}
-            // onClickOutside={setEmojiPicker(!emojiPickerState)}
+             //onClickOutside={setEmojiPicker(!emojiPickerState)}
           />
         </div>
       );
@@ -190,21 +187,23 @@ const ChatSingleMessage = (props) => {
     if (showEditBar && showEditBar == _id) {
       if (creator_id == user._id) {
         return (
-          <div className={styles.SingleMessageControls}>
-            <button value="reaction" title="reaction" onClick={triggerPicker}>
-              <IconAddReactionNoFill />
+          <div className={styles.Controls}>
+            
+            
+            <button value="delete" onClick={deleteMsg} title="delete">
+              <IconDeleteNoFill />
             </button>
             <button value="edit" onClick={editBarSelection} title="edit">
               <IconEditNoFill />
             </button>
-            <button value="delete" onClick={deleteMsg} title="delete">
-              <IconDeleteNoFill />
+            <button value="reaction" title="reaction" onClick={triggerPicker}>
+              <IconAddReactionNoFill />
             </button>
           </div>
         );
       } else {
         return (
-          <div className={styles.SingleMessageControls}>
+          <div className={styles.Controls}>
             <button value="reaction" title="reaction" onClick={triggerPicker}>
               <IconAddReactionNoFill />
             </button>
@@ -285,6 +284,8 @@ const ChatSingleMessage = (props) => {
 
   let timeStamp = getTimeStamp();
   return (
+    <>
+    <EmojiPicker />
     <div
       className={styles.SingleMessage}
       onMouseEnter={() => toggleEdit(true)}
@@ -293,10 +294,11 @@ const ChatSingleMessage = (props) => {
         setEmojiPicker(false);
       }}
     >
-      <CreatorImage />
-      <EmojiPicker />
       <EditBar />
-      <div className={styles.SingleMessageBody}>
+      <CreatorImage />
+      
+      <div className={styles.Body}>
+      
         <span className={styles.Info}>
           <p className={styles.Creator}>{creator_name}</p>
           <p className={styles.Timestamp}>{timeStamp}</p>
@@ -308,16 +310,18 @@ const ChatSingleMessage = (props) => {
         <div
           id={`message-content${messageID}`}
           className={styles.Content}
-        ></div>
-        <div className={styles.SingleMessageBodyReactions}>
+        >
+        </div>
+        <div className={styles.BodyReactions}>
           {[...(reactions || [])].map((reaction, index) => (
-            <p className={styles.SingleMessageBodyReactionsEmoji} key={index}>
+            <p className={styles.BodyReactionsEmoji} key={index}>
               {reaction}
             </p>
           ))}
         </div>
       </div>
     </div>
+    </>
   );
 };
 

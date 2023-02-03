@@ -93,6 +93,7 @@ export default function CreateHarthProfile({
                         onInput={handleInputChange}
                         required
                         className={styles.textEntry}
+                        autocomplete="off"
                     />
                     <div className={styles.helpText}>{footer}</div>
                     <div className={styles.buttonBar}>

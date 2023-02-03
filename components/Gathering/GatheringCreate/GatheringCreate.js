@@ -44,6 +44,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit, }) => {
                 <div className={styles.GatheringCreateContent}>
                     <input
                         placeholder="room name"
+                        autocomplete="off"
                         // onChange={roomNameHandler}
                         // isError={isSubmitting ? !roomName.VALID : false}
                         // error={roomName.ERROR}
