@@ -6,6 +6,10 @@ import { Avatar } from "../Common/Avatar/Avatar";
 import { getDownloadURL } from "../../requests/s3";
 import { deleteMessage, updateMessage } from "../../requests/chat";
 import { getURLMetaData } from "../../requests/urls";
+import {
+  updateConversationMessage,
+  deleteConversationMessage,
+} from "../../requests/conversations";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
 import { useChat } from "../../contexts/chat";
@@ -34,7 +38,13 @@ const ChatSingleMessage = (props) => {
     reactions = [],
     topic_id,
   } = props.msg;
-  const { editMessageText, messageID, msgReload } = props;
+  const {
+    editMessageText,
+    messageID,
+    msgReload,
+    bucket = "topic-message-attachments",
+    chatType = "topic",
+  } = props;
 
   const { user } = useAuth();
   const { emitUpdate } = useSocket();
@@ -47,7 +57,6 @@ const ChatSingleMessage = (props) => {
         attachments.forEach((att) => {
           promises.push(
             new Promise(async (res, rej) => {
-              let bucket = "topic-message-attachments";
               const data = await getDownloadURL(att.name, att.fileType, bucket);
               const { ok, downloadURL } = data;
               if (ok) {
@@ -72,26 +81,24 @@ const ChatSingleMessage = (props) => {
     replaceURLs();
   }, [msgReload]);
 
-  const toggleEdit = (show) => {
-    if (show) {
-      setShowEditBar(_id);
-    } else {
-      setShowEditBar("");
-    }
-  };
+  // chat specific
   const deleteMsg = async () => {
-    const data = await deleteMessage(_id);
-    let msg = props.msg;
-    msg.action = "delete";
-    msg.updateType = "message update";
-    emitUpdate(selectedcomm._id, msg, async (err, status) => {
-      if (err) {
-        console.log(err);
-      }
-      let { ok } = status;
-      if (ok) {
-      }
-    });
+    if (chatType == "gather") {
+      deleteConversation();
+    } else {
+      const data = await deleteMessage(_id);
+      let msg = props.msg;
+      msg.action = "delete";
+      msg.updateType = "message update";
+      emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        if (err) {
+          console.log(err);
+        }
+        let { ok } = status;
+        if (ok) {
+        }
+      });
+    }
   };
   const updateMsg = async () => {
     let msg = props.msg;
@@ -107,6 +114,37 @@ const ChatSingleMessage = (props) => {
       }
     });
   };
+
+  // gather/conversation specific
+  const updateConversation = async () => {
+    let msg = props.msg;
+    const data = await updateConversationMessage(msg);
+    msg.updateType = "conversation message update";
+    msg.action = "update";
+    emitUpdate(selectedcomm._id, msg, async (err, status) => {
+      if (err) {
+        console.log(err);
+      }
+      let { ok } = status;
+      if (ok) {
+      }
+    });
+  };
+  const deleteConversation = async () => {
+    const data = await deleteConversationMessage(_id);
+    let msg = props.msg;
+    msg.action = "delete";
+    msg.updateType = "conversation message update";
+    emitUpdate(selectedcomm._id, msg, async (err, status) => {
+      if (err) {
+        console.log(err);
+      }
+      let { ok } = status;
+      if (ok) {
+      }
+    });
+  };
+
   const editBarSelection = () => {
     editMessageText(props.msg);
   };
@@ -140,17 +178,26 @@ const ChatSingleMessage = (props) => {
     }
     return timeStamp;
   };
-
+  const toggleEdit = (show) => {
+    if (show) {
+      setShowEditBar(_id);
+    } else {
+      setShowEditBar("");
+    }
+  };
   const triggerPicker = (e) => {
     e.preventDefault();
     setEmojiPicker(!emojiPickerState);
   };
   const addEmoji = (e) => {
     reactions.push(e.native);
-    updateMsg();
     setEmojiPicker(!emojiPickerState);
+    if (chatType == "gather") {
+      updateConversation();
+    } else {
+      updateMsg();
+    }
   };
-
   const EmojiPicker = () => {
     if (emojiPickerState) {
       return (
@@ -215,7 +262,6 @@ const ChatSingleMessage = (props) => {
 
     return null;
   };
-
   const wrapLink = (innerHtml, urlRegex) => {
     let rawurl = "";
     let replacedURL = innerHtml.replace(urlRegex, function (url) {
@@ -235,7 +281,6 @@ const ChatSingleMessage = (props) => {
 
     return { rawURL: rawurl, alteredURL: replacedURL };
   };
-
   const replaceURLs = async () => {
     let messageBody = document.getElementById(`message-content${messageID}`);
     let innerHtml = message;
@@ -284,6 +329,7 @@ const ChatSingleMessage = (props) => {
   };
 
   let timeStamp = getTimeStamp();
+
   return (
     <div
       className={styles.SingleMessage}
