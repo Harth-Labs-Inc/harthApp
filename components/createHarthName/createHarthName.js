@@ -73,6 +73,7 @@ export default function CreateHarthName({
                         placeholder={placeholder}
                         type="text"
                         className={styles.textEntry}
+                        autocomplete="off"
                     />
                     {errors.harthName ? (
                         <ErrorMessage errorMsg="You must set a Harth name to begin." />

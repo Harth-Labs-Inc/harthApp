@@ -36,6 +36,7 @@ const TopicEditModal = ({ setHidden, topic, submitTopicChange }) => {
                     onChange={nameChangeHandler}
                     required
                     className={styles.textEntry}
+                    autocomplete="off"
                 />
                 <div className={styles.buttonBar}>
                     <Button

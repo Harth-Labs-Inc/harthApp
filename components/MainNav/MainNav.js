@@ -78,7 +78,7 @@ const MainNav = (props) => {
             <img className={styles.MainNavHarthButtonImage} src={selectedcomm?.iconKey} />
           </button>
         ) : (
-          <div style={{ width: 240 }}>
+          <div style={{ minWidth: 240 }}>
             <button
               className={styles.MainNavHarthButton}
               onClick={handleHarthMenu}

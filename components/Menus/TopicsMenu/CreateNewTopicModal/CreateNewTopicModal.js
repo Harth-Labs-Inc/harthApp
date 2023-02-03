@@ -94,6 +94,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
             {...register("topicName", { required: true })}
             placeholder="Topic name"
             type="text"
+            autocomplete="off"
           />
           <ErrorMessage
             errorMsg={

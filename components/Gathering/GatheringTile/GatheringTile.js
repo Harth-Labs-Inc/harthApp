@@ -143,6 +143,7 @@ export const GatheringTile = (props) => {
             </button>
           ) : null}
           {/* <EditGathering onPress={pressing}/> */}
+
           <GatheringTileControls
             isInRoom={isInRoom}
             cardType={cardType}
