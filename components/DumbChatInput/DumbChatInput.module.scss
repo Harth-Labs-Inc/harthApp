@@ -1,0 +1,201 @@
+@import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
+
+#ChatInput {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+    margin: 8px 0px 0px 0px;
+    //background-color: bisque;
+
+    .imageBar {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        column-gap: 8px;
+        row-gap: 8px;
+        justify-content: flex-start;
+        width: auto;
+        background: $hot_pink_20;
+        padding: 8px;
+        border: 0;
+        border-bottom: 1px solid $fuel_50;
+
+        .imageContainer {
+            position: relative;
+
+            img {
+                position: relative;
+                border-radius: 12px;
+                height: 80px;
+                width: auto;
+                border: 1px solid $fuel;
+            }
+            button {
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 24px;
+                width: 24px;
+                padding: 3px;
+                border-top-left-radius: 0px;
+                border-top-right-radius: 12px;
+                border-bottom-right-radius: 0px;
+                border-bottom-left-radius: 12px;
+                border: 0;
+                background-color: $fuel;
+                z-index: 1;
+                cursor: pointer;
+
+                path {
+                    fill: $oxygen;
+                }
+            }
+        }
+    }
+
+    &Text {
+        resize: none;
+        display: block;
+        width: 100%;
+        min-height: 40px;
+        height: 40px;
+        max-height: 50vh;
+        margin: 0;
+        padding: 8px 12px;
+        @include contentR2;
+        //background: aqua;
+        border: 0;
+    }
+
+    .entryBox {
+        background-color: $light_ash;
+        border: 1px solid $fuel_50;
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    &Controls {
+        display: flex;
+        justify-content: space-between;
+        padding: 0px;
+
+        &Right,
+        &Left {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            column-gap: 12px;
+
+            > button {
+                position: relative;
+                margin: 0 0px;
+                height: 28px;
+                width: 28px;
+                padding: 4px;
+                background-color: transparent;
+                border-radius: 4px;
+                border: 0px;
+                cursor: pointer;
+
+                path {
+                    fill: $fuel_50;
+                }
+
+                &Mobile {
+                    height: 40px;
+                    width: 40px;
+                    padding: 8px;
+                }
+
+                &:hover {
+                    background-color: $fuel_10;
+                    path {
+                        fill: $fuel;
+                    }
+                }
+
+                &.SendActive {
+                    border: 1px solid $fuel_10;
+                    path {
+                        fill: $hot_pink;
+                    }
+                }
+
+                &:before {
+                    @include x-y-center;
+                    color: $fuel_50;
+                    font-size: 16px;
+                }
+
+                // &.AttachEmoji {
+                //   &:before {
+                //     @include font-icon($icon-emoji);
+                //   }
+                // }
+                // &.AttachGif {
+                //   &:before {
+                //     @include font-icon($icon-gif);
+                //   }
+                // }
+                // &.AttachFile {
+                //   &:before {
+                //     @include font-icon($icon-upload);
+                //   }
+                // }
+                // &.CancelEdit {
+                //   &:before {
+                //     @include font-icon($icon-cancel);
+                //   }
+                // }
+                &.SendMessage {
+                    &:before {
+                        //@include font-icon($icon-check-circle);
+                        color: red;
+                    }
+                    &:not(:disabled) {
+                        &:before {
+                            color: $orange;
+                        }
+                    }
+                }
+            }
+        }
+
+        .input-style-wrapper {
+            button {
+                font-family: "Times New Roman", Times, serif;
+                font-size: 18px;
+            }
+            .style-bold {
+                font-weight: bold;
+            }
+            .style-italic {
+                font-style: italic;
+            }
+            .style-strike {
+                text-decoration: line-through;
+            }
+        }
+    }
+
+    .EmojiPicker {
+        position: absolute;
+        bottom: 100%;
+        z-index: 1;
+
+        #root {
+            background-color: $fuel;
+        }
+    }
+
+    .giphy-grid {
+        position: absolute;
+        bottom: 0;
+        z-index: 1;
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+}

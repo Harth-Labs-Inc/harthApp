@@ -5,6 +5,10 @@ import {
   updatedTopic,
   updateHarthData,
 } from "../requests/community";
+import {
+  getConversations,
+  getConversationMessages,
+} from "../requests/conversations";
 import { getRooms } from "../requests/rooms";
 import { useAuth } from "./auth";
 
@@ -18,6 +22,16 @@ export const CommsProvider = ({ children }) => {
   const [selectedTopic, setSelectedTopic] = useState({});
   const [topicChange, setTopicChange] = useState(0);
   const [profile, setProfile] = useState(null);
+
+  const [conversations, setConversations] = useState(null);
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [conversationMessages, setConversationMessages] = useState({});
+  const [incomingConversationMsg, setIncomingConversationMsg] = useState({});
+  const [incomingConversationMsgUpdate, setIncomingConversationMsgUpdate] =
+    useState({});
+
+  const [unreadConversationMsg, setUnreadConversationMsg] = useState({});
+  const [unreadConversationMsgs, setUnreadConversationMsgs] = useState([]);
 
   const { user } = useAuth();
   const { incomingTopic } = useAuth();
@@ -43,8 +57,8 @@ export const CommsProvider = ({ children }) => {
       setTopicChange(0);
       grabTopics(selectedcomm._id);
       grabRooms(selectedcomm._id);
+      fetchConversations();
       if (user) {
-        console.log(selectedcomm, "sssssssssss");
         let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
         if (creator) setProfile(creator);
       }
@@ -54,6 +68,26 @@ export const CommsProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("selected_topic", JSON.stringify(selectedTopic));
   }, [selectedTopic]);
+
+  useEffect(() => {
+    if (selectedConversation) {
+      grabConversationMessages();
+    }
+  }, [selectedConversation]);
+
+  const grabConversationMessages = async () => {
+    const sortMessages = (msgs) => {
+      return msgs.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
+    };
+    let results = await getConversationMessages(selectedConversation);
+    const { ok, fetchResults } = results;
+    if (ok) {
+      setConversationMessages({
+        ...conversationMessages,
+        [selectedConversation._id]: sortMessages(fetchResults),
+      });
+    }
+  };
 
   const refetchComms = async (newCom) => {
     return new Promise((resolve) => {
@@ -148,7 +182,6 @@ export const CommsProvider = ({ children }) => {
       run();
     });
   };
-
   const grabTopics = async (comid) => {
     let result = await getTopics(comid, user._id);
     const { ok, topics } = result;
@@ -242,6 +275,22 @@ export const CommsProvider = ({ children }) => {
       }
     }
   };
+  const fetchConversations = async () => {
+    let result = await getConversations(selectedcomm._id, user._id);
+    const { ok, conversations } = result;
+    console.log(result);
+    if (ok) {
+      setConversations(conversations);
+      setSelectedConversation(conversations[0] || {});
+    }
+    console.log(conversations);
+    return;
+  };
+  const setUnreadConversationMessagesHandler = (incomingMsg) => {
+    if (incomingMsg.userIDS?.includes(user?._id || "")) {
+      setIncomingConversationMsg(incomingMsg);
+    }
+  };
 
   return (
     <CommsContext.Provider
@@ -266,6 +315,22 @@ export const CommsProvider = ({ children }) => {
         topicChangeHandler,
         setTopics,
         setSelectedTopic,
+        setConversations,
+        conversations,
+        selectedConversation,
+        setSelectedConversation,
+        setConversationMessages,
+        conversationMessages,
+        fetchConversations,
+        setUnreadConversationMsgs,
+        setUnreadConversationMsg,
+        setIncomingConversationMsg,
+        unreadConversationMsgs,
+        unreadConversationMsg,
+        incomingConversationMsg,
+        setUnreadConversationMessagesHandler,
+        setIncomingConversationMsgUpdate,
+        incomingConversationMsgUpdate,
       }}
     >
       {children}
