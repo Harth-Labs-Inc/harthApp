@@ -184,8 +184,8 @@ const dashboard = (props) => {
               ) : null}
               {showInviteAcceptModal ? (
                 <HarthInviteAcceptModal
-                  talkingHeadMsg="An invitation arrives. Do you accept?"
-                  footer="You have been invited to join this harth by [profile name]"
+                  talkingHeadMsg="You have been invited to join a new härth"
+                  footer="Remember to be safe and only accept invites from people that you know."
                   submitText="Accept Invite"
                   submitHandler={goodInviteHandler}
                   tkn={tkn || inviteTKN || ""}
@@ -199,7 +199,7 @@ const dashboard = (props) => {
                 <CreateHarthProfile
                   header="harth"
                   talkingHeadMsg="And by what name would you like to be known"
-                  footer="Set your name and profile pic for this harth. You can change these at any time"
+                  footer="Set your name and profile pic for this härth. You can change these at any time"
                   placeholder={`${"First Name"}`}
                   submitText="Join"
                   submitHandler={resetNewInviteHarth}

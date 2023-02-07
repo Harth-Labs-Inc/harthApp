@@ -59,6 +59,9 @@
 
         }
         .Desktop & {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
             @include harthTitle1;
             color: $oxygen;
             padding: 6px 6px;
@@ -73,8 +76,25 @@
             cursor: pointer;
             white-space: nowrap;
 
+            .icon {
+                width: 18px;
+                height: 18px;
+                margin-left: 2px;
+                margin-bottom: 24px;
+                path {
+                    fill: transparent;
+                }
+            }
+
+
             &:hover {
                 background-color: $oxygen_10;
+
+                .icon {
+                    path {
+                        fill: $oxygen_80;
+                    }
+                }
             }
         }
     }
@@ -231,6 +251,8 @@
 
 
     }
+
+
     &.Desktop {
         height: 60px;
         padding: 0px 0px 0px 0px;

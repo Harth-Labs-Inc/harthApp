@@ -1,3 +1,6 @@
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
+
 .MobileChatHeader {
     position: absolute;
     top: 0;
@@ -7,20 +10,37 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 4px 16px;
+    padding: 8px 16px;
     background-image: linear-gradient(
         180deg,
-        #f8f8f8 0%,
-        rgba(248, 248, 248, 0.5) 100%
+        $oxygen,
+        90%,
+        $oxygen_5,
     );
-    backdrop-filter: blur(12px);
+    @include rubik;
+    color: $fuel;
+    font-size: 14px;
+    font-weight: 500;
+    //backdrop-filter: blur(12px);
 
     button {
-        height: 40px;
-        width: 40px;
+        height: 44px;
+        width: 44px;
+        border-radius: 999px;
         margin: 0;
         padding: 8px;
         background-color: transparent;
         border: 0;
+        outline: 0;
+
+
+        path {
+            fill: $fuel;
+        }
+
+        &:hover {
+            background-color: $fuel_10;
+        }
+
     }
 }

@@ -1,0 +1,71 @@
+@import '../../styles/fonts.scss';
+@import '../../styles/globals.scss';
+
+
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    width: 100%;
+    row-gap: 16px;
+
+    .title {
+        @include overlayMenuTitle;
+        width: 100%;
+        text-align: center;
+        margin-top: 8px;
+        margin-bottom: 24px;
+    }
+
+    .harthHolder{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 24px;
+        margin-top: -56px;
+
+        img {
+            position: relative;
+            width: 72px;
+            height: 72px;
+            border-radius: 8px;
+            border: 1px solid $fuel_10;
+        }
+
+        .harthTitle {
+            position: relative;
+            @include asap;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    }
+    
+
+   
+    
+
+    .footer {
+        @include rubik;
+        width: 100%;
+        padding: 0px 32px;
+        font-size: 14px;
+        text-align: center;
+        flex-wrap: wrap;
+    }
+
+
+    .buttonBar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 98%;
+        gap: 16px;
+        margin-top: 32px;
+        margin-bottom: 16px;
+
+    }
+
+    
+}
