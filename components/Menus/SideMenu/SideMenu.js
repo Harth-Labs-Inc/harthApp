@@ -7,8 +7,8 @@ import { user } from "../../../contexts/auth";
 import { updateHarthData } from "../../../requests/community";
 import { Modal } from "../../Common";
 import HarthEditModal from "../../HarthEditModal";
-import HarthDeleteModal from "../../HarthDeleteModal";
-import HarthLeaveModal from "../../HarthLeaveModal";
+import HarthDeleteModal from "../HarthSettings/HarthDeleteModal";
+import HarthLeaveModal from "../HarthSettings/HarthLeaveModal";
 
 import { deleteHarthByID, leaveHarthByID } from "../../../requests/community";
 import { MobileContext } from "../../../contexts/mobile";
@@ -22,224 +22,224 @@ import styles from "./SideMenu.module.scss";
 import HarthList from "../HarthList/HarthList";
 
 const SideNav = (props) => {
-  const { menuOpen, onToggleMenu, setShowCreateHarthNameModal } = props;
-  const [ShowSettingsNav, setShowSettingsNav] = useState(false);
-  const [openEditHarthMenu, setOpenEditHarthMenu] = useState(null);
-  const [showRenameHarthModal, setShowRenameHarthModal] = useState(false);
-  const [showDeleteHarthModal, setShowDeleteHarthModal] = useState(false);
-  const [showLeaveHarthModal, setShowLeaveHarthModal] = useState(false);
+    const { menuOpen, onToggleMenu, setShowCreateHarthNameModal } = props;
+    const [ShowSettingsNav, setShowSettingsNav] = useState(false);
+    const [openEditHarthMenu, setOpenEditHarthMenu] = useState(null);
+    const [showRenameHarthModal, setShowRenameHarthModal] = useState(false);
+    const [showDeleteHarthModal, setShowDeleteHarthModal] = useState(false);
+    const [showLeaveHarthModal, setShowLeaveHarthModal] = useState(false);
 
-  const { isMobile } = useContext(MobileContext);
-  const { user } = useAuth();
-  const { comms, setComm, selectedcomm, setTopic, updateSelectedHarth } =
-    useComms();
-  const { unreadMsgs, emitUpdate } = useSocket();
+    const { isMobile } = useContext(MobileContext);
+    const { user } = useAuth();
+    const { comms, setComm, selectedcomm, setTopic, updateSelectedHarth } =
+        useComms();
+    const { unreadMsgs, emitUpdate } = useSocket();
 
-  let leftNav = useRef();
+    let leftNav = useRef();
 
-  const changeSelectedCom = (com) => {
-    setComm(com);
-    setTopic({});
-    onToggleMenu();
-  };
-  const toggleSettingsNav = () => {
-    setShowSettingsNav(!ShowSettingsNav);
-  };
-  const DisplaySettingsNav = () => {
-    if (ShowSettingsNav) {
-      return (
-        <SideModal onToggleModal={toggleSettingsNav}>
-          <SettingsMenu />
-        </SideModal>
-      );
-    }
-    return null;
-  };
-  const toggleHarthEditModal = ({ harth, pos }) => {
-    setOpenEditHarthMenu({ harth, pos });
-  };
-  const closeHarthEditModal = () => {
-    if (
-      !showRenameHarthModal &&
-      !showDeleteHarthModal &&
-      !showLeaveHarthModal
-    ) {
-      setOpenEditHarthMenu(null);
-    }
-  };
-  const onMuteHandler = async () => {
-    await updateSelectedHarth({
-      newHarth: {
-        ...openEditHarthMenu.harth,
-        users: [
-          ...(openEditHarthMenu.harth.users || []).map((usr) => {
-            if (usr.userId == user._id) {
-              return {
-                ...usr,
-                muted: !usr.muted,
-              };
-            } else {
-              return usr;
+    const changeSelectedCom = (com) => {
+        setComm(com);
+        setTopic({});
+        onToggleMenu();
+    };
+    const toggleSettingsNav = () => {
+        setShowSettingsNav(!ShowSettingsNav);
+    };
+    const DisplaySettingsNav = () => {
+        if (ShowSettingsNav) {
+            return (
+                <SideModal onToggleModal={toggleSettingsNav}>
+                    <SettingsMenu />
+                </SideModal>
+            );
+        }
+        return null;
+    };
+    const toggleHarthEditModal = ({ harth, pos }) => {
+        setOpenEditHarthMenu({ harth, pos });
+    };
+    const closeHarthEditModal = () => {
+        if (
+            !showRenameHarthModal &&
+            !showDeleteHarthModal &&
+            !showLeaveHarthModal
+        ) {
+            setOpenEditHarthMenu(null);
+        }
+    };
+    const onMuteHandler = async () => {
+        await updateSelectedHarth({
+            newHarth: {
+                ...openEditHarthMenu.harth,
+                users: [
+                    ...(openEditHarthMenu.harth.users || []).map((usr) => {
+                        if (usr.userId == user._id) {
+                            return {
+                                ...usr,
+                                muted: !usr.muted,
+                            };
+                        } else {
+                            return usr;
+                        }
+                    }),
+                ],
+            },
+        });
+        closeHarthEditModal();
+    };
+    const onRenameHandler = () => {
+        setShowRenameHarthModal(true);
+    };
+    const onCloseRenameModal = () => {
+        setShowRenameHarthModal(false);
+    };
+    const submitHarthChangeHandler = async (newHarth) => {
+        console.log(newHarth);
+
+        await updateHarthData(newHarth);
+        let msg = {};
+        msg.updateType = "harth edited";
+        msg.comm = newHarth;
+        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+            if (err) {
             }
-          }),
-        ],
-      },
-    });
-    closeHarthEditModal();
-  };
-  const onRenameHandler = () => {
-    setShowRenameHarthModal(true);
-  };
-  const onCloseRenameModal = () => {
-    setShowRenameHarthModal(false);
-  };
-  const submitHarthChangeHandler = async (newHarth) => {
-    console.log(newHarth);
+            setShowRenameHarthModal(false);
+            setOpenEditHarthMenu(null);
+        });
+    };
+    const onDeleteHandler = () => {
+        setShowDeleteHarthModal(true);
+    };
+    const onCloseDeleteModal = () => {
+        setShowDeleteHarthModal(false);
+    };
+    const submitHarthDeleteHandler = async (newHarth) => {
+        console.log(newHarth);
+        await deleteHarthByID(newHarth._id);
+        let msg = {};
+        msg.updateType = "harth deleted";
+        msg.comm = newHarth;
+        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+            if (err) {
+                console.log(err);
+            }
+            setShowDeleteHarthModal(false);
+            setOpenEditHarthMenu(null);
+        });
+    };
+    const onLeaveHandler = () => {
+        setShowLeaveHarthModal(true);
+    };
+    const onCloseLeaveModal = () => {
+        setShowLeaveHarthModal(false);
+    };
 
-    await updateHarthData(newHarth);
-    let msg = {};
-    msg.updateType = "harth edited";
-    msg.comm = newHarth;
-    emitUpdate(selectedcomm._id, msg, async (err, status) => {
-      if (err) {
-      }
-      setShowRenameHarthModal(false);
-      setOpenEditHarthMenu(null);
-    });
-  };
-  const onDeleteHandler = () => {
-    setShowDeleteHarthModal(true);
-  };
-  const onCloseDeleteModal = () => {
-    setShowDeleteHarthModal(false);
-  };
-  const submitHarthDeleteHandler = async (newHarth) => {
-    console.log(newHarth);
-    await deleteHarthByID(newHarth._id);
-    let msg = {};
-    msg.updateType = "harth deleted";
-    msg.comm = newHarth;
-    emitUpdate(selectedcomm._id, msg, async (err, status) => {
-      if (err) {
-        console.log(err);
-      }
-      setShowDeleteHarthModal(false);
-      setOpenEditHarthMenu(null);
-    });
-  };
-  const onLeaveHandler = () => {
-    setShowLeaveHarthModal(true);
-  };
-  const onCloseLeaveModal = () => {
-    setShowLeaveHarthModal(false);
-  };
+    const submitHarthLeaveHandler = async (newHarth) => {
+        console.log(newHarth);
+        await leaveHarthByID({ harth: newHarth, user });
+        let msg = {};
+        msg.updateType = "harth deleted";
+        msg.comm = newHarth;
+        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+            if (err) {
+                console.log(err);
+            }
+            setShowLeaveHarthModal(false);
+            setOpenEditHarthMenu(null);
+        });
+    };
 
-  const submitHarthLeaveHandler = async (newHarth) => {
-    console.log(newHarth);
-    await leaveHarthByID({ harth: newHarth, user });
-    let msg = {};
-    msg.updateType = "harth deleted";
-    msg.comm = newHarth;
-    emitUpdate(selectedcomm._id, msg, async (err, status) => {
-      if (err) {
-        console.log(err);
-      }
-      setShowLeaveHarthModal(false);
-      setOpenEditHarthMenu(null);
-    });
-  };
+    if (isMobile) {
+        return;
+    }
 
-  if (isMobile) {
-    return;
-  }
+    return (
+        <>
+            {showDeleteHarthModal ? (
+                <Modal onToggleModal={() => {}}>
+                    <HarthDeleteModal
+                        submitHarthChange={submitHarthDeleteHandler}
+                        hidden={!showDeleteHarthModal}
+                        setHidden={onCloseDeleteModal}
+                        harth={{
+                            ...(openEditHarthMenu?.harth || {}),
+                        }}
+                    />
+                </Modal>
+            ) : null}
+            {showLeaveHarthModal ? (
+                <Modal onToggleModal={() => {}}>
+                    <HarthLeaveModal
+                        submitHarthChange={submitHarthLeaveHandler}
+                        hidden={!showLeaveHarthModal}
+                        setHidden={onCloseLeaveModal}
+                        harth={{
+                            ...(openEditHarthMenu?.harth || {}),
+                        }}
+                    />
+                </Modal>
+            ) : null}
+            {showRenameHarthModal ? (
+                <Modal onToggleModal={() => {}}>
+                    <HarthEditModal
+                        submitHarthChangeHandler={submitHarthChangeHandler}
+                        hidden={!showRenameHarthModal}
+                        setHidden={onCloseRenameModal}
+                        harth={{
+                            ...(openEditHarthMenu?.harth || {}),
+                        }}
+                    />
+                </Modal>
+            ) : null}
 
-  return (
-    <>
-      {showDeleteHarthModal ? (
-        <Modal onToggleModal={() => {}}>
-          <HarthDeleteModal
-            submitHarthChange={submitHarthDeleteHandler}
-            hidden={!showDeleteHarthModal}
-            setHidden={onCloseDeleteModal}
-            harth={{
-              ...(openEditHarthMenu?.harth || {}),
-            }}
-          />
-        </Modal>
-      ) : null}
-      {showLeaveHarthModal ? (
-        <Modal onToggleModal={() => {}}>
-          <HarthLeaveModal
-            submitHarthChange={submitHarthLeaveHandler}
-            hidden={!showLeaveHarthModal}
-            setHidden={onCloseLeaveModal}
-            harth={{
-              ...(openEditHarthMenu?.harth || {}),
-            }}
-          />
-        </Modal>
-      ) : null}
-      {showRenameHarthModal ? (
-        <Modal onToggleModal={() => {}}>
-          <HarthEditModal
-            submitHarthChangeHandler={submitHarthChangeHandler}
-            hidden={!showRenameHarthModal}
-            setHidden={onCloseRenameModal}
-            harth={{
-              ...(openEditHarthMenu?.harth || {}),
-            }}
-          />
-        </Modal>
-      ) : null}
-
-      {openEditHarthMenu ? (
-        <CustomHarthContextMenu
-          user={user}
-          harth={openEditHarthMenu.harth}
-          pos={openEditHarthMenu.pos}
-          closeModal={closeHarthEditModal}
-          onMuteHandler={onMuteHandler}
-          onRenameHandler={onRenameHandler}
-          onDeleteHandler={onDeleteHandler}
-          onLeaveHandler={onLeaveHandler}
-        />
-      ) : null}
-      <DisplaySettingsNav />
-      <aside
-        id="left_nav"
-        className={`${styles.SideNav} ${styles.Desktop}  ${
-          menuOpen ? "active" : ""
-        }`}
-        ref={leftNav}
-      >
-        <div className={styles.titleHolder}>
-          <button
-            className={styles.SettingsButton}
-            onClick={toggleSettingsNav}
-            aria-label="Toggle Settings menu"
-          >
-            <HarthLogoLight />
-          </button>
-        </div>
-        <HarthList
-          comms={comms}
-          selectedcomm={selectedcomm}
-          unreadMsgs={unreadMsgs}
-          toggleCreateComm={setShowCreateHarthNameModal}
-          changeSelectedCom={changeSelectedCom}
-          toggleHarthEditModal={toggleHarthEditModal}
-        />
-        <div className={styles.bottomHolder}>
-          <button
-            className={styles.addHarthButton}
-            onClick={setShowCreateHarthNameModal}
-          >
-            <IconAdd />
-          </button>
-        </div>
-      </aside>
-    </>
-  );
+            {openEditHarthMenu ? (
+                <CustomHarthContextMenu
+                    user={user}
+                    harth={openEditHarthMenu.harth}
+                    pos={openEditHarthMenu.pos}
+                    closeModal={closeHarthEditModal}
+                    onMuteHandler={onMuteHandler}
+                    onRenameHandler={onRenameHandler}
+                    onDeleteHandler={onDeleteHandler}
+                    onLeaveHandler={onLeaveHandler}
+                />
+            ) : null}
+            <DisplaySettingsNav />
+            <aside
+                id="left_nav"
+                className={`${styles.SideNav} ${styles.Desktop}  ${
+                    menuOpen ? "active" : ""
+                }`}
+                ref={leftNav}
+            >
+                <div className={styles.titleHolder}>
+                    <button
+                        className={styles.SettingsButton}
+                        onClick={toggleSettingsNav}
+                        aria-label="Toggle Settings menu"
+                    >
+                        <HarthLogoLight />
+                    </button>
+                </div>
+                <HarthList
+                    comms={comms}
+                    selectedcomm={selectedcomm}
+                    unreadMsgs={unreadMsgs}
+                    toggleCreateComm={setShowCreateHarthNameModal}
+                    changeSelectedCom={changeSelectedCom}
+                    toggleHarthEditModal={toggleHarthEditModal}
+                />
+                <div className={styles.bottomHolder}>
+                    <button
+                        className={styles.addHarthButton}
+                        onClick={setShowCreateHarthNameModal}
+                    >
+                        <IconAdd />
+                    </button>
+                </div>
+            </aside>
+        </>
+    );
 };
 
 export default SideNav;

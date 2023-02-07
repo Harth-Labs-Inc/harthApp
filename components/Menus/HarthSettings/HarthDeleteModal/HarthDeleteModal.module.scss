@@ -1,49 +1,57 @@
-@import '../../styles/fonts.scss';
-@import '../../styles/globals.scss';
-
-
+@import "../../../../styles/fonts.scss";
+@import "../../../../styles/globals.scss";
 
 .mainContainer {
     display: flex;
+    align-items: center;
     flex-direction: column;
+    justify-content: center;
     min-width: 300px;
     row-gap: 24px;
 
     .title {
         @include overlayMenuTitle;
         width: 100%;
-        text-align: left;
+        text-align: center;
         margin-top: 8px;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
     }
 
-    .textEntry {
+    .harthImage {
+        height: 56px;
+        width: 56px;
+        border-radius: 6px;
+    }
+    .harthName {
+        font-weight: 500;
+    }
+
+    .text {
         width: 90%;
+        text-align: center;
     }
 
     .form {
         display: flex;
-        flex-direction: column;
         align-items: center;
+        justify-content: flex-end;
     }
 
     .harthTitle {
         position: relative;
-        margin-top: 4px;      
+        margin-top: 4px;
         @include contentR3;
     }
-    
 
     .buttonBar {
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
-        width: 98%;
+        align-items: flex-end;
         column-gap: 8px;
         margin-top: 40px;
 
         .cancelButton {
-             width: 96px;
+            width: 96px;
             // min-width: 88px;
         }
 
@@ -51,10 +59,4 @@
             width: 100%;
         }
     }
-
-    
 }
-
-
-
-
