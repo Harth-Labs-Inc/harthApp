@@ -29,6 +29,7 @@ const GatherControlBar = (props) => {
     changeVideoDevice,
     unreadMsg,
     roomId,
+    userInfo,
   } = props;
   const [modal, setModal] = useState();
   const [showDiceModal, setShowDiceModal] = useState();
@@ -80,6 +81,8 @@ const GatherControlBar = (props) => {
     }
   };
 
+  console.log(userInfo, "userInfouserInfouserInfo");
+
   return (
     <>
       <div className="conditionals">
@@ -105,33 +108,33 @@ const GatherControlBar = (props) => {
         <header className={styles.mobile}>
           {roomType == "voice" && <div className={styles.spacerLarge} />}
           {roomType == "party" && <BagButton isMobile={true} />}
-          {roomType != "voice" && 
+          {roomType != "voice" && (
             <CameraButton
               onPress={onToggleVideo}
               videoList={videoList}
               changeVideoDevice={changeVideoDevice}
               clearVideoList={() => setVideoList(null)}
-              isMobile = {true}
+              isMobile={true}
             />
-          }
+          )}
           <MicButton
             onPress={onToggleAudio}
             audioList={audioList}
             changeAudioDevice={changeAudioDevice}
             clearAudioList={() => setAudioList(null)}
-            isMobile = {true}
+            isMobile={true}
           />
-          {roomType != "voice" && 
+          {roomType != "voice" && (
             <StreamButton
               onPress={onToggleScreenShare}
               show={captureIsActice}
-              isMobile = {true}
+              isMobile={true}
             />
-          }
+          )}
           <ChatButton
             unreadMsg={unreadMsg}
             onPress={onToggleChat}
-            isMobile = {true}
+            isMobile={true}
           />
         </header>
       ) : (
@@ -147,6 +150,7 @@ const GatherControlBar = (props) => {
                     videoList={videoList}
                     changeVideoDevice={changeVideoDevice}
                     clearVideoList={() => setVideoList(null)}
+                    isOn={userInfo?.video}
                   />
                 </div>
                 <div className={styles.moreButton}>
@@ -163,6 +167,7 @@ const GatherControlBar = (props) => {
                     audioList={audioList}
                     changeAudioDevice={changeAudioDevice}
                     clearAudioList={() => setAudioList(null)}
+                    isOn={userInfo?.audio}
                   />
                 </div>
                 <div className={styles.moreButton}>
@@ -175,6 +180,7 @@ const GatherControlBar = (props) => {
               <StreamButton
                 onPress={onToggleScreenShare}
                 show={captureIsActice}
+                isOn={userInfo?.screenShare}
               />
               {roomType == "party" && (
                 <BagButton
@@ -194,13 +200,10 @@ const GatherControlBar = (props) => {
             </div>
           )}
 
-          {roomType == "voice" 
-            ? (<p className={styles.spacerSmall}></p>)
-            : (
-              <ChatButton
-                unreadMsg={unreadMsg}
-                onPress={onToggleChat}
-              />
+          {roomType == "voice" ? (
+            <p className={styles.spacerSmall}></p>
+          ) : (
+            <ChatButton unreadMsg={unreadMsg} onPress={onToggleChat} />
           )}
         </header>
       )}
