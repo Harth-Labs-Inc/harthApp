@@ -37,6 +37,8 @@ const Video = (props) => {
   } = useVideo();
   const { user } = useAuth();
 
+  console.log(socketID, "socketID");
+
   useEffect(() => {
     if (socketID) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
@@ -171,38 +173,34 @@ const Video = (props) => {
     );
   }
 
-    return (
-        <section id="gatherings" className={styles.gatheringPage}>
-            {newRoomToggled && (
-                <GatheringSchedule
-                    harthId={selectedcomm._id}
-                    harthName={selectedcomm.name}
-                    creator={selectedcomm.users.find(
-                        (usr) => usr.userId === user._id
-                    )}
-                    closeHandler={() => setNewRoomToggled(false)}
-                />
-            )}
-            <p className={styles.gatheringSection}>NOW</p>
-            <div className={styles.roomContainer}>
-                <GatheringCreate
-                    createRoomFormSubmit={createRoomFormSubmit}
-                    createScheduleRoom={triggerNewRoom}
-                />
-            </div>
-            <p className={styles.gatheringSection}>UPCOMING</p>
-            <div className={styles.roomContainer}>
-                <GatherLoading />
-                <GatherLoading />
-                <GatherLoading />
-                <GatherLoading />
-                <GatherLoading />
-                <GatherLoading />
-            </div>
-        </section>
-    );
-    
-    
+  return (
+    <section id="gatherings" className={styles.gatheringPage}>
+      {newRoomToggled && (
+        <GatheringSchedule
+          harthId={selectedcomm._id}
+          harthName={selectedcomm.name}
+          creator={selectedcomm.users.find((usr) => usr.userId === user._id)}
+          closeHandler={() => setNewRoomToggled(false)}
+        />
+      )}
+      <p className={styles.gatheringSection}>NOW</p>
+      <div className={styles.roomContainer}>
+        <GatheringCreate
+          createRoomFormSubmit={createRoomFormSubmit}
+          createScheduleRoom={triggerNewRoom}
+        />
+      </div>
+      <p className={styles.gatheringSection}>UPCOMING</p>
+      <div className={styles.roomContainer}>
+        <GatherLoading />
+        <GatherLoading />
+        <GatherLoading />
+        <GatherLoading />
+        <GatherLoading />
+        <GatherLoading />
+      </div>
+    </section>
+  );
 };
 
 export default Video;

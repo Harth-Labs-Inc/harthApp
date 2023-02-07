@@ -4,72 +4,56 @@ import { IconMuteMicFill } from "../../../resources/icons/IconMuteMicFill";
 import styles from "./gatheringButtons.module.scss";
 
 export const MicButton = (props) => {
-    const {
-        isMobile = false,
-        onPress,
-        audioList,
-        changeAudioDevice,
-        clearAudioList,
-    } = props;
-    const [buttonState, setButtonState] = useState("on");
+  const {
+    isMobile = false,
+    onPress,
+    audioList,
+    changeAudioDevice,
+    clearAudioList,
+    isOn,
+  } = props;
 
-    const toggleActive = () => {
-        if (buttonState == "muted") {
-            setButtonState("on");
-        } else {
-            setButtonState("muted");
-        }
-        onPress();
-    };
-
-    return (
-        <div className={styles.BagButton}>
-            {audioList ? (
-                <div className={styles.BagButtonOptions}>
-                    <div className={styles.BagButtonOptionsContainer}>
-                        {audioList.map((device) => {
-                            const { label, deviceId } = device;
-                            return (
-                                <button
-                                    key={deviceId}
-                                    onClick={() => {
-                                        clearAudioList();
-                                        changeAudioDevice(device);
-                                    }}
-                                >
-                                    {label}
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
-            ) : null}
-            <button
-                className={`
-                ${styles.basicButton} 
-                ${isMobile
-                        ? styles.basicButtonLarge
-                        : styles.basicButtonSmall
-                } 
-                ${
-                    buttonState == "on"
-                        ? styles.basicButtonInactive
-                        : styles.basicButtonMuted
-                }
-            `}
-                aria-label="Microphone"
-                onClick={toggleActive}
-            >
-                {buttonState == "on" ? (
-                    <div height="100%" width="100%">
-                        <IconMicFill hasGradient="true" />
-                    </div>
-                ) : (
-                    <div height="100%" width="100%">
-                        <IconMuteMicFill />
-                    </div>
-                )}
-            </button>
+  return (
+    <div className={styles.BagButton}>
+      {audioList ? (
+        <div className={styles.BagButtonOptions}>
+          <div className={styles.BagButtonOptionsContainer}>
+            {audioList.map((device) => {
+              const { label, deviceId } = device;
+              return (
+                <button
+                  key={deviceId}
+                  onClick={() => {
+                    clearAudioList();
+                    changeAudioDevice(device);
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
         </div>
-    );
+      ) : null}
+      <button
+        className={`
+                ${styles.basicButton} 
+                ${isMobile ? styles.basicButtonLarge : styles.basicButtonSmall} 
+                ${isOn ? styles.basicButtonInactive : styles.basicButtonMuted}
+            `}
+        aria-label="Microphone"
+        onClick={onPress}
+      >
+        {isOn ? (
+          <div height="100%" width="100%">
+            <IconMicFill hasGradient="true" />
+          </div>
+        ) : (
+          <div height="100%" width="100%">
+            <IconMuteMicFill />
+          </div>
+        )}
+      </button>
+    </div>
+  );
 };
