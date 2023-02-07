@@ -143,9 +143,8 @@
 
             &:hover {
                 color: $oxygen;
-                path {
-                    fill: $oxygen;
-                    stroke: $oxygen;
+                .iconHolder{
+                    background-color: $oxygen;
                 }
             }
         }

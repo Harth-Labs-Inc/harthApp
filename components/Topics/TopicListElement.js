@@ -59,12 +59,13 @@ const TopicListElement = (props) => {
     >
       <div className={styles.label}>{label}</div>
       {hasAlert && (
-        <div className={styles.alertProfiles}>
+        <div className={` 
+          ${styles.alertProfiles}
+          ${isMobile && styles.alertProfilesMobile}
+          `}
+        >
           {alertProfiles.map((e) => (
-            <Avatar
-              picSize={isMobile ? 36 : 28}
-              imageSrc={e?.creator_image}
-            />
+            <img src={e?.creator_image} />
           ))}
         </div>
       )}

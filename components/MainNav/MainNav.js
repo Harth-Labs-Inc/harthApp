@@ -6,6 +6,7 @@ import { IconForumNoFill } from "../../resources/icons/IconForumNoFill";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
+import { IconSettings } from "../../resources/icons/IconSettings";
 
 import styles from "./mainNav.module.scss";
 
@@ -85,6 +86,7 @@ const MainNav = (props) => {
               aria-label="Current Harth Settings"
             >
               {selectedcomm?.name}
+              <div className={styles.icon}><IconSettings /></div>
             </button>
           </div>
         )}

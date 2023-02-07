@@ -34,33 +34,26 @@ const ConversationListElement = (props) => {
                 className={`
                     ${styles.conversation} 
                     ${isMobile && styles.conversationMobile} 
-                    ${isActive && styles.conversationActive} 
+                    ${isActive ? styles.conversationActive : styles.conversationInActive} 
                     ${hasAlert && styles.conversationAlert} 
                     `}
                 onClick={toggleActive}
             >
-                <div
-                    className={`
-                        ${styles.indicatorBox} 
-                        ${isActive && styles.indicatorBoxActive} 
-                        `}
-                >
-                    {conversation.users?.map((e) => (
-                        <div
-                            key={e.userId}
-                            className={styles.participantElement}
-                        >
-                            <img
-                                className={`
-                                    ${styles.avatar} 
-                                    ${isMobile && styles.avatarMobile} 
-                                    `}
-                                src={e.iconKey}
-                            />
-                            <div className={styles.label}>{e.name}</div>
-                        </div>
-                    ))}
-                </div>
+                {conversation.users?.map((e) => (
+                    <div
+                        key={e.userId}
+                        className={styles.participantElement}
+                    >
+                        <img
+                            className={`
+                                ${styles.avatar} 
+                                ${isMobile && styles.avatarMobile} 
+                                `}
+                            src={e.iconKey}
+                        />
+                        <div className={styles.label}>{e.name}</div>
+                    </div>
+                ))}
             </button>
         </>
     );
