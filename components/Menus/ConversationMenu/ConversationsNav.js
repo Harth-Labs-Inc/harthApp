@@ -11,128 +11,122 @@ import CreateNewConversationModal from "./CreateNewConversationModal/CreateNewCo
 import styles from "./ConversationsNav.module.scss";
 
 const ConversationsNav = () => {
-    const [openConversationBuilder, setOpenConversationBuilder] =
-        useState(false);
-    const [showDeleteConversationModal, setShowDeleteConversationModal] =
-        useState(false);
+  const [openConversationBuilder, setOpenConversationBuilder] = useState(false);
+  const [showDeleteConversationModal, setShowDeleteConversationModal] =
+    useState(false);
 
-    const { isMobile } = useContext(MobileContext);
-    const { unreadMsgs, incomingConversation, emitUpdate } = useSocket();
-    const { user } = useAuth();
-    const { conversations, selectedConversation, setSelectedConversation } =
-        useComms();
+  const { isMobile } = useContext(MobileContext);
+  const { incomingConversation, emitUpdate } = useSocket();
+  const { user } = useAuth();
+  const { conversations, selectedConversation, setSelectedConversation } =
+    useComms();
 
-    useEffect(() => {}, [conversations]);
+  useEffect(() => {}, [conversations]);
 
-    const openCreateConversation = () => {
-        setOpenConversationBuilder((prevState) => !prevState);
-    };
-    const changeSelectedConversation = (conversation) => {
-        setSelectedConversation(conversation);
-    };
+  const openCreateConversation = () => {
+    setOpenConversationBuilder((prevState) => !prevState);
+  };
+  const changeSelectedConversation = (conversation) => {
+    setSelectedConversation(conversation);
+  };
 
-    return (
-        <>
-            {openConversationBuilder && (
-                <CreateNewConversationModal
-                    toggleModal={openCreateConversation}
-                />
-            )}
+  return (
+    <>
+      {openConversationBuilder && (
+        <CreateNewConversationModal toggleModal={openCreateConversation} />
+      )}
 
-            {showDeleteConversationModal ? (
-                <Modal onToggleModal={() => {}}>
-                    <ConversationDeleteModal
-                        submitConversationChange={
-                            submitConversationDeleteHandler
-                        }
-                        hidden={!showDeleteConversationModal}
-                        setHidden={onCloseDeleteModal}
-                        conversation={{
-                            ...(openEditConversationMenu?.conversation || {}),
-                        }}
-                    />
-                </Modal>
-            ) : null}
+      {showDeleteConversationModal ? (
+        <Modal onToggleModal={() => {}}>
+          <ConversationDeleteModal
+            submitConversationChange={submitConversationDeleteHandler}
+            hidden={!showDeleteConversationModal}
+            setHidden={onCloseDeleteModal}
+            conversation={{
+              ...(openEditConversationMenu?.conversation || {}),
+            }}
+          />
+        </Modal>
+      ) : null}
 
-            <aside
-                className={`
+      <aside
+        className={`
                 ${styles.ConversationsNav}
                 ${isMobile && styles.ConversationsNavMobile}
                 `}
+      >
+        <p className={styles.ConversationsNavTitle}>Conversations</p>
+        <div className={styles.ConversationsNavContainer}>
+          {conversations &&
+            conversations.map((conversation) => {
+              console.log(conversation);
+              let isActive = false;
+              let isShort = false;
+              let hasAlert = false;
+              let alertProfiles = [];
+              if (
+                (selectedConversation || {})._id == (conversation || {})._id
+              ) {
+                isActive = true;
+              }
+              // unreadMsgs.forEach((msg) => {
+              //     if (
+              //         msg.conversation_id === conversation._id &&
+              //         msg.creator_id !== user._id &&
+              //         (selectedConversation || {})._id !==
+              //             msg.conversation_id
+              //     ) {
+              //         let owner = conversation?.members.find(
+              //             (member) => member?.user_id === user._id
+              //         );
+              //         if (!owner || !owner.muted) {
+              //             hasAlert = true;
+              //             alertProfiles.push(msg);
+              //         }
+              //     }
+              // });
+
+              // if (conversation?.contentAge == "short") {
+              //     isShort = true;
+              // }
+              return (
+                <ConversationListElement
+                  clickHandler={changeSelectedConversation}
+                  key={conversation._id}
+                  conversation={conversation}
+                  isMobile={isMobile}
+                  hasAlert={hasAlert}
+                  alertProfiles={alertProfiles}
+                  isActive={isActive}
+                  isShort={isShort}
+                  label={conversation?.name}
+                  // toggleConversationEditModal={
+                  //     toggleConversationEditModal
+                  // }
+                />
+              );
+            })}
+
+          <div className={styles.ConversationsNavCreate}>
+            <button
+              className={
+                isMobile
+                  ? styles.ConversationsNavCreateMobileButton
+                  : styles.ConversationsNavCreateButton
+              }
+              id="create_conversation"
+              onClick={openCreateConversation}
             >
-                <p className={styles.ConversationsNavTitle}>Conversations</p>
-                <div className={styles.ConversationsNavContainer}>
-                    {conversations &&
-                        conversations.map((conversation) => {
-                            console.log(conversation);
-                            let isActive = false;
-                            let isShort = false;
-                            let hasAlert = false;
-                            let alertProfiles = [];
-                            if (
-                                (selectedConversation || {})._id ==
-                                (conversation || {})._id
-                            ) {
-                                isActive = true;
-                            }
-                            // unreadMsgs.forEach((msg) => {
-                            //     if (
-                            //         msg.conversation_id === conversation._id &&
-                            //         msg.creator_id !== user._id &&
-                            //         (selectedConversation || {})._id !==
-                            //             msg.conversation_id
-                            //     ) {
-                            //         let owner = conversation?.members.find(
-                            //             (member) => member?.user_id === user._id
-                            //         );
-                            //         if (!owner || !owner.muted) {
-                            //             hasAlert = true;
-                            //             alertProfiles.push(msg);
-                            //         }
-                            //     }
-                            // });
-
-                            // if (conversation?.contentAge == "short") {
-                            //     isShort = true;
-                            // }
-                            return (
-                                <ConversationListElement
-                                    clickHandler={changeSelectedConversation}
-                                    key={conversation._id}
-                                    conversation={conversation}
-                                    isMobile={isMobile}
-                                    hasAlert={hasAlert}
-                                    alertProfiles={alertProfiles}
-                                    isActive={isActive}
-                                    isShort={isShort}
-                                    label={conversation?.name}
-                                    // toggleConversationEditModal={
-                                    //     toggleConversationEditModal
-                                    // }
-                                />
-                            );
-                        })}
-
-                    <div className={styles.ConversationsNavCreate}>
-                        <button
-                            className={
-                                isMobile
-                                    ? styles.ConversationsNavCreateMobileButton
-                                    : styles.ConversationsNavCreateButton
-                            }
-                            id="create_conversation"
-                            onClick={openCreateConversation}
-                        >
-                            <div className={styles.iconHolder}>
-                                <IconAdd />
-                            </div>
-                            conversation
-                        </button>
-                    </div>
-                </div>
-            </aside>
-        </>
-    );
+              <div className={styles.iconHolder}>
+                <IconAdd />
+              </div>
+              conversation
+            </button>
+          </div>
+        </div>
+      </aside>
+    </>
+  );
 };
 
 export default ConversationsNav;

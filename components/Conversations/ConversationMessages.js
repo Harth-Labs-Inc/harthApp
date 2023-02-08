@@ -106,7 +106,6 @@ export const ConversationMessages = () => {
         let tempUnread = unreadConversationMsgs.filter(
           (msg) => !readIds.includes(msg._id)
         );
-        // setUnreadMsgs(tempUnread);
       }
       if (inview) {
         scrollToBottom("smooth");

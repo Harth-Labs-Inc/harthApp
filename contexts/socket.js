@@ -3,7 +3,11 @@ import io from "socket.io-client";
 import { useAuth } from "./auth";
 import { useComms } from "./comms";
 import { useChat } from "./chat";
-import { getTopics } from "../requests/community";
+import {
+  getTopics,
+  getExistingUnreadMessages,
+  saveUnsavedMessages,
+} from "../requests/community";
 import { getConversations } from "../requests/conversations";
 
 const SocketContext = createContext({});
@@ -16,7 +20,7 @@ export const SocketProvider = ({ children }) => {
   const [incomingTopic, setIncomingTopic] = useState({});
   const [incomingRoom, setIncomingRoom] = useState({});
   const [unreadMsg, setUnreadMsg] = useState({});
-  const [unreadMsgs, setUnreadMsgs] = useState([]);
+  const [unusedValue, triggerUpdate] = useState(0);
 
   const { user } = useAuth();
   const {
@@ -33,6 +37,7 @@ export const SocketProvider = ({ children }) => {
   } = useComms();
 
   const selectedHarthRef = useRef();
+  const unreadMessagesRef = useRef([]);
 
   useEffect(() => {
     if (user) {
@@ -57,6 +62,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (socket && user && comms) {
       join([...(comms || [])]);
+      getUnreadMessages(user);
 
       socket.on("error", function (err) {});
 
@@ -67,7 +73,16 @@ export const SocketProvider = ({ children }) => {
             setIncomingMsg(incomingUpdate);
             if (incomingUpdate.topic_id !== (selectedTopic || {})._id) {
               setUnreadMsg(incomingUpdate);
-              setUnreadMsgs([...unreadMsgs, incomingUpdate]);
+              let messages = unreadMessagesRef.current;
+              if (!messages) {
+                messages = [];
+              }
+              if (messages) {
+                messages = [...messages, incomingUpdate];
+              } else {
+                messages = [incomingUpdate];
+              }
+              setUnreadMessagesRef(messages);
             }
             break;
           case "message update":
@@ -158,6 +173,16 @@ export const SocketProvider = ({ children }) => {
     }
   }, [socket, comms, user]);
 
+  const getUnreadMessages = async (user) => {
+    let results = await getExistingUnreadMessages(user._id);
+    let { data } = results;
+    if (data) {
+      console.log(data.msgs, "data.msgs");
+      unreadMessagesRef.current = data.msgs;
+      triggerUpdate((prevValue) => (prevValue += 1));
+    }
+    console.log(results, "results");
+  };
   const join = async (topics) => {
     let promises = [];
     for (let { _id } of topics) {
@@ -176,6 +201,11 @@ export const SocketProvider = ({ children }) => {
   const emitUpdate = (chatroomName, update, cb) => {
     socket.emit("Update", chatroomName, update, cb);
   };
+  const setUnreadMessagesRef = async (msgs) => {
+    console.log("saving unread messages", msgs);
+    unreadMessagesRef.current = msgs;
+    saveUnsavedMessages({ user_id: user._id, msgs });
+  };
 
   return (
     <SocketContext.Provider
@@ -187,10 +217,10 @@ export const SocketProvider = ({ children }) => {
         incomingRoom,
         incomingRoomUpdate,
         unreadMsg,
-        unreadMsgs,
-        setUnreadMsgs,
         join,
         leave,
+        unreadMessagesRef: unreadMessagesRef.current,
+        setUnreadMessagesRef,
       }}
     >
       {children}

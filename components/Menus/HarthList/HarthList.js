@@ -1,4 +1,4 @@
-import { useContext, useState} from "react";
+import { useContext, useState } from "react";
 
 import { MobileContext } from "../../../contexts/mobile";
 import { useAuth } from "../../../contexts/auth";
@@ -60,6 +60,7 @@ const HarthList = ({
             active = true;
           } else {
             let owner = com?.users.find((usr) => usr?.userId === user._id);
+            console.log(unreadMsgs, "unreadMsgsssssssssssssssssssssssssssssss");
             unreadMsgs.forEach((msg) => {
               if (
                 msg.comm_id === com._id &&
@@ -74,56 +75,52 @@ const HarthList = ({
 
           return (
             <>
-            {modal ? (
-              <Modal onToggleModal={showModal}>
-                <HarthSettings
-                  communityName={selectedcomm?.name}
-                  communityId={selectedcomm?._id}
-                  onToggleModal={showModal}
-                />
-              </Modal>
-            ) : (
-              ""
-            )}
-            
-            <li 
-              className={`
+              {modal ? (
+                <Modal onToggleModal={showModal}>
+                  <HarthSettings
+                    communityName={selectedcomm?.name}
+                    communityId={selectedcomm?._id}
+                    onToggleModal={showModal}
+                  />
+                </Modal>
+              ) : (
+                ""
+              )}
+
+              <li
+                className={`
                 ${styles.Item}
                 ${active ? styles.ItemActive : null}
-                ${
-                  newMessage && !active
-                    ? styles.ItemUnreadMessage
-                    : null
-                }
+                ${newMessage && !active ? styles.ItemUnreadMessage : null}
               `}
-              key={com?._id}
-              id={com._id}
-            >
-              <button
-                onClick={() => {
-                  changeSelectedCom(com);
-                }}
-                onMouseUp={(e) => toggleEditMenu(e, com._id, com)}
-                aria-label={com.name}
-                className={styles.ItemButton}
+                key={com?._id}
+                id={com._id}
               >
-                {com.iconKey ? (
-                  <span className={styles.ItemImage}>
-                    <img src={com.iconKey} />
-                  </span>
-                ) : (
-                  <span className={styles.ItemIcon}>
-                    <span className={styles.ItemIconFiller}>
-                      <IconFireFill />
+                <button
+                  onClick={() => {
+                    changeSelectedCom(com);
+                  }}
+                  onMouseUp={(e) => toggleEditMenu(e, com._id, com)}
+                  aria-label={com.name}
+                  className={styles.ItemButton}
+                >
+                  {com.iconKey ? (
+                    <span className={styles.ItemImage}>
+                      <img src={com.iconKey} />
                     </span>
-                  </span>
-                )}
+                  ) : (
+                    <span className={styles.ItemIcon}>
+                      <span className={styles.ItemIconFiller}>
+                        <IconFireFill />
+                      </span>
+                    </span>
+                  )}
+                  {isMobile ? (
+                    <span className={styles.ItemName}>{com.name}</span>
+                  ) : null}
+                </button>
                 {isMobile ? (
-                  <span className={styles.ItemName}>{com.name}</span>
-                ) : null}
-              </button>
-              {isMobile ? (
-                  <button 
+                  <button
                     className={styles.ItemSettingsButton}
                     onClick={handleHarthMenu}
                     aria-label="Current Harth Settings"
@@ -131,7 +128,7 @@ const HarthList = ({
                     <IconSettings />
                   </button>
                 ) : null}
-            </li>
+              </li>
             </>
           );
         })}
