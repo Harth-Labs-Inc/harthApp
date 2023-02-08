@@ -19,7 +19,6 @@ const TopicListElement = (props) => {
     isHidden,
   } = props;
 
-  console.log(topic, "topic");
   const toggleActive = () => {
     clickHandler(topic);
   };
@@ -59,7 +58,8 @@ const TopicListElement = (props) => {
     >
       <div className={styles.label}>{label}</div>
       {hasAlert && (
-        <div className={` 
+        <div
+          className={` 
           ${styles.alertProfiles}
           ${isMobile && styles.alertProfilesMobile}
           `}
@@ -71,7 +71,6 @@ const TopicListElement = (props) => {
       )}
     </button>
   );
-
 };
 
 export default TopicListElement;
