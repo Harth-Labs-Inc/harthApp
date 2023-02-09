@@ -120,6 +120,8 @@ const Party = () => {
               metadata: { streamID: localAudioStream.current.id },
             };
             console.log("calling peer, socket", options, newMsg);
+            console.log("calling options socket", localAudioStream);
+
             audioSharePeer.current.call(
               newMsg.peerId,
               localAudioStream.current,
@@ -436,6 +438,8 @@ const Party = () => {
             metadata: { streamID: audioStream.id, peer },
           };
           console.log("calling peer, connectToUsers", peer);
+          console.log("calling options connectToUsers", audioStream);
+
           audioSharePeer.current.call(peer.peerId, audioStream, options);
         }
       });
@@ -468,6 +472,8 @@ const Party = () => {
             ...ownerData,
             streamID: audioSharePeer.current.id,
           });
+          console.log("calling options connectToUsers", audioStream);
+
           audioSharePeer.current.call(peer.peerId, audioStream, options);
         }
       });
@@ -499,6 +505,7 @@ const Party = () => {
             ...ownerData,
             streamID: videoSharePeer.current.id,
           });
+          console.log("calling options connectVideoToUsers", videoStream);
 
           videoSharePeer.current.call(peer.videoPeer, videoStream, options);
         }
