@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useReducer } from "react";
 import io from "socket.io-client";
-
+import axios from "axios";
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import { getTurnServers } from "../../../util/TURN";
@@ -33,6 +33,7 @@ const Party = () => {
   const [roomId, setRoomId] = useState("");
   const [harthId, setHarthId] = useState("");
   const [isActiveScreenShare, setIsActiveScreenShare] = useState(false);
+  const [TurnServers, setTurnServers] = useState([]);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -59,11 +60,25 @@ const Party = () => {
       development: "http://localhost:5030",
       production: "https://project-blarg-video-socket.herokuapp.com",
     };
-    setSocket(
-      io.connect(urls[process.env.NODE_ENV], {
-        transports: ["websocket"],
+    axios
+      .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
+      .then((responseData) => {
+        console.log(
+          "setting turn serverssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+          responseData.data.token.iceServers
+        );
+        setTurnServers(responseData.data.token.iceServers);
+
+        setSocket(
+          io.connect(urls[process.env.NODE_ENV], {
+            transports: ["websocket"],
+          })
+        );
       })
-    );
+      .catch((err) => {
+        console.log(err);
+      });
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const USRNM = urlParams.get("user_name");
@@ -308,14 +323,19 @@ const Party = () => {
     });
   };
   const createAudioSharePeer = () => {
+    let servers = [];
+    if (TurnServers.length) {
+      servers = TurnServers;
+    } else {
+      servers = [
+        {
+          url: "stun:stun.1und1.de:3478",
+        },
+      ];
+    }
     audioSharePeer.current = new window.Peer(undefined, {
       config: {
-        iceServers: [
-          ...getTurnServers(),
-          {
-            url: "stun:stun.1und1.de:3478",
-          },
-        ],
+        iceServers: [...servers],
       },
     });
 
@@ -351,14 +371,19 @@ const Party = () => {
     });
   };
   const createVideoSharePeer = (peerobj) => {
+    let servers = [];
+    if (TurnServers.length) {
+      servers = TurnServers;
+    } else {
+      servers = [
+        {
+          url: "stun:stun.1und1.de:3478",
+        },
+      ];
+    }
     videoSharePeer.current = new window.Peer(undefined, {
       config: {
-        iceServers: [
-          ...getTurnServers(),
-          {
-            url: "stun:stun.1und1.de:3478",
-          },
-        ],
+        iceServers: [...servers],
       },
     });
 
@@ -386,14 +411,19 @@ const Party = () => {
     });
   };
   const createScreenSharePeer = (peerobj) => {
+    let servers = [];
+    if (TurnServers.length) {
+      servers = TurnServers;
+    } else {
+      servers = [
+        {
+          url: "stun:stun.1und1.de:3478",
+        },
+      ];
+    }
     ScreenSharePeer.current = new window.Peer(undefined, {
       config: {
-        iceServers: [
-          ...getTurnServers(),
-          {
-            url: "stun:stun.1und1.de:3478",
-          },
-        ],
+        iceServers: [...servers],
       },
     });
 
