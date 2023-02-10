@@ -333,10 +333,12 @@ const Party = () => {
         },
       ];
     }
+    servers.length = 2;
     audioSharePeer.current = new window.Peer(undefined, {
       config: {
         iceServers: [...servers],
       },
+      debug: 2,
     });
 
     audioSharePeer.current.on("open", async (peerid) => {
@@ -381,10 +383,12 @@ const Party = () => {
         },
       ];
     }
+    servers.length = 2;
     videoSharePeer.current = new window.Peer(undefined, {
       config: {
         iceServers: [...servers],
       },
+      debug: 2,
     });
 
     videoSharePeer.current.on("open", (peerid) => {
@@ -421,10 +425,12 @@ const Party = () => {
         },
       ];
     }
+    servers.length = 2;
     ScreenSharePeer.current = new window.Peer(undefined, {
       config: {
         iceServers: [...servers],
       },
+      debug: 2,
     });
 
     ScreenSharePeer.current.on("open", (peerid) => {
@@ -1106,8 +1112,6 @@ const Party = () => {
   setPeerContainers();
 
   console.log(audioSharePeer, "audioSharePeer");
-  // console.log(videoSharePeer, "videoSharePeer");
-  // console.log(ScreenSharePeer, "ScreenSharePeer");
 
   return (
     <>
