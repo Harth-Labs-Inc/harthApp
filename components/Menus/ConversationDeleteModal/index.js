@@ -16,12 +16,11 @@ const ConversationDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
 
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.title}>Confirm Delete</div>
-            <p>you are about to delete</p>
-            <p>{topic?.title}</p>
-            <p>
-                the topic will be deleted and all content will be deleted. This
-                cannot be undone
+            <div className={styles.title}>Confirm Removal</div>
+            <p className={styles.text}>You are about to remove this conversation from your message history:</p>
+            <div className={styles.conversation}>{topic?.title}</div>
+            <p className={styles.subtext}>
+                This conversation will be removed. This cannot be undone.
             </p>
             <form onSubmit={submitHandler} className={styles.form}>
                 <div className={styles.buttonBar}>
@@ -33,7 +32,7 @@ const ConversationDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
                     />
                     <Button
                         type="submit"
-                        text="DELETE"
+                        text="Remove"
                         className={styles.submitButton}
                     />
                 </div>

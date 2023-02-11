@@ -13,7 +13,8 @@
     border: 0;
     background-color: transparent;
     //border: 1px solid red;
-    color: $oxygen_40;
+    color: $warm_blue_highlight;
+    cursor: pointer;
 
     .label {
         display: flex;
@@ -65,8 +66,8 @@
     &InActive {
         &:hover {
             .label{
-                background-color:$warm_blue_highlight;
-                color: $oxygen_80;
+                background-color:$fuel_5;
+                //color: $fuel;
             }
 
         }
@@ -74,15 +75,15 @@
 
     &Active {
         .label {
-            color: $warm_blue;
-            background-color:$oxygen;
+            color: $fuel;
+            background-color:$white;
         }
         
         
     }
 
     &Alert {
-        color: $oxygen_80;
+        color: $fuel;
     }
 
     &Mobile {
@@ -93,7 +94,8 @@
 
         .label {
             @include topicTitleMobile;
-            height: 40px;
+            //height: 40px;
+            padding: 24px 16px;
         }
     }
 }

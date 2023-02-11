@@ -18,8 +18,10 @@
         background-color: $warm_blue_light;
         width: 100%;
         height: 40px;
-        @include interfaceH4;
-        padding: 0px 8px;
+        @include ubuntu;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 0px 8px 0px 12px;
         border-radius: 8px;
     }
     
@@ -31,8 +33,10 @@
         background-color: transparent;
         width: 100%;
         height: 40px;
-        padding: 0px 8px 0px 24px;
-        @include interfaceR2;
+        padding: 0px 16px 0px 16px;
+        @include rubik;
+        font-size: 14px;
+        font-weight: 500;
     }
 
     .chatListHolder{

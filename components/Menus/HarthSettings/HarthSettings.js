@@ -63,11 +63,10 @@ const HarthSettings = (props) => {
 
         <div className={styles.navTabs} role="nav">
           <button
-            className={
-              currentPage == "notifications"
-                ? styles.buttonActive
-                : styles.button
-            }
+            className={`
+            ${styles.tabButton}
+            ${currentPage == "notifications" && styles.tabButtonActive}
+          `}
             onClick={() => {
               changePageHandler("notifications");
             }}
@@ -79,9 +78,10 @@ const HarthSettings = (props) => {
           </button>
 
           <button
-            className={
-              currentPage == "members" ? styles.buttonActive : styles.button
-            }
+            className={`
+            ${styles.tabButton}
+            ${currentPage == "members" && styles.tabButtonActive}
+          `}
             onClick={() => {
               changePageHandler("members");
             }}
@@ -93,9 +93,10 @@ const HarthSettings = (props) => {
           </button>
 
           <button
-            className={
-              currentPage == "admin" ? styles.buttonActive : styles.button
-            }
+            className={`
+              ${styles.tabButton}
+              ${currentPage == "admin" && styles.tabButtonActive}
+            `}
             onClick={() => {
               changePageHandler("admin");
             }}

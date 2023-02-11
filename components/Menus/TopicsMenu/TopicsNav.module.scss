@@ -6,7 +6,7 @@
     width: 240px;
     min-width: 240px;
     padding: 20px 0px 0px 24px;
-    background-color: $warm_blue;
+    background-color: $warm_blue_light;
     height: 100%;
     overflow-y: scroll;
 
@@ -16,10 +16,21 @@
     }
 
     &Title {
+        position: relative;
         @include smallTitle;
         padding: 4px 0px;
         text-transform: uppercase;
-        color: $oxygen_80;
+        color: $ash;
+
+        &:after {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            height: 1px;
+            width: 30px;
+            content: "";
+            background-color: $ash;
+        }
 
     }
 
@@ -28,18 +39,18 @@
         @include smallTitle;
         padding: 4px 0px;
         text-transform: uppercase;
-        color: $oxygen_40;
+        color: $ash;
         border: 0;
         background: transparent;
         cursor: pointer;
         margin-bottom: 12px;
 
         &:hover {
-            color: $oxygen_80;
+            color: $ash;
         }
 
         &Active {
-            color: $oxygen_80;
+            color: $ash;
 
             &:after {
                 position: absolute;
@@ -48,7 +59,7 @@
                 height: 1px;
                 width: 30px;
                 content: "";
-                background-color: $oxygen_80;
+                background-color: $ash;
             }
         }
     }
@@ -59,15 +70,6 @@
         padding: 12px 0 80px 0;
         overflow: scroll;
 
-        &:before {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            height: 1px;
-            width: 30px;
-            content: "";
-            background-color: $oxygen_80;
-        }
     }
 
 
@@ -80,7 +82,7 @@
             flex-direction: row;
             align-items: center;
             column-gap: 6px;
-            color: $oxygen_40;
+            color: $ash_50;
             @include topicTitle;
             height: 40px;
             background: transparent;
@@ -92,20 +94,20 @@
                 display: flex;
                 height: 16px;
                 width: 16px;
-                background-color: $oxygen_40;
+                background-color: $ash_50;
                 border-radius: 4px;
                 padding: 1px;
                 path {
-                    fill: $warm_blue;
+                    fill: $light_ash;
                     stroke-width: 1px;
-                    stroke: $warm_blue;
+                    stroke: $light_ash;
                 }
             }
 
             &:hover {
-                color: $oxygen_80;
+                color: $ash;
                 .iconHolder {
-                    background-color: $oxygen_80;
+                    background-color: $ash;
                 }
 
             }
@@ -119,8 +121,8 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            column-gap: 8px;
-            color: $oxygen_40;
+            column-gap: 12px;
+            color: $ash_50;
             @include topicTitleMobile;
             height: 48px;
             background: transparent;
@@ -132,19 +134,19 @@
             .iconHolder {
                 height: 16px;
                 width: 16px;
-                background-color: $oxygen_40;
+                background-color: $ash_50;
                 border-radius: 4px;
                 path {
-                    fill: $warm_blue;
+                    fill: $light_ash;
                     stroke-width: 1px;
-                    stroke: $warm_blue;
+                    stroke: $light_ash;
                 }
             }
 
             &:hover {
-                color: $oxygen;
+                color: $ash;
                 .iconHolder{
-                    background-color: $oxygen;
+                    background-color: $ash;
                 }
             }
         }

@@ -13,7 +13,7 @@
 
     padding: 4px 0px 10px 4px;
     border: 0;
-    color: $oxygen_40;
+    color: $oxygen_50;
     border-radius: 12px;
     //background-color: $warm_blue_highlight;
 
@@ -23,7 +23,7 @@
         text-align: left;
         @include topicTitle;
         padding-right: 12px;
-        padding-left: 12px;
+        padding-left: 8px;
         padding-top: 1px;
         height: 32px;
         width: fit-content;
@@ -66,9 +66,9 @@
     
 
     &Alert {
-        color: $oxygen_80;
+        color: $oxygen;
         img {
-            opacity: .85;
+            opacity: 1;
         }
 
     }
@@ -103,7 +103,7 @@
             }
 
             .label {
-                color: $oxygen_80;
+                color: $oxygen;
 
             }
 
@@ -115,7 +115,7 @@
         background-color: $oxygen;
 
         .label {
-            color: $warm_blue;
+            color: $fuel;
             //background-color: $oxygen;
         }
 
