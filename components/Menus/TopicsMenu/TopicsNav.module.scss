@@ -3,10 +3,11 @@
 
 .TopicsNav {
     position: relative;
-    width: 240px;
-    min-width: 240px;
+    width: 220px;
+    min-width: 220px;
     padding: 20px 0px 0px 24px;
-    background-color: $warm_blue_light;
+    //background-color: $warm_blue_light;
+    background-color: $light_ash;
     height: 100%;
     overflow-y: scroll;
 
@@ -18,9 +19,10 @@
     &Title {
         position: relative;
         @include smallTitle;
-        padding: 4px 0px;
+        padding: 0px 0px 6px 0px;
         text-transform: uppercase;
         color: $ash;
+        margin-bottom: 8px;
 
         &:after {
             position: absolute;
@@ -37,13 +39,13 @@
     &Hidden {
         position: relative;
         @include smallTitle;
-        padding: 4px 0px;
+        padding: 0px 0px 6px 0px;
         text-transform: uppercase;
-        color: $ash;
+        color: $warm_blue_highlight;
         border: 0;
         background: transparent;
         cursor: pointer;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
 
         &:hover {
             color: $ash;
@@ -67,7 +69,7 @@
     &Container {
         position: relative;
         margin: 0;
-        padding: 12px 0 80px 0;
+        padding: 0px 0 80px 0;
         overflow: scroll;
 
     }
@@ -76,13 +78,13 @@
 
     &Create {
         position: relative;
-        padding: 0px 8px;
+        padding: 0px 0px;
         &Button {
             display: flex;
             flex-direction: row;
             align-items: center;
-            column-gap: 6px;
-            color: $ash_50;
+            column-gap: 2px;
+            color: $warm_blue_highlight;
             @include topicTitle;
             height: 40px;
             background: transparent;
@@ -92,22 +94,23 @@
 
             .iconHolder {
                 display: flex;
-                height: 16px;
-                width: 16px;
-                background-color: $ash_50;
-                border-radius: 4px;
-                padding: 1px;
+                height: 20px;
+                width: 20px;
+                padding: 2px;
                 path {
-                    fill: $light_ash;
-                    stroke-width: 1px;
-                    stroke: $light_ash;
+                    fill: $warm_blue_highlight;
                 }
             }
 
             &:hover {
                 color: $ash;
+                @include topicTitleActive;
                 .iconHolder {
-                    background-color: $ash;
+                    padding: 1px;
+                    //background-color: lighten($warm_blue_light, 5%);
+                    path {
+                        fill: $ash;
+                    }
                 }
 
             }
