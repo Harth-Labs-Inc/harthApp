@@ -304,75 +304,6 @@ const TopicsNav = (props) => {
               id="create_topic"
               onClick={openCreateTopic}
             >
-<<<<<<< HEAD
-                <div className={styles.TopicsNavTitle}>Topics</div>
-                <div className={styles.TopicsNavContainer}>
-                    {topicsArr &&
-                        topicsArr.map((topic) => {
-                            let isActive = false;
-                            let isShort = false;
-                            let hasAlert = false;
-                            let alertProfiles = [];
-                            if (
-                                (selectedTopic || {})._id == (topic || {})._id
-                            ) {
-                                isActive = true;
-                            }
-                            unreadMsgs.forEach((msg) => {
-                                if (
-                                    msg.topic_id === topic._id &&
-                                    msg.creator_id !== user._id &&
-                                    (selectedTopic || {})._id !== msg.topic_id
-                                ) {
-                                    let owner = topic?.members.find(
-                                        (member) => member?.user_id === user._id
-                                    );
-                                    if (!owner || !owner.muted) {
-                                        hasAlert = true;
-                                        alertProfiles.push(msg);
-                                    }
-                                }
-                            });
-
-                            if (topic?.contentAge == "short") {
-                                isShort = true;
-                            }
-                            return (
-                                <TopicListElement
-                                    clickHandler={changeSelectedTopic}
-                                    key={topic._id}
-                                    topic={topic}
-                                    isMobile={isMobile}
-                                    hasAlert={hasAlert}
-                                    alertProfiles={alertProfiles}
-                                    isActive={isActive}
-                                    isShort={isShort}
-                                    label={topic?.title}
-                                    toggleTopicEditModal={toggleTopicEditModal}
-                                />
-                            );
-                        })}
-
-                    <div className={styles.TopicsNavCreate}>
-                        <button
-                            className={
-                                isMobile
-                                    ? styles.TopicsNavCreateMobileButton
-                                    : styles.TopicsNavCreateButton
-                            }
-                            id="create_topic"
-                            onClick={openCreateTopic}
-                        >
-                            <div className={styles.iconHolder}>
-                                <IconAdd />
-                            </div>
-                            topic
-                        </button>
-                    </div>
-                    {hiddenTopicsArr.length > 0 && (
-                        <button
-                            className={`
-=======
               <div className={styles.iconHolder}>
                 <IconAdd />
               </div>
@@ -382,7 +313,6 @@ const TopicsNav = (props) => {
           {hiddenTopicsArr.length > 0 && (
             <button
               className={`
->>>>>>> main
                             ${styles.TopicsNavHidden}
                             ${isHiddenView && styles.TopicsNavHiddenActive}
                             `}
