@@ -81,8 +81,6 @@ const GatherControlBar = (props) => {
     }
   };
 
-  console.log(userInfo, "userInfouserInfouserInfo");
-
   return (
     <>
       <div className="conditionals">

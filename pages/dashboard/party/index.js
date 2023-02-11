@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useReducer } from "react";
 import io from "socket.io-client";
-
+import axios from "axios";
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import { getTurnServers } from "../../../util/TURN";
@@ -33,6 +33,7 @@ const Party = () => {
   const [roomId, setRoomId] = useState("");
   const [harthId, setHarthId] = useState("");
   const [isActiveScreenShare, setIsActiveScreenShare] = useState(false);
+  const [TurnServers, setTurnServers] = useState([]);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -59,11 +60,25 @@ const Party = () => {
       development: "http://localhost:5030",
       production: "https://project-blarg-video-socket.herokuapp.com",
     };
-    setSocket(
-      io.connect(urls[process.env.NODE_ENV], {
-        transports: ["websocket"],
+    axios
+      .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
+      .then((responseData) => {
+        console.log(
+          "setting turn serverssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+          responseData.data.token.iceServers
+        );
+        setTurnServers(responseData.data.token.iceServers);
+
+        setSocket(
+          io.connect(urls[process.env.NODE_ENV], {
+            transports: ["websocket"],
+          })
+        );
       })
-    );
+      .catch((err) => {
+        console.log(err);
+      });
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const USRNM = urlParams.get("user_name");
@@ -116,9 +131,16 @@ const Party = () => {
             );
           }
           if (localAudioStream.current) {
+            let options = {
+              metadata: { streamID: localAudioStream.current.id },
+            };
+            console.log("calling peer, socket", options, newMsg);
+            console.log("calling options socket", localAudioStream);
+
             audioSharePeer.current.call(
               newMsg.peerId,
-              localAudioStream.current
+              localAudioStream.current,
+              options
             );
           }
           if (localCaptureStream.current) {
@@ -138,12 +160,42 @@ const Party = () => {
           }
         }
         if (newMsg?.code == 6) {
+          console.log(newMsg, "someone disconnected video");
+          for (let conns in videoSharePeer.current.connections) {
+            videoSharePeer.current.connections[conns].forEach((conn) => {
+              console.log(conn.metadata?.streamID, newMsg.deleteID);
+              if (conn.metadata?.streamID == newMsg.deleteID) {
+                console.log("found conn", conn);
+                if (conn.close) conn.close();
+              }
+            });
+          }
           removeElement(newMsg.videoPeer);
         }
         if (newMsg?.code == 4) {
+          console.log(newMsg, "someone disconnected audio");
+          for (let conns in audioSharePeer.current.connections) {
+            audioSharePeer.current.connections[conns].forEach((conn) => {
+              console.log(conn.metadata?.streamID, newMsg.deleteID);
+              if (conn.metadata?.streamID == newMsg.deleteID) {
+                console.log("found conn", conn);
+                if (conn.close) conn.close();
+              }
+            });
+          }
           removeElement(newMsg.peerId);
         }
         if (newMsg?.code == 2) {
+          console.log(newMsg, "someone disconnected screen share");
+          for (let conns in ScreenSharePeer.current.connections) {
+            ScreenSharePeer.current.connections[conns].forEach((conn) => {
+              console.log(conn.metadata?.streamID, newMsg.deleteID);
+              if (conn.metadata?.streamID == newMsg.deleteID) {
+                console.log("found conn", conn);
+                if (conn.close) conn.close();
+              }
+            });
+          }
           removeElement(newMsg.capturePeer);
         }
         if (!chatPannel.current) {
@@ -271,15 +323,22 @@ const Party = () => {
     });
   };
   const createAudioSharePeer = () => {
+    let servers = [];
+    if (TurnServers.length) {
+      servers = TurnServers;
+    } else {
+      servers = [
+        {
+          url: "stun:stun.1und1.de:3478",
+        },
+      ];
+    }
+    servers.length = 2;
     audioSharePeer.current = new window.Peer(undefined, {
       config: {
-        iceServers: [
-          ...getTurnServers(),
-          {
-            url: "stun:stun.1und1.de:3478",
-          },
-        ],
+        iceServers: [...servers],
       },
+      debug: 2,
     });
 
     audioSharePeer.current.on("open", async (peerid) => {
@@ -294,29 +353,42 @@ const Party = () => {
       createVideoSharePeer(obj);
     });
     audioSharePeer.current.on("error", function (err) {
+      console.log(err, "audioSharePeer error");
       audioSharePeer.current.reconnect();
     });
     audioSharePeer.current.on("call", async (call) => {
+      console.log("receiving call", call);
       call.answer();
 
       call.on("stream", (incomingStream) => {
+        console.log("call receiving incoming stream", incomingStream);
         let peer = PEERS.current.find((p) => {
           return p.peerId == call.peer;
         });
         createAudio(incomingStream, peer, call);
       });
+      call.on("error", function (err) {
+        console.log(err, "audioSharePeer call error");
+      });
     });
   };
   const createVideoSharePeer = (peerobj) => {
+    let servers = [];
+    if (TurnServers.length) {
+      servers = TurnServers;
+    } else {
+      servers = [
+        {
+          url: "stun:stun.1und1.de:3478",
+        },
+      ];
+    }
+    servers.length = 2;
     videoSharePeer.current = new window.Peer(undefined, {
       config: {
-        iceServers: [
-          ...getTurnServers(),
-          {
-            url: "stun:stun.1und1.de:3478",
-          },
-        ],
+        iceServers: [...servers],
       },
+      debug: 2,
     });
 
     videoSharePeer.current.on("open", (peerid) => {
@@ -324,27 +396,41 @@ const Party = () => {
       createScreenSharePeer(peerobj);
     });
     videoSharePeer.current.on("error", function (err) {
+      console.log(err, "videoSharePeer error");
+
       videoSharePeer.current.reconnect();
     });
     videoSharePeer.current.on("call", async (call) => {
+      console.log("receiving call", call);
       call.answer();
 
       call.on("stream", (incomingStream) => {
+        console.log("call receiving incoming stream", incomingStream);
         let peer = PEERS.current.find((p) => p.videoPeer == call.peer);
         createVideo(incomingStream, peer, call);
+      });
+      call.on("error", function (err) {
+        console.log(err, "videoSharePeer call error");
       });
     });
   };
   const createScreenSharePeer = (peerobj) => {
+    let servers = [];
+    if (TurnServers.length) {
+      servers = TurnServers;
+    } else {
+      servers = [
+        {
+          url: "stun:stun.1und1.de:3478",
+        },
+      ];
+    }
+    servers.length = 2;
     ScreenSharePeer.current = new window.Peer(undefined, {
       config: {
-        iceServers: [
-          ...getTurnServers(),
-          {
-            url: "stun:stun.1und1.de:3478",
-          },
-        ],
+        iceServers: [...servers],
       },
+      debug: 2,
     });
 
     ScreenSharePeer.current.on("open", (peerid) => {
@@ -352,6 +438,7 @@ const Party = () => {
       joinRoomSocket(peerobj);
     });
     ScreenSharePeer.current.on("error", function (err) {
+      console.log(err, "ScreenSharePeer error");
       ScreenSharePeer.current.reconnect();
     });
     ScreenSharePeer.current.on("call", async (call) => {
@@ -360,6 +447,9 @@ const Party = () => {
       call.on("stream", (incomingStream) => {
         let peer = PEERS.current.find((p) => p.capturePeer == call.peer);
         createCapture(incomingStream, peer, call);
+      });
+      call.on("error", function (err) {
+        console.log(err, "ScreenSharePeer call error");
       });
     });
   };
@@ -377,11 +467,15 @@ const Party = () => {
     let audioStream = await getLocalAudioStream();
     if (audioStream) {
       localAudioStream.current = audioStream;
+      console.log("peers for audio connection", peers);
       peers.forEach((peer) => {
         if (peer.peerId !== audioSharePeer.current.id) {
           let options = {
             metadata: { streamID: audioStream.id, peer },
           };
+          console.log("calling peer, connectToUsers", peer);
+          console.log("calling options connectToUsers", audioStream);
+
           audioSharePeer.current.call(peer.peerId, audioStream, options);
         }
       });
@@ -409,6 +503,13 @@ const Party = () => {
           let options = {
             metadata: { streamID: audioStream.id, peer },
           };
+          console.log("calling peer connectAudioToUsers", peer);
+          console.log("calling from", {
+            ...ownerData,
+            streamID: audioSharePeer.current.id,
+          });
+          console.log("calling options connectToUsers", audioStream);
+
           audioSharePeer.current.call(peer.peerId, audioStream, options);
         }
       });
@@ -435,6 +536,13 @@ const Party = () => {
       PEERS.current.forEach((peer) => {
         if (peer.videoPeer !== videoSharePeer.current.id) {
           let options = { metadata: { streamID: videoStream.id } };
+          console.log("calling peer, connectToUsers", peer);
+          console.log("calling from", {
+            ...ownerData,
+            streamID: videoSharePeer.current.id,
+          });
+          console.log("calling options connectVideoToUsers", videoStream);
+
           videoSharePeer.current.call(peer.videoPeer, videoStream, options);
         }
       });
@@ -530,9 +638,10 @@ const Party = () => {
     }
   };
   const disconnectVideos = () => {
+    let id = localVideoStream.current.id;
     for (let conns in videoSharePeer.current.connections) {
       videoSharePeer.current.connections[conns].forEach((conn) => {
-        if (conn.metadata?.streamID == localVideoStream.current.id) {
+        if (conn.metadata?.streamID == id) {
           if (conn.close) conn.close();
         }
       });
@@ -541,7 +650,7 @@ const Party = () => {
     tracks.forEach((track) => {
       track.stop();
     });
-    removeElement(localVideoStream.current.id);
+    removeElement(id);
     localVideoStream.current = null;
 
     let newMsg = {
@@ -554,15 +663,20 @@ const Party = () => {
       flames: [],
       reactions: [],
       attachments: [],
+      deleteID: id,
       ...ownerData.current,
     };
     sendNewChatMessage(newMsg);
     triggerUpdate();
   };
   const disconnectAudios = () => {
+    console.log("disconnecting audios", audioSharePeer);
+    let id = localAudioStream.current.id;
     for (let conns in audioSharePeer.current.connections) {
       audioSharePeer.current.connections[conns].forEach((conn) => {
-        if (conn.metadata?.streamID == localAudioStream.current.id) {
+        console.log(conn.metadata?.streamID, id);
+        if (conn.metadata?.streamID == id) {
+          console.log("found conn", conn);
           if (conn.close) conn.close();
         }
       });
@@ -582,15 +696,17 @@ const Party = () => {
       flames: [],
       reactions: [],
       attachments: [],
+      deleteID: id,
       ...ownerData.current,
     };
     sendNewChatMessage(newMsg);
     triggerUpdate();
   };
   const disconnectCaptures = () => {
+    let id = localCaptureStream.current.id;
     for (let conns in ScreenSharePeer.current.connections) {
       ScreenSharePeer.current.connections[conns].forEach((conn) => {
-        if (conn.metadata?.streamID == localCaptureStream.current.id) {
+        if (conn.metadata?.streamID == id) {
           if (conn.close) conn.close();
         }
       });
@@ -611,6 +727,7 @@ const Party = () => {
       flames: [],
       reactions: [],
       attachments: [],
+      deleteID: id,
       ...ownerData.current,
     };
     sendNewChatMessage(newMsg);
@@ -676,6 +793,16 @@ const Party = () => {
     }
   };
   const createVideo = (incomingStream, peer, call) => {
+    console.log("creating video container for peer", peer, incomingStream);
+    try {
+      let tracks = incomingStream.getTracks();
+      tracks.forEach((track) => {
+        console.log("this is a track for video container", track);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     let existingVideoContainer = document.getElementById(peer?.videoPeer);
     if (!existingVideoContainer) {
       let parentContainer = document.getElementById(peer.socketID);
@@ -711,7 +838,16 @@ const Party = () => {
     }
   };
   const createAudio = (incomingStream, peer, call) => {
-    console.log(peer);
+    console.log("creating audio container for peer", peer, incomingStream);
+    try {
+      let tracks = incomingStream.getTracks();
+      tracks.forEach((track) => {
+        console.log("this is a track for audio container", track);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     let existingVideoContainer = document.getElementById(peer?.peerId);
     if (!existingVideoContainer) {
       let parentContainer = document.getElementById(peer?.socketID);
@@ -975,7 +1111,7 @@ const Party = () => {
 
   setPeerContainers();
 
-  console.log(isActiveScreenShare, "isActiveScreenShare");
+  console.log(audioSharePeer, "audioSharePeer");
 
   return (
     <>

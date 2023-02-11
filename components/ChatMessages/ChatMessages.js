@@ -23,8 +23,12 @@ const MessageWrapper = () => {
   const { messages, setMessages, replies, setReplies, selectedReplyOwner } =
     useChat();
   const { selectedTopic } = useComms();
-  const { incomingMsg, unreadMsgs, setUnreadMsgs, incomingMsgUpdate } =
-    useSocket();
+  const {
+    incomingMsg,
+    incomingMsgUpdate,
+    unreadMessagesRef,
+    setUnreadMessagesRef,
+  } = useSocket();
 
   const messagesEndRef = useRef(null);
   const { isMobile } = useContext(MobileContext);
@@ -61,16 +65,14 @@ const MessageWrapper = () => {
   useEffect(() => {
     if (messages && selectedTopic) {
       let tempMsgs = [...(messages[selectedTopic._id] || [])];
-      if (unreadMsgs.length && tempMsgs && tempMsgs.length) {
-        let readIds = [];
-        unreadMsgs.forEach((msg) => {
-          if (msg.topic_id == selectedTopic._id) {
-            readIds.push(msg._id);
-          }
-        });
+      console.log("checking for new unread");
 
-        let tempUnread = unreadMsgs.filter((msg) => !readIds.includes(msg._id));
-        setUnreadMsgs(tempUnread);
+      if (unreadMessagesRef.length && tempMsgs && tempMsgs.length) {
+        let filteredUnread = unreadMessagesRef.filter(
+          (msg) => msg.topic_id !== selectedTopic._id
+        );
+        console.log("setting new unread");
+        setUnreadMessagesRef(filteredUnread);
       }
       if (inview) {
         scrollToBottom("smooth");

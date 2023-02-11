@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from "next/head";
 
 const Layout = ({ title, children }) => {
   return (
@@ -6,7 +6,7 @@ const Layout = ({ title, children }) => {
       <Head>
         <title>Project Blarg</title>
         <meta property="og:title" content="Harth" key="title" />
-        <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+        {/* <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script> */}
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="apple-touch-icon"
@@ -84,7 +84,7 @@ const Layout = ({ title, children }) => {
       </Head>
       {children}
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

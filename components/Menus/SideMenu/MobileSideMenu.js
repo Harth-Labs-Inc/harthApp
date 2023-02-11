@@ -12,52 +12,45 @@ import styles from "./SideMenu.module.scss";
 import SettingsList from "../AccountSettings/AccountSettings";
 
 const MobileSideNav = (props) => {
-    const { mobileMenuOpen, onToggleMenu, setShowCreateHarthNameModal } = props;
-    const [ShowCommBuilder, setShowCommBuilder] = useState(false);
+  const { mobileMenuOpen, onToggleMenu, setShowCreateHarthNameModal } = props;
+  const [ShowCommBuilder, setShowCommBuilder] = useState(false);
 
-    const { comms, setComm, selectedcomm, setTopic } = useComms();
-    const { unreadMsgs } = useSocket();
+  const { comms, setComm, selectedcomm, setTopic } = useComms();
+  const { unreadMessagesRef } = useSocket();
 
+  const changeSelectedCom = (com) => {
+    setComm(com);
+    setTopic({});
+    onToggleMenu();
+  };
 
-    const changeSelectedCom = (com) => {
-        setComm(com);
-        setTopic({});
-        onToggleMenu();
-    };
+  const toggleCreateComm = () => {
+    onToggleMenu();
+    setShowCreateHarthNameModal(true);
+  };
 
-    const toggleCreateComm = () => {
-        onToggleMenu();
-        setShowCreateHarthNameModal(true);
-    };
+  if (!mobileMenuOpen) return;
 
-    if (!mobileMenuOpen) return;
-
-    return (
-        <SideModal
-            onToggleModal={onToggleMenu}
-        >
-            <div className={styles.sideNavMobile}>
-                <div className={styles.headerImage}>
-                    <HarthLogoLight />
-                </div>
-                <div className={styles.text}>
-                    Your härths
-                </div>
-                <div className={styles.harthList}>
-                    <HarthList
-                        comms={comms}
-                        selectedcomm={selectedcomm}
-                        unreadMsgs={unreadMsgs}
-                        toggleCreateComm={toggleCreateComm}
-                        changeSelectedCom={changeSelectedCom}
-
-                    />
-                </div>
-                    <SettingsList />
-
-            </div>
-        </SideModal>
-    );
+  return (
+    <SideModal onToggleModal={onToggleMenu}>
+      <div className={styles.sideNavMobile}>
+        <div className={styles.headerImage}>
+          <HarthLogoLight />
+        </div>
+        <div className={styles.text}>Your härths</div>
+        <div className={styles.harthList}>
+          <HarthList
+            comms={comms}
+            selectedcomm={selectedcomm}
+            unreadMsgs={unreadMessagesRef}
+            toggleCreateComm={toggleCreateComm}
+            changeSelectedCom={changeSelectedCom}
+          />
+        </div>
+        <SettingsList />
+      </div>
+    </SideModal>
+  );
 };
 
 export default MobileSideNav;
