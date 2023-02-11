@@ -10,6 +10,7 @@
     background-color: $light_ash;
     height: 100%;
     overflow-y: scroll;
+    border-right: 1px solid $fuel_5;
 
     &Mobile {
         width: 100%;
@@ -23,10 +24,11 @@
         text-transform: uppercase;
         color: $ash;
         margin-bottom: 8px;
+        user-select: none;
 
         &:after {
             position: absolute;
-            bottom: 0px;
+            bottom: 2px;
             left: 0px;
             height: 1px;
             width: 30px;
@@ -46,6 +48,7 @@
         background: transparent;
         cursor: pointer;
         margin-bottom: 8px;
+        user-select: none;
 
         &:hover {
             color: $ash;
@@ -56,7 +59,7 @@
 
             &:after {
                 position: absolute;
-                bottom: 0px;
+                bottom: 2px;
                 left: 0px;
                 height: 1px;
                 width: 30px;
@@ -79,6 +82,7 @@
     &Create {
         position: relative;
         padding: 0px 0px;
+        margin-top: 8px;
         &Button {
             display: flex;
             flex-direction: row;
@@ -103,13 +107,13 @@
             }
 
             &:hover {
-                color: $ash;
-                @include topicTitleActive;
+                color: $hot_pink;
+                //@include topicTitleActive;
                 .iconHolder {
                     padding: 1px;
                     //background-color: lighten($warm_blue_light, 5%);
                     path {
-                        fill: $ash;
+                        fill: $hot_pink;
                     }
                 }
 

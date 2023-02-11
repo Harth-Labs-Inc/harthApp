@@ -36,9 +36,7 @@
 
         .harthTitle {
             position: relative;
-            @include asap;
-            font-size: 16px;
-            font-weight: 600;
+            @include harthTitleSmall
         }
     }
     

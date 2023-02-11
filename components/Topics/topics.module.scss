@@ -16,8 +16,21 @@
     //color: $warm_blue_highlight;
     //background-color: aqua;
     cursor: pointer;
+   
+
+    &::after {
+        position: absolute;
+        content: " ";
+        bottom: 0;
+        left: 4px;
+        width: 64px;
+        border-bottom: 1px solid $ash_05;
+
+    }
+
 
     .label {
+        position: relative;
         display: flex;
         align-items: center;
         //justify-content: center;
@@ -27,8 +40,10 @@
         padding: 0px 4px;
         width: fit-content;
         color: $warm_blue_highlight;
+       // border-top: 1px solid $ash_05;
         
     }
+
 
     .alertProfiles {
         display: flex;
@@ -36,7 +51,7 @@
         //column-gap: 1px;
         //row-gap: 1px;
         flex-wrap: wrap;
-        padding: 0px 8px 0px 8px;
+        padding: 0px 8px 8px 8px;
         margin-top: -8px;
         z-index: 1;
 
@@ -45,7 +60,7 @@
             height: 32px;
             //object-fit: cover;
             border-radius: 999px;
-            border: 2px solid white;
+            border: 2px solid $light_ash;;
         }
 
         &Mobile {
@@ -84,8 +99,7 @@
 
     &Alert {
         .label {
-            color: $ash;
-            font-weight: 500;
+            @include topicTitleActive;
         }
     }
 

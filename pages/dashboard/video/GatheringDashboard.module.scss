@@ -12,7 +12,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 24px;
-        margin-bottom: 16px;
+        margin-bottom: 40px;
         //background-color: aqua;
 
         &ActiveList {
@@ -27,20 +27,24 @@
     .gatheringSection {
         position: relative;
         @include smallTitle;
-        padding: 4px 0px;
+        padding: 0px 0px 6px 0px;
         text-transform: uppercase;
+        color: $ash;
+        margin-bottom: 12px;
         margin-top: 20px;
-        margin-bottom: 24px;
-        border: 0;
 
         &:after {
             position: absolute;
-            bottom: 0px;
+            bottom: 2px;
             left: 0px;
             height: 1px;
             width: 30px;
             content: "";
-            background-color: $fuel;
+            background-color: $ash;
         }
+    }
+
+    .spacer {
+
     }
 }

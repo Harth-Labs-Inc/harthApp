@@ -50,7 +50,7 @@ const MainNav = (props) => {
   return (
     <>
       {modal ? (
-        <Modal onToggleModal={showModal}>
+        <Modal onToggleModal={showModal} hasPadding={false}>
           <HarthSettings
             communityName={selectedcomm?.name}
             communityId={selectedcomm?._id}

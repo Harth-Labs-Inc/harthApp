@@ -40,13 +40,16 @@ $ash_80: rgba(40, 40, 40, 0.8);
 $ash_60: rgba(40, 40, 40, 0.6);
 $ash_50: rgba(40, 40, 40, 0.5);
 $ash_40: rgba(40, 40, 40, 0.4);
+$ash_30: rgba(40, 40, 40, 0.3);
 $ash_20: rgba(40, 40, 40, 0.2);
 $ash_10: rgba(40, 40, 40, 0.1);
 $ash_05: rgba(40, 40, 40, 0.05);
 $ash_border: #3e3e3e;
 
 // Light Ash
-$light_ash: #f8f8f8;
+//$light_ash: #f8f8f8;
+//$light_ash: #fffbff;
+$light_ash: #fffbff;
 
 // Fuel
 $fuel: #2f1d2a;
@@ -98,6 +101,16 @@ $background_light: #f2f5eb;
 // ========================
 $overlay_dark: rgba(0, 0, 0, 0.7);
 // overlay_light: $white,
+
+
+
+//Chat bubbles
+$chat_bubble: #f7edf0;
+
+
+
+
+
 
 ///OLD COLORS BELOW
 /// DONT USE

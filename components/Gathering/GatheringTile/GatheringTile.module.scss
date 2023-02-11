@@ -23,7 +23,7 @@
     padding: 8px 0 0 0;
     border: 0;
     outline: 0;
-
+    
     &Icon {
       width: 48px;
       height: 48px;
@@ -37,6 +37,7 @@
       width: 100%;
       transform: rotate(90deg);
       @include roomType;
+      user-select: none;
     }
     .party & {
       color: $hot_purple_80;
@@ -102,6 +103,7 @@
     padding: 0px 0px 16px 0px;
     text-overflow: ellipsis;
     overflow: hidden;
+    user-select: none;
   }
 
   &InfoStructure {
@@ -122,21 +124,26 @@
       font-weight: 700;
       letter-spacing: -0.04em;
       text-transform: uppercase;
+      user-select: none;
+
     }
     &Date {
       margin-top: 4px;
       @include interfaceR2;
+      user-select: none;
+
     }
 
     &Now {
-      @include rubik;
+      @include ubuntu;
       font-size: 10px;
-      font-weight: 300;
       letter-spacing: 0.06em;
       padding: 9px 12px;
       color: $oxygen;
       background-color: $fuel;
       border-radius: 9999px;
+      user-select: none;
+
     }
   }
 
@@ -157,6 +164,7 @@
     width: 100%;
     row-gap: 0px;
     margin-bottom: 8px;
+    user-select: none;
 
     .profileImage {
       position: relative;
@@ -225,8 +233,7 @@
       }
 
       &:hover {
-        background-color: darken($fuel, 5%);
-
+        background-color: $warm_blue;
         svg path {
           fill: $oxygen;
         }
@@ -238,18 +245,25 @@
       align-items: center;
       justify-content: center;
       width: fit-content;
-      padding: 10px 0px;
+      padding: 11px 0px;
       border-top-left-radius: 24px;
       width: 136px;
       color: $oxygen;
       background-color: $fuel;
       border: 0;
       cursor: pointer;
-      @include interfaceH4;
+      @include ubuntu;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      font-weight: 500;
+      text-align: center;
+      text-transform: capitalize;
+      user-select: none;
+
     
 
       &:hover {
-          background-color: darken($fuel, 5%);
+          background-color: $warm_blue;
       }
     }
   }

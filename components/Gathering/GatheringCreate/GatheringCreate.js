@@ -106,7 +106,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit, }) => {
                 <div className={styles.GatheringCreateLaunch}>
                     <button
                         type="button"
-                        className={styles.GatheringCreateSubmit}
+                        className={` ${styles.GatheringCreateSubmit} ${styles.GatheringCreateSubmitSchedule} `}
                         onClick={() => {
                             createScheduleRoom({
                                 roomName,

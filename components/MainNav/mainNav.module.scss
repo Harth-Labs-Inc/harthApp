@@ -8,7 +8,7 @@
     justify-content: space-between;
     //height: 64px;
     width: 100%;
-    @include titleNav;
+    
 
 
 
@@ -75,6 +75,7 @@
             margin-top: 2px;
             cursor: pointer;
             white-space: nowrap;
+            user-select: none;
 
             .icon {
                 width: 14px;
@@ -123,7 +124,7 @@
         background-color: transparent;
         border: 0;
         cursor: pointer;
-
+        user-select: none;
         path {
             fill: $oxygen_80;
         }

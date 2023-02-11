@@ -139,7 +139,6 @@ export const GatheringTile = (props) => {
               className={styles.GatheringTileActionBarEdit}
             >
               <IconEditFill />
-              edit
             </button>
           ) : null}
           {/* <EditGathering onPress={pressing}/> */}

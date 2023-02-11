@@ -68,6 +68,7 @@
         .profileImage {
             height: 36px;
             width: 36px;
+            user-select: none;
         }
         .Info {
             display: flex;
@@ -81,11 +82,13 @@
             .Creator {
                 @include chatProfile;
                 color: $fuel;
+                user-select: none;
             }
             .Timestamp {
                 visibility: hidden;
                 color: $fuel_50;
                 @include timeStamp;
+                user-select: none;
             }
         }
 
@@ -97,7 +100,7 @@
             margin-right: 56px;
             color: $fuel;
             @include chatText;
-            background-color: $warm_blue_light;
+            background-color: $chat_bubble;
             padding: 10px 14px;
             border: 0;
             border-top-left-radius: 0;
@@ -147,7 +150,7 @@
         gap: 4px;
         top: -8px;
         right: 16px;
-        background-color: $oxygen_80;
+        background-color: $light_ash;
         backdrop-filter: blur(24px);
         border-radius:8px;
         padding: 2px;
@@ -190,7 +193,7 @@
     }
 
     &:hover {
-        background-color: $warm_blue_light3;
+        background-color: $ash_05;
 
         .Body {
             .Info {
@@ -198,9 +201,7 @@
                     visibility: visible;
                 }
             }
-            .Content {
-                background-color: $warm_blue_light2;
-            }
+
         }
 
     }
