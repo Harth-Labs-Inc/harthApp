@@ -7,7 +7,9 @@
     flex-direction: column;
     justify-content: center;
     min-width: 300px;
-    row-gap: 24px;
+    row-gap: 16px;
+    @include rubik;
+    font-size: 14px;
 
     .title {
         @include overlayMenuTitle;
@@ -15,20 +17,28 @@
         text-align: center;
         margin-top: 8px;
         margin-bottom: 20px;
+        color: $alert_red;
     }
 
     .harthImage {
         height: 56px;
         width: 56px;
-        border-radius: 6px;
+        border-radius: 8px;
+        border: 1px solid $fuel_50;
+        margin-top: 12px;
     }
     .harthName {
+        margin-top: -6px;
+        margin-bottom: 12px;
         font-weight: 500;
+        @include harthTitleSmall;
     }
 
     .text {
         width: 90%;
         text-align: center;
+        color: $fuel_50;
+        font-size: 12px;;
     }
 
     .form {
@@ -37,18 +47,12 @@
         justify-content: flex-end;
     }
 
-    .harthTitle {
-        position: relative;
-        margin-top: 4px;
-        @include contentR3;
-    }
-
     .buttonBar {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
         column-gap: 8px;
-        margin-top: 40px;
+        margin-top: 16px;
 
         .cancelButton {
             width: 96px;

@@ -8,11 +8,11 @@
     z-index: 300;
     height: 100vh;
     width: 100vw;
-    backdrop-filter: blur(3px);
-    background-color: $oxygen_10;
-    // opacity: 0;
-    // visibility: hidden;
-    // transition: opacity 0.3s;
+
+    background-color: $black_10;
+    //backdrop-filter: grayscale(60%);
+    backdrop-filter: blur(5px);
+
 
     &Mid {
         position: absolute;
@@ -21,18 +21,24 @@
         top: 49%;
         left: 50%;
         transform: translate3d(-50%, -50%, 0);
-        padding: 24px 24px 24px 24px;
-        background-color: $oxygen;
-        border: 1px solid $fuel_10;
-        border-radius: 18px;
+        padding: 0px;
+        background-color: $light_ash;
+       // border: 1px solid $ash_10;
+        border-radius: 12px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
+        overflow: hidden;
+        
         &Dark {
             background-color: $ash;
         }
 
+        &Padding {
+            padding: 24px; 
+        }
+
     }
 
+    
     &Left {
         position: absolute;
         top: 0;

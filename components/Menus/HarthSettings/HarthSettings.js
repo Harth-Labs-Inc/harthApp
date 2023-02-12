@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import CloseButton from "../../Common/Buttons/CloseButton";
-import { TextBtn } from "../../Common/Button";
 import { IconNotificationsNoFill } from "../../../resources/icons/IconNotificationsNoFill";
+import { IconNotificationsFill } from "../../../resources/icons/IconNotificationsFill";
 import IconAdminPanel from "../../../resources/icons/IconAdminPanel";
 import { IconAccountNoFill } from "../../../resources/icons/IconAccountNoFill";
+import { IconAccountFill } from "../../../resources/icons/IconAccountFill";
 import HarthNotificationSettings from "./HarthNotificationSettings/HarthNotificationSettings";
 import HarthAdminSettings from "./HarthAdminSettings/HarthAdminSettings";
 import HarthMembersSettings from "./HarthMembersSettings/HarthMembersSettings";
@@ -37,7 +38,15 @@ const HarthSettings = (props) => {
   };
 
   if (isLoading) {
-    return <p>some kind of spinner would be nice</p>;
+    return (
+      <div className={styles.mainContainer}>
+
+      <div className={styles.Loading} >
+        <p>Loading Settings</p>
+        </div>
+      </div>
+
+    );
   }
 
   let page;
@@ -58,51 +67,47 @@ const HarthSettings = (props) => {
       <div className={styles.mainContainer}>
         <div className={styles.topBar}>
           <div className={styles.title}>{communityName}</div>
-          <CloseButton onClick={onToggleModal} />
+          <div className={styles.buttonHolder}><CloseButton onClick={onToggleModal} /></div>
         </div>
 
         <div className={styles.navTabs} role="nav">
           <button
-            className={
-              currentPage == "notifications"
-                ? styles.buttonActive
-                : styles.button
-            }
+            className={`
+            ${styles.tabButton}
+            ${currentPage == "notifications" && styles.tabButtonActive}
+          `}
             onClick={() => {
               changePageHandler("notifications");
             }}
           >
-            <div style={{ height: 24, width: 24, marginRight: 4 }}>
-              <IconNotificationsNoFill />
-            </div>
+
+            {currentPage == "notifications" ? <IconNotificationsFill /> : <IconNotificationsNoFill />}
             Notifications
           </button>
 
           <button
-            className={
-              currentPage == "members" ? styles.buttonActive : styles.button
-            }
+            className={`
+            ${styles.tabButton}
+            ${currentPage == "members" && styles.tabButtonActive}
+          `}
             onClick={() => {
               changePageHandler("members");
             }}
           >
-            <div style={{ height: 24, width: 24, marginRight: 4 }}>
-              <IconAccountNoFill />
-            </div>
+            {currentPage == "members" ? <IconAccountFill /> : <IconAccountNoFill />}
             Members
           </button>
 
           <button
-            className={
-              currentPage == "admin" ? styles.buttonActive : styles.button
-            }
+            className={`
+              ${styles.tabButton}
+              ${currentPage == "admin" && styles.tabButtonActive}
+            `}
             onClick={() => {
               changePageHandler("admin");
             }}
           >
-            <div style={{ height: 24, width: 24, marginRight: 4 }}>
-              <IconAdminPanel />
-            </div>
+            {currentPage == "admin" ? <IconAdminPanel /> : <IconAdminPanel />}
             Admin
           </button>
         </div>

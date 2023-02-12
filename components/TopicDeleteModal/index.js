@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "../Common";
 
-import styles from "./TopicEditModal.module.scss";
+import styles from "./TopicDeleteModal.module.scss";
 
 const TopicDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
     const submitHandler = async (e) => {
@@ -17,11 +17,11 @@ const TopicDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
     return (
         <div className={styles.mainContainer}>
             <div className={styles.title}>Confirm Delete</div>
-            <p>you are about to delete</p>
-            <p>{topic?.title}</p>
-            <p>
-                the topic will be deleted and all content will be deleted. This
-                cannot be undone
+            <p className={styles.text}>you are about to delete the topic:</p>
+            <div className={styles.topic}>{topic?.title}</div>
+            <p className={styles.subtext}>
+                The topic will be deleted and all content will be erased. This
+                cannot be undone.
             </p>
             <form onSubmit={submitHandler} className={styles.form}>
                 <div className={styles.buttonBar}>
@@ -33,7 +33,7 @@ const TopicDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
                     />
                     <Button
                         type="submit"
-                        text="DELETE"
+                        text="Delete"
                         className={styles.submitButton}
                     />
                 </div>

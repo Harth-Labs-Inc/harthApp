@@ -18,7 +18,7 @@ const HarthDeleteModal = ({ setHidden, submitHarthChange, harth }) => {
     return (
         <div className={styles.mainContainer}>
             <div className={styles.title}>!Confirm Delete!</div>
-            <p>You are about to delete</p>
+            <p>You are about to delete:</p>
             <img className={styles.harthImage} src={harth?.iconKey} />
             <p className={styles.harthName}>{harth?.name}</p>
             <p className={styles.text}>
@@ -39,7 +39,7 @@ const HarthDeleteModal = ({ setHidden, submitHarthChange, harth }) => {
                     />
                     <Button
                         type="submit"
-                        text="DELETE"
+                        text="Delete"
                         className={styles.submitButton}
                     />
                 </div>

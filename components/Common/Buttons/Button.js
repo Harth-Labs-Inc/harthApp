@@ -11,6 +11,7 @@ export const Button = (props) => {
         onClick,
         type = "button",
         size = "large",
+        isLoading = false,
     } = props;
 
     return (
@@ -26,6 +27,7 @@ export const Button = (props) => {
                 ${size === "large" ? styles.buttonLarge : styles.buttonSmall} 
                 ${fullWidth ? styles.buttonFullWidth : ""}
                 ${className}
+                ${(isLoading && (tier =="primary")) && styles.buttonLoading}
             `}
             disabled={isDisabled}
             aria-label={textLabel}

@@ -6,8 +6,11 @@
     display: flex;
     flex-direction: column;
     row-gap: 2px;
-    margin: 8px 0px 0px 0px;
-    //background-color: bisque;
+    margin: 0px 0px 8px 0px;
+    background-color: transparent;
+    border-radius: 12px;
+    padding: 0px 0px 8px 0px;
+    //border: 1px solid $ash_10;
 
     .imageBar {
         display: flex;
@@ -17,10 +20,9 @@
         row-gap: 8px;
         justify-content: flex-start;
         width: auto;
-        background: $hot_pink_20;
+        background: $ash_10;
         padding: 8px;
-        border: 0;
-        border-bottom: 1px solid $fuel_50;
+        border-bottom: 1px solid $ash_10;
 
         .imageContainer {
             position: relative;
@@ -64,15 +66,15 @@
         max-height: 50vh;
         margin: 0;
         padding: 8px 12px;
-        @include contentR2;
-        //background: aqua;
+        @include chatText;
+        color: $fuel;
+        background: $light_ash;
         border: 0;
     }
 
     .entryBox {
-        background-color: $light_ash;
-        border: 1px solid $fuel_50;
-        border-radius: 20px;
+        border: 1px solid $ash_10;
+        border-radius: 6px;
         padding: 0;
         overflow: hidden;
     }
@@ -101,7 +103,7 @@
                 cursor: pointer;
 
                 path {
-                    fill: $fuel_50;
+                    fill: $ash_30;
                 }
 
                 &Mobile {
@@ -111,22 +113,23 @@
                 }
 
                 &:hover {
-                    background-color: $fuel_10;
+                    background-color: $ash_05;
                     path {
-                        fill: $fuel;
+                        fill: $ash;
                     }
                 }
 
                 &.SendActive {
-                    border: 1px solid $fuel_10;
+                    border: 1px solid $ash_05;
+                    background-color: $hot_pink;
                     path {
-                        fill: $hot_pink;
+                        fill: $white;
                     }
                 }
 
                 &:before {
                     @include x-y-center;
-                    color: $fuel_50;
+                    color: $ash_30;
                     font-size: 16px;
                 }
 

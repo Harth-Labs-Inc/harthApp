@@ -2,28 +2,61 @@
 @import "../../../../styles/fonts.scss";
 
 .imageHolder {
-    margin-top: 40px;
+    margin-top: 48px;
+}
+
+.justImage {
+    margin-top: 56px;
+    //background-color: aqua;
+
+    img {
+        width: 72px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 12px;
+        border: 1px solid $fuel_10;
+    }   
+}
+
+.justTitle {
+    @include harthTitle2;
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .form {
     margin-top: 30px;
+    width: 100%;
+    margin-top: 32px;
 
     &Content {
         display: flex;
+        justify-content: center;
         height: 40px;
+        //background-color: aquamarine;
+        //margin: auto;
     }
 
     .textEntry {
         margin: 0;
+        width: 220px;
         padding: 8.5px 20px;
         background-color: $fuel_10;
         border: 0;
         border-radius: 99px 0 0 99px;
+        @include harthTitleSmall;
     }
     .formSubmit {
-        padding: 8px;
-        background-color: $fuel;
+        width: 96px;;
+        padding: 8px ;
+        background-color: $hot_pink;
         border-radius: 0 99px 99px 0;
+        color: $oxygen;
+        @include ubuntu;
+        border: 0;
+        outline: 0;
+        font-size: 14px;
     }
 }
 
@@ -32,26 +65,27 @@
     padding: 16px 0px;
 
     .title {
-        @include interfaceR2;
-        color: $fuel;
         width: fit-content;
         padding: 4px 16px 4px 0px;
         border-bottom: 1px solid $fuel;
-        text-transform: capitalize;
     }
 
-    // .leaveButton {
-    //     width: fit-content;
-    //     background-color: $alert_red;
-    //     border: 0;
-    //     margin-top: 8px;
-    // }
+    .leaveButton {
+        margin-top: 40px;
+    }
 }
 
 .DeleteModal {
-    section {
-        top: 0;
-        left: 0;
-        transform: none;
-    }
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    //background: aqua;
+    // section {
+    //     top: 0;
+    //     left: 0;
+    //     transform: none;
+    // }
 }

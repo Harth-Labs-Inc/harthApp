@@ -4,18 +4,29 @@
 .conversation {
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    width: fit-content;
     height: fit-content;
-    min-height: 40px;
-
-    padding: 4px 0px 10px 4px;
+    width: 100%;
+    padding: 8px 0px 12px 0px;
     border: 0;
-    color: $oxygen_40;
-    border-radius: 12px;
-    //background-color: $warm_blue_highlight;
+    background-color: transparent;
+    //border: 1px solid red;
+    //color: $warm_blue_highlight;
+    //background-color: aqua;
+    cursor: pointer;
+
+    &::after {
+        position: absolute;
+        content: " ";
+        bottom: 0;
+        left: 4px;
+        width: 64px;
+        border-bottom: 1px solid $ash_05;
+
+    }
+
 
     .label {
         display: flex;
@@ -23,7 +34,7 @@
         text-align: left;
         @include topicTitle;
         padding-right: 12px;
-        padding-left: 12px;
+        padding-left: 8px;
         padding-top: 1px;
         height: 32px;
         width: fit-content;
@@ -66,9 +77,9 @@
     
 
     &Alert {
-        color: $oxygen_80;
+        color: $oxygen;
         img {
-            opacity: .85;
+            opacity: 1;
         }
 
     }
@@ -87,23 +98,20 @@
     &InActive {
         background-color: transparent;
         img {
-            opacity: .7;
-            border: 2px solid $warm_blue;
+            opacity: .6;
+            border: 2px solid $light_ash;
     
         }
 
 
         &:hover {
-            background-color: $warm_blue_highlight;
-
             img {
                 opacity: 1;
-                border: 2px solid $warm_blue_highlight;
         
             }
 
             .label {
-                color: $oxygen_80;
+                color: $ash;
 
             }
 
@@ -112,11 +120,10 @@
     }
     &Active {
         
-        background-color: $oxygen;
-
         .label {
-            color: $warm_blue;
+            color: $ash;
             //background-color: $oxygen;
+            @include topicTitleActive;
         }
 
        img {

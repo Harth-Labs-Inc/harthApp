@@ -15,11 +15,11 @@ const HarthLeaveModal = ({ setHidden, submitHarthChange, harth }) => {
 
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.title}>!Confirm Leave</div>
-            <p>you are about to leave</p>
-            <p>{harth?.name}</p>
-            <p>This cannot be undone.</p>
-            <p>You must be intived back to rejoin.</p>
+            <div className={styles.title}>!Confirm Leave!</div>
+            <p>You are about to leave:</p>
+            <img className={styles.harthImage} src={harth?.iconKey} />
+            <p className={styles.harthName}>{harth?.name}</p>
+            <p className={styles.text}>You must be intived back to rejoin.</p>
             <form onSubmit={submitHandler} className={styles.form}>
                 <div className={styles.buttonBar}>
                     <Button

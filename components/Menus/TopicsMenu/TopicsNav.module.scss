@@ -3,12 +3,14 @@
 
 .TopicsNav {
     position: relative;
-    width: 240px;
-    min-width: 240px;
+    width: 220px;
+    min-width: 220px;
     padding: 20px 0px 0px 24px;
-    background-color: $warm_blue;
+    //background-color: $warm_blue_light;
+    background-color: $light_ash;
     height: 100%;
     overflow-y: scroll;
+    border-right: 1px solid $fuel_5;
 
     &Mobile {
         width: 100%;
@@ -16,39 +18,53 @@
     }
 
     &Title {
+        position: relative;
         @include smallTitle;
-        padding: 4px 0px;
+        padding: 0px 0px 6px 0px;
         text-transform: uppercase;
-        color: $oxygen_80;
+        color: $ash;
+        margin-bottom: 8px;
+        user-select: none;
+
+        &:after {
+            position: absolute;
+            bottom: 2px;
+            left: 0px;
+            height: 1px;
+            width: 30px;
+            content: "";
+            background-color: $ash;
+        }
 
     }
 
     &Hidden {
         position: relative;
         @include smallTitle;
-        padding: 4px 0px;
+        padding: 0px 0px 6px 0px;
         text-transform: uppercase;
-        color: $oxygen_40;
+        color: $warm_blue_highlight;
         border: 0;
         background: transparent;
         cursor: pointer;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
+        user-select: none;
 
         &:hover {
-            color: $oxygen_80;
+            color: $ash;
         }
 
         &Active {
-            color: $oxygen_80;
+            color: $ash;
 
             &:after {
                 position: absolute;
-                bottom: 0px;
+                bottom: 2px;
                 left: 0px;
                 height: 1px;
                 width: 30px;
                 content: "";
-                background-color: $oxygen_80;
+                background-color: $ash;
             }
         }
     }
@@ -56,31 +72,23 @@
     &Container {
         position: relative;
         margin: 0;
-        padding: 12px 0 80px 0;
+        padding: 0px 0 80px 0;
         overflow: scroll;
 
-        &:before {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            height: 1px;
-            width: 30px;
-            content: "";
-            background-color: $oxygen_80;
-        }
     }
 
 
 
     &Create {
         position: relative;
-        padding: 0px 8px;
+        padding: 0px 0px;
+        margin-top: 8px;
         &Button {
             display: flex;
             flex-direction: row;
             align-items: center;
-            column-gap: 6px;
-            color: $oxygen_40;
+            column-gap: 2px;
+            color: $warm_blue_highlight;
             @include topicTitle;
             height: 40px;
             background: transparent;
@@ -90,22 +98,23 @@
 
             .iconHolder {
                 display: flex;
-                height: 16px;
-                width: 16px;
-                background-color: $oxygen_40;
-                border-radius: 4px;
-                padding: 1px;
+                height: 20px;
+                width: 20px;
+                padding: 2px;
                 path {
-                    fill: $warm_blue;
-                    stroke-width: 1px;
-                    stroke: $warm_blue;
+                    fill: $warm_blue_highlight;
                 }
             }
 
             &:hover {
-                color: $oxygen_80;
+                color: $hot_pink;
+                //@include topicTitleActive;
                 .iconHolder {
-                    background-color: $oxygen_80;
+                    padding: 1px;
+                    //background-color: lighten($warm_blue_light, 5%);
+                    path {
+                        fill: $hot_pink;
+                    }
                 }
 
             }
@@ -119,8 +128,8 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            column-gap: 8px;
-            color: $oxygen_40;
+            column-gap: 12px;
+            color: $ash_50;
             @include topicTitleMobile;
             height: 48px;
             background: transparent;
@@ -132,19 +141,19 @@
             .iconHolder {
                 height: 16px;
                 width: 16px;
-                background-color: $oxygen_40;
+                background-color: $ash_50;
                 border-radius: 4px;
                 path {
-                    fill: $warm_blue;
+                    fill: $light_ash;
                     stroke-width: 1px;
-                    stroke: $warm_blue;
+                    stroke: $light_ash;
                 }
             }
 
             &:hover {
-                color: $oxygen;
+                color: $ash;
                 .iconHolder{
-                    background-color: $oxygen;
+                    background-color: $ash;
                 }
             }
         }

@@ -15,12 +15,15 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $warm_blue_light;
+        background-color: $warm_blue_highlight;
         width: 100%;
         height: 40px;
-        @include interfaceH4;
-        padding: 0px 8px;
-        border-radius: 8px;
+        @include topicTitleActive;
+        letter-spacing: 0.03em;
+        padding: 0px 8px 0px 12px;
+        border-radius: 4px;
+        color: $oxygen;
+
     }
     
     .individualRow {
@@ -31,8 +34,10 @@
         background-color: transparent;
         width: 100%;
         height: 40px;
-        padding: 0px 8px 0px 24px;
-        @include interfaceR2;
+        padding: 0px 16px 0px 16px;
+        @include topicTitle;
+
+
     }
 
     .chatListHolder{

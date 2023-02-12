@@ -131,13 +131,15 @@ const HarthAdminSettings = ({ onToggleModal, submitHandler }) => {
                     )}
                 </Modal>
             ) : null}
+
+
             {isSuperUser ? (
                 <>
                     <div className={styles.imageHolder}>
                         <IconUploader
                             shape="square"
                             id={""}
-                            icon={""}
+                            icon={selectedcomm.iconKey}
                             name={""}
                             changeHandler={fileUploadHandler}
                         />
@@ -153,18 +155,50 @@ const HarthAdminSettings = ({ onToggleModal, submitHandler }) => {
                                 type="text"
                                 className={styles.textEntry}
                                 defaultValue={selectedcomm?.name}
+                                autoComplete = "off"
                             />
                             <button
                                 type="submit"
                                 className={styles.formSubmit}
                                 ariaLabel="submit new harth name"
                             >
-                                <IconEditFill fill="#fff" />
+                                Update
                             </button>
                         </div>
                     </form>
                 </>
-            ) : null}
+            ) : (
+                //state for non owner. should just show title and image.
+                <>
+                <div className={styles.justImage}>
+                    <img src={selectedcomm.iconKey} />
+                </div>
+                <div className={styles.justTitle}>
+                    {selectedcomm?.name}
+                </div>
+
+            </>
+            
+            
+            
+            )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div className={styles.contentHolder}>
                 <Button
                     tier="secondary"

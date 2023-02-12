@@ -8,7 +8,7 @@
     justify-content: space-between;
     //height: 64px;
     width: 100%;
-    @include titleNav;
+    
 
 
 
@@ -75,12 +75,13 @@
             margin-top: 2px;
             cursor: pointer;
             white-space: nowrap;
+            user-select: none;
 
             .icon {
-                width: 18px;
-                height: 18px;
-                margin-left: 2px;
-                margin-bottom: 24px;
+                width: 14px;
+                height: 14px;
+                margin-left: -2px;
+                margin-bottom: 46px;
                 path {
                     fill: transparent;
                 }
@@ -119,13 +120,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: $oxygen_40;
+        color: $oxygen_80;
         background-color: transparent;
         border: 0;
         cursor: pointer;
-
+        user-select: none;
         path {
-            fill: $oxygen_40;
+            fill: $oxygen_80;
         }
 
         &:before {
@@ -133,7 +134,7 @@
             bottom: 8px;
             left: 50%;
             transform: translate3d(-50%, 0, 0);
-            height: 3px;
+            height: 2px;
             content: "";
             background-color: transparent;
             border-radius: 999px;
@@ -227,12 +228,13 @@
 
             &:hover {
                 color: $oxygen;
-                path {
-                    fill: $oxygen;
-                }
+                // path {
+                //     fill: $oxygen;
+                // }
+
             }
             &:before {
-                width: 32px;
+                width: 24px;
             }
         }
     }

@@ -13,24 +13,37 @@
     border: 0;
     background-color: transparent;
     //border: 1px solid red;
-    color: $oxygen_40;
+    //color: $warm_blue_highlight;
+    //background-color: aqua;
+    cursor: pointer;
+   
+
+    &::after {
+        position: absolute;
+        content: " ";
+        bottom: 0;
+        left: 4px;
+        width: 64px;
+        border-bottom: 1px solid $ash_05;
+
+    }
+
 
     .label {
+        position: relative;
         display: flex;
         align-items: center;
         //justify-content: center;
+        height: 32px;
         text-align: left;
         @include topicTitle;
-        padding-right: 12px;
-        padding-left: 12px;
-        padding-top: 1px;
-        height: 32px;
+        padding: 0px 4px;
         width: fit-content;
-        border-top-left-radius: 999px;
-        border-bottom-left-radius: 999px;
-        border-radius: 999px;;
-
+        color: $warm_blue_highlight;
+       // border-top: 1px solid $ash_05;
+        
     }
+
 
     .alertProfiles {
         display: flex;
@@ -38,15 +51,16 @@
         //column-gap: 1px;
         //row-gap: 1px;
         flex-wrap: wrap;
-        padding: 0px 8px 0px 16px;
-        margin-top: -4px;
+        padding: 0px 8px 8px 8px;
+        margin-top: -8px;
         z-index: 1;
 
         img {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             //object-fit: cover;
             border-radius: 999px;
+            border: 2px solid $light_ash;;
         }
 
         &Mobile {
@@ -65,24 +79,28 @@
     &InActive {
         &:hover {
             .label{
-                background-color:$warm_blue_highlight;
-                color: $oxygen_80;
+                //background-color:$warm_blue_light;
+                color: $ash;
             }
 
         }
     }
 
     &Active {
+        
         .label {
-            color: $warm_blue;
-            background-color:$oxygen;
+            @include topicTitleActive;
+            color: $ash;
+            //background-color: $warm_blue_light;
         }
         
         
     }
 
     &Alert {
-        color: $oxygen_80;
+        .label {
+            @include topicTitleActive;
+        }
     }
 
     &Mobile {
@@ -93,7 +111,8 @@
 
         .label {
             @include topicTitleMobile;
-            height: 40px;
+            //height: 40px;
+            padding: 24px 16px;
         }
     }
 }

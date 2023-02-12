@@ -12,6 +12,7 @@ export const Modal = (props) => {
         onToggleModal,
         isDark = false,
         classNames,
+        hasPadding = true,
     } = props;
 
     const ref = useRef();
@@ -37,11 +38,11 @@ export const Modal = (props) => {
             >
                 <section
                     ref={ref}
-                    className={`${styles.ModalMid} 
-                                                ${
-                                                    isDark &&
-                                                    styles.ModalMidDark
-                                                }`}
+                    className={`
+                        ${styles.ModalMid} 
+                        ${isDark && styles.ModalMidDark}
+                        ${hasPadding && styles.ModalMidPadding}
+                    `}
                 >
                     <div className="modal_body">{children}</div>
                 </section>
