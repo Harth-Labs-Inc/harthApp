@@ -56,7 +56,7 @@ const dashboard = (props) => {
         changePageHandler(roomType);
       } else {
         changePageHandler("chat");
-        const showFirstTimeUser = Cookies.get("showFirstTimeUser");
+        const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");
         if (showFirstTimeUser) {
           sendWelcomeEmailToUser({
             user,
@@ -65,19 +65,22 @@ const dashboard = (props) => {
           if (!inviteTKN && !tkn) {
             setShowCreateHarthNameModal(true);
           } else {
-            Cookies.remove("showFirstTimeUser");
+            localStorage.removeItem("showFirstTimeUser");
             setShowCreateHarthNameModal(false);
             setShowInviteAcceptModal(true);
           }
         } else {
+          console.log("inviteTKN || tkn", inviteTKN, tkn);
           if (inviteTKN || tkn) {
             async function testToken() {
               let results = await checkIfInviteTokenIsGood({
-                token: tkn,
+                token: tkn || inviteTKN,
                 user,
               });
               if (results?.ok) {
+                console.log("harth", results?.harth);
                 setShowCreateHarthNameModal(false);
+                setInvitedHarth({ ...results?.harth });
                 setShowInviteAcceptModal(true);
               } else {
                 setInviteTKN(null);
@@ -102,9 +105,9 @@ const dashboard = (props) => {
     setShowCreateHarthProfileModal(true);
   };
   const resetNewHarth = () => {
-    const showFirstTimeUser = Cookies.get("showFirstTimeUser");
+    const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");
     if (showFirstTimeUser) {
-      Cookies.remove("showFirstTimeUser");
+      localStorage.removeItem("showFirstTimeUser");
     }
     setNewHarth(null);
     setShowCreateHarthProfileModal(false);
@@ -191,8 +194,10 @@ const dashboard = (props) => {
                   tkn={tkn || inviteTKN || ""}
                   user={user}
                   closeHandler={() => {
-                    setShowInviteAcceptModal(false);
+                    resetNewInviteHarth();
+                    window.history.replaceState(null, null, "dashboard");
                   }}
+                  invitedHarth={invitedHarth}
                 />
               ) : null}
               {showInviteProfileModal ? (

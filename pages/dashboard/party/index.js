@@ -765,19 +765,7 @@ const Party = () => {
   const createLocalVideo = (incomingStream, peer, call) => {
     let existingVideoContainer = document.getElementById(incomingStream.id);
     if (!existingVideoContainer) {
-      let parentContainer = document.getElementById("video-container");
-      // if (!parentContainer) {
-      //     parentContainer = document.createElement("div");
-      //     parentContainer.className = styles.ownerVideo;
-
-      //     // let nameContainer = document.createElement("p");
-      //     // var nameText = document.createTextNode(peer?.name);
-      //     // nameContainer.className = styles.peerName;
-      //     // nameContainer.appendChild(nameText);
-      //     // parentContainer.append(nameContainer);
-      //     const roomContainer = document.getElementById("peerContainer");
-      //     roomContainer.append(parentContainer);
-      // }
+      let parentContainer = document.getElementById("localContainer");
 
       const videoContainer = document.createElement("div");
       const video = document.createElement("video");
@@ -1156,6 +1144,7 @@ const Party = () => {
           ></section>
 
           <section
+            id="chatContainer"
             className={` ${styles.ChatPanelContainer} ${
               showChatPannel ? styles.ChatPanelContainerOpen : null
             } `}
@@ -1163,6 +1152,8 @@ const Party = () => {
             <ChatMessagesGeneral messages={chats} userName={userName} />
             <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
           </section>
+
+          <section id="localContainer"></section>
         </section>
         <>
           <GatherControlBar

@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
       router.push("/");
     }
     async function fetchUserFromToken() {
-      const token = Cookies.get("token");
+      const token = localStorage.getItem("token");
       if (token) {
         const data = await getUserFromToken(token);
         const { ok, user } = data;
