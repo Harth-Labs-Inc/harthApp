@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&display=swap');
 
 
 
@@ -38,11 +38,12 @@
 
 @mixin titleNav {
     font-family: "Ubuntu", sans-serif;
+    //font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 12px;
-    letter-spacing: 0.04em;
+    //letter-spacing: 0.04em;
     line-height: 12px;
-    text-rendering: optimizeLegibility;
+    //text-rendering: optimizeLegibility;
 
 }
 
@@ -57,9 +58,8 @@
 }
 
 @mixin smallTitle {
-    //font-family: 'Rubik', sans-serif;
-    font-family: "Ubuntu", sans-serif;
-    font-weight: 600;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 700;
     font-size: 10px;
     letter-spacing: 0.1em;
     line-height: 125%;
@@ -78,35 +78,35 @@
 }
 
 @mixin topicTitle {
-    //font-family: "Rubik", sans-serif;
+    //font-family: "Work Sans", sans-serif;
     font-family: "Ubuntu", sans-serif;
     font-weight: 400;
-    font-size: 13px;
-    //letter-spacing: 0.02em;
-    line-height: 14px;
-    text-rendering: optimizeLegibility;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    line-height: 125%;
+    //text-rendering: optimizeLegibility;
 
 }
 
 @mixin topicTitleActive {
-    //font-family: "Rubik", sans-serif;
+    //font-family: "Work Sans", sans-serif;
     font-family: "Ubuntu", sans-serif;
     font-weight: 700;
-    font-size: 13px;
-    //letter-spacing: 0.03em;
-    line-height: 14px;
-    text-rendering: optimizeLegibility;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    line-height: 125%;
+    //text-rendering: optimizeLegibility;
 
 }
 
 @mixin topicTitleMobile {
-    //font-family: "Rubik", sans-serif;
+    //font-family: "Work Sans", sans-serif;
     font-family: "Ubuntu", sans-serif;
     font-weight: 500;
     font-size: 16px;
     letter-spacing: 0.03em;
     line-height: 125%;
-    text-rendering: optimizeLegibility;
+    //text-rendering: optimizeLegibility;
 
 }
 
@@ -114,16 +114,16 @@
     font-family: "Arvo", serif;
     font-weight: 400;
     font-size: 13px;
-    letter-spacing: 0em;
-    line-height: 125%;
+    line-height: 150%;
+    letter-spacing: 0.01em;
     text-rendering: optimizeLegibility;
 
 }
 
 @mixin chatProfile {
-    font-family: "Rubik", sans-serif;
-    font-weight: 500;
-    font-size: 11px;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
     letter-spacing: 0.02em;
     line-height: 12px;
     text-rendering: optimizeLegibility;
@@ -131,7 +131,7 @@
 }
 
 @mixin timeStamp {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 10px;
     letter-spacing: 0.02em;
@@ -141,7 +141,7 @@
 }
 
 @mixin roomType {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 700;
     font-size: 40px;
     letter-spacing: 0em;
@@ -152,7 +152,7 @@
 }
 
 @mixin menuTitle {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 500;
     font-size: 14px;
     letter-spacing: 0.05em;
@@ -162,7 +162,7 @@
 }
 
 @mixin menuSubTitle {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 12px;
     letter-spacing: 0.02em;
@@ -172,7 +172,7 @@
 }
 
 @mixin menuText {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 300;
     font-size: 13px;
     letter-spacing: 0.05em;
@@ -183,8 +183,8 @@
 
 
 @mixin overlayMenuTitle {
-    font-family: "Rubik", sans-serif;
-    font-weight: 500;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 600;
     font-size: 28px;
     letter-spacing: 0.02em;
     line-height: 28px;
@@ -211,13 +211,33 @@
 }
 
 
+@mixin subtext {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    line-height: 14px;
+    text-rendering: optimizeLegibility;
+    color: $ash_light;
+
+}
+
+@mixin mouseover {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    line-height: 14px;
+    color: $oxygen;
+}
+
 
 
 @mixin rubik {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 12px;
-    text-rendering: optimizeLegibility;
+    //text-rendering: optimizeLegibility;
 
 }
 
@@ -225,14 +245,22 @@
     font-family: "Ubuntu", sans-serif;
     font-weight: 400;
     font-size: 12px;
-    text-rendering: optimizeLegibility;
+    //text-rendering: optimizeLegibility;
+
+}
+
+@mixin worksans {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    //text-rendering: optimizeLegibility;
 
 }
 
 
 
 @mixin interfaceH1 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 500;
     font-size: 20px;
     letter-spacing: 0.02em;
@@ -241,7 +269,7 @@
 
 }
 @mixin interfaceH2 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 18px;
     letter-spacing: 0.02em;
@@ -250,7 +278,7 @@
 
 }
 @mixin interfaceH3 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 16px;
     letter-spacing: 0.02em;
@@ -259,7 +287,7 @@
 
 }
 @mixin interfaceH4 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 14px;
     letter-spacing: 0.02em;
@@ -267,7 +295,7 @@
     text-rendering: optimizeLegibility;
 }
 @mixin interfaceH5 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 500;
     font-size: 12px;
     letter-spacing: 0.02em;
@@ -277,7 +305,7 @@
 }
 
 @mixin interfaceR1 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 16px;
     letter-spacing: 0.02em;
@@ -286,7 +314,7 @@
 
 }
 @mixin interfaceR2 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 13px;
     letter-spacing: 0.04em;
@@ -295,7 +323,7 @@
 
 }
 @mixin interfaceR3 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 12px;
     letter-spacing: 0.02em;
@@ -304,7 +332,7 @@
 
 }
 @mixin interfaceR4 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 11px;
     letter-spacing: 0.02em;
@@ -314,7 +342,7 @@
 }
 
 @mixin contentH1 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 900;
     font-size: 24px;
     letter-spacing: -0.02em;
@@ -323,7 +351,7 @@
 
 }
 @mixin contentH2 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 500;
     font-size: 18px;
     letter-spacing: 0.02em;
@@ -332,7 +360,7 @@
 
 }
 @mixin contentH3 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 500;
     font-size: 16px;
     letter-spacing: 0.02em;
@@ -341,7 +369,7 @@
 
 }
 @mixin contentH4 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 500;
     font-size: 14px;
     letter-spacing: 0.02em;
@@ -350,7 +378,7 @@
 
 }
 @mixin contentH5 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 500;
     font-size: 12px;
     letter-spacing: 0.02em;
@@ -360,7 +388,7 @@
 }
 
 @mixin contentR1 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 16px;
     letter-spacing: 0.02em;
@@ -369,7 +397,7 @@
 
 }
 @mixin contentR2 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 13px;
     letter-spacing: 0.04em;
@@ -378,7 +406,7 @@
 
 }
 @mixin contentR3 {
-    font-family: "Rubik", sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-size: 12px;
     letter-spacing: 0.04em;

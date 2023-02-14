@@ -85,65 +85,38 @@ export default function CreateNewTopicModal({ toggleModal }) {
     <Modal onToggleModal={toggleModal}>
       <div className={styles.mainContainer}>
         <div className={styles.title}>New topic</div>
-
         <form
           className={styles.CreateTopic}
           onSubmit={handleSubmit(createNewTopic)}
         >
-          <input
-            {...register("topicName", { required: true })}
-            placeholder="Topic name"
-            type="text"
-            autocomplete="off"
-          />
-          <ErrorMessage
-            errorMsg={
-              errors.topicName ? "You must set a Topic name to begin." : null
-            }
-          />
-          <p className={styles.CreateTopicTimeText}>
-            Content in this topic will be kept for 90 days
-          </p>
-          {/* <div className={styles.CreateTopicTime}>
-            <label
-              className={`${styles.CreateTopicTimeButton} ${
-                watchAge === "long" ? styles.Active : null
-              }`}
-              htmlFor="field-long"
-            >
-              <input
-                {...register("contentAge", { required: true })}
-                type="radio"
-                value="long"
-                id="field-long"
-              />
-              <IconBookmarkNoFill />
-              90 days
-            </label>
-            <label
-              className={`${styles.CreateTopicTimeButton} ${
-                watchAge === "short" ? styles.Active : null
-              }`}
-              htmlFor="field-short"
-            >
-              <input
-                {...register("contentAge")}
-                type="radio"
-                value="short"
-                id="field-short"
-              />
-              <IconTimerNoFill />
-              24 hours
-            </label>
+          <div className={styles.inputHolder}>
+            <button >
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png" />
+            </button>
+
+            <input
+              {...register("topicName", { required: true })}
+              placeholder="Topic name"
+              type="text"
+              autocomplete="off"
+            />
           </div>
-          <ErrorMessage
-            errorMsg={errors.contentAge ? "You must set contents age" : null}
-          /> */}
+          < div className={styles.error}>
+            <ErrorMessage
+              errorMsg={
+                errors.topicName ? "You must set a topic name" : null
+              }
+            />
+          </div>
+          
+          <div className={styles.subtext}>
+            Content in this topic will be kept for 90 days
+          </div>
           <div className={styles.CreateTopicButtons}>
             <Button
               size="large"
               tier="secondary"
-              text="cancel"
+              text="Cancel"
               onClick={toggleModal}
             />
             <Button fullWidth size="large" text="Create Topic" type="submit" />

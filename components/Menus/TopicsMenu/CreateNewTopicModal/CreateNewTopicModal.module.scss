@@ -6,6 +6,7 @@
 .mainContainer {
     display: flex;
     flex-direction: column;
+    width: 300px;
 
     .title {
         @include overlayMenuTitle;
@@ -17,75 +18,94 @@
 }
 
 .CreateTopic {
-    &Time {
+    
+
+    .inputHolder {
+        position: relative;
         display: flex;
-        gap: 15px;
-        margin-bottom: 18px;
+        flex-direction: row;
+        gap: 10px;
+        padding: 0px 16px;
+        margin: 8px 0px 0px 0px;
+        
 
-        &Text {
-            @include interfaceR3;
-            margin-bottom: 12px;
-        }
-
-        &Button {
-            @include interfaceH2;
+        button {
             position: relative;
-            display: flex;
-            align-items: center;
-            width: 148px;
-            padding: 20.5px 10px;
-            border: 2px solid $fuel;
-            border-radius: 12px;
-            cursor: pointer;
-
-            svg {
-                margin-right: 6px;
-                height: 28px;
+            padding: 6px 6px;
+            width: fit-content;
+            height: fit-content;
+            border-radius: 8px;
+            border: 1px solid $fuel_10;
+            background-color: transparent;
+    
+            img {
                 width: 28px;
+                height: 28px;
             }
 
-            input {
-                position: absolute;
-                z-index: -1;
-                opacity: 0;
-            }
+            &:hover {
+                background-color: $fuel_10;
 
-            &.Active {
-                border-color: transparent;
-                &:before {
+                &::before {
                     position: absolute;
-                    inset: -2px;
-                    padding: 3px;
-                    content: "";
-                    background: linear-gradient(
-                        to right,
-                        #ffa773 0%,
-                        #d96fab 100%
-                    );
-                    border-radius: 12px;
-                    mask: linear-gradient(#fff 0 0) content-box,
-                        linear-gradient(#fff 0 0);
-                    -webkit-mask: linear-gradient(#fff 0 0) content-box,
-                        linear-gradient(#fff 0 0);
-                    -webkit-mask-composite: xor;
-                    mask-composite: exclude;
+                    top: -36px;
+                    width: 96px;
+                    left: 50%;
+                    transform: translate3d(-50%, 0, 0);
+                    padding: 6px 0px;
+                    border-radius: 8px;
+                    background-color: $ash_medium;
+                    content: "Pick an Emoji";
+                    @include mouseover;
+                    z-index: 10;
                 }
 
-                svg {
-                    path {
-                        fill: $fuel;
-                        stroke: $fuel;
-                    }
+                &::after {
+                    position: absolute;
+                    content: "";
+                    width: 0;
+                    height: 0;
+                    top: -13px;
+                    left: 50%;
+                    transform: translate3d(-50%, 0, 0);
+                    border-left: 8px solid transparent;
+                    border-right: 8px solid transparent;
+                    border-top: 10px solid $ash_medium;
+                    z-index: 9;
                 }
             }
         }
+
+        input {
+            @include topicTitleActive;
+        }
+
+       
     }
+
+    .error {
+        text-align: center;
+        margin-left: 64px;
+        margin-top: -4px;
+    }
+    .subtext {
+        width: 80%;
+        margin: auto;
+        text-align: center;
+        @include subtext;
+
+    }
+
+
 
     &Buttons {
         display: flex;
         gap: 16px;
         justify-content: space-between;
-        margin-top: 32px;
+        margin-top: 48px;
 
     }
+
+
+
 }

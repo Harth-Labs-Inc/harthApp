@@ -294,20 +294,18 @@ const TopicsNav = (props) => {
               );
             })}
 
-          <div className={styles.TopicsNavCreate}>
+          <div className={
+            isMobile
+              ? styles.TopicsNavCreateMobile 
+              : styles.TopicsNavCreate
+          }>
             <button
-              className={
-                isMobile
-                  ? styles.TopicsNavCreateMobileButton
-                  : styles.TopicsNavCreateButton
-              }
               id="create_topic"
               onClick={openCreateTopic}
             >
               <div className={styles.iconHolder}>
                 <IconAdd />
               </div>
-              topic
             </button>
           </div>
           {hiddenTopicsArr.length > 0 && (

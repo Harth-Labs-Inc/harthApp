@@ -30,6 +30,7 @@ $black: #000000;
 $black_05: rgba(0, 0, 0, 0.05);
 $black_10: rgba(0, 0, 0, 0.1);
 $black_20: rgba(0, 0, 0, 0.2);
+$black_30: rgba(0, 0, 0, 0.3);
 $black_50: rgba(0, 0, 0, 0.5);
 $black_60: rgba(0, 0, 0, 0.6);
 
@@ -45,6 +46,9 @@ $ash_20: rgba(40, 40, 40, 0.2);
 $ash_10: rgba(40, 40, 40, 0.1);
 $ash_05: rgba(40, 40, 40, 0.05);
 $ash_border: #3e3e3e;
+$ash_light: #787878;
+$ash_ultralight: #f8f8f8;
+$ash_medium: #484848;
 
 // Light Ash
 //$light_ash: #f8f8f8;
@@ -56,10 +60,13 @@ $fuel: #2f1d2a;
 $fuel_80: rgba(47, 29, 42, 0.8);
 $fuel_50: rgba(47, 29, 42, 0.5);
 $fuel_30: rgba(47, 29, 42, 0.3);
+$fuel_20: rgba(47, 29, 42, 0.2);
 $fuel_10: rgba(47, 29, 42, 0.1);
 $fuel_7: rgba(47, 29, 42, 0.07);
 $fuel_10F: #eae8e9;
 $fuel_5: rgba(47, 29, 42, 0.05);
+$fuel_dark: #100A0E;
+$fuel_light: #6A5464;
 
 // Hot Blue
 $hot_blue: rgb(13, 161, 181, 1);
@@ -106,6 +113,11 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
 
 //Chat bubbles
 $chat_bubble: #f7edf0;
+
+
+//topics bar
+$topics_bar: #f7edf0;
+
 
 
 

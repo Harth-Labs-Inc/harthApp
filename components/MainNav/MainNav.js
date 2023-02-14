@@ -50,7 +50,7 @@ const MainNav = (props) => {
   return (
     <>
       {modal ? (
-        <Modal onToggleModal={showModal} hasPadding={false}>
+        <Modal onToggleModal={showModal} >
           <HarthSettings
             communityName={selectedcomm?.name}
             communityId={selectedcomm?._id}
@@ -82,7 +82,7 @@ const MainNav = (props) => {
             <img className={styles.MainNavHarthButtonImage} src={selectedcomm?.iconKey} />
           </button>
         ) : (
-          <div style={{ minWidth: 240 }}>
+
             <button
               className={styles.MainNavHarthButton}
               onClick={handleHarthMenu}
@@ -91,7 +91,7 @@ const MainNav = (props) => {
               {selectedcomm?.name}
               <div className={styles.icon}><IconSettings /></div>
             </button>
-          </div>
+
         )}
 
         <div
@@ -136,6 +136,7 @@ const MainNav = (props) => {
             aria-label="Gather"
             className={`
                             ${styles.MainNavPageButton} 
+                            ${styles.MainNavPageButtonCenter} 
                             ${currentPage == "gather" ? styles.Active : null} 
                         `}
             onClick={() => {
@@ -179,7 +180,7 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              {currentPage == "message" ? <IconForumFill /> : <IconFireNoFill />}
+              {currentPage == "message" ? <IconForumFill /> : <IconForumNoFill />}
             </div>
             <div>Message</div>
           </button>

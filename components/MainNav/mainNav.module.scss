@@ -8,7 +8,7 @@
     justify-content: space-between;
     //height: 64px;
     width: 100%;
-    
+      
 
 
 
@@ -64,15 +64,16 @@
             align-items: center;
             @include harthTitle1;
             color: $oxygen;
-            padding: 6px 6px;
+            padding: 4px 6px 0px 6px;
             border-radius: 8px;
             text-overflow: ellipsis;
             overflow: hidden;
             background-color: transparent;
-            height: 48px;
+            height: 44px;
             max-width: 360px;
             border: 0;
-            margin-top: 2px;
+            
+            //margin-top: 2px;
             cursor: pointer;
             white-space: nowrap;
             user-select: none;
@@ -103,12 +104,16 @@
     &Pages {
         display: flex;
         align-items: center;
+        width: fit-content;
+        border: 1px solid $ash_medium;
         justify-content: center;
-        width: 100%;
-        // margin-top: 9px;
-        column-gap: 12px;
+        border-radius: 8px;
+        overflow: hidden;
 
         &Mobile {
+            width: 100%;
+            border: 0;
+            border-radius: 0;
             justify-content: space-evenly;
             padding: 0px 12px 0px 0px;
         }
@@ -120,25 +125,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: $oxygen_80;
+        color: $ash_light;
         background-color: transparent;
         border: 0;
         cursor: pointer;
         user-select: none;
         path {
-            fill: $oxygen_80;
+            fill: $ash_light;
         }
 
-        &:before {
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translate3d(-50%, 0, 0);
-            height: 2px;
-            content: "";
-            background-color: transparent;
-            border-radius: 999px;
+        &Center {
+            border-left: 1px solid $ash_medium;
+            border-right: 1px solid $ash_medium;
         }
+
 
         .iconHolder {
             position: relative;
@@ -181,9 +181,7 @@
             }
             .Desktop & {
                 color: $oxygen;
-                &:before {
-                    background-color: $oxygen;
-                }
+                background-color: $black_30;
             }
 
             .Mobile & {
@@ -212,6 +210,11 @@
             }
 
             &:before {
+                position: absolute;
+                content: "";
+                height: 2px;
+                left: 50%;
+                transform: translate3d(-50%, 0, 0);
                 width: 44px;
                 top: 2px;
                 background-color: transparent;
@@ -219,23 +222,18 @@
                 
 
             }
+
         }
         
         .Desktop & {
             column-gap: 4px;
-            height: 56px;
-            padding: 8px 16px 0px 16px;
+            height: fit-content;
+            padding: 8px 24px 8px 24px;
 
             &:hover {
-                color: $oxygen;
-                // path {
-                //     fill: $oxygen;
-                // }
+                background-color: $black_30;
+            }
 
-            }
-            &:before {
-                width: 24px;
-            }
         }
     }
 
@@ -257,7 +255,7 @@
 
     &.Desktop {
         height: 60px;
-        padding: 0px 0px 0px 0px;
+        padding: 0px 15% 0px 0px;
 
     }
 }
