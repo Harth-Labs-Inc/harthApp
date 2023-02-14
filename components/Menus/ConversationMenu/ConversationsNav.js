@@ -69,26 +69,7 @@ const ConversationsNav = () => {
               ) {
                 isActive = true;
               }
-              // unreadMsgs.forEach((msg) => {
-              //     if (
-              //         msg.conversation_id === conversation._id &&
-              //         msg.creator_id !== user._id &&
-              //         (selectedConversation || {})._id !==
-              //             msg.conversation_id
-              //     ) {
-              //         let owner = conversation?.members.find(
-              //             (member) => member?.user_id === user._id
-              //         );
-              //         if (!owner || !owner.muted) {
-              //             hasAlert = true;
-              //             alertProfiles.push(msg);
-              //         }
-              //     }
-              // });
 
-              // if (conversation?.contentAge == "short") {
-              //     isShort = true;
-              // }
               return (
                 <ConversationListElement
                   clickHandler={changeSelectedConversation}
@@ -107,7 +88,7 @@ const ConversationsNav = () => {
               );
             })}
 
-          <div className={styles.ConversationsNavCreate}>
+          <div className={isMobile ? styles.ConversationsNavCreateMobile : styles.ConversationsNavCreate}>
             <button
               className={
                 isMobile
@@ -120,7 +101,6 @@ const ConversationsNav = () => {
               <div className={styles.iconHolder}>
                 <IconAdd />
               </div>
-              conversation
             </button>
           </div>
         </div>

@@ -64,7 +64,7 @@
             align-items: center;
             @include harthTitle1;
             color: $oxygen;
-            padding: 4px 6px 0px 6px;
+            padding: 2px 6px 0px 6px;
             border-radius: 8px;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -228,7 +228,8 @@
         .Desktop & {
             column-gap: 4px;
             height: fit-content;
-            padding: 8px 24px 8px 24px;
+            padding: 8px 0; //24px 8px 24px;
+            width: 100px;
 
             &:hover {
                 background-color: $black_30;

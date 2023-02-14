@@ -1,8 +1,3 @@
-import { useEffect } from "react";
-import { IconBookmarkNoFill } from "../../resources/icons/IconBookmarkNoFill";
-import { IconTimerNoFill } from "../../resources/icons/IconTimerNoFill";
-import { Avatar } from "../Common/Avatar/Avatar";
-import { CustomContextMenu } from "../CustomContextMenu/CustomContextMenu";
 import styles from "./topics.module.scss";
 
 const TopicListElement = (props) => {

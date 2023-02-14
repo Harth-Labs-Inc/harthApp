@@ -93,7 +93,8 @@ export default function CreateNewConversationModal({ toggleModal }) {
         <Modal onToggleModal={toggleModal}>
             <div className={styles.mainContainer}>
                 <div className={styles.title}>New conversation</div>
-                <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+                <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={styles.Content}>
+                    <div className={styles.PeopleList}>
                     {userList &&
                         userList
                             ?.filter((usr) => {
@@ -102,15 +103,7 @@ export default function CreateNewConversationModal({ toggleModal }) {
                             })
                             .map((usr) => {
                                 return (
-                                    <div className="checkbox-container">
-                                        <label
-                                            className={
-                                                styles.CreateTopicTimeText
-                                            }
-                                            htmlFor=""
-                                        >
-                                            {usr.name}
-                                        </label>
+                                    <div className={styles.Person}>
                                         <input
                                             ref={register}
                                             type="checkbox"
@@ -119,30 +112,42 @@ export default function CreateNewConversationModal({ toggleModal }) {
                                                 required: true,
                                             })}
                                         />
+                                        <div className={styles.imageHolder}>
+                                        <img src={usr?.iconKey} />
+                                        </div>
+
+                                        <label
+                                            htmlFor=""
+                                        >
+                                            {usr.name}
+                                        </label>
                                     </div>
                                 );
-                            })}
+                    })}
+                    </div>
 
                     <ErrorMessage
                         errorMsg={
                             errors.users
-                                ? "You must select at least one option"
+                                ? "You must select at least one person"
                                 : null
                         }
+
                     />
-                    <div className={styles.CreateTopicButtons}>
+                    <div className={styles.ButtonBar}>
                         <Button
                             type="button"
                             size="large"
                             tier="secondary"
-                            text="cancel"
+                            text="Cancel"
                             onClick={toggleModal}
                         />
                         <Button
                             size="large"
                             tier="primary"
                             type="submit"
-                            text="create"
+                            text="Create"
+                            fullWidth={true}
                             onClick={() => {}}
                         />
                     </div>

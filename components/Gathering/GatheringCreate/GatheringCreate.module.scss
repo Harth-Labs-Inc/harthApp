@@ -43,7 +43,7 @@
 
 
         &::placeholder {
-            color: $fuel_30;
+            color: $fuel_light;
         }
     }
 
@@ -71,9 +71,12 @@
         display: flex;
         justify-content: space-between;
         width: 240px;
-        background-color: $warm_blue_light;
+        background-color: $white;
         border-radius: 100px;
+        border: 1px solid $fuel_10;
+        padding: 2px;
     }
+
 
 
     &SubText {
@@ -139,12 +142,33 @@
     gap: 2px;
     height: 60px;
     width: 60px;
-    padding: 4px;
+    padding-bottom: 4px;
     background-color: transparent;
     border: 0;
     border-radius: 999px;
-    color: $fuel_50;
+    color: $fuel;
     cursor: pointer;
+
+    &.voice {
+        color: $hot_blue;
+        path {
+            fill: $hot_blue;
+        }
+    }
+
+    &.stream {
+        color: $hot_red;
+        path {
+            fill: $hot_red;
+        }
+    }
+
+    &.party {
+        color: $hot_purple;
+        path {
+            fill: $hot_purple;
+        }
+    }
 
     path {
         fill: $fuel_50;
@@ -152,7 +176,7 @@
 
     &Text {
         @include ubuntu;
-        font-weight: 400;
+        font-weight: 500;
         font-size: 11px;
         text-align: center;
         text-transform: capitalize;
