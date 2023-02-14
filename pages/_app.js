@@ -13,14 +13,14 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("/sw.js").then(
-          function (registration) {},
-          function (err) {}
-        );
-      });
-    }
+    // if ("serviceWorker" in navigator) {
+    //   window.addEventListener("load", function () {
+    //     navigator.serviceWorker.register("/sw.js").then(
+    //       function (registration) {},
+    //       function (err) {}
+    //     );
+    //   });
+    // }
     //disable right click
     // window.addEventListener(
     //     "contextmenu",

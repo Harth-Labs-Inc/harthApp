@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
 
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 import { login, addUser, sendOtpEmailToUser } from "../../../requests/userApi";

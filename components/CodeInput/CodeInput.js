@@ -2,20 +2,21 @@ import VerificationInput from "react-verification-input";
 
 import styles from "./CodeInput.module.scss";
 
-const CodeInput = ({ onChange }) => {
-    return (
-        <VerificationInput
-            placeholder=""
-            validChars="0-9"
-            onChange={onChange}
-            classNames={{
-                container: styles.CodeInputContainer,
-                character: styles.CodeInputCharacter,
-                characterInactive: styles.CodeInputCharacterInactive,
-                characterSelected: styles.CodeInputCharacterSelected,
-            }}
-        />
-    );
+const CodeInput = ({ onChange, codeInput }) => {
+  return (
+    <VerificationInput
+      placeholder=""
+      validChars="0-9"
+      onChange={onChange}
+      classNames={{
+        container: styles.CodeInputContainer,
+        character: styles.CodeInputCharacter,
+        characterInactive: styles.CodeInputCharacterInactive,
+        characterSelected: styles.CodeInputCharacterSelected,
+      }}
+      value={codeInput}
+    />
+  );
 };
 
 export default CodeInput;
