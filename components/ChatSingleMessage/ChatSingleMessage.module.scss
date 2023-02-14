@@ -7,9 +7,9 @@
     position: relative;
     background-color: transparent;
     width: 100%;
-    margin: 8px 8px;
-    padding: 4px;
-    column-gap: 12px;
+    margin: 6px 4px;
+    padding: 6px;
+    column-gap: 10px;
     border-radius: 8px;
 
     .emoji-mart {
@@ -34,15 +34,17 @@
     > img,
     &Avatar {
         position: relative;
-        height: 36px;
-        max-height: 36px;
+        //margin-top: 8px;
         width: 36px;
-        max-width: 36px;
+        max-height: 36px;
+
         //margin-right: $gutter;
         border-radius: 9999px;
-        background-color: $fuel_10;
-        padding: 1px;
+        //background-color: $fuel;
+        //padding: 2px;
+        overflow: hidden;
         object-fit: cover;
+
     }
 
 
@@ -65,11 +67,7 @@
         width: 100%;
         //background-color: aqua;
 
-        .profileImage {
-            height: 36px;
-            width: 36px;
-            user-select: none;
-        }
+       
         .Info {
             display: flex;
             align-items: baseline;
@@ -77,7 +75,7 @@
             //justify-items: center;
             column-gap: 8px;
             height: 16px;
-            padding: 2px 0px 0px 0;
+            padding: 0px 0px 0px 0;
             //background-color: aquamarine;
             .Creator {
                 @include chatProfile;
@@ -86,7 +84,7 @@
             }
             .Timestamp {
                 visibility: hidden;
-                color: $fuel_50;
+                color: $fuel_light;
                 @include timeStamp;
                 user-select: none;
             }
@@ -97,11 +95,11 @@
             position: relative;
             width: fit-content;
             max-width: 540px;
-            margin-right: 56px;
+            //margin-right: 56px;
             color: $fuel;
             @include chatText;
-            background-color: $chat_bubble;
-            padding: 10px 14px;
+            //background-color: $chat_bubble;
+            padding: 2px 0px 4px 0px;
             border: 0;
             border-top-left-radius: 0;
             border-top-right-radius: 12px;
@@ -179,21 +177,17 @@
 
 
             path {
-                fill: $fuel_50;
+                fill: $fuel_light;
             }
 
             &:hover {
                 scale: 1.1;
-                path {
-                    
-                    fill: $fuel;
-                }
             }
         }
     }
 
     &:hover {
-        background-color: $ash_05;
+        background-color: $fuel_5;
 
         .Body {
             .Info {

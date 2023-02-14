@@ -8,6 +8,7 @@
     height: calc(100vh - 60px);
     width: 100%;
     background-color: $white;
+    padding-left: 8px;
 
     @media screen and (max-width: 640px) {
         height: 100vh;
@@ -23,7 +24,7 @@
     background-color: transparent;
     // min-height: calc(100% - 98px);
     width: 100%;
-    padding: 15px 24px 24px 4px;
+    padding: 16px 24px 24px 12px;
     overflow-y: scroll;
     -ms-overflow-style: none;
     //scrollbar-width: 0px;

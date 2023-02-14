@@ -2,14 +2,15 @@
 @import "../../../styles/fonts.scss";
 
 .mainContainer {
+    position: relative;
     display: flex;
     flex-direction: column;
-    min-width: 300px;
+    min-width: 330px;
     width: 360px;
     max-width: 400px;
     //row-gap: 6px;
     max-height: 460px;
-    height: 460px;
+    height: 400px;
     //background-color: aquamarine;
 
     .Loading {
@@ -17,7 +18,7 @@
         margin: auto;
         padding-bottom: 80px;
         p {
-            color: $warm_blue_highlight;
+            color: $fuel_light;
             @include ubuntu;
             font-size: 13px;
         }
@@ -41,29 +42,31 @@
     }
     
     .topBar {
+        position: relative;
         display: flex;
         flex-direction: row;
-        background-color: $ash;
+        //background-color: $ash;
         padding: 0px;
         align-items: center;
-        padding: 0px 0px 16px 0px;
+        padding: 0px 0px 12px 0px;
+        
 
         .title {
             @include harthTitle1;
-            color: $oxygen;
+            color: $fuel;
             width: 100%;
             text-align: left;
-            padding: 16px 0px 0px 16px;
+            padding: 0px 0px 0px 8px;
             user-select: none;
         }
 
         .buttonHolder {
-            border-left: 1px solid $ash_border;
-            border-bottom: 1px solid $ash_border;
-            border-bottom-left-radius: 18px;
+            position: absolute;
+            right: -20px;
+            top:-20px;
             padding: 2px;
             path {
-                fill: $oxygen_20;
+                fill: $ash_light;
             }
         }
         }
@@ -77,7 +80,8 @@
         column-gap: 12px;
         border:0;
         padding: 0px 12px;
-        background-color: $ash;
+        //background-color: $ash;
+        border-bottom: 1px solid $fuel_10;
     
         .tabButton {
             position: relative;
@@ -86,9 +90,9 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
-            @include ubuntu;
+            @include worksans;
             font-size: 12px;
-            color: $oxygen_50;
+            color: $fuel_light;
             font-weight: 400;
             letter-spacing: 0.02em;
             //display: block;
@@ -106,14 +110,14 @@
                 width: 20px;
             }
             path {
-                fill: $oxygen_50;
+                fill: $fuel_light;
             }
 
             &Active {
-                border-color: $oxygen;
-                color: $oxygen;
+                border-color: $fuel;
+                color: $fuel;
                 path {
-                    fill: $oxygen;
+                    fill: $fuel;
                 }
             }
             
@@ -151,7 +155,7 @@
     .content {
         height: 100%;
         width: 100%;
-        background-color: $warm_blue_light;
+        //background-color: $ash_ultralight;
         padding: 4px 20px 24px 20px;
         overflow-y: scroll;
     }

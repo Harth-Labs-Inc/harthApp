@@ -4,8 +4,10 @@ const Layout = ({ title, children }) => {
   return (
     <>
       <Head>
-        <title>Project Blarg</title>
-        <meta property="og:title" content="Harth" key="title" />
+        <title>H&auml;rth</title>
+        <meta property="og:title" content="H&auml;rth" key="title" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
         {/* <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script> */}
         <link rel="icon" href="/favicon.ico" />
         <link

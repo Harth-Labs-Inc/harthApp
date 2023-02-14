@@ -8,11 +8,11 @@
 
     &Background {
       height: 24px;
+      max-height: 24px;
       width: 40px;
       border-radius: 9999px;
-      border: 2px solid $fuel;
+      border: 1px solid $fuel_10;
       margin: 0;
-      background-color: $fuel_10;
       background-color: $light_ash;
       transition: background-color 0.3s;
     }

@@ -56,6 +56,9 @@ const TopicListElement = (props) => {
       onClick={toggleActive}
       onMouseUp={toggleEditMenu}
     >
+      <div className={styles.emojiHolder}>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png" />
+      </div>
       <div className={styles.label}>{label}</div>
       {hasAlert && (
         <div
