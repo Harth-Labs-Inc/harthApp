@@ -12,51 +12,6 @@
     padding: 0px 0px 8px 0px;
     //border: 1px solid $ash_10;
 
-    .imageBar {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        column-gap: 8px;
-        row-gap: 8px;
-        justify-content: flex-start;
-        width: auto;
-        background: $ash_10;
-        padding: 8px;
-        border-bottom: 1px solid $ash_10;
-
-        .imageContainer {
-            position: relative;
-
-            img {
-                position: relative;
-                border-radius: 12px;
-                height: 80px;
-                width: auto;
-                border: 1px solid $fuel;
-            }
-            button {
-                position: absolute;
-                top: 0;
-                right: 0;
-                height: 24px;
-                width: 24px;
-                padding: 3px;
-                border-top-left-radius: 0px;
-                border-top-right-radius: 12px;
-                border-bottom-right-radius: 0px;
-                border-bottom-left-radius: 12px;
-                border: 0;
-                background-color: $fuel;
-                z-index: 1;
-                cursor: pointer;
-
-                path {
-                    fill: $oxygen;
-                }
-            }
-        }
-    }
-
     &Text {
         resize: none;
         display: block;
@@ -200,5 +155,50 @@
         z-index: 1;
         max-height: 400px;
         overflow-y: scroll;
+    }
+}
+
+.imageBar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 8px;
+    row-gap: 8px;
+    justify-content: flex-start;
+    width: auto;
+    background: $ash_10;
+    padding: 8px;
+    border-bottom: 1px solid $ash_10;
+
+    .imageContainer {
+        position: relative;
+
+        img {
+            position: relative;
+            border-radius: 12px;
+            height: 80px;
+            width: 80px;
+            border: 1px solid $fuel;
+        }
+        button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 24px;
+            width: 24px;
+            padding: 3px;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 0px;
+            border-bottom-left-radius: 12px;
+            border: 0;
+            background-color: $fuel;
+            z-index: 1;
+            cursor: pointer;
+
+            path {
+                fill: $oxygen;
+            }
+        }
     }
 }

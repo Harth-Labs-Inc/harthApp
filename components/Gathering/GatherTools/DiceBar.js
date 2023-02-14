@@ -1,10 +1,9 @@
-import { Dice } from "../Dice/Dice";
-import { useState } from "react";
-import styles from "./gatherTools.module.scss";
-import { IconClose } from "../../../resources/icons/IconClose";
-// import Draggable from "react-draggable";
 import Draggable from "react-draggable";
-import { DraggableCore } from "react-draggable";
+
+import { IconClose } from "../../../resources/icons/IconClose";
+
+import { Dice } from "../Dice/Dice";
+import styles from "./gatherTools.module.scss";
 
 export const DiceBar = (props) => {
     const { type = "desktop", diceRollHandler, togggleDiceModal } = props;
@@ -12,7 +11,7 @@ export const DiceBar = (props) => {
     return (
         <>
             {type == "desktop" ? (
-                <Draggable handle="#handle">
+                <Draggable handle="#handle" bounds={"#video-container"}>
                     <div className={styles.mainContainerDice}>
                         <div className={styles.topBar} id="handle">
                             <div className={styles.grabber} />

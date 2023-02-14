@@ -23,14 +23,12 @@ export const BagButton = (props) => {
             {buttonState == "on" ? (
                 <div className={styles.BagButtonOptions}>
                     <div className={styles.BagButtonOptionsContainer}>
-
                         <DiceButton
                             onPress={() => {
                                 setButtonState("off");
                                 onDicePress();
                             }}
                             isMobile={isMobile}
-                        
                         />
                         <MapButton
                             onPress={() => {
@@ -43,14 +41,10 @@ export const BagButton = (props) => {
                 </div>
             ) : null}
 
-
             <button
                 className={`
                 ${styles.basicButton} 
-                ${isMobile
-                        ? styles.basicButtonLarge
-                        : styles.basicButtonSmall
-                } 
+                ${isMobile ? styles.basicButtonLarge : styles.basicButtonSmall} 
                 ${
                     buttonState == "on"
                         ? styles.basicButtonActive
@@ -66,7 +60,7 @@ export const BagButton = (props) => {
                     </div>
                 ) : (
                     <div height="100%" width="100%">
-                        <IconBag />
+                        <IconBag hasGradient={false} fill="#fcfff666" />
                     </div>
                 )}
             </button>
