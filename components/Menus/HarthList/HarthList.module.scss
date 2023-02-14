@@ -136,16 +136,15 @@
 
 .HarthListMobile {
     display: flex;
-    //flex: 1;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 0px 4px;
+    padding: 8px 12px 64px 12px;
     row-gap: 4px;
     width: 100%;
-    height: auto;
+    //height: 100%;
     list-style-type: none;
     overflow-y: scroll;
-    background-color: transparent;
+    //background-color: aqua;
+    margin: 0;
 
     .Item {
         position: relative;

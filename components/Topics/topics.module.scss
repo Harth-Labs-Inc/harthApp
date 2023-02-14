@@ -15,31 +15,28 @@
    
 
     .emojiHolder {
-        padding: 5px 5px;
+        padding: 6px 6px;
         width: fit-content;
         height: fit-content;
         border-radius: 8px;
-        border: 1px solid $fuel_10;
+        border: 1px solid $fuel_5;
         //background-color: $white;
 
         img {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
         }
     }
 
 
     .label {
         position: relative;
-        display: flex;
-        align-items: center;
-        //justify-content: center;
-        height: 32px;
         text-align: left;
         @include topicTitle;
         padding: 0px 4px 0px 8px;
         width: fit-content;
         color: $fuel_light;
+        //background-color: aqua;
         
     }
 
@@ -85,7 +82,8 @@
 
     &Mobile {
         width: 100%;
-        padding: 8px 0px;
+        padding: 0px 0px;
+        //background-color: aqua;
 
         .emojiHolder {
             padding: 8px 8px;
@@ -97,6 +95,7 @@
         .label {
             @include topicTitleMobile;
             padding: 24px 16px 24px 8px;
+            //background-color: aqua;
         }
     }
 

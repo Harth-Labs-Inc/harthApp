@@ -47,7 +47,9 @@ const MobileSideNav = (props) => {
             changeSelectedCom={changeSelectedCom}
           />
         </div>
-        <SettingsList />
+        <div className={styles.settings}>
+          <SettingsList />
+        </div>
       </div>
     </SideModal>
   );

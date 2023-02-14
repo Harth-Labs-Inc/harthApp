@@ -57,7 +57,7 @@
         z-index: 20;
 
         .addHarthButton {
-            background-color: $fuel;
+            background-color: lighten($fuel, 4%);
             border: 0;
             //background-color: transparent;
             border-radius: 6px;
@@ -82,13 +82,14 @@
 
 .sideNavMobile {
     display: flex;
-    align-items: center;
+    // align-items: center;
     flex-direction: column;
+    position: relative;
     padding: 0px 0px 0px 0px;
     width: 100%;
     height: 100%;
-    row-gap: 0px;
-    background-color: $ash;
+    //background-color: aquamarine;
+    //border-bottom: 4px solid blue;
 
     .text {
         width: 100%;
@@ -103,19 +104,25 @@
     }
 
     .headerImage {
-        flex:none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
         width: 124px;
-        margin: 48px 0px;
+        margin: auto;
+        margin-top: 40px; 
+        margin-bottom: 40px; 
 
     }
 
     .harthList {
+        //background-color: aqua;
+        display: flex;
+        height: 100%;
         width: 100%;
+        overflow-y: scroll;
         padding: 0px 8px;
+    }
+
+    .settings {
+        position: relative;
+        bottom: 0;
     }
 
 

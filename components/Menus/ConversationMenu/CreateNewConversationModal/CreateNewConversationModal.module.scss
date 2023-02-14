@@ -6,13 +6,103 @@
 .mainContainer {
     display: flex;
     flex-direction: column;
+    height: 380px;
+    width: 330px;
+    //background-color: #ffa773;
 
     .title {
         @include overlayMenuTitle;
         width: 100%;
         text-align: left;
         margin-top: 8px;
-        margin-bottom: 40px;
+        margin-bottom: 24px;
+    }
+
+    .Content {
+        //background-color: #ffa773;
+        height: 100%;
+
+        .PeopleList {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            //background-color: #ffa773;
+            overflow-y: scroll;
+            height: 240px;
+            border: 2px solid $fuel_10;
+            padding: 16px;
+            border-radius: 8px;
+
+            .Person {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+
+                .imageHolder {
+                    padding: 0px 0px 0px 12px;
+                    border-left: 1px solid $fuel_10;
+
+                    img {
+                        position: relative;
+                        height: 36px;
+                        width: 36px;
+                        border-radius: 999px;
+                        border: 0;
+                    }
+                }
+
+                label {
+                    @include topicTitle;
+                    margin-left: -4px;
+                }
+                
+
+                input[type=checkbox] {
+                    position: relative;
+                    appearance: none;
+                    width: 32px;
+                    height: 32px;
+                    border: 2px solid #ccc;
+                    border-radius: 8px;
+                    background-color: #fff;
+                    //box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+                    &::before {
+                        content: '\2714';
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        font-size: 20px;
+                        color: $hot_pink;
+                        opacity: 0;
+                        transition: opacity 0.2s ease-in-out;
+                    }
+
+                    &:hover {
+                        background-color: $fuel_5;
+                    }
+                }
+                  
+                input[type=checkbox]:checked {
+                    position: relative;
+                    border-color: $hot_pink;
+
+                    &::before {
+                        opacity: 1;
+                    }
+                }
+              
+            }
+        }
+
+        .ButtonBar {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+            margin-bottom: 12px;
+        }
     }
 }
 
