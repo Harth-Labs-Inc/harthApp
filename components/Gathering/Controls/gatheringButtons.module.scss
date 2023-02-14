@@ -39,7 +39,7 @@
 
 .BagButton {
     position: relative;
-    
+
     &Options {
         position: absolute;
         top: calc(-100% * 2 - 6px);
@@ -60,8 +60,6 @@
             gap: 0px;
             border: 0;
         }
-
-
     }
 }
 
@@ -92,12 +90,11 @@
             fill: $oxygen_40;
         }
 
-        &:hover {    
+        &:hover {
             path {
                 fill: $oxygen_80;
             }
         }
-
     }
 
     &BagButtonBottom {
@@ -110,7 +107,7 @@
             fill: $oxygen_40;
         }
 
-        &:hover {    
+        &:hover {
             path {
                 fill: $oxygen_80;
             }
@@ -118,31 +115,15 @@
     }
 
     &Active {
-
         &:hover {
             border: solid 1px $oxygen_80;
         }
     }
 
     &Inactive {
-        path {
-            fill: $oxygen_40;
-        }
-
         &:hover {
             border: solid 1px $oxygen_80;
-    
-            path {
-                fill: $oxygen_80;
-            }
         }
-    }
-
-    &Muted {
-        path {
-            fill: $alert_red;
-        }
-
     }
 
     .unreadMsg {
@@ -158,13 +139,11 @@
     }
 }
 
-
-
 .leaveButton {
     position: relative;
 
-    &:hover{
-        &::before{
+    &:hover {
+        &::before {
             position: absolute;
             display: flex;
             justify-content: center;
@@ -187,11 +166,9 @@
             font-weight: 300;
             color: $oxygen_80;
             z-index: 10;
-        
-
         }
 
-        &::after{
+        &::after {
             position: absolute;
             content: " ";
             top: -17px;
@@ -201,8 +178,8 @@
             -ms-transform: translateX(-50%);
             -o-transform: translateX(-50%);
             transform: translateX(-50%);
-            width: 0; 
-            height: 0; 
+            width: 0;
+            height: 0;
             border-left: 12px solid transparent;
             border-right: 12px solid transparent;
             border-top: 12px solid $ash;

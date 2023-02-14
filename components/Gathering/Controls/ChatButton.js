@@ -20,10 +20,7 @@ export const ChatButton = (props) => {
             <button
                 className={`
                 ${styles.basicButton} 
-                ${isMobile
-                        ? styles.basicButtonLarge
-                        : styles.basicButtonSmall
-                } 
+                ${isMobile ? styles.basicButtonLarge : styles.basicButtonSmall} 
                 ${
                     buttonState == "on"
                         ? styles.basicButtonActive
@@ -44,7 +41,7 @@ export const ChatButton = (props) => {
                     </div>
                 ) : (
                     <div height="100%" width="100%">
-                        <IconSmsFill />
+                        <IconSmsFill hasGradient={false} fill="#fcfff666" />
                     </div>
                 )}
             </button>

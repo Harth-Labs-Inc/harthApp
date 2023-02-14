@@ -1,9 +1,11 @@
 import { useContext, useState, useRef, useEffect } from "react";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+
 import { IconSend } from "../../resources/icons/IconSend";
 import { IconCancelFill } from "../../resources/icons/IconCancelFill";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
-import { IconClose } from "../../resources/icons/IconClose";
 
 import {
     saveMessage,
@@ -18,9 +20,7 @@ import { MobileContext } from "../../contexts/mobile";
 import { getUploadURL, putImageInBucket } from "../../requests/s3";
 import { addKeyToDB } from "../../requests/chat";
 
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-
+import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
 
 const ChatInput = (props) => {
@@ -121,33 +121,6 @@ const ChatInput = (props) => {
     const triggerPicker = (event) => {
         event.preventDefault();
         setEmojiPicker(!emojiPickerState);
-    };
-    const ImageHolder = () => {
-        if (attachments.length > 0) {
-            return (
-                <div className={styles.imageBar}>
-                    {(attachments || []).map((file, idx) => (
-                        <div className={styles.imageContainer}>
-                            <button
-                                onClick={() => {
-                                    removeAttachment(idx);
-                                }}
-                            >
-                                <IconClose />
-                            </button>
-                            <img
-                                id={file.name}
-                                key={file.name}
-                                ref={(el) => (attRefs.current[idx] = el)}
-                                alt=""
-                            />
-                        </div>
-                    ))}
-                </div>
-            );
-        }
-
-        return null;
     };
 
     // need to update to be input and prop deperndent
@@ -314,7 +287,11 @@ const ChatInput = (props) => {
     return (
         <div id={styles.ChatInput}>
             <div className={styles.entryBox}>
-                <ImageHolder />
+                <ImageHolder
+                    attachments={attachments}
+                    removeAttachment={removeAttachment}
+                    attRefs={attRefs}
+                />
                 <textarea
                     id={styles.ChatInputText}
                     ref={textRef}

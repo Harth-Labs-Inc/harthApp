@@ -23,8 +23,21 @@ export const resize = (container) => {
         // element.style.margin = 4 + 'px'
 
         // // calculate dimensions
-        element.style.width = max + "px";
-        element.style.height = max + "px";
+        if (children.length === 1) {
+            element.style.width = max + "px";
+        } else if (children.length < 7) {
+            const divisor = Math.ceil(children.length / 2);
+            element.style.width = max / 2 + "px";
+            element.style.minWidth = "calc(50%  - 16px)";
+            element.style.maxHeight = `calc(100% / ${divisor} - 8px)`;
+        } else if (children.length > 6) {
+            const divisor = Math.ceil(children.length / 3);
+            element.style.width = max / 3 + "px";
+            element.style.minWidth = "calc(100% / 3 - 16px)";
+            element.style.maxHeight = `calc(100% / ${divisor} - 8px)`;
+        }
+
+        // element.style.height = max + "px";
 
         // // to show the aspect ratio in demo (optional)
         // element.setAttribute('data-aspect', 0.5625s[this._aspect])
