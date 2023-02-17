@@ -3,7 +3,7 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { getDownloadURL } from "../../requests/s3";
 import { deleteMessage, updateMessage } from "../../requests/chat";
-import { getURLMetaData } from "../../requests/urls";
+
 import {
     updateConversationMessage,
     deleteConversationMessage,
@@ -14,6 +14,7 @@ import { useComms } from "../../contexts/comms";
 
 import EditBar from "./EditBar";
 import styles from "./ChatSingleMessage.module.scss";
+import { LinkPreview } from "./LinkPreview";
 
 const ChatSingleMessage = (props) => {
     const [emojiPickerState, setEmojiPicker] = useState(false);
@@ -70,13 +71,13 @@ const ChatSingleMessage = (props) => {
         fetchDownloadURL();
     }, [_id]);
 
-    useEffect(() => {
-        replaceURLs();
-    }, []);
+    // useEffect(() => {
+    //     replaceURLs();
+    // }, []);
 
-    useEffect(() => {
-        replaceURLs();
-    }, [msgReload]);
+    // useEffect(() => {
+    //     replaceURLs();
+    // }, [msgReload]);
 
     // chat specific
     const deleteMsg = async () => {
@@ -89,7 +90,7 @@ const ChatSingleMessage = (props) => {
             msg.updateType = "message update";
             emitUpdate(selectedcomm._id, msg, async (err, status) => {
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                 }
                 let { ok } = status;
                 if (ok) {
@@ -104,7 +105,7 @@ const ChatSingleMessage = (props) => {
         msg.action = "update";
         emitUpdate(selectedcomm._id, msg, async (err, status) => {
             if (err) {
-                console.log(err);
+                console.error(err);
             }
             let { ok } = status;
             if (ok) {
@@ -120,7 +121,7 @@ const ChatSingleMessage = (props) => {
         msg.action = "update";
         emitUpdate(selectedcomm._id, msg, async (err, status) => {
             if (err) {
-                console.log(err);
+                console.error(err);
             }
             let { ok } = status;
             if (ok) {
@@ -134,7 +135,7 @@ const ChatSingleMessage = (props) => {
         msg.updateType = "conversation message update";
         emitUpdate(selectedcomm._id, msg, async (err, status) => {
             if (err) {
-                console.log(err);
+                console.error(err);
             }
             let { ok } = status;
             if (ok) {
@@ -232,73 +233,78 @@ const ChatSingleMessage = (props) => {
         return <span className={styles.SingleMessageAvatarNo}></span>;
     };
 
-    const wrapLink = (innerHtml, urlRegex) => {
-        let rawurl = "";
-        let replacedURL = innerHtml.replace(urlRegex, function (url) {
-            rawurl = url;
-            if (!url.match("^https?://")) {
-                url = "http://" + url;
-            }
+    // const wrapLink = (innerHtml, urlRegex) => {
+    //     let rawurl = "";
+    //     let replacedURL = innerHtml.replace(urlRegex, function (url) {
+    //         rawurl = url;
+    //         if (!url.match("^https?://")) {
+    //             url = "http://" + url;
+    //         }
 
-            return (
-                '<a href="' +
-                url +
-                '" target="_blank" rel="noopener noreferrer">' +
-                url +
-                "</a>"
-            );
-        });
+    //         return (
+    //             '<a href="' +
+    //             url +
+    //             '" target="_blank" rel="noopener noreferrer">' +
+    //             url +
+    //             "</a>"
+    //         );
+    //     });
 
-        return { rawURL: rawurl, alteredURL: replacedURL };
-    };
-    const replaceURLs = async () => {
-        let messageBody = document.getElementById(
-            `message-content${messageID}`
-        );
-        let innerHtml = message;
-        if (messageBody) {
-            const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-            if (urlRegex.test(innerHtml)) {
-                let { rawURL, alteredURL } = wrapLink(innerHtml, urlRegex);
+    //     return { rawURL: rawurl, alteredURL: replacedURL };
+    // };
 
-                innerHtml = `<span>${alteredURL}</span>`;
+    // const replaceURLs = async () => {
+    //     let messageBody = document.getElementById(
+    //         `message-content${messageID}`
+    //     );
+    //     let innerHtml = message;
+    //     if (messageBody) {
+    //         const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+    //         if (urlRegex.test(innerHtml)) {
+    //             let { rawURL, alteredURL } = wrapLink(innerHtml, urlRegex);
+    //             let ogWrapper = document.getElementById("ogCard");
 
-                let html = await getURLMetaData(rawURL);
+    //             innerHtml = `<span>${alteredURL}</span>`;
+    //             messageBody.innerHTML = innerHtml;
 
-                const { data } = html;
+    //             getURLMetaData(rawURL).then((pullResult) => {
 
-                if (data.ok) {
-                    innerHtml += `<article class="og-card">
-                        ${
-                            data.data.ogSiteName
-                                ? `<span>${data.data.ogSiteName}</span>`
-                                : ""
-                        }
-                        ${
-                            data.data.ogTitle
-                                ? `<span>${data.data.ogTitle}</span>`
-                                : ""
-                        }
-                        ${
-                            data.data.ogDescription
-                                ? `<p>${data.data.ogDescription}</p>`
-                                : ""
-                        }
-                        ${
-                            data.data.ogImage
-                                ? `<img src="${data.data.ogImage.url}" alt="${data.data.ogTitle}" />`
-                                : ""
-                        }
-                        </article>`;
-                }
-                messageBody.innerHTML = innerHtml;
-            } else {
-                if (innerHtml !== undefined) {
-                    messageBody.innerHTML = `<span>${innerHtml}</span>`;
-                }
-            }
-        }
-    };
+    //             });
+    //             // let pullResult = await getURLMetaData(rawURL);
+
+    //             // if (!ogWrapper && pullResult?.data?.ok) {
+    //             //     ogWrapper = document.createElement("article");
+    //             //     ogWrapper.id = "ogCard";
+    //             //     ogWrapper.className = styles.ogCard;
+
+    //             //     const ogTitle = document.createElement("span");
+    //             //     const ogTitleText = document.createTextNode(
+    //             //         result?.ogTitle
+    //             //     );
+    //             //     ogTitle.appendChild(ogTitleText);
+
+    //             //     const ogDescription = document.createElement("span");
+    //             //     const ogDescriptionText = document.createTextNode(
+    //             //         result?.ogDescription
+    //             //     );
+    //             //     ogDescription.appendChild(ogDescriptionText);
+
+    //             //     const ogImage = document.createElement("img");
+    //             //     ogImage.setAttribute("src", result?.ogImage?.url);
+
+    //             //     ogWrapper.appendChild(ogTitle);
+    //             //     ogWrapper.appendChild(ogDescription);
+    //             //     ogWrapper.appendChild(ogImage);
+
+    //             //     messageBody.append(ogWrapper);
+    //             // }
+    //         } else {
+    //             if (innerHtml !== undefined) {
+    //                 messageBody.innerHTML = `<span>${innerHtml}</span>`;
+    //             }
+    //         }
+    //     }
+    // };
 
     let timeStamp = getTimeStamp();
 
@@ -334,7 +340,13 @@ const ChatSingleMessage = (props) => {
                             <img src={url} key={url} />
                         ))}
 
-                        <div id={`message-content${messageID}`}></div>
+                        <div id={`message-content${messageID}`}>
+                            {message}
+                            <LinkPreview
+                                message={message}
+                                messageID={messageID}
+                            />
+                        </div>
                     </div>
                     <div className={styles.BodyReactions}>
                         {[...(reactions || [])].map((reaction, index) => (

@@ -7,6 +7,8 @@ import { MobileContext } from "../../contexts/mobile";
 import { IconSend } from "../../resources/icons/IconSend";
 import { IconImage } from "../../resources/icons/IconImage";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
+
+import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
 
 const GeneralChatInput = ({ onSubmitHandler }) => {
@@ -25,40 +27,6 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
         const tempAttachments = [...attachments];
         tempAttachments.splice(idx, 1);
         setAttachments([...tempAttachments]);
-    };
-
-    const ImageHolder = () => {
-        if (attachments.length > 0) {
-            return (
-                <div className="image-holder">
-                    {(attachments || []).map((file, idx) => {
-                        let src = window.URL.createObjectURL(file);
-                        return (
-                            <div key={idx} className="image-to-attach">
-                                <img
-                                    src={src}
-                                    id={file.name}
-                                    key={file.name}
-                                    ref={(el) => (attRefs.current[idx] = el)}
-                                    alt=""
-                                    style={{ height: "100px", width: "100px" }}
-                                />
-                                <button
-                                    className="remove-image"
-                                    onClick={() => {
-                                        removeAttachment(idx);
-                                    }}
-                                >
-                                    remove image
-                                </button>
-                            </div>
-                        );
-                    })}
-                </div>
-            );
-        }
-
-        return null;
     };
 
     const inputHandler = (e) => {
@@ -166,7 +134,11 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
 
     return (
         <div id={styles.ChatInput}>
-            <ImageHolder />
+            <ImageHolder
+                attachments={attachments}
+                removeAttachment={removeAttachment}
+                attRefs={attRefs}
+            />
             <textarea
                 id={styles.ChatInputText}
                 ref={textRef}

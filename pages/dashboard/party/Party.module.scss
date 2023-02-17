@@ -32,6 +32,10 @@
             text-align: center;
             // border: 4px yellow solid;
 
+            &.peerContainerChatOpen {
+                width: calc(100% - 420px);
+            }
+
             &Active {
                 width: 140px;
                 min-width: 140px;
@@ -188,6 +192,10 @@
 
                 object-fit: cover;
             }
+        }
+
+        .ownerVideoChatOpen .ownerVideo {
+            right: 436px;
         }
 
         .alertContainer {
