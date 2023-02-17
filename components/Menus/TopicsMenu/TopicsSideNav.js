@@ -90,6 +90,13 @@ const TopicsNav = (props) => {
     props.handleMobileChat(newValue);
   };
   const changeSelectedTopic = (topic) => {
+    let imgs = document.getElementsByClassName("active-image");
+
+    for (let img of imgs) {
+      if (img) {
+        img.setAttribute("src", "");
+      }
+    }
     setTopic(topic);
     setSelectedReplyOwner({});
     {
@@ -294,15 +301,12 @@ const TopicsNav = (props) => {
               );
             })}
 
-          <div className={
-            isMobile
-              ? styles.TopicsNavCreateMobile 
-              : styles.TopicsNavCreate
-          }>
-            <button
-              id="create_topic"
-              onClick={openCreateTopic}
-            >
+          <div
+            className={
+              isMobile ? styles.TopicsNavCreateMobile : styles.TopicsNavCreate
+            }
+          >
+            <button id="create_topic" onClick={openCreateTopic}>
               <div className={styles.iconHolder}>
                 <IconAdd />
               </div>
