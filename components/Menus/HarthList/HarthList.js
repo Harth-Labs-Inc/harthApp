@@ -98,6 +98,13 @@ const HarthList = ({
               >
                 <button
                   onClick={() => {
+                    let imgs = document.getElementsByClassName("active-image");
+
+                    for (let img of imgs) {
+                      if (img) {
+                        img.setAttribute("src", "");
+                      }
+                    }
                     changeSelectedCom(com);
                   }}
                   onMouseUp={(e) => toggleEditMenu(e, com._id, com)}

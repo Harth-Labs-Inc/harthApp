@@ -60,3 +60,16 @@ export const deleteS3File = async (name, bucket) => {
     console.log(error);
   }
 };
+
+export const compressImage = async (name, bucket, type) => {
+  try {
+    const res = await api.post(`/api/s3/compressImage`, {
+      name,
+      bucket,
+      type,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
