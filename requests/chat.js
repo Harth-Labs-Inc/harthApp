@@ -102,3 +102,16 @@ export const addKeyToDB = async (id, name, fileType) => {
     console.log(error);
   }
 };
+
+export const replaceHarthChatProfileIcons = async (id, newImg, userID) => {
+  try {
+    const res = await api.post(`/api/chat/replaceHarthChatProfileIcons`, {
+      id,
+      newImg,
+      userID,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

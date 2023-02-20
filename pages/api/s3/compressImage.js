@@ -25,12 +25,13 @@ export default async (req, res) => {
       });
     });
   };
-  let compress = (buffer) => {
+  let compress = (buffer, height, width) => {
+    console.log(height, width);
     return new Promise(async (resolve) => {
       const sharp = require("sharp");
       try {
         const compressedBuffer = await sharp(buffer)
-          .resize(200, 100, { fit: "cover" })
+          .resize(width || 200, height || 100, { fit: "cover" })
           .toBuffer();
 
         resolve(compressedBuffer);
@@ -71,7 +72,7 @@ export default async (req, res) => {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
 
-  let compressedBuffer = await compress(file.Body);
+  let compressedBuffer = await compress(file.Body, obj.height, obj.width);
   if (!compressedBuffer) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
