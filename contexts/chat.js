@@ -10,22 +10,39 @@ export const ChatProvider = ({ children }) => {
   const [replies, setReplies] = useState({});
   const [selectedReplyOwner, setSelectedReplyOwner] = useState({});
 
+  // useEffect(() => {
+  //   if (selectedTopic && selectedTopic._id) {
+  //     if (!(selectedTopic._id in messages)) {
+  //       messages[selectedTopic._id] = [];
+  //       (async () => {
+  //         let data = await getMessagesByTopic(selectedTopic._id);
+
+  //         const { ok, fetchResults } = data;
+  //         if (ok) {
+  //           setMessages({
+  //             ...messages,
+  //             [selectedTopic._id]: sortMessages(fetchResults),
+  //           });
+  //         }
+  //       })();
+  //     }
+  //   }
+  // }, [selectedTopic]);
+
   useEffect(() => {
     if (selectedTopic && selectedTopic._id) {
-      if (!(selectedTopic._id in messages)) {
-        messages[selectedTopic._id] = [];
-        (async () => {
-          let data = await getMessagesByTopic(selectedTopic._id);
+      messages[selectedTopic._id] = [];
+      (async () => {
+        let data = await getMessagesByTopic(selectedTopic._id);
 
-          const { ok, fetchResults } = data;
-          if (ok) {
-            setMessages({
-              ...messages,
-              [selectedTopic._id]: sortMessages(fetchResults),
-            });
-          }
-        })();
-      }
+        const { ok, fetchResults } = data;
+        if (ok) {
+          setMessages({
+            ...messages,
+            [selectedTopic._id]: sortMessages(fetchResults),
+          });
+        }
+      })();
     }
   }, [selectedTopic]);
 
@@ -51,15 +68,11 @@ export const ChatProvider = ({ children }) => {
   const sortMessages = (msgs) => {
     return msgs.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
   };
-  const refreshTopicsChat = async (id) => {
-    console.log(topics, "topics");
-    let msgs = { ...messages };
-    for (let topic of topics) {
-      if (topic) {
-        delete msgs[topic._id];
-      }
+  const refreshTopicsChat = async (id, userID, newIconKey) => {
+    let elements = document.getElementsByClassName(`${id}_${userID}`);
+    for (let imgELement of elements) {
+      imgELement.setAttribute("src", newIconKey);
     }
-    setMessages(msgs);
   };
 
   return (

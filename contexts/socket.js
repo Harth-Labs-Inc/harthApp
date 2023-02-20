@@ -88,6 +88,15 @@ export const SocketProvider = ({ children }) => {
           case "message update":
             setIncomingMsgUpdate(incomingUpdate);
             break;
+          case "message profile icon update":
+            console.log("replace users icon", incomingUpdate);
+            let elements = document.getElementsByClassName(
+              `${incomingUpdate?.harthid}_${incomingUpdate?.userid}`
+            );
+            for (let imgELement of elements) {
+              imgELement.setAttribute("src", incomingUpdate?.newIconKey);
+            }
+            break;
           case "new topic":
             let newTopicResult = await getTopics(
               incomingUpdate?.comm_id,

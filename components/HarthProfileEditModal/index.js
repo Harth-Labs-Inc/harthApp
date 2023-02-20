@@ -8,6 +8,7 @@ import IconUploader from "../IconUploader";
 import { Button, Modal } from "../Common";
 import { replaceHarthChatProfileIcons } from "../../requests/chat";
 import styles from "./harthProfileEditModal.module.scss";
+import { useSocket } from "../../contexts/socket";
 
 const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
   const [updatedProfile, setUpdatedProfile] = useState({});
@@ -15,6 +16,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
 
   const { setComm, setCommsFromChild, comms, selectedTopic } = useComms();
   const { refreshTopicsChat } = useChat();
+  const { emitUpdate } = useSocket();
 
   useEffect(() => {
     if (profile) {
@@ -83,7 +85,18 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
       );
       setCommsFromChild(commsArr);
       setComm(newharth);
-      refreshTopicsChat(selectedTopic?._id);
+      refreshTopicsChat(newharth._id, updatedProfile.userId, newIconKey);
+      let message = {
+        harthid: newharth._id,
+        userid: updatedProfile.userId,
+        newIconKey,
+      };
+      message.updateType = "message profile icon update";
+      emitUpdate(newharth._id, message, async (err, status) => {
+        if (err) {
+          console.log(err);
+        }
+      });
       setHidden();
     }
   };
