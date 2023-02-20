@@ -5,7 +5,6 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-
   const aws = require("aws-sdk");
 
   let s3Params = {
