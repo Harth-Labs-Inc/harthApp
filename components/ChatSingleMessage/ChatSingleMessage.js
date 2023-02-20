@@ -38,6 +38,7 @@ const ChatSingleMessage = (props) => {
     msgReload,
     bucket = "topic-message-attachments",
     chatType = "topic",
+    openImageSlideShow,
   } = props;
 
   const { user } = useAuth();
@@ -52,9 +53,11 @@ const ChatSingleMessage = (props) => {
           promises.push(
             new Promise(async (res, rej) => {
               const data = await getDownloadURL(att.name, att.fileType, bucket);
-              const { ok, downloadURL } = data;
-              if (ok) {
-                res(downloadURL);
+              if (data) {
+                const { ok, downloadURL } = data;
+                if (ok) {
+                  res(downloadURL);
+                }
               }
             })
           );
@@ -306,7 +309,7 @@ const ChatSingleMessage = (props) => {
   let timeStamp = getTimeStamp();
 
   return (
-    <>
+    <div id="chat-parent-container">
       <EmojiPicker />
       <div
         className={styles.SingleMessage}
@@ -333,7 +336,7 @@ const ChatSingleMessage = (props) => {
             <p className={styles.Timestamp}>{timeStamp}</p>
           </span>
           <div className={styles.Content}>
-            {(urls || []).map((url) => (
+            {(urls || []).map((url, idx) => (
               <img
                 className="active-image"
                 src={url}
@@ -343,6 +346,7 @@ const ChatSingleMessage = (props) => {
                 loading="lazy"
                 style={{ objectFit: "contain" }}
                 alt=""
+                onClick={() => openImageSlideShow(idx, attachments)}
               />
             ))}
 
@@ -360,7 +364,7 @@ const ChatSingleMessage = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

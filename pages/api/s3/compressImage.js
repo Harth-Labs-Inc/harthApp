@@ -77,7 +77,7 @@ export default async (req, res) => {
   }
   let saveResult = await pushConvertedFileToS3(
     compressedBuffer,
-    obj.name,
+    obj.thumbnail,
     obj.bucket,
     obj.type
   );

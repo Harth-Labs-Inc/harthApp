@@ -196,7 +196,9 @@ const ChatInput = (props) => {
       promises.push(
         new Promise(async (res, rej) => {
           let extention = file.name.split(".").pop();
-          let name = `${id}_${idx + 1}.${extention}`;
+          let name = `${id}_${idx + 1}_full.${extention}`;
+          let thumbnail = `${id}_${idx + 1}_thumbnail.${extention}`;
+
           let bucket = "topic-message-attachments";
           const data = await getUploadURL(name, file.type, bucket);
           const { ok, uploadURL } = data;
@@ -206,10 +208,9 @@ const ChatInput = (props) => {
               let result = await putImageInBucket(uploadURL, reader, file.type);
               let { status } = result;
               if (status == 200) {
-                await compressImage(name, bucket, file.type);
-                await addKeyToDB(id, name, file.type);
-
-                res({ name, fileType: file.type });
+                await compressImage(name, thumbnail, bucket, file.type);
+                await addKeyToDB(id, thumbnail, file.type);
+                res({ name: thumbnail, fileType: file.type });
               }
             });
             reader.readAsArrayBuffer(file);
