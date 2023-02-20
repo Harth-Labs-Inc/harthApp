@@ -43,7 +43,7 @@ const ChatSingleMessage = (props) => {
 
   const { user } = useAuth();
   const { emitUpdate } = useSocket();
-  const { selectedcomm } = useComms();
+  const { selectedcomm, selectedTopic } = useComms();
 
   useEffect(() => {
     async function fetchDownloadURL() {
@@ -219,19 +219,6 @@ const ChatSingleMessage = (props) => {
     }
     return null;
   };
-  const CreatorImage = () => {
-    if (creator_image) {
-      return (
-        <img
-          className={styles.SingleMessageAvatar}
-          src={creator_image}
-          alt={creator_name}
-          loading="lazy"
-        />
-      );
-    }
-    return <span className={styles.SingleMessageAvatarNo}></span>;
-  };
 
   // const wrapLink = (innerHtml, urlRegex) => {
   //     let rawurl = "";
@@ -328,7 +315,19 @@ const ChatSingleMessage = (props) => {
           editBarSelection={editBarSelection}
           triggerPicker={triggerPicker}
         />
-        <CreatorImage />
+        {creator_image ? (
+          <img
+            className={[
+              styles.SingleMessageAvatar,
+              `${selectedcomm._id}_${creator_id}`,
+            ].join(" ")}
+            src={creator_image}
+            alt={creator_name}
+            loading="lazy"
+          />
+        ) : (
+          <span className={styles.SingleMessageAvatarNo}></span>
+        )}
 
         <div className={styles.Body}>
           <span className={styles.Info}>

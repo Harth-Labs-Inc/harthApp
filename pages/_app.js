@@ -11,6 +11,7 @@ import {
   Asap_Condensed,
   Rubik,
 } from "@next/font/google";
+import localFont from "@next/font/local";
 import "../styles/Styles.modules.scss";
 import { AuthProvider } from "../contexts/auth";
 import { ResponsiveProvider } from "../contexts/mobile";
@@ -20,6 +21,7 @@ import Layout from "../components/layout";
 import TransitionLayout from "../components/Transitions";
 
 const fontClassNames = [];
+// google fonts
 const righteous = Righteous({
   weight: "400",
   subsets: ["latin"],
@@ -55,7 +57,13 @@ const rubik = Rubik({
   subsets: ["latin"],
   variable: "--Rubik-font",
 });
+// local fonts
+const coopbl = localFont({
+  src: "../public/fonts/COOPBL.ttf",
+  variable: "--COOPBL-font",
+});
 
+fontClassNames.push(coopbl.className);
 fontClassNames.push(righteous.variable);
 fontClassNames.push(arvo.variable);
 fontClassNames.push(ubuntu.variable);
