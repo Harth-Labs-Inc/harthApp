@@ -6,7 +6,7 @@
 .mainContainer {
     display: flex;
     flex-direction: column;
-    min-width: 300px;
+    min-width: 320px;
     row-gap: 24px;
 
     .title {
@@ -19,6 +19,7 @@
 
     .textEntry {
         width: 90%;
+        @include topicTitleActive
     }
 
     .form {
@@ -30,7 +31,8 @@
     .harthTitle {
         position: relative;
         margin-top: 4px;      
-        @include contentR3;
+        @include harthTitleSmall;
+        color: $fuel_light
     }
     
 
