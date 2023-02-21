@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { uploadFile } from "../../services/helper";
+import { uploadFile, uploadCustomNamedFile } from "../../services/helper";
 import { addUserToComm, saveCommunity } from "../../requests/community";
 import { useAuth } from "../../contexts/auth";
 import { useComms } from "../../contexts/comms";
@@ -35,9 +35,10 @@ export default function CreateHarthProfile({
     let s3Upload;
     let profileIconKey;
     if (newFile) {
-      s3Upload = await uploadFile({
+      s3Upload = await uploadCustomNamedFile({
         file: newFile,
         bucket: "community-profile-images",
+        name: `${tempHarth._id}_${user._id}`,
       });
       await compressImage(
         s3Upload.name,
@@ -71,7 +72,7 @@ export default function CreateHarthProfile({
       owner,
       muted: false,
     });
-    refetchComms();
+    refetchComms(tempHarth);
     submitHandler();
   };
   const fileUploadHandler = (file) => {

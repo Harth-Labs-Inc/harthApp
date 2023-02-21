@@ -115,3 +115,16 @@ export const replaceHarthChatProfileIcons = async (id, newImg, userID) => {
     console.log(error);
   }
 };
+
+export const replaceHarthChatProfileNames = async (id, newName, userID) => {
+  try {
+    const res = await api.post(`/api/chat/replaceHarthChatProfileNames`, {
+      id,
+      newName,
+      userID,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
