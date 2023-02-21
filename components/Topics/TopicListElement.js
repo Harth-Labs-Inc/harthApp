@@ -62,9 +62,16 @@ const TopicListElement = (props) => {
           ${isMobile && styles.alertProfilesMobile}
           `}
         >
-          {alertProfiles.map((e) => (
-            <img src={e?.creator_image} />
-          ))}
+          {alertProfiles.map((e) => {
+            console.log(e);
+            return (
+              <img
+                src={e?.creator_image}
+                className={`${e?.comm_id}_${e?.creator_id}`}
+                loading="lazy"
+              />
+            );
+          })}
         </div>
       )}
     </button>

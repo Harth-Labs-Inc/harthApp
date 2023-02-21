@@ -68,10 +68,16 @@ export const ChatProvider = ({ children }) => {
   const sortMessages = (msgs) => {
     return msgs.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
   };
-  const refreshTopicsChat = async (id, userID, newIconKey) => {
+  const refreshTopicsChatIcon = async (id, userID, newIconKey) => {
     let elements = document.getElementsByClassName(`${id}_${userID}`);
     for (let imgELement of elements) {
       imgELement.setAttribute("src", newIconKey);
+    }
+  };
+  const refreshTopicsChatName = async (id, userID, newName) => {
+    let elements = document.getElementsByClassName(`${id}_${userID}_name`);
+    for (let nameElement of elements) {
+      nameElement.innerHTML = newName;
     }
   };
 
@@ -84,7 +90,8 @@ export const ChatProvider = ({ children }) => {
         replies,
         setReplies,
         selectedReplyOwner,
-        refreshTopicsChat,
+        refreshTopicsChatIcon,
+        refreshTopicsChatName,
       }}
     >
       {children}

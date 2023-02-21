@@ -54,11 +54,11 @@ export const CommsProvider = ({ children }) => {
 
   useEffect(() => {
     if (selectedcomm) {
-      setTopicChange(0);
-      grabTopics(selectedcomm._id);
-      grabRooms(selectedcomm._id);
-      fetchConversations();
       if (user) {
+        setTopicChange(0);
+        grabTopics(selectedcomm._id);
+        grabRooms(selectedcomm._id);
+        fetchConversations();
         let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
         if (creator) setProfile(creator);
       }
@@ -66,7 +66,7 @@ export const CommsProvider = ({ children }) => {
   }, [selectedcomm, user]);
 
   useEffect(() => {
-    localStorage.setItem("selected_topic", JSON.stringify(selectedTopic));
+    localStorage.setItem("selected_topic", JSON.stringify(selectedTopic || {}));
   }, [selectedTopic]);
 
   useEffect(() => {
@@ -186,8 +186,41 @@ export const CommsProvider = ({ children }) => {
     let result = await getTopics(comid, user._id);
     const { ok, topics } = result;
     if (ok) {
-      setTopics(topics);
-      setSelectedTopic(topics[0] || {});
+      let startingTopic;
+      let filteredTopics = topics.sort((a, b) => {
+        const removeEmoji = (str) => {
+          return str
+            .replace(
+              /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+              ""
+            )
+            .replace(/\s+/g, " ")
+            .trim();
+        };
+        const nameA = removeEmoji(a.title);
+        const nameB = removeEmoji(b.title);
+
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      for (let topic of filteredTopics) {
+        for (let member of topic.members) {
+          if (member.user_id == user._id) {
+            if (!member.hidden && !startingTopic) {
+              startingTopic = topic;
+            }
+          }
+        }
+      }
+      setTopics(filteredTopics);
+      setSelectedTopic(startingTopic);
     }
     return;
   };

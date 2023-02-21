@@ -331,7 +331,14 @@ const ChatSingleMessage = (props) => {
 
         <div className={styles.Body}>
           <span className={styles.Info}>
-            <p className={styles.Creator}>{creator_name}</p>
+            <p
+              className={[
+                styles.Creator,
+                `${selectedcomm._id}_${creator_id}_name`,
+              ].join(" ")}
+            >
+              {creator_name}
+            </p>
             <p className={styles.Timestamp}>{timeStamp}</p>
           </span>
           <div className={styles.Content}>

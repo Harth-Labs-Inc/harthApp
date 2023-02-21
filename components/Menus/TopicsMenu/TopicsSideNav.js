@@ -76,15 +76,15 @@ const TopicsNav = (props) => {
     }
   }, [incomingTopic]);
 
-  // useEffect(() => {
-  //   document.addEventListener("contextmenu", (event) => {
-  //     event.preventDefault();
-  //   });
+  useEffect(() => {
+    document.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    });
 
-  //   return () => {
-  //     window.removeEventListener("contextmenu", () => {});
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("contextmenu", () => {});
+    };
+  }, []);
 
   const handleMobileChatWindow = (newValue) => {
     props.handleMobileChat(newValue);
