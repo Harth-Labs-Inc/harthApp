@@ -180,15 +180,15 @@
                 //background-color: $ash_dark;
 
 
-                &::after {
-                    position: absolute;
-                    content: " ";
-                    width: 36px;
-                    height: 3px;
-                    background-color: $oxygen;
-                    bottom: 2px;
-                    border-radius: 99px;
-                }
+                // &::after {
+                //     position: absolute;
+                //     content: " ";
+                //     width: 24px;
+                //     height: 3px;
+                //     background-color: $oxygen;
+                //     bottom: 2px;
+                //     border-radius: 99px;
+                // }
             }
 
             .Mobile & {

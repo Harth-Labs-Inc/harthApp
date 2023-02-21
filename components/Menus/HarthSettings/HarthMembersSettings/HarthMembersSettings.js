@@ -12,6 +12,7 @@ import { getHarthByID, leaveHarthByID } from "../../../../requests/community";
 import styles from "./harthmembersettings.module.scss";
 import { set } from "react-hook-form";
 import { Modal } from "../../../Common";
+import KickUserModal from "../KickUserModal/KickUserModal";
 
 const HarthMembersSettings = () => {
   const { selectedcomm, updateSelectedHarth, updateLocalSelectedHarth } =
@@ -21,6 +22,7 @@ const HarthMembersSettings = () => {
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [modal, setModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState();
 
   const toggleAdminHandler = async (usr) => {
     let newHarth = {
@@ -89,7 +91,7 @@ const HarthMembersSettings = () => {
   const handleKickMenu = (usr) => {
 
     setModal((prevState) => !prevState);
-    //kickMemberHandler(usr);
+    setSelectedUser(usr);
 
   };
 
@@ -112,9 +114,13 @@ const HarthMembersSettings = () => {
   return (
     <>
     {modal ? (
-        <Modal onToggleModal={setModal} >
-          <div>hello</div>
-        </Modal>
+        <Modal onToggleModal={setModal} classNames={styles.KickModal}>
+          <KickUserModal
+          submitKickHandler={kickMemberHandler}
+          setHidden={setModal}
+          usr={selectedUser}
+          />
+          </Modal>
       ) : (
         ""
       )}
