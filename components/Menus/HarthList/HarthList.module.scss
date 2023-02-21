@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8px 0px 64px 0px;
+    padding: 8px 0px 0px 0px;
     row-gap: 6px;
     background-color: transparent;
     width: 100%;
@@ -259,14 +259,14 @@
     }
 
     .NewHarth {
-        height: 32px;
-        width: 32px;
+        height: 36px;
+        width: 36px;
         border: 0px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: 12px;
-        margin-left: 16px;
+        margin-top: 16px;
+        margin-left: 14px;
         margin-bottom: 12px;
 
         button {
@@ -275,18 +275,18 @@
                 align-items: center;
                 height: 100%;
                 width: 100%;
-                border: 1px solid $oxygen_40;
+                border: 1px solid $oxygen_10;
                 border-radius: 8px;
                 background: transparent;
-                padding: 3px;
+                padding: 4px;
                 
 
                 path {
-                    fill: $oxygen_40;
+                    fill: $oxygen_20;
                 }
         
                 &:hover {
-                    background-color: $oxygen_20;
+                    background-color: $black_20;
 
                 }
             }

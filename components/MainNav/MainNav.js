@@ -136,7 +136,6 @@ const MainNav = (props) => {
             aria-label="Gather"
             className={`
                             ${styles.MainNavPageButton} 
-                            ${styles.MainNavPageButtonCenter} 
                             ${currentPage == "gather" ? styles.Active : null} 
                         `}
             onClick={() => {

@@ -2,7 +2,7 @@
 @import "../../../styles/globals.scss";
 
 .gatheringPage {
-    background-color: $light_ash;
+    background-color: $ash_ultralight;
     height:100%;
     width: 100%;
     overflow-y: scroll;
@@ -13,7 +13,9 @@
         flex-wrap: wrap;
         gap: 24px;
         margin-bottom: 40px;
-        //background-color: aqua;
+        margin-top: 24px;
+        
+        //justify-content: center;
 
         &ActiveList {
             display: flex;
@@ -24,27 +26,30 @@
         }
     }
 
+    .roomHolderMobile {
+        //background-color: aqua;
+        width: 100%;
+    }
+
     .gatheringSection {
         position: relative;
         @include smallTitle;
-        padding: 0px 0px 6px 0px;
+        padding: 0px 0px 0px 0px;
         text-transform: uppercase;
         color: $ash;
-        margin-bottom: 12px;
-        margin-top: 20px;
+        //margin-bottom: 8px;
+        //margin-top: 20px;
 
-        &:after {
-            position: absolute;
-            bottom: 2px;
-            left: 0px;
-            height: 1px;
-            width: 30px;
-            content: "";
-            background-color: $ash;
-        }
+        // &:after {
+        //     position: absolute;
+        //     bottom: 2px;
+        //     left: 0px;
+        //     height: 1px;
+        //     width: 30px;
+        //     content: "";
+        //     background-color: $ash;
+        // }
     }
 
-    .spacer {
 
-    }
 }

@@ -38,7 +38,7 @@ const ubuntu = Ubuntu({
   variable: "--Ubuntu-font",
 });
 const work_Sans = Work_Sans({
-  weight: "400",
+  //weight: "400",
   subsets: ["latin"],
   variable: "--Work_Sans-font",
 });
@@ -53,7 +53,7 @@ const asap_Condensed = Asap_Condensed({
   variable: "--Asap_Condensed-font",
 });
 const rubik = Rubik({
-  weight: "400",
+  //weight: "400",
   subsets: ["latin"],
   variable: "--Rubik-font",
 });

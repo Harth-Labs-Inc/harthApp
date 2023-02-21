@@ -57,7 +57,7 @@
             z-index: 1;
             display: flex;
             flex-direction: column;
-            gap: 0px;
+            gap: 1px;
             border: 0;
         }
     }
@@ -67,7 +67,7 @@
     position: relative;
     border-radius: 10px;
     cursor: pointer;
-    border: solid 1px $oxygen_10;
+    border: solid 1px transparent;
     background-color: $ash;
 
     &Large {
@@ -85,7 +85,7 @@
     &BagButtonTop {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
-        border: solid 1px $oxygen_40;
+        border: solid 1px transparent;
         path {
             fill: $oxygen_40;
         }
@@ -98,8 +98,7 @@
     }
 
     &BagButtonBottom {
-        border: solid 1px $oxygen_40;
-        border-top: 1px solid transparent;
+        border: solid 1px transparent;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
 

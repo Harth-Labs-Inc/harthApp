@@ -3,14 +3,13 @@
 
 .ConversationsNav {
     position: relative;
-    width: 220px;
-    min-width: 220px;
+    width: 260px;
+    min-width: 260px;
     padding: 20px 0px 0px 24px;
     //background-color: $warm_blue_light;
-    background-color: $light_ash;
+    background-color: $warm_slate;
     height: 100%;
     overflow-y: scroll;
-    border-right: 1px solid $fuel_5;
 
     &Mobile {
         width: 100%;
@@ -22,19 +21,18 @@
         @include smallTitle;
         padding: 0px 0px 6px 0px;
         text-transform: uppercase;
-        color: $ash;
-        margin-bottom: 8px;
+        color: $oxygen;
         user-select: none;
 
-        &:after {
-            position: absolute;
-            bottom: 2px;
-            left: 0px;
-            height: 1px;
-            width: 30px;
-            content: "";
-            background-color: $ash;
-        }
+        // &:after {
+        //     position: absolute;
+        //     bottom: 2px;
+        //     left: 0px;
+        //     height: 1px;
+        //     width: 30px;
+        //     content: "";
+        //     background-color: $ash;
+        // }
 
     }
 
@@ -43,7 +41,7 @@
         @include smallTitle;
         padding: 0px 0px 6px 0px;
         text-transform: uppercase;
-        color: $warm_blue_highlight;
+        color: $oxygen_muted;
         border: 0;
         background: transparent;
         cursor: pointer;
@@ -51,21 +49,21 @@
         user-select: none;
 
         &:hover {
-            color: $ash;
+            color: $oxygen;
         }
 
         &Active {
-            color: $ash;
+            color: $oxygen;
 
-            &:after {
-                position: absolute;
-                bottom: 2px;
-                left: 0px;
-                height: 1px;
-                width: 30px;
-                content: "";
-                background-color: $ash;
-            }
+            // &:after {
+            //     position: absolute;
+            //     bottom: 2px;
+            //     left: 0px;
+            //     height: 1px;
+            //     width: 30px;
+            //     content: "";
+            //     background-color: $ash;
+            // }
         }
     }
 
@@ -92,9 +90,9 @@
             cursor: pointer;
             height: fit-content;
             width: fit-content;
-            border-radius: 8px;
+            border-radius:99px;
             padding: 4px 4px;
-            border: 1px solid $fuel_10;
+            border: 1px solid $oxygen_10;
             //background-color: $white;
            
 
@@ -104,16 +102,16 @@
                 width: 18px;
 
                 path {
-                    fill: $fuel_30;
+                    fill: $oxygen_20;
                 }
             }
 
             &:hover {
-                background-color: $fuel_10;
+                background-color: $black_10;
                 .iconHolder {
 
                     path {
-                        fill: $fuel_light;
+                        fill: $oxygen_muted;
                     }
                 }
 
@@ -137,9 +135,9 @@
             cursor: pointer;
             height: fit-content;
             width: fit-content;
-            border-radius: 8px;
+            border-radius: 99px;
             padding: 5px 5px;
-            border: 1px solid $fuel_10;
+            border: 1px solid $oxygen_10;
             //background-color: $white;
            
 
@@ -150,16 +148,16 @@
                 padding: 2px;
 
                 path {
-                    fill: $fuel_30;
+                    fill: $oxygen_20;
                 }
             }
 
             &:hover {
-                background-color: $fuel_10;
+                background-color: $black_10;
                 .iconHolder {
 
                     path {
-                        fill: $fuel_light;
+                        fill: $oxygen_muted;
                     }
                 }
 

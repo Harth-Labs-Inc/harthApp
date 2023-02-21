@@ -3,7 +3,6 @@
 
 .GatheringTile {
   display: flex;
-  width: 336px;
   gap: 0;
   background-color: transparent;
   border-radius: 24px;
@@ -11,6 +10,8 @@
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
   width: 336px;
   min-height: 220px;
+
+
 
   &Label {
     position: relative;
@@ -38,6 +39,7 @@
       transform: rotate(90deg);
       @include roomType;
       user-select: none;
+      margin-left: 2px;
     }
     .party & {
       color: $hot_purple_80;
@@ -63,36 +65,38 @@
 
     .partyActive & {
       background-color: $hot_purple;
-      color: $black_60; 
+      color: $fuel_90; 
 
       svg path {
-        fill: $black_60; 
+        fill-opacity: $fuel_90; 
       }
     }
     .streamActive & {
       background-color: $hot_red;
-      color: $black_60; 
+      color: $fuel_90; 
       svg path {
-        fill: $black_60; 
+        fill: $fuel_90; 
       }
     }
     .voiceActive & {
       background-color: $hot_blue;
-      color: $black_60; 
+      color: $fuel_90; 
       svg path {
-        fill: $black_60; 
+        fill: $fuel_90; 
       }
     }
   }
 
-  &Info {
+  .Info {
     width: 100%;
     padding: 20px 0px 0px 16px;
-    background-color: $oxygen;
+    background-color: $light_ash;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
+
+
 
   &Name {
     @include contentH1;
@@ -104,12 +108,14 @@
     text-overflow: ellipsis;
     overflow: hidden;
     user-select: none;
+    width: 100%;
   }
 
   &InfoStructure {
     display: flex;
     flex-direction: row;
     min-height: 60px;
+    width: 100%;
   }
 
   &Scheduled {
@@ -135,8 +141,9 @@
     }
 
     &Now {
-      @include ubuntu;
+      @include worksans;
       font-size: 10px;
+      font-weight: 500;;
       letter-spacing: 0.06em;
       padding: 9px 12px;
       color: $oxygen;
@@ -194,11 +201,21 @@
       margin-right: -6px;
       padding: 0;
       border: 2px solid $oxygen;
-      background-color: $fuel_10F;
+      background-color: $warm_blue;
       color: $fuel_50;
       @include rubik;
       font-size: 14px;
       font-weight: 500;
+    }
+
+    .emptyMessage {
+      color: $fuel_light;
+      @include rubik;
+      font-size: 14px;
+      font-weight: 300;
+      margin-left: auto;
+      margin-right: auto;
+      padding-right: 8px;
     }
 
     // > div {
@@ -252,7 +269,7 @@
       background-color: $fuel;
       border: 0;
       cursor: pointer;
-      @include ubuntu;
+      @include worksans;
       font-size: 13px;
       letter-spacing: 0.02em;
       font-weight: 500;
@@ -265,6 +282,16 @@
       &:hover {
           background-color: $warm_blue;
       }
+    }
+  }
+
+  &Mobile {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 260px;
+    .Info {
+      padding: 24px 0px 0px 16px;
     }
   }
 }

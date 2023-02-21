@@ -15,7 +15,7 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $fuel_light;
+        background-color: $ash_light;
         width: 100%;
         height: 40px;
         @include menuTitle;
@@ -37,7 +37,6 @@
         padding: 0px 16px 0px 16px;
         @include topicTitle;
 
-
     }
 
     .chatListHolder{
@@ -46,7 +45,7 @@
         flex-direction: column;
         row-gap: 0px;
         width: 100%;
-        background-color: $fuel_10;
+        background-color: $ash_ultralight;
         border-radius: 8px;
     }
 

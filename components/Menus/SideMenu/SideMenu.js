@@ -16,6 +16,7 @@ import { SideModal } from "../../Common";
 import SettingsMenu from "../AccountSettings";
 import { HarthLogoLight } from "../../../public/images/harth-logo-light";
 import { IconAdd } from "../../../resources/icons/IconAdd";
+import { IconEditFill } from "../../../resources/icons/IconEditFill";
 import { CustomHarthContextMenu } from "../../CustomHarthContextMenu/CustomHarthContextMenu";
 
 import styles from "./SideMenu.module.scss";
@@ -212,15 +213,7 @@ const SideNav = (props) => {
         }`}
         ref={leftNav}
       >
-        <div className={styles.titleHolder}>
-          <button
-            className={styles.SettingsButton}
-            onClick={toggleSettingsNav}
-            aria-label="Toggle Settings menu"
-          >
-            <HarthLogoLight />
-          </button>
-        </div>
+
         <HarthList
           comms={comms}
           selectedcomm={selectedcomm}
@@ -229,12 +222,20 @@ const SideNav = (props) => {
           changeSelectedCom={changeSelectedCom}
           toggleHarthEditModal={toggleHarthEditModal}
         />
+        <button
+          className={styles.CreateHarthButton}
+          onClick={setShowCreateHarthNameModal}
+        >
+          <IconAdd />
+        </button>
+
         <div className={styles.bottomHolder}>
-          <button
-            className={styles.addHarthButton}
-            onClick={setShowCreateHarthNameModal}
+        <button
+            className={styles.SettingsButton}
+            onClick={toggleSettingsNav}
+            aria-label="Toggle Settings menu"
           >
-            <IconAdd />
+            <IconEditFill />
           </button>
         </div>
       </aside>

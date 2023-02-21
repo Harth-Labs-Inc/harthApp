@@ -19,7 +19,7 @@
         width: fit-content;
         height: fit-content;
         border-radius: 8px;
-        border: 1px solid $fuel_5;
+        border: 1px solid $oxygen_10;
         //background-color: $white;
 
         img {
@@ -35,7 +35,7 @@
         @include topicTitle;
         padding: 0px 4px 0px 8px;
         width: fit-content;
-        color: $fuel_light;
+        color: $oxygen_muted;
         //background-color: aqua;
         
     }
@@ -56,7 +56,7 @@
             height: 32px;
             //object-fit: cover;
             border-radius: 999px;
-            border: 2px solid $light_ash;;
+            border: 2px solid $warm_blue;
         }
 
         &Mobile {
@@ -94,7 +94,7 @@
         }
         .label {
             @include topicTitleMobile;
-            padding: 24px 16px 24px 8px;
+            padding: 24px 16px 24px 12px;
             //background-color: aqua;
         }
     }
@@ -102,7 +102,7 @@
     &InActive {
         &:hover {
             .emojiHolder {
-                background-color: $fuel_10;
+                background-color: $black_20;
                 //border-color: transparent;
             }
 
@@ -112,13 +112,13 @@
     &Active {
 
         .emojiHolder {
-            background-color: $fuel_light;
+            background-color: $white;
             //border-color: $fuel_10F;
         }
         
         .label {
             font-weight: 700;
-            color: $fuel;
+            color: $oxygen;
             //background-color: $warm_blue_light;
         }
         

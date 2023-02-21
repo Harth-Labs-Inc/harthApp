@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useComms } from "../../../contexts/comms";
 import { useVideo } from "../../../contexts/video";
 import { useAuth } from "../../../contexts/auth";
@@ -17,6 +17,7 @@ import styles from "./GatheringDashboard.module.scss";
 import GatheringCreate from "../../../components/Gathering/GatheringCreate/GatheringCreate";
 import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
 import { GatherLoading } from "../../../components/Gathering/GatherLoading/GatherLoading";
+import { MobileContext } from "../../../contexts/mobile";
 
 const Video = (props) => {
   const [socketData, setSocketData] = useState({});
@@ -26,7 +27,7 @@ const Video = (props) => {
     gatheringType: "classic",
   });
   const [newEditRoomData, setEditRoomData] = useState();
-
+  const { isMobile } = useContext(MobileContext);
   const { selectedcomm } = useComms();
   const {
     getInitialCallRooms,
@@ -118,7 +119,7 @@ const Video = (props) => {
             closeHandler={() => setNewRoomToggled(false)}
           />
         )}
-        <p className={styles.gatheringSection}>Now</p>
+        {/* <p className={styles.gatheringSection}>Now</p> */}
         <div className={styles.roomContainer}>
           <GatheringCreate
             createRoomFormSubmit={createRoomFormSubmit}
@@ -131,9 +132,10 @@ const Video = (props) => {
               owner = true;
             }
             return (
+              <>
               <div
                 key={idx}
-                className={`${room.gatheringType} ${styles.roomContainerRoomBox}`}
+                className={`${room.gatheringType} ${isMobile && styles.roomHolderMobile}`}
               >
                 <GatheringTile
                   room={room}
@@ -144,6 +146,7 @@ const Video = (props) => {
                   user={creator}
                 />
               </div>
+              </>
             );
           })}
         </div>
@@ -155,7 +158,7 @@ const Video = (props) => {
               owner = true;
             }
             return (
-              <div key={idx} className={`${room.gatheringType} room-container`}>
+              <div key={idx} className={`${room.gatheringType} ${isMobile && styles.roomHolderMobile} room-container`}>
                 <GatheringTile
                   cardType="schedule"
                   room={room}

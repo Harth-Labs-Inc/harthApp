@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 import { updateScheduleRoom } from "../../../requests/rooms";
 import { IconHeadsetMic } from "../../../resources/icons/IconHeadsetMic";
@@ -6,7 +6,7 @@ import { IconCastNoFill } from "../../../resources/icons/IconCastNoFill";
 import { IconWorkspace } from "../../../resources/icons/IconWorkspace";
 import { IconEditFill } from "../../../resources/icons/IconEditFill";
 import { useVideo } from "../../../contexts/video";
-
+import { MobileContext } from "../../../contexts/mobile";
 import GatheringTileControls from "./GatheringTileControls";
 import styles from "./GatheringTile.module.scss";
 
@@ -16,6 +16,7 @@ export const GatheringTile = (props) => {
     props;
 
   const { refreshScheduledCallRooms } = useVideo();
+  const { isMobile } = useContext(MobileContext);
 
   useEffect(() => {
     if (peers && peers.length && user) {
@@ -78,11 +79,15 @@ export const GatheringTile = (props) => {
 
   return (
     <div
-      className={`${styles.GatheringTile} ${
-        cardType == "schedule"
+      className={`
+        ${styles.GatheringTile} 
+        ${isMobile && styles.GatheringTileMobile}
+        ${cardType == "schedule"
           ? styles[room.gatheringType]
-          : styles[room.gatheringType + "Active"]
-      }`}
+          : styles[room.gatheringType + "Active"]}
+
+      
+      `}
     >
       <div className={styles.GatheringTileLabel}>
         <div className={styles.GatheringTileLabelIcon}>
@@ -93,7 +98,7 @@ export const GatheringTile = (props) => {
         </div>
       </div>
 
-      <div className={styles.GatheringTileInfo}>
+      <div className={styles.Info}>
         <p className={styles.GatheringTileName}>{room.roomName}</p>
 
         <div className={styles.GatheringTileInfoStructure}>
@@ -115,8 +120,10 @@ export const GatheringTile = (props) => {
           </div>
           <div className={styles.GatheringTilePeopleDescription}>
             <div className={styles.GatheringTileAttendeeWrapper}>
-              {peers.map((peer, index) => {
-                const zIndex = peers.length - index;
+              {peers.length > 0 ? 
+              (
+              peers.map((peer, index) => {
+
                 return (
                   <>
                   {peer.img 
@@ -125,7 +132,13 @@ export const GatheringTile = (props) => {
                   }
                   </>
                 );
-              })}
+              })
+              ):(
+                <>
+                <div className={styles.emptyMessage}>( empty )</div>
+                </>
+              )
+}
             </div>
             <p className={styles.GatheringTileDescription}>
               {room.gatheringDescription}
