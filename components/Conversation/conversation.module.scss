@@ -89,10 +89,14 @@
         background-color: transparent;
         img {
             opacity: .6;
-            border: 2px solid $light_ash;
+            border: 2px solid $warm_slate;
     
         }
 
+        .label {
+            color: $oxygen_muted;
+
+        }
 
         &:hover {
             img {
@@ -101,7 +105,7 @@
             }
 
             .label {
-                color: $ash;
+                color: $oxygen;
 
             }
 
@@ -111,14 +115,14 @@
     &Active {
         
         .label {
-            color: $ash;
+            color: $oxygen;
             //background-color: $oxygen;
             font-weight: 700;
         }
 
        img {
         opacity: 1;
-        border: 2px solid $oxygen;
+        border: 2px solid $warm_slate;
 
         }
 

@@ -1,78 +1,66 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-// @import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&display=swap");
 
 @mixin harthTitle1 {
   font-family: var(--COOPBL-font);
-  //font-weight: 600;
-  font-size: 26px;
+  font-size: 28px;
   letter-spacing: 0.05em;
   line-height: 28px;
-  text-rendering: optimizeLegibility;
 }
 
 @mixin harthTitle2 {
-  font-family: var(--righteous-font);
-
-  //font-weight: 500;
-  font-size: 22px;
+  font-family: var(--COOPBL-font);
+  font-size: 24px;
   letter-spacing: 0.05em;
   line-height: 24px;
-  text-rendering: optimizeLegibility;
 }
 
 @mixin harthTitleSmall {
-  font-family: var(--righteous-font);
-
-  //font-weight: 600;
+  font-family: var(--COOPBL-font);
   font-size: 18px;
   letter-spacing: 0.05em;
   line-height: 18px;
-  text-rendering: optimizeLegibility;
 }
 
 @mixin titleNav {
-  font-family: var(--Asap_Condensed-font);
+  font-family: var(--COOPBL-font);
+  //font-family: var(--Asap_Condensed-font);
   //font-family: "Work Sans", sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  //letter-spacing: 0.04em;
-  line-height: 12px;
+  //font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  line-height: 14px;
   //text-rendering: optimizeLegibility;
 }
 
 @mixin titleNavMobile {
-  font-family: "Ubuntu", sans-serif;
-  font-weight: 400;
-  font-size: 10px;
-  letter-spacing: 0.04em;
-  line-height: 10px;
-  text-rendering: optimizeLegibility;
+  font-family: var(--COOPBL-font);
+  //font-family: "Ubuntu", sans-serif;
+  //font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  line-height: 11px;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin smallTitle {
-  font-family: "Work Sans", sans-serif;
+  //font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 700;
   font-size: 10px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
 }
 
 @mixin smallTitleMobile {
-  font-family: "Work Sans", sans-serif;
-  font-weight: 600;
+  font-family: var(--Rubik-font);
+  font-weight: 700;
   font-size: 12px;
   letter-spacing: 0.2em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
 }
 
 @mixin topicTitle {
   //font-family: "Work Sans", sans-serif;
-  font-family: "Ubuntu", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 14px;
   letter-spacing: 0.01em;
@@ -82,8 +70,8 @@
 
 @mixin topicTitleActive {
   //font-family: "Work Sans", sans-serif;
-  font-family: "Ubuntu", sans-serif;
-  font-weight: 700;
+  font-family: var(--Rubik-font);
+  font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.01em;
   line-height: 125%;
@@ -92,7 +80,7 @@
 
 @mixin topicTitleMobile {
   //font-family: "Work Sans", sans-serif;
-  font-family: "Ubuntu", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 16px;
   letter-spacing: 0.03em;
@@ -111,97 +99,97 @@
 }
 
 @mixin chatProfile {
-  font-family: "Work Sans", sans-serif;
-  font-weight: 600;
-  font-size: 12px;
+  font-family: var(--Rubik-font);
+  font-weight: 500;
+  font-size: 11px;
   letter-spacing: 0.02em;
-  line-height: 12px;
-  text-rendering: optimizeLegibility;
+  line-height: 11px;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin timeStamp {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 10px;
   letter-spacing: 0.02em;
-  line-height: 12px;
-  text-rendering: optimizeLegibility;
+  line-height: 11px;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin roomType {
-  font-family: "Work Sans", sans-serif;
-  font-weight: 700;
+  font-family: var(--Work_Sans-font);
+  font-weight: 800;
   font-size: 40px;
-  letter-spacing: 0em;
-  line-height: 22px;
-  text-rendering: optimizeLegibility;
+  letter-spacing: 0.03em;
+  line-height: 32px;
+ // text-rendering: optimizeLegibility;
   text-transform: capitalize;
 }
 
 @mixin menuTitle {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 0.05em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin menuSubTitle {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 12px;
   letter-spacing: 0.02em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin menuText {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 300;
   font-size: 13px;
   letter-spacing: 0.05em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin overlayMenuTitle {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 600;
   font-size: 28px;
   letter-spacing: 0.02em;
   line-height: 28px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin buttonLarge {
-  font-family: "Ubuntu", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 0.04em;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin buttonSmall {
-  font-family: "Ubuntu", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.04em;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin subtext {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 12px;
   letter-spacing: 0.02em;
   line-height: 14px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
   color: $ash_light;
 }
 
 @mixin mouseover {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -210,162 +198,155 @@
 }
 
 @mixin rubik {
-  font-family: "Work Sans", sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  //text-rendering: optimizeLegibility;
-}
-
-@mixin ubuntu {
-  font-family: "Ubuntu", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 12px;
   //text-rendering: optimizeLegibility;
 }
 
 @mixin worksans {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 12px;
   //text-rendering: optimizeLegibility;
 }
 
 @mixin interfaceH1 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 500;
   font-size: 20px;
   letter-spacing: 0.02em;
   line-height: 22px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin interfaceH2 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 18px;
   letter-spacing: 0.02em;
   line-height: 20px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin interfaceH3 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 16px;
   letter-spacing: 0.02em;
   line-height: 18px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin interfaceH4 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 14px;
   letter-spacing: 0.02em;
   line-height: 16px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin interfaceH5 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.02em;
   line-height: 14px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin interfaceR1 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 16px;
   letter-spacing: 0.02em;
   line-height: 18px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin interfaceR2 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 13px;
   letter-spacing: 0.04em;
   line-height: 14px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin interfaceR3 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 12px;
   letter-spacing: 0.02em;
   line-height: 14px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin interfaceR4 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
   font-size: 11px;
   letter-spacing: 0.02em;
   line-height: 12px;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin contentH1 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 900;
   font-size: 24px;
   letter-spacing: -0.02em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin contentH2 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 18px;
   letter-spacing: 0.02em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin contentH3 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 16px;
   letter-spacing: 0.02em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin contentH4 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 0.02em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin contentH5 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.02em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin contentR1 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 16px;
   letter-spacing: 0.02em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin contentR2 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 13px;
   letter-spacing: 0.04em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }
 @mixin contentR3 {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 12px;
   letter-spacing: 0.04em;
   line-height: 125%;
-  text-rendering: optimizeLegibility;
+  //text-rendering: optimizeLegibility;
 }

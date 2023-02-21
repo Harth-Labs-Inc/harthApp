@@ -5,22 +5,22 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 0px 0px 0px 0px;
+    padding: 8px 0px 0px 0px;
     width: 64px;
     min-width: 64px;
-    background-color: $fuel_dark;
-    border-right: 1px solid $fuel;
+    background-color: $ash;
+    border-right: 1px solid $ash_border;
 
-    .titleHolder {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 60px;
-        min-height: 60px;
-        width: 64px;;
-        border: 0;
-        border-bottom: 1px solid $fuel;
-    }
+    // .titleHolder {
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     height: 60px;
+    //     min-height: 60px;
+    //     width: 64px;;
+    //     border: 0;
+    //     border-bottom: 1px solid $ash_border;
+    // }
 
     .SettingsButton {
 
@@ -28,7 +28,7 @@
         align-items: center;
         justify-content: center;
         height: 32px;
-        width: 52px;
+        width: 32px;
         padding: 6px;
         background-color: transparent;
         border: 0;
@@ -37,9 +37,13 @@
         cursor: pointer;
         overflow: hidden;
 
+        path {
+            fill: $oxygen_20;
+        }
+
 
         &:hover {
-            border: 1px solid $fuel_light;
+            border: 1px solid $oxygen_10;
         }
     }
 
@@ -47,35 +51,46 @@
 
         position: absolute;
         bottom: 0px;
-        height: 52px;
+        height: 56px;
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         // background-color: $ash;
-        border-top: 1px solid $fuel;
+        border-top: 1px solid $ash_border;
         z-index: 20;
 
-        .addHarthButton {
-            background-color: lighten($fuel, 4%);
-            border: 0;
-            //background-color: transparent;
-            border-radius: 6px;
-            height: 24px;
-            width: 24px;
-            padding: 2px;
-            cursor: pointer;
+        
+    }
+
+    .CreateHarthButton {
+        position: relative;
+        width: 28px;
+        height: 28px;
+        padding: 4px;
+        margin-top: 8px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 64px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 8px;
+        border: 1px solid $oxygen_10;
+        background: transparent;
+
+        path {
+            fill: $oxygen_20;
+        }
+
+        &:hover {
+            background-color: $black_20;
+            //border-color: $oxygen_muted;
 
             path {
-                fill: $fuel_dark;
-                //stroke: 2px solid $fuel_light;
-            }
-
-            &:hover {
-                background-color: $fuel_light;
-
+                fill: $oxygen_muted;
             }
         }
+
     }
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import { IconEvent } from "../../../resources/icons/IconEvent";
@@ -6,11 +6,15 @@ import { IconPlayCircle } from "../../../resources/icons/IconPlayCircle";
 import ErrorMessage from "../../Common/Input/ErrorMessage";
 
 import { GatheringButton } from "./GatheringButton";
+import { MobileContext } from "../../../contexts/mobile";
+
+
 import styles from "./GatheringCreate.module.scss";
 
 const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit, }) => {
     const [activeButton, setActiveButton] = useState("voice");
     const [roomName, setRoomName] = useState("");
+    const { isMobile } = useContext(MobileContext);
 
     const {
         register,
@@ -39,9 +43,12 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit, }) => {
     };
 
     return (
-        <div className={styles.GatheringCreate}>
+        <div className={`
+            ${styles.GatheringCreate}
+            ${isMobile && styles.GatheringCreateMobile}
+            `}>
             <form onSubmit={handleSubmit(createRoomSubmit)}>
-                <div className={styles.GatheringCreateContent}>
+                <div className={styles.Content}>
                     <input
                         placeholder="room name"
                         autocomplete="off"

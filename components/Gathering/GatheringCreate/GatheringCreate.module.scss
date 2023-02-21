@@ -12,16 +12,27 @@
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
     width: 336px;
 
-    &Content {
+
+    .Content {
         display: flex;
         align-items: center;
         flex-direction: column;
-        background-color: $oxygen;
+        background-color: $light_ash;
         width: 100%;
-      
-
         padding: 20px 12px 20px 12px;
     }
+    
+    &Mobile {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+
+        .Content {
+            padding: 28px 12px 28px 12px;
+        }
+        
+    }
+
 
     &Input {
         text-align: center;
@@ -80,7 +91,7 @@
 
 
     &SubText {
-        @include ubuntu;
+        @include worksans;
         color: $fuel_50;
         font-weight: 400;
         margin-top: 12px;
@@ -107,7 +118,7 @@
         border: 0;
         border-radius: 24px 0px 0px 0px;
         cursor: pointer;
-        @include ubuntu;
+        @include worksans;
         font-size: 13px;
         letter-spacing: 0.02em;
         font-weight: 500;
@@ -175,8 +186,9 @@
     }
 
     &Text {
-        @include ubuntu;
-        font-weight: 500;
+        @include worksans;
+        font-weight: 600;
+        letter-spacing: 0.03em;
         font-size: 11px;
         text-align: center;
         text-transform: capitalize;
