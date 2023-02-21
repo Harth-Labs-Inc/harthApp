@@ -165,7 +165,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
             className={styles.textEntry}
             autocomplete="off"
           />
-          <div className={styles.harthTitle}>[{harth.name}]</div>
+          <div className={styles.harthTitle}>{harth.name}</div>
           <div className={styles.buttonBar}>
             <Button
               text="Cancel"

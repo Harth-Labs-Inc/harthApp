@@ -108,10 +108,11 @@
 
             &:hover {
                 background-color: $black_10;
+                border-color: $oxygen_20;
                 .iconHolder {
 
                     path {
-                        fill: $oxygen_muted;
+                        fill: $oxygen_40;
                     }
                 }
 

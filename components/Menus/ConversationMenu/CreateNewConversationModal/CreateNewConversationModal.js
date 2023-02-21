@@ -94,6 +94,7 @@ export default function CreateNewConversationModal({ toggleModal }) {
             <div className={styles.mainContainer}>
                 <div className={styles.title}>New conversation</div>
                 <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className={styles.Content}>
+                    <div className={styles.helpText}>Select Recipients</div>
                     <div className={styles.PeopleList}>
                     {userList &&
                         userList
@@ -119,7 +120,7 @@ export default function CreateNewConversationModal({ toggleModal }) {
                                         <label
                                             htmlFor=""
                                         >
-                                            {usr.name}
+                                           <p>{usr.name}</p>
                                         </label>
                                     </div>
                                 );

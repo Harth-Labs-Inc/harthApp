@@ -10,6 +10,18 @@
     width: 330px;
     //background-color: #ffa773;
 
+    .helpText {
+        @include smallTitle;
+        color: $fuel;
+        margin-bottom: 4px;
+    }
+
+    p {
+        @include topicTitle;
+        font-weight: 500;
+        color: $fuel_light;
+    }
+
     .title {
         @include overlayMenuTitle;
         width: 100%;
