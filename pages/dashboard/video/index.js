@@ -186,7 +186,7 @@ const Video = (props) => {
           closeHandler={() => setNewRoomToggled(false)}
         />
       )}
-      <p className={styles.gatheringSection}>NOW</p>
+      {/* <p className={styles.gatheringSection}>NOW</p> */}
       <div className={styles.roomContainer}>
         <GatheringCreate
           createRoomFormSubmit={createRoomFormSubmit}

@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { getHarthByID, leaveHarthByID } from "../../../../requests/community";
 import styles from "./harthmembersettings.module.scss";
 import { set } from "react-hook-form";
+import { Modal } from "../../../Common";
 
 const HarthMembersSettings = () => {
   const { selectedcomm, updateSelectedHarth, updateLocalSelectedHarth } =
@@ -19,6 +20,7 @@ const HarthMembersSettings = () => {
   const { emitUpdate } = useSocket();
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [modal, setModal] = useState(false);
 
   const toggleAdminHandler = async (usr) => {
     let newHarth = {
@@ -84,6 +86,14 @@ const HarthMembersSettings = () => {
     }
   };
 
+  const handleKickMenu = (usr) => {
+
+    setModal((prevState) => !prevState);
+    //kickMemberHandler(usr);
+
+  };
+
+
   let isSuperUser = false;
   let isAdminUser = false;
 
@@ -101,6 +111,14 @@ const HarthMembersSettings = () => {
 
   return (
     <>
+    {modal ? (
+        <Modal onToggleModal={setModal} >
+          <div>hello</div>
+        </Modal>
+      ) : (
+        ""
+      )}
+
       <div className={styles.listHolder}>
         {selectedcomm?.users.map((usr) => {
           let isOwner = false;
@@ -170,7 +188,7 @@ const HarthMembersSettings = () => {
                   <Button
                     tier="secondary"
                     size="small"
-                    onClick={() => kickMemberHandler(usr)}
+                    onClick={() => handleKickMenu(usr)}
                     text="Kick User"
                   />
 
