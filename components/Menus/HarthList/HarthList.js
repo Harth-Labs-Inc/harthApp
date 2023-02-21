@@ -60,7 +60,6 @@ const HarthList = ({
             active = true;
           } else {
             let owner = com?.users.find((usr) => usr?.userId === user._id);
-            console.log(unreadMsgs, "unreadMsgsssssssssssssssssssssssssssssss");
             unreadMsgs.forEach((msg) => {
               if (
                 msg.comm_id === com._id &&

@@ -97,12 +97,45 @@ export const SocketProvider = ({ children }) => {
               imgELement.setAttribute("src", incomingUpdate?.newIconKey);
             }
             break;
+          case "message profile name update":
+            let nameElements = document.getElementsByClassName(
+              `${incomingUpdate?.harthid}_${incomingUpdate?.userid}_name`
+            );
+            for (let nameELement of nameElements) {
+              nameELement.innerHTML = incomingUpdate?.newName;
+            }
+            break;
           case "new topic":
             let newTopicResult = await getTopics(
               incomingUpdate?.comm_id,
               user._id
             );
-            setTopics(newTopicResult.topics);
+            if (newTopicResult.topics) {
+              let filteredTopics = newTopicResult.topics.sort((a, b) => {
+                const removeEmoji = (str) => {
+                  return str
+                    .replace(
+                      /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+                      ""
+                    )
+                    .replace(/\s+/g, " ")
+                    .trim();
+                };
+                const nameA = removeEmoji(a.title);
+                const nameB = removeEmoji(b.title);
+
+                if (nameA < nameB) {
+                  return -1;
+                }
+                if (nameA > nameB) {
+                  return 1;
+                }
+
+                return 0;
+              });
+              setTopics(filteredTopics);
+            }
+
             break;
           case "topic deleted":
             let deleteResult = getTopics(incomingUpdate?.comm?._id, user._id);
