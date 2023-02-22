@@ -198,6 +198,9 @@ const MessageWrapper = () => {
     setImageSlideshowURL(null);
     setShowImageSlideShow(false);
   };
+  const resetEdit = () => {
+    setEditMessageObj({});
+  };
 
   return (
     <>
@@ -243,6 +246,7 @@ const MessageWrapper = () => {
                 showImageSlideShow={showImageSlideShow}
                 imageSlideshowURL={imageSlideshowURL}
                 resetImageSLideshow={resetImageSLideshow}
+                resetEdit={resetEdit}
               />
             ))}
           <ScrollButton />
@@ -256,6 +260,7 @@ const MessageWrapper = () => {
               replyOwner={selectedReplyOwner}
               topicInputs={topicInputs}
               setTopicInputs={setTopicInputs}
+              resetEdit={resetEdit}
             ></ChatInput>
           </div>
         ) : (
@@ -266,6 +271,7 @@ const MessageWrapper = () => {
               replyOwner={selectedReplyOwner}
               topicInputs={topicInputs}
               setTopicInputs={setTopicInputs}
+              resetEdit={resetEdit}
             ></ChatInput>
           </div>
         )}

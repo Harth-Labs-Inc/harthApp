@@ -38,8 +38,14 @@ const ChatInput = (props) => {
   const { selectedcomm, selectedTopic } = useComms();
   const { emitUpdate } = useSocket();
 
-  const { selectedEdit, isReply, replyOwner, topicInputs, setTopicInputs } =
-    props;
+  const {
+    selectedEdit,
+    isReply,
+    replyOwner,
+    topicInputs,
+    setTopicInputs,
+    resetEdit,
+  } = props;
 
   const textRef = useRef();
   const fileRef = useRef();
@@ -59,12 +65,11 @@ const ChatInput = (props) => {
   }, [attachments]);
 
   useEffect(() => {
-    if (setTopicInputs) {
-      setTopicInputs({
-        ...topicInputs,
-        [selectedTopic?._id]: selectedEdit?.message,
-      });
-    }
+    console.log("oops");
+    setTopicInputs({
+      ...topicInputs,
+      [selectedTopic?._id]: selectedEdit?.message,
+    });
 
     setSelectedEditMsg(selectedEdit);
   }, [selectedEdit]);
@@ -135,6 +140,7 @@ const ChatInput = (props) => {
   const cancelEdit = () => {
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
     setSelectedEditMsg({});
+    resetEdit();
   };
   const addEmoji = (e) => {
     let text = topicInputs[selectedTopic?._id];
