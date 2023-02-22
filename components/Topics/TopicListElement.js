@@ -51,10 +51,12 @@ const TopicListElement = (props) => {
       onClick={toggleActive}
       onMouseUp={toggleEditMenu}
     >
-      <div className={styles.emojiHolder}>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png" />
+      <div className={styles.labelHolder}>
+        <div className={styles.emojiHolder}>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png" />
+        </div>
+        <div className={styles.label}>{label}</div>
       </div>
-      <div className={styles.label}>{label}</div>
       {hasAlert && (
         <div
           className={` 
@@ -65,11 +67,13 @@ const TopicListElement = (props) => {
           {alertProfiles.map((e) => {
             console.log(e);
             return (
+
               <img
                 src={e?.creator_image}
                 className={`${e?.comm_id}_${e?.creator_id}`}
                 loading="lazy"
               />
+
             );
           })}
         </div>
