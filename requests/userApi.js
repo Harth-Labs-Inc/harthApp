@@ -108,3 +108,16 @@ export const verifyResetTkn = async (tkn) => {
     console.log(error);
   }
 };
+
+export const saveAcountSettingsUpdates = async (id, field, value) => {
+  try {
+    const res = await api.post(`/api/users/saveAcountSettingsUpdates`, {
+      id,
+      field,
+      value,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
