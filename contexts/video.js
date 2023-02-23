@@ -1,7 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
 import io from "socket.io-client";
-import { setTurnServers } from "../util/TURN";
 import { getScheduledCallRooms, deleteScheduledRoom } from "../requests/rooms";
 import { combineDateTime } from "../services/helper";
 
@@ -45,7 +44,6 @@ export const VideoProvider = ({ children }) => {
 
             break;
           case "GROUP_CALL_PEERS":
-            console.log("peers update", data);
             let rooms = [...callRooms];
             rooms.forEach((room, index) => {
               if (peers[0] && room.roomId === peers[0].roomId) {

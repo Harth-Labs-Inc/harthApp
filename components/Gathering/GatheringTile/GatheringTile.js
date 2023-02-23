@@ -82,9 +82,11 @@ export const GatheringTile = (props) => {
       className={`
         ${styles.GatheringTile} 
         ${isMobile && styles.GatheringTileMobile}
-        ${cardType == "schedule"
-          ? styles[room.gatheringType]
-          : styles[room.gatheringType + "Active"]}
+        ${
+          cardType == "schedule"
+            ? styles[room.gatheringType]
+            : styles[room.gatheringType + "Active"]
+        }
 
       
       `}
@@ -120,25 +122,27 @@ export const GatheringTile = (props) => {
           </div>
           <div className={styles.GatheringTilePeopleDescription}>
             <div className={styles.GatheringTileAttendeeWrapper}>
-              {peers.length > 0 ? 
-              (
-              peers.map((peer, index) => {
-
-                return (
-                  <>
-                  {peer.img 
-                    ? <div className={styles.profileImage} title={peer.name}><img src={peer.img} /></div>
-                    : <div className={styles.empty} title={peer.name}>?</div>
-                  }
-                  </>
-                );
-              })
-              ):(
+              {peers.length > 0 ? (
+                peers.map((peer, index) => {
+                  return (
+                    <>
+                      {peer.img ? (
+                        <div className={styles.profileImage} title={peer.name}>
+                          <img src={peer.img} loading="lazy" />
+                        </div>
+                      ) : (
+                        <div className={styles.empty} title={peer.name}>
+                          ?
+                        </div>
+                      )}
+                    </>
+                  );
+                })
+              ) : (
                 <>
-                <div className={styles.emptyMessage}>( empty )</div>
+                  <div className={styles.emptyMessage}>( empty )</div>
                 </>
-              )
-}
+              )}
             </div>
             <p className={styles.GatheringTileDescription}>
               {room.gatheringDescription}

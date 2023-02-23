@@ -90,8 +90,11 @@ export default function CreateNewTopicModal({ toggleModal }) {
           onSubmit={handleSubmit(createNewTopic)}
         >
           <div className={styles.inputHolder}>
-            <button >
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png" />
+            <button>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png"
+                loading="lazy"
+              />
             </button>
 
             <input
@@ -101,14 +104,12 @@ export default function CreateNewTopicModal({ toggleModal }) {
               autocomplete="off"
             />
           </div>
-          < div className={styles.error}>
+          <div className={styles.error}>
             <ErrorMessage
-              errorMsg={
-                errors.topicName ? "You must set a topic name" : null
-              }
+              errorMsg={errors.topicName ? "You must set a topic name" : null}
             />
           </div>
-          
+
           <div className={styles.subtext}>
             Content in this topic will be kept for 90 days
           </div>

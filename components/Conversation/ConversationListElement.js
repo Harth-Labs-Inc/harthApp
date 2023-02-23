@@ -3,60 +3,62 @@ import { useState } from "react";
 import styles from "./conversation.module.scss";
 
 const ConversationListElement = (props) => {
-    const {
-        clickHandler,
-        isMobile = false,
-        hasAlert = false,
-        isActive = false,
-        conversation,
-        label,
-    } = props;
+  const {
+    clickHandler,
+    isMobile = false,
+    hasAlert = false,
+    isActive = false,
+    conversation,
+    label,
+  } = props;
 
-    const [buttonState, setButtonState] = useState(isActive);
-    const [alertState, setAlertState] = useState(hasAlert);
+  const [buttonState, setButtonState] = useState(isActive);
+  const [alertState, setAlertState] = useState(hasAlert);
 
-    const toggleActive = () => {
-        if (!buttonState) {
-            setButtonState(true);
-            setAlertState(false);
-        } else {
-            setButtonState(false);
-        }
-        clickHandler(conversation);
-    };
+  const toggleActive = () => {
+    if (!buttonState) {
+      setButtonState(true);
+      setAlertState(false);
+    } else {
+      setButtonState(false);
+    }
+    clickHandler(conversation);
+  };
 
-    return (
-        <>
-            <button
-                key={conversation._id}
-                title={label}
-                id={conversation._id}
-                className={`
+  return (
+    <>
+      <button
+        key={conversation._id}
+        title={label}
+        id={conversation._id}
+        className={`
                     ${styles.conversation} 
                     ${isMobile && styles.conversationMobile} 
-                    ${isActive ? styles.conversationActive : styles.conversationInActive} 
+                    ${
+                      isActive
+                        ? styles.conversationActive
+                        : styles.conversationInActive
+                    } 
                     ${hasAlert && styles.conversationAlert} 
                     `}
-                onClick={toggleActive}
-            >
-                {conversation.users?.map((e) => (
-                    <div
-                        key={e.userId}
-                        className={styles.participantElement}
-                    >
-                        <img
-                            className={`
+        onClick={toggleActive}
+      >
+        {conversation.users?.map((e) => (
+          <div key={e.userId} className={styles.participantElement}>
+            <img
+              className={`
                                 ${styles.avatar} 
                                 ${isMobile && styles.avatarMobile} 
                                 `}
-                            src={e.iconKey}
-                        />
-                        <div className={styles.label}>{e.name}</div>
-                    </div>
-                ))}
-            </button>
-        </>
-    );
+              src={e.iconKey}
+              loading="lazy"
+            />
+            <div className={styles.label}>{e.name}</div>
+          </div>
+        ))}
+      </button>
+    </>
+  );
 };
 
 export default ConversationListElement;

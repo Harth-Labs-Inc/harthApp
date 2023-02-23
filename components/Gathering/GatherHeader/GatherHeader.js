@@ -9,7 +9,8 @@ import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScree
 import styles from "./gatherHeader.module.scss";
 
 const GatherHeader = (props) => {
-  const { gatheringName, selectedHarthIcon, toggleHDSwitch, leaveMethod } = props;
+  const { gatheringName, selectedHarthIcon, toggleHDSwitch, leaveMethod } =
+    props;
   const [modal, setModal] = useState();
   const { isMobile } = useContext(MobileContext);
 
@@ -26,18 +27,14 @@ const GatherHeader = (props) => {
       {modal ? (
         <Modal show={modal} onToggleModal={showMobileMenu} isDark={true}>
           <div className={styles.leaveMenu}>
-          <button
-            className={styles.menuItem}
-            onClick={leaveMethod}
-          >
-          <IconCloseFullScreen /><p>Minimize Gathering</p>
-          </button>
-          <button
-            className={styles.menuItem}
-            onClick={leaveMethod}
-          >
-          <IconPower /><p>Leave Gathering</p>
-          </button>
+            <button className={styles.menuItem} onClick={leaveMethod}>
+              <IconCloseFullScreen />
+              <p>Minimize Gathering</p>
+            </button>
+            <button className={styles.menuItem} onClick={leaveMethod}>
+              <IconPower />
+              <p>Leave Gathering</p>
+            </button>
           </div>
         </Modal>
       ) : (
@@ -46,7 +43,13 @@ const GatherHeader = (props) => {
 
       <div className={isMobile ? styles.mobile : styles.desktop}>
         {isMobile && <LeaveButtonMobile onClick={showMobileMenu} />}
-        {isMobile ? null : (<img className={styles.harthImage} src={selectedHarthIcon || ""} />)}
+        {isMobile ? null : (
+          <img
+            className={styles.harthImage}
+            src={selectedHarthIcon || ""}
+            loading="lazy"
+          />
+        )}
         <div className={styles.labelHolder}>{gatheringName}</div>
         <HDSwitch onToggleChange={toggleHDSwitch} isChecked={false} />
       </div>
