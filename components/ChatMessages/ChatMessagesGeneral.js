@@ -122,7 +122,7 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
                 </p>
                 <span className={styles.TimeStamp}>
                   {chat.creator_name !== userName ? (
-                    <img src={chat.creator_image} />
+                    <img src={chat.creator_image} loading="lazy" />
                   ) : null}
                   {date.toLocaleTimeString([], {
                     hour: "2-digit",

@@ -1,38 +1,60 @@
 import { useState, useEffect } from "react";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import { sendWelcomeEmailToUser } from "../../requests/userApi";
+import { checkIfInviteTokenIsGood } from "../../requests/community";
+import { VideoProvider } from "../../contexts/video";
 import { CommsProvider } from "../../contexts/comms";
 import { SocketProvider } from "../../contexts/socket";
 import { ChatProvider } from "../../contexts/chat";
 import { useAuth } from "../../contexts/auth";
-import { sendWelcomeEmailToUser } from "../../requests/userApi";
-import Cookies from "js-cookie";
-import { checkIfInviteTokenIsGood } from "../../requests/community";
-import { VideoProvider } from "../../contexts/video";
-import DashboardLayout from "../../components/DashboardLayout/DashboardLayout";
 
-import Chat from "./chat";
-import Party from "./party";
-import Voice from "./voice";
-import Stream from "./stream";
-import Video from "./video";
-import Message from "./message";
+const DashboardLayout = dynamic(
+  () => import("../../components/DashboardLayout/DashboardLayout"),
+  {
+    loading: () => null,
+  }
+);
+const CreateHarthName = dynamic(
+  () => import("../../components/createHarthName/createHarthName"),
+  {
+    loading: () => null,
+  }
+);
+const CreateHarthProfile = dynamic(
+  () => import("../../components/createHarthProfile/createHarthProfile"),
+  {
+    loading: () => null,
+  }
+);
+const HarthInviteAcceptModal = dynamic(
+  () =>
+    import("../../components/harthInviteAcceptModal/harthInviteAcceptModal"),
+  {
+    loading: () => null,
+  }
+);
 
-import CreateHarthName from "../../components/createHarthName/createHarthName";
-import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
-import HarthInviteAcceptModal from "../../components/harthInviteAcceptModal/harthInviteAcceptModal";
+// import DashboardLayout from "../../components/DashboardLayout/DashboardLayout";
+// import Chat from "./chat";
+// import Party from "./party";
+// import Voice from "./voice";
+// import Stream from "./stream";
+// import Video from "./video";
+// import Message from "./message";
+// import CreateHarthName from "../../components/createHarthName/createHarthName";
+// import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
+// import HarthInviteAcceptModal from "../../components/harthInviteAcceptModal/harthInviteAcceptModal";
 
 const dashboard = (props) => {
   const [currentPage, setCurrentPage] = useState();
   const [GatherWindow, setGatherWindow] = useState("");
-
   const [invitedHarth, setInvitedHarth] = useState(null);
   const [newHarth, setNewHarth] = useState(null);
-
   const [showCreateHarthNameModal, setShowCreateHarthNameModal] =
     useState(false);
   const [showCreateHarthProfileModal, setShowCreateHarthProfileModal] =
     useState(false);
-
   const [showInviteAcceptModal, setShowInviteAcceptModal] = useState(false);
   const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
 
@@ -132,29 +154,47 @@ const dashboard = (props) => {
     let page;
     switch (currentPage) {
       case "chat":
-        page = <Chat />;
+        const DynamicChat = dynamic(() => import("./chat"), {
+          loading: () => null,
+        });
+        page = DynamicChat ? <DynamicChat /> : null;
         break;
       case "gather":
-        page = (
+        const DynamicVideo = dynamic(() => import("./video"), {
+          loading: () => null,
+        });
+        page = DynamicVideo ? (
           <VideoProvider>
-            <Video />
+            <DynamicVideo />
           </VideoProvider>
-        );
+        ) : null;
         break;
       case "party":
-        page = <Party />;
+        const DynamicParty = dynamic(() => import("./party"), {
+          loading: () => null,
+        });
+        page = DynamicParty ? <DynamicParty /> : null;
         break;
       case "voice":
-        page = <Voice />;
+        const DynamicVoice = dynamic(() => import("./voice"), {
+          loading: () => null,
+        });
+        page = DynamicVoice ? <DynamicVoice /> : null;
         break;
       case "stream":
-        page = <Stream />;
+        const DynamicStream = dynamic(() => import("./stream"), {
+          loading: () => null,
+        });
+        page = DynamicStream ? <DynamicStream /> : null;
         break;
       case "message":
-        page = <Message />;
+        const DynamicMessage = dynamic(() => import("./message"), {
+          loading: () => null,
+        });
+        page = DynamicMessage ? <DynamicMessage /> : null;
         break;
       default:
-        page = <Chat />;
+        page = null;
         break;
     }
 

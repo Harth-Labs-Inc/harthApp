@@ -75,23 +75,35 @@ fontClassNames.push(rubik.variable);
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
+  // useEffect(() => {
+  //   if ("serviceWorker" in navigator) {
+  //     console.log("made it");
+  //     window.addEventListener("load", function () {
+  //       console.log("loaded");
+  //       navigator.serviceWorker.register("/sw.js").then(
+  //         function (registration) {},
+  //         function (err) {}
+  //       );
+  //     });
+  //   }
+  // }, []);
   useEffect(() => {
-    // if ("serviceWorker" in navigator) {
-    //   window.addEventListener("load", function () {
-    //     navigator.serviceWorker.register("/sw.js").then(
-    //       function (registration) {},
-    //       function (err) {}
-    //     );
-    //   });
-    // }
-    //disable right click
-    // window.addEventListener(
-    //     "contextmenu",
-    //     function (e) {
-    //         e.preventDefault();
-    //     },
-    //     false
-    // );
+    function registerSW() {
+      navigator.serviceWorker.register("/sw.js").then(
+        (reg) => {
+          console.log("Service worker registered: ", reg.scope);
+        },
+        (err) => {
+          console.error("Service worker registration failed: ", err);
+        }
+      );
+    }
+    if (document.readyState === "complete") {
+      registerSW();
+    } else {
+      window.addEventListener("load", registerSW);
+      return () => window.removeEventListener("load", registerSW);
+    }
   }, []);
   return (
     <main className={`${fontClassNames.join(" ")}`}>

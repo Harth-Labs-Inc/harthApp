@@ -43,7 +43,6 @@ export const CommsProvider = ({ children }) => {
           let result = await getComms(user);
           const { ok, comms } = result;
           if (ok) {
-            console.log(comms, user, "context");
             setComms(comms);
             setComm(comms[0]);
           }
@@ -110,7 +109,6 @@ export const CommsProvider = ({ children }) => {
   const updateSelectedTopic = async ({ newTopic }) => {
     return new Promise((resolve) => {
       async function run() {
-        console.log(newTopic, "newtopci");
         let tmpTopics = [...topics];
         let matchingTopicIndex = -1;
         tmpTopics.forEach((topic, index) => {
@@ -136,7 +134,6 @@ export const CommsProvider = ({ children }) => {
   };
   const updateSelectedHarth = async ({ newHarth }) => {
     return new Promise((resolve) => {
-      console.log(newHarth, "newHarthhh");
       async function run() {
         let tmpComms = [...comms];
         let matchingIndex = -1;
@@ -250,7 +247,6 @@ export const CommsProvider = ({ children }) => {
     setTopics([...topics, newTopic]);
   };
   const topicChangeHandler = async ({ type, status, user }) => {
-    console.log("topic change called: ", { type, status });
     let tmpTopics = [...topics];
     let matchingTopicIndex = -1;
     let tmpSelectedTopic = { ...selectedTopic };
@@ -291,7 +287,6 @@ export const CommsProvider = ({ children }) => {
             }
             return false;
           });
-          console.log(newMembers);
           tmpSelectedTopic.members = newMembers;
           tmpTopics[matchingTopicIndex] = tmpSelectedTopic;
           setTopics(tmpTopics);
@@ -311,12 +306,10 @@ export const CommsProvider = ({ children }) => {
   const fetchConversations = async () => {
     let result = await getConversations(selectedcomm._id, user._id);
     const { ok, conversations } = result;
-    console.log(result);
     if (ok) {
       setConversations(conversations);
       setSelectedConversation(conversations[0] || {});
     }
-    console.log(conversations);
     return;
   };
   const setUnreadConversationMessagesHandler = (incomingMsg) => {

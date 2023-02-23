@@ -38,8 +38,6 @@ const Video = (props) => {
   } = useVideo();
   const { user } = useAuth();
 
-  console.log(socketID, "socketID");
-
   useEffect(() => {
     if (socketID) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
@@ -64,7 +62,9 @@ const Video = (props) => {
         data.gatheringType
       }&user_name=${socketData.name}&user_img=${socketData.icon}&room_id=${
         data.roomId
-      }&harth_id=${selectedcomm._id}`
+      }&harth_id=${selectedcomm._id}`,
+      "new-window",
+      "width=1500,height=1500"
     );
   };
   const createRoom = (room) => {
@@ -133,19 +133,21 @@ const Video = (props) => {
             }
             return (
               <>
-              <div
-                key={idx}
-                className={`${room.gatheringType} ${isMobile && styles.roomHolderMobile}`}
-              >
-                <GatheringTile
-                  room={room}
-                  joinHandler={() => joinRoom(room)}
-                  peers={room.peers}
-                  acceptedPeers={room.acceptedPeers}
-                  owner={owner}
-                  user={creator}
-                />
-              </div>
+                <div
+                  key={idx}
+                  className={`${room.gatheringType} ${
+                    isMobile && styles.roomHolderMobile
+                  }`}
+                >
+                  <GatheringTile
+                    room={room}
+                    joinHandler={() => joinRoom(room)}
+                    peers={room.peers}
+                    acceptedPeers={room.acceptedPeers}
+                    owner={owner}
+                    user={creator}
+                  />
+                </div>
               </>
             );
           })}
@@ -158,7 +160,12 @@ const Video = (props) => {
               owner = true;
             }
             return (
-              <div key={idx} className={`${room.gatheringType} ${isMobile && styles.roomHolderMobile} room-container`}>
+              <div
+                key={idx}
+                className={`${room.gatheringType} ${
+                  isMobile && styles.roomHolderMobile
+                } room-container`}
+              >
                 <GatheringTile
                   cardType="schedule"
                   room={room}

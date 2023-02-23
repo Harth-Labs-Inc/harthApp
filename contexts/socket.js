@@ -2,7 +2,6 @@ import { createContext, useState, useContext, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { useAuth } from "./auth";
 import { useComms } from "./comms";
-import { useChat } from "./chat";
 import {
   getTopics,
   getExistingUnreadMessages,
@@ -219,11 +218,9 @@ export const SocketProvider = ({ children }) => {
     let results = await getExistingUnreadMessages(user._id);
     let { data } = results;
     if (data) {
-      console.log(data.msgs, "data.msgs");
       unreadMessagesRef.current = data.msgs;
       triggerUpdate((prevValue) => (prevValue += 1));
     }
-    console.log(results, "results");
   };
   const join = async (topics) => {
     let promises = [];
@@ -244,7 +241,6 @@ export const SocketProvider = ({ children }) => {
     socket.emit("Update", chatroomName, update, cb);
   };
   const setUnreadMessagesRef = async (msgs) => {
-    console.log("saving unread messages", msgs);
     unreadMessagesRef.current = msgs;
     saveUnsavedMessages({ user_id: user._id, msgs });
   };

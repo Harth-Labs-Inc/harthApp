@@ -60,8 +60,8 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
             name,
             "community-profile-images",
             newFile.type,
-            100,
-            100
+            40,
+            40
           );
           newIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${name}`;
         }

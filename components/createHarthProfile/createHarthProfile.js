@@ -45,8 +45,8 @@ export default function CreateHarthProfile({
         s3Upload.name,
         "community-profile-images",
         newFile.type,
-        100,
-        100
+        40,
+        40
       );
       profileIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${s3Upload.name}`;
     }
