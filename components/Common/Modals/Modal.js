@@ -13,6 +13,7 @@ export const Modal = (props) => {
         isDark = false,
         classNames,
         hasPadding = true,
+        containerStyle,
     } = props;
 
     const ref = useRef();
@@ -42,6 +43,7 @@ export const Modal = (props) => {
                         ${styles.ModalMid} 
                         ${isDark && styles.ModalMidDark}
                         ${hasPadding && styles.ModalMidPadding}
+                        ${containerStyle}
                     `}
                 >
                     <div className="modal_body">{children}</div>

@@ -35,7 +35,7 @@ export default function HarthInviteAcceptModal({
         <div className={styles.title}>New Härth Invite</div>
         <TalkingHead text={talkingHeadMsg} />
         <div className={styles.harthHolder}>
-          <img src={invitedHarth?.iconKey} />
+          <img src={invitedHarth?.iconKey} loading="lazy" />
           <div className={styles.harthTitle}>{invitedHarth?.name}</div>
         </div>
         <form onSubmit={invitationAcceptHandler}>

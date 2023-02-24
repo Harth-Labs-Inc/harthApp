@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { MobileContext } from "../../contexts/mobile";
 import { IconChatNoFill } from "../../resources/icons/IconChatNoFill";
 import { IconFireNoFill } from "../../resources/icons/IconFireNoFill";
@@ -13,10 +13,6 @@ import { IconSettings } from "../../resources/icons/IconSettings";
 
 import styles from "./mainNav.module.scss";
 
-const harthIcon =
-  "https://d1mc7wmz9xfkdm.cloudfront.net/eyJidWNrZXQiOiJhc3NldHMud29vZGxhbmRkaXJlY3QuY29tIiwia2V5IjoicHJvZHVjdC1pbWFnZXMvUGV0ZXJzb24tUmVhbC1GeXJlLVJ1c3RpYy1PYWstVmVudGVkLUdhcy1Mb2ctU2V0LW1haW4uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJoZWlnaHQiOjEyMDAsImZpdCI6ImNvbnRhaW4iLCJiYWNrZ3JvdW5kIjp7InIiOjI1NSwiZyI6MjU1LCJiIjoyNTUsImFscGhhIjoxfX19fQ==";
-
-
 const MainNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props;
   const [modal, setModal] = useState(false);
@@ -24,12 +20,7 @@ const MainNav = (props) => {
   const { isMobile } = useContext(MobileContext);
   const { selectedcomm } = useComms();
 
-  //alert needs logic
-  //this is just a universal setting that makes all
-  //the tabs show their alert.
   const hasAlert = true;
-
-  //dummy variable for unread messages on other harths
   const unreadMessagesOther = true;
 
   const handleHarthMenu = () => {
@@ -45,12 +36,10 @@ const MainNav = (props) => {
     setModal((prevState) => !prevState);
   };
 
-  console.log(isMobile, modal);
-
   return (
     <>
       {modal ? (
-        <Modal onToggleModal={showModal} >
+        <Modal onToggleModal={showModal}>
           <HarthSettings
             communityName={selectedcomm?.name}
             communityId={selectedcomm?._id}
@@ -79,19 +68,23 @@ const MainNav = (props) => {
             onClick={handleHarthMenu}
             aria-label="Current Harth"
           >
-            <img className={styles.MainNavHarthButtonImage} src={selectedcomm?.iconKey} />
+            <img
+              className={styles.MainNavHarthButtonImage}
+              src={selectedcomm?.iconKey}
+              loading="lazy"
+            />
           </button>
         ) : (
-
-            <button
-              className={styles.MainNavHarthButton}
-              onClick={handleHarthMenu}
-              aria-label="Current Harth Settings"
-            >
-              {selectedcomm?.name}
-              <div className={styles.icon}><IconSettings /></div>
-            </button>
-
+          <button
+            className={styles.MainNavHarthButton}
+            onClick={handleHarthMenu}
+            aria-label="Current Harth Settings"
+          >
+            {selectedcomm?.name}
+            <div className={styles.icon}>
+              <IconSettings />
+            </div>
+          </button>
         )}
 
         <div
@@ -125,7 +118,7 @@ const MainNav = (props) => {
 
                             `}
             >
-             {currentPage == "chat" ? <IconChatFill /> : <IconChatNoFill />}
+              {currentPage == "chat" ? <IconChatFill /> : <IconChatNoFill />}
             </div>
             <div>Chat</div>
           </button>
@@ -152,7 +145,7 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              {currentPage == "gather" ?  <IconFireFill /> : <IconFireNoFill />}
+              {currentPage == "gather" ? <IconFireFill /> : <IconFireNoFill />}
             </div>
             <div>Gather</div>
           </button>
@@ -179,7 +172,11 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              {currentPage == "message" ? <IconForumFill /> : <IconForumNoFill />}
+              {currentPage == "message" ? (
+                <IconForumFill />
+              ) : (
+                <IconForumNoFill />
+              )}
             </div>
             <div>Message</div>
           </button>

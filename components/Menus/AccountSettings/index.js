@@ -1,43 +1,60 @@
 import { useContext, useState } from "react";
-
-import SettingsList from "./AccountSettings";
-import InviteComp from "./Invite";
-import AccountProfile from "./AccountProfile";
-import Devices from "./Devices";
+import dynamic from "next/dynamic";
+// import SettingsList from "./AccountSettings";
+// import InviteComp from "./Invite";
+// import AccountProfile from "./AccountProfile";
+// import Devices from "./Devices";
 
 import { MobileContext } from "../../../contexts/mobile";
 
-import CloseButton from "../../Common/Buttons/CloseButton";
-import BackButtonMobile from "../../Gathering/Controls/BackButtonMobile";
-
 const SettingsMenu = () => {
-    const [currentTab, setCurrentTab] = useState("");
-    const { isMobile } = useContext(MobileContext);
+  const [currentTab, setCurrentTab] = useState("");
+  const { isMobile } = useContext(MobileContext);
 
-    const toggleCurrentTab = (name) => {
-        setCurrentTab(name);
-    };
+  const toggleCurrentTab = (name) => {
+    setCurrentTab(name);
+  };
 
-    const DisplayedSettings = () => {
-        let comp;
-        switch (currentTab) {
-            case "invites":
-                comp = <InviteComp toggleCurrentPage={toggleCurrentTab} />;
-                break;
-            case "accountprofile":
-                comp = <AccountProfile toggleCurrentPage={toggleCurrentTab} />;
-                break;
-            case "devices":
-                comp = <Devices toggleCurrentPage={toggleCurrentTab} />;
-                break;
-            default:
-                comp = <SettingsList toggleCurrentTab={toggleCurrentTab} />;
-                break;
-        }
-        return comp;
-    };
+  const DisplayedSettings = () => {
+    let comp;
+    switch (currentTab) {
+      case "invites":
+        const InviteComp = dynamic(() => import("./Invite"), {
+          loading: () => null,
+        });
+        comp = InviteComp ? (
+          <InviteComp toggleCurrentPage={toggleCurrentTab} />
+        ) : null;
+        break;
+      case "accountprofile":
+        const AccountProfile = dynamic(() => import("./AccountProfile"), {
+          loading: () => null,
+        });
+        comp = AccountProfile ? (
+          <AccountProfile toggleCurrentPage={toggleCurrentTab} />
+        ) : null;
+        break;
+      case "devices":
+        const Devices = dynamic(() => import("./Devices"), {
+          loading: () => null,
+        });
+        comp = Devices ? (
+          <Devices toggleCurrentPage={toggleCurrentTab} />
+        ) : null;
+        break;
+      default:
+        const SettingsList = dynamic(() => import("./AccountSettings"), {
+          loading: () => null,
+        });
+        comp = SettingsList ? (
+          <SettingsList toggleCurrentTab={toggleCurrentTab} />
+        ) : null;
+        break;
+    }
+    return comp;
+  };
 
-    return <DisplayedSettings />;
+  return <DisplayedSettings />;
 };
 
 export default SettingsMenu;

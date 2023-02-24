@@ -324,6 +324,8 @@ const ChatSingleMessage = (props) => {
             src={creator_image}
             alt={creator_name}
             loading="lazy"
+            width={36}
+            height={36}
           />
         ) : (
           <span className={styles.SingleMessageAvatarNo}></span>

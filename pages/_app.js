@@ -26,41 +26,49 @@ const righteous = Righteous({
   weight: "400",
   subsets: ["latin"],
   variable: "--righteous-font",
+  preload: false,
 });
 const arvo = Arvo({
   weight: "400",
   subsets: ["latin"],
   variable: "--Arvo-font",
+  preload: false,
 });
 const ubuntu = Ubuntu({
   weight: "400",
   subsets: ["latin"],
   variable: "--Ubuntu-font",
+  preload: false,
 });
 const work_Sans = Work_Sans({
   //weight: "400",
   subsets: ["latin"],
   variable: "--Work_Sans-font",
+  preload: false,
 });
 const asap = Asap({
   weight: "400",
   subsets: ["latin"],
   variable: "--Asap-font",
+  preload: false,
 });
 const asap_Condensed = Asap_Condensed({
   weight: "400",
   subsets: ["latin"],
   variable: "--Asap_Condensed-font",
+  preload: false,
 });
 const rubik = Rubik({
   //weight: "400",
   subsets: ["latin"],
   variable: "--Rubik-font",
+  preload: false,
 });
 // local fonts
 const coopbl = localFont({
   src: "../public/fonts/COOPBL.ttf",
   variable: "--COOPBL-font",
+  preload: false,
 });
 
 fontClassNames.push(coopbl.className);
@@ -75,23 +83,35 @@ fontClassNames.push(rubik.variable);
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
+  // useEffect(() => {
+  //   if ("serviceWorker" in navigator) {
+  //     console.log("made it");
+  //     window.addEventListener("load", function () {
+  //       console.log("loaded");
+  //       navigator.serviceWorker.register("/sw.js").then(
+  //         function (registration) {},
+  //         function (err) {}
+  //       );
+  //     });
+  //   }
+  // }, []);
   useEffect(() => {
-    // if ("serviceWorker" in navigator) {
-    //   window.addEventListener("load", function () {
-    //     navigator.serviceWorker.register("/sw.js").then(
-    //       function (registration) {},
-    //       function (err) {}
-    //     );
-    //   });
-    // }
-    //disable right click
-    // window.addEventListener(
-    //     "contextmenu",
-    //     function (e) {
-    //         e.preventDefault();
-    //     },
-    //     false
-    // );
+    function registerSW() {
+      navigator.serviceWorker.register("/sw.js").then(
+        (reg) => {
+          console.log("Service worker registered: ", reg.scope);
+        },
+        (err) => {
+          console.error("Service worker registration failed: ", err);
+        }
+      );
+    }
+    if (document.readyState === "complete") {
+      registerSW();
+    } else {
+      window.addEventListener("load", registerSW);
+      return () => window.removeEventListener("load", registerSW);
+    }
   }, []);
   return (
     <main className={`${fontClassNames.join(" ")}`}>

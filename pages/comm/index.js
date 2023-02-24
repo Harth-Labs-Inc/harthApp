@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import Router, { useRouter } from "next/router";
-import { useAuth } from "../../contexts/auth";
-import { getUploadURL, putImageInBucket } from "../../requests/s3";
-import {
-  saveCommunity,
-  addUserToComm,
-  getCommFromInvite,
-} from "../../requests/community";
-import { generateID } from "../../services/helper";
+// import React, { useState, useEffect } from "react";
+// import Router, { useRouter } from "next/router";
+// import { useAuth } from "../../contexts/auth";
+// import { getUploadURL, putImageInBucket } from "../../requests/s3";
+// import {
+//   saveCommunity,
+//   addUserToComm,
+//   getCommFromInvite,
+// } from "../../requests/community";
+// import { generateID } from "../../services/helper";
 
-import InitialCom from "./initialCom";
-import CreateCom from "./createCom";
-import CreateProf from "./createProfile";
-import SubmitCom from "./submitCom";
-import JoinCom from "./joinCom";
+// import InitialCom from "./initialCom";
+// import CreateCom from "./createCom";
+// import CreateProf from "./createProfile";
+// import SubmitCom from "./submitCom";
+// import JoinCom from "./joinCom";
 
 const CommIndexPage = () => {
   return <p>bad route</p>;

@@ -60,8 +60,8 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
             name,
             "community-profile-images",
             newFile.type,
-            100,
-            100
+            40,
+            40
           );
           newIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${name}`;
         }
@@ -163,7 +163,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
             onChange={nameChangeHandler}
             required
             className={styles.textEntry}
-            autocomplete="off"
+            autoComplete="off"
           />
           <div className={styles.harthTitle}>{harth.name}</div>
           <div className={styles.buttonBar}>

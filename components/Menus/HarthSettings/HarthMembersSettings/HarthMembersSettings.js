@@ -89,12 +89,9 @@ const HarthMembersSettings = () => {
   };
 
   const handleKickMenu = (usr) => {
-
     setModal((prevState) => !prevState);
     setSelectedUser(usr);
-
   };
-
 
   let isSuperUser = false;
   let isAdminUser = false;
@@ -113,14 +110,14 @@ const HarthMembersSettings = () => {
 
   return (
     <>
-    {modal ? (
+      {modal ? (
         <Modal onToggleModal={setModal} classNames={styles.KickModal}>
           <KickUserModal
-          submitKickHandler={kickMemberHandler}
-          setHidden={setModal}
-          usr={selectedUser}
+            submitKickHandler={kickMemberHandler}
+            setHidden={setModal}
+            usr={selectedUser}
           />
-          </Modal>
+        </Modal>
       ) : (
         ""
       )}
@@ -170,7 +167,7 @@ const HarthMembersSettings = () => {
               }
             `}
               >
-                <img src={usr?.iconKey} />
+                <img src={usr?.iconKey} loading="lazy" />
 
                 <div className={styles.userInfo}>
                   {usr?.name}

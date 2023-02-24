@@ -60,7 +60,7 @@ export const LinkPreview = ({ messageID, message }) => {
       <article id="ogCard" className={styles.ogCard}>
         <span>{result?.ogTitle}</span>
         <span>{result?.ogDescription}</span>
-        <img src={result?.ogImage?.url} alt={result?.ogTitle} />
+        <img src={result?.ogImage?.url} alt={result?.ogTitle} loading="lazy" />
       </article>
     );
   }

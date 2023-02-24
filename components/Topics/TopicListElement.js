@@ -53,7 +53,10 @@ const TopicListElement = (props) => {
     >
       <div className={styles.labelHolder}>
         <div className={styles.emojiHolder}>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png" />
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png" 
+            loading="lazy"
+            />
         </div>
         <div className={styles.label}>{label}</div>
       </div>

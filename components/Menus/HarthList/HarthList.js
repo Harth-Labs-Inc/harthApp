@@ -73,28 +73,16 @@ const HarthList = ({
           }
 
           return (
-            <>
-              {modal ? (
-                <Modal onToggleModal={showModal}>
-                  <HarthSettings
-                    communityName={selectedcomm?.name}
-                    communityId={selectedcomm?._id}
-                    onToggleModal={showModal}
-                  />
-                </Modal>
-              ) : (
-                ""
-              )}
-
-              <li
-                className={`
-                ${styles.Item}
-                ${active ? styles.ItemActive : null}
-                ${newMessage && !active ? styles.ItemUnreadMessage : null}
-              `}
-                key={com?._id}
-                id={com._id}
-              >
+            <div
+              className={`
+            ${styles.Item}
+            ${active ? styles.ItemActive : null}
+            ${newMessage && !active ? styles.ItemUnreadMessage : null}
+          `}
+              key={com?._id}
+              id={com._id}
+            >
+              <li>
                 <button
                   onClick={() => {
                     let imgs = document.getElementsByClassName("active-image");
@@ -112,7 +100,12 @@ const HarthList = ({
                 >
                   {com.iconKey ? (
                     <span className={styles.ItemImage}>
-                      <img src={com.iconKey} loading="lazy" />
+                      <img
+                        src={com.iconKey}
+                        loading="lazy"
+                        height={40}
+                        width={40}
+                      />
                     </span>
                   ) : (
                     <span className={styles.ItemIcon}>
@@ -135,7 +128,18 @@ const HarthList = ({
                   </button>
                 ) : null}
               </li>
-            </>
+              {modal ? (
+                <Modal onToggleModal={showModal}>
+                  <HarthSettings
+                    communityName={selectedcomm?.name}
+                    communityId={selectedcomm?._id}
+                    onToggleModal={showModal}
+                  />
+                </Modal>
+              ) : (
+                ""
+              )}
+            </div>
           );
         })}
       {isMobile ? (

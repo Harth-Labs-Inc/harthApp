@@ -31,7 +31,7 @@ export default async (req, res) => {
       const sharp = require("sharp");
       try {
         const compressedBuffer = await sharp(buffer)
-          .resize(width || 200, height || 100, { fit: "cover" })
+          .resize(width || null, height || 200, { fit: "contain" })
           .toBuffer();
 
         resolve(compressedBuffer);
@@ -67,7 +67,7 @@ export default async (req, res) => {
     Key: obj.name,
   };
   let file = await getFileForConversion(s3Params);
-
+  console.log(file);
   if (!file || !file.Body) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }

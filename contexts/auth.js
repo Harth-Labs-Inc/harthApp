@@ -1,9 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { getUserFromToken } from "../requests/userApi";
-import Loading from "../pages/loading";
-import Auth from "../pages/auth";
 
 const AuthContext = createContext({});
 

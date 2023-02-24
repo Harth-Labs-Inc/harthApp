@@ -4,160 +4,143 @@ import { MobileContext } from "../../../contexts/mobile";
 import { IconVolumeUpFill } from "../../../resources/icons/IconVolumeUpFill";
 import { VolumeButton } from "./VolumeButton";
 import { MuteProfileButton } from "./MuteProfileButton";
-import { IconMuteIncoming } from '../../../resources/icons/IconMuteIncoming';
-import { Avatar } from '../../Common/Avatar/Avatar';
+import { IconMuteIncoming } from "../../../resources/icons/IconMuteIncoming";
+import { Avatar } from "../../Common/Avatar/Avatar";
 
+import styles from "./profileContainer.module.scss";
 
+const ProfileContainer = (props) => {
+  const { userInfo } = props; //whatever you need to pass
+  const [hasVolumePanel, setHasVolumePanel] = useState(false);
+  const [isVolumeExpanded, setIsVolumeExpanded] = useState(false);
+  const { isMobile } = useContext(MobileContext);
 
-import styles from './profileContainer.module.scss';
+  //shows the streaming label for app streaming, not webcam
+  const [isStreaming, setIsStreaming] = useState(false);
 
-const ProfileContainer= (props) => {
-    const { userInfo } = props; //whatever you need to pass
-    const [hasVolumePanel, setHasVolumePanel] = useState(false);
-    const [isVolumeExpanded, setIsVolumeExpanded] = useState(false);
-    const { isMobile } = useContext(MobileContext);
+  //if they are broadcasting webcam,
+  const [hasWebcam, setHasWebcam] = useState(true);
 
+  //speaking indicator
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
-    //shows the streaming label for app streaming, not webcam
-    const [isStreaming, setIsStreaming] = useState(false);
+  //if moted
+  const [isMuted, setIsMuted] = useState(false);
 
-    //if they are broadcasting webcam,
-    const [hasWebcam, setHasWebcam] = useState(true);
+  //const [profileName, setProfileName] = useState()
+  //update with logic for profile name pull
+  const profileName = "themadchiller";
 
-    //speaking indicator 
-    const [isSpeaking, setIsSpeaking] = useState(false);
+  //const [profileIcon, setProfileIcon] = useState()
+  //update with logic for image pull
+  const profileIcon =
+    "https://w7.pngwing.com/pngs/853/421/png-transparent-dwayne-johnson-desktop-high-definition-television-professional-wrestler-4k-resolution-dwayne-johnson-tshirt-hand-fitness-professional.png";
 
-    //if moted
-    const [isMuted, setIsMuted] = useState(false);
+  //const [webcamStream, setwebcamStream] = useState()
+  //update with logic for webcam
+  const webcamStream =
+    "https://media.abc10.com/assets/KXTV/images/fbe592a9-8f75-4c63-8ba9-97d624e3e15b/fbe592a9-8f75-4c63-8ba9-97d624e3e15b_1920x1080.jpg";
 
+  const toggleMuted = () => {
+    setIsMuted(!isMuted);
+  };
 
-    
-    //const [profileName, setProfileName] = useState()
-    //update with logic for profile name pull
-    const profileName ="themadchiller";
-    
-    //const [profileIcon, setProfileIcon] = useState()
-    //update with logic for image pull
-    const profileIcon = "https://w7.pngwing.com/pngs/853/421/png-transparent-dwayne-johnson-desktop-high-definition-television-professional-wrestler-4k-resolution-dwayne-johnson-tshirt-hand-fitness-professional.png";
+  const toggleVolumeExpanded = () => {
+    setIsVolumeExpanded(!isVolumeExpanded);
+  };
 
+  const showVolumePanel = () => {
+    setHasVolumePanel(true);
+  };
 
-    //const [webcamStream, setwebcamStream] = useState()
-    //update with logic for webcam
-    const webcamStream = "https://media.abc10.com/assets/KXTV/images/fbe592a9-8f75-4c63-8ba9-97d624e3e15b/fbe592a9-8f75-4c63-8ba9-97d624e3e15b_1920x1080.jpg";
+  const hideVolumePanel = () => {
+    setHasVolumePanel(false);
+    setIsVolumeExpanded(false);
+  };
 
-
-    
-    
-    const toggleMuted =() => {
-        setIsMuted(!isMuted);
-
-    }
-
-    
-    const toggleVolumeExpanded =() => {
-        setIsVolumeExpanded(!isVolumeExpanded);
-
-    }
-
-
-    const showVolumePanel =() => {
-        setHasVolumePanel(true);
-
-    }
-
-    const hideVolumePanel =() => {
-        setHasVolumePanel(false);
-        setIsVolumeExpanded(false);
-
-    }
-
-
-
-    return (
-        <>
-          
-        <div 
-            className={`
+  return (
+    <>
+      <div
+        className={`
             ${styles.container} 
             ${isSpeaking && styles.containerSpeaking} 
-            `} 
-            onMouseLeave={hideVolumePanel}
-            onMouseOver={showVolumePanel}
-        >
-            
-            {/* ///////////////////// */}
-            {/* Volume Panel*/}
-            {/* ///////////////////// */}
+            `}
+        onMouseLeave={hideVolumePanel}
+        onMouseOver={showVolumePanel}
+      >
+        {/* ///////////////////// */}
+        {/* Volume Panel*/}
+        {/* ///////////////////// */}
 
-            {hasVolumePanel && (
-                <div className={`
+        {hasVolumePanel && (
+          <div
+            className={`
                     ${styles.volumePanel} 
                     ${isVolumeExpanded && styles.volumePanelActive} 
-                `} >
-                    
-                    <VolumeButton onClick={toggleVolumeExpanded} />
-                    {isVolumeExpanded && (
-                        <>
-                        <input 
-                        type="range" 
-                        min={0}
-                        max={100}
-                        defaultValue={50} 
-
-                        className={styles.volumeSlider}
-                        />
-                        <MuteProfileButton onClick={toggleMuted} buttonState={isMuted}/>
-                        </>
-                    )}
-                </div>
+                `}
+          >
+            <VolumeButton onClick={toggleVolumeExpanded} />
+            {isVolumeExpanded && (
+              <>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  defaultValue={50}
+                  className={styles.volumeSlider}
+                />
+                <MuteProfileButton
+                  onClick={toggleMuted}
+                  buttonState={isMuted}
+                />
+              </>
             )}
+          </div>
+        )}
 
-            {/* ///////////////////// */}
-            {/* Label Streaming Overlay*/}
-            {/* ///////////////////// */}
+        {/* ///////////////////// */}
+        {/* Label Streaming Overlay*/}
+        {/* ///////////////////// */}
 
-            {(isStreaming || isMuted) && (
-                <div className={styles.labelHolder}>
-                     {isMuted && (
-                        <div className={styles.muteLabel} >
-                            <IconMuteIncoming />
-                        </div>
-                    )}
-                    {/* {isStreaming && (
+        {(isStreaming || isMuted) && (
+          <div className={styles.labelHolder}>
+            {isMuted && (
+              <div className={styles.muteLabel}>
+                <IconMuteIncoming />
+              </div>
+            )}
+            {/* {isStreaming && (
                         <div className={styles.streamLabel} >
                             LIVE
                         </div>
                     )} */}
-                </div>
-            )}
+          </div>
+        )}
 
-
-            {!hasWebcam
-                ?(
-                    <>
-                    <Avatar
-                        aLabel="Profile Image"
-                        isPressable={false}
-                        picSize={72}
-                        imageSrc={profileIcon}
-                        />
-                    <div className={styles.label}>
-                        {profileName}
-                    </div>
-                    </>
-
-                ):(
-                    //video stuff goes here
-                    <>
-                    <img src={webcamStream} aria-label="Profile Image" className={styles.webcam} />
-                    </>
-                )
-}
-        </div>
-
-
-        </>
-    );
+        {!hasWebcam ? (
+          <>
+            <Avatar
+              aLabel="Profile Image"
+              isPressable={false}
+              picSize={72}
+              imageSrc={profileIcon}
+            />
+            <div className={styles.label}>{profileName}</div>
+          </>
+        ) : (
+          //video stuff goes here
+          <>
+            <img
+              src={webcamStream}
+              aria-label="Profile Image"
+              className={styles.webcam}
+              loading="lazy"
+            />
+          </>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default ProfileContainer;
