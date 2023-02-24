@@ -74,51 +74,53 @@ const HarthNotificationSettings = () => {
         </div>
 
         <div className={styles.chatListHolder}>
-          {topics.map((topic) => {
-          let userIndex = topic.members.findIndex(({ user_id }) => {
-            return user_id == user._id;
-          });
+          {topics.map((topic, idx) => {
+            let userIndex = topic.members.findIndex(({ user_id }) => {
+              return user_id == user._id;
+            });
 
-          let profile;
-          let isMuted;
+            let profile;
+            let isMuted;
 
-          if (userIndex >= 0) {
-            profile = topic.members[userIndex];
-            isMuted = profile?.muted;
-          }
+            if (userIndex >= 0) {
+              profile = topic.members[userIndex];
+              isMuted = profile?.muted;
+            }
 
-          return (
-            <div className={styles.individualRow}>
-              <p>{topic?.title}</p>
+            return (
+              <div
+                className={styles.individualRow}
+                key={`${topic?.title}_${idx}`}
+              >
+                <p>{topic?.title}</p>
                 <Toggle
                   onToggleChange={() => muteTopicHandler(topic)}
                   toggleName="chat"
                   isChecked={!isMuted}
                 ></Toggle>
-            </div>
-          );
+              </div>
+            );
           })}
         </div>
 
         <div className={styles.sectionRow}>
           <p>Gather</p>
           <Toggle
-            //onToggleChange={muteHarthHandler}
-            //toggleName="chat"
-            //isChecked={!isHarthMuted}
+          //onToggleChange={muteHarthHandler}
+          //toggleName="chat"
+          //isChecked={!isHarthMuted}
           />
         </div>
 
         <div className={styles.sectionRow}>
           <p>Messages</p>
           <Toggle
-            //onToggleChange={muteHarthHandler}
-            //toggleName="chat"
-            //isChecked={!isHarthMuted}
+          //onToggleChange={muteHarthHandler}
+          //toggleName="chat"
+          //isChecked={!isHarthMuted}
           />
         </div>
       </div>
-      
     </>
   );
 };

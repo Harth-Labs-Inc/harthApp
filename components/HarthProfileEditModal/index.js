@@ -163,7 +163,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
             onChange={nameChangeHandler}
             required
             className={styles.textEntry}
-            autocomplete="off"
+            autoComplete="off"
           />
           <div className={styles.harthTitle}>{harth.name}</div>
           <div className={styles.buttonBar}>
