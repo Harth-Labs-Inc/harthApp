@@ -73,28 +73,16 @@ const HarthList = ({
           }
 
           return (
-            <>
-              {modal ? (
-                <Modal onToggleModal={showModal}>
-                  <HarthSettings
-                    communityName={selectedcomm?.name}
-                    communityId={selectedcomm?._id}
-                    onToggleModal={showModal}
-                  />
-                </Modal>
-              ) : (
-                ""
-              )}
-
-              <li
-                className={`
-                ${styles.Item}
-                ${active ? styles.ItemActive : null}
-                ${newMessage && !active ? styles.ItemUnreadMessage : null}
-              `}
-                key={com?._id}
-                id={com._id}
-              >
+            <div
+              className={`
+            ${styles.Item}
+            ${active ? styles.ItemActive : null}
+            ${newMessage && !active ? styles.ItemUnreadMessage : null}
+          `}
+              key={com?._id}
+              id={com._id}
+            >
+              <li>
                 <button
                   onClick={() => {
                     let imgs = document.getElementsByClassName("active-image");
@@ -140,7 +128,18 @@ const HarthList = ({
                   </button>
                 ) : null}
               </li>
-            </>
+              {modal ? (
+                <Modal onToggleModal={showModal}>
+                  <HarthSettings
+                    communityName={selectedcomm?.name}
+                    communityId={selectedcomm?._id}
+                    onToggleModal={showModal}
+                  />
+                </Modal>
+              ) : (
+                ""
+              )}
+            </div>
           );
         })}
       {isMobile ? (
