@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { MobileContext } from "../../contexts/mobile";
-
+import dynamic from "next/dynamic";
 import SideNav from "../Menus/SideMenu/SideMenu";
 import TopBar from "../Menus/TopBar/TopBar";
 import MainNav from "../MainNav/MainNav";

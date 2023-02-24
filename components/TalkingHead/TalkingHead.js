@@ -7,7 +7,7 @@ const TalkingHead = ({ text, textArray }) => {
       <div className={styles.TalkingHeadHelperContainer}>
         <div className={styles.TalkingHeadHelperContainerTextBubble}>
           {textArray ? (
-            textArray.map((entry) => <p>{entry}</p>)
+            textArray.map((entry, idx) => <p key={idx}>{entry}</p>)
           ) : (
             <p className={styles.TalkingHeadHelperContainerText}>{text}</p>
           )}

@@ -26,41 +26,49 @@ const righteous = Righteous({
   weight: "400",
   subsets: ["latin"],
   variable: "--righteous-font",
+  preload: false,
 });
 const arvo = Arvo({
   weight: "400",
   subsets: ["latin"],
   variable: "--Arvo-font",
+  preload: false,
 });
 const ubuntu = Ubuntu({
   weight: "400",
   subsets: ["latin"],
   variable: "--Ubuntu-font",
+  preload: false,
 });
 const work_Sans = Work_Sans({
   //weight: "400",
   subsets: ["latin"],
   variable: "--Work_Sans-font",
+  preload: false,
 });
 const asap = Asap({
   weight: "400",
   subsets: ["latin"],
   variable: "--Asap-font",
+  preload: false,
 });
 const asap_Condensed = Asap_Condensed({
   weight: "400",
   subsets: ["latin"],
   variable: "--Asap_Condensed-font",
+  preload: false,
 });
 const rubik = Rubik({
   //weight: "400",
   subsets: ["latin"],
   variable: "--Rubik-font",
+  preload: false,
 });
 // local fonts
 const coopbl = localFont({
   src: "../public/fonts/COOPBL.ttf",
   variable: "--COOPBL-font",
+  preload: false,
 });
 
 fontClassNames.push(coopbl.className);
