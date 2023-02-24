@@ -15,14 +15,14 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $ash_light;
+        background-color: $ash_ultralight;
         width: 100%;
         height: 40px;
-        @include menuTitle;
+        @include titleNav;
         letter-spacing: 0.03em;
         padding: 0px 8px 0px 12px;
         border-radius: 8px;
-        color: $oxygen;
+        color: $fuel;
 
     }
     
@@ -45,7 +45,8 @@
         flex-direction: column;
         row-gap: 0px;
         width: 100%;
-        background-color: $ash_ultralight;
+        background-color: transparent;
+        border: 2px solid $ash_ultralight;
         border-radius: 8px;
     }
 

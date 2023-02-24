@@ -113,12 +113,24 @@
         white-space: pre-wrap;
         overflow-wrap: anywhere;
       }
+
+      img {
+        max-height: 240px;
+        max-width: 240px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        border: 3px solid $warm_blue;
+        aspect-ratio: attr(width) / attr(height);
+        //object-fit: contain;
+
+        &:hover {
+          border-color: $hot_salmon_light;
+        }
+      }
     }
 
-    img {
-      max-height: 120px;
-      max-width: 100%;
-    }
+    
 
     &Reactions {
       display: flex;

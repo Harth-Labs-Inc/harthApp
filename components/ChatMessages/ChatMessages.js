@@ -10,6 +10,9 @@ import Draggable from "react-draggable";
 import ReactPanZoom from "react-image-pan-zoom-rotate";
 import { IconClose } from "../../resources/icons/IconClose";
 import styles from "./ChatMessages.module.scss";
+import ImageViewer from 'react-simple-image-viewer';
+import { Modal } from "../Common/Modals/Modal";
+
 
 const MessageWrapper = () => {
   const [currentMessages, setCurrentMessages] = useState([]);
@@ -205,31 +208,14 @@ const MessageWrapper = () => {
   return (
     <>
       {showImageSlideShow ? (
-        <Draggable handle="#handle" bounds={"#content_wrapper"}>
-          <div className={styles.mainContainerMap}>
-            <div className={styles.topBar} id="handle">
-              <div className={styles.spacer} />
-              <div className={styles.grabber} />
-              <button
-                className={styles.close}
-                ariaLabel="close image bar"
-                onClick={resetImageSLideshow}
-              >
-                <IconClose />
-              </button>
-            </div>
-
-            <div
-              className={`
-                ${styles.mapContainer} 
-                ${styles.mapContainerActive} 
-                `}
-            >
-              <ReactPanZoom image={imageSlideshowURL} alt="Image alt text" />
-            </div>
-          </div>
-        </Draggable>
+        <>
+        <div className={styles.imageViewer}>
+          <ImageViewer src={[imageSlideshowURL]} closeOnClickOutside={true} onClose={resetImageSLideshow} backgroundStyle={{backgroundColor: "rgba(0,0,0,0.92)"}} />
+        </div>
+        </>
+        
       ) : null}
+
       <div className={styles.Holder}>
         <div id={styles.ChatMessages}>
           <div ref={messagesEndRef} />
