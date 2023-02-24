@@ -103,6 +103,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
             )}
           </div>
         </div>
+        
         <div className={styles.GatheringCreateLaunch}>
           <button
             type="button"
