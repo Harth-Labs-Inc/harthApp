@@ -61,6 +61,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
             changeHandler={() => {}}
             inputhandler={inputChangeHandler}
             {...register("roomName", { required: true })}
+            maxLength={64}
           />
           <ErrorMessage
             errorMsg={errors.roomName ? "Gathering name is required" : null}

@@ -103,6 +103,7 @@ export default function CreateHarthProfile({
             required
             className={styles.textEntry}
             autoComplete="off"
+            maxLength={20}
           />
           <div className={styles.helpText}>{footer}</div>
           <div className={styles.buttonBar}>

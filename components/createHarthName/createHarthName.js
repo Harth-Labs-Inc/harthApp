@@ -75,11 +75,12 @@ export default function CreateHarthName({
         </div>
         <form onSubmit={handleSubmit(createNewHarth)} className={styles.form}>
           <input
-            {...register("harthName", { required: true })}
+            {...register("harthName", { required: true, maxLength: 20 })}
             placeholder={placeholder}
             type="text"
             className={styles.textEntry}
             autoComplete="off"
+            maxLength={20}
           />
           {errors.harthName ? (
             <ErrorMessage errorMsg="You must set a Harth name to begin." />

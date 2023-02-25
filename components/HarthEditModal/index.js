@@ -34,6 +34,7 @@ const HarthEditModal = ({ setHidden, harth, submitHarthChangeHandler }) => {
           onChange={nameChangeHandler}
           required
           className={styles.textEntry}
+          maxLength={20}
         />
         <div className={styles.buttonBar}>
           <Button

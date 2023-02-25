@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ErrorMessage from "../../../Common/Input/ErrorMessage";
 import { Button, Modal } from "../../../Common";
 import { useComms } from "../../../../contexts/comms";
 import { useAuth } from "../../../../contexts/auth";
 import { useSocket } from "../../../../contexts/socket";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 
 import { saveTopics } from "../../../../requests/community";
 import { addRoomToUsers } from "../../../../requests/rooms";
@@ -14,6 +16,8 @@ import { IconBookmarkNoFill } from "../../../../resources/icons/IconBookmarkNoFi
 import { IconTimerNoFill } from "../../../../resources/icons/IconTimerNoFill";
 
 export default function CreateNewTopicModal({ toggleModal }) {
+  const [emojiPickerState, setEmojiPicker] = useState(false);
+  const [Emoji, setEmoji] = useState();
   const {
     register,
     handleSubmit,
@@ -59,6 +63,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
       invites: [],
       contentAge: data.contentAge,
       private: false,
+      marker: Emoji || "",
     };
     const saveResults = await saveTopics(topic);
     const { ok, id } = saveResults;
@@ -80,6 +85,32 @@ export default function CreateNewTopicModal({ toggleModal }) {
       }
     }
   };
+  const toggleEmojiPicker = () => {
+    setEmojiPicker((prevState) => !prevState);
+  };
+  const addEmoji = (e) => {
+    setEmoji(e.native);
+  };
+  const EmojiPicker = () => {
+    if (emojiPickerState) {
+      return (
+        <div className={styles.EmojiPicker}>
+          <Picker
+            data={data}
+            className="attach-emoji"
+            onEmojiSelect={addEmoji}
+            autoFocus={true}
+            emojiButtonColors={[
+              "rgba(187,126,196,0.8)",
+              "rgba(13,161,181,0.8)",
+              "rgba(240,101,115,0.8)",
+              "rgba(0,163,150,0.8)",
+            ]}
+          />
+        </div>
+      );
+    }
+  };
 
   return (
     <Modal onToggleModal={toggleModal}>
@@ -90,11 +121,16 @@ export default function CreateNewTopicModal({ toggleModal }) {
           onSubmit={handleSubmit(createNewTopic)}
         >
           <div className={styles.inputHolder}>
-            <button>
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png"
-                loading="lazy"
-              />
+            <button type="button" onClick={toggleEmojiPicker}>
+              <EmojiPicker />
+              {Emoji ? (
+                <p>{Emoji}</p>
+              ) : (
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png"
+                  loading="lazy"
+                />
+              )}
             </button>
 
             <input
