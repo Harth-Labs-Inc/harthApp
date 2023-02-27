@@ -15,12 +15,6 @@ module.exports = {
 };
 
 module.exports = {
-  images: {
-    minimumCacheTTL: 60,
-  },
-};
-
-module.exports = {
   async headers() {
     return [
       {
@@ -41,5 +35,13 @@ module.exports = {
         ],
       },
     ];
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "community-profile-images.s3.us-east-2.amazonaws.com",
+      },
+    ],
   },
 };

@@ -4,8 +4,8 @@
 .topic {
     position: relative;
     display: flex;
-    align-items: center;
-    flex-direction: row;
+    align-items: flex-start;
+    flex-direction: column;
     height: fit-content;
     width: 100%;
     padding: 4px 0px;
@@ -13,6 +13,12 @@
     background-color: transparent;
     cursor: pointer;
    
+    .labelHolder {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+    }
 
     .emojiHolder {
         padding: 6px 6px;
@@ -49,7 +55,9 @@
         flex-wrap: wrap;
         padding: 0px 8px 8px 8px;
         margin-top: -8px;
+        margin-left: 38px;
         z-index: 1;
+        //background-color: aqua;
 
         img {
             width: 32px;
@@ -60,8 +68,8 @@
         }
 
         &Mobile {
-            margin-top: -8px;
-
+            margin-top: -16px;
+            margin-left: 52px;
             img {
                 width: 36px;
                 height: 36px;

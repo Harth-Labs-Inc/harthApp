@@ -11,6 +11,7 @@
     overflow: hidden;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
     width: 336px;
+    height: fit-content;
 
 
     .Content {
@@ -23,7 +24,7 @@
     }
     
     &Mobile {
-        width: 90%;
+        width: 95%;
         margin-left: auto;
         margin-right: auto;
         min-height: 260px;

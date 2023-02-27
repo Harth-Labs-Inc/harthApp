@@ -146,6 +146,14 @@
     //background-color: aqua;
     margin: 0;
 
+    li {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
     .Item {
         position: relative;
         display: flex;
@@ -154,6 +162,7 @@
         border: 0;
         border-radius: 12px;
         width: 100%;
+        //background-color: aqua;
 
         &Button {
             position: relative;
