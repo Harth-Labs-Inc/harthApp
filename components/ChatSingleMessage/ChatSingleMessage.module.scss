@@ -117,7 +117,7 @@
       img {
         max-height: 240px;
         max-width: 240px;
-        width: 100%;
+        width: max-content;
         height: auto;
         border-radius: 8px;
         border: 3px solid $warm_blue;
@@ -129,8 +129,6 @@
         }
       }
     }
-
-    
 
     &Reactions {
       display: flex;

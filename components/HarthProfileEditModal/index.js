@@ -164,6 +164,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
             required
             className={styles.textEntry}
             autoComplete="off"
+            maxLength={20}
           />
           <div className={styles.harthTitle}>{harth.name}</div>
           <div className={styles.buttonBar}>

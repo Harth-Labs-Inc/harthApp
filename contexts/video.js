@@ -83,23 +83,33 @@ export const VideoProvider = ({ children }) => {
     getInitialScheduledCallRooms(data);
     socket && socket.emit("get-initial-call-rooms", options);
   };
+  const addHours = (date, hours) => {
+    date.setHours(date.getHours() + hours);
+
+    return date;
+  };
   const getInitialScheduledCallRooms = async (data) => {
     let id = data.harthid ? data.harthid : data.harthId ? data.harthId : "";
     let result = await getScheduledCallRooms(id);
     let { ok, rms } = result;
     if (ok && rms) {
-      setScheduledcallRooms([...rms]);
+      let filteredRooms = [];
       rms.forEach((rm) => {
         let date = combineDateTime(rm.gatheringDate, rm.gatheringTime);
-        let timer = date.getTime() - new Date().getTime();
-        if (timer) {
+        let newDate = addHours(date, 1);
+        if (new Date() < new Date(newDate)) {
+          let timer = date.getTime() - new Date().getTime();
           setTimeout(() => {
             deleteScheduledRoom(rm._id);
-            createEmptyRoom({ ...rm }, () => {});
+            createEmptyRoom({ ...rm, setInitalTimer: true }, () => {});
             getInitialCallRooms(rm);
           }, timer);
+          filteredRooms.push(rm);
+        } else {
+          deleteScheduledRoom(rm._id);
         }
       });
+      setScheduledcallRooms([...filteredRooms]);
     }
   };
   const createEmptyRoom = (data, cb) => {
