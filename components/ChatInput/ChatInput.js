@@ -31,6 +31,8 @@ const ChatInput = (props) => {
   const [attachments, setAttachments] = useState([]);
   const [emojiPickerState, setEmojiPicker] = useState(false);
   const [selectedEditMsg, setSelectedEditMsg] = useState({});
+  const [uploadingAttachments, setUploadingAttachments] = useState([]);
+
   const [altKey, setAltKey] = useState(false);
   const { isMobile } = useContext(MobileContext);
 
@@ -187,6 +189,7 @@ const ChatInput = (props) => {
     }
   };
   const broadcastMessage = (message) => {
+    setUploadingAttachments([]);
     setAttachments([]);
     message.updateType = "new message";
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
@@ -199,6 +202,7 @@ const ChatInput = (props) => {
   const uploadAttacments = async (id, message) => {
     let promises = [];
     attachments.forEach((file, idx) => {
+      setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
       promises.push(
         new Promise(async (res, rej) => {
           let extention = file.name.split(".").pop();
@@ -295,6 +299,7 @@ const ChatInput = (props) => {
           attachments={attachments}
           removeAttachment={removeAttachment}
           attRefs={attRefs}
+          uploading={uploadingAttachments}
         />
         <textarea
           id={styles.ChatInputText}

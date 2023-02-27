@@ -61,6 +61,7 @@ const TopicListElement = (props) => {
           />
         )}
       </div>
+      <div className={styles.label}>{label}</div>
       {hasAlert && (
         <div
           className={` 
