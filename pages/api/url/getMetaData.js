@@ -6,39 +6,58 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  console.log(obj);
+  const promiseTimout = new Promise((resolve, reject) => {
+    setTimeout(resolve, 4000, "timeout");
+  });
+  const promiseTimoutShort = new Promise((resolve, reject) => {
+    setTimeout(resolve, 2000, "timeout");
+  });
 
   const getMeta = (url) => {
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
       const ogs = require("open-graph-scraper");
       const options = {
         url: url,
-        headers: {
-          "user-agent": "Googlebot/2.1 (+http://www.google.com/bot.html)",
-        },
+        headers: {},
       };
-      try {
-        ogs(options).then((data) => {
-          const { error, result, response } = data;
-          if (error) {
-            console.log(error, "error");
-            resolve(false);
-          }
-
-          resolve({ result, response: response?.rawBody });
-        });
-      } catch (error) {
-        console.log(error, "error catch");
-      }
+      console.log("url", url);
+      console.log("starting first try...");
+      Promise.race([ogs(options), promiseTimout]).then((data) => {
+        const { error, result } = data;
+        if (error === false) {
+          console.log("first try worked");
+          resolve({ result });
+          // resolve({ result, response: response?.rawBody });
+        } else {
+          console.log("first try failed");
+          console.log("starting second try...");
+          Promise.race([ogs(options), promiseTimoutShort]).then((data) => {
+            const { error, result } = data;
+            if (error === false) {
+              console.log("second try worked");
+              resolve({ result });
+              // resolve({ result, response: response?.rawBody });
+            } else {
+              console.log("second try failed");
+              resolve(false);
+            }
+          });
+        }
+      });
     });
   };
 
   if (!obj.url) {
     return res.json({ ok: 0, data: {} });
   }
-  let data = await getMeta(obj.url);
-  if (!data) {
+
+  if (obj.url.includes("www.instagram.com")) {
+    let data = await getMeta(obj.url);
+    if (!data) {
+      return res.json({ ok: 0, data: {} });
+    }
+    return res.json({ ok: 1, data });
+  } else {
     return res.json({ ok: 0, data: {} });
   }
-  return res.json({ ok: 1, data });
 };
