@@ -49,6 +49,8 @@ export default function CreateHarthProfile({
         40
       );
       profileIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${s3Upload.name}`;
+    } else {
+      profileIconKey = "/images/harth_placeholder.png";
     }
     let admin = false;
     let owner = false;

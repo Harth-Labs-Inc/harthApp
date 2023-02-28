@@ -4,9 +4,8 @@ import { getURLMetaData } from "../../requests/urls";
 
 import styles from "./ChatSingleMessage.module.scss";
 
-export const LinkPreview = ({ messageID, message }) => {
+export const LinkPreview = ({ message }) => {
   const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-  let messageBody = document.getElementById(`message-content${messageID}`);
   let innerHtml = message;
 
   const [rawURL, setRawURL] = useState();
@@ -25,18 +24,14 @@ export const LinkPreview = ({ messageID, message }) => {
     setAlteredURL(replacedURL);
   };
 
-  const promiseTimout = new Promise((resolve, reject) => {
-    setTimeout(resolve, 1000, "timeout");
-  });
   const getMetaData = async (url) => {
-    // console.log("getting meta data");
-    // getURLMetaData(url).then((pullResults) => setOgData(pullResults));
-    // Promise.race([getURLMetaData(url), promiseTimout]).then((result) => {
-    //   console.log(result);
-    //   if (result === "timeout") {
-    //     console.log("call didnt work");
-    //   }
-    // });
+    getURLMetaData(url).then(({ data }) => {
+      console.log(data, data.ok);
+      if (data.ok) {
+        console.log(data.data);
+        setOgData(data.data);
+      }
+    });
   };
 
   useEffect(() => {
@@ -51,18 +46,22 @@ export const LinkPreview = ({ messageID, message }) => {
     }
   }, [rawURL]);
 
-  if (setAlteredURL) {
-    return <a href={rawURL} target="_blank" rel="noopener noreferrer" />;
-  }
-
   if (ogData) {
     return (
       <article id="ogCard" className={styles.ogCard}>
-        <span>{result?.ogTitle}</span>
-        <span>{result?.ogDescription}</span>
-        <img src={result?.ogImage?.url} alt={result?.ogTitle} loading="lazy" />
+        <span>{ogData?.result?.ogTitle || ogData?.result?.ogSiteName}</span>
+        <span>{ogData?.result?.ogDescription}</span>
+        <img
+          src={ogData?.result?.ogImage?.url || ogData?.result?.favicon}
+          alt={ogData?.result?.ogTitle}
+          loading="lazy"
+        />
       </article>
     );
+  }
+
+  if (rawURL) {
+    return <a href={rawURL} target="_blank" rel="noopener noreferrer" />;
   }
 
   return null;
