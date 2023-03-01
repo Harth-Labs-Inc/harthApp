@@ -4,15 +4,14 @@
 .topic {
     position: relative;
     display: flex;
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
     height: fit-content;
     width: 100%;
     padding: 4px 0px;
     border: 0;
     background-color: transparent;
     cursor: pointer;
-   
+
     .labelHolder {
         position: relative;
         display: flex;
@@ -34,7 +33,6 @@
         }
     }
 
-
     .label {
         position: relative;
         text-align: left;
@@ -43,9 +41,7 @@
         width: fit-content;
         color: $oxygen_muted;
         //background-color: aqua;
-        
     }
-
 
     .alertProfiles {
         display: flex;
@@ -77,10 +73,7 @@
                 border-radius: 999px;
             }
         }
-
     }
-
-
 
     &Alert {
         .label {
@@ -113,23 +106,19 @@
                 background-color: $black_20;
                 //border-color: transparent;
             }
-
         }
     }
 
     &Active {
-
         .emojiHolder {
             background-color: $white;
             //border-color: $fuel_10F;
         }
-        
+
         .label {
             font-weight: 700;
             color: $oxygen;
             //background-color: $warm_blue_light;
         }
-        
-        
     }
 }
