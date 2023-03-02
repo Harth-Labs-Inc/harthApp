@@ -205,6 +205,21 @@ const Stream = () => {
         ) {
           createPLayButton(newMsg);
         }
+        if (
+          newMsg?.code == 102 &&
+          newMsg?.callerID == ownerData.current?.socketID
+        ) {
+          for (let conns in ScreenSharePeer.current.connections) {
+            ScreenSharePeer.current.connections[conns].forEach((conn) => {
+              console.log(conn);
+              if (conn?.peer == newMsg.capturePeer) {
+                if (conn.close) {
+                  conn.close();
+                }
+              }
+            });
+          }
+        }
         if (!chatPannel.current) {
           setUnreadMsg(true);
         }
@@ -461,37 +476,6 @@ const Stream = () => {
       sendNewChatMessage(newMsg);
     }
   };
-  const connectCaptureToUsers = async () => {
-    let captureStream = await getLocalCaptureStream();
-    if (captureStream) {
-      localCaptureStream.current = captureStream;
-      createCapture(captureStream, ownerData.current);
-      PEERS.current.forEach((peer) => {
-        if (peer.capturePeer !== ScreenSharePeer.current.id) {
-          let options = { metadata: { streamID: captureStream.id } };
-
-          ScreenSharePeer.current.call(
-            peer.capturePeer,
-            captureStream,
-            options
-          );
-        }
-      });
-      let newMsg = {
-        value: `${userName} enabled screen share`,
-        code: 1,
-        userName: userName,
-        roomId: roomId,
-        date: new Date(),
-        creator_name: "Admin",
-        flames: [],
-        reactions: [],
-        attachments: [],
-        ...ownerData.current,
-      };
-      sendNewChatMessage(newMsg);
-    }
-  };
   const sendAcceptInvites = async () => {
     let captureStream = await getLocalCaptureStream();
     if (captureStream) {
@@ -702,15 +686,15 @@ const Stream = () => {
 
     videoContainer.appendChild(video);
     parentContainer.appendChild(videoContainer);
+    removeElement(`${peer?.socketID}_play-button`);
+    createStopButton(peer);
     setPlayingStreams({
       ...playingStreams,
       [peer.socketID]: false,
     });
   };
-
   const createPLayButton = (peer) => {
     console.log(peer);
-
     const parentContainer = document.getElementById(peer?.socketID);
     if (parentContainer) {
       const button = document.createElement("button");
@@ -733,8 +717,48 @@ const Stream = () => {
         };
         sendNewChatMessage(newMsg);
       };
-
       parentContainer.appendChild(button);
+    }
+  };
+  const createStopButton = (peer) => {
+    if (peer?.socketID !== ownerData.current?.socketID) {
+      const parentContainer = document.getElementById(peer?.socketID);
+      if (parentContainer) {
+        const button = document.createElement("button");
+        button.id = `${peer?.socketID}_play-button`;
+        button.textContent = "Stop Stream";
+        button.onclick = function () {
+          for (let conns in ScreenSharePeer.current.connections) {
+            ScreenSharePeer.current.connections[conns].forEach((conn) => {
+              console.log(conn);
+              if (conn?.peer == peer.capturePeer) {
+                if (conn.close) {
+                  let newMsg = {
+                    value: ``,
+                    code: 102,
+                    userName: userName,
+                    roomId: roomId,
+                    date: new Date(),
+                    creator_name: "Admin",
+                    flames: [],
+                    reactions: [],
+                    attachments: [],
+                    ignoreInChat: true,
+                    callerID: peer?.socketID,
+                    ...ownerData.current,
+                  };
+                  sendNewChatMessage(newMsg);
+                  removeElement(`${peer?.socketID}_play-button`);
+                  removeElement(peer?.capturePeer);
+                  createPLayButton(peer);
+                  conn.close();
+                }
+              }
+            });
+          }
+        };
+        parentContainer.appendChild(button);
+      }
     }
   };
   const removeElement = (id) => {
@@ -897,7 +921,10 @@ const Stream = () => {
   };
 
   // console.log(playingStreams, "playingStreams");
-  console.log(ownerData.current?.capturePeer, "capturePeer");
+  console.log(
+    ScreenSharePeer.current?.connections,
+    "ScreenSharePeer.current.connections"
+  );
 
   setPeerContainers();
 
