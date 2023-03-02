@@ -147,23 +147,26 @@ const GatherControlBar = (props) => {
 
           {roomType != "voice" ? (
             <div className={styles.middleGroup}>
-              <div className={styles.optionsContainer}>
-                <div className={styles.mainButton}>
-                  <CameraButton
-                    onPress={onToggleVideo}
-                    videoList={videoList}
-                    changeVideoDevice={changeVideoDevice}
-                    clearVideoList={() => setVideoList(null)}
-                    isOn={userInfo?.video}
-                  />
+              {roomType == "party" ? (
+                <div className={styles.optionsContainer}>
+                  <div className={styles.mainButton}>
+                    <CameraButton
+                      onPress={onToggleVideo}
+                      videoList={videoList}
+                      changeVideoDevice={changeVideoDevice}
+                      clearVideoList={() => setVideoList(null)}
+                      isOn={userInfo?.video}
+                    />
+                  </div>
+                  <div className={styles.moreButton}>
+                    <MoreButton
+                      onPress={onToggleVideoDevicesModal}
+                      isActive={!!videoList}
+                    />
+                  </div>
                 </div>
-                <div className={styles.moreButton}>
-                  <MoreButton
-                    onPress={onToggleVideoDevicesModal}
-                    isActive={!!videoList}
-                  />
-                </div>
-              </div>
+              ) : null}
+
               <div className={styles.optionsContainer}>
                 <div className={styles.mainButton}>
                   <MicButton
