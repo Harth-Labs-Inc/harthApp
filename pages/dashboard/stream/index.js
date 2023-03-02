@@ -660,7 +660,8 @@ const Stream = () => {
       const audioContainer = document.createElement("div");
       const audio = document.createElement("video");
       audioContainer.id = peer?.peerId;
-      audio.className = "audio";
+      audio.id = `${peer?.peerId}_audio`;
+      // audio.className = "audio";
       audio.style.width = "0px";
       audio.style.height = "0px";
       audio.style.overflow = "hidden";
@@ -730,7 +731,6 @@ const Stream = () => {
         button.onclick = function () {
           for (let conns in ScreenSharePeer.current.connections) {
             ScreenSharePeer.current.connections[conns].forEach((conn) => {
-              console.log(conn);
               if (conn?.peer == peer.capturePeer) {
                 if (conn.close) {
                   let newMsg = {
@@ -786,6 +786,7 @@ const Stream = () => {
           parentContainer.append(nameContainer);
           const roomContainer = document.getElementById("leftcontainer");
           roomContainer.append(parentContainer);
+          createVolumeContainer(peer);
         }
       }
     });
@@ -919,13 +920,112 @@ const Stream = () => {
         setChats((prevChats) => [chats, ...(prevChats || [])]);
       });
   };
+  // volume controls for users
+  const volumeSliderHandler = (e, peer) => {
+    const { value } = e.target;
+    if (userInfo.current[peer.name]) {
+      userInfo.current[peer.name].volume = value;
+      let elem = document.getElementById(`${peer?.peerId}_audio`);
+      if (elem) {
+        console.log(elem);
+        elem.volume = value / 100;
+      }
+      triggerUpdate();
+    }
+  };
+  const createUnMuteButton = (peer) => {
+    removeElement(`${peer?.socketID}_mute-button`);
+    const parentContainer = document.getElementById(
+      `${peer?.socketID}_slider-container`
+    );
+    if (parentContainer) {
+      const button = document.createElement("button");
+      button.id = `${peer?.socketID}_mute-button`;
+      button.textContent = "unmute";
+      button.onclick = function () {
+        const audio = document.getElementById(`${peer?.peerId}_audio`);
+        if (audio) {
+          audio.play();
+          createMuteButton(peer);
+        }
+      };
+      parentContainer.appendChild(button);
+    }
+  };
+  const createMuteButton = (peer) => {
+    removeElement(`${peer?.socketID}_mute-button`);
+    const parentContainer = document.getElementById(
+      `${peer?.socketID}_slider-container`
+    );
+    if (parentContainer) {
+      const button = document.createElement("button");
+      button.id = `${peer?.socketID}_mute-button`;
+      button.textContent = "mute";
+      button.onclick = function () {
+        const audio = document.getElementById(`${peer?.peerId}_audio`);
+        if (audio) {
+          audio.pause();
+          createUnMuteButton(peer);
+        }
+      };
+      parentContainer.appendChild(button);
+    }
+  };
+  const createVolumeSlider = (peer) => {
+    const parentContainer = document.getElementById(peer?.socketID);
+    if (parentContainer) {
+      const sliderContainer = document.createElement("div");
+      sliderContainer.id = `${peer?.socketID}_slider-container`;
+      sliderContainer.style.visibility = "visible";
+      const input = document.createElement("input");
+      input.type = "range";
+      input.id = `${peer?.socketID}_slider`;
+      input.min = 0;
+      input.max = 100;
+      input.onchange = function (e) {
+        volumeSliderHandler(e, peer);
+      };
+      sliderContainer.appendChild(input);
+      parentContainer.appendChild(sliderContainer);
+      createMuteButton(peer);
+    }
+  };
+  const createVolumeContainer = (peer) => {
+    if (peer?.socketID !== ownerData.current?.socketID) {
+      const parentContainer = document.getElementById(peer?.socketID);
+      if (parentContainer) {
+        const button = document.createElement("button");
+        button.id = `${peer?.socketID}_volume-button`;
+        button.textContent = "volume";
+        button.onclick = function () {
+          let slider = document.getElementById(
+            `${peer?.socketID}_slider-container`
+          );
+          if (!slider) {
+            createVolumeSlider(peer);
+          } else {
+            let visibility = slider.style.visibility;
+            console.log(visibility, "visibility");
+            if (visibility == "visible") {
+              slider.style.visibility = "hidden";
+            }
+            if (visibility == "hidden") {
+              slider.style.visibility = "visible";
+            }
+          }
+          // let slider = document.getElementById(`${peer?.socketID}_slider`);
+          // if (slider) {
+          //   removeElement(`${peer?.socketID}_slider-container`);
+          // } else {
+          //   createVolumeSlider(peer);
+          // }
+        };
+        parentContainer.appendChild(button);
+      }
+    }
+  };
 
   // console.log(playingStreams, "playingStreams");
-  console.log(
-    ScreenSharePeer.current?.connections,
-    "ScreenSharePeer.current.connections"
-  );
-
   setPeerContainers();
 
   return (
