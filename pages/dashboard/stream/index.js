@@ -140,15 +140,33 @@ const Stream = () => {
             );
           }
           if (localCaptureStream.current) {
-            ScreenSharePeer.current.call(
-              newMsg.capturePeer,
-              localCaptureStream.current
-            );
+            let msg = {
+              value: ``,
+              code: 101,
+              userName: userName,
+              roomId: roomId,
+              date: new Date(),
+              creator_name: "Admin",
+              flames: [],
+              reactions: [],
+              attachments: [],
+              ignoreInChat: true,
+              callerID: newMsg.socketID,
+              ...ownerData.current,
+            };
+            sendNewChatMessage(msg);
           }
         }
         setChats((prevChats) => [newMsg, ...(prevChats || [])]);
       });
       socket.on("incoming-chat-message", (newMsg) => {
+        console.log(newMsg, ownerData.current);
+        if (
+          newMsg?.code == 1 &&
+          newMsg?.socketID !== ownerData.current?.socketID
+        ) {
+          createPLayButton(newMsg);
+        }
         if (newMsg?.code == 4) {
           for (let conns in audioSharePeer.current.connections) {
             audioSharePeer.current.connections[conns].forEach((conn) => {
@@ -167,12 +185,32 @@ const Stream = () => {
               }
             });
           }
+          removeElement(`${newMsg?.socketID}_play-button`);
           removeElement(newMsg.capturePeer);
+        }
+        if (
+          newMsg?.code == 100 &&
+          newMsg?.callerID == ownerData.current?.socketID
+        ) {
+          if (localCaptureStream.current) {
+            ScreenSharePeer.current.call(
+              newMsg.capturePeer,
+              localCaptureStream.current
+            );
+          }
+        }
+        if (
+          newMsg?.code == 101 &&
+          newMsg?.callerID == ownerData.current?.socketID
+        ) {
+          createPLayButton(newMsg);
         }
         if (!chatPannel.current) {
           setUnreadMsg(true);
         }
-        setChats((prevChats) => [newMsg, ...(prevChats || [])]);
+        if (!newMsg?.ignoreInChat) {
+          setChats((prevChats) => [newMsg, ...(prevChats || [])]);
+        }
       });
       socket.on("party-event", (data) => {
         setDiceAlerts((alerts) => [...alerts, data]);
@@ -485,7 +523,6 @@ const Stream = () => {
       sendNewChatMessage(newMsg);
     }
   };
-
   const remoteUserLeft = (data) => {
     if (audioSharePeer.current) {
       for (let conns in audioSharePeer.current.connections) {
@@ -662,37 +699,41 @@ const Stream = () => {
     video.muted = true;
     video.className = "video";
     video.playsInline = true;
-    if (isPaused) {
-      video.onplay = function (e) {
-        e.target.pause();
-      };
-    }
 
     videoContainer.appendChild(video);
     parentContainer.appendChild(videoContainer);
-    createPLayButton(peer);
     setPlayingStreams({
       ...playingStreams,
       [peer.socketID]: false,
     });
   };
+
   const createPLayButton = (peer) => {
     console.log(peer);
 
     const parentContainer = document.getElementById(peer?.socketID);
     if (parentContainer) {
       const button = document.createElement("button");
+      button.id = `${peer?.socketID}_play-button`;
       button.textContent = "Play Stream";
       button.onclick = function () {
-        let video = document.getElementById(
-          `${peer?.socketID}_${peer?.capturePeer}`
-        );
-        if (video) {
-          console.log("clicked");
-
-          video.play();
-        }
+        let newMsg = {
+          value: ``,
+          code: 100,
+          userName: userName,
+          roomId: roomId,
+          date: new Date(),
+          creator_name: "Admin",
+          flames: [],
+          reactions: [],
+          attachments: [],
+          ignoreInChat: true,
+          callerID: peer?.socketID,
+          ...ownerData.current,
+        };
+        sendNewChatMessage(newMsg);
       };
+
       parentContainer.appendChild(button);
     }
   };
@@ -855,7 +896,9 @@ const Stream = () => {
       });
   };
 
-  console.log(playingStreams, "playingStreams");
+  // console.log(playingStreams, "playingStreams");
+  console.log(ownerData.current?.capturePeer, "capturePeer");
+
   setPeerContainers();
 
   return (
