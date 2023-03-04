@@ -7,9 +7,7 @@ export default async (req, res) => {
     } catch (e) {
         obj = req.body;
     }
-    console.log(obj);
     const getMsgs = (db, id) => {
-        console.log("getting conversation messages for: ", id);
         return new Promise((resolve, reject) => {
             db.collection("conversation_messages")
                 .find({ conversation_id: id })

@@ -16,7 +16,6 @@ class SocketConnection {
     myID = "";
 
     constructor(settings) {
-        console.log("settings", settings);
         this.settings = settings;
         this.myPeer = this.initializePeerConnection();
         this.socket = this.initializeSocketConnection();
@@ -38,7 +37,7 @@ class SocketConnection {
             console.log("socket disconnected --");
         });
         this.socket.on("error", (err) => {
-            console.log("socket error --", err);
+            console.error("socket error --", err);
         });
         this.socket.on("new-broadcast-messsage", (data) => {
             console.log(this.message, "messages in instance");

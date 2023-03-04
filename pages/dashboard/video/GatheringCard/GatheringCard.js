@@ -140,7 +140,6 @@ const GatheringCard = ({
 
     const GatheringTimer = () => {
         if (cardType === "schedule") {
-            console.log(room);
             return null;
         } else {
             return (

@@ -96,7 +96,6 @@ const MobileChatHeader = ({ handleMobileChat, selectedTopic }) => {
         closeTopicEditModal();
     };
     const onDeleteHandler = () => {
-        console.log("onDeleteHandler");
         setShowDeleteTopicModal(true);
     };
     const onCloseDeleteModal = () => {

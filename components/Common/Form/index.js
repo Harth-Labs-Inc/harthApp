@@ -18,7 +18,6 @@ const Form = (props) => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(children);
         children[0].props.badData = true;
         const inputs = document.getElementById("submit-form").elements;
         let validForm = true;

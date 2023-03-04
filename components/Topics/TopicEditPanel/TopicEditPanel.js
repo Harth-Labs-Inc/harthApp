@@ -102,7 +102,7 @@ export default function TopicEditPanel(props) {
         msg.topic = selectedTopic;
         emitUpdate(selectedcomm._id, msg, async (err, status) => {
             if (err) {
-                console.log(err);
+                console.error(err);
             }
             console.log(status);
         });
@@ -127,7 +127,7 @@ export default function TopicEditPanel(props) {
         msg.topic = tempTopic;
         emitUpdate(selectedcomm._id, msg, async (err, status) => {
             if (err) {
-                console.log(err);
+                console.error(err);
             }
             console.log(status);
         });
@@ -194,7 +194,7 @@ export default function TopicEditPanel(props) {
             msg.topic = tempTopic;
             emitUpdate(selectedcomm._id, msg, async (err, status) => {
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                 }
                 console.log(status);
             });

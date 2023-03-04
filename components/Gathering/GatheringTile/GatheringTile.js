@@ -11,164 +11,192 @@ import GatheringTileControls from "./GatheringTileControls";
 import styles from "./GatheringTile.module.scss";
 
 export const GatheringTile = (props) => {
-  const [isInRoom, setIsInRoom] = useState(false);
-  const { room, user, peers, owner, cardType, joinHandler, editScheduleRoom } =
-    props;
+    const [isInRoom, setIsInRoom] = useState(false);
+    const {
+        room,
+        user,
+        peers,
+        owner,
+        cardType,
+        joinHandler,
+        editScheduleRoom,
+    } = props;
 
-  const { refreshScheduledCallRooms } = useVideo();
-  const { isMobile } = useContext(MobileContext);
+    const { refreshScheduledCallRooms } = useVideo();
+    const { isMobile } = useContext(MobileContext);
 
-  useEffect(() => {
-    if (peers && peers.length && user) {
-      let inRoom = peers?.find((peer) => {
-        return peer.userId === user.userId;
-      });
+    useEffect(() => {
+        if (peers && peers.length && user) {
+            let inRoom = peers?.find((peer) => {
+                return peer.userId === user.userId;
+            });
 
-      setIsInRoom(inRoom);
-    }
-  }, [peers, user]);
+            setIsInRoom(inRoom);
+        }
+    }, [peers, user]);
 
-  const Icon = () => {
-    if (room.gatheringType === "voice") {
-      return <IconHeadsetMic />;
-    }
-    if (room.gatheringType === "stream") {
-      return <IconCastNoFill />;
-    }
-    if (room.gatheringType === "party") {
-      return <IconWorkspace />;
-    }
-  };
+    const Icon = () => {
+        if (room.gatheringType === "voice") {
+            return <IconHeadsetMic />;
+        }
+        if (room.gatheringType === "stream") {
+            return <IconCastNoFill />;
+        }
+        if (room.gatheringType === "party") {
+            return <IconWorkspace />;
+        }
+    };
 
-  const handleJoinRoom = async () => {
-    if (cardType === "schedule") {
-      console.log("join");
-      let tempRoom = { ...room };
-      tempRoom.acceptedPeers.push({
-        ...user,
-        img: user.iconKey,
-      });
-      console.log(tempRoom);
-      await updateScheduleRoom(tempRoom);
-      refreshScheduledCallRooms(room);
-    } else {
-      joinHandler();
-    }
-  };
-  const handleDropRoom = async () => {
-    if (cardType === "schedule") {
-      let tempRoom = { ...room };
-      tempRoom.acceptedPeers = tempRoom.acceptedPeers.filter(
-        (peer) => peer.name !== user.name
-      );
-      await updateScheduleRoom(tempRoom);
-      refreshScheduledCallRooms(room);
-    } else {
-    }
-  };
+    const handleJoinRoom = async () => {
+        if (cardType === "schedule") {
+            let tempRoom = { ...room };
+            tempRoom.acceptedPeers.push({
+                ...user,
+                img: user.iconKey,
+            });
+            await updateScheduleRoom(tempRoom);
+            refreshScheduledCallRooms(room);
+        } else {
+            joinHandler();
+        }
+    };
+    const handleDropRoom = async () => {
+        if (cardType === "schedule") {
+            let tempRoom = { ...room };
+            tempRoom.acceptedPeers = tempRoom.acceptedPeers.filter(
+                (peer) => peer.name !== user.name
+            );
+            await updateScheduleRoom(tempRoom);
+            refreshScheduledCallRooms(room);
+        } else {
+        }
+    };
 
-  const dateFormat = () => {
-    const date = new Date(room.gatheringDate);
-    const scheduleDate = date.toLocaleDateString([], {
-      month: "short",
-      day: "2-digit",
-    });
+    const dateFormat = () => {
+        const date = new Date(room.gatheringDate);
+        const scheduleDate = date.toLocaleDateString([], {
+            month: "short",
+            day: "2-digit",
+        });
 
-    return scheduleDate;
-  };
+        return scheduleDate;
+    };
 
-  return (
-    <div
-      className={`
+    return (
+        <div
+            className={`
         ${styles.GatheringTile} 
         ${isMobile && styles.GatheringTileMobile}
         ${
-          cardType == "schedule"
-            ? styles[room.gatheringType]
-            : styles[room.gatheringType + "Active"]
+            cardType == "schedule"
+                ? styles[room.gatheringType]
+                : styles[room.gatheringType + "Active"]
         }
 
       
       `}
-    >
-      <div className={styles.GatheringTileLabel}>
-        <div className={styles.GatheringTileLabelIcon}>
-          <Icon />
-        </div>
-        <div className={styles.GatheringTileLabelText}>
-          {room.gatheringType}
-        </div>
-      </div>
-
-      <div className={styles.Info}>
-        <p className={styles.GatheringTileName}>{room.roomName}</p>
-
-        <div className={styles.GatheringTileInfoStructure}>
-          <div className={styles.GatheringTileScheduled}>
-            {cardType === "schedule" ? (
-              <>
-                <div>
-                  <p className={styles.GatheringTileScheduledTime}>
-                    {room.gatheringTime}
-                  </p>
+        >
+            <div className={styles.GatheringTileLabel}>
+                <div className={styles.GatheringTileLabelIcon}>
+                    <Icon />
                 </div>
-                <p className={styles.GatheringTileScheduledDate}>
-                  {dateFormat()}
-                </p>
-              </>
-            ) : (
-              <span className={styles.GatheringTileScheduledNow}>NOW</span>
-            )}
-          </div>
-          <div className={styles.GatheringTilePeopleDescription}>
-            <div className={styles.GatheringTileAttendeeWrapper}>
-              {peers.length > 0 ? (
-                peers.map((peer, index) => {
-                  return (
-                    <>
-                      {peer.img ? (
-                        <div className={styles.profileImage} title={peer.name}>
-                          <img src={peer.img} loading="lazy" />
-                        </div>
-                      ) : (
-                        <div className={styles.empty} title={peer.name}>
-                          ?
-                        </div>
-                      )}
-                    </>
-                  );
-                })
-              ) : (
-                <>
-                  <div className={styles.emptyMessage}>( empty )</div>
-                </>
-              )}
+                <div className={styles.GatheringTileLabelText}>
+                    {room.gatheringType}
+                </div>
             </div>
-            <p className={styles.GatheringTileDescription}>
-              {room.gatheringDescription}
-            </p>
-          </div>
-        </div>
-        <div className={styles.GatheringTileActionBar}>
-          {owner && cardType === "schedule" ? (
-            <button
-              onClick={() => editScheduleRoom(room)}
-              className={styles.GatheringTileActionBarEdit}
-            >
-              <IconEditFill />
-            </button>
-          ) : null}
-          {/* <EditGathering onPress={pressing}/> */}
 
-          <GatheringTileControls
-            isInRoom={isInRoom}
-            cardType={cardType}
-            handleJoinRoom={handleJoinRoom}
-            handleDropRoom={handleDropRoom}
-            owner={owner}
-          />
+            <div className={styles.Info}>
+                <p className={styles.GatheringTileName}>{room.roomName}</p>
+
+                <div className={styles.GatheringTileInfoStructure}>
+                    <div className={styles.GatheringTileScheduled}>
+                        {cardType === "schedule" ? (
+                            <>
+                                <div>
+                                    <p
+                                        className={
+                                            styles.GatheringTileScheduledTime
+                                        }
+                                    >
+                                        {room.gatheringTime}
+                                    </p>
+                                </div>
+                                <p
+                                    className={
+                                        styles.GatheringTileScheduledDate
+                                    }
+                                >
+                                    {dateFormat()}
+                                </p>
+                            </>
+                        ) : (
+                            <span className={styles.GatheringTileScheduledNow}>
+                                NOW
+                            </span>
+                        )}
+                    </div>
+                    <div className={styles.GatheringTilePeopleDescription}>
+                        <div className={styles.GatheringTileAttendeeWrapper}>
+                            {peers.length > 0 ? (
+                                peers.map((peer, index) => {
+                                    return (
+                                        <>
+                                            {peer.img ? (
+                                                <div
+                                                    className={
+                                                        styles.profileImage
+                                                    }
+                                                    title={peer.name}
+                                                >
+                                                    <img
+                                                        src={peer.img}
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div
+                                                    className={styles.empty}
+                                                    title={peer.name}
+                                                >
+                                                    ?
+                                                </div>
+                                            )}
+                                        </>
+                                    );
+                                })
+                            ) : (
+                                <>
+                                    <div className={styles.emptyMessage}>
+                                        ( empty )
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                        <p className={styles.GatheringTileDescription}>
+                            {room.gatheringDescription}
+                        </p>
+                    </div>
+                </div>
+                <div className={styles.GatheringTileActionBar}>
+                    {owner && cardType === "schedule" ? (
+                        <button
+                            onClick={() => editScheduleRoom(room)}
+                            className={styles.GatheringTileActionBarEdit}
+                        >
+                            <IconEditFill />
+                        </button>
+                    ) : null}
+                    {/* <EditGathering onPress={pressing}/> */}
+
+                    <GatheringTileControls
+                        isInRoom={isInRoom}
+                        cardType={cardType}
+                        handleJoinRoom={handleJoinRoom}
+                        handleDropRoom={handleDropRoom}
+                        owner={owner}
+                    />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };

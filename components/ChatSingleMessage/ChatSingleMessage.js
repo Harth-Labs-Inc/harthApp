@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
@@ -18,6 +19,25 @@ import UserIcon from "../UserIcon/userIcon";
 import EditBar from "./EditBar";
 import styles from "./ChatSingleMessage.module.scss";
 import { LinkPreview } from "./LinkPreview";
+
+const shimmer = (w, h) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#2f1d2a" offset="20%" />
+      <stop stop-color="#282828" offset="50%" />
+      <stop stop-color="#2f1d2a" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#333" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
+
+const toBase64 = (str) =>
+    typeof window === "undefined"
+        ? Buffer.from(str).toString("base64")
+        : window.btoa(str);
 
 const ChatSingleMessage = (props) => {
     const [emojiPickerState, setEmojiPicker] = useState(false);
@@ -304,7 +324,7 @@ const ChatSingleMessage = (props) => {
     let timeStamp = getTimeStamp();
 
     return (
-        <div id="chat-parent-container">
+        <div className={styles.ChatParentContainer}>
             <EmojiPicker />
             <div
                 className={styles.SingleMessage}
@@ -339,14 +359,17 @@ const ChatSingleMessage = (props) => {
                     </span>
                     <div className={styles.Content}>
                         {(urls || []).map((url, idx) => (
-                            <img
+                            <Image
+                                key={url}
                                 className="active-image"
                                 src={url}
                                 width={200}
                                 height={100}
-                                key={url}
-                                loading="lazy"
-                                style={{ objectFit: "contain" }}
+                                // fill
+                                placeholder="blur"
+                                blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                                    shimmer(200, 100)
+                                )}`}
                                 alt=""
                                 onClick={() =>
                                     openImageSlideShow(idx, attachments)

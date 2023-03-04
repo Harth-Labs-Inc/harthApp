@@ -7,7 +7,6 @@ import styles from "./TopicDeleteModal.module.scss";
 const TopicDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(topic);
         submitTopicChange(topic);
     };
     const handleCancel = () => {

@@ -7,7 +7,6 @@ import styles from "./ConversationDeleteModal.module.scss";
 const ConversationDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log(topic);
         submitTopicChange(topic);
     };
     const handleCancel = () => {
@@ -17,7 +16,10 @@ const ConversationDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
     return (
         <div className={styles.mainContainer}>
             <div className={styles.title}>Confirm Removal</div>
-            <p className={styles.text}>You are about to remove this conversation from your message history:</p>
+            <p className={styles.text}>
+                You are about to remove this conversation from your message
+                history:
+            </p>
             <div className={styles.conversation}>{topic?.title}</div>
             <p className={styles.subtext}>
                 This conversation will be removed. This cannot be undone.

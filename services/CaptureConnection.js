@@ -16,7 +16,6 @@ class SocketCaptureConnection {
     myID = "";
 
     constructor(settings) {
-        console.log("settings", settings);
         this.settings = settings;
         this.myPeer = this.initializePeerConnection();
         this.socket = this.initializeSocketConnection();
@@ -27,10 +26,9 @@ class SocketCaptureConnection {
     }
     initializeSocketEvents = () => {
         this.socket.on("connect", () => {
-            console.log("socket connected");
+            console.info("socket connected");
         });
         this.socket.on("capture-user-disconnected", (userID) => {
-            console.log("user disconnected-- closing peers", userID);
             peers[userID] && peers[userID].close();
             this.removeVideo(userID);
         });
@@ -38,11 +36,9 @@ class SocketCaptureConnection {
             console.log("socket disconnected --");
         });
         this.socket.on("error", (err) => {
-            console.log("socket error --", err);
+            console.error("socket error --", err);
         });
         this.socket.on("new-broadcast-messsage", (data) => {
-            console.log(this.message, "messages in instance");
-            console.log("incoming message", data);
             this.message = data;
             this.settings.updateInstance("message", this.message);
         });
@@ -70,7 +66,6 @@ class SocketCaptureConnection {
                 userID: id,
                 ...userDetails,
             };
-            console.log("peers established and joined room", userData);
             this.socket.emit(
                 "join-capture-room",
                 userData,
@@ -79,18 +74,16 @@ class SocketCaptureConnection {
             await this.setNavigatorToStream();
         });
         this.myPeer.on("error", (err) => {
-            console.log("peer connection error", err);
+            console.error("peer connection error", err);
             this.myPeer.reconnect();
         });
     };
     setInitialMessages = (data) => {
-        console.log("should get initial messages", data);
         this.message = data;
         this.settings.updateInstance("message", this.message);
     };
     setNavigatorToStream = async () => {
         const stream = await this.getVideoAudioStream();
-        console.log(stream, "initial stream");
         if (stream) {
             this.streaming = true;
             this.settings.updateInstance("streaming", true);
@@ -139,13 +132,12 @@ class SocketCaptureConnection {
         }
 
         return new Promise((res) => {
-            console.log("not chrome");
             const myNavigator =
                 navigator.getUserMedia ||
                 navigator.webkitGetUserMedia ||
                 navigator.mozGetUserMedia ||
                 navigator.msGetUserMedia;
-            console.log(myNavigator);
+
             myNavigator(
                 {
                     video: video
@@ -157,11 +149,10 @@ class SocketCaptureConnection {
                     audio: audio,
                 },
                 (stream) => {
-                    console.log(stream, "it worked");
                     res(stream);
                 },
                 (err) => {
-                    console.log(err, "it didnt work");
+                    console.error(err, "it didnt work");
                     res({});
                 }
             );
@@ -177,11 +168,10 @@ class SocketCaptureConnection {
                 });
             });
             call.on("close", () => {
-                console.log("closing peers listeners", call.metadata.id);
                 this.removeVideo(call.metadata.id);
             });
             call.on("error", () => {
-                console.log("peer error ------");
+                console.error("peer error ------");
                 this.removeVideo(call.metadata.id);
             });
             peers[call.metadata.id] = call;
@@ -189,7 +179,6 @@ class SocketCaptureConnection {
     };
     newUserConnection = (stream) => {
         this.socket.on("new-capture-user-connect", (userData) => {
-            console.log("New Capture User Connected", userData);
             this.connectToNewUser(userData, stream);
         });
     };
@@ -202,11 +191,10 @@ class SocketCaptureConnection {
             this.createVideo({ id: userID, stream: userVideoStream, userData });
         });
         call.on("close", () => {
-            console.log("closing new user", userID);
             this.removeVideo(userID);
         });
         call.on("error", () => {
-            console.log("peer error ------");
+            console.error("peer error ------");
             this.removeVideo(userID);
         });
         peers[userID] = call;
@@ -289,7 +277,6 @@ class SocketCaptureConnection {
         }
     };
     toggleVideoTrack = (status) => {
-        console.log(status);
         const myVideo = this.getMyVideo();
         if (myVideo && !status.video)
             myVideo.srcObject?.getVideoTracks().forEach((track) => {
@@ -366,7 +353,6 @@ class SocketCaptureConnection {
         else video.classList.remove("display-media");
     };
     changeMediaView = (userID, status) => {
-        console.log(peers, userID);
         const userVideoDOM = document.getElementById(userID);
         if (status) {
             const clientPosition = userVideoDOM.getBoundingClientRect();

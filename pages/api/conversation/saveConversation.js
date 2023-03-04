@@ -24,7 +24,7 @@ export default async (req, res) => {
     const client = await clientPromise;
     const db = client.db("blarg");
     let getConvResult = await createConv(db, obj.conversation);
-    console.log("getConvResult", getConvResult);
+
     if (!getConvResult) {
         return res.json({ ok: 0, msg: "something went wrong" });
     }

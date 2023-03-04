@@ -12,7 +12,6 @@ export default async (req, res) => {
 
     const getConversations = (db, id, usrId) => {
         return new Promise((resolve, reject) => {
-            console.log(usrId, id);
             db.collection("conversations")
                 .find({
                     harthId: id,

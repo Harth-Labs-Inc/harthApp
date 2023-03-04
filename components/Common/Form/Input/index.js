@@ -13,11 +13,7 @@ export default function FormInput(props) {
         badData,
     } = props;
 
-    console.log(props, badData, "asdfasdf");
-
     const inputRef = useRef(null);
-
-    console.log(inputRef.current, "aa");
 
     useEffect(() => {
         console.log("changes", inputRef.current);

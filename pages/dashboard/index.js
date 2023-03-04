@@ -96,7 +96,6 @@ const dashboard = (props) => {
                         setShowInviteAcceptModal(true);
                     }
                 } else {
-                    console.log("inviteTKN || tkn", inviteTKN, tkn);
                     if (inviteTKN || tkn) {
                         async function testToken() {
                             let results = await checkIfInviteTokenIsGood({
@@ -104,7 +103,6 @@ const dashboard = (props) => {
                                 user,
                             });
                             if (results?.ok) {
-                                console.log("harth", results?.harth);
                                 setShowCreateHarthNameModal(false);
                                 setInvitedHarth({ ...results?.harth });
                                 setShowInviteAcceptModal(true);

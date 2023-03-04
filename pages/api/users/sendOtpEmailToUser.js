@@ -12,7 +12,6 @@ export default async (req, res) => {
     } catch (e) {
         obj = req.body;
     }
-    console.log(obj, "obj");
 
     const { user, subject } = obj;
     const { otp, email } = user;

@@ -1,36 +1,35 @@
 import AWS from "aws-sdk";
 AWS.config = {
-  accessKeyId: "AKIARIGZHATFWEQ2TU4K",
-  secretAccessKey: "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",
-  region: "us-east-1",
+    accessKeyId: "AKIARIGZHATFWEQ2TU4K",
+    secretAccessKey: "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",
+    region: "us-east-1",
 };
 
 export default async (req, res) => {
-  let obj;
-  try {
-    obj = JSON.parse(req.body);
-  } catch (e) {
-    obj = req.body;
-  }
-  console.log(obj, "obj");
+    let obj;
+    try {
+        obj = JSON.parse(req.body);
+    } catch (e) {
+        obj = req.body;
+    }
 
-  const { user, subject } = obj;
-  const { otp, email } = user;
-  const sendEmail = (otp, email, subject) => {
-    return new Promise((resolve, reject) => {
-      let nodemailer = require("nodemailer");
+    const { user, subject } = obj;
+    const { otp, email } = user;
+    const sendEmail = (otp, email, subject) => {
+        return new Promise((resolve, reject) => {
+            let nodemailer = require("nodemailer");
 
-      const transporter = nodemailer.createTransport({
-        SES: new AWS.SES({
-          apiVersion: "2010-12-1",
-        }),
-      });
-      transporter.sendMail(
-        {
-          from: "noreply@harthapp.com",
-          to: email,
-          subject: subject,
-          html: `  <div style="height: 600px; width: 355px; margin: 50px auto">
+            const transporter = nodemailer.createTransport({
+                SES: new AWS.SES({
+                    apiVersion: "2010-12-1",
+                }),
+            });
+            transporter.sendMail(
+                {
+                    from: "noreply@harthapp.com",
+                    to: email,
+                    subject: subject,
+                    html: `  <div style="height: 600px; width: 355px; margin: 50px auto">
             <h3
               style="
                 background: #2f1d2a;
@@ -142,17 +141,17 @@ export default async (req, res) => {
               </div>
             </div>
           </div>`,
-          text: `one time password is ${otp}`,
-        },
-        (mailErr, info) => {
-          if (mailErr) {
-            resolve(mailErr);
-          }
-          resolve(info);
-        }
-      );
-    });
-  };
-  await sendEmail(otp, email, subject);
-  return res.json({ msg: "login successful", ok: 1 });
+                    text: `one time password is ${otp}`,
+                },
+                (mailErr, info) => {
+                    if (mailErr) {
+                        resolve(mailErr);
+                    }
+                    resolve(info);
+                }
+            );
+        });
+    };
+    await sendEmail(otp, email, subject);
+    return res.json({ msg: "login successful", ok: 1 });
 };

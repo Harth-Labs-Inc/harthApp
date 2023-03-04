@@ -94,8 +94,6 @@ const SideNav = (props) => {
         setShowRenameHarthModal(false);
     };
     const submitHarthChangeHandler = async (newHarth) => {
-        console.log(newHarth);
-
         await updateHarthData(newHarth);
         let msg = {};
         msg.updateType = "harth edited";
@@ -114,14 +112,13 @@ const SideNav = (props) => {
         setShowDeleteHarthModal(false);
     };
     const submitHarthDeleteHandler = async (newHarth) => {
-        console.log(newHarth);
         await deleteHarthByID(newHarth._id);
         let msg = {};
         msg.updateType = "harth deleted";
         msg.comm = newHarth;
         emitUpdate(selectedcomm._id, msg, async (err, status) => {
             if (err) {
-                console.log(err);
+                console.error(err);
             }
             setShowDeleteHarthModal(false);
             setOpenEditHarthMenu(null);
@@ -135,14 +132,13 @@ const SideNav = (props) => {
     };
 
     const submitHarthLeaveHandler = async (newHarth) => {
-        console.log(newHarth);
         await leaveHarthByID({ harth: newHarth, user });
         let msg = {};
         msg.updateType = "harth deleted";
         msg.comm = newHarth;
         emitUpdate(selectedcomm._id, msg, async (err, status) => {
             if (err) {
-                console.log(err);
+                console.error(err);
             }
             setShowLeaveHarthModal(false);
             setOpenEditHarthMenu(null);

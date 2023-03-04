@@ -1,151 +1,140 @@
 import clientPromise from "../../../util/mongodb";
 
 export default async (req, res) => {
-  let obj;
-  try {
-    obj = JSON.parse(req.body);
-  } catch (e) {
-    obj = req.body;
-  }
+    let obj;
+    try {
+        obj = JSON.parse(req.body);
+    } catch (e) {
+        obj = req.body;
+    }
 
-  console.log(obj, "addUserToComm");
-
-  const pushUserToComm = (db, id, data) => {
-    return new Promise((resolve, reject) => {
-      let mongo = require("mongodb");
-      let o_id = new mongo.ObjectID(id);
-      db.collection("communities").updateOne(
-        { _id: o_id },
-        { $push: { users: data } },
-        function (err, results) {
-          if (err) {
-            resolve(false);
-          }
-          resolve(results);
-        }
-      );
-    });
-  };
-
-  const pushCommToUser = (db, userId, commId) => {
-    return new Promise((resolve, reject) => {
-      let mongo = require("mongodb");
-      console.log(userId, commId);
-      let o_id = new mongo.ObjectID(userId);
-      db.collection("users").updateOne(
-        { _id: o_id },
-        { $push: { comms: commId } },
-        function (err, results) {
-          if (err) {
-            console.log(err);
-            resolve(false);
-          }
-          resolve(results);
-        }
-      );
-    });
-  };
-
-  const getPublicTopicsForComm = (db, commId) => {
-    return new Promise((resolve, reject) => {
-      db.collection("topics")
-        .find({ comm_id: commId, private: { $ne: true } })
-        .toArray(function (err, results) {
-          if (err) {
-            console.log(err);
-            resolve(false);
-          }
-          console.log("getPublicTopicsForComm");
-          resolve(results);
+    const pushUserToComm = (db, id, data) => {
+        return new Promise((resolve, reject) => {
+            let mongo = require("mongodb");
+            let o_id = new mongo.ObjectID(id);
+            db.collection("communities").updateOne(
+                { _id: o_id },
+                { $push: { users: data } },
+                function (err, results) {
+                    if (err) {
+                        resolve(false);
+                    }
+                    resolve(results);
+                }
+            );
         });
-    });
-  };
+    };
 
-  const addRoomsToUser = (db, userId, ids) => {
-    return new Promise((resolve, reject) => {
-      let mongo = require("mongodb");
-      let o_id = new mongo.ObjectID(userId);
-      db.collection("users").updateOne(
-        { _id: o_id },
-        { $push: { rooms: { $each: ids } } },
-        function (err, results) {
-          if (err) {
-            resolve(false);
-          }
-          console.log("addRoomsToUser");
-          resolve(results);
-        }
-      );
-    });
-  };
+    const pushCommToUser = (db, userId, commId) => {
+        return new Promise((resolve, reject) => {
+            let mongo = require("mongodb");
+            let o_id = new mongo.ObjectID(userId);
+            db.collection("users").updateOne(
+                { _id: o_id },
+                { $push: { comms: commId } },
+                function (err, results) {
+                    if (err) {
+                        console.error(err);
+                        resolve(false);
+                    }
+                    resolve(results);
+                }
+            );
+        });
+    };
 
-  const addMemberToTopics = (db, user, ids) => {
-    return new Promise((resolve, reject) => {
-      let mongo = require("mongodb");
-      let objIds = [];
-      ids.forEach((id) => {
-        let o_id = new mongo.ObjectID(id);
-        objIds.push(o_id);
-      });
+    const getPublicTopicsForComm = (db, commId) => {
+        return new Promise((resolve, reject) => {
+            db.collection("topics")
+                .find({ comm_id: commId, private: { $ne: true } })
+                .toArray(function (err, results) {
+                    if (err) {
+                        console.error(err);
+                        resolve(false);
+                    }
+                    resolve(results);
+                });
+        });
+    };
 
-      let memberObj = {
-        ...user,
-        user_id: user.userId,
-        admin: false,
-        muted: false,
-      };
+    const addRoomsToUser = (db, userId, ids) => {
+        return new Promise((resolve, reject) => {
+            let mongo = require("mongodb");
+            let o_id = new mongo.ObjectID(userId);
+            db.collection("users").updateOne(
+                { _id: o_id },
+                { $push: { rooms: { $each: ids } } },
+                function (err, results) {
+                    if (err) {
+                        resolve(false);
+                    }
+                    resolve(results);
+                }
+            );
+        });
+    };
 
-      db.collection("topics").updateMany(
-        { _id: { $in: objIds } },
-        { $push: { members: memberObj } },
-        function (err, results) {
-          if (err) {
-            resolve(false);
-          }
-          console.log("addMemberToTopics");
-          resolve(results);
-        }
-      );
-    });
-  };
+    const addMemberToTopics = (db, user, ids) => {
+        return new Promise((resolve, reject) => {
+            let mongo = require("mongodb");
+            let objIds = [];
+            ids.forEach((id) => {
+                let o_id = new mongo.ObjectID(id);
+                objIds.push(o_id);
+            });
 
-  const client = await clientPromise;
-  const db = client.db("blarg");
-  ///////////
-  let getProfResult = await pushUserToComm(db, obj.id, obj.prof);
-  console.log(1);
-  if (!getProfResult) {
-    return res.json({ ok: 0, msg: "something went wron,pushUserToComm" });
-  }
-  console.log(2);
+            let memberObj = {
+                ...user,
+                user_id: user.userId,
+                admin: false,
+                muted: false,
+            };
 
-  let getuserResult = await pushCommToUser(db, obj.prof.userId, obj.id);
-  console.log(3);
+            db.collection("topics").updateMany(
+                { _id: { $in: objIds } },
+                { $push: { members: memberObj } },
+                function (err, results) {
+                    if (err) {
+                        resolve(false);
+                    }
+                    resolve(results);
+                }
+            );
+        });
+    };
 
-  if (!getuserResult) {
-    return res.json({ ok: 0, msg: "something went wrong,pushCommToUser" });
-  }
-  console.log(4);
+    const client = await clientPromise;
+    const db = client.db("blarg");
+    ///////////
+    let getProfResult = await pushUserToComm(db, obj.id, obj.prof);
 
-  if (!getuserResult.modifiedCount) {
-    return res.json({
-      ok: 0,
-      msg: "something went wrong,getuserResult.modifiedCount",
-    });
-  }
-  console.log(5);
+    if (!getProfResult) {
+        return res.json({ ok: 0, msg: "something went wron,pushUserToComm" });
+    }
 
-  //////////
-  let topics = await getPublicTopicsForComm(db, obj.id);
-  console.log(6);
+    let getuserResult = await pushCommToUser(db, obj.prof.userId, obj.id);
 
-  if (!topics) {
-    return res.json({ ok: 0, msg: "something went wrong,!topics" });
-  }
-  //////////
-  let topicIds = topics.map((topic) => topic._id.toString());
-  await addRoomsToUser(db, obj.prof.userId, topicIds);
-  await addMemberToTopics(db, obj.prof, topicIds);
+    if (!getuserResult) {
+        return res.json({ ok: 0, msg: "something went wrong,pushCommToUser" });
+    }
 
-  return res.json({ ok: 1, msg: "success" });
+    if (!getuserResult.modifiedCount) {
+        return res.json({
+            ok: 0,
+            msg: "something went wrong,getuserResult.modifiedCount",
+        });
+    }
+
+    //////////
+    let topics = await getPublicTopicsForComm(db, obj.id);
+
+    if (!topics) {
+        return res.json({ ok: 0, msg: "something went wrong,!topics" });
+    }
+    //////////
+    let topicIds = topics.map((topic) => topic._id.toString());
+    await addRoomsToUser(db, obj.prof.userId, topicIds);
+    await addMemberToTopics(db, obj.prof, topicIds);
+
+    return res.json({ ok: 1, msg: "success" });
 };

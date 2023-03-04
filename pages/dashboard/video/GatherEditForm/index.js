@@ -90,7 +90,6 @@ function GatherForm(props) {
     };
 
     async function handleSubmitSchedule() {
-        console.log("update schedule room", state);
         let newRoom = { ...state };
 
         if (newRoom && newRoom.gatheringTime) {
