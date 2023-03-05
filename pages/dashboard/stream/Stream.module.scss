@@ -179,11 +179,65 @@
 
             .sliderContainer {
                 position: absolute;
-                right: 0;
+                right: -50%;
                 z-index: 99;
                 padding: 4px;
                 border: 2px solid $white_10;
-                background-color: $ash;
+                background-color: $oxygen_80;
+
+                input[type="range"] {
+                    height: 20px;
+                    width: 100%;
+                    border: 0;
+                    border-radius: 0;
+                    -webkit-appearance: none;
+                }
+                input[type="range"]::-webkit-slider-thumb {
+                    height: 20px;
+                    width: 20px;
+                    margin-top: -7px;
+                    background: $hot_pink;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    box-shadow: 0 1px 2px $black_25;
+                    -webkit-appearance: none;
+                }
+                input[type="range"]::-moz-range-thumb {
+                    height: 20px;
+                    width: 20px;
+                    background: $hot_pink;
+                    border: 0;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    box-shadow: 0px 1px 2px rgba(#000, 0.25);
+                }
+
+                input[type="range"]::-webkit-slider-runnable-track {
+                    width: 100%;
+                    height: 6px;
+                    animate: 0.2s;
+                    background: $fuel_50;
+                    border-radius: 100px;
+                    cursor: pointer;
+                }
+                input[type="range"]::-webkit-progress-value {
+                    background-color: $fuel;
+                }
+
+                input[type="range"]::-moz-range-track {
+                    width: 100%;
+                    height: 6px;
+                    animate: 0.2s;
+                    background: $fuel_50;
+                    border: 0;
+                    border-radius: 100px;
+                    cursor: pointer;
+                }
+                input[type="range"]::-moz-range-progress {
+                    height: 6px;
+                    background-color: $fuel;
+                    border-radius: 100px;
+                }
             }
 
             .playButton {

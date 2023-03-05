@@ -370,8 +370,12 @@ const Stream = () => {
             };
             createScreenSharePeer(obj);
         });
-        audioSharePeer.current.on("error", function (err) {
-            audioSharePeer.current.reconnect();
+        audioSharePeer.current.on("error", function () {
+            try {
+                audioSharePeer.current.reconnect();
+            } catch (error) {
+                console.error(error);
+            }
         });
         audioSharePeer.current.on("call", async (call) => {
             call.answer();
