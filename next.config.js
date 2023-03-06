@@ -47,6 +47,11 @@ module.exports = {
                 hostname:
                     "topic-message-attachments.s3.us-east-2.amazonaws.com",
             },
+            {
+                protocol: "https",
+                hostname:
+                    "gather-message-attachments.s3.us-east-2.amazonaws.com",
+            },
         ],
     },
 };
