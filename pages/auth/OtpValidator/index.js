@@ -21,7 +21,13 @@ const URLS = {
 };
 
 const OtpValidator = (props) => {
-  const { changePage, inviteToken, currentPage } = props;
+  const {
+    userForModal,
+    alternativeEmail,
+    isInModal,
+    closeModal,
+    parentSubmit,
+  } = props;
   const [newUser, setNewUser] = useState();
   const [hasResent, setHasResent] = useState(false);
   const [isResending, setIsResending] = useState(false);
@@ -36,7 +42,10 @@ const OtpValidator = (props) => {
     if (user) {
       setNewUser(JSON.parse(user));
     }
-  }, [user]);
+    if (userForModal) {
+      setNewUser(userForModal);
+    }
+  }, [user, userForModal]);
 
   const [inviteCode, setInviteCode] = useState();
   const [helpText, setHelpText] = useState([
@@ -56,18 +65,22 @@ const OtpValidator = (props) => {
     let result = await verifyOtp({ inviteCode, newUser });
     let { ok } = result;
     if (ok) {
-      const data = await login(newUser);
-      const { ok, msg, tkn } = data;
-      if (ok) {
-        setBadCode(false);
-        setHelpText([`SUCCESS!!`]);
-        localStorage.setItem("token", tkn);
+      if (isInModal) {
+        parentSubmit();
+      } else {
+        const data = await login(newUser);
+        const { ok, msg, tkn } = data;
+        if (ok) {
+          setBadCode(false);
+          setHelpText([`SUCCESS!!`]);
+          localStorage.setItem("token", tkn);
 
-        if (newUser.showFirstTimeUser) {
-          localStorage.setItem("showFirstTimeUser", true);
+          if (newUser.showFirstTimeUser) {
+            localStorage.setItem("showFirstTimeUser", true);
+          }
+          setContextUser(newUser);
+          router.push("/dashboard");
         }
-        setContextUser(newUser);
-        router.push("/dashboard");
       }
     } else {
       setBadCode(true);
@@ -81,7 +94,7 @@ const OtpValidator = (props) => {
     if (ok) {
       setIsResending(true);
       await sendOtpEmailToUser({
-        user: user,
+        user: { ...user, ["email"]: alternativeEmail || user["email"] },
         subject: "Email Verification",
       });
       setHasResent(true);
@@ -101,7 +114,8 @@ const OtpValidator = (props) => {
       </div>
       <TalkingHead textArray={helpText} />
       <p className={styles.OtpModuleText}>
-        Enter the security code we just sent to {newUser?.email}
+        Enter the security code we just sent to{" "}
+        {alternativeEmail || newUser?.email}
       </p>
       <CodeInput onChange={inputChangeHandler} codeInput={inviteCode} />
       {hasResent ? (
@@ -126,9 +140,13 @@ const OtpValidator = (props) => {
         <Button
           tier="secondary"
           size="small"
-          text="Start over"
+          text={isInModal ? "close" : "Start over"}
           onClick={() => {
-            router.push("/");
+            if (isInModal) {
+              closeModal();
+            } else {
+              router.push("/");
+            }
           }}
         />
         <Button
