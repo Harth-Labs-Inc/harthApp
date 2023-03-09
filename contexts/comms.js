@@ -45,6 +45,9 @@ export const CommsProvider = ({ children }) => {
           if (ok) {
             setComms(comms);
             setComm(comms[0]);
+          } else if (result.lockDown) {
+            localStorage.removeItem("token");
+            window.location.pathname = "/";
           }
         })();
       }
