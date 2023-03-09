@@ -28,7 +28,7 @@ export default async (req, res) => {
   const chkExistingUser = (db, email) => {
     return new Promise((resolve, reject) => {
       db.collection("users")
-        .find({ email: email })
+        .find({ email: { $regex: email, $options: "i" } })
         .toArray(function (err, results) {
           if (err) {
             resolve(false);
