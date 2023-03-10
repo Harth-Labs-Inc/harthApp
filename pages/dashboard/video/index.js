@@ -63,8 +63,7 @@ const Video = (props) => {
       }&user_name=${socketData.name}&user_img=${socketData.icon}&room_id=${
         data.roomId
       }&harth_id=${selectedcomm._id}`,
-      "new-window",
-      "width=1500,height=1500"
+      "new-window"
     );
   };
   const createRoom = (room) => {
