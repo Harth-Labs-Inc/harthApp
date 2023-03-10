@@ -1,64 +1,65 @@
-import { useEffect, useRef, useState, useReducer } from "react";
+import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
+import axios from "axios";
 
-import { getTurnServers } from "../../../util/TURN";
-import { useSize } from "../../../contexts/mobile";
-import { ellapsedTime } from "../../../services/helper";
-
-import ChatAttachment from "../../../components/ChatInput/chatAttachmentsGeneral";
+import { useComms } from "../../../contexts/comms";
+import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
+import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
+import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
 
-import PeerList from "./PeerList/PeerList";
-import VoiceFooter from "./VoiceFooter/VoiceFooter";
 import styles from "./Voice.module.scss";
 
-let myPeer;
-let groupStreams = {};
-let chatPannel = false;
-let userInfo = {};
-
-const Voice = () => {
-    let activeInterval;
-    //chat
-
-    const [unreadMsg, setUnreadMsg] = useState(false);
-    const [newChatMsg, setNewChatMsg] = useState({});
+const Stream = () => {
+    const [socket, setSocket] = useState(null);
+    const [socketID, setSocketID] = useState(null);
     const [chats, setChats] = useState([]);
+    const [update, triggerUpdate] = useState(0);
 
+    const [selectedHarth, setSelectedHarth] = useState(null);
+    const [unreadMsg, setUnreadMsg] = useState(false);
+    const [activeCallRoom, setActiveCallRoom] = useState({});
+    const [callRooms, setCallRooms] = useState([]);
     const [userName, setUserName] = useState("");
     const [userIcon, setUserIcon] = useState("");
     const [roomId, setRoomId] = useState("");
     const [harthId, setHarthId] = useState("");
-    const [socket, setSocket] = useState(null);
-    const [socketID, setSocketID] = useState(null);
-    const [callRooms, setCallRooms] = useState([]);
-    const [groupCallStreams, setGroupCallStreams] = useState({});
-    const [activeCallRoom, setActiveCallRoom] = useState({});
-    const [roomChange, setRoomChange] = useState(0);
-    const [activeTimer, setActiveTimer] = useState("");
+    const [isActiveScreenShare, setIsActiveScreenShare] = useState(false);
+    const [TurnServers, setTurnServers] = useState([]);
+    const [playingStreams, setPlayingStreams] = useState({});
 
-    const [localStream, setLocalStream] = useState();
-    const [localStreamChange, setLocalStreamChange] = useState(0);
+    const ownerData = useRef({});
+    const PEERS = useRef([]);
+    const audioSharePeer = useRef();
+    const videoSharePeer = useRef();
+    const ScreenSharePeer = useRef();
+    const chatPannel = useRef(false);
 
-    const [Peers, setPeers] = useState([]);
-    const [muteOn, setMuteOn] = useState(false);
+    const localAudioStream = useRef();
+    const localCaptureStream = useRef();
+    const userInfo = useRef();
 
-    const mainRef = useRef();
-    // const localVidRef = useRef()
-    // const groupStreamsRef = useRef([])
-    // const chatInput = useRef()
-    const peerContainerRef = useRef();
+    const { comms } = useComms();
 
     useEffect(() => {
         let urls = {
             development: "http://localhost:5030",
             production: "https://project-blarg-video-socket.herokuapp.com",
         };
-        setSocket(
-            io.connect(urls[process.env.NODE_ENV], {
-                transports: ["websocket"],
+        axios
+            .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
+            .then((responseData) => {
+                setTurnServers(responseData.data.token.iceServers);
+
+                setSocket(
+                    io.connect(urls[process.env.NODE_ENV], {
+                        transports: ["websocket"],
+                    })
+                );
             })
-        );
+            .catch((err) => {
+                console.error(err);
+            });
 
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -78,39 +79,7 @@ const Voice = () => {
         if (HARTHID) {
             setHarthId(HARTHID);
         }
-        startAudio();
     }, []);
-
-    useEffect(() => {
-        let tempactiveCallRoom = {};
-        if (roomId) {
-            tempactiveCallRoom = callRooms?.filter((room) => {
-                return room.roomId === roomId;
-            });
-        }
-        setActiveCallRoom(tempactiveCallRoom[0] || {});
-    }, [callRooms]);
-
-    useEffect(() => {
-        if (localStream) {
-            localStream.getTracks().forEach((track) => {
-                if (track.kind === "audio") {
-                    let enabled = track.enabled;
-                    setMuteOn(enabled);
-                }
-            });
-        }
-    }, [localStreamChange]);
-
-    // ------- socket connection and listeners ------------
-
-    useEffect(() => {
-        if (socketID && localStream && !myPeer) {
-            if (userName && roomId) {
-                connectWithMyPeer({ userName, userIcon, roomId });
-            }
-        }
-    }, [socketID, localStream]);
 
     useEffect(() => {
         if (socket) {
@@ -124,268 +93,664 @@ const Voice = () => {
                         setCallRooms(groupCallRooms);
                         break;
                     case "GROUP_CALL_PEERS":
-                        setPeers(peers);
+                        PEERS.current = peers;
+                        triggerUpdate();
                         break;
                     default:
                         break;
                 }
             });
+            socket.on("chat-update", (newMsg) => {
+                if (newMsg?.code == 8) {
+                    removeElement(newMsg.socketID);
+                    remoteUserLeft(newMsg);
+                }
+                if (newMsg?.code == 9) {
+                    if (localAudioStream.current) {
+                        let options = {
+                            metadata: { streamID: localAudioStream.current.id },
+                        };
 
-            socket.on("party-event", (data) => {
-                setOutsideDiceRoll({ ...data });
+                        audioSharePeer.current.call(
+                            newMsg.peerId,
+                            localAudioStream.current,
+                            options
+                        );
+                    }
+                    if (localCaptureStream.current) {
+                        let msg = {
+                            value: ``,
+                            code: 101,
+                            userName: userName,
+                            roomId: roomId,
+                            date: new Date(),
+                            creator_name: "Admin",
+                            flames: [],
+                            reactions: [],
+                            attachments: [],
+                            ignoreInChat: true,
+                            callerID: newMsg.socketID,
+                            ...ownerData.current,
+                        };
+                        sendNewChatMessage(msg);
+                    }
+                }
+                setChats((prevChats) => [newMsg, ...(prevChats || [])]);
             });
-
-            socket.on("user-left", (data) => {
-                if (myPeer) {
-                    for (let conns in myPeer.connections) {
-                        myPeer.connections[conns].forEach(
-                            (conn, index, array) => {
-                                if (data.peerId === conns) {
-                                    conn.peerConnection.close();
+            socket.on("incoming-chat-message", (newMsg) => {
+                if (
+                    newMsg?.code == 1 &&
+                    newMsg?.socketID !== ownerData.current?.socketID
+                ) {
+                    createPlayButton(newMsg);
+                }
+                if (newMsg?.code == 4) {
+                    for (let conns in audioSharePeer.current.connections) {
+                        audioSharePeer.current.connections[conns].forEach(
+                            (conn) => {
+                                if (
+                                    conn.metadata?.streamID == newMsg.deleteID
+                                ) {
                                     if (conn.close) conn.close();
                                 }
                             }
                         );
                     }
+                    removeElement(newMsg.peerId);
                 }
-                removeVideo(data.peerId);
-                delete groupStreams[data.peerId];
-            });
-
-            // chat
-            socket.on("incoming-chat-message", (data) => {
-                if (!chatPannel) {
+                if (newMsg?.code == 2) {
+                    for (let conns in ScreenSharePeer.current.connections) {
+                        ScreenSharePeer.current.connections[conns].forEach(
+                            (conn) => {
+                                if (
+                                    conn.metadata?.streamID == newMsg.deleteID
+                                ) {
+                                    if (conn.close) conn.close();
+                                }
+                            }
+                        );
+                    }
+                    removeElement(`${newMsg?.socketID}_play-button`);
+                    removeElement(newMsg.capturePeer);
+                }
+                if (
+                    newMsg?.code == 100 &&
+                    newMsg?.callerID == ownerData.current?.socketID
+                ) {
+                    if (localCaptureStream.current) {
+                        ScreenSharePeer.current.call(
+                            newMsg.capturePeer,
+                            localCaptureStream.current
+                        );
+                    }
+                }
+                if (
+                    newMsg?.code == 101 &&
+                    newMsg?.callerID == ownerData.current?.socketID
+                ) {
+                    createPlayButton(newMsg);
+                }
+                if (
+                    newMsg?.code == 102 &&
+                    newMsg?.callerID == ownerData.current?.socketID
+                ) {
+                    for (let conns in ScreenSharePeer.current.connections) {
+                        ScreenSharePeer.current.connections[conns].forEach(
+                            (conn) => {
+                                if (conn?.peer == newMsg.capturePeer) {
+                                    if (conn.close) {
+                                        conn.close();
+                                    }
+                                }
+                            }
+                        );
+                    }
+                }
+                if (!chatPannel.current) {
                     setUnreadMsg(true);
                 }
-                setChats((prevChats) => [...prevChats, data]);
-            });
-            socket.on("chat-update", (chats) => {
-                setChats(chats);
+                if (!newMsg?.ignoreInChat) {
+                    setChats((prevChats) => [newMsg, ...(prevChats || [])]);
+                }
             });
             socket.on("userInfo-update", (info) => {
-                userInfo = info;
-
-                let activeScreenShare = 0;
-                let activeVideoStream = 0;
-
-                Object.entries(info || {}).forEach(([usr, i]) => {
-                    if (i.connected) {
-                        if (i.screenShare) {
-                            activeScreenShare += 1;
-                        }
-                        if (i.video) {
-                            activeVideoStream += 1;
-                        }
+                userInfo.current = info;
+                if (info && ownerData.current) {
+                    let match = Object.values(info).find(
+                        (usr) => usr.screenShare === true
+                    );
+                    if (typeof isActiveScreenShare !== typeof match) {
+                        setIsActiveScreenShare(match);
                     }
-                });
-            });
-            // vote
-            socket.on("incoming-vote", (data) => {
-                setOutsideVoteCall({ ...data });
+                }
             });
         }
     }, [socket]);
 
     useEffect(() => {
-        let tempCallRoom = {};
-        callRooms.forEach((room) => {
-            if (room.roomId === roomId) {
-                tempCallRoom = room;
+        if (socketID && !audioSharePeer.current) {
+            if (userName && roomId) {
+                createAudioSharePeer({ userName, userIcon, roomId });
             }
-        });
-        setActiveTimer(ellapsedTime(tempCallRoom?.createdTime));
-
-        activeInterval = setInterval(() => {
-            setActiveTimer(ellapsedTime(tempCallRoom.createdTime));
-        }, 60000);
-
-        return () => clearInterval(activeInterval);
-    }, [callRooms]);
-
-    // ----------- media --------------
+        }
+    }, [socketID]);
 
     useEffect(() => {
-        if (localStream) {
-            createVideo({ id: "owner", stream: localStream });
-        }
-    }, [localStream]);
-
-    const startAudio = () => {
-        getLocalStream("audio");
-    };
-    const stopAudioOnly = (stream) => {
-        try {
-            stream.getTracks().forEach((track) => {
-                if (track.readyState == "live" && track.kind === "audio") {
-                    let enabled = track.enabled;
-                    track.enabled = !enabled;
-                    let newMsg = {};
-                    if (!enabled === false) {
-                        newMsg = {
-                            value: `${userName} disconnected audio`,
-                            code: 4,
-                            userName: userName,
-                            roomId: roomId,
-                            date: new Date(),
-                            creator_name: "Admin",
-                            flames: [],
-                            reactions: [],
-                            attachments: [],
-                        };
-                    } else {
-                        newMsg = {
-                            value: `${userName} enabled audio`,
-                            code: 3,
-                            userName: userName,
-                            roomId: roomId,
-                            date: new Date(),
-                            creator_name: "Admin",
-                            flames: [],
-                            reactions: [],
-                            attachments: [],
-                        };
-                    }
-                    sendNewChatMessage(newMsg);
-                    setLocalStreamChange((prev) => (prev += 1));
-                }
+        let tempactiveCallRoom = {};
+        if (roomId) {
+            tempactiveCallRoom = callRooms?.filter((room) => {
+                return room.roomId === roomId;
             });
-        } catch (error) {}
-    };
-
-    const toggleAudio = () => {
-        if (!localStream) {
-            startAudio();
-        } else {
-            try {
-                localStream.getTracks().forEach((track) => {
-                    if (track.kind === "audio") {
-                        stopAudioOnly(localStream);
-                    }
-                });
-            } catch (error) {}
         }
-        setLocalStreamChange((prev) => (prev += 1));
-        setMuteOn((prev) => !prev);
-    };
+        setActiveCallRoom(tempactiveCallRoom[0] || {});
+    }, [callRooms]);
 
-    const getLocalStream = async () => {
-        let stream = await navigator.mediaDevices.getUserMedia({
-            audio: true,
+    useEffect(() => {
+        if (harthId && comms && comms.length) {
+            let harth = comms.find((harthObj) => harthObj._id == harthId);
+            setSelectedHarth(harth);
+        }
+    }, [harthId, comms]);
+
+    const getLocalAudioStream = async (
+        constraints = {
+            audio: { echoCancellation: true, noiseSuppression: true },
             video: false,
-        });
+        }
+    ) => {
+        return new Promise((resolve) => {
+            async function run() {
+                try {
+                    let stream = await navigator.mediaDevices.getUserMedia(
+                        constraints
+                    );
 
-        setLocalStreamChange((prev) => (prev += 1));
-        setLocalStream(stream);
-    };
-
-    const addVideoStream = (incomingStream, peerid) => {
-        setGroupCallStreams((prevStreams) => {
-            return { ...prevStreams, [peerid]: incomingStream };
-        });
-
-        groupStreams = {
-            ...groupStreams,
-            [peerid]: incomingStream,
-        };
-
-        createVideo({ id: peerid, stream: incomingStream });
-    };
-
-    // ------------ rooms -----------------
-
-    const leaveRoom = () => {
-        leaveGroupCall({ roomId, userName, socketID }, () => {
-            window.close();
+                    resolve(stream);
+                } catch (error) {
+                    resolve(false);
+                }
+            }
+            run();
         });
     };
-    const connectWithMyPeer = (data) => {
-        let pID = "";
-        myPeer = new window.Peer(undefined, {
+
+    const createAudioSharePeer = () => {
+        let servers = [];
+        if (TurnServers.length) {
+            servers = TurnServers;
+        } else {
+            servers = [
+                {
+                    url: "stun:stun.1und1.de:3478",
+                },
+            ];
+        }
+        servers.length = 2;
+        audioSharePeer.current = new window.Peer(undefined, {
             config: {
-                iceServers: [
-                    ...getTurnServers(),
-                    {
-                        url: "stun:stun.1und1.de:3478",
-                    },
-                ],
+                iceServers: [...servers],
             },
+            debug: 2,
         });
 
-        myPeer.on("open", (peerid) => {
-            pID = peerid;
-
-            let { roomId, userIcon, userName } = data;
+        audioSharePeer.current.on("open", async (peerid) => {
             let obj = {
                 userName,
                 userIcon,
                 peerId: peerid,
                 socketID,
                 roomId,
-                localStreamId: (localStream || {}).id || "",
                 harthId,
             };
-            joinGroupCall(obj);
+            createScreenSharePeer(obj);
         });
-
-        myPeer.on("error", function (err) {
-            myPeer.reconnect();
-        });
-
-        myPeer.on("disconnect", function (client) {
-            removeVideo(client?.id);
-        });
-
-        myPeer.on("connection", function (dataConnection) {});
-        myPeer.on("close", function (client) {
-            removeVideo(client?.id);
-        });
-
-        myPeer.on("call", async (call) => {
-            if (localStream) {
-                call.answer(localStream);
+        audioSharePeer.current.on("error", function () {
+            try {
+                audioSharePeer.current.reconnect();
+            } catch (error) {
+                console.error(error);
             }
+        });
+        audioSharePeer.current.on("call", async (call) => {
+            call.answer();
 
             call.on("stream", (incomingStream) => {
-                if (incomingStream) {
-                    addVideoStream(incomingStream, call.peer);
-                }
+                let peer = PEERS.current.find((p) => {
+                    return p.peerId == call.peer;
+                });
+                createAudio(incomingStream, peer, call);
             });
-            call.on("close", () => {
-                removeVideo(call.peer);
-            });
-            call.on("error", () => {
-                removeVideo(call.peer);
-            });
+            call.on("error", function (err) {});
         });
     };
-    const joinGroupCall = (obj) => {
-        userWantsToJoinGroupCall(obj);
+    const createScreenSharePeer = (peerobj) => {
+        let servers = [];
+        if (TurnServers.length) {
+            servers = TurnServers;
+        } else {
+            servers = [
+                {
+                    url: "stun:stun.1und1.de:3478",
+                },
+            ];
+        }
+        servers.length = 2;
+        ScreenSharePeer.current = new window.Peer(undefined, {
+            config: {
+                iceServers: [...servers],
+            },
+            debug: 2,
+        });
+
+        ScreenSharePeer.current.on("open", (peerid) => {
+            peerobj.capturePeer = peerid;
+            joinRoomSocket(peerobj);
+        });
+        ScreenSharePeer.current.on("error", function (err) {
+            ScreenSharePeer.current.reconnect();
+        });
+        ScreenSharePeer.current.on("call", async (call) => {
+            call.answer();
+
+            call.on("stream", (incomingStream) => {
+                let peer = PEERS.current.find(
+                    (p) => p.capturePeer == call.peer
+                );
+                createCapture(incomingStream, peer, call);
+            });
+            call.on("error", function (err) {});
+        });
     };
-    const userWantsToJoinGroupCall = (data) => {
+    const joinRoomSocket = (obj) => {
         socket &&
-            socket.emit("group-call-join-request", data, ({ peers, chats }) => {
-                connectToUsers(peers);
+            socket.emit("group-call-join-request", obj, ({ peers, chats }) => {
+                PEERS.current = peers;
+                ownerData.current = obj;
+                triggerUpdate();
+                setPeerContainers(obj);
+                connectToUsers(peers, obj);
                 setChats(chats);
             });
     };
-    const connectToUsers = async (peers) => {
-        if (myPeer) {
+    const connectToUsers = async (peers, obj) => {
+        let audioStream = await getLocalAudioStream();
+        if (audioStream) {
+            localAudioStream.current = audioStream;
             peers.forEach((peer) => {
-                if (peer.peerId !== myPeer.id) {
-                    const call = myPeer.call(peer.peerId, localStream, {
-                        metadata: { id: myPeer.id, userName, userIcon },
-                    });
-                    call &&
-                        call.on("stream", (incomingStream) => {
-                            if (incomingStream) {
-                                addVideoStream(incomingStream, peer.peerId);
-                            }
-                        });
+                if (peer.peerId !== audioSharePeer.current.id) {
+                    let options = {
+                        metadata: { streamID: audioStream.id, peer },
+                    };
+
+                    audioSharePeer.current.call(
+                        peer.peerId,
+                        audioStream,
+                        options
+                    );
                 }
             });
+            let newMsg = {
+                value: `${userName} enabled audio`,
+                code: 3,
+                userName: userName,
+                roomId: roomId,
+                date: new Date(),
+                creator_name: "Admin",
+                flames: [],
+                reactions: [],
+                attachments: [],
+                ...obj,
+            };
+            sendNewChatMessage(newMsg);
+        }
+    };
+    const connectAudioToUsers = async () => {
+        let audioStream = await getLocalAudioStream();
+        if (audioStream) {
+            localAudioStream.current = audioStream;
+            PEERS.current.forEach((peer) => {
+                if (peer.peerId !== audioSharePeer.current.id) {
+                    let options = {
+                        metadata: { streamID: audioStream.id, peer },
+                    };
+
+                    audioSharePeer.current.call(
+                        peer.peerId,
+                        audioStream,
+                        options
+                    );
+                }
+            });
+            let newMsg = {
+                value: `${userName} enabled audio`,
+                code: 3,
+                userName: userName,
+                roomId: roomId,
+                date: new Date(),
+                creator_name: "Admin",
+                flames: [],
+                reactions: [],
+                attachments: [],
+                ...ownerData.current,
+            };
+            sendNewChatMessage(newMsg);
         }
     };
 
+    const remoteUserLeft = (data) => {
+        if (audioSharePeer.current) {
+            for (let conns in audioSharePeer.current.connections) {
+                audioSharePeer.current.connections[conns].forEach((conn) => {
+                    if (data.peerId === conns) {
+                        try {
+                            conn.peerConnection?.close();
+                            if (conn.close) conn.close();
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                });
+            }
+        }
+        if (videoSharePeer.current) {
+            for (let conns in videoSharePeer.current.connections) {
+                videoSharePeer.current.connections[conns].forEach((conn) => {
+                    if (data.videoPeer === conns) {
+                        try {
+                            conn.peerConnection?.close();
+                            if (conn.close) conn.close();
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                });
+            }
+        }
+        if (ScreenSharePeer.current) {
+            for (let conns in ScreenSharePeer.current.connections) {
+                ScreenSharePeer.current.connections[conns].forEach((conn) => {
+                    if (data.capturePeer === conns) {
+                        try {
+                            conn.peerConnection?.close();
+                            if (conn.close) conn.close();
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                });
+            }
+        }
+    };
+    const disconnectAudios = () => {
+        let id = localAudioStream.current.id;
+        for (let conns in audioSharePeer.current.connections) {
+            audioSharePeer.current.connections[conns].forEach((conn) => {
+                if (conn.metadata?.streamID == id) {
+                    if (conn.close) conn.close();
+                }
+            });
+        }
+        const tracks = localAudioStream.current.getTracks();
+        tracks.forEach((track) => {
+            track.stop();
+        });
+        localAudioStream.current = null;
+        let newMsg = {
+            value: `${userName} disconnected audio`,
+            code: 4,
+            userName: userName,
+            roomId: roomId,
+            date: new Date(),
+            creator_name: "Admin",
+            flames: [],
+            reactions: [],
+            attachments: [],
+            deleteID: id,
+            ...ownerData.current,
+        };
+        sendNewChatMessage(newMsg);
+        triggerUpdate();
+    };
+    const disconnectCaptures = () => {
+        let id = localCaptureStream.current.id;
+        for (let conns in ScreenSharePeer.current.connections) {
+            ScreenSharePeer.current.connections[conns].forEach((conn) => {
+                if (conn.metadata?.streamID == id) {
+                    if (conn.close) conn.close();
+                }
+            });
+        }
+        const tracks = localCaptureStream.current.getTracks();
+        tracks.forEach((track) => {
+            track.stop();
+        });
+        localCaptureStream.current = null;
+        removeElement(ownerData.current?.capturePeer);
+        let newMsg = {
+            value: `${userName} disconnected screen share`,
+            code: 2,
+            userName: userName,
+            roomId: roomId,
+            date: new Date(),
+            creator_name: "Admin",
+            flames: [],
+            reactions: [],
+            attachments: [],
+            deleteID: id,
+            ...ownerData.current,
+        };
+        sendNewChatMessage(newMsg);
+        triggerUpdate();
+    };
+    const toggleAudio = async () => {
+        if (localAudioStream.current) {
+            disconnectAudios();
+        } else {
+            connectAudioToUsers();
+        }
+    };
+
+    const sendNewChatMessage = (message) => {
+        socket &&
+            socket.emit("send-chat-message", message, () => {
+                setChats((prevChats) => [message, ...(prevChats || [])]);
+            });
+    };
+    const createAudio = (incomingStream, peer) => {
+        let existingVideoContainer = document.getElementById(peer?.peerId);
+        if (!existingVideoContainer) {
+            let parentContainer = document.getElementById(peer?.socketID);
+            if (!parentContainer) {
+                parentContainer = document.createElement("div");
+                parentContainer.id = peer?.socketID;
+                parentContainer.className = styles.videoContainer;
+
+                const profileImage = document.createElement("img");
+                profileImage.src = peer?.img;
+                profileImage.className = styles.peerImage;
+                parentContainer.append(profileImage);
+                let nameContainer = document.createElement("p");
+                var nameText = document.createTextNode(peer?.userName);
+                nameContainer.className = styles.peerName;
+                nameContainer.appendChild(nameText);
+                parentContainer.append(nameContainer);
+
+                const roomContainer = document.getElementById("peerContainer");
+                roomContainer?.append(parentContainer);
+            }
+
+            const audioContainer = document.createElement("div");
+            const audio = document.createElement("video");
+            audioContainer.id = peer?.peerId;
+            audio.id = `${peer?.peerId}_audio`;
+            // audio.className = "audio";
+            audio.style.width = "0px";
+            audio.style.height = "0px";
+            audio.style.overflow = "hidden";
+            audio.srcObject = incomingStream;
+            audio.autoplay = true;
+            audio.playsInline = true;
+            audioContainer.appendChild(audio);
+            parentContainer.appendChild(audioContainer);
+        }
+    };
+    const createCapture = (incomingStream, peer, isPaused) => {
+        const parentContainer = document.getElementById("peerContainer");
+        const videoContainer = document.createElement("div");
+        const video = document.createElement("video");
+        videoContainer.className = styles.videoContainer;
+        videoContainer.id = peer?.capturePeer;
+        video.srcObject = incomingStream;
+        video.id = `${peer?.socketID}_${peer?.capturePeer}`;
+        video.autoplay = true;
+        video.muted = true;
+        video.className = "video";
+        video.playsInline = true;
+
+        videoContainer.appendChild(video);
+        parentContainer.appendChild(videoContainer);
+        removeElement(`${peer?.socketID}_play-button`);
+        createStopButton(peer);
+        setPlayingStreams({
+            ...playingStreams,
+            [peer.socketID]: false,
+        });
+    };
+    const createPlayButton = (peer) => {
+        const parentContainer = document.getElementById(peer?.socketID);
+        if (parentContainer) {
+            const button = document.createElement("button");
+            button.id = `${peer?.socketID}_play-button`;
+            button.className = styles.playButton;
+            button.textContent = "Play Stream";
+            button.onclick = function () {
+                let newMsg = {
+                    value: ``,
+                    code: 100,
+                    userName: userName,
+                    roomId: roomId,
+                    date: new Date(),
+                    creator_name: "Admin",
+                    flames: [],
+                    reactions: [],
+                    attachments: [],
+                    ignoreInChat: true,
+                    callerID: peer?.socketID,
+                    ...ownerData.current,
+                };
+                sendNewChatMessage(newMsg);
+            };
+            parentContainer.appendChild(button);
+        }
+    };
+    const createStopButton = (peer) => {
+        if (peer?.socketID !== ownerData.current?.socketID) {
+            const parentContainer = document.getElementById(peer?.socketID);
+            if (parentContainer) {
+                const button = document.createElement("button");
+                button.id = `${peer?.socketID}_play-button`;
+                button.className = styles.playButton;
+                button.textContent = "Stop Stream";
+                button.onclick = function () {
+                    for (let conns in ScreenSharePeer.current.connections) {
+                        ScreenSharePeer.current.connections[conns].forEach(
+                            (conn) => {
+                                if (conn?.peer == peer.capturePeer) {
+                                    if (conn.close) {
+                                        let newMsg = {
+                                            value: ``,
+                                            code: 102,
+                                            userName: userName,
+                                            roomId: roomId,
+                                            date: new Date(),
+                                            creator_name: "Admin",
+                                            flames: [],
+                                            reactions: [],
+                                            attachments: [],
+                                            ignoreInChat: true,
+                                            callerID: peer?.socketID,
+                                            ...ownerData.current,
+                                        };
+                                        sendNewChatMessage(newMsg);
+                                        removeElement(
+                                            `${peer?.socketID}_play-button`
+                                        );
+                                        removeElement(peer?.capturePeer);
+                                        createPlayButton(peer);
+                                        conn.close();
+                                    }
+                                }
+                            }
+                        );
+                    }
+                };
+                parentContainer.appendChild(button);
+            }
+        }
+    };
+    const removeElement = (id) => {
+        let Container = document.getElementById(id);
+        if (Container) {
+            Container.remove();
+        }
+    };
+    const setPeerContainers = (owner) => {
+        console.log(owner, "v");
+        PEERS.current?.forEach((peer) => {
+            if (socketID && peer) {
+                let parentContainer = document.getElementById(peer?.socketID);
+                if (!parentContainer) {
+                    parentContainer = document.createElement("div");
+                    parentContainer.id = peer?.socketID;
+                    parentContainer.className = styles.userContainer;
+
+                    const topContainer = document.createElement("div");
+                    topContainer.id = `${peer?.socketID}_TopContainer`;
+                    topContainer.className = styles.topContainer;
+
+                    const profileContainer = document.createElement("span");
+                    profileContainer.className = styles.profileContainer;
+
+                    const profileImage = document.createElement("img");
+                    profileImage.src = peer?.img;
+                    profileImage.className = styles.peerImage;
+                    profileContainer.append(profileImage);
+
+                    const nameContainer = document.createElement("p");
+                    const nameText = document.createTextNode(peer?.name);
+                    nameContainer.className = styles.peerName;
+                    nameContainer.appendChild(nameText);
+                    profileContainer.append(nameContainer);
+
+                    topContainer.append(profileContainer);
+                    parentContainer.append(topContainer);
+
+                    const roomContainer =
+                        document.getElementById("leftcontainer");
+                    roomContainer.append(parentContainer);
+                }
+                createVolumeContainer(peer, owner);
+            }
+        });
+    };
+
+    const chatSubmitHandler = (msg) => {
+        let message = {
+            ...msg,
+            roomId: roomId,
+            code: 0,
+            date: new Date(),
+            creator_name: userName,
+            userName: userName,
+            creator_image: userIcon,
+        };
+        sendNewChatMessage(message);
+    };
+    const leaveRoom = () => {
+        leaveGroupCall({ roomId, userName, socketID }, () => {
+            window.close();
+        });
+    };
     const leaveGroupCall = (data) => {
         return new Promise((res, rej) => {
             socket &&
@@ -404,201 +769,237 @@ const Voice = () => {
                         window.location.replace(urls[process.env.NODE_ENV]);
                     }
 
-                    if (myPeer) {
-                        myPeer.destroy();
+                    if (audioSharePeer.current) {
+                        audioSharePeer.current?.destroy();
+                    }
+                    if (videoSharePeer.current) {
+                        videoSharePeer.current?.destroy();
+                    }
+                    if (ScreenSharePeer.current) {
+                        ScreenSharePeer.current?.destroy();
                     }
                 });
         });
     };
-    // ------------ chat -----------------
-    const sendNewChatMessage = (message) => {
-        socket &&
-            socket.emit("send-chat-message", message, () => {
-                setChats((prevChats) => [...prevChats, message]);
-            });
-    };
-    const chatInputHandler = (e) => {
-        const { value } = e.target;
-        setNewChatMsg({ value });
-    };
-    const chatSubmitHandler = (msg) => {
-        let message = {
-            ...msg,
-            roomId: roomId,
-            code: 0,
-            date: new Date(),
-            creator_name: userName,
-            userName: userName,
-            creator_image: userIcon,
-        };
 
-        sendNewChatMessage(message);
-    };
-    // const chatSubmitHandler = (e) => {
-    //   e.preventDefault()
-    //   let message = {
-    //     ...newChatMsg,
-    //     roomId: roomId,
-    //     code: 0,
-    //     date: new Date(),
-    //     creator_name: userName,
-    //     userName: userName,
-    //     creator_image: userIcon,
-    //     flames: [],
-    //     reactions: [],
-    //     attachments: [],
-    //   }
-
-    //   sendNewChatMessage(message)
-    // }
-    const chatClassname = (creator) => {
-        if (creator === "Admin") {
-            return "admin";
-        }
-        if (creator === userName) {
-            return "self";
-        }
-        return "incoming";
-    };
-
-    const toBase64 = (arr) => {
-        var arrayBufferView = new Uint8Array(arr);
-        var blob = new Blob([arrayBufferView], { type: "image/jpeg" });
-        var urlCreator = window.URL || window.webkitURL;
-        var imageUrl = urlCreator.createObjectURL(blob);
-        var img = document.querySelector("#photo");
-        if (img) {
-            img.src = imageUrl;
-        }
-    };
-
-    const ChatStructure = ({ chat }) => {
-        const date = new Date(chat.date);
-        return (
-            <>
-                {chat.attachments.length ? (
-                    <ChatAttachment attachments={chat.attachments} />
-                ) : null}
-
-                <p>{chat.value}</p>
-                <span>
-                    <img
-                        src={chat.creator_image}
-                        alt={chat.creator_name}
-                        loading="lazy"
-                    />
-                    {date.getTime()}
-                </span>
-            </>
-        );
-    };
-    // --------------- screen share ----------
-
-    // new video
-    const createVideo = (createObj) => {
-        setRoomChange((prevState) => (prevState += 1));
-        if (!createObj) {
-            createObj = {};
-        }
-        let match = document.getElementById(createObj?.id);
-
-        if (!match) {
-            const roomContainer = document.getElementById("peerContainer");
-
-            const videoContainer = document.createElement("div");
-
-            if (videoContainer) {
-                videoContainer.id = `parent-${createObj?.id}`;
-                videoContainer.classList.add(`${styles.videoParent}`);
-                const video = document.createElement("video");
-                video.srcObject = createObj?.stream;
-                video.id = createObj?.id;
-                video.classList.add(`${styles.peerVideo}`);
-                video.autoplay = true;
-                if (createObj?.id === "owner") {
-                    video.muted = true;
-                    videoContainer.classList.add(`${styles.ownerVideo}`);
+    const changeAudioDevice = async (device) => {
+        const tracks = localAudioStream.current?.getTracks();
+        if (tracks && tracks.length) {
+            tracks.forEach((track) => {
+                if (track.kind === "audio") {
+                    track.stop();
                 }
-                videoContainer.appendChild(video);
-                roomContainer.append(videoContainer);
+            });
+
+            let audioTrack;
+
+            let newStream = await getLocalAudioStream({
+                audio: { deviceId: { exact: device.deviceId } },
+                video: false,
+            });
+
+            newStream.getTracks().forEach((trk) => {
+                if (trk.kind == "audio") {
+                    audioTrack = trk;
+                }
+            });
+
+            try {
+                for (let conns in audioSharePeer.current.connections) {
+                    audioSharePeer.current.connections[conns].forEach(
+                        (conn) => {
+                            for (const sender of conn.peerConnection.getSenders()) {
+                                if (sender && sender.track?.kind == "audio") {
+                                    sender.replaceTrack(audioTrack);
+                                }
+                            }
+                        }
+                    );
+                }
+            } catch (error) {
+                console.error(error);
             }
-        } else {
-            let el = document.getElementById(createObj?.id);
-            if (el) {
-                el.srcObject = createObj?.stream;
+        }
+    };
+    const toggleHDSwitch = () => {
+        try {
+            navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+
+            navigator.mediaDevices.enumerateDevices().then((devices) => {
+                devices.forEach((device) => {
+                    try {
+                        if (device.kind == "videoinput") {
+                            //   console.log(device, device?.getCapabilities());
+                        }
+                    } catch (error) {}
+                });
+            });
+        } catch (error) {
+            setNotHDCapable(true);
+        }
+    };
+
+    // volume controls for users
+    const volumeSliderHandler = (e, peer) => {
+        const { value } = e.target;
+        if (userInfo.current[peer.name]) {
+            userInfo.current[peer.name].volume = value;
+            let elem = document.getElementById(`${peer?.peerId}_audio`);
+            if (elem) {
+                elem.volume = value / 100;
+            }
+            triggerUpdate();
+        }
+    };
+    const createUnMuteButton = (peer) => {
+        removeElement(`${peer?.socketID}_mute-button`);
+        const parentContainer = document.getElementById(
+            `${peer?.socketID}_slider-container`
+        );
+        if (parentContainer) {
+            const button = document.createElement("button");
+            button.id = `${peer?.socketID}_mute-button`;
+            button.textContent = "unmute";
+            button.onclick = function () {
+                const audio = document.getElementById(`${peer?.peerId}_audio`);
+                if (audio) {
+                    audio.play();
+                    createMuteButton(peer);
+                }
+            };
+            parentContainer.appendChild(button);
+        }
+    };
+    const createMuteButton = (peer) => {
+        removeElement(`${peer?.socketID}_mute-button`);
+        const parentContainer = document.getElementById(
+            `${peer?.socketID}_slider-container`
+        );
+        if (parentContainer) {
+            const button = document.createElement("button");
+            button.id = `${peer?.socketID}_mute-button`;
+            button.textContent = "mute";
+            button.onclick = function () {
+                const audio = document.getElementById(`${peer?.peerId}_audio`);
+                if (audio) {
+                    audio.pause();
+                    createUnMuteButton(peer);
+                }
+            };
+            parentContainer.appendChild(button);
+        }
+    };
+    const createVolumeSlider = (peer) => {
+        const parentContainer = document.getElementById(peer?.socketID);
+        if (parentContainer) {
+            const sliderContainer = document.createElement("div");
+            sliderContainer.id = `${peer?.socketID}_slider-container`;
+            sliderContainer.className = styles.sliderContainer;
+            sliderContainer.style.visibility = "visible";
+            const input = document.createElement("input");
+            input.type = "range";
+            input.id = `${peer?.socketID}_slider`;
+            input.min = 0;
+            input.max = 100;
+            input.onchange = function (e) {
+                volumeSliderHandler(e, peer);
+            };
+            sliderContainer.appendChild(input);
+            parentContainer.appendChild(sliderContainer);
+            createMuteButton(peer);
+        }
+    };
+    const createVolumeContainer = (peer, owner) => {
+        if (
+            peer.socketID &&
+            owner.socketID &&
+            peer.socketID !== owner.socketID
+        ) {
+            const parentContainer = document.getElementById(peer?.socketID);
+            if (parentContainer) {
+                let existingButton = document.getElementById(
+                    `${peer?.socketID}_volume-button`
+                );
+                if (!existingButton) {
+                    const container = document.getElementById(
+                        `${peer?.socketID}_TopContainer`
+                    );
+                    const button = document.createElement("button");
+                    button.id = `${peer?.socketID}_volume-button`;
+                    button.className = styles.volumeButton;
+                    button.setAttribute("aria-label", "volume");
+                    button.onclick = function () {
+                        let slider = document.getElementById(
+                            `${peer?.socketID}_slider-container`
+                        );
+                        if (!slider) {
+                            createVolumeSlider(peer);
+                        } else {
+                            let visibility = slider.style.visibility;
+                            if (visibility == "visible") {
+                                slider.style.visibility = "hidden";
+                            }
+                            if (visibility == "hidden") {
+                                slider.style.visibility = "visible";
+                            }
+                        }
+                    };
+                    container?.appendChild(button);
+                    triggerUpdate();
+                }
             }
         }
     };
 
-    const removeVideo = (id) => {
-        setRoomChange((prevState) => (prevState += 1));
-        if (id) {
-            const video = document.getElementById(`parent-${id}`);
-            if (video) video.remove();
-        }
-    };
+    if (ownerData.current) {
+        setPeerContainers(ownerData.current);
+    }
 
     return (
-        <main
-            id="VoiceGathering"
-            className={styles.voiceGathering}
-            ref={mainRef}
-        >
-            <img id="photo" loading="lazy"></img>
-            <section className={styles.voiceGatheringPeers}>
-                <div className={styles.voiceGatheringHeader}>
-                    <p className={styles.voiceGatheringHeaderTitle}>
-                        {activeCallRoom && activeCallRoom?.roomName
-                            ? `${activeCallRoom?.roomName}`
-                            : null}
-                    </p>
-                    {activeTimer} Active
-                </div>
-                <PeerList
-                    myPeer={myPeer}
-                    peers={Peers}
-                    toggleAudio={toggleAudio}
-                    userInfo={userInfo}
-                    groupStreams={groupStreams}
+        <>
+            <main className={styles.VoiceWindow}>
+                <GatherHeader
+                    gatheringName={activeCallRoom?.roomName}
+                    selectedHarthIcon={selectedHarth?.iconKey}
+                    toggleHDSwitch={toggleHDSwitch}
+                    leaveMethod={leaveRoom}
                 />
-                <VoiceFooter
-                    leaveRoom={leaveRoom}
-                    toggleAudio={toggleAudio}
-                    muteOn={muteOn}
-                />
-            </section>
 
-            <section id={styles.VoiceVideoContainer}>
                 <section
-                    ref={peerContainerRef}
-                    id="peerContainer"
-                    className={`${styles.peerContainer}`}
-                ></section>
-            </section>
-            <section className={styles.voiceGatheringChat}>
-                <ul className={styles.voiceGatheringMessages}>
-                    {chats.map((chat, index) => {
-                        return (
-                            <li
-                                key={index}
-                                className={
-                                    styles[chatClassname(chat.creator_name)]
-                                }
-                                id={chat.creator_name + index}
-                            >
-                                {chat.creator_name === "Admin" ? (
-                                    chat.value
-                                ) : (
-                                    <ChatStructure chat={chat} />
-                                )}
-                            </li>
-                        );
-                    })}
-                </ul>
-                <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
-            </section>
-        </main>
+                    className={styles.ContentContainer}
+                    id="video-container"
+                >
+                    <section
+                        style={{ width: "25%" }}
+                        id="leftcontainer"
+                        className={styles.leftContainer}
+                    ></section>
+
+                    <section
+                        id="chatContainer"
+                        className={styles.ChatPanelContainer}
+                    >
+                        <ChatMessagesGeneral
+                            messages={chats}
+                            userName={userName}
+                        />
+                        <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
+                    </section>
+                </section>
+                <>
+                    <GatherControlBar
+                        onLeaveHandler={leaveRoom}
+                        onToggleAudio={toggleAudio}
+                        unreadMsg={unreadMsg}
+                        changeAudioDevice={changeAudioDevice}
+                        roomId={roomId}
+                        userInfo={(userInfo.current || {})[userName]}
+                        roomType="voice"
+                    />
+                </>
+            </main>
+        </>
     );
 };
 
-export default Voice;
+export default Stream;
