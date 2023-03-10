@@ -96,7 +96,11 @@ export const VideoProvider = ({ children }) => {
       let filteredRooms = [];
       rms.forEach((rm) => {
         let date = combineDateTime(rm.gatheringDate, rm.gatheringTime);
-        let newDate = addHours(date, 1);
+        let newDate = addHours(
+          combineDateTime(rm.gatheringDate, rm.gatheringTime),
+          1
+        );
+
         if (new Date() < new Date(newDate)) {
           let timer = date.getTime() - new Date().getTime();
           setTimeout(() => {
