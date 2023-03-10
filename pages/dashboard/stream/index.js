@@ -297,6 +297,7 @@ const Stream = () => {
         cursor: "always",
         width: { ideal: 1280, max: 1280 },
         height: { ideal: 720, max: 720 },
+        logicalSurface: true,
       },
       audio: false,
     }
