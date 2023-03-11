@@ -73,6 +73,8 @@ export const SocketProvider = ({ children }) => {
         switch (updateType) {
           case "new message":
             setIncomingMsg(incomingUpdate);
+            setNewAlerts(incomingUpdate, "chat");
+
             if (incomingUpdate.topic_id !== (selectedTopic || {})._id) {
               setUnreadMsg(incomingUpdate);
               let messages = unreadMessagesRef.current;
@@ -89,6 +91,8 @@ export const SocketProvider = ({ children }) => {
             break;
           case "message update":
             setIncomingMsgUpdate(incomingUpdate);
+            setNewAlerts(incomingUpdate, "chat");
+
             break;
           case "message profile icon update":
             let elements = document.getElementsByClassName(
@@ -192,6 +196,7 @@ export const SocketProvider = ({ children }) => {
               (usr) => usr.userId == user._id
             );
             if (isForYou) {
+              setNewAlerts(incomingUpdate, "message");
               let newConversationsResult = await getConversations(
                 incomingUpdate?.harthId,
                 user._id
@@ -201,24 +206,16 @@ export const SocketProvider = ({ children }) => {
             break;
           case "new conversation message":
             setUnreadConversationMessagesHandler(incomingUpdate);
+            setNewAlerts(incomingUpdate, "message");
 
             break;
           case "conversation message update":
             setIncomingConversationMsgUpdate(incomingUpdate);
+            setNewAlerts(incomingUpdate, "message");
+
             break;
           case "gather alert":
-            let alerts = { ...mainAlerts };
-            let id =
-              incomingUpdate.harthId ||
-              incomingUpdate.harthID ||
-              incomingUpdate.harthid;
-            if (id) {
-              if (!alerts[id]) {
-                alerts[id] = {};
-              }
-              alerts[id].gather = true;
-              setMainAlerts(alerts);
-            }
+            setNewAlerts(incomingUpdate, "gather");
 
             break;
 
@@ -229,6 +226,24 @@ export const SocketProvider = ({ children }) => {
     }
   }, [socket, comms, user]);
 
+  const setNewAlerts = (incomingUpdate, alertType) => {
+    console.log("set alert ", incomingUpdate);
+    let alerts = { ...mainAlerts };
+    let id =
+      incomingUpdate.harthId ||
+      incomingUpdate.harthID ||
+      incomingUpdate.harthid ||
+      incomingUpdate.comm_id;
+    console.log(id, "id");
+    if (id) {
+      if (!alerts[id]) {
+        alerts[id] = {};
+      }
+      console.log(alerts, "alerts");
+      alerts[id][alertType] = true;
+      setMainAlerts(alerts);
+    }
+  };
   const getUnreadMessages = async (user) => {
     let results = await getExistingUnreadMessages(user._id);
     let { data } = results;
