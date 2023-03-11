@@ -13,6 +13,10 @@
     //backdrop-filter: grayscale(60%);
     backdrop-filter: blur(3px);
 
+    .Modal {
+        height: 100%;
+        width: 100%;
+    }
 
     &Mid {
         position: absolute;
@@ -24,22 +28,20 @@
         transform: translate3d(-50%, -50%, 0);
         padding: 0px;
         background-color: $light_ash;
-       // border: 1px solid $ash_10;
+        // border: 1px solid $ash_10;
         border-radius: 12px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         overflow: hidden;
-        
+
         &Dark {
             background-color: $ash;
         }
 
         &Padding {
-            padding: 24px; 
+            padding: 24px;
         }
-
     }
 
-    
     &Left {
         position: absolute;
         top: 0;
@@ -52,7 +54,5 @@
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         background-color: $ash;
         overflow: hidden;
-
-
     }
 }
