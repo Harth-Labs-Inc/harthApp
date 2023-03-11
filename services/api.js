@@ -5,14 +5,10 @@ let urls = {
   development: "http://localhost:3000/",
   production: "https://harth.vercel.app/",
 };
-let token = "";
-if (typeof window !== "undefined") {
-  token = localStorage.getItem("token");
-}
+
 const api = Axios.create({
   baseURL: urls[process.env.NODE_ENV],
   headers: {
-    "x-auth-token": token,
     Accept: "application/json",
     "Content-Type": "application/json",
     "Access-Control-Allow-Credentials": true,

@@ -1,12 +1,22 @@
 import api from "../services/api";
 
 export const getURLMetaData = async (url) => {
-    try {
-        const res = await api.post(`/api/url/getMetaData`, {
-            url,
-        });
-        return res;
-    } catch (error) {
-        console.error(error);
-    }
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(
+      `/api/url/getMetaData`,
+      {
+        url,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
 };
