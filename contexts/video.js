@@ -3,7 +3,8 @@ import { createContext, useState, useContext, useEffect } from "react";
 import io from "socket.io-client";
 import { getScheduledCallRooms, deleteScheduledRoom } from "../requests/rooms";
 import { combineDateTime } from "../services/helper";
-
+import { useComms } from "./comms";
+import { useSocket } from "./socket";
 const VideoContext = createContext({});
 
 let myPeer;
@@ -17,6 +18,9 @@ export const VideoProvider = ({ children }) => {
   const [localStream, setLocalStream] = useState();
   const [captureStream, setCaptureStream] = useState();
   const [myPeerId, setMyPeerId] = useState(null);
+
+  const { emitUpdate } = useSocket();
+  const { selectedCommRef } = useComms();
 
   useEffect(() => {
     let urls = {
@@ -40,7 +44,13 @@ export const VideoProvider = ({ children }) => {
         let { event, groupCallRooms, peers } = data;
         switch (event) {
           case "GROUP_CALL_ROOMS":
-            setCallRooms(groupCallRooms);
+            if (
+              data.harthID &&
+              selectedCommRef.current &&
+              data.harthID == selectedCommRef.current._id
+            ) {
+              setCallRooms(groupCallRooms);
+            }
 
             break;
           case "GROUP_CALL_PEERS":
@@ -88,6 +98,15 @@ export const VideoProvider = ({ children }) => {
 
     return date;
   };
+  const sendGatherNotification = (rm) => {
+    let msg = { ...rm };
+    msg.updateType = "gather alert";
+    let id = rm.harthId || rm.harthID || rm.harthid;
+
+    if (id) {
+      emitUpdate(id, msg, () => {});
+    }
+  };
   const getInitialScheduledCallRooms = async (data) => {
     let id = data.harthid ? data.harthid : data.harthId ? data.harthId : "";
     let result = await getScheduledCallRooms(id);
@@ -105,8 +124,9 @@ export const VideoProvider = ({ children }) => {
           let timer = date.getTime() - new Date().getTime();
           setTimeout(() => {
             deleteScheduledRoom(rm._id);
-            createEmptyRoom({ ...rm, setInitalTimer: true }, () => {});
-            getInitialCallRooms(rm);
+            createEmptyRoom({ ...rm, setInitalTimer: true }, () => {
+              getInitialCallRooms(rm);
+            });
           }, timer);
           filteredRooms.push(rm);
         } else {
@@ -117,6 +137,7 @@ export const VideoProvider = ({ children }) => {
     }
   };
   const createEmptyRoom = (data, cb) => {
+    sendGatherNotification(data);
     socket && socket.emit("create-call-room", data, cb);
   };
   const getLocalStream = async (startWith) => {
