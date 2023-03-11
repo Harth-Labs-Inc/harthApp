@@ -1,4 +1,10 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import {
   getComms,
   getTopics,
@@ -35,6 +41,8 @@ export const CommsProvider = ({ children }) => {
 
   const { user } = useAuth();
   const { incomingTopic } = useAuth();
+
+  const selectedCommRef = useRef(null);
 
   useEffect(() => {
     if (user) {
@@ -150,6 +158,7 @@ export const CommsProvider = ({ children }) => {
           setComms(tmpComms);
           if (selectedcomm._id == newHarth._id) {
             setSelectedcomm(newHarth);
+            selectedCommRef.current = newHarth;
           }
           let { ok } = await updateHarthData(newHarth);
 
@@ -174,6 +183,7 @@ export const CommsProvider = ({ children }) => {
           setComms(tmpComms);
           if (selectedcomm._id == newHarth._id) {
             setSelectedcomm(newHarth);
+            selectedCommRef.current = newHarth;
           }
 
           resolve(true);
@@ -238,6 +248,7 @@ export const CommsProvider = ({ children }) => {
   };
   const setComm = async (comm) => {
     setSelectedcomm(comm);
+    selectedCommRef.current = comm;
   };
   const setCommsFromChild = (comms) => {
     setComms(comms);
@@ -360,6 +371,7 @@ export const CommsProvider = ({ children }) => {
         setUnreadConversationMessagesHandler,
         setIncomingConversationMsgUpdate,
         incomingConversationMsgUpdate,
+        selectedCommRef,
       }}
     >
       {children}

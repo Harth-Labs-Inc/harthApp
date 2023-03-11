@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { MobileContext } from "../../contexts/mobile";
 import { IconChatNoFill } from "../../resources/icons/IconChatNoFill";
 import { IconFireNoFill } from "../../resources/icons/IconFireNoFill";
@@ -12,16 +12,34 @@ import { useComms } from "../../contexts/comms";
 import { IconSettings } from "../../resources/icons/IconSettings";
 
 import styles from "./mainNav.module.scss";
+import { useSocket } from "../../contexts/socket";
 
 const MainNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props;
   const [modal, setModal] = useState(false);
 
   const { isMobile } = useContext(MobileContext);
-  const { selectedcomm } = useComms();
+  const { selectedcomm, selectedCommRef } = useComms();
+  const { mainAlerts, setMainAlerts } = useSocket();
 
-  const hasAlert = true;
   const unreadMessagesOther = true;
+
+  useEffect(() => {
+    if (selectedCommRef.current && mainAlerts[selectedCommRef.current?._id]) {
+      let alerts = mainAlerts[selectedCommRef.current?._id];
+      if (alerts) {
+        for (let [key, value] of Object.entries(alerts)) {
+          if (currentPage == key && value) {
+            alerts[key] = false;
+            setMainAlerts({
+              ...mainAlerts,
+              [selectedCommRef.current?._id]: alerts,
+            });
+          }
+        }
+      }
+    }
+  }, [mainAlerts, currentPage, selectedcomm]);
 
   const handleHarthMenu = () => {
     if (!isMobile) {
@@ -111,7 +129,8 @@ const MainNav = (props) => {
               className={`
                             ${styles.iconHolder} 
                             ${
-                              hasAlert &&
+                              mainAlerts[selectedCommRef.current?._id] &&
+                              mainAlerts[selectedCommRef.current?._id]?.chat &&
                               currentPage != "chat" &&
                               styles.iconHolderUnreadMessage
                             }
@@ -138,7 +157,9 @@ const MainNav = (props) => {
               className={`
                             ${styles.iconHolder} 
                             ${
-                              hasAlert &&
+                              mainAlerts[selectedCommRef.current?._id] &&
+                              mainAlerts[selectedCommRef.current?._id]
+                                ?.gather &&
                               currentPage != "gather" &&
                               styles.iconHolderUnreadMessage
                             }
@@ -164,7 +185,9 @@ const MainNav = (props) => {
               className={`
                             ${styles.iconHolder} 
                             ${
-                              hasAlert &&
+                              mainAlerts[selectedCommRef.current?._id] &&
+                              mainAlerts[selectedCommRef.current?._id]
+                                ?.message &&
                               currentPage != "message" &&
                               styles.iconHolderUnreadMessage
                             }
