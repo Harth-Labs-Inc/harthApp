@@ -75,16 +75,16 @@ const MainNav = (props) => {
             />
           </button>
         ) : (
+          <div className={styles.MainNavTitleHolder}>
           <button
             className={styles.MainNavHarthButton}
             onClick={handleHarthMenu}
             aria-label="Current Harth Settings"
           >
             {selectedcomm?.name}
-            <div className={styles.icon}>
-              <IconSettings />
-            </div>
           </button>
+          <span className={styles.Section}>\ {currentPage}</span>
+          </div>
         )}
 
         <div
@@ -120,7 +120,6 @@ const MainNav = (props) => {
             >
               {currentPage == "chat" ? <IconChatFill /> : <IconChatNoFill />}
             </div>
-            <div>Chat</div>
           </button>
 
           <button
@@ -147,7 +146,6 @@ const MainNav = (props) => {
             >
               {currentPage == "gather" ? <IconFireFill /> : <IconFireNoFill />}
             </div>
-            <div>Gather</div>
           </button>
 
           <button
@@ -178,7 +176,6 @@ const MainNav = (props) => {
                 <IconForumNoFill />
               )}
             </div>
-            <div>Message</div>
           </button>
         </div>
       </header>

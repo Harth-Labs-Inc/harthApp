@@ -4,8 +4,8 @@ const Layout = ({ title, children }) => {
   return (
     <>
       <Head>
-        <title>H&auml;rth</title>
-        <meta property="og:title" content="H&auml;rth" key="title" />
+        <title>Härth</title>
+        <meta property="og:title" content="Härth" key="title" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
@@ -81,9 +81,16 @@ const Layout = ({ title, children }) => {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="msapplication-TileColor" content="#202340" />
+        <meta name="msapplication-TileColor" content="#fbfbfb" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-        <meta name="theme-color" content="#202340" />
+
+        <meta name="theme-color" content="#fbfbfb" />
+        
+        <meta name="apple-mobile-web-app-title" content="Härth" />
+        <meta name="apple-mobile-web-app-capable" content="yes"></meta>
+
+
+        
       </Head>
       {children}
     </>

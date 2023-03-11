@@ -3,13 +3,16 @@
 
 .TopicsNav {
     position: relative;
-    width: 260px;
-    min-width: 260px;
+    width: 230px;
+    min-width: 230px;
     padding: 20px 0px 0px 24px;
     background-color: $warm_blue;
     height: 100%;
     overflow-y: scroll;
     //border-right: 1px solid $fuel_5;
+    background-image: url("../../../public/images/background_chat.png");
+    background-repeat: repeat;
+    background-size: 16%;
 
     &Mobile {
         width: 100%;
@@ -73,7 +76,7 @@
         margin: 0;
         padding: 0px 0 80px 0;
         overflow: scroll;
-        gap: 0;
+        gap: 0px;
         //background-color: aquamarine;
 
     }
@@ -97,8 +100,9 @@
             width: fit-content;
             border-radius: 8px;
             padding: 4px 4px;
-            border: 1px solid $oxygen_10;
-            //background-color: $white;
+            border: 1px solid $white_10;
+            background-color: $white_5;
+            backdrop-filter: blur(8px);
            
 
             .iconHolder {
@@ -107,17 +111,17 @@
                 width: 18px;
 
                 path {
-                    fill: $oxygen_20;
+                    fill: $white_20;
                 }
             }
 
             &:hover {
-                background-color: $black_10;
-                border-color: $oxygen_20;
+                background-color: $black_50;
+                //border-color: $white_50;
                 .iconHolder {
 
                     path {
-                        fill: $oxygen_40;
+                        fill: $white_50;
                     }
                 }
 
@@ -143,8 +147,9 @@
             width: fit-content;
             border-radius: 8px;
             padding: 5px 5px;
-            border: 1px solid $oxygen_10;
-            //background-color: $white;
+            border: 1px solid $white_10;
+            background-color: $white_5;
+            backdrop-filter: blur(8px);
            
 
             .iconHolder {
@@ -154,17 +159,17 @@
                 padding: 2px;
 
                 path {
-                    fill: $oxygen_20;
+                    fill: $white_20;
                 }
             }
 
             &:hover {
-                background-color: $oxygen_10;
-                border-color: $oxygen_muted;
+                background-color: $black_50;
+                //border-color: $white_50;
                 .iconHolder {
 
                     path {
-                        fill: $oxygen_muted;
+                        fill: $white_50;
                     }
                 }
 

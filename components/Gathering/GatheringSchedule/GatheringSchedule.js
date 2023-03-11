@@ -76,14 +76,15 @@ const GatheringSchedule = (props) => {
 
     return (
         <Modal onToggleModal={props.closeHandler}>
-            <p className={styles.GatheringScheduleTitle}>
+            {/* <p className={styles.GatheringScheduleTitle}>
                 {props.type === "edit" ? "Edit" : "Schedule a"} gathering
-            </p>
+            </p> */}
             <form onSubmit={handleSubmit(scheduleGathering)}>
                 <input
                     {...register("roomName", { required: true })}
-                    placeholder="[profile name's] party"
+                    placeholder="room name"
                     type="text"
+                    className={styles.GatheringScheduleInput}
                 />
                 <ErrorMessage
                     errorMsg={
@@ -185,8 +186,8 @@ const GatheringSchedule = (props) => {
                         text="Cancel"
                         onClick={props.closeHandler}
                     />
-                    <Button fullWidth type="Submit" text="Schedule" />
-                </div>
+                    <Button fullWidth type="Submit" text={props.type === "edit" ? "Edit" : "Schedule"} />
+                 </div>
             </form>
         </Modal>
     );

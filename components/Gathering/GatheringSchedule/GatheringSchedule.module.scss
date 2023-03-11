@@ -9,8 +9,8 @@
     }
     &SubTitle {
         @include interfaceH5;
-        margin-top: 24px;
-        margin-bottom: 8px;
+        margin-top: 28px;
+        margin-bottom: 12px;
     }
 
     &DateTime {
@@ -18,21 +18,44 @@
         gap: 8px;
     }
 
+    &Input {
+        text-align: center;
+        @include contentH1;
+        border: none;
+        outline: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        resize: none;
+        background:transparent;
+        border-bottom: 1px solid $fuel;
+        padding: 0px;
+        margin-top: 16px;
+        margin-bottom: -12px;
+
+        &::placeholder {
+            color: $fuel_light;
+        }
+    }
+    
     &Type {
         display: flex;
         gap: 12px;
 
         &Select {
-            @include interfaceR2;
+            @include worksans;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            font-size: 12px;
             position: relative;
             display: flex;
             align-items: center;
             gap: 10px;
             width: 100%;
             padding-right: 6px;
-            color: $fuel_50;
-            background-color: $fuel_5;
-            border: 2px solid transparent;
+            color: $fuel;
+            background-color: $white;
+            //border: 1px solid transparent;
             border-radius: 40px;
             cursor: pointer;
 
@@ -40,6 +63,11 @@
                 padding: 6px;
                 background-color: $fuel_5;
                 border-radius: 50%;
+                border: 1px solid $fuel_10;
+
+                path {
+                    fill: $fuel_light;
+                }
             }
 
             svg {
@@ -58,25 +86,40 @@
 
             &:first-of-type {
                 &.Active {
-                    border-color: $hot_blue;
+                    background-color: $hot_blue;
+                    color: $white;
                     span {
-                        background-color: $hot_blue;
+                        background-color: $white;
+                        border-color: $hot_blue;
+                        path{
+                            fill: $hot_blue;
+                        }
                     }
                 }
             }
             &:nth-of-type(2) {
                 &.Active {
-                    border-color: $hot_red;
+                    background-color: $hot_red;
+                    color: $white;
                     span {
-                        background-color: $hot_red;
+                        background-color: $white;
+                        border-color: $hot_red;
+                        path{
+                            fill: $hot_red;
+                        }
                     }
                 }
             }
             &:last-of-type {
                 &.Active {
-                    border-color: $hot_pink;
+                    background-color: $hot_pink;
+                    color: $white;
                     span {
-                        background-color: $hot_pink;
+                        background-color: $white;
+                        border-color: $hot_pink;
+                        path{
+                            fill: $hot_pink;
+                        }
                     }
                 }
             }
