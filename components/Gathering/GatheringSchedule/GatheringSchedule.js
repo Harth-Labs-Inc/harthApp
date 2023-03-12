@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../../Common/Input/ErrorMessage";
-import { convertToAmPm } from "../../../services/helper";
+import { convertToAmPm, combineDateTime } from "../../../services/helper";
 import { Button, Modal } from "../../Common";
 import { useVideo } from "../../../contexts/video";
 import { saveRoom } from "../../../requests/rooms";
@@ -16,11 +16,45 @@ import { IconDeleteNoFill } from "../../../resources/icons/IconDeleteNoFill";
 
 const GatheringSchedule = (props) => {
     let defaults = { defaultValues: {} };
-    if (props.type == "edit" && props.room) {
-        defaults.defaultValues = {
-            ...props.room,
-        };
+
+    defaults.defaultValues = {
+        ...props.room,
+    };
+
+    function getHTML5DateTimeStringsFromDate(d) {
+        // Date string
+        let ds =
+            d.getFullYear().toString().padStart(4, "0") +
+            "-" +
+            (d.getMonth() + 1).toString().padStart(2, "0") +
+            "-" +
+            d.getDate().toString().padStart(2, "0");
+
+        // Time string
+        let ts =
+            d.getHours().toString().padStart(2, "0") +
+            ":" +
+            d.getMinutes().toString().padStart(2, "0");
+
+        // Return them in array
+        return [ds, ts];
     }
+
+    if (!props.type) {
+        let d = new Date();
+        let dstrings = getHTML5DateTimeStringsFromDate(d);
+        defaults.defaultValues.gatheringDate = dstrings[0];
+        defaults.defaultValues.gatheringTime = dstrings[1];
+    } else if (props.type == "edit") {
+        let d = combineDateTime(
+            props.room?.gatheringDate,
+            props.room?.gatheringTime
+        );
+        let dstrings = getHTML5DateTimeStringsFromDate(d);
+        defaults.defaultValues.gatheringDate = dstrings[0];
+        defaults.defaultValues.gatheringTime = dstrings[1];
+    }
+
     const {
         register,
         handleSubmit,
@@ -85,7 +119,6 @@ const GatheringSchedule = (props) => {
                     placeholder="room name"
                     type="text"
                     className={styles.GatheringScheduleInput}
-                    autocomplete="off"
                 />
                 <ErrorMessage
                     errorMsg={
@@ -175,7 +208,6 @@ const GatheringSchedule = (props) => {
                 <input
                     {...register("gatheringDescription")}
                     placeholder="let's all..."
-                    autocomplete="off"
                 />
                 <div className={styles.GatheringScheduleButtons}>
                     {props.type === "edit" ? (
