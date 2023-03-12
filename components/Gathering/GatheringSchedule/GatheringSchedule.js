@@ -211,7 +211,7 @@ const GatheringSchedule = (props) => {
                 />
                 <div className={styles.GatheringScheduleButtons}>
                     {props.type === "edit" ? (
-                        <button onClick={handleDelete}>
+                        <button onClick={handleDelete} className={styles.delete}>
                             <IconDeleteNoFill />
                         </button>
                     ) : null}

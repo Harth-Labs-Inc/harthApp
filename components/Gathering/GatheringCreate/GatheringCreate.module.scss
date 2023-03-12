@@ -9,14 +9,14 @@
     background-color: transparent;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
+    box-shadow: rgba(180, 180, 180, 0.1) 0px 8px 12px;
     width: 336px;
     height: fit-content;
     border: 0;
     //background-color: $white_80;
     
 
-    background: radial-gradient(circle, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.6) 100%);
+    background: $white_90;
     backdrop-filter: blur(10px);
 
     .Content {
@@ -32,14 +32,14 @@
     
     &Mobile {
         width: 100%;
-        height: fit-content;
+        height: 280px;
         margin-left: auto;
         margin-right: auto;
-        min-height: 260px;
 
         .Content {
-            padding: 28px 12px 28px 12px;
+            padding: 36px 12px 34px 12px;
             //background-color: aqua;
+            height: auto;
         }
         
     }
@@ -119,6 +119,7 @@
         margin: 0;
         padding: 0;
         height: 48px;
+        min-height: 48px;
         border: 0;
         outline: 0;
     }
@@ -220,10 +221,10 @@
     
 
     &.Active {
-        color: $oxygen;
+        color: $white;
 
         path {
-            fill: $oxygen;
+            fill: $white;
         }
         &.voice {
             background-color: $hot_blue;

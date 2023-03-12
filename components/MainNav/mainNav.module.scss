@@ -66,7 +66,7 @@
                     height: 24px;
                     width: 10px;
                     content: "";
-                    background-color: $white;
+                    background-color: $light_ash;
                     border-radius: 9999px;
                 }
             }
@@ -134,7 +134,7 @@
             margin: 0;
             border-radius: 0;
             justify-content: space-evenly;
-            padding: 0px 8px 0px 0px;
+            padding: 4px 8px 0px 0px;
         }
     }
 
@@ -150,7 +150,7 @@
         cursor: pointer;
         user-select: none;
         path {
-            fill: $fuel;
+            fill: $fuel_light;
         }
 
 
@@ -189,17 +189,28 @@
         }
         
 
-        &.Active {
-
-            .Desktop & {
-                background-color: $fuel_5;
+        &.ActiveChat {
+            background-color: $fuel_5;
+            path {
+                fill: $warm_blue;
             }
+            
+        }
 
-            .Mobile & {
-                color: $fuel;
-                background-color: $fuel_5;
-                //border-top: 2px solid $fuel_10;
+        &.ActiveGather {
+            background-color: $fuel_5;
+            path {
+                fill: $warm_neutral;
             }
+            
+        }
+
+        &.ActiveMessage{
+            background-color: $fuel_5;
+            path {
+                fill: $warm_slate;
+            }
+            
         }
 
         .Mobile & {
@@ -207,8 +218,8 @@
             //flex-direction: column;
             //@include titleNavMobile;
             border: 0;
-            height: 56px;
-            width: 56px;
+            height: 44px;
+            width: 68px;
             padding: 0;
             border-radius: 8px;
             //padding-top: 6px;
@@ -221,10 +232,6 @@
                 width: 28px;
             }
 
-            path {
-                fill: $fuel;
-            }
-
         }
         
         .Desktop & {
@@ -234,11 +241,8 @@
             //width: fit-content;
 
             &:hover {
-                color: $fuel;
+                background-color: $fuel_5;
 
-                path {
-                    fill: $fuel;
-                }
             }
 
         }
@@ -253,7 +257,7 @@
         bottom: 0;
         //height: 76px;
         padding: 4px 0px 20px 0px;
-        border-top: 1px solid $fuel_5;
+        border-top: 1px solid $fuel_10;
         background-color: $light_ash;
 
 

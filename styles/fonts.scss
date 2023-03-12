@@ -46,7 +46,7 @@
   font-family: var(--Rubik-font);
   font-weight: 700;
   font-size: 10px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
   line-height: 125%;
   text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
 }
@@ -62,19 +62,19 @@
 
 @mixin topicTitle {
   //font-family: "Work Sans", sans-serif;
-  font-family: var(--Rubik-font);
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.01em;
+  font-family: var(--Montserrat-font);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.02em;
   //line-height: 125%;
   //text-rendering: optimizeLegibility;
 }
 
 @mixin topicTitleActive {
   //font-family: "Work Sans", sans-serif;
-  font-family: var(--Rubik-font);
+  font-family: var(--Montserrat-font);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 0.01em;
   //line-height: 125%;
   //text-rendering: optimizeLegibility;
@@ -82,9 +82,9 @@
 
 @mixin topicTitleMobile {
   //font-family: "Work Sans", sans-serif;
-  font-family: var(--Rubik-font);
-  font-weight: 400;
-  font-size: 18px;
+  font-family: var(--Montserrat-font);
+  font-weight: 500;
+  font-size: 16px;
   letter-spacing: 0.03em;
   //line-height: 125%;
   //text-rendering: optimizeLegibility;
@@ -205,6 +205,15 @@
   font-size: 12px;
   //text-rendering: optimizeLegibility;
 }
+
+@mixin montserrat {
+  font-family: var(--Montserrat-font);
+  font-weight: 400;
+  font-size: 12px;
+  //text-rendering: optimizeLegibility;
+}
+
+
 
 @mixin worksans {
   font-family: var(--Work_Sans-font);

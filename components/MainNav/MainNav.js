@@ -118,7 +118,7 @@ const MainNav = (props) => {
             aria-label="Community Chat"
             className={`
                             ${styles.MainNavPageButton} 
-                            ${currentPage == "chat" && styles.Active}
+                            ${currentPage == "chat" && styles.ActiveChat}
 
                         `}
             onClick={() => {
@@ -147,7 +147,7 @@ const MainNav = (props) => {
             aria-label="Gather"
             className={`
                             ${styles.MainNavPageButton} 
-                            ${currentPage == "gather" ? styles.Active : null} 
+                            ${currentPage == "gather" ? styles.ActiveGather : null} 
                         `}
             onClick={() => {
               changePage("gather");
@@ -175,7 +175,7 @@ const MainNav = (props) => {
             aria-label="Private Messages"
             className={`
                             ${styles.MainNavPageButton} 
-                            ${currentPage == "message" ? styles.Active : null} 
+                            ${currentPage == "message" ? styles.ActiveMessage : null} 
                         `}
             onClick={() => {
               changePage("message");

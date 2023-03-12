@@ -7,11 +7,10 @@
   background-color: transparent;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
+  box-shadow: rgba(180, 180, 180, 0.1) 0px 8px 12px;
   width: 336px;
   min-height: 220px;
-  background: radial-gradient(circle, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.6) 100%);
-  
+  background: $white_90;
   backdrop-filter: blur(10px);
 
 
@@ -293,7 +292,7 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    min-height: 260px;
+    min-height: 280px;
     .Info {
       padding: 24px 0px 0px 16px;
     }
