@@ -128,7 +128,29 @@
 
     &Buttons {
         display: flex;
-        gap: 24px;
+        gap: 16px;
         margin-top: 24px;
+
+        .delete {
+            width: 40px;
+            min-width: 40px;
+            height: 40px;
+            padding: 6px;
+            border: 1px solid $fuel_10;
+            border-radius: 4px;
+            background-color: $fuel_5;
+
+            path {
+                fill: $fuel_20;
+            }
+
+            &:hover {
+                background-color: $fuel_10;
+
+                path {
+                    fill: $fuel_50;
+                }
+            }
+        }
     }
 }
