@@ -32,7 +32,10 @@ const TopBar = ({ children, currentPage }) => {
                 }}
                 profile={profile}
             />
-            <div className={styles.TopBar}>
+            <div className={`
+                    ${styles.TopBar}
+                    ${isMobile && styles.TopBarMobile}
+                    `}>
                 {isMobile ? (
                     <div className={styles.TopBarName}>{selectedcomm?.name}<span className={styles.TopBarSection}>\ {currentPage}</span></div> 
                 ) : null}
@@ -43,7 +46,7 @@ const TopBar = ({ children, currentPage }) => {
                         picSize={isMobile ? 36 : 32}
                         pressHandler={editUserModalHandler}
                         imageSrc={iconKey}
-                        darkBackground={true}
+                        //darkBackground={true}
                         className={styles.avatarDesktop}
                     />
                 </div> 

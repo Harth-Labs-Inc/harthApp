@@ -4,17 +4,17 @@
 .conversation {
     position: relative;
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
     flex-direction: column;
+    //align-items: center;
     height: fit-content;
-    width: 100%;
-    padding: 8px 0px 12px 0px;
+    width: fit-content;
+    padding: 4px 8px 10px 6px;
     border: 0;
-    background-color: transparent;
-    //border: 1px solid red;
-    //color: $warm_blue_highlight;
-    //background-color: aqua;
+    border-radius: 8px;
+    background-color: $white_10;
+    backdrop-filter: blur(12px);
+    margin-bottom: 8px;
+    //margin-right: 16px;
     cursor: pointer;
 
 
@@ -23,10 +23,9 @@
         align-items: center;
         text-align: left;
         @include topicTitle;
-        padding-right: 12px;
-        padding-left: 8px;
-        padding-top: 1px;
+        color: $white_80;
         height: 32px;
+        margin-left: 6px;
         width: fit-content;
 
     }
@@ -59,15 +58,15 @@
             border-radius: 9999px;
 
             &Mobile {
-                height: 40px;
-                width: 40px;
+                height: 44px;
+                width: 44px;
             }
         }
     }
     
 
     &Alert {
-        color: $oxygen;
+        color: $white;
         img {
             opacity: 1;
         }
@@ -77,8 +76,12 @@
 
 
     &Mobile {
+
+        margin-bottom: 16px;
+
         .label {
             @include topicTitleMobile;
+            //font-size: 20px;
         }
 
         
@@ -86,41 +89,31 @@
 
 
     &InActive {
-        background-color: transparent;
+        
         img {
-            opacity: .8;
+            //opacity: .8;
             border: 2px solid $warm_slate;
             //filter: grayscale(100%);
     
         }
 
         .label {
-            color: $oxygen_muted;
+            color: $white_80;
 
         }
 
         &:hover {
-            img {
-                opacity: 1;
-               // filter: none;
-
-        
-            }
-
-            .label {
-                color: $oxygen;
-
-            }
-
+            background-color: $black_50;
         }
 
     }
     &Active {
+        background-color: $black_50;
         
         .label {
-            color: $oxygen;
-            //background-color: $oxygen;
-            font-weight: 700;
+            color: $white;
+            //background-color: $white;
+            font-weight: 600;
         }
 
        img {

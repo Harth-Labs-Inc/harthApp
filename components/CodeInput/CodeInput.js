@@ -15,6 +15,7 @@ const CodeInput = ({ onChange, codeInput }) => {
         characterSelected: styles.CodeInputCharacterSelected,
       }}
       value={codeInput}
+      inputProps={{ inputMode: 'numeric' }}
     />
   );
 };

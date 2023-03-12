@@ -4,16 +4,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2px;
+    padding: 1px;
     background-color: transparent;
-    border: 2px solid transparent;
+    border: 3px solid transparent;
     border-radius: 50%;
     overflow: hidden;
 
     &.AvatarButton {
         cursor: pointer;
         &:hover {
-            border-color: $fuel;
+            border-color: $fuel_light;
         }
 
         &.AvatarDark {

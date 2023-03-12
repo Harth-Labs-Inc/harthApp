@@ -12,6 +12,10 @@
     padding: 24px 24px;
     overflow: auto;
 
+    input {
+        border-radius: 0;
+    }
+
 
     svg {
         width: 216px;

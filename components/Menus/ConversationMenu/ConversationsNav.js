@@ -60,7 +60,7 @@ const ConversationsNav = () => {
                 ${isMobile && styles.ConversationsNavMobile}
                 `}
             >
-                <p className={styles.ConversationsNavTitle}>Conversations</p>
+                <p className={isMobile ? styles.ConversationsNavTitleMobile : styles.ConversationsNavTitle}>Conversations</p>
                 <div className={styles.ConversationsNavContainer}>
                     {conversations &&
                         conversations.map((conversation) => {
