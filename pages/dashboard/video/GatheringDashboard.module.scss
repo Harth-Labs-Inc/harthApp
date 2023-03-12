@@ -2,11 +2,20 @@
 @import "../../../styles/globals.scss";
 
 .gatheringPage {
-    background-color: $ash_ultralight;
+    //position: relative;
+    background-color: $warm_neutral;
     height:100%;
     width: 100%;
     overflow-y: scroll;
     padding: 0px 24px 140px 24px;
+    background-image: url("../../../public/images/background_gather.png");
+    background-repeat: repeat;
+    background-size: 48px;
+    background-position: 16px;
+
+    &Mobile {
+        background-size: 60px;
+    }
 
     .roomContainer {
         display: flex;
@@ -36,7 +45,27 @@
         @include smallTitle;
         padding: 0px 0px 0px 0px;
         text-transform: uppercase;
-        color: $ash;
+        color: $white;
+        //margin-bottom: 8px;
+        //margin-top: 20px;
+
+        // &:after {
+        //     position: absolute;
+        //     bottom: 2px;
+        //     left: 0px;
+        //     height: 1px;
+        //     width: 30px;
+        //     content: "";
+        //     background-color: $ash;
+        // }
+    }
+
+    .gatheringSectionMobile {
+        position: relative;
+        @include smallTitleMobile;
+        padding: 0px 0px 0px 0px;
+        text-transform: uppercase;
+        color: $white;
         //margin-bottom: 8px;
         //margin-top: 20px;
 

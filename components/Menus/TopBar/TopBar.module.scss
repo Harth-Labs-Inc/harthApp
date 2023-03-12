@@ -12,9 +12,9 @@
     width: 100%;
     padding-right: 12px;
     padding-left: 16px;
-    border-bottom: 1px solid $ash_border;
+    border-bottom: 1px solid $fuel_5;
 
-    background-color: $ash;
+    background-color: $light_ash;
     z-index: 10;
 
     .avatarDesktop {
@@ -26,19 +26,23 @@
     }
 
     img {
-        border: 1px solid $black;
+        border: 1px solid $fuel_5;
+    }
+
+    &Mobile {
+        background-color: $light_ash;
     }
 }
 
 .TopBarName {
     @include harthTitle2;
-    color: $oxygen;
+    color: $fuel;
 
 }
 
 .TopBarSection {
     @include harthTitleSmall;
-    color: $oxygen_40;
+    color: $fuel_light;
     text-transform: capitalize;
     margin-left: 8px;
     user-select: none;

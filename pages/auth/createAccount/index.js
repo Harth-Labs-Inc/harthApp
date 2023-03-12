@@ -94,9 +94,10 @@ const CreateAccount = (props) => {
                     <input
                         {...register("dob", { required: true })}
                         type="date"
+                        //placeholder="Your Birthday"
                     />
                     <div className={styles.small}>
-                        Your birthday will not be publically displayed.
+                        Enter your birthday for verification. Your birthday will not be publicly displayed.
                     </div>
 
                     <ErrorMessage

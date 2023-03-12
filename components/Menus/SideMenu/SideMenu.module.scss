@@ -8,8 +8,8 @@
     padding: 8px 0px 0px 0px;
     width: 64px;
     min-width: 64px;
-    background-color: $ash;
-    border-right: 1px solid $ash_border;
+    background-color: $light_ash;
+    border-right: 1px solid $fuel_5;
 
     // .titleHolder {
     //     display: flex;
@@ -38,12 +38,13 @@
         overflow: hidden;
 
         path {
-            fill: $oxygen_20;
+            fill: $fuel_20;
         }
 
 
         &:hover {
-            border: 1px solid $oxygen_10;
+            //border: 1px solid $fuel_10;
+            background-color: $fuel_5;
         }
     }
 
@@ -57,7 +58,7 @@
         align-items: center;
         justify-content: center;
         // background-color: $ash;
-        border-top: 1px solid $ash_border;
+        border-top: 1px solid $fuel_5;
         z-index: 20;
 
         
@@ -75,19 +76,18 @@
         margin-top: 10px;
         cursor: pointer;
         border-radius: 8px;
-        border: 1px solid $oxygen_10;
+        border: 1px solid $fuel_10;
         background: transparent;
 
         path {
-            fill: $oxygen_20;
+            fill: $fuel_20;
         }
 
         &:hover {
             background-color: $black_20;
-            border-color: $oxygen_20;
 
             path {
-                fill: $oxygen_40;
+                fill: $fuel_light;
             }
         }
 

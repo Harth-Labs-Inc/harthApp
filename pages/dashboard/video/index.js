@@ -98,7 +98,10 @@ const Video = (props) => {
   if (socketID) {
     let creator = selectedcomm?.users?.find((usr) => usr?.userId === user?._id);
     return (
-      <section id="gatherings" className={styles.gatheringPage}>
+      <section id="gatherings" className={`
+        ${styles.gatheringPage}
+        ${isMobile && styles.gatheringPageMobile}
+        `}>
         {newEditRoomToggled && (
           <GatheringSchedule
             type="edit"
@@ -151,7 +154,7 @@ const Video = (props) => {
             );
           })}
         </div>
-        <p className={styles.gatheringSection}>UPCOMING</p>
+        <p className={isMobile ? styles.gatheringSectionMobile : styles.gatheringSection}>UPCOMING</p>
         <div className={styles.roomContainer}>
           {(scheduledcallRooms || []).map((room, idx) => {
             let owner = false;

@@ -68,7 +68,7 @@ const rubik = Rubik({
 const coopbl = localFont({
     src: "../public/fonts/COOPBL.ttf",
     variable: "--COOPBL-font",
-    preload: false,
+    preload: true,
 });
 
 fontClassNames.push(coopbl.className);

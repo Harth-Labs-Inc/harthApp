@@ -155,6 +155,39 @@
                     background-color: $fuel;
                     border-radius: 100px;
                 }
+
+                .muteButton {
+                    background-color: transparent;
+                    border: 0;
+                    cursor: pointer;
+
+                    &:before {
+                        font-family: "icomoon";
+                        content: "\e900";
+                        color: $fuel;
+                        font-weight: normal;
+                        font-variant: normal;
+                        text-transform: none;
+                        line-height: 1;
+                        -webkit-font-smoothing: antialiased;
+                    }
+                }
+                .unMuteButton {
+                    background-color: transparent;
+                    border: 0;
+                    cursor: pointer;
+
+                    &:before {
+                        font-family: "icomoon";
+                        content: "\e901";
+                        color: $red;
+                        font-weight: normal;
+                        font-variant: normal;
+                        text-transform: none;
+                        line-height: 1;
+                        -webkit-font-smoothing: antialiased;
+                    }
+                }
             }
 
             .playButton {

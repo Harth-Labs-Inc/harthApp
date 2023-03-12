@@ -181,6 +181,8 @@
                 position: absolute;
                 right: -50%;
                 z-index: 99;
+                display: flex;
+                align-items: center;
                 padding: 4px;
                 border: 2px solid $white_10;
                 background-color: $oxygen_80;
@@ -237,6 +239,39 @@
                     height: 6px;
                     background-color: $fuel;
                     border-radius: 100px;
+                }
+
+                .muteButton {
+                    background-color: transparent;
+                    border: 0;
+                    cursor: pointer;
+
+                    &:before {
+                        font-family: "icomoon";
+                        content: "\e900";
+                        color: $fuel;
+                        font-weight: normal;
+                        font-variant: normal;
+                        text-transform: none;
+                        line-height: 1;
+                        -webkit-font-smoothing: antialiased;
+                    }
+                }
+                .unMuteButton {
+                    background-color: transparent;
+                    border: 0;
+                    cursor: pointer;
+
+                    &:before {
+                        font-family: "icomoon";
+                        content: "\e901";
+                        color: $red;
+                        font-weight: normal;
+                        font-variant: normal;
+                        text-transform: none;
+                        line-height: 1;
+                        -webkit-font-smoothing: antialiased;
+                    }
                 }
             }
 
