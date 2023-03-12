@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 
 import { IconEvent } from "../../../resources/icons/IconEvent";
@@ -13,6 +13,9 @@ import styles from "./GatheringCreate.module.scss";
 const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
   const [activeButton, setActiveButton] = useState("voice");
   const [roomName, setRoomName] = useState("");
+
+  const isScheduleRoom = useRef(false);
+
   const { isMobile } = useContext(MobileContext);
 
   const {
@@ -23,22 +26,28 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
     formState: { errors, isSubmitSuccessful },
   } = useForm();
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset({ roomName: "" });
-    }
-  }, [formState, reset]);
-
   const inputChangeHandler = (e) => {
     const { value } = e.target;
     setRoomName(value);
   };
 
   const createRoomSubmit = (formData) => {
-    createRoomFormSubmit({
-      roomName: formData.roomName,
-      gatheringType: activeButton,
-    });
+    if (isScheduleRoom.current) {
+      createScheduleRoom({
+        roomName: formData.roomName,
+        gatheringType: activeButton,
+      });
+      isScheduleRoom.current = false;
+      reset({ roomName: "" });
+      setActiveButton("voice");
+    } else {
+      createRoomFormSubmit({
+        roomName: formData.roomName,
+        gatheringType: activeButton,
+      });
+      reset({ roomName: "" });
+      setActiveButton("voice");
+    }
   };
 
   return (
@@ -104,16 +113,17 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
             )}
           </div>
         </div>
-        
+
         <div className={styles.GatheringCreateLaunch}>
           <button
             type="button"
             className={` ${styles.GatheringCreateSubmit} ${styles.GatheringCreateSubmitSchedule} `}
             onClick={() => {
-              createScheduleRoom({
-                roomName,
-                gatheringType: activeButton,
-              });
+              isScheduleRoom.current = true;
+              let butt = document.getElementById("submit_button");
+              if (butt) {
+                butt.click();
+              }
             }}
           >
             <IconEvent />
@@ -121,6 +131,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
           </button>
           <button
             type="submit"
+            id="submit_button"
             className={styles.GatheringCreateSubmit}
             // onClick={() =>
             //     createRoomFormSubmit({
