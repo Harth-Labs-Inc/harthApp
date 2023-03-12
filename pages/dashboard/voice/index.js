@@ -859,7 +859,9 @@ const Stream = () => {
         if (parentContainer) {
             const button = document.createElement("button");
             button.id = `${peer?.socketID}_mute-button`;
-            button.textContent = "unmute";
+            button.className = styles.unMuteButton;
+            button.setAttribute("aria-label", `unmute ${peer?.name}`);
+            button.setAttribute("data-title", `unmute ${peer?.name}`);
             button.onclick = function () {
                 const audio = document.getElementById(`${peer?.peerId}_audio`);
                 if (audio) {
@@ -878,7 +880,9 @@ const Stream = () => {
         if (parentContainer) {
             const button = document.createElement("button");
             button.id = `${peer?.socketID}_mute-button`;
-            button.textContent = "mute";
+            button.className = styles.muteButton;
+            button.setAttribute("aria-label", `mute ${peer?.name}`);
+            button.setAttribute("data-title", `mute ${peer?.name}`);
             button.onclick = function () {
                 const audio = document.getElementById(`${peer?.peerId}_audio`);
                 if (audio) {

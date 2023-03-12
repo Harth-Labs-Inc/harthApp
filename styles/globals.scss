@@ -161,12 +161,6 @@ $font-icon: "IcoMoon";
 
 $gutter: 8px;
 
-// .video-parent {
-//   position: relative;
-//   height: 200px;
-//   width: 200px;
-// }
-
 // transitions
 .topicPanelAnimation-enter,
 .editFormAnimation-enter,
@@ -187,4 +181,24 @@ $gutter: 8px;
 .editFormAnimation-exit-done,
 .memberListAnimation-exit-done {
     right: -375px;
+}
+
+.layout {
+    [data-title] {
+        position: relative;
+        &:hover {
+            &:after {
+                position: absolute;
+                top: calc(100% + 5px);
+                left: 50%;
+                z-index: 1;
+                padding: 3px;
+                content: attr(data-title);
+                white-space: nowrap;
+                background-color: $oxygen_80;
+                border: 0;
+                border-radius: 8px;
+            }
+        }
+    }
 }

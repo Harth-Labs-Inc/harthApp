@@ -1,9 +1,14 @@
 @import "../../../../styles/globals.scss";
 @import "../../../../styles/fonts.scss";
 
-
+.CreateNewTopicModal {
+    section {
+        overflow: visible;
+    }
+}
 
 .mainContainer {
+    position: realtive;
     display: flex;
     flex-direction: column;
     width: 300px;
@@ -15,11 +20,15 @@
         margin-top: 8px;
         margin-bottom: 40px;
     }
+    .EmojiPicker {
+        position: absolute;
+        top: 54%;
+        left: 0;
+        z-index: 1;
+    }
 }
 
 .CreateTopic {
-    
-
     .inputHolder {
         position: relative;
         display: flex;
@@ -27,7 +36,6 @@
         gap: 10px;
         padding: 0px 16px;
         margin: 8px 0px 0px 0px;
-        
 
         button {
             position: relative;
@@ -37,7 +45,7 @@
             border-radius: 8px;
             border: 1px solid $fuel_10;
             background-color: transparent;
-    
+
             img {
                 width: 28px;
                 height: 28px;
@@ -79,8 +87,6 @@
         input {
             @include topicTitleActive;
         }
-
-       
     }
 
     .error {
@@ -93,19 +99,12 @@
         margin: auto;
         text-align: center;
         @include subtext;
-
     }
-
-
 
     &Buttons {
         display: flex;
         gap: 16px;
         justify-content: space-between;
         margin-top: 48px;
-
     }
-
-
-
 }

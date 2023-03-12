@@ -113,8 +113,16 @@ export default function CreateNewTopicModal({ toggleModal }) {
     };
 
     return (
-        <Modal onToggleModal={toggleModal}>
+        <Modal
+            onToggleModal={toggleModal}
+            classNames={styles.CreateNewTopicModal}
+        >
             <div className={styles.mainContainer}>
+                <EmojiPicker
+                    dynamicWidth
+                    emojiButtonSize={24}
+                    className={styles.EmojiPicker}
+                />
                 <div className={styles.title}>New topic</div>
                 <form
                     className={styles.CreateTopic}
@@ -122,7 +130,6 @@ export default function CreateNewTopicModal({ toggleModal }) {
                 >
                     <div className={styles.inputHolder}>
                         <button type="button" onClick={toggleEmojiPicker}>
-                            <EmojiPicker />
                             {Emoji ? (
                                 <p>{Emoji}</p>
                             ) : (
