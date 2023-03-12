@@ -30,21 +30,18 @@ export default async (req, res) => {
                     to: email,
                     subject: subject,
                     html: `  <div style="height: 600px; width: 355px; margin: 50px auto">
-          <h3
+          <div
             style="
               background: #2f1d2a;
               padding: 0%;
               height: 120px;
               text-align: center;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
               color: white;
               margin: 0;
             "
           >
-            Harth
-          </h3>
+            <p style="margin: auto; line-height: 120px; font-size: 35.5px">Härth</p>
+          </div>
           <div style="">
             <p
               style="
