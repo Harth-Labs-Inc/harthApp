@@ -87,10 +87,11 @@ const Layout = ({ title, children }) => {
         <meta name="theme-color" content="#fbfbfb" />
         
         <meta name="apple-mobile-web-app-title" content="Härth" />
-        <meta name="apple-mobile-web-app-capable" content="yes"></meta>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
 
-
-        
+        {/* WE NEED THIS LINE FOR A MOBILE PWA. BUT IT CAUSES ALIGNMENT ISSUES
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+         */}
       </Head>
       {children}
     </>

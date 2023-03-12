@@ -3,26 +3,56 @@
 
 .ConversationsNav {
     position: relative;
-    width: 260px;
-    min-width: 260px;
+    width: 230px;
+    min-width: 230px;
     padding: 20px 0px 0px 24px;
     //background-color: $warm_blue_light;
     background-color: $warm_slate;
     height: 100%;
     overflow-y: scroll;
 
+    background-image: url("../../../public/images/background_message.png");
+    background-repeat: repeat;
+    background-size: 48px;
+    background-position: 16px;
+
     &Mobile {
         width: 100%;
+        background-size: 56px;
         padding: 16px 0px 24px 24px;
     }
 
     &Title {
         position: relative;
         @include smallTitle;
-        padding: 0px 0px 6px 0px;
+        padding: 0px 0px 8px 0px;
         text-transform: uppercase;
-        color: $oxygen;
+        color: $white;
         user-select: none;
+        margin-bottom: 6px;
+
+        // &:after {
+        //     position: absolute;
+        //     bottom: 2px;
+        //     left: 0px;
+        //     height: 1px;
+        //     width: 30px;
+        //     content: "";
+        //     background-color: $ash;
+        // }
+
+    }
+
+    &TitleMobile {
+        position: relative;
+        @include smallTitleMobile;
+        padding: 0px 0px 8px 0px;
+        text-transform: uppercase;
+        color: $white;
+        user-select: none;
+        margin-bottom: 12px;
+        margin-top: 8px;
+
 
         // &:after {
         //     position: absolute;
@@ -41,7 +71,7 @@
         @include smallTitle;
         padding: 0px 0px 6px 0px;
         text-transform: uppercase;
-        color: $oxygen_muted;
+        color: $white_80;
         border: 0;
         background: transparent;
         cursor: pointer;
@@ -49,11 +79,11 @@
         user-select: none;
 
         &:hover {
-            color: $oxygen;
+            color: $white;
         }
 
         &Active {
-            color: $oxygen;
+            color: $white;
 
             // &:after {
             //     position: absolute;
@@ -78,8 +108,8 @@
     &Create {
         position: relative;
         padding: 0px 0px;
-        margin-top: 8px;
-        margin-left: 4px;
+        margin-top: 10px;
+        margin-left: 10px;
         margin-bottom: 24px;
         button {
             display: flex;
@@ -92,8 +122,10 @@
             width: fit-content;
             border-radius:99px;
             padding: 4px 4px;
-            border: 1px solid $oxygen_10;
-            //background-color: $white;
+            border: 1px solid $white_10;
+
+            background-color: $white_10;
+            backdrop-filter: blur(12px);
            
 
             .iconHolder {
@@ -102,17 +134,17 @@
                 width: 18px;
 
                 path {
-                    fill: $oxygen_20;
+                    fill: $white_20;
                 }
             }
 
             &:hover {
-                background-color: $black_10;
-                border-color: $oxygen_20;
+                background-color: $black_50;
+                border-color: $white_20;
                 .iconHolder {
 
                     path {
-                        fill: $oxygen_40;
+                        fill: $white_50;
                     }
                 }
 
@@ -123,8 +155,8 @@
     &CreateMobile {
         position: relative;
         padding: 0px;
-        margin-left: 2px;
-        margin-top: 16px;
+        margin-left: 6px;
+        margin-top: 20px;
         margin-bottom: 32px;
         //background-color: aqua;
         button {
@@ -137,19 +169,21 @@
             height: fit-content;
             width: fit-content;
             border-radius: 99px;
-            padding: 5px 5px;
-            border: 1px solid $oxygen_10;
+            padding: 6px 6px;
+            border: 1px solid $white_10;
             //background-color: $white;
+            background-color: $white_10;
+            backdrop-filter: blur(12px);
            
 
             .iconHolder {
                 display: flex;
-                height: 24px;
-                width: 24px;
-                padding: 2px;
+                height: 28px;
+                width: 28px;
+                padding: 1px;
 
                 path {
-                    fill: $oxygen_20;
+                    fill: $white_20;
                 }
             }
 
@@ -158,7 +192,7 @@
                 .iconHolder {
 
                     path {
-                        fill: $oxygen_muted;
+                        fill: $white_80;
                     }
                 }
 

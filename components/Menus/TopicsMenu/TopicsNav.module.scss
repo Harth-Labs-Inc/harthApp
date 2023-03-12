@@ -12,10 +12,13 @@
     //border-right: 1px solid $fuel_5;
     background-image: url("../../../public/images/background_chat.png");
     background-repeat: repeat;
-    background-size: 16%;
+    background-size: 48px;
+    background-position: 16px;
 
     &Mobile {
         width: 100%;
+        background-size: 56px;
+
         padding: 16px 0px 24px 24px;
     }
 
@@ -27,6 +30,30 @@
         color: $oxygen;
         //margin-bottom: 8px;
         user-select: none ;
+        margin-bottom: 6px;
+
+        // &:after {
+        //     position: absolute;
+        //     bottom: 2px;
+        //     left: 0px;
+        //     height: 1px;
+        //     width: 30px;
+        //     content: "";
+        //     background-color: $fuel;
+        // }
+
+    }
+
+    &TitleMobile {
+        position: relative;
+        @include smallTitleMobile;
+        padding: 0px 0px 8px 0px;
+        text-transform: uppercase;
+        color: $oxygen;
+        //margin-bottom: 8px;
+        user-select: none ;
+        margin-top: 8px;
+        margin-bottom: 12px;
 
         // &:after {
         //     position: absolute;

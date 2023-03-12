@@ -1,6 +1,6 @@
 {
-  "short_name": "H&auml;rth",
-  "name": "H&auml;rth",
+  "short_name": "Härth",
+  "name": "Härth",
   "orientation": "portrait",
   "description": "",
   "icons": [
@@ -64,8 +64,9 @@
 
   "start_url": "https://harth.vercel.app/",
 
-  "background_color": "#fcfff6",
+  "background_color": "#ffffff",
   "display": "fullscreen",
   "scope": "/",
-  "theme_color": "#2e1d29"
+  "theme_color": "#ffffff"
+  
 }

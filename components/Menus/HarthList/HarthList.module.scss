@@ -17,10 +17,15 @@
         position: relative;
         display: flex;
         width: 100%;
-        padding: 6px;
+        height: 56px;
+        //padding: 6px;
+        padding-top: 2px;
         justify-content: center;
+        align-items: center;
         //border: 3px solid $fuel_light;
         //background-color: aqua;
+        border-left: 2px solid transparent;
+        border-right: 2px solid transparent;
 
         &Button {
             position: relative;
@@ -50,6 +55,7 @@
 
         &Active {
             background-color: $fuel_10;
+            border-left: 2px solid $fuel_light;
 
         }
 

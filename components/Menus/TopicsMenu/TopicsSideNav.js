@@ -254,7 +254,7 @@ const TopicsNav = (props) => {
                 ${isMobile && styles.TopicsNavMobile}
                 `}
             >
-                <p className={styles.TopicsNavTitle}>Topics</p>
+                <p className={isMobile ? styles.TopicsNavTitleMobile : styles.TopicsNavTitle}>Topics</p>
                 <div className={styles.TopicsNavContainer}>
                     {topicsArr &&
                         topicsArr.map((topic) => {

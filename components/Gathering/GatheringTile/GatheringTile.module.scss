@@ -10,7 +10,9 @@
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
   width: 336px;
   min-height: 220px;
-
+  background: radial-gradient(circle, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.6) 100%);
+  
+  backdrop-filter: blur(10px);
 
 
   &Label {
@@ -90,7 +92,7 @@
   .Info {
     width: 100%;
     padding: 20px 0px 0px 16px;
-    background-color: $oxygen;
+    //background-color: $white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -146,7 +148,7 @@
       font-weight: 500;;
       letter-spacing: 0.06em;
       padding: 9px 12px;
-      color: $oxygen;
+      color: $white;
       background-color: $fuel;
       border-radius: 9999px;
       user-select: none;
@@ -180,7 +182,7 @@
       border-radius: 999px;
       margin-right: -6px;
       padding: 0;
-      border: 2px solid $oxygen;
+      border: 2px solid $white;
 
       img {
         position: relative;
@@ -200,7 +202,7 @@
       border-radius: 999px;
       margin-right: -6px;
       padding: 0;
-      border: 2px solid $oxygen;
+      border: 2px solid $white;
       background-color: $warm_blue;
       color: $fuel_50;
       @include rubik;
@@ -234,9 +236,10 @@
     justify-content: flex-end;
     margin-top: 28px;
     width: 100%;
+    height: 40px;
 
     &Edit {
-      height: 36px;
+      height: 100%;
       width: 60px;
       padding: 9px;
       //margin-right: 24px;
@@ -246,13 +249,13 @@
       //border-top-right-radius: 8px;
       cursor: pointer;
       svg path {
-        fill: $oxygen;
+        fill: $white;
       }
 
       &:hover {
         background-color: $warm_blue;
         svg path {
-          fill: $oxygen;
+          fill: $white;
         }
       }
     }
@@ -265,7 +268,8 @@
       padding: 11px 0px;
       border-top-left-radius: 24px;
       width: 136px;
-      color: $oxygen;
+      height: 100%;
+      color: $white;
       background-color: $fuel;
       border: 0;
       cursor: pointer;
@@ -286,7 +290,7 @@
   }
 
   &Mobile {
-    width: 90%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     min-height: 260px;

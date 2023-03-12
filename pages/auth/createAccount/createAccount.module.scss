@@ -25,6 +25,10 @@
         height: 695px;
         max-width: 340px;
         margin: auto;
+
+        input {
+            border-radius: 0;
+        }
     }
 
     &Disclaimer {
