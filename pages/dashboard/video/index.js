@@ -98,10 +98,13 @@ const Video = (props) => {
   if (socketID) {
     let creator = selectedcomm?.users?.find((usr) => usr?.userId === user?._id);
     return (
-      <section id="gatherings" className={`
+      <section
+        id="gatherings"
+        className={`
         ${styles.gatheringPage}
         ${isMobile && styles.gatheringPageMobile}
-        `}>
+        `}
+      >
         {newEditRoomToggled && (
           <GatheringSchedule
             type="edit"
@@ -119,6 +122,7 @@ const Video = (props) => {
             harthName={selectedcomm.name}
             creator={selectedcomm.users.find((usr) => usr.userId === user._id)}
             closeHandler={() => setNewRoomToggled(false)}
+            room={newRoomData}
           />
         )}
         {/* <p className={styles.gatheringSection}>Now</p> */}
@@ -154,7 +158,13 @@ const Video = (props) => {
             );
           })}
         </div>
-        <p className={isMobile ? styles.gatheringSectionMobile : styles.gatheringSection}>UPCOMING</p>
+        <p
+          className={
+            isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
+          }
+        >
+          UPCOMING
+        </p>
         <div className={styles.roomContainer}>
           {(scheduledcallRooms || []).map((room, idx) => {
             let owner = false;
@@ -193,6 +203,7 @@ const Video = (props) => {
           harthName={selectedcomm.name}
           creator={selectedcomm.users.find((usr) => usr.userId === user._id)}
           closeHandler={() => setNewRoomToggled(false)}
+          room={newRoomData}
         />
       )}
       {/* <p className={styles.gatheringSection}>NOW</p> */}
