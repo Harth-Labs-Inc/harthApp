@@ -681,7 +681,9 @@ const Stream = () => {
         }
     };
     const createCapture = (incomingStream, peer, isPaused) => {
-        const parentContainer = document.getElementById("peerContainer");
+        const parentContainer = document.getElementById(
+            "stream-window-container"
+        );
         const videoContainer = document.createElement("div");
         const video = document.createElement("video");
         videoContainer.className = styles.videoContainer;
