@@ -1072,8 +1072,8 @@ const Stream = () => {
                     id="video-container"
                 >
                     <section
-                        style={{ width: "25%" }}
                         id="leftcontainer"
+                        className={styles.leftContainer}
                     ></section>
 
                     <section

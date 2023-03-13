@@ -44,6 +44,10 @@
         height: calc(100% - 108px);
         width: 100%;
 
+        .leftContainer {
+            width: 220px;
+        }
+
         .peerContainer {
             display: flex;
             flex-wrap: wrap;
