@@ -24,13 +24,16 @@ $warm_blue_highlight: #5c6676;
 $warm_slate: #2f6067;
 
 //Warm Neutral
-$warm_neutral: #7e4646;
+$warm_neutral: #a88989;
+//$warm_neutral: #7e4646;
 
 // White
 $white: #ffffff;
 $white_90: rgba(255, 255, 255, 0.9);
 $white_80: rgba(255, 255, 255, 0.8);
 $white_50: rgba(255, 255, 255, 0.5);
+$white_40: rgba(255, 255, 255, 0.4);
+$white_30: rgba(255, 255, 255, 0.3);
 $white_20: rgba(255, 255, 255, 0.2);
 $white_10: rgba(255, 255, 255, 0.1);
 $white_5: rgba(255, 255, 255, 0.05);
@@ -82,15 +85,18 @@ $fuel_dark: #100a0e;
 $fuel_light: #776071;
 
 // Hot Blue
-$hot_blue: rgb(13, 161, 181, 1);
+$hot_blue: lighten(rgb(13, 161, 181, 1), 10%);
 $hot_blue_80: rgb(13, 161, 181, 0.8);
+$hot_blue_20: rgb(13, 161, 181, 0.2);
 
 // Hot Green
 $hot_green: #00a396;
 $hot_green_80: rgb(0, 163, 150, 0.8);
+
 // Hot Purple
 $hot_purple: #bb7ec4;
 $hot_purple_80: rgba(187, 126, 196, 0.8);
+$hot_purple_20: rgba(187, 126, 196, 0.2);
 
 // Hot Pink
 $hot_pink: #d96fab;

@@ -27,7 +27,7 @@ const GatheringTileControls = ({
                 text={cardType === "schedule" ? "Drop" : "Leave"}
                 onClick={handleDropRoom}
                 //tier="secondary"
-                className={styles.GatheringTileActionBarSubmit}
+                className={` ${styles.GatheringTileActionBarSubmit} ${styles.GatheringTileActionBarSubmitActive}`}
             >
                 {cardType === "schedule" ? "Drop" : "Leave"}
             </button>

@@ -7,11 +7,11 @@
   background-color: transparent;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: rgba(180, 180, 180, 0.1) 0px 8px 12px;
+  box-shadow: rgba(180, 180, 180, 0.4) 0px 8px 12px;
   width: 336px;
-  min-height: 220px;
-  background: $white_90;
-  backdrop-filter: blur(10px);
+  min-height: 230px;
+  background: $light_ash;
+  border: 0;
 
 
   &Label {
@@ -21,7 +21,8 @@
     align-items: center;
     width: 56px;
     min-width: 56px;
-    background-color: $fuel;
+    //background-color: $fuel;
+    
     padding: 8px 0 0 0;
     border: 0;
     outline: 0;
@@ -43,24 +44,24 @@
       margin-left: 2px;
     }
     .party & {
-      color: $hot_purple_80;
-      background-color: $fuel;
+      color: $white_40;
+      background: linear-gradient(to top left, $hot_purple_20, $hot_purple_80);
       svg path {
-        fill: $hot_purple_80;
+        fill: $white_40;
       }
     }
     .stream & {
-      color: $hot_red_80;
-      background-color: $fuel;
+      color: $white_40;
+      background: linear-gradient(to top left, $hot_red_20, $hot_red_80);
       svg path {
-        fill: $hot_red_80;
+        fill: $white_40;
       }
     }
     .voice & {
-      color: $hot_blue_80;
-      background-color: $fuel;
+      color: $white_40;
+      background: linear-gradient(to top left, $hot_blue_20, $hot_blue_80);
       svg path {
-        fill: $hot_blue_80;
+        fill: $white_40;
       }
     }
 
@@ -90,11 +91,13 @@
 
   .Info {
     width: 100%;
+    flex: 1;
     padding: 20px 0px 0px 16px;
     //background-color: $white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    //border: 2px solid $white;
   }
 
 
@@ -243,8 +246,9 @@
       padding: 9px;
       //margin-right: 24px;
       border: 0;
-      background-color: $fuel;
+      background-color: $fuel_light;
       border-top-left-radius: 24px;
+      border-bottom-right-radius: 24px;
       //border-top-right-radius: 8px;
       cursor: pointer;
       svg path {
@@ -260,20 +264,17 @@
     }
 
     &Submit {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: fit-content;
-      padding: 11px 0px;
+      
       border-top-left-radius: 24px;
       width: 136px;
       height: 100%;
       color: $white;
-      background-color: $fuel;
+      background-color: $fuel_light;
       border: 0;
+      outline: 0;
       cursor: pointer;
       @include worksans;
-      font-size: 13px;
+      font-size: 14px;
       letter-spacing: 0.02em;
       font-weight: 500;
       text-align: center;
@@ -284,6 +285,21 @@
 
       &:hover {
           background-color: $warm_blue;
+      }
+
+      &Active {
+      .party & {
+        background-color: $hot_purple_80;
+        color: $white; 
+      }
+      .stream & {
+        background-color: $hot_red;
+        color: $fuel_90; 
+      }
+      .voice & {
+        background-color: $hot_blue;
+        color: $fuel_90; 
+      }
       }
     }
   }
