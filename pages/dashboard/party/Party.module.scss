@@ -36,12 +36,14 @@
             // border: 4px yellow solid;
 
             &.peerContainerChatOpen {
-                width: calc(100% - 420px);
+                &:not(.peerContainerActive) {
+                    width: calc(100% - 420px);
+                }
             }
 
             &Active {
-                width: 140px;
-                min-width: 140px;
+                width: 160px;
+                min-width: 160px;
                 flex-wrap: wrap;
                 flex-direction: column;
                 justify-content: flex-start;
