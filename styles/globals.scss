@@ -192,6 +192,14 @@ $gutter: 8px;
     right: -375px;
 }
 
+.modalTransition-appear {
+    opacity: 0.01;
+}
+.modalTransition-appear.modalTransition-active {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+}
+
 .layout {
     [data-title] {
         position: relative;

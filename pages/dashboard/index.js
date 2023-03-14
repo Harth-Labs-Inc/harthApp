@@ -10,6 +10,8 @@ import { SocketProvider } from "../../contexts/socket";
 import { ChatProvider } from "../../contexts/chat";
 import { useAuth } from "../../contexts/auth";
 
+import TransitionLayout from "../../components/Transitions";
+
 const DashboardLayout = dynamic(
     () => import("../../components/DashboardLayout/DashboardLayout"),
     {
@@ -269,7 +271,9 @@ const dashboard = (props) => {
                                 }
                                 user={user}
                             >
+                                {/* <TransitionLayout> */}
                                 {page}
+                                {/* </TransitionLayout> */}
                             </DashboardLayout>
                         </SocketProvider>
                     </ChatProvider>
