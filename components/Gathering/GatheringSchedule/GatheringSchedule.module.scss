@@ -89,6 +89,7 @@
             &:first-of-type {
                 &.Active {
                     background-color: $hot_blue;
+                    //background: linear-gradient(to right, $hot_blue, $fuel 400%);
                     color: $white;
                     span {
                         background-color: $white;

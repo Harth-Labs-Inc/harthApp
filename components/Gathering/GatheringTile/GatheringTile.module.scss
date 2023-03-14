@@ -47,40 +47,40 @@
       margin-left: 2px;
     }
     .party & {
-      background: linear-gradient(to right, $hot_purple 10%, $fuel 200%);
+      background: linear-gradient(to right, $hot_purple, $fuel 400%);
       
       svg path {       
         fill: $fuel_20;
       }
     }
     .stream & {
-      background: linear-gradient(to right, $hot_red, $fuel 200%);
+      background: linear-gradient(to right, $hot_red, $fuel 400%);
       svg path {
         fill: $fuel_20;
       }
     }
     .voice & {
-      background: linear-gradient(to right, $hot_blue, $fuel 200%);
+      background: linear-gradient(to right, $hot_blue, $fuel 400%);
       svg path {
         fill: $fuel_20;
       }
     }
 
     .partyActive & {
-      background: linear-gradient(to right, $hot_purple, $fuel 200%);
+      background: linear-gradient(to right, $hot_purple, $fuel 400%);
       
       svg path {       
         fill: $fuel_20;
       }
     }
     .streamActive & {
-      background: linear-gradient(to right, $hot_red, $fuel 200%);
+      background: linear-gradient(to right, $hot_red, $fuel 400%);
       svg path {
         fill: $fuel_20;
       }
     }
     .voiceActive & {
-      background: linear-gradient(to right, $hot_blue, $fuel 200%);
+      background: linear-gradient(to right, $hot_blue, $fuel 400%);
       svg path {
         fill: $fuel_20;
       }
