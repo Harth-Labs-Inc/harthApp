@@ -78,7 +78,7 @@ const HarthList = ({
                             className={`
             ${styles.Item}
             ${active ? styles.ItemActive : null}
-            ${newMessage && !active ? styles.ItemUnreadMessage : null}
+            ${!newMessage && !active ? styles.ItemUnreadMessage : null}
           `}
                             key={com?._id}
                             id={com._id}

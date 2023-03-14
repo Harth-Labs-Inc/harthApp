@@ -10,6 +10,7 @@ import { MobileContext } from "../../../contexts/mobile";
 import GatheringTileControls from "./GatheringTileControls";
 import styles from "./GatheringTile.module.scss";
 
+
 export const GatheringTile = (props) => {
     const [isInRoom, setIsInRoom] = useState(false);
     const {
@@ -100,16 +101,21 @@ export const GatheringTile = (props) => {
                 <div className={styles.GatheringTileLabelIcon}>
                     <Icon />
                 </div>
-                <div className={styles.GatheringTileLabelText}>
-                    {room.gatheringType}
-                </div>
             </div>
 
             <div className={styles.Info}>
-                <p className={styles.GatheringTileName}>{room.roomName}</p>
-
+                <div>
+                    <div className={styles.GatheringTileType}>
+                        <div className={styles.iconHolder}><Icon /></div>
+                        <p className={styles.roomTitle}>{room.gatheringType}</p> 
+                    </div>
+                    <p className={styles.GatheringTileName}>{room.roomName}</p>
+                    
+                </div>
+                
                 <div className={styles.GatheringTileInfoStructure}>
                     <div className={styles.GatheringTileScheduled}>
+                        
                         {cardType === "schedule" ? (
                             <>
                                 <div>

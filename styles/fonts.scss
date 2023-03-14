@@ -199,6 +199,16 @@
   color: $oxygen;
 }
 
+@mixin roomTitle {
+  font-family: var(--Montserrat-font);
+  font-weight: 900;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  line-height: 125%;
+  //text-rendering: optimizeLegibility;
+}
+
+
 @mixin rubik {
   font-family: var(--Rubik-font);
   font-weight: 400;
@@ -297,7 +307,7 @@
 }
 
 @mixin contentH1 {
-  font-family: var(--Rubik-font);
+  font-family: var(--Montserrat-font);
   font-weight: 900;
   font-size: 24px;
   letter-spacing: -0.02em;

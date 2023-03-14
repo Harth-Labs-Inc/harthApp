@@ -12,12 +12,12 @@
     //border-right: 1px solid $fuel_5;
     background-image: url("../../../public/images/background_chat.png");
     background-repeat: repeat;
-    background-size: 48px;
-    background-position: 16px;
+    background-size: 36px;
+    background-position: 16px 16px;
 
     &Mobile {
         width: 100%;
-        background-size: 56px;
+        background-size: 48px;
 
         padding: 16px 0px 24px 24px;
     }
@@ -101,7 +101,7 @@
     &Container {
         position: relative;
         margin: 0;
-        padding: 0px 0 80px 0;
+        padding: 0px 0 80px 0px;
         overflow: scroll;
         gap: 0px;
         //background-color: aquamarine;
@@ -113,30 +113,23 @@
     &Create {
         position: relative;
         padding: 0px 0px;
-        margin-top: 8px;
-        margin-left: 4px;
+        margin-top: 16px;
+        margin-left: 0px;
         margin-bottom: 24px;
         button {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            background: transparent;
             border: 0;
             cursor: pointer;
-            height: fit-content;
-            width: fit-content;
+            height: 32px;
+            width: 32px;
             border-radius: 8px;
-            padding: 4px 4px;
-            border: 1px solid $white_10;
-            background-color: $white_5;
+            background-color: $black_10;
             backdrop-filter: blur(8px);
            
 
             .iconHolder {
-                display: flex;
                 height: 18px;
                 width: 18px;
-
+                margin: auto;
                 path {
                     fill: $white_20;
                 }
@@ -159,31 +152,26 @@
     &CreateMobile {
         position: relative;
         padding: 0px;
-        margin-left: 5px;
-        margin-top: 16px;
+        margin-left: 0px;
+        margin-top: 28px;
         margin-bottom: 32px;
+        
         //background-color: aqua;
         button {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            background: transparent;
             border: 0;
             cursor: pointer;
-            height: fit-content;
-            width: fit-content;
+            height: 40px;
+            width: 40px;
             border-radius: 8px;
-            padding: 5px 5px;
-            border: 1px solid $white_10;
-            background-color: $white_5;
+            background-color: $black_10;
             backdrop-filter: blur(8px);
            
 
             .iconHolder {
-                display: flex;
                 height: 24px;
                 width: 24px;
                 padding: 2px;
+                margin: auto;
 
                 path {
                     fill: $white_20;

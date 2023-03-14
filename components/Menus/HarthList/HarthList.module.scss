@@ -54,37 +54,26 @@
         }
 
         &Active {
-            background-color: $fuel_5;
-            border-left: 2px solid $fuel_light;
+            background-color: $fuel_3;
+            border-left: 2px solid $fuel;
 
         }
 
 
 
         &:hover {
-            background-color: $fuel_5;
+            background-color: $fuel_3;
         }
 
         &UnreadMessage {
             position: relative;
-            &:before {
-                position: absolute;
-                top: 16px;
-                left: 8px;
-                z-index: 2;
-                height: 14px;
-                width: 4px;
-                content: "";
-                background-color: $light_ash;
-                border-radius: 9999px;
-            }
             &:after {
                 position: absolute;
-                top: 13px;
-                left: 5px;
+                top: 22px;
+                left: 4px;
                 z-index: 1;
-                height: 20px;
-                width: 10px;
+                height: 12px;
+                width: 4px;
                 content: "";
                 background-color: $hot_salmon;
                 border-radius: 9999px;
@@ -119,7 +108,7 @@
 .HarthListMobile {
     display: flex;
     flex-direction: column;
-    padding: 8px 12px 64px 12px;
+    padding: 8px 4px 64px 12px;
     row-gap: 4px;
     width: 100%;
     //height: 100%;
@@ -182,27 +171,19 @@
         }
 
         &Active {
-            &::after {
-                position: absolute;
-                left: -4px;
-                content: " ";
-                height: 32px;
-                width: 4px;
-                border-radius: 999px;
-                background-color: $oxygen;
-
-            }
+            background-color: $white_5;
         }
 
         &Name {
             width: 100%;
-            color: $oxygen;
+            color: $white;
             margin-left: 4px;
             text-align: left;
+            vertical-align: top;
         }
 
         &:hover {
-            background-color: $oxygen_10;
+            background-color: $white_5;
         }
 
         &SettingsButton {
@@ -217,10 +198,12 @@
             padding: 7px;
             border: 0;
             background: transparent;
+            margin-right: 8px;
             
             path {
                 fill: $oxygen_20;
             }
+
             
         }
 
@@ -228,26 +211,16 @@
             position: relative;
             &:before {
                 position: absolute;
-                top: 19px;
-                left: 5px;
+                top: 22px;
+                left: -8px;
                 z-index: 2;
-                height: 18px;
-                width: 6px;
+                height: 16px;
+                width: 4px;
+                border-radius: 99px;
                 content: "";
-                background-color: $oxygen;
-                border-radius: 9999px;
+                background-color: $hot_salmon_light;
             }
-            &:after {
-                position: absolute;
-                top: 16px;
-                left: 2px;
-                z-index: 1;
-                height: 24px;
-                width: 12px;
-                content: "";
-                background-color: $ash;
-                border-radius: 9999px;
-            }
+
         }
     }
 

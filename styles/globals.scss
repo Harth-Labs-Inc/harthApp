@@ -81,13 +81,14 @@ $fuel_10: rgba(47, 29, 42, 0.1);
 $fuel_7: rgba(47, 29, 42, 0.07);
 $fuel_10F: #eae8e9;
 $fuel_5: rgba(47, 29, 42, 0.05);
+$fuel_3: rgba(47, 29, 42, 0.03);
 $fuel_dark: #100a0e;
 $fuel_light: #776071;
 
 // Hot Blue
-$hot_blue: lighten(rgb(13, 161, 181, 1), 10%);
+$hot_blue: #0D83B5;
 $hot_blue_80: rgb(13, 161, 181, 0.8);
-$hot_blue_20: rgb(13, 161, 181, 0.2);
+$hot_blue_10: rgb(13, 161, 181, 0.1);
 
 // Hot Green
 $hot_green: #00a396;
@@ -96,7 +97,7 @@ $hot_green_80: rgb(0, 163, 150, 0.8);
 // Hot Purple
 $hot_purple: #bb7ec4;
 $hot_purple_80: rgba(187, 126, 196, 0.8);
-$hot_purple_20: rgba(187, 126, 196, 0.2);
+$hot_purple_10: rgba(187, 126, 196, 0.1);
 
 // Hot Pink
 $hot_pink: #d96fab;
@@ -105,15 +106,17 @@ $hot_pink_80: rgba(217, 111, 171, 0.8);
 $hot_pink_90: rgba(217, 111, 171, 0.9);
 
 // Hot Orange
-$hot_orange: #ffa773;
+$hot_orange: #F99052;
+$hot_orange_80: rgba(249, 144, 82, 0.8);
+$hot_orange_10: rgba(249, 144, 82, 0.1);
 // Hot Red
-$hot_red: #f06573;
-$hot_red_20: rgba(240, 101, 115, 0.2);
+$hot_red: #f15363;
+$hot_red_10: rgba(240, 101, 115, 0.1);
 $hot_red_80: rgba(240, 101, 115, 0.8);
 
 $hot_salmon: #ff8682;
 $hot_salmon_dark: darken($hot_salmon, 63%);
-$hot_salmon_light: #fabfbd;
+$hot_salmon_light: lighten($hot_salmon, 5%);
 
 // ========================
 // System
