@@ -1,12 +1,11 @@
 import { useEffect, useState, useRef } from "react";
+import ReactCSSTransitionGroup from "react-transition-group";
 
 import OutsideClickHandler from "./OutsideClick";
 import styles from "./Modal.module.scss";
 
 export const Modal = (props) => {
-    const [transitionClass, setTransitionClass] = useState();
     const {
-        show,
         children,
         id,
         onToggleModal,
@@ -18,21 +17,16 @@ export const Modal = (props) => {
 
     const ref = useRef();
 
-    useEffect(() => {
-        setTimeout(() => {
-            setTransitionClass("modal_open");
-        }, 4);
-    }, [show]);
-
     const closeModal = () => {
         onToggleModal();
     };
 
     return (
-        <div
-            id={id}
-            className={`${styles.Modal} ${classNames} ${transitionClass}`}
-        >
+        // <ReactCSSTransitionGroup
+        //     transitionName="modalTransition"
+        //     transitionAppear={true}
+        // >
+        <div id={id} className={`${styles.Modal} ${classNames}`}>
             <OutsideClickHandler
                 onClickOutside={closeModal}
                 onFocusOutside={closeModal}
@@ -50,5 +44,6 @@ export const Modal = (props) => {
                 </section>
             </OutsideClickHandler>
         </div>
+        // </ReactCSSTransitionGroup>
     );
 };

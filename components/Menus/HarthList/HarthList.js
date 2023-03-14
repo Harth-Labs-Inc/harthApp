@@ -141,7 +141,7 @@ const HarthList = ({
                                 ) : null}
                             </li>
                             {modal ? (
-                                <Modal onToggleModal={showModal}>
+                                <Modal onToggleModal={() => {}}>
                                     <HarthSettings
                                         communityName={selectedcomm?.name}
                                         communityId={selectedcomm?._id}
