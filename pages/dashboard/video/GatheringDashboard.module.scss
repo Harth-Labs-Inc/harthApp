@@ -4,17 +4,18 @@
 .gatheringPage {
     //position: relative;
     background-color: $warm_neutral;
+
     height:100%;
     width: 100%;
     overflow-y: scroll;
     padding: 0px 24px 140px 24px;
     background-image: url("../../../public/images/background_gather.png");
     background-repeat: repeat;
-    background-size: 48px;
-    background-position: 16px;
+    background-size: 36px;
+    background-position: 16px 16px;
 
     &Mobile {
-        background-size: 60px;
+        background-size: 48px;
     }
 
     .roomContainer {
@@ -23,7 +24,7 @@
         gap: 24px;
         margin-bottom: 40px;
         margin-top: 24px;
-        
+        //background-color: aqua;
         //justify-content: center;
 
         &ActiveList {
@@ -38,6 +39,7 @@
     .roomHolderMobile {
         //background-color: aqua;
         width: 100%;
+        padding: 0px 8px;
     }
 
     .gatheringSection {
@@ -45,7 +47,7 @@
         @include smallTitle;
         padding: 0px 0px 0px 0px;
         text-transform: uppercase;
-        color: $white;
+        color: $fuel;
         //margin-bottom: 8px;
         //margin-top: 20px;
 
@@ -65,7 +67,7 @@
         @include smallTitleMobile;
         padding: 0px 0px 0px 0px;
         text-transform: uppercase;
-        color: $white;
+        color: $fuel;
         //margin-bottom: 8px;
         //margin-top: 20px;
 

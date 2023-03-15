@@ -55,24 +55,25 @@
             padding-right: 6px;
             color: $fuel;
             background-color: $white;
-            //border: 1px solid transparent;
+            border: 1px solid $fuel_10;
             border-radius: 40px;
             cursor: pointer;
 
             span {
-                padding: 6px;
+                width: 36px;
+                height: 36px;
                 background-color: $fuel_5;
-                border-radius: 50%;
-                border: 1px solid $fuel_10;
+                border-radius: 999px;
+                border: 1px solid transparent;
+                padding: 6px;
+                
 
                 path {
                     fill: $fuel_light;
                 }
             }
 
-            svg {
-                width: 20px;
-            }
+
             input {
                 position: absolute;
                 opacity: 0;
@@ -82,11 +83,13 @@
             &.Active {
                 color: $fuel;
                 background-color: $white;
+                border: 1px solid transparent;
             }
 
             &:first-of-type {
                 &.Active {
                     background-color: $hot_blue;
+                    //background: linear-gradient(to right, $hot_blue, $fuel 400%);
                     color: $white;
                     span {
                         background-color: $white;

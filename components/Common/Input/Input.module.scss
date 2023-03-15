@@ -18,11 +18,15 @@
 
     &ErrorMessage {
         display: flex;
-        @include interfaceR3;
+        @include worksans;
         justify-content: flex-start;
         align-items: center;
-        padding: 6px 6px 12px 6px;
+        padding: 6px 2px 6px 2px;
+        
         color: $alert_red;
+        //background-color: aqua;
+        height: 24px;
+        max-height: 24px;
     }
 }
 

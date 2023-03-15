@@ -11,7 +11,7 @@
     padding: 4px 6px 4px 6px;
     border: 0;
     border-radius: 8px;
-    background-color: $white_5;
+    background-color: $black_10;
     backdrop-filter: blur(12px);
     margin-bottom: 8px;
     margin-right: 16px;
@@ -89,22 +89,26 @@
         //width: 100%;
         padding: 0px 0px;
         //background-color: aqua;
-        margin-right: 24px;
+        margin-right: 12px;
 
         .emojiHolder {
-            font-size: 24px;
+            font-size: 28px;
 
         }
         .label {
             @include topicTitleMobile;
-            padding: 12px 12px 12px 12px;
+            padding: 10px 12px 10px 12px;
             //background-color: aqua;
         }
     }
 
     &InActive {
+        
         &:hover {
             background-color: $black_50;
+            .label {
+                color: $white;
+            }
         }
     }
 

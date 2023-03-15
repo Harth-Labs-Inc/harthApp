@@ -81,10 +81,10 @@ const Layout = ({ title, children }) => {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="msapplication-TileColor" content="#fbfbfb" />
+        <meta name="msapplication-TileColor" content="#f9f9f9" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
 
-        <meta name="theme-color" content="#fbfbfb" />
+        <meta name="theme-color" content="#f9f9f9" />
         
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

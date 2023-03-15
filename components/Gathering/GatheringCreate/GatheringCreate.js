@@ -57,8 +57,8 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
             ${isMobile && styles.GatheringCreateMobile}
             `}
     >
-      <form onSubmit={handleSubmit(createRoomSubmit)}>
-        <div className={styles.Content}>
+      <form onSubmit={handleSubmit(createRoomSubmit)} className={styles.Content}>
+        <div className={styles.GatheringCreateInput}>
           <input
             placeholder="room name"
             autoComplete="off"
@@ -66,7 +66,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
             // isError={isSubmitting ? !roomName.VALID : false}
             // error={roomName.ERROR}
             // value={roomName.VALUE}
-            className={styles.GatheringCreateInput}
+            //className={styles.GatheringCreateInput}
             changeHandler={() => {}}
             inputhandler={inputChangeHandler}
             {...register("roomName", { required: true })}
@@ -75,6 +75,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
           <ErrorMessage
             errorMsg={errors.roomName ? "Gathering name is required" : null}
           />
+        </div>
           <div className={styles.GatheringCreateLabelHolder}>
             <div className={styles.GatheringCreateLabelText}>
               Select a gathering type
@@ -112,7 +113,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
               </p>
             )}
           </div>
-        </div>
+        
 
         <div className={styles.GatheringCreateLaunch}>
           <button
@@ -144,6 +145,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
             Start Now
           </button>
         </div>
+
       </form>
     </div>
   );

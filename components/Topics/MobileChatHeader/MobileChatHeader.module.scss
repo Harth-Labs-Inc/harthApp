@@ -11,17 +11,13 @@
     justify-content: space-between;
     width: 100%;
     padding: 8px 16px;
-    background-image: linear-gradient(
-        180deg,
-        $white,
-        96%,
-        $white_5,
-    );
-    @include rubik;
+    background-color: $light_ash;
+    @include montserrat;
     color: $fuel;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     //backdrop-filter: blur(12px);
+    border-bottom: 1px solid $fuel_10;
 
     button {
         height: 44px;

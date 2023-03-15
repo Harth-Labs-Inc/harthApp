@@ -11,7 +11,7 @@
     padding: 4px 8px 10px 6px;
     border: 0;
     border-radius: 8px;
-    background-color: $white_10;
+    background-color: $black_10;
     backdrop-filter: blur(12px);
     margin-bottom: 8px;
     //margin-right: 16px;
@@ -92,7 +92,7 @@
         
         img {
             //opacity: .8;
-            border: 2px solid $warm_slate;
+            border: 2px solid transparent;
             //filter: grayscale(100%);
     
         }
@@ -103,7 +103,15 @@
         }
 
         &:hover {
+
+            .label {
+                color: $white;
+    
+            }
             background-color: $black_50;
+            img {
+                border-color: $black_10;
+            }
         }
 
     }
@@ -118,7 +126,7 @@
 
        img {
         opacity: 1;
-        border: 2px solid $warm_slate;
+        border: 2px solid transparent;
 
         }
 
