@@ -13,7 +13,7 @@ const GatheringTileControls = ({
                 //text={cardType === "schedule" ? "Join" : "Enter"}
                 onClick={handleJoinRoom}
                 //tier="primary"
-                className={styles.GatheringTileActionBarSubmit}
+                className={styles.GatheringTileActionBarSubmit} 
             >
                 {cardType === "schedule" ? "Join" : "Enter"}
             </button>

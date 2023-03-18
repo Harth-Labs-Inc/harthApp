@@ -53,6 +53,7 @@ const Video = (props) => {
   }, [socketID, selectedcomm]);
 
   const joinRoom = (data) => {
+    let windowFeatures = 'location=no,scrollbars=no,resizable=yes'; 
     let urls = {
       development: "http://localhost:3000/",
       production: "https://harth.vercel.app/",
@@ -63,7 +64,8 @@ const Video = (props) => {
       }&user_name=${socketData.name}&user_img=${socketData.icon}&room_id=${
         data.roomId
       }&harth_id=${selectedcomm._id}`,
-      "new-window"
+      '_blank',
+      windowFeatures //"new-window"
     );
   };
   const createRoom = (room) => {

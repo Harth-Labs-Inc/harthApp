@@ -62,10 +62,12 @@
         }
     ],
 
+
     "start_url": "https://harth.vercel.app/",
 
-    "background_color": "#ffffff",
-    "display": "fullscreen",
+    "display": "fullscreen", 
     "scope": "/",
-    "theme_color": "#ffffff"
+    "background_color": "#f9f9f9",
+    "theme_color": "#f9f9f9"
+
 }
