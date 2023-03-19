@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
 import styles from "./UserIcon.module.scss";
 
-const UserIcon = ({ id, img, name, showName = true, size = "regular" }) => {
+const UserIcon = ({
+    img,
+    name,
+    showName = true,
+    size = "regular",
+    iconClass = "",
+    isPressable = false,
+    pressHandler,
+}) => {
     const [dimensions, setDimensions] = useState({ height: 48, width: 48 });
-
-    console.log(img);
 
     useEffect(() => {
         if (size === "small") {
@@ -18,25 +23,53 @@ const UserIcon = ({ id, img, name, showName = true, size = "regular" }) => {
 
     return (
         <>
-            <span
-                className={`${styles.userIconWrapper} ${
-                    size === "small"
-                        ? styles.userIconSmall
-                        : styles.userIconRegular
-                }`}
-            >
-                <Image
-                    className={styles.userIconImage}
-                    src={img ? img : "/images/harth_placeholder.png"}
-                    alt="profile image"
-                    loading="lazy"
-                    height={dimensions.height}
-                    width={dimensions.width}
-                />
-                {showName ? (
-                    <span className={styles.userIconName}>{name}</span>
-                ) : null}
-            </span>
+            {isPressable ? (
+                <button
+                    onClick={pressHandler}
+                    className={styles.userIconButton}
+                    aria-label="profile settings"
+                >
+                    <span
+                        className={`${styles.userIconWrapper} ${
+                            size === "small"
+                                ? styles.userIconSmall
+                                : styles.userIconRegular
+                        }`}
+                    >
+                        <img
+                            className={`${styles.userIconImage} ${iconClass}`}
+                            src={img ? img : "/images/harth_placeholder.png"}
+                            alt="profile image"
+                            loading="lazy"
+                            height={dimensions.height}
+                            width={dimensions.width}
+                        />
+                        {showName ? (
+                            <span className={styles.userIconName}>{name}</span>
+                        ) : null}
+                    </span>
+                </button>
+            ) : (
+                <span
+                    className={`${styles.userIconWrapper} ${
+                        size === "small"
+                            ? styles.userIconSmall
+                            : styles.userIconRegular
+                    }`}
+                >
+                    <img
+                        className={`${styles.userIconImage} ${iconClass}`}
+                        src={img ? img : "/images/harth_placeholder.png"}
+                        alt="profile image"
+                        loading="lazy"
+                        height={dimensions.height}
+                        width={dimensions.width}
+                    />
+                    {showName ? (
+                        <span className={styles.userIconName}>{name}</span>
+                    ) : null}
+                </span>
+            )}
         </>
     );
 };

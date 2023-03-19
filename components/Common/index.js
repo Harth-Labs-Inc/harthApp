@@ -9,5 +9,3 @@ export { Toggle } from "./Toggle/Toggle";
 
 export { Modal } from "./Modals/Modal";
 export { SideModal } from "./Modals/SideModal";
-
-export { Avatar } from "./Avatar/Avatar";

@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from "react";
-import Image from "next/image";
 
 import { checkForBadFile } from "../../services/helper";
 import { IconAdd } from "../../resources/icons/IconAdd";
@@ -53,12 +52,12 @@ const IconUploader = ({ shape, icon, changeHandler }) => {
                         id="image-uploader"
                         onChange={saveFile}
                     ></input>
-                    <Image
+                    <img
                         onClick={clickHandler}
                         className={styles.image}
                         src={image}
-                        height={88}
-                        width={88}
+                        // height={88}
+                        // width={88}
                         alt="your profile avatar"
                     />
                 </div>

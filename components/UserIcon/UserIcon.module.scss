@@ -5,6 +5,13 @@
     background-color: transparent;
     border: 0;
 
+    &Button {
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+    }
+
     &Wrapper {
         // display: flex;
         align-items: center;
