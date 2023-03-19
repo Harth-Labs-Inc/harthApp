@@ -6,6 +6,8 @@ import styles from "./UserIcon.module.scss";
 const UserIcon = ({ id, img, name, showName = true, size = "regular" }) => {
     const [dimensions, setDimensions] = useState({ height: 48, width: 48 });
 
+    console.log(img);
+
     useEffect(() => {
         if (size === "small") {
             setDimensions({ height: 32, width: 32 });
