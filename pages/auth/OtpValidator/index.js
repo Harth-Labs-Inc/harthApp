@@ -1,163 +1,165 @@
 import { useEffect, useState } from "react";
-import VerificationInput from "react-verification-input";
-import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
-import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+
+import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
+
 import { useAuth } from "../../../contexts/auth";
 import {
-  verifyOtp,
-  login,
-  sendOtpEmailToUser,
-  loginAttempt,
+    verifyOtp,
+    login,
+    sendOtpEmailToUser,
+    loginAttempt,
 } from "../../../requests/userApi";
 import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 import CodeInput from "../../../components/CodeInput/CodeInput";
 import { Button } from "../../../components/Common";
+
+import { envUrls } from "../../../constants/urls";
+
 import styles from "./otpValidator.module.scss";
 
-const URLS = {
-  development: "http://localhost:3000/",
-  production: "https://harth.vercel.app/",
-};
+const URLS = envUrls;
 
 const OtpValidator = (props) => {
-  const {
-    userForModal,
-    alternativeEmail,
-    isInModal,
-    closeModal,
-    parentSubmit,
-  } = props;
-  const [newUser, setNewUser] = useState();
-  const [hasResent, setHasResent] = useState(false);
-  const [isResending, setIsResending] = useState(false);
-  const [badCode, setBadCode] = useState(false);
+    const {
+        userForModal,
+        alternativeEmail,
+        isInModal,
+        closeModal,
+        parentSubmit,
+    } = props;
+    const [newUser, setNewUser] = useState();
+    const [hasResent, setHasResent] = useState(false);
+    const [isResending, setIsResending] = useState(false);
+    const [badCode, setBadCode] = useState(false);
 
-  const router = useRouter();
-  const { user } = router.query;
+    const router = useRouter();
+    const { user } = router.query;
 
-  const { setContextUser } = useAuth();
+    const { setContextUser } = useAuth();
 
-  useEffect(() => {
-    if (user) {
-      setNewUser(JSON.parse(user));
-    }
-    if (userForModal) {
-      setNewUser(userForModal);
-    }
-  }, [user, userForModal]);
-
-  const [inviteCode, setInviteCode] = useState();
-  const [helpText, setHelpText] = useState([
-    "Enter your secret code below to pass.",
-  ]);
-  const inputChangeHandler = (text) => {
-    setInviteCode(text);
-  };
-
-  useEffect(() => {
-    if (inviteCode?.length === 6) {
-      handlerSubmit();
-    }
-  }, [inviteCode]);
-
-  const handlerSubmit = async () => {
-    let result = await verifyOtp({ inviteCode, newUser });
-    let { ok } = result;
-    if (ok) {
-      if (isInModal) {
-        parentSubmit();
-      } else {
-        const data = await login(newUser);
-        const { ok, msg, tkn } = data;
-        if (ok) {
-          setBadCode(false);
-          setHelpText([`SUCCESS!!`]);
-          localStorage.setItem("token", tkn);
-
-          if (newUser.showFirstTimeUser) {
-            localStorage.setItem("showFirstTimeUser", true);
-          }
-          setContextUser(newUser);
-          router.push("/dashboard");
+    useEffect(() => {
+        if (user) {
+            setNewUser(JSON.parse(user));
         }
-      }
-    } else {
-      setBadCode(true);
-      setInviteCode("");
-      setHelpText([`HALT!!`, `The code you entered was not correct.`]);
-    }
-  };
-  const resendOTP = async () => {
-    let results = await loginAttempt(newUser);
-    let { ok, user } = results;
-    if (ok) {
-      setIsResending(true);
-      await sendOtpEmailToUser({
-        user: { ...user, ["email"]: alternativeEmail || user["email"] },
-        subject: "Email Verification",
-      });
-      setHasResent(true);
-      setIsResending(false);
-    } else {
-    }
-  };
+        if (userForModal) {
+            setNewUser(userForModal);
+        }
+    }, [user, userForModal]);
 
-  if (!newUser) {
-    return <p>...Loading</p>;
-  }
+    const [inviteCode, setInviteCode] = useState();
+    const [helpText, setHelpText] = useState([
+        "Enter your secret code below to pass.",
+    ]);
+    const inputChangeHandler = (text) => {
+        setInviteCode(text);
+    };
 
-  return (
-    <div className={styles.OtpModule}>
-      <div className={styles.OtpModuleLogo}>
-        <HarthLogoDark />
-      </div>
-      <TalkingHead textArray={helpText} />
-      <p className={styles.OtpModuleText}>
-        Enter the security code we just sent to{" "}
-        {alternativeEmail || newUser?.email}
-      </p>
-      <CodeInput onChange={inputChangeHandler} codeInput={inviteCode} />
-      {hasResent ? (
-        <>
-          <p className={styles.OtpModuleSubText}>Your code has been resent.</p>
-          <p className={styles.OtpModuleSubText}>
-            Please wait up to 15 minutes for your code to arrive and remember to
-            check your spam folder.
-          </p>
-        </>
-      ) : (
-        <p className={styles.OtpModuleSubText}>
-          {badCode ? (
-            <span style={{ color: "red" }}>Invalid code</span>
-          ) : (
-            "Didn't get the code? Check your spam folder."
-          )}
-        </p>
-      )}
+    useEffect(() => {
+        if (inviteCode?.length === 6) {
+            handlerSubmit();
+        }
+    }, [inviteCode]);
 
-      <div className={styles.OtpModuleButtons}>
-        <Button
-          tier="secondary"
-          size="small"
-          text={isInModal ? "close" : "Start over"}
-          onClick={() => {
+    const handlerSubmit = async () => {
+        let result = await verifyOtp({ inviteCode, newUser });
+        let { ok } = result;
+        if (ok) {
             if (isInModal) {
-              closeModal();
+                parentSubmit();
             } else {
-              router.push("/");
+                const data = await login(newUser);
+                const { ok, msg, tkn } = data;
+                if (ok) {
+                    setBadCode(false);
+                    setHelpText([`SUCCESS!!`]);
+                    localStorage.setItem("token", tkn);
+
+                    if (newUser.showFirstTimeUser) {
+                        localStorage.setItem("showFirstTimeUser", true);
+                    }
+                    setContextUser(newUser);
+                    router.push("/dashboard");
+                }
             }
-          }}
-        />
-        <Button
-          onClick={resendOTP}
-          tier="secondary"
-          size="small"
-          text="Resend the code"
-        />
-      </div>
-    </div>
-  );
+        } else {
+            setBadCode(true);
+            setInviteCode("");
+            setHelpText([`HALT!!`, `The code you entered was not correct.`]);
+        }
+    };
+    const resendOTP = async () => {
+        let results = await loginAttempt(newUser);
+        let { ok, user } = results;
+        if (ok) {
+            setIsResending(true);
+            await sendOtpEmailToUser({
+                user: { ...user, ["email"]: alternativeEmail || user["email"] },
+                subject: "Email Verification",
+            });
+            setHasResent(true);
+            setIsResending(false);
+        } else {
+        }
+    };
+
+    if (!newUser) {
+        return <p>...Loading</p>;
+    }
+
+    return (
+        <div className={styles.OtpModule}>
+            <div className={styles.OtpModuleLogo}>
+                <HarthLogoDark />
+            </div>
+            <TalkingHead textArray={helpText} />
+            <p className={styles.OtpModuleText}>
+                Enter the security code we just sent to{" "}
+                {alternativeEmail || newUser?.email}
+            </p>
+            <CodeInput onChange={inputChangeHandler} codeInput={inviteCode} />
+            {hasResent ? (
+                <>
+                    <p className={styles.OtpModuleSubText}>
+                        Your code has been resent.
+                    </p>
+                    <p className={styles.OtpModuleSubText}>
+                        Please wait up to 15 minutes for your code to arrive and
+                        remember to check your spam folder.
+                    </p>
+                </>
+            ) : (
+                <p className={styles.OtpModuleSubText}>
+                    {badCode ? (
+                        <span style={{ color: "red" }}>Invalid code</span>
+                    ) : (
+                        "Didn't get the code? Check your spam folder."
+                    )}
+                </p>
+            )}
+
+            <div className={styles.OtpModuleButtons}>
+                <Button
+                    tier="secondary"
+                    size="small"
+                    text={isInModal ? "close" : "Start over"}
+                    onClick={() => {
+                        if (isInModal) {
+                            closeModal();
+                        } else {
+                            router.push("/");
+                        }
+                    }}
+                />
+                <Button
+                    onClick={resendOTP}
+                    tier="secondary"
+                    size="small"
+                    text="Resend the code"
+                />
+            </div>
+        </div>
+    );
 };
 
 export default OtpValidator;

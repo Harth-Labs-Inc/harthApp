@@ -13,6 +13,7 @@ import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGe
 import { DiceAlert } from "../../../components/Gathering/GatherTools/DiceAlert";
 
 import styles from "./Party.module.scss";
+import { envUrls, videoSocketUrls } from "../../../constants/urls";
 
 const Party = () => {
     const [socket, setSocket] = useState(null);
@@ -56,17 +57,14 @@ const Party = () => {
     }, [width, showChatPannel, chats, screenShareActive, isActiveScreenShare]);
 
     useEffect(() => {
-        let urls = {
-            development: "http://localhost:5030",
-            production: "https://project-blarg-video-socket.herokuapp.com",
-        };
+        const URLS = videoSocketUrls;
         axios
-            .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
+            .get(`${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`)
             .then((responseData) => {
                 setTurnServers(responseData.data.token.iceServers);
 
                 setSocket(
-                    io.connect(urls[process.env.NODE_ENV], {
+                    io.connect(URLS[process.env.NODE_ENV], {
                         transports: ["websocket"],
                     })
                 );
@@ -1002,13 +1000,9 @@ const Party = () => {
                         try {
                             window.close();
                         } catch (error) {}
-                        let urls = {
-                            test: `http://localhost:3000`,
-                            development: "http://localhost:3000/",
-                            production: "https://harth.vercel.app/",
-                        };
+                        const URLS = envUrls;
 
-                        window.location.replace(urls[process.env.NODE_ENV]);
+                        window.location.replace(URLS[process.env.NODE_ENV]);
                     }
 
                     if (audioSharePeer.current) {

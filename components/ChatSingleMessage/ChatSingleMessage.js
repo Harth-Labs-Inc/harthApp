@@ -343,7 +343,12 @@ const ChatSingleMessage = (props) => {
                     editBarSelection={editBarSelection}
                     triggerPicker={triggerPicker}
                 />
-                <UserIcon img={creator_image} showName={false} size="small" />
+                <UserIcon
+                    img={creator_image}
+                    showName={false}
+                    size="small"
+                    iconClass={`${selectedcomm._id}_${creator_id}`}
+                />
 
                 <div className={styles.Body}>
                     <span className={styles.Info}>

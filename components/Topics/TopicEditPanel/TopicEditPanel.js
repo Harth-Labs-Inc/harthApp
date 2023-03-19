@@ -5,7 +5,7 @@ import { useComms } from "../../../contexts/comms";
 import { useAuth } from "../../../contexts/auth";
 import { useSocket } from "../../../contexts/socket";
 
-import { CloseBtn } from "../../Common/Button";
+import { CloseButton } from "../../Common";
 import { Modal, Toggle, TextButton } from "../../Common";
 
 import TopicMemberList from "./TopicMemberList";
@@ -253,7 +253,7 @@ export default function TopicEditPanel(props) {
                             </p>
                             <TopicState />
                         </span>
-                        <CloseBtn onClick={togglePanel} />
+                        <CloseButton onClick={togglePanel} />
                     </div>
                 </header>
                 <p className={styles.topicSettingsDescription}>

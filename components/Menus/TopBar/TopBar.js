@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import { Avatar } from "../../Common/Avatar/Avatar";
 import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "../../../contexts/mobile";
 
 import styles from "./TopBar.module.scss";
 import HarthProfileEditModal from "../../HarthProfileEditModal";
+import UserIcon from "../../UserIcon/userIcon";
 
 const TopBar = ({ children, currentPage }) => {
     const [showEditUserModal, setShowEditUserModal] = useState(false);
@@ -32,25 +32,34 @@ const TopBar = ({ children, currentPage }) => {
                 }}
                 profile={profile}
             />
-            <div className={`
+            <div
+                className={`
                     ${styles.TopBar}
                     ${isMobile && styles.TopBarMobile}
-                    `}>
+                    `}
+            >
                 {isMobile ? (
-                    <div className={styles.TopBarName}>{selectedcomm?.name}<span className={styles.TopBarSection}>\ {currentPage}</span></div> 
+                    <div className={styles.TopBarName}>
+                        {selectedcomm?.name}
+                        <span className={styles.TopBarSection}>
+                            \ {currentPage}
+                        </span>
+                    </div>
                 ) : null}
                 {children}
-                <div className={isMobile ? styles.avatarMobile : styles.avatarDesktop}>
-                    <Avatar
-                        isPressable={true}
-                        picSize={isMobile ? 36 : 32}
+                <div
+                    className={
+                        isMobile ? styles.avatarMobile : styles.avatarDesktop
+                    }
+                >
+                    <UserIcon
+                        img={iconKey}
+                        showName={false}
+                        size="small"
+                        isPressable
                         pressHandler={editUserModalHandler}
-                        imageSrc={iconKey}
-                        //darkBackground={true}
-                        className={styles.avatarDesktop}
                     />
-                </div> 
-
+                </div>
             </div>
         </>
     );

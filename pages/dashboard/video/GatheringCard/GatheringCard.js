@@ -10,6 +10,7 @@ import { useGatheringFormState as gatheringEditFormState } from "../GatherEditFo
 import UserIcon from "../../../../components/UserIcon/userIcon";
 import { Button } from "../../../../components/Common/Buttons/Button";
 import { useVideo } from "../../../../contexts/video";
+import { useComms } from "../../../../contexts/comms";
 import styles from "./GatheringCard.module.scss";
 import {
     deleteScheduledRoom,
@@ -32,6 +33,8 @@ const GatheringCard = ({
     const [isInRoom, setIsInRoom] = useState(false);
 
     const { refreshScheduledCallRooms } = useVideo();
+    const { selectedcomm } = useComms;
+
     let results = {};
 
     if (cardType === "schedule") {
@@ -178,6 +181,7 @@ const GatheringCard = ({
                                 key={name}
                                 showName={false}
                                 size="small"
+                                iconClass={`${selectedcomm?._id}_${user?._id}`}
                             />
                         );
                     })}

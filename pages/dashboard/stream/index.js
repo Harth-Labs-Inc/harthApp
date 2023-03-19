@@ -9,6 +9,7 @@ import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
 
 import styles from "./Stream.module.scss";
+import { envUrls, videoSocketUrls } from "../../../constants/urls";
 
 const Stream = () => {
     const [socket, setSocket] = useState(null);
@@ -47,17 +48,14 @@ const Stream = () => {
     const { comms } = useComms();
 
     useEffect(() => {
-        let urls = {
-            development: "http://localhost:5030",
-            production: "https://project-blarg-video-socket.herokuapp.com",
-        };
+        let URLS = videoSocketUrls;
         axios
-            .get(`${urls[process.env.NODE_ENV]}/api/get-turn-credentials`)
+            .get(`${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`)
             .then((responseData) => {
                 setTurnServers(responseData.data.token.iceServers);
 
                 setSocket(
-                    io.connect(urls[process.env.NODE_ENV], {
+                    io.connect(URLS[process.env.NODE_ENV], {
                         transports: ["websocket"],
                     })
                 );
@@ -857,13 +855,9 @@ const Stream = () => {
                         try {
                             window.close();
                         } catch (error) {}
-                        let urls = {
-                            test: `http://localhost:3000`,
-                            development: "http://localhost:3000/",
-                            production: "https://harth.vercel.app/",
-                        };
+                        const URLS = envUrls;
 
-                        window.location.replace(urls[process.env.NODE_ENV]);
+                        window.location.replace(URLS[process.env.NODE_ENV]);
                     }
 
                     if (audioSharePeer.current) {

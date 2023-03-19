@@ -16,7 +16,7 @@ import { useSocket } from "../../contexts/socket";
 const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     const [updatedProfile, setUpdatedProfile] = useState({});
     const [newFile, setNewFile] = useState(null);
-    const [nameCHanged, setNameCHanged] = useState(false);
+    const [nameChanged, setNameCHanged] = useState(false);
 
     const { setComm, setCommsFromChild, comms, selectedTopic } = useComms();
     const { refreshTopicsChatIcon, refreshTopicsChatName } = useChat();
@@ -46,7 +46,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     };
     const submitHandler = async (e) => {
         e.preventDefault();
-        if (newFile || nameCHanged) {
+        if (newFile || nameChanged) {
             let newIconKey = "";
             if (newFile) {
                 let { name } = await uploadCustomNamedFile({
@@ -55,14 +55,14 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
                     name: `${harth._id}_${updatedProfile.userId}`,
                 });
                 if (name) {
-                    await compressImage(
-                        name,
-                        name,
-                        "community-profile-images",
-                        newFile.type,
-                        40,
-                        40
-                    );
+                    // await compressImage(
+                    //     name,
+                    //     name,
+                    //     "community-profile-images",
+                    //     newFile.type,
+                    //     40,
+                    //     40
+                    // );
                     newIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${name}`;
                 }
             }
@@ -91,7 +91,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
                 );
                 setCommsFromChild(commsArr);
 
-                if (nameCHanged) {
+                if (nameChanged) {
                     replaceHarthChatProfileNames(
                         newharth._id,
                         updatedProfile.name,

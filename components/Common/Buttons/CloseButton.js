@@ -1,7 +1,7 @@
 import { IconClose } from "../../../resources/icons/IconClose";
 import styles from "./Buttons.module.scss";
 
-const CloseButton = (props) => {
+export const CloseButton = (props) => {
     const { onClick } = props;
     return (
         <>
@@ -11,10 +11,5 @@ const CloseButton = (props) => {
                 </div>
             </button>
         </>
-    )
-}
-
-export default CloseButton
-
-
-
+    );
+};

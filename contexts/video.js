@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
 import io from "socket.io-client";
+import { videoSocketUrls } from "../constants/urls";
 import { getScheduledCallRooms, deleteScheduledRoom } from "../requests/rooms";
 import { combineDateTime } from "../services/helper";
 import { useComms } from "./comms";
@@ -9,281 +10,278 @@ const VideoContext = createContext({});
 
 let myPeer;
 export const VideoProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
-  const [socketID, setSocketID] = useState(null);
-  const [callRooms, setCallRooms] = useState([]);
-  const [scheduledcallRooms, setScheduledcallRooms] = useState([]);
+    const [socket, setSocket] = useState(null);
+    const [socketID, setSocketID] = useState(null);
+    const [callRooms, setCallRooms] = useState([]);
+    const [scheduledcallRooms, setScheduledcallRooms] = useState([]);
 
-  const [groupCallStreams, setGroupCallStreams] = useState({});
-  const [localStream, setLocalStream] = useState();
-  const [captureStream, setCaptureStream] = useState();
-  const [myPeerId, setMyPeerId] = useState(null);
+    const [groupCallStreams, setGroupCallStreams] = useState({});
+    const [localStream, setLocalStream] = useState();
+    const [captureStream, setCaptureStream] = useState();
+    const [myPeerId, setMyPeerId] = useState(null);
 
-  const { emitUpdate } = useSocket();
-  const { selectedCommRef } = useComms();
+    const { emitUpdate } = useSocket();
+    const { selectedCommRef } = useComms();
 
-  useEffect(() => {
-    let urls = {
-      development: "http://localhost:5030",
-      production: "https://project-blarg-video-socket.herokuapp.com",
+    useEffect(() => {
+        let URLS = videoSocketUrls;
+
+        setSocket(
+            io.connect(URLS[process.env.NODE_ENV], {
+                transports: ["websocket"],
+            })
+        );
+    }, []);
+
+    useEffect(() => {
+        if (socket) {
+            socket.on("connection", () => {
+                setSocketID(socket.id);
+            });
+            socket.on("broadcast", (data) => {
+                let { event, groupCallRooms, peers } = data;
+                switch (event) {
+                    case "GROUP_CALL_ROOMS":
+                        if (
+                            data.harthID &&
+                            selectedCommRef.current &&
+                            data.harthID == selectedCommRef.current._id
+                        ) {
+                            setCallRooms(groupCallRooms);
+                        }
+
+                        break;
+                    case "GROUP_CALL_PEERS":
+                        let rooms = [...callRooms];
+                        rooms.forEach((room, index) => {
+                            if (peers[0] && room.roomId === peers[0].roomId) {
+                                rooms[index].peers = peers;
+                                setCallRooms(rooms);
+                            }
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            });
+            socket.on("new Scheduled room", (room) => {
+                room.harthid = room.harthId;
+                getInitialScheduledCallRooms(room);
+            });
+            socket.on("refresh Scheduled rooms", (room) => {
+                getInitialScheduledCallRooms(room);
+            });
+        }
+    }, [socket, socketID, localStream]);
+
+    const pushScheduledRoom = (data) => {
+        socket && socket.emit("new-scheduled-room", data);
     };
+    const refreshScheduledCallRooms = (room) => {
+        socket && socket.emit("refresh-scheduled-rooms", room);
+    };
+    const getInitialCallRooms = (data) => {
+        let options = {};
+        if (data) {
+            options = {
+                filter: "harthId",
+                harthId: data.harthid || data.harthId,
+            };
+        }
+        getInitialScheduledCallRooms(data);
+        socket && socket.emit("get-initial-call-rooms", options);
+    };
+    const addHours = (date, hours) => {
+        date.setHours(date.getHours() + hours);
 
-    setSocket(
-      io.connect(urls[process.env.NODE_ENV], {
-        transports: ["websocket"],
-      })
-    );
-  }, []);
+        return date;
+    };
+    const sendGatherNotification = (rm) => {
+        let msg = { ...rm };
+        msg.updateType = "gather alert";
+        let id = rm.harthId || rm.harthID || rm.harthid;
 
-  useEffect(() => {
-    if (socket) {
-      socket.on("connection", () => {
-        setSocketID(socket.id);
-      });
-      socket.on("broadcast", (data) => {
-        let { event, groupCallRooms, peers } = data;
-        switch (event) {
-          case "GROUP_CALL_ROOMS":
-            if (
-              data.harthID &&
-              selectedCommRef.current &&
-              data.harthID == selectedCommRef.current._id
-            ) {
-              setCallRooms(groupCallRooms);
+        if (id) {
+            emitUpdate(id, msg, () => {});
+        }
+    };
+    const getInitialScheduledCallRooms = async (data) => {
+        let id = data.harthid ? data.harthid : data.harthId ? data.harthId : "";
+        let result = await getScheduledCallRooms(id);
+        let { ok, rms } = result;
+        if (ok && rms) {
+            let filteredRooms = [];
+            rms.forEach((rm) => {
+                let date = combineDateTime(rm.gatheringDate, rm.gatheringTime);
+                let newDate = addHours(
+                    combineDateTime(rm.gatheringDate, rm.gatheringTime),
+                    1
+                );
+
+                if (new Date() < new Date(newDate)) {
+                    let timer = date.getTime() - new Date().getTime();
+                    setTimeout(() => {
+                        deleteScheduledRoom(rm._id);
+                        createEmptyRoom({ ...rm, setInitalTimer: true }, () => {
+                            getInitialCallRooms(rm);
+                        });
+                    }, timer);
+                    filteredRooms.push(rm);
+                } else {
+                    deleteScheduledRoom(rm._id);
+                }
+            });
+            setScheduledcallRooms([...filteredRooms]);
+        }
+    };
+    const createEmptyRoom = (data, cb) => {
+        sendGatherNotification(data);
+        socket && socket.emit("create-call-room", data, cb);
+    };
+    const getLocalStream = async (startWith) => {
+        let stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: true,
+        });
+
+        if (startWith && startWith == "video") {
+            try {
+                stream.getTracks().forEach((track) => {
+                    if (track.kind === "audio") {
+                        track.enabled = false;
+                    }
+                });
+            } catch (error) {}
+        }
+        if (startWith && startWith == "audio") {
+            try {
+                stream.getTracks().forEach((track) => {
+                    if (track.kind === "video") {
+                        track.enabled = false;
+                    }
+                });
+            } catch (error) {}
+        }
+
+        setLocalStream(stream);
+    };
+    const getScreenCapture = async () => {
+        try {
+            let capture = await navigator.mediaDevices.getDisplayMedia({
+                video: {
+                    cursor: "always",
+                },
+                audio: false,
+            });
+
+            if (capture) {
+                setCaptureStream(capture);
+            }
+        } catch (err) {
+            console.error("Error: " + err);
+        }
+    };
+    const connectWithMyPeer = (data) => {
+        let pID = "";
+        myPeer = new window.Peer(undefined, {
+            config: {
+                iceServers: [
+                    ...getTurnServers(),
+                    {
+                        url: "stun:stun.1und1.de:3478",
+                    },
+                ],
+            },
+        });
+
+        myPeer.on("open", (peerid) => {
+            setMyPeerId(peerid);
+            pID = peerid;
+            joinGroupCall(peerid, data);
+        });
+
+        myPeer.on("call", async (call) => {
+            if (localStream) {
+                call.answer(localStream);
             }
 
-            break;
-          case "GROUP_CALL_PEERS":
-            let rooms = [...callRooms];
-            rooms.forEach((room, index) => {
-              if (peers[0] && room.roomId === peers[0].roomId) {
-                rooms[index].peers = peers;
-                setCallRooms(rooms);
-              }
+            call.on("stream", (incomingStream) => {
+                if (incomingStream) {
+                    addVideoStream(incomingStream, call.peer);
+                }
             });
-            break;
-          default:
-            break;
+        });
+    };
+
+    const joinGroupCall = (peerid, data) => {
+        let { roomId, userIcon, userName } = data;
+        userWantsToJoinGroupCall({
+            userName,
+            userIcon,
+            peerId: peerid,
+            socketID,
+            roomId,
+            localStreamId: (localStream || {}).id || "",
+        });
+    };
+    const userWantsToJoinGroupCall = (data) => {
+        socket && socket.emit("group-call-join-request", data);
+    };
+    const connectToNewUser = async (data) => {
+        if (myPeer) {
+            const call = myPeer.call(data.peerId, localStream);
+            call &&
+                call.on("stream", (incomingStream) => {
+                    if (incomingStream) {
+                        addVideoStream(incomingStream, data.peerId);
+                    }
+                });
         }
-      });
-      socket.on("new Scheduled room", (room) => {
-        room.harthid = room.harthId;
-        getInitialScheduledCallRooms(room);
-      });
-      socket.on("refresh Scheduled rooms", (room) => {
-        getInitialScheduledCallRooms(room);
-      });
-    }
-  }, [socket, socketID, localStream]);
+    };
 
-  const pushScheduledRoom = (data) => {
-    socket && socket.emit("new-scheduled-room", data);
-  };
-  const refreshScheduledCallRooms = (room) => {
-    socket && socket.emit("refresh-scheduled-rooms", room);
-  };
-  const getInitialCallRooms = (data) => {
-    let options = {};
-    if (data) {
-      options = {
-        filter: "harthId",
-        harthId: data.harthid || data.harthId,
-      };
-    }
-    getInitialScheduledCallRooms(data);
-    socket && socket.emit("get-initial-call-rooms", options);
-  };
-  const addHours = (date, hours) => {
-    date.setHours(date.getHours() + hours);
+    const addVideoStream = (incomingStream, peerid) => {
+        let groupstreams = { ...groupCallStreams, [peerid]: incomingStream };
+        setGroupCallStreams(groupstreams);
+    };
+    const leaveGroupCall = (data) => {
+        return new Promise((res, rej) => {
+            socket &&
+                socket.emit("group-call-user-left", data, (response) => {
+                    if (response.ok) {
+                        res(true);
+                    }
 
-    return date;
-  };
-  const sendGatherNotification = (rm) => {
-    let msg = { ...rm };
-    msg.updateType = "gather alert";
-    let id = rm.harthId || rm.harthID || rm.harthid;
-
-    if (id) {
-      emitUpdate(id, msg, () => {});
-    }
-  };
-  const getInitialScheduledCallRooms = async (data) => {
-    let id = data.harthid ? data.harthid : data.harthId ? data.harthId : "";
-    let result = await getScheduledCallRooms(id);
-    let { ok, rms } = result;
-    if (ok && rms) {
-      let filteredRooms = [];
-      rms.forEach((rm) => {
-        let date = combineDateTime(rm.gatheringDate, rm.gatheringTime);
-        let newDate = addHours(
-          combineDateTime(rm.gatheringDate, rm.gatheringTime),
-          1
-        );
-
-        if (new Date() < new Date(newDate)) {
-          let timer = date.getTime() - new Date().getTime();
-          setTimeout(() => {
-            deleteScheduledRoom(rm._id);
-            createEmptyRoom({ ...rm, setInitalTimer: true }, () => {
-              getInitialCallRooms(rm);
-            });
-          }, timer);
-          filteredRooms.push(rm);
-        } else {
-          deleteScheduledRoom(rm._id);
-        }
-      });
-      setScheduledcallRooms([...filteredRooms]);
-    }
-  };
-  const createEmptyRoom = (data, cb) => {
-    sendGatherNotification(data);
-    socket && socket.emit("create-call-room", data, cb);
-  };
-  const getLocalStream = async (startWith) => {
-    let stream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true,
-    });
-
-    if (startWith && startWith == "video") {
-      try {
-        stream.getTracks().forEach((track) => {
-          if (track.kind === "audio") {
-            track.enabled = false;
-          }
+                    if (myPeer) {
+                        myPeer.destroy();
+                    }
+                });
         });
-      } catch (error) {}
-    }
-    if (startWith && startWith == "audio") {
-      try {
-        stream.getTracks().forEach((track) => {
-          if (track.kind === "video") {
-            track.enabled = false;
-          }
-        });
-      } catch (error) {}
-    }
+    };
 
-    setLocalStream(stream);
-  };
-  const getScreenCapture = async () => {
-    try {
-      let capture = await navigator.mediaDevices.getDisplayMedia({
-        video: {
-          cursor: "always",
-        },
-        audio: false,
-      });
-
-      if (capture) {
-        setCaptureStream(capture);
-      }
-    } catch (err) {
-      console.error("Error: " + err);
-    }
-  };
-  const connectWithMyPeer = (data) => {
-    let pID = "";
-    myPeer = new window.Peer(undefined, {
-      config: {
-        iceServers: [
-          ...getTurnServers(),
-          {
-            url: "stun:stun.1und1.de:3478",
-          },
-        ],
-      },
-    });
-
-    myPeer.on("open", (peerid) => {
-      setMyPeerId(peerid);
-      pID = peerid;
-      joinGroupCall(peerid, data);
-    });
-
-    myPeer.on("call", async (call) => {
-      if (localStream) {
-        call.answer(localStream);
-      }
-
-      call.on("stream", (incomingStream) => {
-        if (incomingStream) {
-          addVideoStream(incomingStream, call.peer);
-        }
-      });
-    });
-  };
-
-  const joinGroupCall = (peerid, data) => {
-    let { roomId, userIcon, userName } = data;
-    userWantsToJoinGroupCall({
-      userName,
-      userIcon,
-      peerId: peerid,
-      socketID,
-      roomId,
-      localStreamId: (localStream || {}).id || "",
-    });
-  };
-  const userWantsToJoinGroupCall = (data) => {
-    socket && socket.emit("group-call-join-request", data);
-  };
-  const connectToNewUser = async (data) => {
-    if (myPeer) {
-      const call = myPeer.call(data.peerId, localStream);
-      call &&
-        call.on("stream", (incomingStream) => {
-          if (incomingStream) {
-            addVideoStream(incomingStream, data.peerId);
-          }
-        });
-    }
-  };
-
-  const addVideoStream = (incomingStream, peerid) => {
-    let groupstreams = { ...groupCallStreams, [peerid]: incomingStream };
-    setGroupCallStreams(groupstreams);
-  };
-  const leaveGroupCall = (data) => {
-    return new Promise((res, rej) => {
-      socket &&
-        socket.emit("group-call-user-left", data, (response) => {
-          if (response.ok) {
-            res(true);
-          }
-
-          if (myPeer) {
-            myPeer.destroy();
-          }
-        });
-    });
-  };
-
-  return (
-    <VideoContext.Provider
-      value={{
-        socket,
-        localStream,
-        socketID,
-        callRooms,
-        scheduledcallRooms,
-        groupCallStreams,
-        captureStream,
-        getLocalStream,
-        getInitialCallRooms,
-        createEmptyRoom,
-        getScreenCapture,
-        leaveGroupCall,
-        connectWithMyPeer,
-        pushScheduledRoom,
-        getInitialScheduledCallRooms,
-        refreshScheduledCallRooms,
-      }}
-    >
-      {children}
-    </VideoContext.Provider>
-  );
+    return (
+        <VideoContext.Provider
+            value={{
+                socket,
+                localStream,
+                socketID,
+                callRooms,
+                scheduledcallRooms,
+                groupCallStreams,
+                captureStream,
+                getLocalStream,
+                getInitialCallRooms,
+                createEmptyRoom,
+                getScreenCapture,
+                leaveGroupCall,
+                connectWithMyPeer,
+                pushScheduledRoom,
+                getInitialScheduledCallRooms,
+                refreshScheduledCallRooms,
+            }}
+        >
+            {children}
+        </VideoContext.Provider>
+    );
 };
 
 export const useVideo = () => useContext(VideoContext);

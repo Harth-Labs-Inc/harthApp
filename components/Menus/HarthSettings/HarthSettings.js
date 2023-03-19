@@ -1,120 +1,132 @@
 import React, { useState, useContext, useEffect } from "react";
+
+import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "../../../contexts/mobile";
-import CloseButton from "../../Common/Buttons/CloseButton";
+import { CloseButton } from "../../Common";
 import { IconNotificationsNoFill } from "../../../resources/icons/IconNotificationsNoFill";
 import { IconNotificationsFill } from "../../../resources/icons/IconNotificationsFill";
 import IconAdminPanel from "../../../resources/icons/IconAdminPanel";
 import { IconAccountNoFill } from "../../../resources/icons/IconAccountNoFill";
 import { IconAccountFill } from "../../../resources/icons/IconAccountFill";
+import { getHarthByID } from "../../../requests/community";
+
 import HarthNotificationSettings from "./HarthNotificationSettings/HarthNotificationSettings";
 import HarthAdminSettings from "./HarthAdminSettings/HarthAdminSettings";
 import HarthMembersSettings from "./HarthMembersSettings/HarthMembersSettings";
-import { getHarthByID } from "../../../requests/community";
-
 import styles from "./HarthSettings.module.scss";
-import { useComms } from "../../../contexts/comms";
 
 const HarthSettings = (props) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState("notifications");
-  const { isMobile } = useContext(MobileContext);
-  const { communityName, onToggleModal, communityId } = props;
-  const { updateLocalSelectedHarth } = useComms();
+    const [isLoading, setIsLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState("notifications");
+    const { isMobile } = useContext(MobileContext);
+    const { communityName, onToggleModal, communityId } = props;
+    const { updateLocalSelectedHarth } = useComms();
 
-  useEffect(() => {
-    async function getUpdatedHarthData() {
-      let result = await getHarthByID(communityId);
-      const { ok, data } = result;
-      if (ok) {
-        await updateLocalSelectedHarth({ newHarth: data });
-        setIsLoading(false);
-      }
+    useEffect(() => {
+        async function getUpdatedHarthData() {
+            let result = await getHarthByID(communityId);
+            const { ok, data } = result;
+            if (ok) {
+                await updateLocalSelectedHarth({ newHarth: data });
+                setIsLoading(false);
+            }
+        }
+        getUpdatedHarthData();
+    }, []);
+
+    const changePageHandler = (pg) => {
+        setCurrentPage(pg);
+    };
+
+    if (isLoading) {
+        return (
+            <div className={styles.mainContainer}>
+                <div className={styles.Loading}>
+                    <p>Loading Settings</p>
+                </div>
+            </div>
+        );
     }
-    getUpdatedHarthData();
-  }, []);
 
-  const changePageHandler = (pg) => {
-    setCurrentPage(pg);
-  };
+    let page;
+    switch (currentPage) {
+        case "members":
+            page = <HarthMembersSettings />;
+            break;
+        case "admin":
+            page = <HarthAdminSettings onToggleModal={onToggleModal} />;
+            break;
+        default:
+            page = <HarthNotificationSettings />;
+            break;
+    }
 
-  if (isLoading) {
     return (
-      <div className={styles.mainContainer}>
+        <>
+            <div className={styles.mainContainer}>
+                <div className={styles.topBar}>
+                    <div className={styles.title}>{communityName}</div>
+                    <div className={styles.buttonHolder}>
+                        <CloseButton onClick={onToggleModal} />
+                    </div>
+                </div>
 
-      <div className={styles.Loading} >
-        <p>Loading Settings</p>
-        </div>
-      </div>
-
-    );
-  }
-
-  let page;
-  switch (currentPage) {
-    case "members":
-      page = <HarthMembersSettings />;
-      break;
-    case "admin":
-      page = <HarthAdminSettings onToggleModal={onToggleModal} />;
-      break;
-    default:
-      page = <HarthNotificationSettings />;
-      break;
-  }
-
-  return (
-    <>
-      <div className={styles.mainContainer}>
-        <div className={styles.topBar}>
-          <div className={styles.title}>{communityName}</div>
-          <div className={styles.buttonHolder}><CloseButton onClick={onToggleModal} /></div>
-        </div>
-
-        <div className={styles.navTabs} role="nav">
-          <button
-            className={`
+                <div className={styles.navTabs} role="nav">
+                    <button
+                        className={`
             ${styles.tabButton}
             ${currentPage == "notifications" && styles.tabButtonActive}
           `}
-            onClick={() => {
-              changePageHandler("notifications");
-            }}
-          >
+                        onClick={() => {
+                            changePageHandler("notifications");
+                        }}
+                    >
+                        {currentPage == "notifications" ? (
+                            <IconNotificationsFill />
+                        ) : (
+                            <IconNotificationsNoFill />
+                        )}
+                        Notifications
+                    </button>
 
-            {currentPage == "notifications" ? <IconNotificationsFill /> : <IconNotificationsNoFill />}
-            Notifications
-          </button>
-
-          <button
-            className={`
+                    <button
+                        className={`
             ${styles.tabButton}
             ${currentPage == "members" && styles.tabButtonActive}
           `}
-            onClick={() => {
-              changePageHandler("members");
-            }}
-          >
-            {currentPage == "members" ? <IconAccountFill /> : <IconAccountNoFill />}
-            Members
-          </button>
+                        onClick={() => {
+                            changePageHandler("members");
+                        }}
+                    >
+                        {currentPage == "members" ? (
+                            <IconAccountFill />
+                        ) : (
+                            <IconAccountNoFill />
+                        )}
+                        Members
+                    </button>
 
-          <button
-            className={`
+                    <button
+                        className={`
               ${styles.tabButton}
               ${currentPage == "admin" && styles.tabButtonActive}
             `}
-            onClick={() => {
-              changePageHandler("admin");
-            }}
-          >
-            {currentPage == "admin" ? <IconAdminPanel /> : <IconAdminPanel />}
-            Admin
-          </button>
-        </div>
-        <div className={styles.content}>{page}</div>
-      </div>
-    </>
-  );
+                        onClick={() => {
+                            changePageHandler("admin");
+                        }}
+                    >
+                        {currentPage == "admin" ? (
+                            <IconAdminPanel />
+                        ) : (
+                            <IconAdminPanel />
+                        )}
+                        Admin
+                    </button>
+                </div>
+                <div className={styles.content}>{page}</div>
+            </div>
+        </>
+    );
 };
 
 export default HarthSettings;
