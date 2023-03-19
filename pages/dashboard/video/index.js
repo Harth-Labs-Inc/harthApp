@@ -5,6 +5,8 @@ import { useVideo } from "../../../contexts/video";
 import { useAuth } from "../../../contexts/auth";
 import { MobileContext } from "../../../contexts/mobile";
 
+import { envUrls } from "../../../constants/urls";
+
 import GatheringSchedule from "../../../components/Gathering/GatheringSchedule/GatheringSchedule";
 import GatheringCreate from "../../../components/Gathering/GatheringCreate/GatheringCreate";
 import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
@@ -48,11 +50,8 @@ const Video = (props) => {
     }, [socketID, selectedcomm]);
 
     const joinRoom = (data) => {
-        let windowFeatures = "location=no,scrollbars=no,resizable=yes";
-        let urls = {
-            development: "http://localhost:3000/",
-            production: "https://harth.vercel.app/",
-        };
+        const windowFeatures = "location=no,scrollbars=no,resizable=yes";
+        const urls = envUrls;
         window.open(
             `${urls[process.env.NODE_ENV]}?gather_window=true&room_type=${
                 data.gatheringType
