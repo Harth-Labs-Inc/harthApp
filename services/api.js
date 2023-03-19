@@ -2,10 +2,10 @@ import Axios from "axios";
 
 import { envUrls } from "../constants/urls";
 
-let urls = envUrls;
+const URLS = envUrls;
 
 const api = Axios.create({
-    baseURL: urls[process.env.NODE_ENV],
+    baseURL: URLS[process.env.NODE_ENV],
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

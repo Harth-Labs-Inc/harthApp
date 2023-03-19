@@ -8,6 +8,7 @@ import {
     saveUnsavedMessages,
 } from "../requests/community";
 import { getConversations } from "../requests/conversations";
+import { socketUrls } from "../constants/urls";
 
 const SocketContext = createContext({});
 
@@ -43,12 +44,9 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         if (user) {
-            let urls = {
-                development: "http://localhost:3030",
-                production: "https://project-blarg-socket.herokuapp.com",
-            };
+            const URLS = socketUrls;
             setSocket(
-                io.connect(urls[process.env.NODE_ENV], {
+                io.connect(URLS[process.env.NODE_ENV], {
                     transports: ["websocket"],
                 })
             );

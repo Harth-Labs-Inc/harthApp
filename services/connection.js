@@ -1,4 +1,5 @@
 import openSocket from "socket.io-client";
+import { videoSocketUrls } from "../constants/urls";
 import { getTurnServers } from "../util/TURN";
 
 let socketInstance = null;
@@ -330,11 +331,8 @@ class SocketConnection {
         });
     };
     initializeSocketConnection = () => {
-        const urls = {
-            development: "http://localhost:5030",
-            production: "https://project-blarg-video-socket.herokuapp.com",
-        };
-        return openSocket.connect(urls[process.env.NODE_ENV], {
+        const URLS = videoSocketUrls;
+        return openSocket.connect(URLS[process.env.NODE_ENV], {
             transports: ["websocket"],
             secure: true,
             reconnection: true,
