@@ -1,4 +1,4 @@
-import clientPromise from "../../util/mongodb";
+import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
 
 export default async (req, res) => {
