@@ -112,7 +112,7 @@ export const GatheringTile = (props) => {
                         <p className={styles.roomTitle}>{room.gatheringType}</p>
                     </div>
                     <p className={styles.GatheringTileName}>
-                        {room.roomName} 2
+                        {room.roomName}
                     </p>
                 </div>
 

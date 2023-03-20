@@ -72,41 +72,6 @@ const TopicListElement = (props) => {
                                     className={`${e?.comm_id}_${e?.creator_id}`}
                                     loading="lazy"
                                 />
-                                <img
-                                    src={e?.creator_image}
-                                    className={`${e?.comm_id}_${e?.creator_id}`}
-                                    loading="lazy"
-                                />
-                                <img
-                                    src={e?.creator_image}
-                                    className={`${e?.comm_id}_${e?.creator_id}`}
-                                    loading="lazy"
-                                />
-                                <img
-                                    src={e?.creator_image}
-                                    className={`${e?.comm_id}_${e?.creator_id}`}
-                                    loading="lazy"
-                                />
-                                <img
-                                    src={e?.creator_image}
-                                    className={`${e?.comm_id}_${e?.creator_id}`}
-                                    loading="lazy"
-                                />
-                                <img
-                                    src={e?.creator_image}
-                                    className={`${e?.comm_id}_${e?.creator_id}`}
-                                    loading="lazy"
-                                />
-                                <img
-                                    src={e?.creator_image}
-                                    className={`${e?.comm_id}_${e?.creator_id}`}
-                                    loading="lazy"
-                                />
-                                <img
-                                    src={e?.creator_image}
-                                    className={`${e?.comm_id}_${e?.creator_id}`}
-                                    loading="lazy"
-                                />
                             </>
                         );
                     })}
