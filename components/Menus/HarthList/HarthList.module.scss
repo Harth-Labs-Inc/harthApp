@@ -154,7 +154,7 @@
             height: 48px;
             padding: 6px;
             border-radius: 8px;
-            background-color: $oxygen_40;
+            background-color: $fuel_50;
         }
 
         &Image {
@@ -168,19 +168,19 @@
         }
 
         &Active {
-            background-color: $white_5;
+            background-color: $fuel_5;
         }
 
         &Name {
             width: 100%;
-            color: $white;
+            color: $fuel;
             margin-left: 4px;
             text-align: left;
             vertical-align: top;
         }
 
         &:hover {
-            background-color: $white_5;
+            background-color: $fuel_5;
         }
 
         &SettingsButton {
@@ -198,7 +198,7 @@
             margin-right: 8px;
 
             path {
-                fill: $oxygen_20;
+                fill: $fuel_20;
             }
         }
 
@@ -235,13 +235,13 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            border: 1px solid $oxygen_10;
+            border: 1px solid $fuel_10;
             border-radius: 8px;
             background: transparent;
-            padding: 4px;
+            padding: 6px;
 
             path {
-                fill: $oxygen_20;
+                fill: $fuel_50;
             }
 
             &:hover {

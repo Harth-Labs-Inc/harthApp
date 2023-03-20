@@ -112,9 +112,7 @@ export const GatheringTile = (props) => {
                         </div>
                         <p className={styles.roomTitle}>{room.gatheringType}</p>
                     </div>
-                    <p className={styles.GatheringTileName}>
-                        {room.roomName} 2
-                    </p>
+                    <p className={styles.GatheringTileName}>{room.roomName}</p>
                 </div>
 
                 <div className={styles.GatheringTileInfoStructure}>
@@ -129,7 +127,7 @@ export const GatheringTile = (props) => {
                                     >
                                         {room.gatheringTime}
                                     </p>
-                                    <div className={styles.GatheringTileType}>
+                                    {/* <div className={styles.GatheringTileType}>
                                         <div className={styles.iconHolder}>
                                             <Icon />
                                         </div>
@@ -139,7 +137,7 @@ export const GatheringTile = (props) => {
                                     </div>
                                     <p className={styles.GatheringTileName}>
                                         {room.roomName}
-                                    </p>
+                                    </p> */}
                                 </div>
                                 <p
                                     className={
