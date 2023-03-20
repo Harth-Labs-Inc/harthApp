@@ -177,8 +177,9 @@ const TopicsNav = (props) => {
         msg.updateType = "topic edited";
         msg.comm = selectedcomm;
         msg.topic = newTopic;
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
+                console.error(err);
             }
             setShowRenameTopicModal(false);
             setOpenEditTopicMenu(null);
@@ -196,7 +197,7 @@ const TopicsNav = (props) => {
         msg.updateType = "topic deleted";
         msg.comm = selectedcomm;
         msg.topic = newTopic;
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
                 console.error(err);
             }

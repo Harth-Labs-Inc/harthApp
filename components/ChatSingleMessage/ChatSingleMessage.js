@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
@@ -36,7 +36,8 @@ const shimmer = (w, h) => `
 
 const toBase64 = (str) =>
     typeof window === "undefined"
-        ? Buffer.from(str).toString("base64")
+        ? // eslint-disable-next-line
+          Buffer.from(str).toString("base64")
         : window.btoa(str);
 
 const ChatSingleMessage = (props) => {
@@ -53,12 +54,10 @@ const ChatSingleMessage = (props) => {
         message,
         attachments = [],
         reactions = [],
-        topic_id,
     } = props.msg;
     const {
         editMessageText,
         messageID,
-        msgReload,
         bucket = "topic-message-attachments",
         chatType = "topic",
         openImageSlideShow,
@@ -66,7 +65,7 @@ const ChatSingleMessage = (props) => {
 
     const { user } = useAuth();
     const { emitUpdate } = useSocket();
-    const { selectedcomm, selectedTopic } = useComms();
+    const { selectedcomm } = useComms();
 
     useEffect(() => {
         async function fetchDownloadURL() {
@@ -74,7 +73,7 @@ const ChatSingleMessage = (props) => {
                 let promises = [];
                 attachments.forEach((att) => {
                     promises.push(
-                        new Promise(async (res, rej) => {
+                        new Promise(async (res) => {
                             const data = await getDownloadURL(
                                 att.name,
                                 att.fileType,
@@ -112,62 +111,62 @@ const ChatSingleMessage = (props) => {
         if (chatType == "gather") {
             deleteConversation();
         } else {
-            const data = await deleteMessage(_id);
+            await deleteMessage(_id);
             let msg = props.msg;
             msg.action = "delete";
             msg.updateType = "message update";
-            emitUpdate(selectedcomm._id, msg, async (err, status) => {
+            emitUpdate(selectedcomm._id, msg, async (err) => {
                 if (err) {
                     console.error(err);
                 }
-                let { ok } = status;
-                if (ok) {
-                }
+                // let { ok } = status;
+                // if (ok) {
+                // }
             });
         }
     };
     const updateMsg = async () => {
         let msg = props.msg;
-        const data = await updateMessage(msg);
+        await updateMessage(msg);
         msg.updateType = "message update";
         msg.action = "update";
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
                 console.error(err);
             }
-            let { ok } = status;
-            if (ok) {
-            }
+            // let { ok } = status;
+            // if (ok) {
+            // }
         });
     };
 
     // gather/conversation specific
     const updateConversation = async () => {
         let msg = props.msg;
-        const data = await updateConversationMessage(msg);
+        await updateConversationMessage(msg);
         msg.updateType = "conversation message update";
         msg.action = "update";
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
                 console.error(err);
             }
-            let { ok } = status;
-            if (ok) {
-            }
+            // let { ok } = status;
+            // if (ok) {
+            // }
         });
     };
     const deleteConversation = async () => {
-        const data = await deleteConversationMessage(_id);
+        await deleteConversationMessage(_id);
         let msg = props.msg;
         msg.action = "delete";
         msg.updateType = "conversation message update";
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
                 console.error(err);
             }
-            let { ok } = status;
-            if (ok) {
-            }
+            // let { ok } = status;
+            // if (ok) {
+            // }
         });
     };
 
@@ -231,7 +230,7 @@ const ChatSingleMessage = (props) => {
                 <div className={styles.EmojiPicker}>
                     <Picker
                         data={data}
-                        className={`attach-emoji`}
+                        className={"attach-emoji"}
                         onEmojiSelect={addEmoji}
                         autoFocus={true}
                         emojiButtonColors={[

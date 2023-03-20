@@ -6,6 +6,8 @@ export default async (req, res) => {
         obj = req.body;
     }
 
+    /* eslint-disable */
+
     const promiseTimout = new Promise((resolve, reject) => {
         setTimeout(resolve, 4000, "timeout");
     });

@@ -1,11 +1,11 @@
-@import '../../../styles/globals.scss';
-@import '../../../styles/fonts.scss';
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
 
 .topicHolderMobile {
-  position: relative;
-  height: 100%;
-  //overflow: auto;
-  //background-color: #ee5500;
+    position: relative;
+    height: 100%;
+    //overflow: auto;
+    //background-color: #ee5500;
 }
 
 .chatHolderMobile {
@@ -13,16 +13,12 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    
+
     //height: 100%;
     //width: 100%;
     //overflow: auto;
     background-color: #ee5500;
-  }
-
-
-
-
+}
 
 .topicHolderDesktop {
     position: relative;

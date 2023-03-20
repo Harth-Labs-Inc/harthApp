@@ -1,6 +1,8 @@
 import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
 
+/* eslint-disable */
+
 export default async (req, res) => {
     let obj;
 

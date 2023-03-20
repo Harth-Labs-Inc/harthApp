@@ -1,4 +1,4 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
@@ -7,16 +7,11 @@ import { IconCancelFill } from "../../resources/icons/IconCancelFill";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
 
-import {
-    saveMessage,
-    updateMessage,
-    saveMessageReply,
-    addReplyID,
-} from "../../requests/chat";
+import { saveMessage, updateMessage } from "../../requests/chat";
 import { useComms } from "../../contexts/comms";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
-import { MobileContext } from "../../contexts/mobile";
+
 import {
     getUploadURL,
     putImageInBucket,
@@ -34,20 +29,13 @@ const ChatInput = (props) => {
     const [uploadingAttachments, setUploadingAttachments] = useState([]);
 
     const [altKey, setAltKey] = useState(false);
-    const { isMobile } = useContext(MobileContext);
 
     const { user } = useAuth();
     const { selectedcomm, selectedTopic } = useComms();
     const { emitUpdate } = useSocket();
 
-    const {
-        selectedEdit,
-        isReply,
-        replyOwner,
-        topicInputs,
-        setTopicInputs,
-        resetEdit,
-    } = props;
+    const { selectedEdit, isReply, topicInputs, setTopicInputs, resetEdit } =
+        props;
 
     const textRef = useRef();
     const fileRef = useRef();
@@ -83,12 +71,12 @@ const ChatInput = (props) => {
     };
     const getPastedData = (e) => {
         const { files } = e.clipboardData;
-        const text = e.clipboardData.getData("Text");
+        // const text = e.clipboardData.getData("Text");
         if (files[0]) {
             addAttachment(files[0]);
         }
-        if (text) {
-        }
+        // if (text) {
+        // }
     };
     const openFileSelector = () => {
         fileRef.current.click();
@@ -194,7 +182,7 @@ const ChatInput = (props) => {
         setAttachments([]);
         message.updateType = "new message";
         setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
-        emitUpdate(selectedcomm?._id, message, async (err, status) => {
+        emitUpdate(selectedcomm?._id, message, async (err) => {
             if (err) {
                 console.error(err);
             }
@@ -205,7 +193,7 @@ const ChatInput = (props) => {
         attachments.forEach((file, idx) => {
             setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
             promises.push(
-                new Promise(async (res, rej) => {
+                new Promise(async (res) => {
                     let extention = file.name.split(".").pop();
                     let name = `${id}_${idx + 1}_full.${extention}`;
                     let thumbnail = `${id}_${idx + 1}_thumbnail.${extention}`;
@@ -261,7 +249,7 @@ const ChatInput = (props) => {
     };
     const submitMessageLogic = () => {
         if (isReply) {
-            sendReply();
+            // sendReply();
         } else {
             sendMessagge();
         }
@@ -341,7 +329,7 @@ const ChatInput = (props) => {
                             submitMessageLogic();
                         }
                     }}
-                    onKeyUp={(e) => {
+                    onKeyUp={() => {
                         setAltKey(false);
                     }}
                     onPaste={getPastedData}

@@ -9,201 +9,222 @@ import { IconForumFill } from "../../resources/icons/IconForumFill";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
-import { IconSettings } from "../../resources/icons/IconSettings";
 
 import styles from "./mainNav.module.scss";
 import { useSocket } from "../../contexts/socket";
 
 const MainNav = (props) => {
-  const { changePage, currentPage, onToggleMenu } = props;
-  const [modal, setModal] = useState(false);
+    const { changePage, currentPage, onToggleMenu } = props;
+    const [modal, setModal] = useState(false);
 
-  const { isMobile } = useContext(MobileContext);
-  const { selectedcomm, selectedCommRef } = useComms();
-  const { mainAlerts, setMainAlerts } = useSocket();
+    const { isMobile } = useContext(MobileContext);
+    const { selectedcomm, selectedCommRef } = useComms();
+    const { mainAlerts, setMainAlerts } = useSocket();
 
-  const unreadMessagesOther = true;
+    const unreadMessagesOther = true;
 
-  useEffect(() => {
-    if (selectedCommRef.current && mainAlerts[selectedCommRef.current?._id]) {
-      let alerts = mainAlerts[selectedCommRef.current?._id];
-      if (alerts) {
-        for (let [key, value] of Object.entries(alerts)) {
-          if (currentPage == key && value) {
-            alerts[key] = false;
-            setMainAlerts({
-              ...mainAlerts,
-              [selectedCommRef.current?._id]: alerts,
-            });
-          }
+    useEffect(() => {
+        if (
+            selectedCommRef.current &&
+            mainAlerts[selectedCommRef.current?._id]
+        ) {
+            let alerts = mainAlerts[selectedCommRef.current?._id];
+            if (alerts) {
+                for (let [key, value] of Object.entries(alerts)) {
+                    if (currentPage == key && value) {
+                        alerts[key] = false;
+                        setMainAlerts({
+                            ...mainAlerts,
+                            [selectedCommRef.current?._id]: alerts,
+                        });
+                    }
+                }
+            }
         }
-      }
-    }
-  }, [mainAlerts, currentPage, selectedcomm]);
+    }, [mainAlerts, currentPage, selectedcomm]);
 
-  const handleHarthMenu = () => {
-    if (!isMobile) {
-      setModal((prevState) => !prevState);
-    }
-    if (isMobile) {
-      onToggleMenu();
-    }
-  };
+    const handleHarthMenu = () => {
+        if (!isMobile) {
+            setModal((prevState) => !prevState);
+        }
+        if (isMobile) {
+            onToggleMenu();
+        }
+    };
 
-  const showModal = () => {
-    setModal((prevState) => !prevState);
-  };
+    const showModal = () => {
+        setModal((prevState) => !prevState);
+    };
 
-  return (
-    <>
-      {modal ? (
-        <Modal onToggleModal={showModal}>
-          <HarthSettings
-            communityName={selectedcomm?.name}
-            communityId={selectedcomm?._id}
-            onToggleModal={showModal}
-          />
-        </Modal>
-      ) : (
-        ""
-      )}
+    /* eslint-disable */
 
-      <header
-        className={`${styles.MainNav} ${
-          isMobile ? styles.Mobile : styles.Desktop
-        }`}
-      >
-        {isMobile ? (
-          <button
-            className={`
+    return (
+        <>
+            {modal ? (
+                <Modal onToggleModal={showModal}>
+                    <HarthSettings
+                        communityName={selectedcomm?.name}
+                        communityId={selectedcomm?._id}
+                        onToggleModal={showModal}
+                    />
+                </Modal>
+            ) : (
+                ""
+            )}
+
+            <header
+                className={`${styles.MainNav} ${
+                    isMobile ? styles.Mobile : styles.Desktop
+                }`}
+            >
+                {isMobile ? (
+                    <button
+                        className={`
                         ${styles.MainNavHarthButton}
                         ${
-                          unreadMessagesOther
-                            ? styles.MainNavHarthButtonUnreadMessage
-                            : null
+                            unreadMessagesOther
+                                ? styles.MainNavHarthButtonUnreadMessage
+                                : null
                         }
                         `}
-            onClick={handleHarthMenu}
-            aria-label="Current Harth"
-          >
-            <img
-              className={styles.MainNavHarthButtonImage}
-              src={selectedcomm?.iconKey}
-              loading="lazy"
-            />
-          </button>
-        ) : (
-          <div className={styles.MainNavTitleHolder}>
-          <button
-            className={styles.MainNavHarthButton}
-            onClick={handleHarthMenu}
-            aria-label="Current Harth Settings"
-          >
-            {selectedcomm?.name}
-          </button>
-          <span className={styles.Section}>\ {currentPage}</span>
-          </div>
-        )}
+                        onClick={handleHarthMenu}
+                        aria-label="Current Harth"
+                    >
+                        <img
+                            className={styles.MainNavHarthButtonImage}
+                            src={selectedcomm?.iconKey}
+                            loading="lazy"
+                        />
+                    </button>
+                ) : (
+                    <div className={styles.MainNavTitleHolder}>
+                        <button
+                            className={styles.MainNavHarthButton}
+                            onClick={handleHarthMenu}
+                            aria-label="Current Harth Settings"
+                        >
+                            {selectedcomm?.name}
+                        </button>
+                        <span className={styles.Section}>\ {currentPage}</span>
+                    </div>
+                )}
 
-        <div
-          className={`
+                <div
+                    className={`
                     ${styles.MainNavPages} 
                     ${isMobile && styles.MainNavPagesMobile}
 
                 `}
-        >
-          <button
-            role="nav-item"
-            id="chat"
-            aria-label="Community Chat"
-            className={`
+                >
+                    <button
+                        role="nav-item"
+                        id="chat"
+                        aria-label="Community Chat"
+                        className={`
                             ${styles.MainNavPageButton} 
                             ${currentPage == "chat" && styles.ActiveChat}
 
                         `}
-            onClick={() => {
-              changePage("chat");
-            }}
-          >
-            <div
-              className={`
+                        onClick={() => {
+                            changePage("chat");
+                        }}
+                    >
+                        <div
+                            className={`
                             ${styles.iconHolder} 
                             ${
-                              mainAlerts[selectedCommRef.current?._id] &&
-                              mainAlerts[selectedCommRef.current?._id]?.chat &&
-                              currentPage != "chat" &&
-                              styles.iconHolderUnreadMessage
+                                mainAlerts[selectedCommRef.current?._id] &&
+                                mainAlerts[selectedCommRef.current?._id]
+                                    ?.chat &&
+                                currentPage != "chat" &&
+                                styles.iconHolderUnreadMessage
                             }
 
                             `}
-            >
-              {currentPage == "chat" ? <IconChatFill /> : <IconChatNoFill />}
-            </div>
-          </button>
+                        >
+                            {currentPage == "chat" ? (
+                                <IconChatFill />
+                            ) : (
+                                <IconChatNoFill />
+                            )}
+                        </div>
+                    </button>
 
-          <button
-            role="nav-item"
-            id="gather"
-            aria-label="Gather"
-            className={`
+                    <button
+                        role="nav-item"
+                        id="gather"
+                        aria-label="Gather"
+                        className={`
                             ${styles.MainNavPageButton} 
-                            ${currentPage == "gather" ? styles.ActiveGather : null} 
+                            ${
+                                currentPage == "gather"
+                                    ? styles.ActiveGather
+                                    : null
+                            } 
                         `}
-            onClick={() => {
-              changePage("gather");
-            }}
-          >
-            <div
-              className={`
+                        onClick={() => {
+                            changePage("gather");
+                        }}
+                    >
+                        <div
+                            className={`
                             ${styles.iconHolder} 
                             ${
-                              mainAlerts[selectedCommRef.current?._id] &&
-                              mainAlerts[selectedCommRef.current?._id]
-                                ?.gather &&
-                              currentPage != "gather" &&
-                              styles.iconHolderUnreadMessage
+                                mainAlerts[selectedCommRef.current?._id] &&
+                                mainAlerts[selectedCommRef.current?._id]
+                                    ?.gather &&
+                                currentPage != "gather" &&
+                                styles.iconHolderUnreadMessage
                             }
                             `}
-            >
-              {currentPage == "gather" ? <IconFireFill /> : <IconFireNoFill />}
-            </div>
-          </button>
+                        >
+                            {currentPage == "gather" ? (
+                                <IconFireFill />
+                            ) : (
+                                <IconFireNoFill />
+                            )}
+                        </div>
+                    </button>
 
-          <button
-            role="nav-item"
-            id="message"
-            aria-label="Private Messages"
-            className={`
+                    <button
+                        role="nav-item"
+                        id="message"
+                        aria-label="Private Messages"
+                        className={`
                             ${styles.MainNavPageButton} 
-                            ${currentPage == "message" ? styles.ActiveMessage : null} 
+                            ${
+                                currentPage == "message"
+                                    ? styles.ActiveMessage
+                                    : null
+                            } 
                         `}
-            onClick={() => {
-              changePage("message");
-            }}
-          >
-            <div
-              className={`
+                        onClick={() => {
+                            changePage("message");
+                        }}
+                    >
+                        <div
+                            className={`
                             ${styles.iconHolder} 
                             ${
-                              mainAlerts[selectedCommRef.current?._id] &&
-                              mainAlerts[selectedCommRef.current?._id]
-                                ?.message &&
-                              currentPage != "message" &&
-                              styles.iconHolderUnreadMessage
+                                mainAlerts[selectedCommRef.current?._id] &&
+                                mainAlerts[selectedCommRef.current?._id]
+                                    ?.message &&
+                                currentPage != "message" &&
+                                styles.iconHolderUnreadMessage
                             }
                             `}
-            >
-              {currentPage == "message" ? (
-                <IconForumFill />
-              ) : (
-                <IconForumNoFill />
-              )}
-            </div>
-          </button>
-        </div>
-      </header>
-    </>
-  );
+                        >
+                            {currentPage == "message" ? (
+                                <IconForumFill />
+                            ) : (
+                                <IconForumNoFill />
+                            )}
+                        </div>
+                    </button>
+                </div>
+            </header>
+        </>
+    );
 };
 
 export default MainNav;

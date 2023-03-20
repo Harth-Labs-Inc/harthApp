@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { IconVideoFill } from "../../../resources/icons/IconVideoFill";
 import { IconVideoOffFill } from "../../../resources/icons/IconVideoOffFill";
 import styles from "./gatheringButtons.module.scss";

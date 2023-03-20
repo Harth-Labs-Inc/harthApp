@@ -1,7 +1,5 @@
-@import '../../styles/fonts.scss';
-@import '../../styles/globals.scss';
-
-
+@import "../../styles/fonts.scss";
+@import "../../styles/globals.scss";
 
 .mainContainer {
     display: flex;
@@ -13,14 +11,11 @@
     font-size: 14px;
     text-align: center;
     align-items: center;
-    
-
 
     .text {
-        font-weight:500;
+        font-weight: 500;
         text-transform: uppercase;
         color: $fuel;
-        
     }
 
     .topic {
@@ -46,13 +41,11 @@
         margin-bottom: 16px;
     }
 
-
     .form {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-
 
     .buttonBar {
         display: flex;
@@ -63,7 +56,7 @@
         margin-top: 16px;
 
         .cancelButton {
-             width: 96px;
+            width: 96px;
             // min-width: 88px;
         }
 
@@ -71,10 +64,4 @@
             width: 100%;
         }
     }
-
-    
 }
-
-
-
-

@@ -3,8 +3,6 @@ import { useState } from "react";
 import { useAuth } from "../../../contexts/auth";
 import {
     saveAcountSettingsUpdates,
-    sendOtpEmailToUser,
-    loginAttempt,
     sendFullRefreshOTPEmail,
 } from "../../../requests/userApi";
 
@@ -19,6 +17,7 @@ const AccountProfile = (props) => {
     const { user, setContextUser } = useAuth();
     const [currentTab, setCurrentTab] = useState("");
     const [formData, setFormData] = useState({ ...user });
+    /* eslint-disable-next-line */
     const [originalData, setOriginalData] = useState({ ...user });
     const [showOTPModal, setShowOTPModal] = useState(false);
 

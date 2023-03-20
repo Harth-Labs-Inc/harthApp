@@ -10,7 +10,6 @@ import { MobileContext } from "../../../contexts/mobile";
 import GatheringTileControls from "./GatheringTileControls";
 import styles from "./GatheringTile.module.scss";
 
-
 export const GatheringTile = (props) => {
     const [isInRoom, setIsInRoom] = useState(false);
     const {
@@ -69,7 +68,6 @@ export const GatheringTile = (props) => {
             );
             await updateScheduleRoom(tempRoom);
             refreshScheduledCallRooms(room);
-        } else {
         }
     };
 
@@ -82,6 +80,8 @@ export const GatheringTile = (props) => {
 
         return scheduleDate;
     };
+
+    /* eslint-disable */
 
     return (
         <div
@@ -106,16 +106,18 @@ export const GatheringTile = (props) => {
             <div className={styles.Info}>
                 <div>
                     <div className={styles.GatheringTileType}>
-                        <div className={styles.iconHolder}><Icon /></div>
-                        <p className={styles.roomTitle}>{room.gatheringType}</p> 
+                        <div className={styles.iconHolder}>
+                            <Icon />
+                        </div>
+                        <p className={styles.roomTitle}>{room.gatheringType}</p>
                     </div>
-                    <p className={styles.GatheringTileName}>{room.roomName} 2</p>
-                    
+                    <p className={styles.GatheringTileName}>
+                        {room.roomName} 2
+                    </p>
                 </div>
-                
+
                 <div className={styles.GatheringTileInfoStructure}>
                     <div className={styles.GatheringTileScheduled}>
-                        
                         {cardType === "schedule" ? (
                             <>
                                 <div>
@@ -144,11 +146,12 @@ export const GatheringTile = (props) => {
                     <div className={styles.GatheringTilePeopleDescription}>
                         <div className={styles.GatheringTileAttendeeWrapper}>
                             {peers.length > 0 ? (
-                                peers.map((peer, index) => {
+                                peers.map((peer) => {
                                     return (
                                         <>
                                             {peer.img ? (
                                                 <div
+                                                    key={peer.id}
                                                     className={
                                                         styles.profileImage
                                                     }
@@ -161,6 +164,7 @@ export const GatheringTile = (props) => {
                                                 </div>
                                             ) : (
                                                 <div
+                                                    key={peer.id}
                                                     className={styles.empty}
                                                     title={peer.name}
                                                 >
@@ -202,7 +206,6 @@ export const GatheringTile = (props) => {
                         handleDropRoom={handleDropRoom}
                         owner={owner}
                     />
-                
                 </div>
             </div>
         </div>

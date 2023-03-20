@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ErrorMessage from "../../../Common/Input/ErrorMessage";
 import { Button, Modal } from "../../../Common";
 import { useComms } from "../../../../contexts/comms";
 import { useAuth } from "../../../../contexts/auth";
 import { useSocket } from "../../../../contexts/socket";
-import { saveTopics, getHarthByID } from "../../../../requests/community";
-import { addRoomToUsers } from "../../../../requests/rooms";
+import { getHarthByID } from "../../../../requests/community";
+// import { addRoomToUsers } from "../../../../requests/rooms";
 import { saveConversation } from "../../../../requests/conversations";
 import styles from "./CreateNewConversationModal.module.scss";
 
@@ -80,11 +80,11 @@ export default function CreateNewConversationModal({ toggleModal }) {
             conversation._id = id;
             toggleModal();
             conversation.updateType = "new conversation";
-            emitUpdate(selectedcomm._id, conversation, async (err, status) => {
+            emitUpdate(selectedcomm._id, conversation, async (err) => {
                 if (err) {
                     console.error(err);
                 }
-                let { ok } = status;
+                // let { ok } = status;
             });
         }
     };
@@ -107,7 +107,10 @@ export default function CreateNewConversationModal({ toggleModal }) {
                                 })
                                 .map((usr) => {
                                     return (
-                                        <div className={styles.Person}>
+                                        <div
+                                            key={usr.name}
+                                            className={styles.Person}
+                                        >
                                             <input
                                                 ref={register}
                                                 type="checkbox"

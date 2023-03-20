@@ -8,6 +8,8 @@ import { useComms } from "./comms";
 import { useSocket } from "./socket";
 const VideoContext = createContext({});
 
+/* eslint-disable */
+
 let myPeer;
 export const VideoProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);

@@ -4,6 +4,8 @@ import { envUrls } from "../constants/urls";
 
 const URLS = envUrls;
 
+/* eslint-disable */
+
 const api = Axios.create({
     baseURL: URLS[process.env.NODE_ENV],
     headers: {

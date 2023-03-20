@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { updateScheduleRoom } from "../../../../requests/rooms";
 
@@ -6,12 +6,14 @@ import GatheringText from "./GatheringText";
 import GatheringType from "./GatheringType";
 import GatheringTime from "./GatheringTime";
 import { useGatheringFormState } from "./GatheringFormContext";
-import { convertToAmPm, combineDateTime } from "../../../../services/helper";
+import { convertToAmPm } from "../../../../services/helper";
 import { useVideo } from "../../../../contexts/video";
 
 import { Button } from "../../../../components/Common";
 
 import styles from "./GatheringForm.module.scss";
+
+/* eslint-disable */
 
 function GatherForm(props) {
     const [isSchedule, setIsSchedule] = useState(false);

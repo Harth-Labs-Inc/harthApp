@@ -4,7 +4,7 @@ import OutsideClickHandler from "./OutsideClick";
 import styles from "./Modal.module.scss";
 
 export const SideModal = (props) => {
-    const { show, children, id, onToggleModal } = props;
+    const { children, id, onToggleModal } = props;
 
     const ref = useRef();
 

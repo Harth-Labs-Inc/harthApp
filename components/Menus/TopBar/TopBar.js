@@ -20,7 +20,7 @@ const TopBar = ({ children, currentPage }) => {
         return null;
     }
 
-    let { name, iconKey } = profile;
+    let { iconKey } = profile;
 
     return (
         <>

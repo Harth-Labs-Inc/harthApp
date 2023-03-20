@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useComms } from "../../contexts/comms";
-import { Button, Modal } from "../Common";
+import { useState } from "react";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+
+import { Button } from "Common";
+
 import styles from "./TopicEditModal.module.scss";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../Common/Input/ErrorMessage";
@@ -14,7 +15,6 @@ const TopicEditModal = ({ setHidden, topic, submitTopicChange }) => {
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
     } = useForm({ defaultValues: { topicName: topic.title } });
 

@@ -3,15 +3,15 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
-import { login, addUser, sendOtpEmailToUser } from "../../../requests/userApi";
+import { addUser, sendOtpEmailToUser } from "../../../requests/userApi";
 import { Button } from "../../../components/Common";
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 
 import styles from "./createAccount.module.scss";
 
-const CreateAccount = (props) => {
-    const { changePage, inviteToken } = props;
+const CreateAccount = () => {
+    // const { changePage, inviteToken } = props;
     const router = useRouter();
 
     const [submissionType, setSubmissionType] = useState();
@@ -82,6 +82,7 @@ const CreateAccount = (props) => {
                     <input
                         {...register("email", {
                             required: true,
+                            /* eslint-disable-next-line */
                             pattern: /.*\@.*\.\w{2,3}/g,
                         })}
                         type="email"
@@ -97,7 +98,8 @@ const CreateAccount = (props) => {
                         //placeholder="Your Birthday"
                     />
                     <div className={styles.small}>
-                        Enter your birthday for verification. Your birthday will not be publicly displayed.
+                        Enter your birthday for verification. Your birthday will
+                        not be publicly displayed.
                     </div>
 
                     <ErrorMessage

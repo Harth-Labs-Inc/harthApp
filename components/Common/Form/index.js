@@ -1,20 +1,10 @@
-import { FormProvider, useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 
 const Form = (props) => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
-    const {
-        children,
-        data,
-        on_submit,
-        on_missing,
-        id,
-        errorData,
-        ignoreMissing,
-    } = props;
+    // const {
+    //     formState: { errors },
+    // } = useForm();
+    const { children, id } = props;
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -36,7 +26,6 @@ const Form = (props) => {
         if (validForm) {
             // do good stuff
             // on_submit();
-        } else {
         }
     };
 

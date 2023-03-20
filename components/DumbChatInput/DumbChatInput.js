@@ -1,4 +1,4 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
@@ -6,8 +6,8 @@ import { IconSend } from "../../resources/icons/IconSend";
 import { IconCancelFill } from "../../resources/icons/IconCancelFill";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
-import { MobileContext } from "../../contexts/mobile";
-import { updateConversationMessage } from "../../requests/conversations";
+
+// import { updateConversationMessage } from "../../requests/conversations";
 
 import ImageHolder from "../ChatInput/ImageHolder";
 import styles from "./DumbChatInput.module.scss";
@@ -17,7 +17,6 @@ const DumbChatInput = (props) => {
     const [emojiPickerState, setEmojiPicker] = useState(false);
     const [selectedEditMsg, setSelectedEditMsg] = useState({});
     const [altKey, setAltKey] = useState(false);
-    const { isMobile } = useContext(MobileContext);
 
     const {
         selectedEdit,
@@ -63,12 +62,12 @@ const DumbChatInput = (props) => {
     };
     const getPastedData = (e) => {
         const { files } = e.clipboardData;
-        const text = e.clipboardData.getData("Text");
+        // const text = e.clipboardData.getData("Text");
         if (files[0]) {
             addAttachment(files[0]);
         }
-        if (text) {
-        }
+        // if (text) {
+        // }
     };
     const openFileSelector = () => {
         fileRef.current.click();
@@ -240,7 +239,7 @@ const DumbChatInput = (props) => {
                             submitMessageLogic();
                         }
                     }}
-                    onKeyUp={(e) => {
+                    onKeyUp={() => {
                         setAltKey(false);
                     }}
                     onPaste={getPastedData}

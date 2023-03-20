@@ -14,6 +14,8 @@ export const Button = (props) => {
         isLoading = false,
     } = props;
 
+    /* eslint-disable */
+
     return (
         <button
             type={type}
@@ -27,7 +29,7 @@ export const Button = (props) => {
                 ${size === "large" ? styles.buttonLarge : styles.buttonSmall} 
                 ${fullWidth ? styles.buttonFullWidth : ""}
                 ${className}
-                ${(isLoading && (tier =="primary")) && styles.buttonLoading}
+                ${isLoading && tier == "primary" && styles.buttonLoading}
             `}
             disabled={isDisabled}
             aria-label={textLabel}

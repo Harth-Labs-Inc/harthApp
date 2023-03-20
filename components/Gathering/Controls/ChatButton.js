@@ -15,6 +15,8 @@ export const ChatButton = (props) => {
         onPress();
     };
 
+    /* eslint-disable */
+
     return (
         <>
             <button

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ConversationMessages } from "../../../components/Conversations/ConversationMessages";
 import { MobileContext } from "../../../contexts/mobile.js";
 import ConversationsNav from "../../../components/Menus/ConversationMenu/ConversationsNav";

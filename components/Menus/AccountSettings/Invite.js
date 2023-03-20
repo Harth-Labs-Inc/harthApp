@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 
 import { useComms } from "../../../contexts/comms";
-import { generateInvite, getInviteById } from "../../../requests/community";
+import { generateInvite } from "../../../requests/community";
 
 import { envUrls } from "../../../constants/urls";
 
@@ -12,9 +12,9 @@ import styles from "./SettingsMenu.module.scss";
 const URLS = envUrls;
 
 const InviteComp = (props) => {
-    const { comms, selectedcomm, setCommsFromChild } = useComms();
+    const { comms, setCommsFromChild } = useComms();
     const [COMMS, SETCOMMS] = useState([]);
-    const [selectedHarth, setSelectedHarth] = useState("");
+    // const [selectedHarth, setSelectedHarth] = useState("");
     const { toggleCurrentPage } = props;
 
     const commsRef = useRef([]);
@@ -89,6 +89,7 @@ const InviteComp = (props) => {
                             if (invite_tkn) {
                                 validCode = true;
                                 url = `${
+                                    /* eslint-disable-next-line */
                                     URLS[process.env.NODE_ENV]
                                 }/?invite=true&tkn=${invite_tkn}`;
                             }
@@ -96,7 +97,7 @@ const InviteComp = (props) => {
                     }
 
                     return (
-                        <div className={styles.InviteListItem}>
+                        <div key={comm.id} className={styles.InviteListItem}>
                             <div className={styles.InviteListItemInfo}>
                                 <img
                                     loading="lazy"

@@ -1,6 +1,4 @@
-import React from "react";
-
-import { Button } from "../../Common/Buttons/Button";
+import { Button } from "Common";
 
 import styles from "./ConversationDeleteModal.module.scss";
 

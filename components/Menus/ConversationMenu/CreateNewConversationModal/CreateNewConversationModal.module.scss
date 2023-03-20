@@ -1,8 +1,6 @@
 @import "../../../../styles/globals.scss";
 @import "../../../../styles/fonts.scss";
 
-
-
 .mainContainer {
     display: flex;
     flex-direction: column;
@@ -68,9 +66,8 @@
                     @include topicTitle;
                     margin-left: -4px;
                 }
-                
 
-                input[type=checkbox] {
+                input[type="checkbox"] {
                     position: relative;
                     appearance: none;
                     width: 32px;
@@ -81,7 +78,7 @@
                     //box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
                     &::before {
-                        content: '\2714';
+                        content: "\2714";
                         position: absolute;
                         top: 50%;
                         left: 50%;
@@ -96,8 +93,8 @@
                         background-color: $fuel_5;
                     }
                 }
-                  
-                input[type=checkbox]:checked {
+
+                input[type="checkbox"]:checked {
                     position: relative;
                     border-color: $hot_pink;
 
@@ -105,7 +102,6 @@
                         opacity: 1;
                     }
                 }
-              
             }
         }
 
@@ -188,6 +184,5 @@
         gap: 16px;
         justify-content: space-between;
         margin-top: 32px;
-
     }
 }

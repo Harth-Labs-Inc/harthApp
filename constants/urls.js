@@ -9,6 +9,6 @@ export const socketUrls = {
 };
 
 export const videoSocketUrls = {
-    development: "https://localhost:5030",
+    development: "http://localhost:5030",
     production: "https://project-blarg-video-socket.herokuapp.com",
 };

@@ -1,6 +1,8 @@
 import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
 
+/* eslint-disable */
+
 export default async (req, res) => {
     let obj;
     try {
@@ -11,9 +13,9 @@ export default async (req, res) => {
     let { id, name, fileType } = obj;
 
     const pushToMessage = (db, id, name, fileType) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             let mongo = require("mongodb");
-            let o_id = new mongo.ObjectID(id);
+            let o_id = new mongo.ObjectId(id);
             db.collection("messages").updateMany(
                 { _id: o_id },
                 { $push: { attachments: { name, fileType } } },
@@ -32,7 +34,7 @@ export default async (req, res) => {
 
     // authentication ---------------------------------
     const findUser = (db, id) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             let mongo = require("mongodb");
             let o_id = new mongo.ObjectID(id);
             db.collection("users")
@@ -46,7 +48,7 @@ export default async (req, res) => {
         });
     };
     const decode = (tokn) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             resolve(jwt.verify(tokn, process.env.SECRET));
         });
     };

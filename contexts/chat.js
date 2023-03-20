@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { useComms } from "./comms";
 import { getMessagesByTopic, getRepliesByOwner } from "../requests/chat";
 
@@ -6,7 +6,7 @@ const ChatContext = createContext({});
 
 export const ChatProvider = ({ children }) => {
     const [messages, setMessages] = useState({});
-    const { selectedTopic, topics, setTopic } = useComms();
+    const { selectedTopic } = useComms();
     const [replies, setReplies] = useState({});
     const [selectedReplyOwner, setSelectedReplyOwner] = useState({});
 

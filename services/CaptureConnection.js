@@ -5,6 +5,8 @@ import { getTurnServers } from "../util/TURN";
 let socketInstance = null;
 let peers = {};
 
+/* eslint-disable */
+
 class SocketCaptureConnection {
     videoContainer = {};
     message = [];

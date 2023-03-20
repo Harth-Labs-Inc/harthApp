@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { IconPresentFill } from "../../../resources/icons/IconPresentFill";
 import { IconCancelCastFill } from "../../../resources/icons/IconCancelCastFill";
 import styles from "./gatheringButtons.module.scss";
 
 export const StreamButton = (props) => {
-    const { isMobile = false, helpText, onPress, isOn } = props;
+    const { isMobile = false, onPress, isOn } = props;
 
     return (
         <button

@@ -1,5 +1,3 @@
-import { useForm } from "react-hook-form";
-
 import ErrorMessage from "./ErrorMessage";
 import styles from "./Input.module.scss";
 
@@ -18,7 +16,7 @@ export const Input = (props) => {
         matching,
         customError,
         placeholder,
-        isRoom= false,
+        isRoom = false,
     } = props;
 
     const inputChangeHandler = (e) => {

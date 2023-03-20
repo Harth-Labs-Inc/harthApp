@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-import { Button, Input } from "../../../../components/Common";
+import { Button, Input } from "Common";
 import { useGatheringFormState } from "../GatherForm/GatheringFormContext";
 import styles from "./GatherCreate.module.scss";
 
@@ -42,7 +40,7 @@ const GatherCreate = ({ createRoomFormSubmit, createScheduleRoom }) => {
                                 ? styles.gatheringCreateRoomTypeActive
                                 : ""
                         }`}
-                        onClick={(e) => {
+                        onClick={() => {
                             dispatch({
                                 type: "GATHERING_TYPE_CHANGE",
                                 payload: "voice",
@@ -57,7 +55,7 @@ const GatherCreate = ({ createRoomFormSubmit, createScheduleRoom }) => {
                                 ? styles.gatheringCreateRoomTypeActive
                                 : ""
                         }`}
-                        onClick={(e) => {
+                        onClick={() => {
                             dispatch({
                                 type: "GATHERING_TYPE_CHANGE",
                                 payload: "stream",
@@ -72,7 +70,7 @@ const GatherCreate = ({ createRoomFormSubmit, createScheduleRoom }) => {
                                 ? styles.gatheringCreateRoomTypeActive
                                 : ""
                         }`}
-                        onClick={(e) => {
+                        onClick={() => {
                             dispatch({
                                 type: "GATHERING_TYPE_CHANGE",
                                 payload: "party",

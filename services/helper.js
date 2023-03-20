@@ -203,10 +203,10 @@ export function uploadFile({ file, bucket }) {
             let id = generateID();
             let name = `${id}_${file.name.split(".")[0]}.${extention}`;
             const data = await getUploadURL(name, file.type, bucket);
-            const { ok, msg, uploadURL } = data;
+            const { ok, uploadURL } = data;
             if (ok) {
                 let reader = new FileReader();
-                reader.addEventListener("loadend", async (event) => {
+                reader.addEventListener("loadend", async () => {
                     let result = await putImageInBucket(
                         uploadURL,
                         reader,
@@ -237,10 +237,10 @@ export function uploadCustomNamedFile({ file, bucket, name }) {
             let extention = file.name.split(".").pop();
             let newName = `${name}.${extention}`;
             const data = await getUploadURL(newName, file.type, bucket);
-            const { ok, msg, uploadURL } = data;
+            const { ok, uploadURL } = data;
             if (ok) {
                 let reader = new FileReader();
-                reader.addEventListener("loadend", async (event) => {
+                reader.addEventListener("loadend", async () => {
                     let result = await putImageInBucket(
                         uploadURL,
                         reader,

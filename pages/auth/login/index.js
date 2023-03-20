@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import {
-    login,
-    sendOtpEmailToUser,
-    loginAttempt,
-} from "../../../requests/userApi";
+import { sendOtpEmailToUser, loginAttempt } from "../../../requests/userApi";
 
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
-import { Button, Input } from "../../../components/Common";
+import { Button } from "Common";
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 
 import styles from "./login.module.scss";
 
-const Login = (props) => {
-    const { changePage, inviteToken, currentPage } = props;
+const Login = () => {
     const [errorMessage, setErrorMessage] = useState();
 
     const {

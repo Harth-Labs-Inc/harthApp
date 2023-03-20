@@ -14,7 +14,7 @@ import { GatherLoading } from "../../../components/Gathering/GatherLoading/Gathe
 
 import styles from "./GatheringDashboard.module.scss";
 
-const Video = (props) => {
+const Video = () => {
     const [socketData, setSocketData] = useState({});
     const [newRoomToggled, setNewRoomToggled] = useState(false);
     const [newEditRoomToggled, setNewEditRoomToggled] = useState(false);
@@ -53,6 +53,7 @@ const Video = (props) => {
         const windowFeatures = "location=no,scrollbars=no,resizable=yes";
         const urls = envUrls;
         window.open(
+            /* eslint-disable-next-line */
             `${urls[process.env.NODE_ENV]}?gather_window=true&room_type=${
                 data.gatheringType
             }&user_name=${socketData.name}&user_img=${

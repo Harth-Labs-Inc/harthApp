@@ -5,13 +5,11 @@ import { useComms } from "../../../../contexts/comms";
 import { useAuth } from "../../../../contexts/auth";
 import { useSocket } from "../../../../contexts/socket";
 import { IconMoreDots } from "../../../../resources/icons/IconMoreDots";
-import { Button } from "../../../Common/Buttons/Button";
+import { Button, Modal } from "Common";
 
-import { useEffect } from "react";
 import { getHarthByID, leaveHarthByID } from "../../../../requests/community";
 import styles from "./harthmembersettings.module.scss";
-import { set } from "react-hook-form";
-import { Modal } from "../../../Common";
+
 import KickUserModal from "../KickUserModal/KickUserModal";
 
 const HarthMembersSettings = () => {
@@ -47,7 +45,7 @@ const HarthMembersSettings = () => {
         msg.updateType = "selected harth reload";
         msg.comm = newHarth;
 
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
                 console.error(err);
             }
@@ -59,7 +57,7 @@ const HarthMembersSettings = () => {
         let msg = {};
         msg.updateType = "selected user reload";
         msg.comm = { ...selectedcomm, selectedUserID: usr.userId };
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
                 console.error(err);
             }
@@ -107,6 +105,8 @@ const HarthMembersSettings = () => {
             isAdminUser = profile?.admin;
         }
     }
+
+    /* eslint-disable */
 
     return (
         <>

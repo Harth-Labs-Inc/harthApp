@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { compressImage } from "../../requests/s3";
-import { uploadFile, uploadCustomNamedFile } from "../../services/helper";
+import { useEffect, useState } from "react";
+// import { compressImage } from "../../requests/s3";
+import { uploadCustomNamedFile } from "../../services/helper";
 import { updateHarthData } from "../../requests/community";
 import { useComms } from "../../contexts/comms";
 import { useChat } from "../../contexts/chat";
@@ -18,7 +18,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     const [newFile, setNewFile] = useState(null);
     const [nameChanged, setNameCHanged] = useState(false);
 
-    const { setComm, setCommsFromChild, comms, selectedTopic } = useComms();
+    const { setCommsFromChild, comms } = useComms();
     const { refreshTopicsChatIcon, refreshTopicsChatName } = useChat();
     const { emitUpdate } = useSocket();
 
@@ -108,7 +108,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
                         newName: updatedProfile.name,
                     };
                     message.updateType = "message profile name update";
-                    emitUpdate(newharth._id, message, async (err, status) => {
+                    emitUpdate(newharth._id, message, async (err) => {
                         if (err) {
                             console.error(err);
                         }
@@ -132,7 +132,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
                         newIconKey,
                     };
                     message.updateType = "message profile icon update";
-                    emitUpdate(newharth._id, message, async (err, status) => {
+                    emitUpdate(newharth._id, message, async (err) => {
                         if (err) {
                             console.error(err);
                         }

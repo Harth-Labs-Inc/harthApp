@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { useComms } from "../../../contexts/comms";
-import { useAuth } from "../../../contexts/auth";
-import { useSocket } from "../../../contexts/socket";
+// import { useAuth } from "../../../contexts/auth";
+// import { useSocket } from "../../../contexts/socket";
 import { MobileContext } from "../../../contexts/mobile";
 import { Modal } from "../../Common";
 import ConversationDeleteModal from "../ConversationDeleteModal";
@@ -10,6 +10,8 @@ import { IconAdd } from "../../../resources/icons/IconAdd";
 import CreateNewConversationModal from "./CreateNewConversationModal/CreateNewConversationModal";
 import styles from "./ConversationsNav.module.scss";
 
+/* eslint-disable */
+
 const ConversationsNav = () => {
     const [openConversationBuilder, setOpenConversationBuilder] =
         useState(false);
@@ -17,8 +19,8 @@ const ConversationsNav = () => {
         useState(false);
 
     const { isMobile } = useContext(MobileContext);
-    const { incomingConversation, emitUpdate } = useSocket();
-    const { user } = useAuth();
+    // const { incomingConversation, emitUpdate } = useSocket();
+    // const { user } = useAuth();
     const { conversations, selectedConversation, setSelectedConversation } =
         useComms();
 
@@ -60,7 +62,15 @@ const ConversationsNav = () => {
                 ${isMobile && styles.ConversationsNavMobile}
                 `}
             >
-                <p className={isMobile ? styles.ConversationsNavTitleMobile : styles.ConversationsNavTitle}>Conversations</p>
+                <p
+                    className={
+                        isMobile
+                            ? styles.ConversationsNavTitleMobile
+                            : styles.ConversationsNavTitle
+                    }
+                >
+                    Conversations
+                </p>
                 <div className={styles.ConversationsNavContainer}>
                     {conversations &&
                         conversations.map((conversation) => {

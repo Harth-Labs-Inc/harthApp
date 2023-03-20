@@ -13,7 +13,7 @@ const GatheringTileControls = ({
                 //text={cardType === "schedule" ? "Join" : "Enter"}
                 onClick={handleJoinRoom}
                 //tier="primary"
-                className={styles.GatheringTileActionBarSubmit} 
+                className={styles.GatheringTileActionBarSubmit}
             >
                 {cardType === "schedule" ? "Join" : "Enter"}
             </button>
@@ -24,7 +24,7 @@ const GatheringTileControls = ({
     } else {
         return (
             <button
-                text={cardType === "schedule" ? "Drop" : "Leave"}
+                // text={cardType === "schedule" ? "Drop" : "Leave"}
                 onClick={handleDropRoom}
                 //tier="secondary"
                 className={` ${styles.GatheringTileActionBarSubmit} ${styles.GatheringTileActionBarSubmitActive}`}
