@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
@@ -19,6 +19,25 @@ const CreateAccount = () => {
         email: "",
         match: "",
     });
+    const [todayMax, setTodayMax] = useState();
+
+    useEffect(() => {
+        setTodayMax(new Date().toISOString().split("T")[0]);
+    }, []);
+
+    const calculateAge = (date) => {
+        var formattedDate = date.split("/");
+        var birthdateTimeStamp = new Date(
+            formattedDate[2],
+            formattedDate[1],
+            formattedDate[0]
+        );
+        var currentDate = new Date().getTime();
+        var difference = currentDate - birthdateTimeStamp;
+        var currentAge = Math.floor(difference / 31557600000);
+        // dividing by 1000*60*60*24*365.25
+        return currentAge;
+    };
 
     const {
         register,
@@ -57,6 +76,12 @@ const CreateAccount = () => {
         if (errors?.email?.type === "pattern")
             return "You must enter a valid email";
     };
+    const handleDobError = () => {
+        if (errors?.dob?.type === "required")
+            return "You must enter a valid birthdate";
+        if (errors?.dob?.type === "olderThanThirteen")
+            return "You must be at least 13 years old to register";
+    };
 
     const bubbleText =
         "Welcome to the early release of Härth. Enter your details below to create an account.";
@@ -93,21 +118,21 @@ const CreateAccount = () => {
                     />
 
                     <input
-                        {...register("dob", { required: true })}
+                        {...register("dob", {
+                            required: true,
+                            validate: {
+                                olderThanThirteen: (v) => calculateAge(v) > 12,
+                            },
+                        })}
                         type="date"
-                        //placeholder="Your Birthday"
+                        max={todayMax}
                     />
                     <div className={styles.small}>
                         Enter your birthday for verification. Your birthday will
                         not be publicly displayed.
                     </div>
-
                     <ErrorMessage
-                        errorMsg={
-                            errors.dob
-                                ? "You must enter a valid birthdate"
-                                : null
-                        }
+                        errorMsg={errors.dob ? handleDobError() : null}
                     />
                     <ErrorMessage
                         errorMsg={customErrors ? customErrors.match : null}
