@@ -6,8 +6,8 @@
     display: flex;
     flex-direction: column;
     padding: 8px 0px 0px 0px;
-    width: 64px;
-    min-width: 64px;
+    width: 56px;
+    min-width: 56px;
     background-color: $light_ash;
     border-right: 1px solid $fuel_10;
     border-top: 1px solid $fuel_10;
@@ -46,21 +46,52 @@
         &:hover {
             //border: 1px solid $fuel_10;
             background-color: $fuel_5;
+
+            path {
+                fill: $fuel_50;
+            }
         }
+
+        &Feedback {
+
+            path {
+                fill: $hot_pink;
+            }
+
+            &:hover {
+                //border: 1px solid $fuel_10;
+                background-color: $fuel_5;
+
+                path {
+                    fill: $hot_pink;
+                }
+            }
+        }
+
+        &Invite {
+            &::after {
+                content: "Invites";
+                background-color: ;
+            }
+        }
+
     }
 
     .bottomHolder {
 
         position: absolute;
         bottom: 0px;
-        height: 56px;
+        height: fit-content;
         width: 100%;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         // background-color: $ash;
         border-top: 1px solid $fuel_5;
         z-index: 20;
+        padding: 12px 0px;
+        gap: 8px;
 
         
     }

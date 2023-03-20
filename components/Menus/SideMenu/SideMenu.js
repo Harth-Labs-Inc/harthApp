@@ -264,6 +264,20 @@ const SideNav = (props) => {
                 <div className={styles.bottomHolder}>
                     <button
                         className={styles.SettingsButton}
+                        //onClick={toggleSettingsNav}
+                        //aria-label="Toggle Settings menu"
+                    >
+                        <IconMenu fill="#fff" />
+                    </button>
+                    <button
+                        className={` ${styles.SettingsButton} ${styles.SettingsButtonFeedback} `}
+                        //onClick={toggleSettingsNav}
+                        //aria-label="Toggle Settings menu"
+                    >
+                        <IconMenu fill="#fff" />
+                    </button>
+                    <button
+                        className={styles.SettingsButton}
                         onClick={toggleSettingsNav}
                         aria-label="Toggle Settings menu"
                     >
