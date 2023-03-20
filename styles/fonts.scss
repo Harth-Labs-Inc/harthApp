@@ -139,7 +139,7 @@
 
 @mixin menuSubTitle {
   font-family: var(--Work_Sans-font);
-  font-weight: 400;
+  font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.02em;
   line-height: 125%;
@@ -148,8 +148,8 @@
 
 @mixin menuText {
   font-family: var(--Work_Sans-font);
-  font-weight: 300;
-  font-size: 13px;
+  font-weight: 500;
+  font-size: 14px;
   letter-spacing: 0.05em;
   line-height: 125%;
   //text-rendering: optimizeLegibility;
