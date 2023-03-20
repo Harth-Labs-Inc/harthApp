@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-
+import { combineDateTime } from "services/helper";
 import { updateScheduleRoom } from "../../../requests/rooms";
 import { IconHeadsetMic } from "../../../resources/icons/IconHeadsetMic";
 import { IconCastNoFill } from "../../../resources/icons/IconCastNoFill";
@@ -72,10 +72,11 @@ export const GatheringTile = (props) => {
     };
 
     const dateFormat = () => {
-        const date = new Date(room.gatheringDate);
+        let date = combineDateTime(room.gatheringDate, room.gatheringTime);
         const scheduleDate = date.toLocaleDateString([], {
             month: "short",
             day: "2-digit",
+            year: "numeric",
         });
 
         return scheduleDate;
@@ -112,7 +113,7 @@ export const GatheringTile = (props) => {
                         <p className={styles.roomTitle}>{room.gatheringType}</p>
                     </div>
                     <p className={styles.GatheringTileName}>
-                        {room.roomName}
+                        {room.roomName} 2
                     </p>
                 </div>
 
@@ -127,6 +128,17 @@ export const GatheringTile = (props) => {
                                         }
                                     >
                                         {room.gatheringTime}
+                                    </p>
+                                    <div className={styles.GatheringTileType}>
+                                        <div className={styles.iconHolder}>
+                                            <Icon />
+                                        </div>
+                                        <p className={styles.roomTitle}>
+                                            {room.gatheringType}
+                                        </p>
+                                    </div>
+                                    <p className={styles.GatheringTileName}>
+                                        {room.roomName}
                                     </p>
                                 </div>
                                 <p
