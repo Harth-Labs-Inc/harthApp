@@ -365,15 +365,15 @@
       background-color: $fuel;
 
       .party & {
-        background: linear-gradient(to left, $hot_purple 10%, $fuel 200%);
+        background: linear-gradient(to left, $hot_purple 10%, $fuel 300%);
         //background-color: $fuel;
       }
       .stream & {
-        background: linear-gradient(to left, $hot_red 10%, $fuel 200%);
+        background: linear-gradient(to left, $hot_red 10%, $fuel 300%);
         //background-color: $fuel;
       }
       .voice & {
-        background: linear-gradient(to left, $hot_blue 10%, $fuel 200%);
+        background: linear-gradient(to left, $hot_blue 10%, $fuel 300%);
         //background-color: $fuel;
       }
     
