@@ -20,9 +20,9 @@ function GatherForm(props) {
     const [validationIds, setValidationIds] = useState([]);
     const { dispatch, state } = useGatheringFormState();
     const steps = [
-        <GatheringText key validate={validationIds} />,
-        <GatheringType key validate={validationIds} />,
-        <GatheringTime key validate={validationIds} />,
+        <GatheringText validate={validationIds} />,
+        <GatheringType validate={validationIds} />,
+        <GatheringTime validate={validationIds} />,
     ];
 
     const { pushScheduledRoom, socketID } = useVideo();
