@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 
-import ChatSingleMessage from "../ChatSingleMessage/ChatSingleMessage";
 import ChatAttachment from "../ChatInput/chatAttachmentsGeneral";
 import { DiceAlert } from "../Gathering/GatherTools/DiceAlert";
 
@@ -94,7 +93,7 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
                             if (chat?.code == 7 && chat?.data) {
                                 // chat.data should have everything the
                                 return (
-                                    <div>
+                                    <div key={`${idx}_${chat?.data}`}>
                                         <DiceAlert
                                             rollResult={chat?.data?.number}
                                             profileImage={chat?.data?.userIcon}

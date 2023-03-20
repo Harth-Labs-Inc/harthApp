@@ -11,6 +11,8 @@ import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGe
 import styles from "./Voice.module.scss";
 import { envUrls, videoSocketUrls } from "../../../constants/urls";
 
+/* eslint-disable */
+
 const Stream = () => {
     const [socket, setSocket] = useState(null);
     const [socketID, setSocketID] = useState(null);

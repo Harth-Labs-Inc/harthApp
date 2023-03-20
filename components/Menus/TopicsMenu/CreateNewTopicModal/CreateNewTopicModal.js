@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import React, { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import ErrorMessage from "../../../Common/Input/ErrorMessage";
 import { Button, Modal } from "../../../Common";
 import { useComms } from "../../../../contexts/comms";
@@ -12,8 +12,6 @@ import { saveTopics } from "../../../../requests/community";
 import { addRoomToUsers } from "../../../../requests/rooms";
 
 import styles from "./CreateNewTopicModal.module.scss";
-import { IconBookmarkNoFill } from "../../../../resources/icons/IconBookmarkNoFill";
-import { IconTimerNoFill } from "../../../../resources/icons/IconTimerNoFill";
 
 export default function CreateNewTopicModal({ toggleModal }) {
     const [emojiPickerState, setEmojiPicker] = useState(false);
@@ -21,15 +19,12 @@ export default function CreateNewTopicModal({ toggleModal }) {
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
     } = useForm();
 
     const { user } = useAuth();
     const { selectedcomm, setTopic, selectedTopic } = useComms();
     const { emitUpdate } = useSocket();
-
-    const watchAge = watch("contentAge", "long");
 
     const createNewTopic = async (data) => {
         let topic,
@@ -74,13 +69,13 @@ export default function CreateNewTopicModal({ toggleModal }) {
                 setTopic(topic);
             }
             if (id) {
-                const results = await addRoomToUsers(userIds, id);
+                await addRoomToUsers(userIds, id);
                 topic.updateType = "new topic";
-                emitUpdate(selectedcomm._id, topic, async (err, status) => {
+                emitUpdate(selectedcomm._id, topic, async (err) => {
                     if (err) {
                         console.error(err);
                     }
-                    let { ok } = status;
+                    // let { ok } = status;
                 });
             }
         }

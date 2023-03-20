@@ -5,11 +5,9 @@ import { useComms } from "../../../contexts/comms";
 import { useAuth } from "../../../contexts/auth";
 import { useSocket } from "../../../contexts/socket";
 
-import { CloseButton } from "../../Common";
-import { Modal, Toggle, TextButton } from "../../Common";
+import { CloseButton, Modal, Toggle, TextButton } from "Common";
 
 import TopicMemberList from "./TopicMemberList";
-import TopicAddList from "./TopicMemberList";
 
 import TopicEditForm from "./TopicEditForm";
 import styles from "./TopicEditMenu.module.scss";
@@ -174,7 +172,7 @@ export default function TopicEditPanel(props) {
         ) : null;
     };
 
-    const addUserToTopic = async ({ member, index }) => {
+    const addUserToTopic = async ({ member }) => {
         let tempMember = {
             ...member,
             admin: false,

@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import React, { useEffect, useState } from "react";
+
+import { compressImage } from "../../requests/s3";
 import { uploadFile } from "../../services/helper";
+
+import { Button, Modal } from "Common";
+
 import TalkingHead from "../TalkingHead/TalkingHead";
 import ErrorMessage from "../Common/Input/ErrorMessage";
-import { Button, Modal } from "../Common";
+
 import IconUploader from "../IconUploader";
-import { saveCommunity } from "../../requests/community";
-import { compressImage } from "../../requests/s3";
 
 import styles from "./CreateHarthName.module.scss";
 

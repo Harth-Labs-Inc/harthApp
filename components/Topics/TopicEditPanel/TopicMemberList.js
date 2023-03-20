@@ -29,7 +29,7 @@ const TopicMemberList = (props) => {
                 <TitleText />
             </div>
             <ul className={styles.topicMembersList}>
-                {memberList.filter(Boolean).map((member, index) => (
+                {memberList.filter(Boolean).map((member) => (
                     <li
                         key={member?.name}
                         className={styles.topicMembersListItem}

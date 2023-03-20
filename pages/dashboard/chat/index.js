@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 // import { CSSTransition } from "react-transition-group";
 import { useComms } from "../../../contexts/comms";
 
@@ -13,7 +13,7 @@ import { MobileContext } from "../../../contexts/mobile.js";
 
 import styles from "./chatPage.module.scss";
 
-const Chat = (prop) => {
+const Chat = () => {
     // const { topicChange } = useComms();
     const { isMobile } = useContext(MobileContext);
     const { selectedTopic } = useComms();

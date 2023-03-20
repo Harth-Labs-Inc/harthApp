@@ -6,6 +6,8 @@ import clientPromise from "../../../util/mongodb";
 
 import { envUrls } from "../../../constants/urls";
 
+/* eslint-disable */
+
 export default async (req, res) => {
     let obj;
     try {

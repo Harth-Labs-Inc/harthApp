@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import ReactCSSTransitionGroup from "react-transition-group";
+import { useRef } from "react";
+// import ReactCSSTransitionGroup from "react-transition-group";
 
 import OutsideClickHandler from "./OutsideClick";
 import styles from "./Modal.module.scss";

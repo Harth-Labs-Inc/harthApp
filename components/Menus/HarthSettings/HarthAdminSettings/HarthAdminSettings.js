@@ -6,23 +6,20 @@ import { useAuth } from "../../../../contexts/auth";
 import { useSocket } from "../../../../contexts/socket";
 import { uploadFile } from "../../../../services/helper";
 import {
-    getHarthByID,
     leaveHarthByID,
     deleteHarthByID,
     updateHarthData,
 } from "../../../../requests/community";
 
-import { Button, Modal } from "../../../Common";
-import ErrorMessage from "../../../Common/Input/ErrorMessage";
+import { Button, Modal } from "Common";
+
 import HarthDeleteModal from "../HarthDeleteModal";
 import HarthLeaveModal from "../HarthLeaveModal";
 import IconUploader from "../../../IconUploader";
 
-import { IconEditFill } from "../../../../resources/icons/IconEditFill";
-
 import styles from "./harthadminsettings.module.scss";
 
-const HarthAdminSettings = ({ onToggleModal, submitHandler }) => {
+const HarthAdminSettings = ({ onToggleModal }) => {
     const [showDeleteHarthModal, setShowDeleteHarthModal] = useState(false);
     const [newFile, setNewFile] = useState(null);
 
@@ -30,11 +27,7 @@ const HarthAdminSettings = ({ onToggleModal, submitHandler }) => {
     const { user } = useAuth();
     const { emitUpdate } = useSocket();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+    const { register, handleSubmit } = useForm();
 
     const onOpenDeleteModal = async () => {
         setShowDeleteHarthModal(true);
@@ -47,7 +40,7 @@ const HarthAdminSettings = ({ onToggleModal, submitHandler }) => {
         let msg = {};
         msg.updateType = "harth deleted";
         msg.comm = newHarth;
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
                 console.error(err);
             }
@@ -92,8 +85,9 @@ const HarthAdminSettings = ({ onToggleModal, submitHandler }) => {
         let msg = {};
         msg.updateType = "harth edited";
         msg.comm = newHarth;
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
+                console.error(err);
             }
             onToggleModal();
         });
@@ -165,7 +159,7 @@ const HarthAdminSettings = ({ onToggleModal, submitHandler }) => {
                             <button
                                 type="submit"
                                 className={styles.formSubmit}
-                                ariaLabel="submit new harth name"
+                                aria-label="submit new harth name"
                             >
                                 Update
                             </button>

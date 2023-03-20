@@ -5,13 +5,13 @@ export const MobileContext = createContext(false);
 
 export const ResponsiveProvider = (props) => {
     const [width, setWidth] = useState(0);
-    const [height, setHeight] = useState(0);
+    // const [height, setHeight] = useState(0);
     useEffect(() => {
         setWidth(window.innerWidth);
-        setHeight(window.innerHeight);
+        // setHeight(window.innerHeight);
         const onResize = () => {
             setWidth(window.innerWidth);
-            setHeight(window.innerHeight);
+            // setHeight(window.innerHeight);
         };
         window.addEventListener("load", onResize);
         window.addEventListener("resize", onResize);

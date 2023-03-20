@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { BackButton, RadioButton } from "../../Common";
 
 import styles from "./SettingsMenu.module.scss";
 //import styles from './Devices.module.scss'
+/* eslint-disable */
 
 const Devices = (props) => {
     const { toggleCurrentPage } = props;

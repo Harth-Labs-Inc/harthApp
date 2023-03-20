@@ -1,7 +1,5 @@
-@import '../../styles/fonts.scss';
-@import '../../styles/globals.scss';
-
-
+@import "../../styles/fonts.scss";
+@import "../../styles/globals.scss";
 
 .mainContainer {
     display: flex;
@@ -29,10 +27,9 @@
 
     .harthTitle {
         position: relative;
-        margin-top: 4px;      
+        margin-top: 4px;
         @include contentR3;
     }
-    
 
     .buttonBar {
         display: flex;
@@ -43,7 +40,7 @@
         margin-top: 40px;
 
         .cancelButton {
-             width: 96px;
+            width: 96px;
             // min-width: 88px;
         }
 
@@ -51,10 +48,4 @@
             width: 100%;
         }
     }
-
-    
 }
-
-
-
-

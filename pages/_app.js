@@ -11,8 +11,9 @@ import {
     Asap_Condensed,
     Rubik,
     Montserrat,
-} from "@next/font/google";
-import localFont from "@next/font/local";
+} from "next/font/google";
+import localFont from "next/font/local";
+
 import "../styles/Styles.modules.scss";
 import { AuthProvider } from "../contexts/auth";
 import { ResponsiveProvider } from "../contexts/mobile";
@@ -72,8 +73,6 @@ const montserrat = Montserrat({
     variable: "--Montserrat-font",
     preload: false,
 });
-
-
 
 // local fonts
 const coopbl = localFont({

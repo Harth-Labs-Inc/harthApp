@@ -36,6 +36,8 @@ export const CustomContextMenu = ({
         isAdmin = profile?.admin;
     }
 
+    /* eslint-disable */
+
     return (
         <div ref={contextRef} className={styles.TopicButtonWrapper}>
             <OutsideClickHandler

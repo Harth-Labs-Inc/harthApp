@@ -1,5 +1,3 @@
-
-
 import styles from "./LoadingBar.module.scss";
 
 const LoadingBar = (props) => {
@@ -9,9 +7,9 @@ const LoadingBar = (props) => {
 
     return (
         <div className={styles.outerBar}>
-            <div className={styles.innerBar} style={{width: `${value}%`}} />
+            <div className={styles.innerBar} style={{ width: `${value}%` }} />
         </div>
     );
 };
 
-export default LoadingBar
+export default LoadingBar;

@@ -1,10 +1,10 @@
-const BookmarkFill = ({ fill = '#2F1D2A' }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" height={48} width={48}>
-    <path
-      fill={fill}
-      d="M10 42V8.75q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1V42l-14-6Z"
-    />
-  </svg>
-)
+const BookmarkFill = ({ fill = "#2F1D2A" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" height={48} width={48}>
+        <path
+            fill={fill}
+            d="M10 42V8.75q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1V42l-14-6Z"
+        />
+    </svg>
+);
 
-export default BookmarkFill
+export default BookmarkFill;

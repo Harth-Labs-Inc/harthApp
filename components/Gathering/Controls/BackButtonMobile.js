@@ -11,7 +11,7 @@ const BackButtonMobile = (props) => {
                 </div>
             </button>
         </>
-    )
-}
+    );
+};
 
-export default BackButtonMobile
+export default BackButtonMobile;

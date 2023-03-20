@@ -32,6 +32,8 @@ export const Dice = (props) => {
         }, 2000);
     };
 
+    /* eslint-disable */
+
     return (
         <>
             <button

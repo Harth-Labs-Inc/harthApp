@@ -1,17 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import ErrorMessage from "./../../Input/ErrorMessage";
 
 export default function FormInput(props) {
-    const {
-        id,
-        name,
-        isrequired,
-        changeHandler,
-        value,
-        type,
-        placeholder,
-        badData,
-    } = props;
+    const { id, name, isrequired, changeHandler, value, type, placeholder } =
+        props;
 
     const inputRef = useRef(null);
 

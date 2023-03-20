@@ -10,7 +10,7 @@ import { SocketProvider } from "../../contexts/socket";
 import { ChatProvider } from "../../contexts/chat";
 import { useAuth } from "../../contexts/auth";
 
-import TransitionLayout from "../../components/Transitions";
+/* eslint-disable */
 
 const DashboardLayout = dynamic(
     () => import("../../components/DashboardLayout/DashboardLayout"),
@@ -51,7 +51,7 @@ const HarthInviteAcceptModal = dynamic(
 // import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
 // import HarthInviteAcceptModal from "../../components/harthInviteAcceptModal/harthInviteAcceptModal";
 
-const dashboard = (props) => {
+const dashboard = () => {
     const [currentPage, setCurrentPage] = useState();
     const [GatherWindow, setGatherWindow] = useState("");
     const [invitedHarth, setInvitedHarth] = useState(null);

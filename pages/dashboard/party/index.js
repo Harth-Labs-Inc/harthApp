@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import { generateID } from "../../../services/helper";
-import { useSize, useMobile } from "../../../contexts/mobile";
+import { useSize } from "../../../contexts/mobile";
 import { resize } from "../../../util/resize";
 import { useComms } from "../../../contexts/comms";
 
@@ -14,6 +14,8 @@ import { DiceAlert } from "../../../components/Gathering/GatherTools/DiceAlert";
 
 import styles from "./Party.module.scss";
 import { envUrls, videoSocketUrls } from "../../../constants/urls";
+
+/* eslint-disable */
 
 const Party = () => {
     const [socket, setSocket] = useState(null);

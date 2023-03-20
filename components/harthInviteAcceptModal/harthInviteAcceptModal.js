@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-
 import TalkingHead from "../TalkingHead/TalkingHead";
-import { Button, Modal } from "../Common";
+import { Button, Modal } from "Common";
 
 import { checkIfInviteTokenIsGood } from "../../requests/community";
 

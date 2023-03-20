@@ -1,8 +1,7 @@
 @import "../../styles/fonts.scss";
 @import "../../styles/globals.scss";
 
-
-.outerBar{
+.outerBar {
     position: relative;
     height: 16px;
     width: 240px;
@@ -16,7 +15,5 @@
         background-color: $hot_pink;
         height: 16px;
         border-radius: 9999px;
-
     }
-
 }

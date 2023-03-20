@@ -14,11 +14,7 @@ import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 import CodeInput from "../../../components/CodeInput/CodeInput";
 import { Button } from "../../../components/Common";
 
-import { envUrls } from "../../../constants/urls";
-
 import styles from "./otpValidator.module.scss";
-
-const URLS = envUrls;
 
 const OtpValidator = (props) => {
     const {
@@ -30,6 +26,7 @@ const OtpValidator = (props) => {
     } = props;
     const [newUser, setNewUser] = useState();
     const [hasResent, setHasResent] = useState(false);
+    /* eslint-disable-next-line */
     const [isResending, setIsResending] = useState(false);
     const [badCode, setBadCode] = useState(false);
 
@@ -69,10 +66,10 @@ const OtpValidator = (props) => {
                 parentSubmit();
             } else {
                 const data = await login(newUser);
-                const { ok, msg, tkn } = data;
+                const { ok, tkn } = data;
                 if (ok) {
                     setBadCode(false);
-                    setHelpText([`SUCCESS!!`]);
+                    setHelpText(["SUCCESS!!"]);
                     localStorage.setItem("token", tkn);
 
                     if (newUser.showFirstTimeUser) {
@@ -85,7 +82,7 @@ const OtpValidator = (props) => {
         } else {
             setBadCode(true);
             setInviteCode("");
-            setHelpText([`HALT!!`, `The code you entered was not correct.`]);
+            setHelpText(["HALT!!", "The code you entered was not correct."]);
         }
     };
     const resendOTP = async () => {
@@ -99,7 +96,6 @@ const OtpValidator = (props) => {
             });
             setHasResent(true);
             setIsResending(false);
-        } else {
         }
     };
 

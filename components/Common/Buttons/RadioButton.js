@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./Buttons.module.scss";
 
 export const RadioButton = (props) => {

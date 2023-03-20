@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 const defaultGathering = {
     roomName: "",
@@ -18,6 +18,7 @@ function init(defaultGathering) {
 }
 
 function gatheringReducer(state = defaultGathering, action) {
+    /* eslint-disable */
     switch (action.type) {
         case "GATHERING_NAME_CHANGE":
             return { ...(state || {}), roomName: action.payload };

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import {
     BagButton,
@@ -53,10 +53,10 @@ const GatherControlBar = (props) => {
     };
 
     const onToggleAudioDevicesModal = () => {
-        if (!!audioList) {
+        if (!audioList) {
             setAudioList(null);
-        } else if (!navigator.mediaDevices?.enumerateDevices) {
-        } else {
+        } /*else if (!navigator.mediaDevices?.enumerateDevices) {
+        }*/ else {
             navigator.mediaDevices
                 .enumerateDevices()
                 .then((devices) => {
@@ -65,15 +65,17 @@ const GatherControlBar = (props) => {
                     );
                     setAudioList(audioInputs);
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    console.error(err);
+                });
         }
     };
 
     const onToggleVideoDevicesModal = () => {
-        if (!!videoList) {
+        if (!videoList) {
             setVideoList(null);
-        } else if (!navigator.mediaDevices?.enumerateDevices) {
-        } else {
+        } /*else if (!navigator.mediaDevices?.enumerateDevices) {
+        }*/ else {
             navigator.mediaDevices
                 .enumerateDevices()
                 .then((devices) => {
@@ -82,7 +84,9 @@ const GatherControlBar = (props) => {
                     );
                     setVideoList(videoInputs);
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    console.error(err);
+                });
         }
     };
 

@@ -1,6 +1,6 @@
 import { useGatheringFormState } from "./GatheringFormContext";
 
-import { Input } from "../../../../components/Common";
+import { Input } from "Common";
 
 export function GatheringTime(props) {
     const { validate } = props;

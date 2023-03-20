@@ -3,7 +3,7 @@ import { useContext, useState, useRef } from "react";
 import { useAuth } from "../../../contexts/auth";
 import { useComms } from "../../../contexts/comms";
 import { useSocket } from "../../../contexts/socket";
-import { user } from "../../../contexts/auth";
+
 import { deleteHarthByID, leaveHarthByID } from "../../../requests/community";
 import { MobileContext } from "../../../contexts/mobile";
 import { IconAdd } from "../../../resources/icons/IconAdd";
@@ -25,7 +25,7 @@ import CreateHarthName from "../../createHarthName/createHarthName";
 import CreateHarthProfile from "../../createHarthProfile/createHarthProfile";
 
 const SideNav = (props) => {
-    const { menuOpen, onToggleMenu } = props;
+    const { onToggleMenu } = props;
     const [ShowSettingsNav, setShowSettingsNav] = useState(false);
     const [openEditHarthMenu, setOpenEditHarthMenu] = useState(null);
     const [showRenameHarthModal, setShowRenameHarthModal] = useState(false);
@@ -107,8 +107,9 @@ const SideNav = (props) => {
         let msg = {};
         msg.updateType = "harth edited";
         msg.comm = newHarth;
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
+                console.error(err);
             }
             setShowRenameHarthModal(false);
             setOpenEditHarthMenu(null);
@@ -125,7 +126,7 @@ const SideNav = (props) => {
         let msg = {};
         msg.updateType = "harth deleted";
         msg.comm = newHarth;
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
                 console.error(err);
             }
@@ -145,7 +146,7 @@ const SideNav = (props) => {
         let msg = {};
         msg.updateType = "harth deleted";
         msg.comm = newHarth;
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
                 console.error(err);
             }

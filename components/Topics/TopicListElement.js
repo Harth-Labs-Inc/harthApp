@@ -8,7 +8,7 @@ const TopicListElement = (props) => {
         hasAlert = true,
         alertProfiles = [],
         isActive = false,
-        isShort = false,
+        // isShort = false,
         label = "topic name",
         toggleTopicEditModal,
         isHidden,
@@ -51,14 +51,9 @@ const TopicListElement = (props) => {
             onClick={toggleActive}
             onMouseUp={toggleEditMenu}
         >
-            
-            <div className={styles.label}> 
+            <div className={styles.label}>
                 <div className={styles.emojiHolder}>
-                    {topic.marker ? (
-                        <p>{topic.marker}</p>
-                    ) : (
-                        <p>&#128512;</p>
-                    )}
+                    {topic.marker ? <p>{topic.marker}</p> : <p>&#128512;</p>}
                 </div>
                 <p>{label}</p>
             </div>
@@ -72,46 +67,46 @@ const TopicListElement = (props) => {
                     {alertProfiles.map((e) => {
                         return (
                             <>
-                            <img
-                                src={e?.creator_image}
-                                className={`${e?.comm_id}_${e?.creator_id}`}
-                                loading="lazy"
-                            />
-                            <img
-                                src={e?.creator_image}
-                                className={`${e?.comm_id}_${e?.creator_id}`}
-                                loading="lazy"
-                            />
-                            <img
-                                src={e?.creator_image}
-                                className={`${e?.comm_id}_${e?.creator_id}`}
-                                loading="lazy"
-                            />
-                            <img
-                                src={e?.creator_image}
-                                className={`${e?.comm_id}_${e?.creator_id}`}
-                                loading="lazy"
-                            />
-                            <img
-                                src={e?.creator_image}
-                                className={`${e?.comm_id}_${e?.creator_id}`}
-                                loading="lazy"
-                            />
-                            <img
-                                src={e?.creator_image}
-                                className={`${e?.comm_id}_${e?.creator_id}`}
-                                loading="lazy"
-                            />
-                            <img
-                                src={e?.creator_image}
-                                className={`${e?.comm_id}_${e?.creator_id}`}
-                                loading="lazy"
-                            />
-                            <img
-                                src={e?.creator_image}
-                                className={`${e?.comm_id}_${e?.creator_id}`}
-                                loading="lazy"
-                            />
+                                <img
+                                    src={e?.creator_image}
+                                    className={`${e?.comm_id}_${e?.creator_id}`}
+                                    loading="lazy"
+                                />
+                                <img
+                                    src={e?.creator_image}
+                                    className={`${e?.comm_id}_${e?.creator_id}`}
+                                    loading="lazy"
+                                />
+                                <img
+                                    src={e?.creator_image}
+                                    className={`${e?.comm_id}_${e?.creator_id}`}
+                                    loading="lazy"
+                                />
+                                <img
+                                    src={e?.creator_image}
+                                    className={`${e?.comm_id}_${e?.creator_id}`}
+                                    loading="lazy"
+                                />
+                                <img
+                                    src={e?.creator_image}
+                                    className={`${e?.comm_id}_${e?.creator_id}`}
+                                    loading="lazy"
+                                />
+                                <img
+                                    src={e?.creator_image}
+                                    className={`${e?.comm_id}_${e?.creator_id}`}
+                                    loading="lazy"
+                                />
+                                <img
+                                    src={e?.creator_image}
+                                    className={`${e?.comm_id}_${e?.creator_id}`}
+                                    loading="lazy"
+                                />
+                                <img
+                                    src={e?.creator_image}
+                                    className={`${e?.comm_id}_${e?.creator_id}`}
+                                    loading="lazy"
+                                />
                             </>
                         );
                     })}

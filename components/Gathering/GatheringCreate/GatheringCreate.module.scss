@@ -12,8 +12,6 @@
     backdrop-filter: blur(4px);
     padding: 0;
 
-
-
     .Content {
         display: flex;
         align-items: center;
@@ -25,14 +23,13 @@
         padding: 24px 0px 0px 0px;
         margin: 0;
         border: 0;
-       //background-color: aqua;
+        //background-color: aqua;
 
-       span {
-        width: 100%;
-       }
-        
+        span {
+            width: 100%;
+        }
     }
-    
+
     &Mobile {
         width: 100%;
         margin-left: 8px;
@@ -42,16 +39,14 @@
             padding: 36px 0px 0px 0px;
             height: 280px;
         }
-        
     }
-
 
     &Input {
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        
+
         input {
             text-align: center;
             width: 90%;
@@ -64,22 +59,16 @@
             box-shadow: none;
             resize: none;
             margin-bottom: 0px;
-    
-    
+
             //background:aquamarine;
             border-bottom: 1px solid $fuel;
             padding: 0px;
-    
-    
-    
+
             &::placeholder {
                 color: $fuel_light;
             }
-
         }
-
     }
-
 
     &LabelHolder {
         display: flex;
@@ -88,7 +77,7 @@
         gap: 2px;
         margin-top: -8px;
         margin-bottom: 8px;
-       // background-color: aquamarine;
+        // background-color: aquamarine;
     }
 
     &LabelText {
@@ -101,7 +90,6 @@
         //text-transform: uppercase;
         margin-bottom: 6px;
         user-select: none;
-
     }
 
     &Type {
@@ -113,8 +101,6 @@
         border: 1px solid $fuel_5;
         padding: 3px;
     }
-
-
 
     &SubText {
         @include worksans;
@@ -171,11 +157,7 @@
         &:hover {
             background: $hot_pink_80;
         }
-
-
     }
-
-    
 }
 
 .GatheringButton {
@@ -233,8 +215,6 @@
         height: 28px;
         width: 28px;
     }
-
-    
 
     &.Active {
         color: $white;

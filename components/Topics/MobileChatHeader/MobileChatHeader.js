@@ -1,5 +1,7 @@
+import { Modal } from "Common";
+
 import { useAuth } from "../../../contexts/auth";
-import { updatedTopic, deleteTopicByID } from "../../../requests/community";
+import { updatedTopic } from "../../../requests/community";
 
 import { CustomContextMenu } from "../../CustomContextMenu/CustomContextMenu";
 import TopicEditModal from "../../TopicEditModal";
@@ -10,6 +12,8 @@ import { IconChevronLeft } from "../../../resources/icons/IconChevronLeft";
 
 import styles from "./MobileChatHeader.module.scss";
 import { useState } from "react";
+
+/* eslint-disable */
 
 const MobileChatHeader = ({ handleMobileChat, selectedTopic }) => {
     const [openEditTopicMenu, setOpenEditTopicMenu] = useState(null);
@@ -47,8 +51,9 @@ const MobileChatHeader = ({ handleMobileChat, selectedTopic }) => {
         msg.updateType = "topic edited";
         msg.comm = selectedcomm;
         msg.topic = newTopic;
-        emitUpdate(selectedcomm._id, msg, async (err, status) => {
+        emitUpdate(selectedcomm._id, msg, async (err) => {
             if (err) {
+                console.error(err);
             }
             setShowRenameTopicModal(false);
             setOpenEditTopicMenu(null);

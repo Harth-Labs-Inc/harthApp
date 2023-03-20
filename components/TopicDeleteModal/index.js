@@ -1,6 +1,4 @@
-import React from "react";
-
-import { Button } from "../Common";
+import { Button } from "Common";
 
 import styles from "./TopicDeleteModal.module.scss";
 

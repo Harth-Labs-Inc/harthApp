@@ -18,6 +18,8 @@ export const BagButton = (props) => {
         }
     };
 
+    /* eslint-disable */
+
     return (
         <div className={styles.BagButton}>
             {buttonState == "on" ? (

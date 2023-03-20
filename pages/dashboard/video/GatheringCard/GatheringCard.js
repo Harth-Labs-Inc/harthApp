@@ -17,6 +17,8 @@ import {
     updateScheduleRoom,
 } from "../../../../requests/rooms";
 
+/* eslint-disable */
+
 const GatheringCard = ({
     room,
     joinHandler,

@@ -3,109 +3,112 @@ import { generateOTP } from "../../../services/helper";
 import jwt from "jsonwebtoken";
 import { Validator } from "node-input-validator";
 import AWS from "aws-sdk";
+
+/* eslint-disable */
+
 AWS.config = {
-  accessKeyId: "AKIARIGZHATFWEQ2TU4K",
-  secretAccessKey: "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",
-  region: "us-east-1",
+    accessKeyId: "AKIARIGZHATFWEQ2TU4K",
+    secretAccessKey: "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",
+    region: "us-east-1",
 };
 
 export default async (req, res) => {
-  let obj;
-  try {
-    obj = JSON.parse(req.body);
-  } catch (e) {
-    obj = req.body;
-  }
+    let obj;
+    try {
+        obj = JSON.parse(req.body);
+    } catch (e) {
+        obj = req.body;
+    }
 
-  const findUser = (db, id) => {
-    return new Promise((resolve, reject) => {
-      let mongo = require("mongodb");
-      let o_id = new mongo.ObjectID(id);
-      db.collection("users")
-        .find({ _id: o_id })
-        .toArray(function (err, results) {
-          if (err) {
-            resolve(false);
-          }
-          resolve(results[0]);
+    const findUser = (db, id) => {
+        return new Promise((resolve, reject) => {
+            let mongo = require("mongodb");
+            let o_id = new mongo.ObjectID(id);
+            db.collection("users")
+                .find({ _id: o_id })
+                .toArray(function (err, results) {
+                    if (err) {
+                        resolve(false);
+                    }
+                    resolve(results[0]);
+                });
         });
-    });
-  };
-  const saveUser = (db, user) => {
-    return new Promise((resolve, reject) => {
-      let mongo = require("mongodb");
-      let o_id = new mongo.ObjectId(user._id);
-      delete user._id;
-      db.collection("users").updateOne(
-        { _id: o_id },
-        { $set: { ...user } },
-        function (err, res) {
-          resolve(res);
-        }
-      );
-    });
-  };
-  const decode = (tokn) => {
-    return new Promise((resolve, reject) => {
-      resolve(jwt.verify(tokn, process.env.SECRET));
-    });
-  };
-  const chkExistingUser = (db, email) => {
-    return new Promise((resolve, reject) => {
-      db.collection("users")
-        .find({ email: email })
-        .toArray(function (err, results) {
-          if (err) {
-            resolve(false);
-          }
-          if (results.length > 0) {
-            resolve(true);
-          } else {
-            resolve(false);
-          }
+    };
+    const saveUser = (db, user) => {
+        return new Promise((resolve, reject) => {
+            let mongo = require("mongodb");
+            let o_id = new mongo.ObjectId(user._id);
+            delete user._id;
+            db.collection("users").updateOne(
+                { _id: o_id },
+                { $set: { ...user } },
+                function (err, res) {
+                    resolve(res);
+                }
+            );
         });
-    });
-  };
-  const checkIfValidCode = (db, user) => {
-    return new Promise((resolve) => {
-      async function runCheck() {
-        let getNewCode = true;
-        if (user.otp_expiration) {
-          let today = new Date();
-          let otp_expiration = new Date(user.otp_expiration);
-          if (otp_expiration > today) {
-            getNewCode = false;
-          }
-        }
-        if (getNewCode) {
-          let otp = generateOTP();
-          let today = new Date();
-          let exp = new Date(today.getTime() + 15 * 60000);
+    };
+    const decode = (tokn) => {
+        return new Promise((resolve, reject) => {
+            resolve(jwt.verify(tokn, process.env.SECRET));
+        });
+    };
+    const chkExistingUser = (db, email) => {
+        return new Promise((resolve, reject) => {
+            db.collection("users")
+                .find({ email: email })
+                .toArray(function (err, results) {
+                    if (err) {
+                        resolve(false);
+                    }
+                    if (results.length > 0) {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                });
+        });
+    };
+    const checkIfValidCode = (db, user) => {
+        return new Promise((resolve) => {
+            async function runCheck() {
+                let getNewCode = true;
+                if (user.otp_expiration) {
+                    let today = new Date();
+                    let otp_expiration = new Date(user.otp_expiration);
+                    if (otp_expiration > today) {
+                        getNewCode = false;
+                    }
+                }
+                if (getNewCode) {
+                    let otp = generateOTP();
+                    let today = new Date();
+                    let exp = new Date(today.getTime() + 15 * 60000);
 
-          user.otp = otp;
-          user.otp_expiration = new Date(exp);
-          await saveUser(db, { ...user });
-        }
-        resolve(user);
-      }
-      runCheck();
-    });
-  };
-  const sendEmail = (otp, email, subject) => {
-    return new Promise((resolve, reject) => {
-      let nodemailer = require("nodemailer");
+                    user.otp = otp;
+                    user.otp_expiration = new Date(exp);
+                    await saveUser(db, { ...user });
+                }
+                resolve(user);
+            }
+            runCheck();
+        });
+    };
+    const sendEmail = (otp, email, subject) => {
+        return new Promise((resolve, reject) => {
+            let nodemailer = require("nodemailer");
 
-      const transporter = nodemailer.createTransport({
-        SES: new AWS.SES({
-          apiVersion: "2010-12-1",
-        }),
-      });
-      transporter.sendMail(
-        {
-          from: "noreply@harthapp.com",
-          to: email,
-          subject: subject,
-          html: `  <div style="height: 600px; width: 355px; margin: 50px auto">
+            const transporter = nodemailer.createTransport({
+                SES: new AWS.SES({
+                    apiVersion: "2010-12-1",
+                }),
+            });
+            transporter.sendMail(
+                {
+                    from: "noreply@harthapp.com",
+                    to: email,
+                    subject: subject,
+                    html: `  <div style="height: 600px; width: 355px; margin: 50px auto">
       <h3
         style="
           background: #2f1d2a;
@@ -217,60 +220,60 @@ export default async (req, res) => {
         </div>
       </div>
     </div>`,
-          text: `one time password is ${otp}`,
-        },
-        (mailErr, info) => {
-          if (mailErr) {
-            resolve(false);
-          }
-          resolve(true);
-        }
-      );
-    });
-  };
+                    text: `one time password is ${otp}`,
+                },
+                (mailErr, info) => {
+                    if (mailErr) {
+                        resolve(false);
+                    }
+                    resolve(true);
+                }
+            );
+        });
+    };
 
-  //check token
-  let decodedToken = await decode(obj.token);
-  if (!decodedToken) {
-    return;
-  }
-  let { userId } = decodedToken;
+    //check token
+    let decodedToken = await decode(obj.token);
+    if (!decodedToken) {
+        return;
+    }
+    let { userId } = decodedToken;
 
-  if (!userId) {
-    return res.json({ msg: "Invalid Token", ok: 0, lockDown: true });
-  }
-  const client = await clientPromise;
-  const db = client.db("blarg");
-  //check user
-  let user = await findUser(db, userId);
-  if (!user || !user.token || user == "undefined") {
-    return res.json({ msg: "No User Found", ok: 0, lockDown: true });
-  }
-  if (user?.token != obj.token) {
-    return res.json({ msg: "bad token", ok: 0, lockDown: true });
-  }
-  if (new Date() > new Date(user.token_expiration)) {
-    return res.json({ msg: "expired token", ok: 0, lockDown: true });
-  }
-  //check new email
-  const v = new Validator(obj, { email: "required|email" });
-  let matched = await v.check();
-  if (!matched) {
-    return res.json({ ok: 0, msg: "Invalid Email" });
-  }
-  let chkExistingUserResult = await chkExistingUser(db, obj.email);
-  if (chkExistingUserResult) {
-    return res.json({ ok: 0, msg: "Email Already Exists" });
-  }
-  //check if valid or reset OTP
-  let newUser = await checkIfValidCode(db, user);
-  if (!newUser) {
-    return res.json({ ok: 0, msg: "something went wrong" });
-  }
-  //send email
-  let sent = await sendEmail(newUser.otp, obj.email, "Email Verification");
-  if (!sent) {
-    return res.json({ ok: 0, msg: "something went wrong" });
-  }
-  return res.json({ ok: 1, msg: "success" });
+    if (!userId) {
+        return res.json({ msg: "Invalid Token", ok: 0, lockDown: true });
+    }
+    const client = await clientPromise;
+    const db = client.db("blarg");
+    //check user
+    let user = await findUser(db, userId);
+    if (!user || !user.token || user == "undefined") {
+        return res.json({ msg: "No User Found", ok: 0, lockDown: true });
+    }
+    if (user?.token != obj.token) {
+        return res.json({ msg: "bad token", ok: 0, lockDown: true });
+    }
+    if (new Date() > new Date(user.token_expiration)) {
+        return res.json({ msg: "expired token", ok: 0, lockDown: true });
+    }
+    //check new email
+    const v = new Validator(obj, { email: "required|email" });
+    let matched = await v.check();
+    if (!matched) {
+        return res.json({ ok: 0, msg: "Invalid Email" });
+    }
+    let chkExistingUserResult = await chkExistingUser(db, obj.email);
+    if (chkExistingUserResult) {
+        return res.json({ ok: 0, msg: "Email Already Exists" });
+    }
+    //check if valid or reset OTP
+    let newUser = await checkIfValidCode(db, user);
+    if (!newUser) {
+        return res.json({ ok: 0, msg: "something went wrong" });
+    }
+    //send email
+    let sent = await sendEmail(newUser.otp, obj.email, "Email Verification");
+    if (!sent) {
+        return res.json({ ok: 0, msg: "something went wrong" });
+    }
+    return res.json({ ok: 1, msg: "success" });
 };

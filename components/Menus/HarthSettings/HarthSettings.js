@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { useComms } from "../../../contexts/comms";
-import { MobileContext } from "../../../contexts/mobile";
-import { CloseButton } from "../../Common";
+
+import { CloseButton } from "Common";
 import { IconNotificationsNoFill } from "../../../resources/icons/IconNotificationsNoFill";
 import { IconNotificationsFill } from "../../../resources/icons/IconNotificationsFill";
 import IconAdminPanel from "../../../resources/icons/IconAdminPanel";
@@ -18,7 +18,6 @@ import styles from "./HarthSettings.module.scss";
 const HarthSettings = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState("notifications");
-    const { isMobile } = useContext(MobileContext);
     const { communityName, onToggleModal, communityId } = props;
     const { updateLocalSelectedHarth } = useComms();
 
@@ -47,6 +46,8 @@ const HarthSettings = (props) => {
             </div>
         );
     }
+
+    /* eslint-disable */
 
     let page;
     switch (currentPage) {

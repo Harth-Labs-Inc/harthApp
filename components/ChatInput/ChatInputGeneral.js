@@ -1,4 +1,4 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import { useContext, useState, useRef } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
@@ -41,12 +41,12 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
     };
     const getPastedData = (e) => {
         const { files } = e.clipboardData;
-        const text = e.clipboardData.getData("Text");
+        // const text = e.clipboardData.getData("Text");
         if (files[0]) {
             addAttachment(files[0]);
         }
-        if (text) {
-        }
+        // if (text) {
+        // }
     };
 
     const dropHandler = (e) => {
@@ -158,7 +158,7 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
                         sendMessagge();
                     }
                 }}
-                onKeyUp={(e) => {
+                onKeyUp={() => {
                     setAltKey(false);
                 }}
                 onPaste={getPastedData}

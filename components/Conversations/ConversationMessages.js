@@ -13,6 +13,8 @@ import {
 } from "../../requests/conversations";
 import { getUploadURL, putImageInBucket } from "../../requests/s3";
 
+/* eslint-disable */
+
 export const ConversationMessages = () => {
     const [bottom, setBottom] = useState(null);
     const [inview, setInview] = useState(null);
@@ -24,19 +26,19 @@ export const ConversationMessages = () => {
 
     const {
         selectedcomm,
-        conversations,
+        // conversations,
         selectedConversation,
         setConversationMessages,
         conversationMessages,
         unreadConversationMsgs,
-        unreadConversationMsg,
+        // unreadConversationMsg,
         incomingConversationMsg,
         incomingConversationMsgUpdate,
     } = useComms();
     const { user } = useAuth();
     const { emitUpdate } = useSocket();
 
-    const bottomObserver = useRef(null);
+    // const bottomObserver = useRef(null);
     const messagesEndRef = useRef(null);
     const { isMobile } = useContext(MobileContext);
 
@@ -108,9 +110,9 @@ export const ConversationMessages = () => {
                     }
                 });
 
-                let tempUnread = unreadConversationMsgs.filter(
-                    (msg) => !readIds.includes(msg._id)
-                );
+                // const tempUnread = unreadConversationMsgs.filter(
+                //     (msg) => !readIds.includes(msg._id)
+                // );
             }
             if (inview) {
                 scrollToBottom("smooth");
@@ -182,7 +184,7 @@ export const ConversationMessages = () => {
             ...conversationInputs,
             [selectedConversation?._id]: "",
         });
-        emitUpdate(selectedcomm?._id, message, async (err, status) => {
+        emitUpdate(selectedcomm?._id, message, async (err) => {
             if (err) {
                 console.error(err);
             }
@@ -192,7 +194,7 @@ export const ConversationMessages = () => {
         let promises = [];
         atts.forEach((file, idx) => {
             promises.push(
-                new Promise(async (res, rej) => {
+                new Promise(async (res) => {
                     let extention = file.name.split(".").pop();
                     let name = `${id}_${idx + 1}.${extention}`;
                     let bucket = "gather-message-attachments";
@@ -270,7 +272,7 @@ export const ConversationMessages = () => {
                     <div ref={messagesEndRef} />
                     <div ref={setBottom} />
                     {currentMessages &&
-                        currentMessages.map((msg, idx) => (
+                        currentMessages.map((msg) => (
                             <ChatSingleMessage
                                 msgReload={msgReload}
                                 editMessageText={editMessage}
@@ -286,13 +288,13 @@ export const ConversationMessages = () => {
 
                 {isMobile ? (
                     <div className={styles.InputMobile}>
-                        <ChatInput
+                        {/* <ChatInput
                             selectedEdit={editMessageObj}
                             isReply={false}
                             replyOwner={selectedReplyOwner}
                             topicInputs={topicInputs}
                             setTopicInputs={setTopicInputs}
-                        ></ChatInput>
+                        ></ChatInput> */}
                     </div>
                 ) : (
                     <div className={styles.InputDesktop}>

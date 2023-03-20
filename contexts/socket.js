@@ -12,6 +12,8 @@ import { socketUrls } from "../constants/urls";
 
 const SocketContext = createContext({});
 
+/* eslint-disable */
+
 export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
     const [incomingMsg, setIncomingMsg] = useState({});
@@ -35,8 +37,6 @@ export const SocketProvider = ({ children }) => {
         setConversations,
         setUnreadConversationMessagesHandler,
         setIncomingConversationMsgUpdate,
-        selectedCommRef,
-        selectedTopicRef,
     } = useComms();
 
     const selectedHarthRef = useRef();

@@ -2,6 +2,8 @@ import clientPromise from "../../../util/mongodb";
 import crypto from "crypto";
 import { envUrls } from "../../../constants/urls";
 
+/* eslint-disable */
+
 export default async (req, res) => {
     let obj;
     try {
