@@ -65,7 +65,7 @@ export const LinkPreview = ({ message }) => {
     if (rawURL) {
         return (
             <a href={rawURL} target="_blank" rel="noopener noreferrer">
-                {alteredURL}
+                {/* {alteredURL} */}
             </a>
         );
     }
