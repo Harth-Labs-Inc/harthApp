@@ -17,20 +17,20 @@
         position: relative;
         display: flex;
         width: 100%;
-        height: 56px;
+        height: 52px;
         //padding: 6px;
         padding-top: 2px;
         justify-content: center;
         align-items: center;
         //border: 3px solid $fuel_light;
         //background-color: aqua;
-        border-left: 2px solid transparent;
-        border-right: 2px solid transparent;
+        border-left: 3px solid transparent;
+        border-right: 3px solid transparent;
 
         &Button {
             position: relative;
-            height: 40px;
-            width: 40px;
+            height: 36px;
+            width: 36px;
             padding: 0px;
             background-color: transparent;
             border-radius: 8px;
@@ -54,12 +54,12 @@
         }
 
         &Active {
-            background-color: $fuel_3;
-            border-left: 2px solid $fuel;
+            background-color: $fuel_5;
+            border-left: 3px solid $fuel;
         }
 
         &:hover {
-            background-color: $fuel_3;
+            background-color: $fuel_5;
         }
 
         &UnreadMessage {

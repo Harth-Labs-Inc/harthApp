@@ -24,19 +24,19 @@
     // }
 
     .SettingsButton {
-
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
         height: 32px;
         width: 32px;
-        padding: 6px;
+        padding: 4px;
         background-color: transparent;
         border: 0;
         border-radius: 6px;
         border: 1px solid transparent;
         cursor: pointer;
-        overflow: hidden;
+        //overflow: hidden;
 
         path {
             fill: $fuel_20;
@@ -65,13 +65,76 @@
                 path {
                     fill: $hot_pink;
                 }
+
+                &::before {
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    content: "Give Feedback";
+                    width: fit-content;
+                    top: -4px;
+                    left: 38px;
+                    padding: 6px 10px;
+                    background-color: $ash;
+                    border-radius: 2px;
+                    @include worksans;
+                    letter-spacing: 0.05em;
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: $white;
+                    z-index: 10;
+                }
+        
+                &::after {
+                    position: absolute;
+                    content: " ";
+                    top: 4px;
+                    left: 32px;
+                    width: 0;
+                    height: 0;
+                    border-top: 12px solid transparent;
+                    border-bottom: 12px solid transparent;
+                    border-right: 12px solid $ash;
+                    z-index: 9;
+                }
             }
         }
 
-        &Invite {
-            &::after {
-                content: "Invites";
-                background-color: aqua;
+        &Invites {
+            &:hover {
+                &::before {
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    content: "Invites";
+                    width: fit-content;
+                    top: 3px;
+                    left: 38px;
+                    padding: 6px 10px;
+                    background-color: $ash;
+                    border-radius: 2px;
+                    @include worksans;
+                    letter-spacing: 0.05em;
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: $white;
+                    z-index: 10;
+                }
+        
+                &::after {
+                    position: absolute;
+                    content: " ";
+                    top: 4px;
+                    left: 32px;
+                    width: 0;
+                    height: 0;
+                    border-top: 12px solid transparent;
+                    border-bottom: 12px solid transparent;
+                    border-right: 12px solid $ash;
+                    z-index: 9;
+                }
             }
         }
 
