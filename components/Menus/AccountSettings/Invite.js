@@ -74,9 +74,13 @@ const InviteComp = (props) => {
                 <BackButton clickHandler={handleBack} />
                 <p>Invites</p>
             </div>
+            <div className={styles.SettingsContainerText}>
+                Create an invite and send the link<br />to your friends
+            </div>
             <div className={styles.SettingsContainerTitle}>
                 Your h&auml;rths
             </div>
+            
             <div className={styles.InviteList}>
                 {COMMS.map((comm) => {
                     let { iconKey, name, invite_tkn, invite_expiration } = comm;
