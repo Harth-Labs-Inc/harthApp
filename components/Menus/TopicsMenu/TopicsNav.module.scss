@@ -124,25 +124,18 @@
             border-radius: 8px;
             background-color: $black_10;
             backdrop-filter: blur(8px);
+            padding: 7px;
            
-
-            .iconHolder {
-                height: 18px;
-                width: 18px;
-                margin: auto;
-                path {
-                    fill: $white_80;
-                }
+            path {
+                fill: $white_80;
             }
+
 
             &:hover {
                 background-color: $black_50;
                 //border-color: $white_50;
-                .iconHolder {
-
-                    path {
-                        fill: $white;
-                    }
+                path {
+                    fill: $white;
                 }
 
             }
@@ -163,29 +156,19 @@
             height: 40px;
             width: 40px;
             border-radius: 8px;
+            padding: 9px;
             background-color: $black_10;
             backdrop-filter: blur(8px);
            
-
-            .iconHolder {
-                height: 24px;
-                width: 24px;
-                padding: 2px;
-                margin: auto;
-
-                path {
-                    fill: $white_80;
-                }
+            path {
+                fill: $white_80;
             }
 
             &:hover {
                 background-color: $black_50;
                 //border-color: $white_50;
-                .iconHolder {
-
-                    path {
-                        fill: $white;
-                    }
+                path {
+                    fill: $white;
                 }
 
             }

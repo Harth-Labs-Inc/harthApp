@@ -12,6 +12,8 @@ const TopBar = ({ children, currentPage }) => {
     const { selectedcomm, profile } = useComms();
     const { isMobile } = useContext(MobileContext);
 
+    const isStreaming = true;
+
     const editUserModalHandler = () => {
         setShowEditUserModal((prevState) => !prevState);
     };
@@ -47,6 +49,13 @@ const TopBar = ({ children, currentPage }) => {
                     </div>
                 ) : null}
                 {children}
+
+                <div className={styles.holder}>
+                {(isMobile && isStreaming) ? (
+                    <div className={styles.TopBarStreaming}>a</div>
+                ):(null)}
+
+
                 <div
                     className={
                         isMobile ? styles.avatarMobile : styles.avatarDesktop
@@ -59,6 +68,7 @@ const TopBar = ({ children, currentPage }) => {
                         isPressable
                         pressHandler={editUserModalHandler}
                     />
+                </div>
                 </div>
             </div>
         </>

@@ -326,9 +326,7 @@ const TopicsNav = (props) => {
                         }
                     >
                         <button id="create_topic" onClick={openCreateTopic}>
-                            <div className={styles.iconHolder}>
                                 <IconAdd />
-                            </div>
                         </button>
                     </div>
                     {hiddenTopicsArr.length > 0 && (
