@@ -14,8 +14,7 @@
     padding-left: 16px;
     border-bottom: 1px solid $fuel_10;
     border-top: 1px solid $fuel_10;
-
-    background-color: $light_ash;
+    
     z-index: 10;
 
     .avatarDesktop {
@@ -33,6 +32,10 @@
     &Mobile {
         background-color: $light_ash;
         border-top: 1px solid transparent;
+
+        height: 52px;
+        min-height: 52px;
+        max-height: 52px;
     }
 }
 
@@ -48,4 +51,37 @@
     text-transform: capitalize;
     margin-left: 8px;
     user-select: none;
+}
+
+.TopBarStreaming {
+    width: 48px;
+    height: 36px;
+    background-color: $hot_pink;
+    border-radius: 8px;
+    padding: 4px 4px;
+    border: 0;
+
+    path {
+        fill: $white;
+    }
+
+    animation: pulse 2s infinite;
+}
+
+.holder {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+@keyframes pulse {
+    0% {
+        background-color: $hot_pink;
+    }
+    50% {
+        background-color: $hot_pink_80;
+    }
+    100% {
+        background-color: $hot_pink;
+    }
 }

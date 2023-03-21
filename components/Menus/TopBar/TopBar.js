@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "../../../contexts/mobile";
-
+import { IconBroadcasting } from "resources/icons/IconBroadcasting";
 import styles from "./TopBar.module.scss";
 import HarthProfileEditModal from "../../HarthProfileEditModal";
 import UserIcon from "../../UserIcon/userIcon";
@@ -11,6 +11,9 @@ const TopBar = ({ children, currentPage }) => {
 
     const { selectedcomm, profile } = useComms();
     const { isMobile } = useContext(MobileContext);
+
+    // In room indicator. 
+    const isStreaming = false;
 
     const editUserModalHandler = () => {
         setShowEditUserModal((prevState) => !prevState);
@@ -47,6 +50,18 @@ const TopBar = ({ children, currentPage }) => {
                     </div>
                 ) : null}
                 {children}
+
+
+                    {/* This is the broadcasting icon. If you are in a room 
+                    and the room is minimized, it should be present. */}
+                <div className={styles.holder}>
+                {(isMobile && isStreaming) ? (
+                    <button className={styles.TopBarStreaming}>
+                        <IconBroadcasting />
+                    </button>
+                ):(null)}
+
+
                 <div
                     className={
                         isMobile ? styles.avatarMobile : styles.avatarDesktop
@@ -59,6 +74,7 @@ const TopBar = ({ children, currentPage }) => {
                         isPressable
                         pressHandler={editUserModalHandler}
                     />
+                </div>
                 </div>
             </div>
         </>
