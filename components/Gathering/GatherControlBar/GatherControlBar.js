@@ -140,11 +140,11 @@ const GatherControlBar = (props) => {
                     />
                     {roomType != "voice" && (
                         <>
-                            <StreamButton
+                            {/* <StreamButton
                                 onPress={onToggleScreenShare}
                                 show={captureIsActice}
                                 isMobile={true}
-                            />
+                            /> */}
                             <ChatButton
                                 unreadMsg={unreadMsg}
                                 onPress={onToggleChat}

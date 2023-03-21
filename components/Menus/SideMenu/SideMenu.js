@@ -8,6 +8,8 @@ import { deleteHarthByID, leaveHarthByID } from "../../../requests/community";
 import { MobileContext } from "../../../contexts/mobile";
 import { IconAdd } from "../../../resources/icons/IconAdd";
 import { IconMenu } from "../../../resources/icons/IconMenu";
+import { IconInvite } from "resources/icons/IconInvite";
+import { IconFeedback } from "resources/icons/IconFeedback";
 import { updateHarthData } from "../../../requests/community";
 
 import { Modal, SideModal } from "../../Common";
@@ -263,11 +265,25 @@ const SideNav = (props) => {
 
                 <div className={styles.bottomHolder}>
                     <button
+                        className={` ${styles.SettingsButton} ${styles.SettingsButtonFeedback} `}
+                        //onClick={toggleSettingsNav}
+                        //aria-label="Toggle Settings menu"
+                    >
+                        <IconFeedback />
+                    </button>
+                    <button
+                        className={` ${styles.SettingsButton} ${styles.SettingsButtonInvites} `}
+                        //onClick={toggleSettingsNav}
+                        //aria-label="Toggle Settings menu"
+                    >
+                        <IconInvite />
+                    </button>
+                    <button
                         className={styles.SettingsButton}
                         onClick={toggleSettingsNav}
                         aria-label="Toggle Settings menu"
                     >
-                        <IconMenu fill="#fff" />
+                        <IconMenu />
                     </button>
                 </div>
             </aside>
