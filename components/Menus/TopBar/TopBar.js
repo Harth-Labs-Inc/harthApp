@@ -12,7 +12,8 @@ const TopBar = ({ children, currentPage }) => {
     const { selectedcomm, profile } = useComms();
     const { isMobile } = useContext(MobileContext);
 
-    const isStreaming = true;
+    // In room indicator. 
+    const isStreaming = false;
 
     const editUserModalHandler = () => {
         setShowEditUserModal((prevState) => !prevState);
@@ -55,9 +56,9 @@ const TopBar = ({ children, currentPage }) => {
                     and the room is minimized, it should be present. */}
                 <div className={styles.holder}>
                 {(isMobile && isStreaming) ? (
-                    <div className={styles.TopBarStreaming}>
+                    <button className={styles.TopBarStreaming}>
                         <IconBroadcasting />
-                    </div>
+                    </button>
                 ):(null)}
 
 
