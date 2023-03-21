@@ -6,9 +6,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 52px;
-    min-height: 52px;
-    max-height: 52px;
+    height: 60px;
+    min-height: 60px;
+    max-height: 60px;
     width: 100%;
     padding-right: 12px;
     padding-left: 16px;
@@ -32,6 +32,10 @@
     &Mobile {
         background-color: $light_ash;
         border-top: 1px solid transparent;
+
+        height: 52px;
+        min-height: 52px;
+        max-height: 52px;
     }
 }
 
@@ -50,7 +54,7 @@
 }
 
 .TopBarStreaming {
-    width: 40px;
+    width: 48px;
     height: 36px;
     background-color: $hot_pink;
     border-radius: 8px;
@@ -59,10 +63,24 @@
     path {
         fill: $white;
     }
+
+    animation: pulse 2s infinite;
 }
 
 .holder {
     display: flex;
     flex-direction: row;
     gap: 8px;
+}
+
+@keyframes pulse {
+    0% {
+        background-color: $hot_pink;
+    }
+    50% {
+        background-color: $hot_pink_80;
+    }
+    100% {
+        background-color: $hot_pink;
+    }
 }
