@@ -13,7 +13,8 @@
     "plugins": ["react"],
     "rules": {
         "indent": ["error", 4],
-        "linebreak-style": ["error", "windows"],
+        "linebreak-style": "off",
+        // "linebreak-style": ["error", "windows"],
         "no-async-promise-executor": "off",
         "quotes": ["error", "double"],
         "react/prop-types": [0],
