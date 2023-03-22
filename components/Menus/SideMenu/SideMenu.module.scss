@@ -3,31 +3,17 @@
 
 .SideNav {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 8px 0px 0px 0px;
+    padding: 8px 0px 148px 0px;
     width: 56px;
+    height: 100vh;
     min-width: 56px;
     background-color: $light_ash;
     border-right: 1px solid $fuel_10;
     border-top: 1px solid $fuel_10;
 
-    // .titleHolder {
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: center;
-    //     height: 60px;
-    //     min-height: 60px;
-    //     width: 64px;;
-    //     border: 0;
-    //     border-bottom: 1px solid $ash_border;
-    // }
 
     .SettingsButton {
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         height: 32px;
         width: 32px;
         padding: 4px;
@@ -36,7 +22,7 @@
         border-radius: 6px;
         border: 1px solid transparent;
         cursor: pointer;
-        //overflow: hidden;
+
 
         path {
             fill: $fuel_20;
@@ -143,50 +129,21 @@
     .bottomHolder {
 
         position: absolute;
-        bottom: 0px;
-        height: fit-content;
-        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        // background-color: $ash;
+        bottom: 0px;
+        height: fit-content;
+        width: 100%;
+        background-color: $light_ash;
         border-top: 1px solid $fuel_5;
         z-index: 20;
-        padding: 12px 0px;
+        padding: 12px 0px 12px 0px;
         gap: 8px;
 
         
     }
 
-    .CreateHarthButton {
-        position: relative;
-        width: 28px;
-        height: 28px;
-        padding: 4px;
-        margin-top: 8px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 64px;
-        margin-top: 10px;
-        cursor: pointer;
-        border-radius: 8px;
-        border: 1px solid $fuel_10;
-        background: transparent;
-
-        path {
-            fill: $fuel_20;
-        }
-
-        &:hover {
-            background-color: $black_20;
-
-            path {
-                fill: $fuel_light;
-            }
-        }
-
-    }
 }
 
 

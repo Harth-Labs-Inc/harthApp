@@ -256,25 +256,20 @@ const SideNav = (props) => {
                     changeSelectedCom={changeSelectedCom}
                     toggleHarthEditModal={toggleHarthEditModal}
                 />
-                <button
-                    className={styles.CreateHarthButton}
-                    onClick={setShowCreateHarthNameModal}
-                >
-                    <IconAdd />
-                </button>
+
 
                 <div className={styles.bottomHolder}>
                     <button
                         className={` ${styles.SettingsButton} ${styles.SettingsButtonFeedback} `}
                         //onClick={toggleSettingsNav}
-                        //aria-label="Toggle Settings menu"
+                        aria-label="Toggle User Feedback menu"
                     >
                         <IconFeedback />
                     </button>
                     <button
                         className={` ${styles.SettingsButton} ${styles.SettingsButtonInvites} `}
                         //onClick={toggleSettingsNav}
-                        //aria-label="Toggle Settings menu"
+                        aria-label="Toggle Invites menu"
                     >
                         <IconInvite />
                     </button>
