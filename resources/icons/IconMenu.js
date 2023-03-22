@@ -1,9 +1,9 @@
 export const IconMenu = ({ fill = "#2F1D2A" }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        height={48}
-        viewBox="0 96 960 960"
-        width={48}
+        height="100%"
+        width="100%"
+        viewBox={"0 96 960 960"}
     >
         <path
             fill={fill}

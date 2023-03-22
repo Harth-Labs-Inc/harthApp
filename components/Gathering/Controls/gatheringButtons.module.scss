@@ -2,9 +2,8 @@
 @import "../../../styles/fonts.scss";
 
 .OptionsMenu {
-    position: relative;
     position: absolute;
-    bottom: 52px;
+    bottom: 58px;
     z-index: 1;
 
     border-radius: 8px;
@@ -18,6 +17,18 @@
         padding: 8px 6px;
         background-color: $black;
         border-radius: 8px;
+    }
+
+    button {
+        font-size: 12px;
+        background-color: $oxygen_50;
+        border: 0;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: $oxygen;
+        }
     }
 
     &:before {
