@@ -12,14 +12,13 @@
     },
     "plugins": ["react"],
     "rules": {
-        "indent": ["error", 4],
-        "linebreak-style": "off",
+        // "indent": ["error", 4],
         // "linebreak-style": ["error", "windows"],
         "no-async-promise-executor": "off",
-        "quotes": ["error", "double"],
+        // "quotes": ["error", "double"],
         "react/prop-types": [0],
         "react/jsx-uses-react": "off",
-        "react/react-in-jsx-scope": "off",
-        "semi": ["error", "always"]
+        "react/react-in-jsx-scope": "off"
+        // "semi": ["error", "always"]
     }
 }
