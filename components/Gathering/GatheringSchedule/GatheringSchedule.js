@@ -65,7 +65,12 @@ const GatheringSchedule = (props) => {
     formState: { errors },
   } = useForm(defaults);
 
-  const { pushScheduledRoom, socketID, refreshScheduledCallRooms } = useVideo();
+  const {
+    pushScheduledRoom,
+    socketID,
+    refreshScheduledCallRooms,
+    sendGatherNotification,
+  } = useVideo();
 
   const watchType = watch("gatheringType");
 
@@ -93,6 +98,7 @@ const GatheringSchedule = (props) => {
       if (ok) {
         if (id) {
           newRoom._id = id;
+          sendGatherNotification(newRoom);
           pushScheduledRoom(newRoom);
           props.closeHandler();
         }
