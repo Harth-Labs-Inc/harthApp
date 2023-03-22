@@ -28,13 +28,15 @@ const DashboardLayout = (props) => {
   useEffect(() => {
     if (socketID && selectedcomm && user) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
-      let data = {};
-      data.icon = creator.iconKey;
-      data.name = creator.name;
-      data.harthid = selectedcomm._id;
-      data.socketId = socketID;
-      data.harthName = selectedcomm.name;
-      getInitialCallRooms(data);
+      if (creator) {
+        let data = {};
+        data.icon = creator.iconKey;
+        data.name = creator.name;
+        data.harthid = selectedcomm._id;
+        data.socketId = socketID;
+        data.harthName = selectedcomm.name;
+        getInitialCallRooms(data);
+      }
     }
   }, [socketID, selectedcomm, user]);
 

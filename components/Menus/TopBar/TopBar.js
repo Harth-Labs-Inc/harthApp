@@ -7,78 +7,72 @@ import HarthProfileEditModal from "../../HarthProfileEditModal";
 import UserIcon from "../../UserIcon/userIcon";
 
 const TopBar = ({ children, currentPage }) => {
-    const [showEditUserModal, setShowEditUserModal] = useState(false);
+  const [showEditUserModal, setShowEditUserModal] = useState(false);
 
-    const { selectedcomm, profile } = useComms();
-    const { isMobile } = useContext(MobileContext);
+  const { selectedcomm, profile } = useComms();
+  const { isMobile } = useContext(MobileContext);
 
-    // In room indicator. 
-    const isStreaming = false;
+  // In room indicator.
+  const isStreaming = false;
 
-    const editUserModalHandler = () => {
-        setShowEditUserModal((prevState) => !prevState);
-    };
+  const editUserModalHandler = () => {
+    setShowEditUserModal((prevState) => !prevState);
+  };
 
-    if (!profile) {
-        return null;
-    }
+  if (!profile) {
+    return null;
+  }
 
-    let { iconKey } = profile;
+  let { iconKey } = profile;
 
-    return (
-        <>
-            <HarthProfileEditModal
-                hidden={!showEditUserModal}
-                setHidden={editUserModalHandler}
-                harth={{
-                    ...(selectedcomm || {}),
-                }}
-                profile={profile}
-            />
-            <div
-                className={`
+  return (
+    <>
+      <HarthProfileEditModal
+        hidden={!showEditUserModal}
+        setHidden={editUserModalHandler}
+        harth={{
+          ...(selectedcomm || {}),
+        }}
+        profile={profile}
+      />
+      <div
+        className={`
                     ${styles.TopBar}
                     ${isMobile && styles.TopBarMobile}
                     `}
-            >
-                {isMobile ? (
-                    <div className={styles.TopBarName}>
-                        {selectedcomm?.name}
-                        <span className={styles.TopBarSection}>
-                            \ {currentPage}
-                        </span>
-                    </div>
-                ) : null}
-                {children}
+      >
+        {isMobile ? (
+          <div className={styles.TopBarName}>
+            {selectedcomm?.name}
+            <span className={styles.TopBarSection}>\ {currentPage}</span>
+          </div>
+        ) : null}
+        {children}
 
-
-                    {/* This is the broadcasting icon. If you are in a room 
+        {/* This is the broadcasting icon. If you are in a room 
                     and the room is minimized, it should be present. */}
-                <div className={styles.holder}>
-                {(isMobile && isStreaming) ? (
-                    <button className={styles.TopBarStreaming}>
-                        <IconBroadcasting />
-                    </button>
-                ):(null)}
+        <div className={styles.holder}>
+          {isMobile && isStreaming ? (
+            <button className={styles.TopBarStreaming}>
+              <IconBroadcasting />
+            </button>
+          ) : null}
 
-
-                <div
-                    className={
-                        isMobile ? styles.avatarMobile : styles.avatarDesktop
-                    }
-                >
-                    <UserIcon
-                        img={iconKey}
-                        showName={false}
-                        size="small"
-                        isPressable
-                        pressHandler={editUserModalHandler}
-                    />
-                </div>
-                </div>
-            </div>
-        </>
-    );
+          <div
+            className={isMobile ? styles.avatarMobile : styles.avatarDesktop}
+          >
+            <UserIcon
+              img={iconKey || ""}
+              showName={false}
+              size="small"
+              isPressable
+              pressHandler={editUserModalHandler}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default TopBar;
