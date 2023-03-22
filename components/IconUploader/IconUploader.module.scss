@@ -29,8 +29,8 @@
         border-radius: 50%;
 
         img {
-            height: 88px;
-            width: 88px;
+            height: 80px;
+            width: 80px;
             object-fit: cover;
             border-radius: 9999px;
         }
@@ -41,12 +41,14 @@
     }
 
     &.Square {
-        border-radius: 10px;
         height: 80px;
         width: 80px;
+        border-radius: 10px;
+        // overflow: hidden;
         .image {
-            width: 100%;
-            height: auto;
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
             border-radius: 10px;
         }
 
