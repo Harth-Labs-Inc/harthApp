@@ -6,7 +6,6 @@ import { useSocket } from "../../../contexts/socket";
 
 import { deleteHarthByID, leaveHarthByID } from "../../../requests/community";
 import { MobileContext } from "../../../contexts/mobile";
-import { IconAdd } from "../../../resources/icons/IconAdd";
 import { IconMenu } from "../../../resources/icons/IconMenu";
 import { IconInvite } from "resources/icons/IconInvite";
 import { IconFeedback } from "resources/icons/IconFeedback";
@@ -256,7 +255,6 @@ const SideNav = (props) => {
                     changeSelectedCom={changeSelectedCom}
                     toggleHarthEditModal={toggleHarthEditModal}
                 />
-
 
                 <div className={styles.bottomHolder}>
                     <button
