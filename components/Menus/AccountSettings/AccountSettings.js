@@ -2,7 +2,6 @@ import { useContext } from "react";
 
 import { MobileContext } from "../../../contexts/mobile";
 
-import { HarthLogoLight } from "../../../public/images/harth-logo-light";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
@@ -19,7 +18,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
         <div className={styles.SettingsContainer}>
             {!isMobile ? (
                 <div className={styles.headerImage}>
-                    <HarthLogoDark/>
+                    <HarthLogoDark />
                 </div>
             ) : null}
 

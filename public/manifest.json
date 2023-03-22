@@ -62,12 +62,10 @@
         }
     ],
 
+    "start_url": "https://hrth.app/",
 
-    "start_url": "https://harth.vercel.app/",
-
-    "display": "fullscreen", 
+    "display": "fullscreen",
     "scope": "/",
     "background_color": "#f9f9f9",
     "theme_color": "#f9f9f9"
-
 }

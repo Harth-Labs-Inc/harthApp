@@ -1,6 +1,7 @@
 export const envUrls = {
     development: "http://localhost:3000/",
-    production: "https://harth.vercel.app/" || "https://hrth.app",
+    qa: "https://qa.hrth.app",
+    production: "https://hrth.app",
 };
 
 export const socketUrls = {
