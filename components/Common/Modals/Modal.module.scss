@@ -10,8 +10,7 @@
     width: 100vw;
 
     background-color: $black_20;
-    //backdrop-filter: grayscale(60%);
-    //backdrop-filter: blur(1px);
+    backdrop-filter: blur(5px) grayscale(60%);
 
     .Modal {
         height: 100%;

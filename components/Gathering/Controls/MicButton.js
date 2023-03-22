@@ -20,8 +20,8 @@ export const MicButton = (props) => {
                     onClickOutside={clearAudioList}
                     onFocusOutside={clearAudioList}
                 >
-                    <div className={styles.BagButtonOptions}>
-                        <div className={styles.BagButtonOptionsContainer}>
+                    <div className={styles.OptionsMenu}>
+                        <div className={styles.OptionsMenuContainer}>
                             {audioList.map((device) => {
                                 const { label, deviceId } = device;
                                 return (

@@ -121,7 +121,11 @@ const CreateAccount = () => {
                         {...register("dob", {
                             required: true,
                             validate: {
-                                olderThanThirteen: (v) => calculateAge(v) > 12,
+                                olderThanThirteen: (v) => {
+                                    console.log(v);
+                                    console.log(calculateAge(v));
+                                    calculateAge(v) > 12;
+                                },
                             },
                         })}
                         type="date"
