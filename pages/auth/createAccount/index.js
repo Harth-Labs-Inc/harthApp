@@ -25,19 +25,20 @@ const CreateAccount = () => {
         setTodayMax(new Date().toISOString().split("T")[0]);
     }, []);
 
-    const calculateAge = (date) => {
-        var formattedDate = date.split("/");
-        var birthdateTimeStamp = new Date(
-            formattedDate[2],
-            formattedDate[1],
-            formattedDate[0]
-        );
-        var currentDate = new Date().getTime();
-        var difference = currentDate - birthdateTimeStamp;
-        var currentAge = Math.floor(difference / 31557600000);
-        // dividing by 1000*60*60*24*365.25
-        return currentAge;
-    };
+    function calculateAge(birthdate) {
+        const today = new Date();
+        const birthDate = new Date(birthdate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (
+            monthDiff < 0 ||
+            (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+            age--;
+        }
+        return age;
+    }
 
     const {
         register,
@@ -121,11 +122,7 @@ const CreateAccount = () => {
                         {...register("dob", {
                             required: true,
                             validate: {
-                                olderThanThirteen: (v) => {
-                                    console.log(v);
-                                    console.log(calculateAge(v));
-                                    calculateAge(v) > 12;
-                                },
+                                olderThanThirteen: (v) => calculateAge(v) > 12,
                             },
                         })}
                         type="date"

@@ -27,11 +27,9 @@ const DashboardLayout = (props) => {
 
     useEffect(() => {
         if (socketID && selectedcomm && user) {
-            console.log(selectedcomm, user);
             let creator = selectedcomm.users.find(
                 (usr) => usr.userId === user._id
             );
-            console.log(creator);
             if (creator) {
                 let data = {};
                 data.icon = creator.iconKey;
