@@ -154,13 +154,13 @@ const HarthList = ({
                         </div>
                     );
                 })}
-            {isMobile ? (
+
                 <li className={styles.NewHarth}>
                     <button onClick={toggleCreateComm}>
                         <IconAdd />
                     </button>
                 </li>
-            ) : null}
+
         </ul>
     );
 };
