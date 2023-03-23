@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-// import SettingsList from "./AccountSettings";
-// import InviteComp from "./Invite";
-// import AccountProfile from "./AccountProfile";
-// import Devices from "./Devices";
 
-const SettingsMenu = () => {
+const SettingsMenu = ({ hasInviteShortcut }) => {
     const [currentTab, setCurrentTab] = useState("");
+
+    useEffect(() => {
+        if (hasInviteShortcut) {
+            toggleCurrentTab("invites");
+        }
+    }, [hasInviteShortcut]);
 
     const toggleCurrentTab = (name) => {
         setCurrentTab(name);

@@ -113,7 +113,13 @@ const Stream = () => {
         if (newMsg?.code == 9) {
           if (localAudioStream.current) {
             let options = {
-              metadata: { streamID: localAudioStream.current.id },
+              metadata: {
+                streamID: localAudioStream.current.id,
+                priority: "high",
+                type: "audio",
+              },
+              sdpSemantics: "unified-plan",
+              prioritize: ["audio", "video"],
             };
 
             audioSharePeer.current.call(
@@ -160,6 +166,8 @@ const Stream = () => {
           removeElement(newMsg.peerId);
         }
         if (newMsg?.code == 2) {
+          removeElement(`${newMsg?.socketID}_play-button`);
+          removeElement(newMsg.capturePeer);
           for (let conns in ScreenSharePeer.current.connections) {
             ScreenSharePeer.current.connections[conns].forEach((conn) => {
               if (conn.metadata?.streamID == newMsg.deleteID) {
@@ -167,8 +175,6 @@ const Stream = () => {
               }
             });
           }
-          removeElement(`${newMsg?.socketID}_play-button`);
-          removeElement(newMsg.capturePeer);
         }
         if (
           newMsg?.code == 100 &&
@@ -255,7 +261,7 @@ const Stream = () => {
 
   const getLocalAudioStream = async (
     constraints = {
-      audio: { echoCancellation: true, noiseSuppression: true },
+      audio: { echoCancellation: true, noiseSuppression: true, codec: "opus" },
       video: false,
     }
   ) => {
@@ -278,6 +284,8 @@ const Stream = () => {
         cursor: "always",
         width: { ideal: 1280, max: 1280 },
         height: { ideal: 720, max: 720 },
+        frameRate: { ideal: 20, max: 30 },
+
         logicalSurface: true,
       },
       audio: false,
@@ -325,6 +333,7 @@ const Stream = () => {
     audioSharePeer.current = new window.Peer(undefined, {
       config: {
         iceServers: [...servers],
+        audioBitrate: 128,
       },
       debug: 2,
     });
@@ -374,6 +383,14 @@ const Stream = () => {
     ScreenSharePeer.current = new window.Peer(undefined, {
       config: {
         iceServers: [...servers],
+        videoBitrate: 256,
+        sdpSemantics: "unified-plan",
+        video: {
+          codecs: [
+            { name: "VP8", priority: 10, payloadType: 120 },
+            { name: "H264", priority: 20, payloadType: 100 },
+          ],
+        },
       },
       debug: 2,
     });
@@ -413,7 +430,14 @@ const Stream = () => {
       peers.forEach((peer) => {
         if (peer.peerId !== audioSharePeer.current.id) {
           let options = {
-            metadata: { streamID: audioStream.id, peer },
+            metadata: {
+              streamID: audioStream.id,
+              peer,
+              priority: "high",
+              type: "audio",
+            },
+            sdpSemantics: "unified-plan",
+            prioritize: ["audio", "video"],
           };
 
           audioSharePeer.current.call(peer.peerId, audioStream, options);
@@ -441,7 +465,14 @@ const Stream = () => {
       PEERS.current.forEach((peer) => {
         if (peer.peerId !== audioSharePeer.current.id) {
           let options = {
-            metadata: { streamID: audioStream.id, peer },
+            metadata: {
+              streamID: audioStream.id,
+              peer,
+              priority: "high",
+              type: "audio",
+            },
+            sdpSemantics: "unified-plan",
+            prioritize: ["audio", "video"],
           };
 
           audioSharePeer.current.call(peer.peerId, audioStream, options);
