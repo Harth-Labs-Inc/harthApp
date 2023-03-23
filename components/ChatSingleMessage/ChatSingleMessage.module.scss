@@ -3,6 +3,12 @@
 
 .ChatParentContainer {
     max-width: 100%;
+    border: 2px solid transparent;
+    border-radius: 8px;
+
+    &.Editing {
+        border-color: $hot_pink;
+    }
 }
 
 .SingleMessage {

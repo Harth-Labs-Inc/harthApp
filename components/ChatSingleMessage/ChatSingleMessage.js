@@ -44,6 +44,7 @@ const ChatSingleMessage = (props) => {
     const [emojiPickerState, setEmojiPicker] = useState(false);
     const [urls, setUrls] = useState([]);
     const [showEditBar, setShowEditBar] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
 
     const {
         _id,
@@ -171,6 +172,7 @@ const ChatSingleMessage = (props) => {
     };
 
     const editBarSelection = () => {
+        setIsEditing(true);
         editMessageText(props.msg);
     };
     const getTimeStamp = () => {
@@ -323,7 +325,11 @@ const ChatSingleMessage = (props) => {
     let timeStamp = getTimeStamp();
 
     return (
-        <div className={styles.ChatParentContainer}>
+        <div
+            className={`${styles.ChatParentContainer} ${
+                isEditing ? styles.Editing : null
+            }`}
+        >
             <EmojiPicker />
             <div
                 className={styles.SingleMessage}
