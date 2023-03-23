@@ -127,6 +127,7 @@ const CreateAccount = () => {
                         })}
                         type="date"
                         max={todayMax}
+                        min={new Date("1/1/1910").toISOString().split("T")[0]}
                     />
                     <div className={styles.small}>
                         Enter your birthday for verification. Your birthday will
