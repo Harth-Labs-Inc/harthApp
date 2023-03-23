@@ -141,10 +141,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
                             {Emoji ? (
                                 <p className={styles.TopicEmoji}>{Emoji}</p>
                             ) : (
-                                <img
-                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png"
-                                    loading="lazy"
-                                />
+                                <p className={styles.TopicEmoji}>😀</p>
                             )}
                         </button>
 

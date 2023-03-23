@@ -49,18 +49,18 @@
 
         button {
             position: relative;
-            padding: 6px 6px;
-            width: 40px;
-            height: 40px;
+            padding: 0;
+            padding-bottom: 2px;
+            min-width: 48px;
+            width: 48px;
+            min-height: 48px;
+            height: 48px;
+
             border-radius: 8px;
+            border: 0;
             border: 1px solid $fuel_10;
             background-color: transparent;
 
-            img {
-                width: 20px;
-                height: 20px;
-                object-fit: cover;
-            }
 
             &:hover {
                 background-color: $fuel_10;
@@ -96,7 +96,9 @@
         }
 
         .TopicEmoji {
-            font-size: 20px;
+            font-size: 28px;
+            //background-color: aqua;
+            //text-align: center;
         }
 
         input {
