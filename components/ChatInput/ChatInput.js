@@ -3,7 +3,7 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
 import { IconSend } from "../../resources/icons/IconSend";
-import { IconCancelFill } from "../../resources/icons/IconCancelFill";
+// import { IconCancelFill } from "../../resources/icons/IconCancelFill";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
 
@@ -34,8 +34,14 @@ const ChatInput = (props) => {
     const { selectedcomm, selectedTopic } = useComms();
     const { emitUpdate } = useSocket();
 
-    const { selectedEdit, isReply, topicInputs, setTopicInputs, resetEdit } =
-        props;
+    const {
+        selectedEdit,
+        isReply,
+        topicInputs,
+        setTopicInputs,
+        resetEdit,
+        toggleEditing,
+    } = props;
 
     const textRef = useRef();
     const fileRef = useRef();
@@ -130,6 +136,7 @@ const ChatInput = (props) => {
         setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
         setSelectedEditMsg({});
         resetEdit();
+        toggleEditing();
     };
     const addEmoji = (e) => {
         let text = topicInputs[selectedTopic?._id];
@@ -263,9 +270,10 @@ const ChatInput = (props) => {
                 <div id={styles.ChatInputControlsRight}>
                     <button
                         onClick={cancelEdit}
-                        aria-label="cancel chat message"
+                        className={styles.EditCancel}
+                        aria-label="cancel edit chat message"
                     >
-                        <IconCancelFill />
+                        cancel
                     </button>
                     <button
                         className={styles.SendActive}

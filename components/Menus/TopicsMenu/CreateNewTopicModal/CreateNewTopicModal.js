@@ -11,11 +11,14 @@ import data from "@emoji-mart/data";
 import { saveTopics } from "../../../../requests/community";
 import { addRoomToUsers } from "../../../../requests/rooms";
 
+import OutsideClickHandler from "components/Common/Modals/OutsideClick";
+
 import styles from "./CreateNewTopicModal.module.scss";
 
 export default function CreateNewTopicModal({ toggleModal }) {
     const [emojiPickerState, setEmojiPicker] = useState(false);
     const [Emoji, setEmoji] = useState();
+    const [isLoading, setIsLoading] = useState(false);
     const {
         register,
         handleSubmit,
@@ -27,6 +30,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
     const { emitUpdate } = useSocket();
 
     const createNewTopic = async (data) => {
+        setIsLoading(true);
         let topic,
             userIds = [];
 
@@ -79,29 +83,42 @@ export default function CreateNewTopicModal({ toggleModal }) {
                 });
             }
         }
+        setIsLoading(false);
     };
     const toggleEmojiPicker = () => {
         setEmojiPicker((prevState) => !prevState);
     };
     const addEmoji = (e) => {
         setEmoji(e.native);
+        setEmojiPicker(false);
     };
     const EmojiPicker = () => {
         if (emojiPickerState) {
             return (
                 <div className={styles.EmojiPicker}>
-                    <Picker
-                        data={data}
-                        className="attach-emoji"
-                        onEmojiSelect={addEmoji}
-                        autoFocus={true}
-                        emojiButtonColors={[
-                            "rgba(187,126,196,0.8)",
-                            "rgba(13,161,181,0.8)",
-                            "rgba(240,101,115,0.8)",
-                            "rgba(0,163,150,0.8)",
-                        ]}
-                    />
+                    <OutsideClickHandler
+                        onClickOutside={() => {
+                            if (emojiPickerState) setEmojiPicker(false);
+                        }}
+                        onFocusOutside={() => {
+                            if (emojiPickerState) setEmojiPicker(false);
+                        }}
+                    >
+                        <Picker
+                            data={data}
+                            className="attach-emoji"
+                            onEmojiSelect={addEmoji}
+                            autoFocus={true}
+                            emojiButtonSize={22}
+                            emojiSize={16}
+                            emojiButtonColors={[
+                                "rgba(187,126,196,0.8)",
+                                "rgba(13,161,181,0.8)",
+                                "rgba(240,101,115,0.8)",
+                                "rgba(0,163,150,0.8)",
+                            ]}
+                        />
+                    </OutsideClickHandler>
                 </div>
             );
         }
@@ -113,11 +130,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
             classNames={styles.CreateNewTopicModal}
         >
             <div className={styles.mainContainer}>
-                <EmojiPicker
-                    dynamicWidth
-                    emojiButtonSize={24}
-                    className={styles.EmojiPicker}
-                />
+                <EmojiPicker />
                 <div className={styles.title}>New topic</div>
                 <form
                     className={styles.CreateTopic}
@@ -126,7 +139,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
                     <div className={styles.inputHolder}>
                         <button type="button" onClick={toggleEmojiPicker}>
                             {Emoji ? (
-                                <p>{Emoji}</p>
+                                <p className={styles.TopicEmoji}>{Emoji}</p>
                             ) : (
                                 <img
                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png"
@@ -167,6 +180,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
                             size="large"
                             text="Create Topic"
                             type="submit"
+                            isLoading={isLoading}
                         />
                     </div>
                 </form>

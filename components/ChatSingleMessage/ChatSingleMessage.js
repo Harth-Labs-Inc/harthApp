@@ -44,6 +44,7 @@ const ChatSingleMessage = (props) => {
     const [emojiPickerState, setEmojiPicker] = useState(false);
     const [urls, setUrls] = useState([]);
     const [showEditBar, setShowEditBar] = useState("");
+    const [ratio, setRatio] = useState(16 / 9);
 
     const {
         _id,
@@ -61,6 +62,8 @@ const ChatSingleMessage = (props) => {
         bucket = "topic-message-attachments",
         chatType = "topic",
         openImageSlideShow,
+        isEditing,
+        toggleEditing,
     } = props;
 
     const { user } = useAuth();
@@ -171,6 +174,7 @@ const ChatSingleMessage = (props) => {
     };
 
     const editBarSelection = () => {
+        toggleEditing(messageID);
         editMessageText(props.msg);
     };
     const getTimeStamp = () => {
@@ -323,7 +327,11 @@ const ChatSingleMessage = (props) => {
     let timeStamp = getTimeStamp();
 
     return (
-        <div className={styles.ChatParentContainer}>
+        <div
+            className={`${styles.ChatParentContainer} ${
+                isEditing ? styles.Editing : null
+            }`}
+        >
             <EmojiPicker />
             <div
                 className={styles.SingleMessage}
@@ -367,17 +375,20 @@ const ChatSingleMessage = (props) => {
                                 key={url}
                                 className="active-image"
                                 src={url}
-                                width={200}
-                                height={100}
-                                // fill
+                                width={100}
+                                height={100 / ratio}
                                 placeholder="blur"
                                 blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                                    shimmer(200, 100)
+                                    shimmer(200, 200 / ratio)
                                 )}`}
-                                alt=""
+                                alt="message image"
                                 onClick={() =>
                                     openImageSlideShow(idx, attachments)
                                 }
+                                onLoadingComplete={({
+                                    naturalWidth,
+                                    naturalHeight,
+                                }) => setRatio(naturalHeight / naturalWidth)}
                             />
                         ))}
 
