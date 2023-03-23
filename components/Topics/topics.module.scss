@@ -17,7 +17,7 @@
     margin-bottom: 8px;
     margin-right: 16px;
     cursor: pointer;
-    border: 1px solid $fuel_5;
+    border: 1px solid $fuel_10;
 
     .emojiHolder {
         //padding: 6px 6px;
@@ -54,7 +54,7 @@
         //row-gap: 1px;
         flex-wrap: wrap;
         padding: 0px 8px 0px 32px;
-        margin-top: -4px;
+        margin-top: -2px;
         //margin-left: 38px;
         z-index: 1;
         //background-color: aqua;
@@ -64,12 +64,12 @@
             height: 32px;
             //object-fit: cover;
             border-radius: 999px;
-            border: 2px solid transparent;
+            border: 1px solid $fuel_5;
         }
 
         &Mobile {
-            margin-top: -16px;
-            padding: 0px 8px 8px 52px;
+            margin-top: -12px;
+            padding: 0px 8px 8px 64px;
             img {
                 width: 36px;
                 height: 36px;
@@ -79,13 +79,6 @@
         }
     }
 
-    &Alert {
-        .label {
-            //@include topicTitleActive;
-            //font-weight: 600;
-            color: $white;
-        }
-    }
 
     &Mobile {
         //width: 100%;
@@ -95,19 +88,28 @@
 
         .emojiHolder {
             font-size: 28px;
+            margin-right: 8px;
 
         }
         .label {
             @include topicTitleMobile;
-            padding: 6px 8px 6px 8px;
+            padding: 8px 8px 8px 12px;
             //background-color: aqua;
+        }
+    }
+
+    &Alert {
+        .label {
+            //@include topicTitleActive;
+            font-weight: 700;
+            color: $fuel;
         }
     }
 
     &InActive {
         
         &:hover {
-            background-color: $ash;
+            background-color: $fuel_light;
             .label {
                 color: $white;
             }

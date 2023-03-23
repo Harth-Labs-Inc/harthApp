@@ -13,7 +13,7 @@
     background-image: url("../../../public/images/background_chat_dark.png");
     background-repeat: repeat;
     background-size: 32px;
-    background-position: 16px 16px;
+    background-position: 10px 10px;
 
     &Mobile {
         width: 100%;
@@ -25,7 +25,7 @@
     &Title {
         position: relative;
         @include smallTitle;
-        padding: 1px;
+        padding: 2px;
         border-radius: 2px;
         background-color: $white;
         text-transform: uppercase;
@@ -41,7 +41,7 @@
     &TitleMobile {
         position: relative;
         @include smallTitleMobile;
-        padding: 1px;
+        padding: 2px;
         border-radius: 2px;
         background-color: $white;
         width: fit-content;
@@ -57,7 +57,7 @@
     &Hidden {
         position: relative;
         @include smallTitle;
-        padding: 1px;
+        padding: 2px;
         border-radius: 2px;
         background-color: $white;
         width: fit-content;
@@ -104,7 +104,7 @@
         margin-left: 0px;
         margin-bottom: 24px;
         button {
-            border: 1px solid $fuel_5;
+            border: 1px solid $fuel_10;
             cursor: pointer;
             height: 32px;
             width: 32px;
@@ -119,7 +119,7 @@
 
 
             &:hover {
-                background-color: $warm_blue;
+                background-color: $fuel_light;
                 //border-color: $white_50;
                 path {
                     fill: $white;
@@ -139,7 +139,7 @@
         
         //background-color: aqua;
         button {
-            border: 1px solid $fuel_5;
+            border: 1px solid $fuel_10;
             cursor: pointer;
             height: 44px;
             width: 44px;
@@ -153,7 +153,7 @@
             }
 
             &:hover {
-                background-color: $warm_blue;
+                background-color: $fuel_light;
                 //border-color: $white_50;
                 path {
                     fill: $white;
