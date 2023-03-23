@@ -80,6 +80,10 @@
                     }
                 }
 
+                &.EditCancel {
+                    width: auto;
+                }
+
                 &.SendActive {
                     border: 1px solid $ash_05;
                     background-color: $hot_pink;

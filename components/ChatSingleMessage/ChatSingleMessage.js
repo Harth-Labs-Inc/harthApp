@@ -44,7 +44,6 @@ const ChatSingleMessage = (props) => {
     const [emojiPickerState, setEmojiPicker] = useState(false);
     const [urls, setUrls] = useState([]);
     const [showEditBar, setShowEditBar] = useState("");
-    const [isEditing, setIsEditing] = useState(false);
 
     const {
         _id,
@@ -62,6 +61,8 @@ const ChatSingleMessage = (props) => {
         bucket = "topic-message-attachments",
         chatType = "topic",
         openImageSlideShow,
+        isEditing,
+        toggleEditing,
     } = props;
 
     const { user } = useAuth();
@@ -172,7 +173,7 @@ const ChatSingleMessage = (props) => {
     };
 
     const editBarSelection = () => {
-        setIsEditing(true);
+        toggleEditing(messageID);
         editMessageText(props.msg);
     };
     const getTimeStamp = () => {
