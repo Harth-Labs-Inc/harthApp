@@ -25,7 +25,7 @@
     &Title {
         position: relative;
         @include smallTitle;
-        padding: 2px;
+        padding: 1px 2px;
         border-radius: 2px;
         background-color: $white;
         text-transform: uppercase;
@@ -41,8 +41,8 @@
     &TitleMobile {
         position: relative;
         @include smallTitleMobile;
-        padding: 2px;
-        border-radius: 2px;
+        padding: 1px 2px;
+        border-radius: 4px;
         background-color: $white;
         width: fit-content;
         text-transform: uppercase;
@@ -112,7 +112,7 @@
             background-color: $white;
             //backdrop-filter: blur(8px);
             padding: 7px;
-           
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
             path {
                 fill: $fuel_50;
             }
@@ -147,7 +147,7 @@
             padding: 9px;
             background-color: $white;
             //backdrop-filter: blur(8px);
-           
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
             path {
                 fill: $fuel_50;
             }
