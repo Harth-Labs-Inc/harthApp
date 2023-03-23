@@ -31,7 +31,7 @@ export const Button = (props) => {
                 ${className}
                 ${isLoading && tier == "primary" && styles.buttonLoading}
             `}
-            disabled={isDisabled}
+            disabled={isDisabled || isLoading}
             aria-label={textLabel}
             onClick={onClick}
         >

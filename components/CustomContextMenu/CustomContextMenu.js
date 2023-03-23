@@ -1,11 +1,16 @@
 import { useRef } from "react";
-import OutsideClickHandler from "../Common/Modals/OutsideClick";
+
+import { useComms } from "../../contexts/comms";
 
 import { IconNotificationsNoFill } from "../../resources/icons/IconNotificationsNoFill";
-import styles from "./CustomContextMenu.module.scss";
+
 import { IconVisibilityNoFill } from "../../resources/icons/IconVisibilityNoFill";
 import { IconEditNoFill } from "../../resources/icons/IconEditNoFill";
 import { IconDeleteNoFill } from "../../resources/icons/IconDeleteNoFill";
+
+import OutsideClickHandler from "../Common/Modals/OutsideClick";
+
+import styles from "./CustomContextMenu.module.scss";
 
 export const CustomContextMenu = ({
     user,
@@ -19,6 +24,7 @@ export const CustomContextMenu = ({
     isHiddenTopic,
 }) => {
     const contextRef = useRef(null);
+    const { selectedcomm } = useComms();
 
     let userIndex = topic.members.findIndex(({ user_id }) => {
         return user_id == user._id;
@@ -34,6 +40,17 @@ export const CustomContextMenu = ({
         isHidden = profile?.hidden;
         isMuted = profile?.muted;
         isAdmin = profile?.admin;
+    }
+
+    if (selectedcomm && user) {
+        const findAdmin = selectedcomm.users.findIndex((usr) => {
+            return usr.userId == user._id;
+        });
+
+        if (findAdmin >= 0) {
+            const admin = selectedcomm.users[findAdmin].admin;
+            isAdmin = admin;
+        }
     }
 
     /* eslint-disable */

@@ -80,6 +80,10 @@
                     }
                 }
 
+                &.EditCancel {
+                    width: auto;
+                }
+
                 &.SendActive {
                     border: 1px solid $ash_05;
                     background-color: $hot_pink;
@@ -225,7 +229,7 @@
             margin: auto;
             background-color: transparent;
             border: 4px solid transparent;
-            border-top-color: $oxygen;
+            border-top-color: $hot_pink;
             border-radius: 50%;
             animation: spinner 1s ease infinite;
         }
