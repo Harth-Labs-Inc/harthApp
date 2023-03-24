@@ -12,7 +12,7 @@
     border: 0;
     border-radius: 8px;
     background-color: $white;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     //margin-right: 16px;
     cursor: pointer;
     border: 1px solid $fuel_10;
@@ -27,6 +27,7 @@
         height: 32px;
         margin-left: 6px;
         width: fit-content;
+        user-select: none;
 
     }
 
@@ -57,6 +58,7 @@
             width: 36px;
             border-radius: 9999px;
             border: 2px solid $white;
+            user-select: none;
 
             &Mobile {
                 height: 48px;
@@ -72,7 +74,7 @@
 
     &Mobile {
 
-        margin-bottom: 16px;
+        margin-bottom: 8px;
         padding: 8px 8px 14px 8px;
         .label {
             @include topicTitleMobile;
