@@ -54,7 +54,7 @@
         //column-gap: 1px;
         //row-gap: 1px;
         flex-wrap: wrap;
-        padding: 0px 8px 0px 32px;
+        padding: 0px 8px 4px 32px;
         margin-top: -2px;
         //margin-left: 38px;
         z-index: 1;
@@ -81,6 +81,39 @@
     }
 
 
+    &Alert {
+        .label {
+            //@include topicTitleActive;
+            font-weight: 700;
+        }
+    }
+
+    &Desktop {
+        
+        &:hover {
+            background-color: $fuel_light;
+            .label {
+                color: $white;
+            }
+        }
+    }
+
+    &Active {
+        background-color: $warm_blue;
+
+        .label {
+            //font-weight: 600;
+            color: $white;
+        }
+
+        &:hover {
+            background-color: $warm_blue;
+            .label {
+                color: $white;
+            }
+        }
+    }
+
     &Mobile {
         //width: 100%;
         padding: 0px 0px;
@@ -98,32 +131,12 @@
             padding: 8px 8px 8px 12px;
             //background-color: aqua;
         }
-    }
 
-    &Alert {
-        .label {
-            //@include topicTitleActive;
-            font-weight: 700;
-            color: $fuel;
-        }
-    }
-
-    &InActive {
-        
-        &:hover {
+        &:active {
             background-color: $fuel_light;
             .label {
                 color: $white;
             }
-        }
-    }
-
-    &Active {
-        background-color: $warm_blue;
-
-        .label {
-            //font-weight: 600;
-            color: $white;
         }
     }
 }

@@ -44,9 +44,9 @@ const TopicListElement = (props) => {
             id={topic._id}
             className={`
         ${styles.topic} 
-        ${isMobile && styles.topicMobile} 
-        ${isActive ? styles.topicActive : styles.topicInActive} 
         ${hasAlert && styles.topicAlert} 
+        ${isMobile ? styles.topicMobile : styles.topicDesktop} 
+        ${isActive && styles.topicActive} 
         `}
             onClick={toggleActive}
             onMouseUp={toggleEditMenu}

@@ -7,23 +7,23 @@
     flex-direction: column;
     //align-items: center;
     height: fit-content;
-    width: fit-content;
+    width: 90%;
     padding: 4px 8px 10px 6px;
     border: 0;
     border-radius: 8px;
-    background-color: $black_10;
-    backdrop-filter: blur(12px);
+    background-color: $white;
     margin-bottom: 8px;
     //margin-right: 16px;
     cursor: pointer;
-
+    border: 1px solid $fuel_10;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
 
     .label {
         display: flex;
         align-items: center;
         text-align: left;
         @include topicTitle;
-        color: $white_80;
+        color: $fuel;
         height: 32px;
         margin-left: 6px;
         width: fit-content;
@@ -56,80 +56,89 @@
             height: 36px;
             width: 36px;
             border-radius: 9999px;
+            border: 2px solid $white;
 
             &Mobile {
-                height: 44px;
-                width: 44px;
+                height: 48px;
+                width: 48px;
             }
         }
     }
     
 
-    &Alert {
-        color: $white;
-        img {
-            opacity: 1;
-        }
 
-    }
 
 
 
     &Mobile {
 
         margin-bottom: 16px;
-
+        padding: 8px 8px 14px 8px;
         .label {
             @include topicTitleMobile;
             //font-size: 20px;
+            margin-left: 12px;
         }
 
+        &:active {
+            background-color: $fuel_light;
+            .participantElement {
+                .avatar {
+                    border-color: $fuel_light;
+    
+                    }
+            }
+        }
         
     }
 
 
-    &InActive {
+    &Desktop {
         
-        img {
-            //opacity: .8;
-            border: 2px solid transparent;
-            //filter: grayscale(100%);
-    
-        }
-
-        .label {
-            color: $white_80;
-
-        }
-
         &:hover {
+            background-color: $fuel_light;
 
             .label {
                 color: $white;
-    
+
             }
-            background-color: $black_50;
-            img {
-                border-color: $black_10;
+            .participantElement {
+                .avatar {
+                    border-color: $fuel_light;
+    
+                    }
             }
         }
 
     }
     &Active {
-        background-color: $black_50;
+        background-color: $warm_slate;
         
         .label {
             color: $white;
             //background-color: $white;
-            font-weight: 600;
+            //font-weight: 600;
+        }
+        .participantElement {
+            .avatar {
+                border-color: $warm_slate;
+
+                }
         }
 
-       img {
-        opacity: 1;
-        border: 2px solid transparent;
+        &:hover {
+            background-color: $warm_slate;
 
         }
 
     }
 
+
+    &Alert {
+        border-color: $hot_pink;
+        .label {
+            font-weight: 700;
+        }
+
+    }
 }

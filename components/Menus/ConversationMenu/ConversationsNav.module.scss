@@ -3,68 +3,58 @@
 
 .ConversationsNav {
     position: relative;
-    width: 230px;
-    min-width: 230px;
+    width: 260px;
+    min-width: 260px;
     padding: 20px 0px 0px 24px;
     //background-color: $warm_blue_light;
-    background-color: $warm_slate;
+    background-color: $white;
     height: 100%;
     overflow-y: scroll;
 
-    background-image: url("../../../public/images/background_message.png");
+    background-image: url("../../../public/images/background_message_dark.png");
     background-repeat: repeat;
-    background-size: 36px;
-    background-position: 16px 16px;
+    background-size: 32px;
+    //background-position: 16px 16px;
+    border-right: 1px solid $fuel_5;
 
     &Mobile {
         width: 100%;
-        background-size: 48px;
+        background-size: 40px;
         padding: 16px 0px 24px 24px;
     }
 
     &Title {
         position: relative;
         @include smallTitle;
-        padding: 0px 0px 8px 0px;
+        padding: 1px 2px;
+        border-radius: 2px;
+        background-color: $white;
         text-transform: uppercase;
-        color: $white;
-        user-select: none;
+        color: $fuel;
+        width: fit-content;
+        //margin-bottom: 8px;
+        user-select: none ;
         margin-bottom: 6px;
 
-        // &:after {
-        //     position: absolute;
-        //     bottom: 2px;
-        //     left: 0px;
-        //     height: 1px;
-        //     width: 30px;
-        //     content: "";
-        //     background-color: $ash;
-        // }
 
     }
 
     &TitleMobile {
         position: relative;
         @include smallTitleMobile;
-        padding: 0px 0px 8px 0px;
+        padding: 1px 2px;
+        border-radius: 4px;
+        background-color: $white;
+        width: fit-content;
         text-transform: uppercase;
-        color: $white;
-        user-select: none;
-        margin-bottom: 12px;
+        color: $fuel;
+        //margin-bottom: 8px;
+        user-select: none ;
         margin-top: 8px;
-
-
-        // &:after {
-        //     position: absolute;
-        //     bottom: 2px;
-        //     left: 0px;
-        //     height: 1px;
-        //     width: 30px;
-        //     content: "";
-        //     background-color: $ash;
-        // }
+        margin-bottom: 12px;
 
     }
+
 
     &Hidden {
         position: relative;
@@ -112,33 +102,25 @@
         margin-left: 0px;
         margin-bottom: 24px;
         button {
-            border: 0;
+            border: 1px solid $fuel_10;
             cursor: pointer;
             height: 32px;
             width: 32px;
             border-radius: 8px;
-            background-color: $black_10;
-            backdrop-filter: blur(8px);
-           
-
-            .iconHolder {
-                height: 18px;
-                width: 18px;
-                margin: auto;
-
-                path {
-                    fill: $white_20;
-                }
+            background-color: $white;
+            //backdrop-filter: blur(8px);
+            padding: 7px;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
+            path {
+                fill: $fuel_50;
             }
 
-            &:hover {
-                background-color: $black_50;
-                border-color: $white_20;
-                .iconHolder {
 
-                    path {
-                        fill: $white_50;
-                    }
+            &:hover {
+                background-color: $fuel_light;
+                //border-color: $white_50;
+                path {
+                    fill: $white;
                 }
 
             }
@@ -149,38 +131,30 @@
         position: relative;
         padding: 0px;
         margin-left: 0px;
-        margin-top: 28px;
+        margin-top: 20px;
         margin-bottom: 32px;
+        
         
         //background-color: aqua;
         button {
-            border: 0;
+            border: 1px solid $fuel_10;
             cursor: pointer;
-            height: 40px;
-            width: 40px;
+            height: 44px;
+            width: 44px;
             border-radius: 8px;
-            background-color: $black_10;
-            backdrop-filter: blur(8px);
-           
-
-            .iconHolder {
-                height: 24px;
-                width: 24px;
-                padding: 2px;
-                margin: auto;
-
-                path {
-                    fill: $white_20;
-                }
+            padding: 9px;
+            background-color: $white;
+            //backdrop-filter: blur(8px);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
+            path {
+                fill: $fuel_50;
             }
 
             &:hover {
-                background-color: $black_10;
-                .iconHolder {
-
-                    path {
-                        fill: $white_80;
-                    }
+                background-color: $fuel_light;
+                //border-color: $white_50;
+                path {
+                    fill: $white;
                 }
 
             }
