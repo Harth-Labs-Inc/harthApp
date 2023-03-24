@@ -7,24 +7,22 @@
     flex-direction: column;
     //align-items: center;
     height: fit-content;
-    width: fit-content;
-    padding: 4px 8px 10px 6px;
-    border: 0;
+    width: 90%;
     border-radius: 8px;
-    background-color: $black_10;
-    backdrop-filter: blur(12px);
+    background-color: $white;
     margin-bottom: 8px;
     //margin-right: 16px;
     cursor: pointer;
+    border: 1px solid $fuel_10;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
 
 
     .label {
         display: flex;
         align-items: center;
         text-align: left;
-        @include topicTitle;
-        color: $white_80;
-        height: 32px;
+        color: $fuel;
+        height: fit-content;
         margin-left: 6px;
         width: fit-content;
 
@@ -53,83 +51,120 @@
 
         .avatar {
             //margin-bottom: -6px;
-            height: 36px;
-            width: 36px;
             border-radius: 9999px;
+            border: 2px solid $white;
+            overflow: hidden;
+            padding: 0px;
 
-            &Mobile {
-                height: 44px;
-                width: 44px;
+            img {
+               // border: 1px solid $ash_light;
+                height: 100%;
+                width: 100%;
+                border-radius: 9999px;
             }
+
         }
     }
     
 
     &Alert {
-        color: $white;
-        img {
-            opacity: 1;
-        }
-
-    }
-
-
-
-    &Mobile {
-
-        margin-bottom: 16px;
-
         .label {
-            @include topicTitleMobile;
-            //font-size: 20px;
-        }
-
-        
-    }
-
-
-    &InActive {
-        
-        img {
-            //opacity: .8;
-            border: 2px solid transparent;
-            //filter: grayscale(100%);
-    
-        }
-
-        .label {
-            color: $white_80;
-
-        }
-
-        &:hover {
-
-            .label {
-                color: $white;
-    
-            }
-            background-color: $black_50;
-            img {
-                border-color: $black_10;
-            }
+            font-weight: 700;
         }
 
     }
+
+
     &Active {
-        background-color: $black_50;
+        background-color: $warm_slate;
         
         .label {
             color: $white;
-            //background-color: $white;
-            font-weight: 600;
-        }
-
-       img {
-        opacity: 1;
-        border: 2px solid transparent;
 
         }
 
+        .participantElement {
+            .avatar {
+                border-color: $warm_slate;
+            }
+
+        }
+
+    }
+
+
+    &.Mobile {
+        margin-bottom: 12px;
+        padding: 8px 8px 14px 8px;
+
+        .participantElement {
+
+            .avatar {
+                //margin-bottom: -6px;
+                height: 48px;
+                width: 48px;
+                min-height: 48px;
+                max-height:48px;
+                min-width: 48px;
+                max-width: 48px;
+            }
+
+        }
+
+        .label {
+            @include topicTitleMobile;
+            margin-left: 12px;
+            //background-color: aqua;
+        }
+
+        &:active {
+            background-color: $fuel_light;
+            .label {
+                color: $white;
+            }
+            .participantElement {
+                .avatar {
+                    border-color: $fuel_light;
+                }
+    
+            }
+        }
+    }
+
+    &.Desktop {
+        padding: 6px 6px 12px 6px;
+        margin-bottom: 8px;
+
+        .participantElement {
+
+            .avatar {
+                //margin-bottom: -6px;
+                height: 36px;
+                width: 36px;
+                min-height: 36px;
+                max-height: 36px;
+                min-width: 36px;
+                max-width: 36px;
+            }
+
+        }
+
+        .label {
+            @include topicTitle;
+            padding: 0px;
+            //background-color: aqua;
+        }
+
+        &:hover {
+            background-color: $fuel_light;
+            .label {
+                color: $white;
+            }
+
+            .avatar {
+                border-color: $fuel_light;
+            }
+        }
     }
 
 }

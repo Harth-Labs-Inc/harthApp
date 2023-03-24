@@ -7,9 +7,7 @@
     flex-direction: column;
     //align-items: center;
     height: fit-content;
-    width: fit-content;
     width: 90%;
-    padding: 2px 6px 2px 6px;
     border: 0;
     border-radius: 8px;
     background-color: $white;
@@ -20,16 +18,17 @@
     border: 1px solid $fuel_10;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
 
+
+
     .emojiHolder {
         //padding: 6px 6px;
-        padding-bottom: 2px;
+        padding-bottom: 1px;
         width: fit-content;
         height: fit-content;
         //border-radius: 8px;
         //border: 1px solid $oxygen_10;
         //background-color: $white;
-        font-size: 20px;
-
+        
     }
 
     .label {
@@ -41,14 +40,10 @@
         width: fit-content;
         color: $fuel;
         @include topicTitle;
-        padding: 0px 0px 0px 0px;
-        gap: 6px;
-       
-        
-        //background-color: aqua;
+
     }
 
-    .alertProfiles {
+    &AlertProfiles {
         display: flex;
         flex-direction: row;
         //column-gap: 1px;
@@ -80,43 +75,12 @@
         }
     }
 
-
-    &Mobile {
-        //width: 100%;
-        padding: 0px 0px;
-        //background-color: aqua;
-        //margin-right: 12px;
-        margin-bottom: 8px;
-
-        .emojiHolder {
-            font-size: 28px;
-            margin-right: 8px;
-
-        }
-        .label {
-            @include topicTitleMobile;
-            padding: 8px 8px 8px 12px;
-            //background-color: aqua;
-        }
-    }
-
     &Alert {
         .label {
-            //@include topicTitleActive;
             font-weight: 700;
-            color: $fuel;
         }
     }
 
-    &InActive {
-        
-        &:hover {
-            background-color: $fuel_light;
-            .label {
-                color: $white;
-            }
-        }
-    }
 
     &Active {
         background-color: $warm_blue;
@@ -125,5 +89,59 @@
             //font-weight: 600;
             color: $white;
         }
+
     }
+
+    
+    &.Mobile {
+        margin-bottom: 8px;
+        padding: 8px 8px 8px 12px;
+
+        .emojiHolder {
+            font-size: 28px;
+        }
+        .label {
+            @include topicTitleMobile;
+            gap: 12px;
+            //background-color: aqua;
+        }
+
+        &:active {
+            background-color: $fuel_light;
+            .label {
+                color: $white;
+            }
+        }
+
+
+    }
+
+    &.Desktop {
+        //width: 100%;
+        padding: 5px 6px 5px 6px;
+        //background-color: aqua;
+        //margin-right: 12px;
+        margin-bottom: 8px;
+
+        .emojiHolder {
+            font-size: 20px;
+            //background-color: aqua;
+        }
+        .label {
+            @include topicTitle;
+            padding: 0px;
+            gap: 6px;
+            //background-color: aqua;
+        }
+
+        &:hover {
+            background-color: $fuel_light;
+            .label {
+                color: $white;
+            }
+        }
+
+    }
+
+
 }

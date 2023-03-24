@@ -44,8 +44,8 @@ const TopicListElement = (props) => {
             id={topic._id}
             className={`
         ${styles.topic} 
-        ${isMobile && styles.topicMobile} 
-        ${isActive ? styles.topicActive : styles.topicInActive} 
+        ${isMobile ? styles.Mobile : styles.Desktop} 
+        ${isActive && styles.topicActive} 
         ${hasAlert && styles.topicAlert} 
         `}
             onClick={toggleActive}

@@ -3,8 +3,8 @@
 
 .TopicsNav {
     position: relative;
-    width: 230px;
-    min-width: 230px;
+    width: 250px;
+    min-width: 250px;
     padding: 20px 0px 0px 24px;
     background-color: $white;
     height: 100%;
@@ -152,7 +152,7 @@
                 fill: $fuel_50;
             }
 
-            &:hover {
+            &:active {
                 background-color: $fuel_light;
                 //border-color: $white_50;
                 path {

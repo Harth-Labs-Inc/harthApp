@@ -35,26 +35,20 @@ const ConversationListElement = (props) => {
                 id={conversation._id}
                 className={`
                     ${styles.conversation} 
-                    ${isMobile && styles.conversationMobile} 
-                    ${
-                        isActive
-                            ? styles.conversationActive
-                            : styles.conversationInActive
-                    } 
+                    ${isMobile ? styles.Mobile : styles.Desktop} 
+                    ${isActive && styles.conversationActive} 
                     ${hasAlert && styles.conversationAlert} 
                     `}
                 onClick={toggleActive}
             >
                 {conversation.users?.map((e) => (
                     <div key={e.userId} className={styles.participantElement}>
+                        <div className={styles.avatar}>
                         <img
-                            className={`
-                                ${styles.avatar} 
-                                ${isMobile && styles.avatarMobile} 
-                                `}
                             src={e.iconKey}
                             loading="lazy"
                         />
+                        </div>
                         <div className={styles.label}>{e.name}</div>
                     </div>
                 ))}
