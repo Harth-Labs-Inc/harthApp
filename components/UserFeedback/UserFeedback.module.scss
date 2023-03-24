@@ -1,0 +1,74 @@
+@import "../../styles/fonts.scss";
+@import "../../styles/globals.scss";
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+
+    .title {
+        @include overlayMenuTitle;
+        width: 100%;
+        text-align: left;
+        margin-top: 8px;
+        margin-bottom: 16px;
+    }
+
+
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: $fuel;
+
+        .label {
+            @include worksans;
+            font-size: 14px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 12px;
+            margin-bottom: 4px;
+        }
+
+        .textEntry {
+            @include worksans;
+            font-size: 14px;
+            resize: none;
+            height: 80px;
+            width: 100%;
+            border-radius: 8px;
+            padding: 8px;
+
+            &Small {
+                height: 40px;
+            }
+
+            &Large {
+                height: 120px;
+            }
+
+        }
+
+
+    }
+
+
+    .buttonBar {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 98%;
+        column-gap: 8px;
+        margin-top: 24px;
+
+        .cancelButton {
+            width: 96px;
+            // min-width: 88px;
+        }
+
+        .submitButton {
+            width: 100%;
+        }
+    }
+}

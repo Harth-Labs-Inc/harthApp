@@ -101,8 +101,13 @@
             }
 
             &:hover {
-                background-color: $black_20;
+                background-color: $fuel_5;
+                //border: 1px solid $fuel_light;
+                path {
+                    fill: $fuel_light;
+                }
             }
+            
         }
     }
 }

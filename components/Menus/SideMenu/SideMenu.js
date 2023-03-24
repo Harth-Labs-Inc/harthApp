@@ -14,7 +14,7 @@ import { updateHarthData } from "../../../requests/community";
 import { Modal, SideModal } from "../../Common";
 import HarthEditModal from "../../HarthEditModal";
 import { CustomHarthContextMenu } from "../../CustomHarthContextMenu/CustomHarthContextMenu";
-
+import UserFeedback from "components/UserFeedback/UserFeedback";
 import HarthDeleteModal from "../HarthSettings/HarthDeleteModal";
 import HarthLeaveModal from "../HarthSettings/HarthLeaveModal";
 import SettingsMenu from "../AccountSettings";
@@ -33,6 +33,7 @@ const SideNav = (props) => {
   const [showDeleteHarthModal, setShowDeleteHarthModal] = useState(false);
   const [showLeaveHarthModal, setShowLeaveHarthModal] = useState(false);
   const [inviteShortcut, setInviteShortcut] = useState(false);
+  const [showUserFeedbackModal, setShowUserFeedbackModal] = useState(false);
 
   const [newHarth, setNewHarth] = useState(null);
   const [showCreateHarthNameModal, setShowCreateHarthNameModal] =
@@ -63,6 +64,14 @@ const SideNav = (props) => {
       setInviteShortcut(false);
     }
     setShowSettingsNav(!ShowSettingsNav);
+  };
+  const toggleUserFeedback = (setOpenFeedback) => {
+    if (setOpenFeedback) {
+      setShowUserFeedbackModal(true);
+    } else {
+      setShowUserFeedbackModal(false);
+    }
+    setShowUserFeedbackModal(!showUserFeedbackModal);
   };
   const DisplaySettingsNav = () => {
     if (ShowSettingsNav) {
@@ -188,6 +197,12 @@ const SideNav = (props) => {
 
   return (
     <>
+    {showUserFeedbackModal ? (
+        <UserFeedback
+          closeHandler={() => toggleUserFeedback(false)}
+        />
+      ) : null}
+
       {showCreateHarthNameModal ? (
         <CreateHarthName
           talkingHeadMsg="Give your härth a name and and image"
@@ -271,7 +286,7 @@ const SideNav = (props) => {
         <div className={styles.bottomHolder}>
           <button
             className={` ${styles.SettingsButton} ${styles.SettingsButtonFeedback} `}
-            //onClick={toggleSettingsNav}
+            onClick={() => toggleUserFeedback(true)}
             aria-label="Toggle User Feedback menu"
           >
             <IconFeedback />
@@ -285,7 +300,7 @@ const SideNav = (props) => {
           </button>
           <button
             className={styles.SettingsButton}
-            onClick={toggleSettingsNav}
+            onClick={() => toggleSettingsNav(false)}
             aria-label="Toggle Settings menu"
           >
             <IconMenu />

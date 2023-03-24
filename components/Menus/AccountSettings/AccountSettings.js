@@ -45,6 +45,10 @@ const SettingsList = ({ toggleCurrentTab }) => {
                 <SubSettings toggleCurrentTab={toggleCurrentTab} />
             )}
 
+            <button className={` ${styles.menuItem} ${styles.menuItemFeedback} `} >
+                Give Feedback
+            </button>
+
             <button className={styles.menuItem} onClick={() => signOut()}>
                 Sign Out
             </button>

@@ -170,6 +170,10 @@
     @include menuText;
     color: $fuel;
 
+    &Feedback {
+        color: $hot_pink;
+    }
+
     &:hover {
         background-color: $fuel_10;
     }
