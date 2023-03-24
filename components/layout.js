@@ -35,6 +35,7 @@ const Layout = ({ children }) => {
                 <link rel="icon" type="image/png" sizes="150x150" href="/icons/icon-150x150.png" />
                 <link rel="icon" type="image/png" sizes="152x152" href="/icons/icon-152x152.png" />
                 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
+                <link rel="icon" type="image/png" sizes="256x256" href="/icons/icon-256x256.png" />
                 <link rel="icon" type="image/png" sizes="310x310" href="/icons/icon-310x310.png" />
                 <link rel="icon" type="image/png" sizes="384x384" href="/icons/icon-384x384.png" />
                 <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png" />
