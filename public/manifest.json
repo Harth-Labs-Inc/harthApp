@@ -78,6 +78,12 @@
             "purpose": "any maskable"
           },
           {
+            "src": "/icons/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "any maskable"
+          },
+          {
             "src": "/icons/icon-310x310.png",
             "sizes": "310x310",
             "type": "image/png",
