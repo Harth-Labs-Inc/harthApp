@@ -4,7 +4,11 @@ import { useAuth } from "../../../contexts/auth";
 import { useComms } from "../../../contexts/comms";
 import { useSocket } from "../../../contexts/socket";
 
-import { deleteHarthByID, leaveHarthByID } from "../../../requests/community";
+import {
+  deleteHarthByID,
+  getComms,
+  leaveHarthByID,
+} from "../../../requests/community";
 import { MobileContext } from "../../../contexts/mobile";
 import { IconMenu } from "../../../resources/icons/IconMenu";
 import { IconInvite } from "resources/icons/IconInvite";
@@ -26,7 +30,7 @@ import CreateHarthName from "../../createHarthName/createHarthName";
 import CreateHarthProfile from "../../createHarthProfile/createHarthProfile";
 
 const SideNav = (props) => {
-  const { onToggleMenu } = props;
+  const { onToggleMenu, toggleNoHarthDetected } = props;
   const [ShowSettingsNav, setShowSettingsNav] = useState(false);
   const [openEditHarthMenu, setOpenEditHarthMenu] = useState(null);
   const [showRenameHarthModal, setShowRenameHarthModal] = useState(false);
@@ -145,6 +149,13 @@ const SideNav = (props) => {
       }
       setShowDeleteHarthModal(false);
       setOpenEditHarthMenu(null);
+      let result = await getComms(user);
+      const { ok, comms } = result;
+      if (!ok || !comms || !comms.length) {
+        toggleNoHarthDetected(true);
+      } else {
+        toggleNoHarthDetected(false);
+      }
     });
   };
   const onLeaveHandler = () => {

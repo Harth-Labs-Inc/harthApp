@@ -330,8 +330,6 @@ export const CommsProvider = ({ children }) => {
     }
   };
 
-  console.log(selectedcomm, "selectedcomm");
-
   return (
     <CommsContext.Provider
       value={{
