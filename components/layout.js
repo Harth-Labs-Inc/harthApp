@@ -14,11 +14,14 @@ const Layout = ({ children }) => {
 
                 <link rel="icon" type="image/x-icon" href="favicon.ico" />
                 <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png" />
+                <link rel="apple-touch-icon" sizes="64x64" href="/icons/apple-touch-icon-64x64.png" />
                 <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png" />
                 <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png" />
+                <link rel="apple-touch-icon" sizes="128x128" href="/icons/apple-touch-icon-128x128.png" />
                 <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png" />
                 <link rel="apple-touch-icon" sizes="167x167" href="/icons/apple-touch-icon-167x167.png" />
                 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png"  />
+                <link rel="apple-touch-icon" sizes="256x256" href="/icons/apple-touch-icon-256x256.png" />
                 <link rel="apple-touch-icon" sizes="512x512" href="/icons/apple-touch-icon-512x512.png"  />
                 <link rel="apple-touch-icon" sizes="1024x1024" href="/icons/apple-touch-icon-1024x1024.png" />
                 <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico" />

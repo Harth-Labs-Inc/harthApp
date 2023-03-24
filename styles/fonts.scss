@@ -47,8 +47,8 @@
   font-weight: 700;
   font-size: 10px;
   letter-spacing: 0.1em;
-  line-height: 125%;
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+  //line-height: 125%;
+  //text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 @mixin smallTitleMobile {
@@ -57,7 +57,7 @@
   font-size: 11px;
   letter-spacing: 0.2em;
   line-height: 125%;
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+  //text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 @mixin topicTitle {
@@ -65,7 +65,7 @@
   font-family: var(--Montserrat-font);
   font-weight: 500;
   font-size: 13px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   //line-height: 125%;
   //text-rendering: optimizeLegibility;
 }

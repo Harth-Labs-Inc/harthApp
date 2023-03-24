@@ -333,6 +333,7 @@ const TopicsNav = (props) => {
                         <button
                             className={`
                             ${styles.TopicsNavHidden}
+                            ${isMobile && styles.TopicsNavHiddenMobile}
                             ${isHiddenView && styles.TopicsNavHiddenActive}
                             `}
                             onClick={toggleHidden}

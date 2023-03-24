@@ -6,18 +6,18 @@
     width: 230px;
     min-width: 230px;
     padding: 20px 0px 0px 24px;
-    background-color: $warm_blue;
+    background-color: $white;
     height: 100%;
     overflow-y: scroll;
-    //border-right: 1px solid $fuel_5;
-    background-image: url("../../../public/images/background_chat.png");
+    border-right: 1px solid $fuel_5;
+    background-image: url("../../../public/images/background_chat_dark.png");
     background-repeat: repeat;
-    background-size: 36px;
-    background-position: 16px 16px;
+    background-size: 32px;
+    //background-position: 10px 10px;
 
     &Mobile {
         width: 100%;
-        background-size: 48px;
+        background-size: 40px;
 
         padding: 16px 0px 24px 24px;
     }
@@ -25,76 +25,63 @@
     &Title {
         position: relative;
         @include smallTitle;
-        padding: 0px 0px 8px 0px;
+        padding: 1px 2px;
+        border-radius: 2px;
+        background-color: $white;
         text-transform: uppercase;
-        color: $oxygen;
+        color: $fuel;
+        width: fit-content;
         //margin-bottom: 8px;
         user-select: none ;
         margin-bottom: 6px;
 
-        // &:after {
-        //     position: absolute;
-        //     bottom: 2px;
-        //     left: 0px;
-        //     height: 1px;
-        //     width: 30px;
-        //     content: "";
-        //     background-color: $fuel;
-        // }
 
     }
 
     &TitleMobile {
         position: relative;
         @include smallTitleMobile;
-        padding: 0px 0px 8px 0px;
+        padding: 1px 2px;
+        border-radius: 4px;
+        background-color: $white;
+        width: fit-content;
         text-transform: uppercase;
-        color: $oxygen;
+        color: $fuel;
         //margin-bottom: 8px;
         user-select: none ;
         margin-top: 8px;
         margin-bottom: 12px;
-
-        // &:after {
-        //     position: absolute;
-        //     bottom: 2px;
-        //     left: 0px;
-        //     height: 1px;
-        //     width: 30px;
-        //     content: "";
-        //     background-color: $fuel;
-        // }
 
     }
 
     &Hidden {
         position: relative;
         @include smallTitle;
-        padding: 0px 0px 8px 0px;
+        padding: 2px;
+        border-radius: 2px;
+        background-color: $white;
+        width: fit-content;
         text-transform: uppercase;
-        color: $oxygen_muted;
+        color: $fuel_50;
         border: 0;
-        background: transparent;
         cursor: pointer;
         //margin-bottom: 8px;
         user-select: none;
+        margin-bottom: 6px;
+
+        &Mobile {
+            @include smallTitleMobile;
+            margin-top: 8px;
+            margin-bottom: 12px;
+        }
 
         &:hover {
-            color: $oxygen;
+            color: $fuel;
         }
 
         &Active {
-            color: $oxygen;
+            color: $fuel;
 
-            // &:after {
-            //     position: absolute;
-            //     bottom: 2px;
-            //     left: 0px;
-            //     height: 1px;
-            //     width: 30px;
-            //     content: "";
-            //     background-color: $fuel;
-            // }
         }
     }
 
@@ -117,22 +104,22 @@
         margin-left: 0px;
         margin-bottom: 24px;
         button {
-            border: 0;
+            border: 1px solid $fuel_10;
             cursor: pointer;
             height: 32px;
             width: 32px;
             border-radius: 8px;
-            background-color: $black_10;
-            backdrop-filter: blur(8px);
+            background-color: $white;
+            //backdrop-filter: blur(8px);
             padding: 7px;
-           
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
             path {
-                fill: $white_80;
+                fill: $fuel_50;
             }
 
 
             &:hover {
-                background-color: $black_50;
+                background-color: $fuel_light;
                 //border-color: $white_50;
                 path {
                     fill: $white;
@@ -146,26 +133,27 @@
         position: relative;
         padding: 0px;
         margin-left: 0px;
-        margin-top: 28px;
+        margin-top: 20px;
         margin-bottom: 32px;
+        
         
         //background-color: aqua;
         button {
-            border: 0;
+            border: 1px solid $fuel_10;
             cursor: pointer;
-            height: 40px;
-            width: 40px;
+            height: 44px;
+            width: 44px;
             border-radius: 8px;
             padding: 9px;
-            background-color: $black_10;
-            backdrop-filter: blur(8px);
-           
+            background-color: $white;
+            //backdrop-filter: blur(8px);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
             path {
-                fill: $white_80;
+                fill: $fuel_50;
             }
 
             &:hover {
-                background-color: $black_50;
+                background-color: $fuel_light;
                 //border-color: $white_50;
                 path {
                     fill: $white;

@@ -10,7 +10,10 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 8px 16px;
+    padding: 0px 8px;
+    height: 52px;
+    min-height: 52px;
+    max-height: 52px;
     background-color: $light_ash;
     @include montserrat;
     color: $fuel;
