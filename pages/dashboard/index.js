@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 
 import { sendWelcomeEmailToUser } from "../../requests/userApi";
-import { checkIfInviteTokenIsGood } from "../../requests/community";
+import { checkIfInviteTokenIsGood, getComms } from "../../requests/community";
 import { VideoProvider } from "../../contexts/video";
 import { CommsProvider } from "../../contexts/comms";
 import { SocketProvider } from "../../contexts/socket";
@@ -37,17 +37,6 @@ const HarthInviteAcceptModal = dynamic(
     loading: () => null,
   }
 );
-
-// import DashboardLayout from "../../components/DashboardLayout/DashboardLayout";
-// import Chat from "./chat";
-// import Party from "./party";
-// import Voice from "./voice";
-// import Stream from "./stream";
-// import Video from "./video";
-// import Message from "./message";
-// import CreateHarthName from "../../components/createHarthName/createHarthName";
-// import CreateHarthProfile from "../../components/createHarthProfile/createHarthProfile";
-// import HarthInviteAcceptModal from "../../components/harthInviteAcceptModal/harthInviteAcceptModal";
 
 const dashboard = () => {
   const [currentPage, setCurrentPage] = useState();
@@ -94,25 +83,25 @@ const dashboard = () => {
             setShowCreateHarthNameModal(false);
             setShowInviteAcceptModal(true);
           }
-        } else {
-          if (inviteTKN || tkn) {
-            async function testToken() {
-              let results = await checkIfInviteTokenIsGood({
-                token: tkn || inviteTKN,
-                user,
-              });
-              if (results?.ok) {
-                setShowCreateHarthNameModal(false);
-                setInvitedHarth({ ...results?.harth });
-                setShowInviteAcceptModal(true);
-              } else {
-                setInviteTKN(null);
-                setShowCreateHarthNameModal(false);
-                setShowInviteAcceptModal(false);
-              }
+        } else if (inviteTKN || tkn) {
+          async function testToken() {
+            let results = await checkIfInviteTokenIsGood({
+              token: tkn || inviteTKN,
+              user,
+            });
+            if (results?.ok) {
+              setShowCreateHarthNameModal(false);
+              setInvitedHarth({ ...results?.harth });
+              setShowInviteAcceptModal(true);
+            } else {
+              setInviteTKN(null);
+              setShowCreateHarthNameModal(false);
+              setShowInviteAcceptModal(false);
             }
-            testToken();
           }
+          testToken();
+        } else if (!user.comms || user?.comms.length == 0) {
+          setShowCreateHarthNameModal(true);
         }
       }
       if (gatherWindow) setGatherWindow(gatherWindow);
@@ -149,6 +138,11 @@ const dashboard = () => {
     setShowInviteAcceptModal(false);
     setInvitedHarth({ ...harth });
     setShowInviteProfileModal(true);
+  };
+  const toggleNoHarthDetected = (bool) => {
+    if (bool) {
+      setShowCreateHarthNameModal(true);
+    }
   };
 
   if (user && currentPage) {
@@ -209,7 +203,13 @@ const dashboard = () => {
                     footer="Tip: You can change your härth name and image at any time"
                     placeholder="härth name"
                     submitText="Create"
-                    closeHandler={() => setShowCreateHarthNameModal(false)}
+                    closeHandler={async () => {
+                      let result = await getComms(user);
+                      const { ok, comms } = result;
+                      if (!ok || !comms || !comms.length) {
+                        setShowCreateHarthNameModal(true);
+                      }
+                    }}
                     submitHandler={harthNameCreationHandler}
                   />
                 ) : null}
@@ -231,9 +231,14 @@ const dashboard = () => {
                     submitHandler={goodInviteHandler}
                     tkn={tkn || inviteTKN || ""}
                     user={user}
-                    closeHandler={() => {
+                    closeHandler={async () => {
                       resetNewInviteHarth();
                       window.history.replaceState(null, null, "dashboard");
+                      let result = await getComms(user);
+                      const { ok, comms } = result;
+                      if (!ok || !comms || !comms.length) {
+                        toggleNoHarthDetected(true);
+                      }
                     }}
                     invitedHarth={invitedHarth}
                   />
@@ -248,6 +253,15 @@ const dashboard = () => {
                     submitHandler={resetNewInviteHarth}
                     harth={invitedHarth}
                     invite={true}
+                    closeHandler={async () => {
+                      resetNewInviteHarth();
+                      window.history.replaceState(null, null, "dashboard");
+                      let result = await getComms(user);
+                      const { ok, comms } = result;
+                      if (!ok || !comms || !comms.length) {
+                        toggleNoHarthDetected(true);
+                      }
+                    }}
                   />
                 ) : null}
 
@@ -256,6 +270,7 @@ const dashboard = () => {
                   currentPage={currentPage}
                   setShowCreateHarthNameModal={setShowCreateHarthNameModal}
                   user={user}
+                  toggleNoHarthDetected={toggleNoHarthDetected}
                 >
                   {/* <TransitionLayout> */}
                   {page}

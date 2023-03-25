@@ -17,6 +17,7 @@ export default function CreateHarthProfile({
   submitHandler,
   harth,
   invite,
+  closeHandler,
 }) {
   const [newFile, setNewFile] = useState(null);
   const [profileName, setProfileName] = useState("");
@@ -79,9 +80,18 @@ export default function CreateHarthProfile({
   const fileUploadHandler = (file) => {
     setNewFile(file);
   };
+  const togglemodal = () => {
+    if (!invite && closeHandler) {
+      closeHandler();
+    } else {
+      () => {
+        return;
+      };
+    }
+  };
 
   return (
-    <Modal>
+    <Modal onToggleModal={togglemodal}>
       <div className={styles.mainContainer}>
         <div className={styles.title}>Make a profile</div>
         <TalkingHead text={talkingHeadMsg} />
