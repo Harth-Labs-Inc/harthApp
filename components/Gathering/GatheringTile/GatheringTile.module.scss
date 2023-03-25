@@ -5,7 +5,7 @@
   display: flex;
   gap: 0;
   background-color: transparent;
-  border-radius: 36px 24px 36px 36px;
+  border-radius: 36px 24px 48px 36px;
     //overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 12px;
   width: 336px;
@@ -49,40 +49,40 @@
       margin-left: 2px;
     }
     .party & {
-      background: linear-gradient(to right, $hot_purple, $white 400%);
+      background: linear-gradient(to right, $hot_purple, $fuel 400%);
       
       svg path {       
         fill: $white_10;
       }
     }
     .stream & {
-      background: linear-gradient(to right, $hot_red, $white 400%);
+      background: linear-gradient(to right, $hot_red, $fuel 400%);
       svg path {
         fill: $white_10;
       }
     }
     .voice & {
-      background: linear-gradient(to right, $hot_blue, $white 400%);
+      background: linear-gradient(to right, $hot_blue, $fuel 400%);
       svg path {
         fill: $white_10;
       }
     }
 
     .partyActive & {
-      background: linear-gradient(to right, $hot_purple, $white 400%);
+      background: linear-gradient(to right, $hot_purple, $fuel 400%);
       
       svg path {       
         fill: $white_10;
       }
     }
     .streamActive & {
-      background: linear-gradient(to right, $hot_red, $white 400%);
+      background: linear-gradient(to right, $hot_red, $fuel 400%);
       svg path {
         fill: $white_10;
       }
     }
     .voiceActive & {
-      background: linear-gradient(to right, $hot_blue, $white 400%);
+      background: linear-gradient(to right, $hot_blue, $fuel 400%);
       svg path {
         fill: $white_10;
       }
@@ -98,6 +98,11 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    border: 1px solid $fuel_5;
+    border-left: 0;
+    border-bottom: 0;
+    border-radius: 0px 24px 48px 0px;
+    
 
 
   }
@@ -257,8 +262,8 @@
 
     .profileImage {
       position: relative;
-      height: 40px;
-      width: 40px;
+      height: 44px;
+      width: 44px;
       border-radius: 999px;
       margin-right: -6px;
       padding: 0;
@@ -365,15 +370,15 @@
       background-color: $fuel;
 
       .party & {
-        background: linear-gradient(to left, $hot_purple 10%, $fuel 300%);
+        background: linear-gradient(to right, $hot_purple 10%, $white 400%);
         //background-color: $fuel;
       }
       .stream & {
-        background: linear-gradient(to left, $hot_red 10%, $fuel 300%);
+        background: linear-gradient(to right, $hot_red 50%, $fuel 400%);
         //background-color: $fuel;
       }
       .voice & {
-        background: linear-gradient(to left, $hot_blue 10%, $fuel 300%);
+        background: linear-gradient(to right, $hot_blue 10%, $fuel 400%);
         //background-color: $fuel;
       }
     

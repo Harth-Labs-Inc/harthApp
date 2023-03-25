@@ -35,12 +35,8 @@ const ConversationListElement = (props) => {
                 id={conversation._id}
                 className={`
                     ${styles.conversation} 
-                    ${isMobile && styles.conversationMobile} 
-                    ${
-                        isActive
-                            ? styles.conversationActive
-                            : styles.conversationInActive
-                    } 
+                    ${isMobile ? styles.conversationMobile : styles.conversationDesktop} 
+                    ${isActive && styles.conversationActive} 
                     ${hasAlert && styles.conversationAlert} 
                     `}
                 onClick={toggleActive}

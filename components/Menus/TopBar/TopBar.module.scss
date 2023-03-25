@@ -14,6 +14,7 @@
     padding-left: 16px;
     border-bottom: 1px solid $fuel_10;
     border-top: 1px solid $fuel_10;
+    background-color: $light_ash;
     
     z-index: 10;
 
@@ -30,7 +31,7 @@
     }
 
     &Mobile {
-        background-color: $light_ash;
+        //background-color: $light_ash;
         border-top: 1px solid transparent;
 
         height: 52px;
