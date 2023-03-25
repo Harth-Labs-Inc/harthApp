@@ -120,7 +120,13 @@ const Video = () => {
             room={newRoomData}
           />
         )}
-        {/* <p className={styles.gatheringSection}>Now</p> */}
+        <p
+          className={
+            isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
+          }
+        >
+          HAPPENING NOW
+        </p>
         <div className={styles.roomContainer}>
           <GatheringCreate
             createRoomFormSubmit={createRoomFormSubmit}
