@@ -42,8 +42,8 @@ export const ChatButton = (props) => {
                         <IconSmsFill hasGradient="true" />
                     </div>
                 ) : (
-                    <div height="100%" width="100%">
-                        <IconSmsFill hasGradient={false} fill="#fcfff666" />
+                    <div height="100%" width="100%" className={styles.defaultIcon}>
+                        <IconSmsFill hasGradient={false} />
                     </div>
                 )}
             </button>

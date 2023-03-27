@@ -20,22 +20,26 @@
         border: 1px solid $white_10;
     }
 
+    .mobileSpacer {
+        height: 28px;
+        width: 28px;
+        background: transparent;
+    }
+
     .labelHolder {
         display: flex;
         position: relative;
         align-items: center;
         column-gap: 8px;
-        @include rubik;
+        @include montserrat;
         font-size: 14px;
-        font-weight: 400;
-        color: $oxygen_80;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        color: $white_80;
+        user-select: none;
     }
 
-    .hdPosition {
-        border: 0;
-        //@include y-center;
-        //left: calc(50% - 28px);
-    }
+
 }
 
 .desktop {
@@ -44,18 +48,19 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    justify-content: center;
     height: 40px;
     min-height: 40px;
     width: 100%;
     padding: 0px 16px 0px 16px;
-    //background-color: $fuel;
+    //background-color: aqua;
     z-index: 10;
 
     .harthImage {
         height: 28px;
         width: 28px;
         border-radius: 4px;
-        border: 1px solid $oxygen_10;
+        border: 1px solid $white_10;
     }
 
     .labelHolder {
@@ -63,10 +68,12 @@
         position: relative;
         align-items: center;
         column-gap: 8px;
-        @include rubik;
+        @include montserrat;
         font-size: 14px;
-        font-weight: 400;
-        color: $oxygen_80;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        color: $white_80;
+        user-select: none;
     }
 }
 
@@ -107,25 +114,25 @@
         padding: 0px 8px;
         border: 0;
         border-radius: 8px;
-        background-color: $oxygen_10;
+        background-color: $white_10;
         svg {
             height: 24px;
             width: 24px;
         }
 
         path {
-            fill: $oxygen_80;
+            fill: $white_80;
         }
 
         p {
             @include rubik;
             font-size: 14px;
             font-weight: 400;
-            color: $oxygen_80;
+            color: $white_80;
         }
 
         &:hover {
-            background-color: $oxygen_20;
+            background-color: $white_20;
         }
     }
 }

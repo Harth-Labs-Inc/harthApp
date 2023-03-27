@@ -11,10 +11,10 @@
     row-gap: 0;
     width: fit-content;
     background: transparent;
-    border: 1px solid $oxygen_10;
+    border: 1px solid $ash;
     border-radius: 8px;
     overflow: hidden;
-    background-color: $ash;
+    background-color: transparent;
 }
 
 .mainContainerMap {
@@ -27,10 +27,10 @@
     row-gap: 0;
     width: fit-content;
     background: transparent;
-    border: 1px solid $oxygen_10;
+    border: 1px solid $ash;
     border-radius: 8px;
     overflow: hidden;
-    background-color: $ash;
+    background-color: transparent;
 }
 
 .diceContainer {
@@ -39,10 +39,11 @@
     flex-direction: column;
     gap: 0px;
     border: 0;
-    background-color: $ash; 
-    width: 56px;
-    padding: 4px 0px 6px 0px; // 0px;
-    border-top: 1px solid $oxygen_10;
+    background-color: $black_80; 
+    backdrop-filter: blur(8px);
+    width: fit-content;
+    padding: 4px 0px 4px 0px; // 0px;
+    //border-top: 1px solid $white_10;
 }
 
 .mapContainer {
@@ -54,8 +55,9 @@
 
     row-gap: 8px;
     border: 0;
-    border-top: 1px solid $oxygen_10;
-    background-color: $ash;
+    border-top: 1px solid $ash;
+    background-color: $black_80; 
+    backdrop-filter: blur(8px);
     width: 320px;
     height: 260px;
     padding: 0px 0px 24px 0px;
@@ -65,7 +67,7 @@
         width: 48px;
 
         path {
-            fill: $oxygen;
+            fill: $white;
         }
     }
 
@@ -75,7 +77,7 @@
         font-weight: 400;
         margin-bottom: 24px;
         text-align: center;
-        color: $oxygen;
+        color: $white;
     }
 }
 
@@ -100,12 +102,12 @@
         justify-content: center;
         button {
             background-color: $overlay_dark;
-            color: $oxygen;
+            color: $white;
             &:hover {
-                //color: $oxygen;
+                //color: $white;
                 background-color: $black;
                 backdrop-filter: blur(4px);
-                border-color: $oxygen_80;
+                border-color: $white_80;
             }
         }
     }
@@ -132,13 +134,13 @@
         height: 64px;
         width: 64px;
         path {
-            fill: $oxygen;
+            fill: $white;
         }
     }
 
     .label {
         @include interfaceH2;
-        color: $oxygen;
+        color: $white;
         margin-bottom: 40px;
         text-align: center;
     }
@@ -209,7 +211,7 @@
 }
 
 .topBar {
-    background-color: $black_20;
+    background-color: $ash;
     height: 24px;
     width: 100%;
     display: flex;
@@ -225,13 +227,13 @@
     &:hover {
         .close {
             path {
-                fill: $oxygen_40;
+                fill: $white_40;
             }
         }
     }
 
     .grabber {
-        background-color: $oxygen_20;
+        background-color: $white_20;
         border-radius: 9999px;
         height: 4px;
         width: 24px;
@@ -249,9 +251,9 @@
         }
 
         &:hover {
-            background-color: $oxygen_20;
+            background-color: $white_20;
             path {
-                fill: $oxygen_80;
+                fill: $white_80;
             }
         }
     }
@@ -267,17 +269,17 @@
 .alertContainer {
     position: relative;
     border-radius: 8px;
-    box-shadow: 0px 2px 6px 0px $black;
+    //box-shadow: 0px 2px 6px 0px $black;
     height: 68px;
     width: 148px;
-
+    margin: 4px 0px;
     .contents {
         position: relative;
         background-origin: border-box;
         background-clip: content-box, border-box;
         border: solid 4px transparent;
         border-radius: 12px;
-        box-shadow: 4px 9999px 1px $ash inset; //interior color
+        box-shadow: 4px 9999px 1px $ash_dark inset; //interior color
         background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
 
 
@@ -297,7 +299,7 @@
             letter-spacing: -.05em;
             text-align: center;
             width: 64px;
-            color: $oxygen;
+            color: $white;
             //background-color: aqua;
         }
 
@@ -310,16 +312,16 @@
                 height: 52px;
                 width: 52px;
                 path {
-                    fill: $oxygen;
+                    fill: $white;
                 }
             }
 
             .avatarWrapper {
                 position: absolute;
                 border-radius: 9999px;
-                border: 2px solid $ash;
-                width: 38px;
-                height: 38px;
+                border: 2px solid $ash_dark;
+                width: 36px;
+                height: 36px;
                 bottom: 0px;
                 left: -4px;
                 overflow: hidden;
@@ -328,11 +330,12 @@
                     width:100%;
                     height: 100%;
                     border-radius: 9999px;
-                    //border: 1px solid $oxygen;
+                    //border: 1px solid $white;
                 }
             }
         }
     }
+
 }
 
 .shadow {

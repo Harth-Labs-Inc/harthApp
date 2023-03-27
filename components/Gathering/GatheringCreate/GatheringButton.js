@@ -33,7 +33,7 @@ export const GatheringButton = (props) => {
             }}
         >
             <div className={styles.GatheringButtonIcon}><Icon /></div>
-            <div className={styles.GatheringButtonText}>{type}</div>
+            <div className={styles.text}>{type}</div>
 
         </button>
     );

@@ -8,7 +8,7 @@
     width: 336px;
     //height: 260px;
     border: 0;
-    background-color: $white;
+    background-color: $light_ash;
     padding: 0;
 
     .Content {
@@ -22,9 +22,9 @@
         padding: 24px 0px 0px 0px;
         margin: 0;
         border: 0;
-        border-left: 1px solid $fuel_5;
-        border-top: 1px solid $fuel_5;
-        border-right: 1px solid $fuel_5;
+        border-left: 1px solid $fuel_10;
+        border-top: 1px solid $fuel_10;
+        border-right: 1px solid $fuel_10;
         //background-color: aqua;
         border-radius: 24px 24px 44px 44px;
         span {
@@ -84,30 +84,32 @@
 
     &LabelText {
         @include worksans;
-        color: $fuel;
-        font-weight: 500;
+        color: $fuel_50F;
+        font-weight: 400;
         font-size: 10px;
         letter-spacing: 0.05em;
         text-align: center;
         //text-transform: uppercase;
-        margin-bottom: 6px;
+        margin-bottom: 0px;
         user-select: none;
+        //opacity: 0;
     }
 
     &Type {
         display: flex;
         justify-content: space-between;
         width: 260px;
-        background-color: $fuel_10;
+        background-color: #dee0e2;
         border-radius: 100px;
-        border: 1px solid $fuel_5;
-        padding: 3px;
+        //border: 2px solid $fuel_5;
+        padding: 6px;
+
     }
 
     &SubText {
         @include worksans;
         color: $fuel_light;
-        font-weight: 500;
+        font-weight: 700;
         font-size: 11px;
         margin-top: 6px;
         margin-bottom: 16px;
@@ -168,47 +170,28 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2px;
-    height: 64px;
-    width: 64px;
+    gap: -2px;
+    height: 60px;
+    width: 60px;
     padding-bottom: 4px;
-    background-color: transparent;
-    border: 1px solid $fuel_5;
+    background-color: $light_ash;
+    border: 0;
+    //border: 1px solid $fuel_5;
     border-radius: 999px;
-    background-color: $white;
-    color: $fuel;
     cursor: pointer;
+    
 
-    &.voice {
-        color: $hot_blue;
-        path {
-            fill: $hot_blue;
-        }
-    }
 
-    &.stream {
-        color: $hot_red;
-        path {
-            fill: $hot_red;
-        }
-    }
-
-    &.party {
-        color: $hot_purple;
-        path {
-            fill: $hot_purple;
-        }
-    }
-
+    color: $muted_text;
     path {
-        fill: $fuel_50;
+        fill: $muted_text;
     }
-
-    &Text {
+    
+    .text {
         @include worksans;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        font-size: 11px;
+        letter-spacing: 0.02em;
+        font-size: 10px;
+        font-weight: 400;
         text-align: center;
         text-transform: capitalize;
     }
@@ -218,23 +201,38 @@
         width: 28px;
     }
 
-    &.Active {
-        color: $white;
+    &:active {
+        background-color: $white;
+        border-color: $fuel_10;
+    }
 
-        path {
-            fill: $white;
+    &.Active {
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px;
+        background-color: $white;
+        border-color: $fuel_10;
+        .text {
+            font-weight: 700;
         }
+
         &.voice {
-            //background-color: $hot_blue;
-            background: radial-gradient($hot_blue 50%, $fuel 300%);
+            color: $hot_blue;
+            path {
+                fill: $hot_blue;
+            }
         }
+
         &.stream {
-            //background-color: $hot_red;
-            background: radial-gradient($hot_red 50%, $fuel 300%);
+            color: $hot_red;
+            path {
+                fill: $hot_red;
+            }
         }
+
         &.party {
-            //background-color: $hot_purple;
-            background: radial-gradient($hot_purple 50%, $fuel 300%);
+            color: $hot_purple;
+            path {
+                fill: $hot_purple;
+            }
         }
     }
 }

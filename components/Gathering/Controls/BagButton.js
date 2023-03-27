@@ -61,8 +61,8 @@ export const BagButton = (props) => {
                         <IconBag hasGradient="true" />
                     </div>
                 ) : (
-                    <div height="100%" width="100%">
-                        <IconBag hasGradient={false} fill="#fcfff666" />
+                    <div height="100%" width="100%" className={styles.defaultIcon}>
+                        <IconBag hasGradient={false} />
                     </div>
                 )}
             </button>

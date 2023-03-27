@@ -55,7 +55,7 @@ export const MicButton = (props) => {
                     </div>
                 ) : (
                     <div height="100%" width="100%">
-                        <IconMuteMicFill hasGradient={false} fill="#bb0000" />
+                        <IconMuteMicFill hasGradient={false} />
                     </div>
                 )}
             </button>

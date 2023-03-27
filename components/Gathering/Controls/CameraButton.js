@@ -44,7 +44,7 @@ export const CameraButton = (props) => {
                 className={`
                 ${styles.basicButton} 
                 ${isMobile ? styles.basicButtonLarge : styles.basicButtonSmall} 
-                ${isOn ? styles.basicButtonActive : styles.basicButtonInactive}
+                ${isOn ? styles.basicButtonActive : styles.basicButtonMuted}
             `}
                 aria-label="Webcam"
                 onClick={onPress}
@@ -55,7 +55,7 @@ export const CameraButton = (props) => {
                     </div>
                 ) : (
                     <div height="100%" width="100%">
-                        <IconVideoOffFill fill="#bb0000" />
+                        <IconVideoOffFill hasGradient="false" />
                     </div>
                 )}
             </button>

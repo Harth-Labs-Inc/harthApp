@@ -955,7 +955,7 @@ const Stream = () => {
 
         <section className={styles.ContentContainer} id="video-container">
           <section
-            style={{ width: "25%" }}
+            //style={{ width: "25%" }}
             id="leftcontainer"
             className={styles.leftContainer}
           ></section>
