@@ -9,11 +9,14 @@
     background-color: $white;
     height: 100%;
     overflow-y: scroll;
-    border-right: 1px solid $fuel_5;
+    border-right: 1px solid $fuel_10;
     background-image: url("../../../public/images/background_chat_dark.png");
     background-repeat: repeat;
     background-size: 32px;
     //background-position: 10px 10px;
+    //create an inset shadow on the right side of this container
+    box-shadow: inset -4px 0px 4px 1px $fuel_5;
+
 
     &Mobile {
         width: 100%;
