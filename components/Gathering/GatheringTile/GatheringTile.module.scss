@@ -49,40 +49,41 @@
       margin-left: 2px;
     }
     .party & {
-      background: linear-gradient(to right, $hot_purple, $fuel 400%);
-      
+      background: linear-gradient(to right, $hot_purple, $fuel_50 500%);
+      //background: $hot_purple;
       svg path {       
         fill: $white_10;
       }
     }
     .stream & {
-      background: linear-gradient(to right, $hot_red, $fuel 400%);
+      background: linear-gradient(to right, $hot_red, $fuel_50 500%);
       svg path {
         fill: $white_10;
       }
     }
     .voice & {
-      background: linear-gradient(to right, $hot_blue, $fuel 400%);
+      background: linear-gradient(to right, $hot_salmon, $fuel_50 500%);
       svg path {
         fill: $white_10;
       }
     }
 
     .partyActive & {
-      background: linear-gradient(to right, $hot_purple, $fuel 400%);
+      background: linear-gradient(to right, $hot_purple, $fuel_50 500%);
       
       svg path {       
         fill: $white_10;
       }
     }
     .streamActive & {
-      background: linear-gradient(to right, $hot_red, $fuel 400%);
+      background: linear-gradient(to right, $hot_red, $fuel_50 500%);
       svg path {
         fill: $white_10;
       }
     }
     .voiceActive & {
-      background: linear-gradient(to right, $hot_blue, $fuel 400%);
+      background: linear-gradient(to right, $hot_salmon, $fuel_50 500%);
+      //background: $hot_salmon;
       svg path {
         fill: $white_10;
       }
@@ -145,9 +146,9 @@
     }
 
     .voice & {
-      color: $hot_blue;
+      color: $hot_salmon;
       path {
-        fill: $hot_blue;
+        fill: $hot_salmon;
       }
     }
 
@@ -166,9 +167,9 @@
     }
 
     .voiceActive & {
-      color: $hot_blue;
+      color: $hot_salmon;
       path {
-        fill: $hot_blue;
+        fill: $hot_salmon;
       }
     }
 
@@ -369,25 +370,10 @@
 
       background-color: $fuel;
 
-      .party & {
-        background: linear-gradient(to right, $hot_purple 10%, $white 400%);
-        //background-color: $fuel;
-      }
-      .stream & {
-        background: linear-gradient(to right, $hot_red 50%, $fuel 400%);
-        //background-color: $fuel;
-      }
-      .voice & {
-        background: linear-gradient(to right, $hot_blue 10%, $fuel 400%);
-        //background-color: $fuel;
-      }
-    
 
-
-
-      // &:hover {
-      //   background: $fuel_dark;
-      // }
+      &:hover {
+        background: $hot_pink;
+      }
 
       &Active {
         .party & {
