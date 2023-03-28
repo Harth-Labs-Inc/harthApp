@@ -172,20 +172,13 @@ const GatherControlBar = (props) => {
                         clearAudioList={() => setAudioList(null)}
                         isMobile={true}
                     />
-                    {roomType != "voice" && (
-                        <>
-                            {/* <StreamButton
-                                onPress={onToggleScreenShare}
-                                show={captureIsActice}
-                                isMobile={true}
-                            /> */}
-                            <ChatButton
+
+                    <ChatButton
                                 unreadMsg={unreadMsg}
                                 onPress={onToggleChat}
                                 isMobile={true}
                             />
-                        </>
-                    )}
+
                 </header>
             ) : (
                 <header className={styles.desktop}>

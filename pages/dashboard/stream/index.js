@@ -1051,7 +1051,7 @@ const Stream = () => {
 
   return (
     <>
-      <main className={styles.PartyWindow}>
+      <main className={styles.streamWindow}>
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}
           selectedHarthIcon={selectedHarth?.iconKey}

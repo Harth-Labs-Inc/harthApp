@@ -68,6 +68,7 @@
   letter-spacing: 0.03em;
   //line-height: 125%;
   //text-rendering: optimizeLegibility;
+  user-select: none;
 }
 
 @mixin topicTitleActive {

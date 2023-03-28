@@ -22,9 +22,9 @@
         padding: 24px 0px 0px 0px;
         margin: 0;
         border: 0;
-        border-left: 1px solid $fuel_5;
-        border-top: 1px solid $fuel_5;
-        border-right: 1px solid $fuel_5;
+        border-left: 1px solid $fuel_10;
+        border-top: 1px solid $fuel_10;
+        border-right: 1px solid $fuel_10;
         //background-color: aqua;
         border-radius: 24px 24px 44px 44px;
         span {
@@ -90,24 +90,26 @@
         letter-spacing: 0.05em;
         text-align: center;
         //text-transform: uppercase;
-        margin-bottom: 6px;
+        margin-bottom: 2px;
         user-select: none;
+        //opacity: 0;
     }
 
     &Type {
         display: flex;
         justify-content: space-between;
         width: 260px;
-        background-color: $fuel_10;
+        background-color: #e2e4e6;
         border-radius: 100px;
-        border: 1px solid $fuel_5;
-        padding: 3px;
+        //border: 2px solid $fuel_5;
+        padding: 6px;
+
     }
 
     &SubText {
         @include worksans;
         color: $fuel_light;
-        font-weight: 500;
+        font-weight: 700;
         font-size: 11px;
         margin-top: 6px;
         margin-bottom: 16px;
@@ -141,9 +143,9 @@
         border: 0;
         cursor: pointer;
         @include worksans;
-        font-size: 14px;
-        letter-spacing: 0.02em;
-        font-weight: 500;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        font-weight: 600;
         path {
             fill: $white;
         }
@@ -157,7 +159,7 @@
         }
 
         &:hover {
-            background: $hot_pink_80;
+            background: $hot_orange;
         }
     }
 }
@@ -168,73 +170,70 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2px;
-    height: 64px;
-    width: 64px;
+    gap: 1px;
+    height: 60px;
+    width: 60px;
+    padding: 0;
     padding-bottom: 4px;
-    background-color: transparent;
-    border: 1px solid $fuel_5;
+    background-color: $fuel_20;
+    border: 0;
+    //border: 1px solid $fuel_3;
     border-radius: 999px;
-    background-color: $white;
-    color: $fuel;
     cursor: pointer;
+    
 
-    &.voice {
-        color: $hot_blue;
-        path {
-            fill: $hot_blue;
-        }
-    }
 
-    &.stream {
-        color: $hot_red;
-        path {
-            fill: $hot_red;
-        }
-    }
-
-    &.party {
-        color: $hot_purple;
-        path {
-            fill: $hot_purple;
-        }
-    }
-
+    color: $fuel_10F;
     path {
-        fill: $fuel_50;
+        fill: $fuel_10F;
     }
-
-    &Text {
+    
+    .text {
         @include worksans;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        font-size: 11px;
+        letter-spacing: 0.02em;
+        font-size: 10px;
+        font-weight: 400;
         text-align: center;
         text-transform: capitalize;
     }
 
     &Icon {
-        height: 28px;
-        width: 28px;
+        height: 26px;
+        width: 26px;
+    }
+
+    &:active {
+        background-color: $white;
+        border-color: $fuel_20;
     }
 
     &.Active {
-        color: $white;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px;
+        background-color: $white;
+        border-color: $fuel_10;
+        .text {
+            font-weight: 700;
+        }
 
-        path {
-            fill: $white;
-        }
         &.voice {
-            //background-color: $hot_blue;
-            background: radial-gradient($hot_blue 50%, $fuel 300%);
+            color: $hot_salmon;
+            path {
+                fill: $hot_salmon;
+            }
         }
+
         &.stream {
-            //background-color: $hot_red;
-            background: radial-gradient($hot_red 50%, $fuel 300%);
+            color: $hot_red;
+            path {
+                fill: $hot_red;
+            }
         }
+
         &.party {
-            //background-color: $hot_purple;
-            background: radial-gradient($hot_purple 50%, $fuel 300%);
+            color: $hot_purple;
+            path {
+                fill: $hot_purple;
+            }
         }
     }
 }

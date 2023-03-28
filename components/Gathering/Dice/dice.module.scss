@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: transparent;
 
     &Large {
         height: 80px;
@@ -42,7 +43,7 @@
         height: 56px;
         width: 56px;
         padding: 0;
-        background-color: $ash;
+        //background-color: $ash;
 
         .icon {
             width: 44px;
@@ -56,36 +57,35 @@
             @include rubik;
             font-size: 34px;
             font-weight: 500;
-            color: $oxygen;
+            color: $white;
 
         }
     }
 
-    &Active {
-        border: solid 3px transparent;
-        box-shadow: 4px 9999px 1px $white inset; //interior color
-        background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
-
-    }
 
     &Inactive {
-        box-shadow: 4px 9999px 1px $ash inset; //interior color
+        //box-shadow: 4px 9999px 1px $ash inset; //interior color
 
         path{
-            fill: $oxygen_40;
+            fill: $white_80;
         }
         &:hover {
            // border: solid 3px $white_90;
             //background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
+            border: solid 2px transparent;
+        box-shadow: 4px 9999px 1px $black inset; //interior color
+        background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
+        
+            
             path {
-                fill: $oxygen;
+                fill: $white;
             }
         }
     }
 
 
     &Animated {
-        border: solid 1px transparent;
+        border: solid 2px transparent;
         box-shadow: 4px 9999px 1px $black inset; //interior color
         background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
         

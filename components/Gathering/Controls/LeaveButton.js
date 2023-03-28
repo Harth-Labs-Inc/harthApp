@@ -16,8 +16,8 @@ export const LeaveButton = (props) => {
                 aria-label="Leave Gathering"
                 onClick={onPress}
             >
-                <div height="100%" width="100%">
-                    <IconPower fill="#fcfff666" />
+                <div height="100%" width="100%" className={styles.defaultIcon}>
+                    <IconPower />
                 </div>
             </button>
         </>

@@ -49,13 +49,13 @@
     align-items: center;
     justify-content: space-between;
     grid-area: header;
-    padding: 8px 16px 24px 16px;
+    padding: 8px 20px 24px 20px;
     //height:104px;
     border: 0;
     width: 100%;
     //background-color: aqua;
 
-    .leftSpace {
+    .spacerLarge {
         display: flex;
         width: 52px;
     }

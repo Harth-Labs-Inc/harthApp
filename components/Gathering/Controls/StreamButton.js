@@ -20,8 +20,8 @@ export const StreamButton = (props) => {
                     <IconCancelCastFill hasGradient="true" />
                 </div>
             ) : (
-                <div height="100%" width="100%">
-                    <IconPresentFill hasGradient={false} fill="#fcfff666" />
+                <div height="100%" width="100%" className={styles.defaultIcon}>
+                    <IconPresentFill hasGradient={false} />
                 </div>
             )}
         </button>

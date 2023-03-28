@@ -24,7 +24,7 @@
     -webkit-font-smoothing: antialiased;
 }
 
-.PartyWindow {
+.streamWindow {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -34,8 +34,8 @@
     border: 0;
     padding: 0px 0px 0px 0px;
 
-    background: radial-gradient(ellipse at top, $fuel, $black),
-        radial-gradient(ellipse at bottom, $hot_purple, $black);
+    background: radial-gradient(ellipse at top, $black, $black_60),
+        radial-gradient(ellipse at bottom, $hot_red, $fuel);
 
     .ContentContainer {
         position: relative;
@@ -43,10 +43,14 @@
         flex-direction: row;
         height: calc(100% - 108px);
         width: 100%;
+        padding-top: 8px;
 
         .leftContainer {
             margin-right: 12px;
-            width: 220px;
+            margin-left: 4px;
+            width: 240px;
+            //background-color: aqua;
+            user-select: none;
         }
 
         .peerContainer {
@@ -90,7 +94,7 @@
             aspect-ratio: 1/1;
             margin: 4px;
             overflow: hidden;
-            border: 1px solid $oxygen_10;
+            border: 1px solid $white_10;
             border-radius: 12px;
             background-color: $black_50;
 
@@ -112,9 +116,11 @@
             position: relative;
             width: 100%;
             margin: 4px;
-            padding: 4px 8px;
-            border: 4px solid $white_10;
+            padding: 8px 8px;
+            border: 1px solid $white_10;
             border-radius: 8px;
+            backdrop-filter: blur(8px);
+            background-color: $white_5;
 
             .topContainer {
                 display: flex;
@@ -135,18 +141,17 @@
             }
 
             .peerName {
-                color: $oxygen;
-                @include rubik;
-                font-size: 12px;
-                font-weight: 400;
+                color: $white;
+                @include topicTitle;
             }
 
             .peerImage {
-                height: 40px;
-                width: 40px;
+                height: 44px;
+                width: 44px;
                 margin-right: 8px;
                 border-radius: 50%;
                 object-fit: cover;
+                border: 3px solid transparent;
             }
 
             &.ownerVideo {
@@ -154,14 +159,15 @@
             }
 
             .sliderContainer {
-                position: absolute;
-                right: -50%;
+                position: relative;
+                //right: -50%;
                 z-index: 99;
                 display: flex;
                 align-items: center;
                 padding: 4px;
-                border: 2px solid $white_10;
-                background-color: $oxygen_80;
+                margin: 8px 0px;
+                //border: 2px solid $white_10;
+                //background-color: $white_80;
 
                 input[type="range"] {
                     height: 20px;
@@ -177,7 +183,7 @@
                     background: $hot_pink;
                     border-radius: 50%;
                     cursor: pointer;
-                    box-shadow: 0 1px 2px $black_25;
+                    box-shadow: 0 1px 2px $white_20;
                     -webkit-appearance: none;
                 }
                 input[type="range"]::-moz-range-thumb {
@@ -187,33 +193,33 @@
                     border: 0;
                     border-radius: 50%;
                     cursor: pointer;
-                    box-shadow: 0px 1px 2px rgba(#000, 0.25);
+                    box-shadow: 0 1px 2px $white_20;
                 }
 
                 input[type="range"]::-webkit-slider-runnable-track {
                     width: 100%;
                     height: 6px;
                     animate: 0.2s;
-                    background: $fuel_50;
+                    background: $white_50;
                     border-radius: 100px;
                     cursor: pointer;
                 }
                 input[type="range"]::-webkit-progress-value {
-                    background-color: $fuel;
+                    background-color: $white;
                 }
 
                 input[type="range"]::-moz-range-track {
                     width: 100%;
                     height: 6px;
                     animate: 0.2s;
-                    background: $fuel_50;
+                    background: $white_50;
                     border: 0;
                     border-radius: 100px;
                     cursor: pointer;
                 }
                 input[type="range"]::-moz-range-progress {
                     height: 6px;
-                    background-color: $fuel;
+                    background-color: $white;
                     border-radius: 100px;
                 }
 
@@ -261,10 +267,15 @@
                 font-weight: 500;
                 letter-spacing: 0.02em;
                 line-height: 125%;
-                background-color: $hot_pink;
-                border: 0;
-                border-radius: 20px;
+                background-color: $black_50;
+                border: 2px solid $hot_pink;
+                border-radius: 4px;
                 cursor: pointer;
+
+                &:hover {
+                    //color: $hot_pink;
+                    background-color: $black_10;
+                }
             }
 
             audio {
@@ -300,10 +311,11 @@
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
-            background-color: $oxygen;
+            background-color: $white;
             border: 0;
             border-radius: 18px;
             margin: 0;
+            margin-right: 8px;
             width: 0;
             visibility: hidden;
 
