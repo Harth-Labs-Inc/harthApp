@@ -376,7 +376,7 @@
 
       &Active {
           //background: linear-gradient(to left, $hot_purple 10%, $fuel 200%);
-          background: $fuel_light;
+          background: $muted_text;
           &:hover {
             background: $fuel;
           }
