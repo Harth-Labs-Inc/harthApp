@@ -84,7 +84,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                 </div>
                 <div className={styles.GatheringCreateLabelHolder}>
                     <div className={styles.GatheringCreateLabelText}>
-                        Select a Type
+                        Select a type
                     </div>
                     <div className={styles.GatheringCreateType}>
                         <GatheringButton

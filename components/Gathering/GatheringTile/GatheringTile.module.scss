@@ -263,8 +263,8 @@
 
     .profileImage {
       position: relative;
-      height: 44px;
-      width: 44px;
+      height: 48px;
+      width: 48px;
       border-radius: 999px;
       margin-right: -6px;
       padding: 0;
@@ -372,7 +372,7 @@
 
 
       &:hover {
-        background: $hot_pink;
+        background: $hot_orange;
       }
 
       &Active {
