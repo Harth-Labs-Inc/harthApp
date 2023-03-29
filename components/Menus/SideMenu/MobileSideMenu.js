@@ -1,5 +1,6 @@
 import { useComms } from "../../../contexts/comms";
 import { useSocket } from "../../../contexts/socket";
+import { useAuth } from "contexts/auth";
 import { SideModal } from "../../Common";
 
 import HarthList from "../HarthList/HarthList";
@@ -8,49 +9,89 @@ import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
 import styles from "./SideMenu.module.scss";
 
 import SettingsList from "../AccountSettings/AccountSettings";
+import { useState } from "react";
+import SettingsMenu from "../AccountSettings";
 
 const MobileSideNav = (props) => {
-    const { mobileMenuOpen, onToggleMenu, setShowCreateHarthNameModal } = props;
-    // const [ShowCommBuilder, setShowCommBuilder] = useState(false);
+  const {
+    mobileMenuOpen,
+    onToggleMenu,
+    setShowCreateHarthNameModal,
+    changePage,
+  } = props;
 
-    const { comms, setComm, selectedcomm, setTopic } = useComms();
-    const { unreadMessagesRef } = useSocket();
+  const [ShowSettingsNav, setShowSettingsNav] = useState(false);
+  const [currentTab, setCurrentTab] = useState("");
 
-    const changeSelectedCom = (com) => {
-        setComm(com);
-        setTopic({});
-        onToggleMenu();
-    };
+  const { comms, setComm, selectedcomm, setTopic } = useComms();
+  const { unreadMessagesRef } = useSocket();
 
-    const toggleCreateComm = () => {
-        onToggleMenu();
-        setShowCreateHarthNameModal(true);
-    };
+  const changeSelectedCom = (com) => {
+    setComm(com);
+    setTopic({});
+    onToggleMenu();
+  };
 
-    if (!mobileMenuOpen) return;
-
-    return (
-        <SideModal onToggleModal={onToggleMenu}>
-            <div className={styles.sideNavMobile}>
-                <div className={styles.headerImage}>
-                    <HarthLogoDark />
-                </div>
-                <div className={styles.text}>Your härths</div>
-                <div className={styles.harthList}>
-                    <HarthList
-                        comms={comms}
-                        selectedcomm={selectedcomm}
-                        unreadMsgs={unreadMessagesRef}
-                        toggleCreateComm={toggleCreateComm}
-                        changeSelectedCom={changeSelectedCom}
-                    />
-                </div>
-                <div className={styles.settings}>
-                    <SettingsList />
-                </div>
-            </div>
+  const toggleCreateComm = () => {
+    onToggleMenu();
+    setShowCreateHarthNameModal(true);
+  };
+  const toggleSettingsNav = (e, setOpenInvites) => {
+    setShowSettingsNav(!ShowSettingsNav);
+  };
+  const toggleCurrentTab = (name) => {
+    setCurrentTab(name);
+    if (!ShowSettingsNav) {
+      setShowSettingsNav(!ShowSettingsNav);
+    }
+  };
+  const DisplaySettingsNav = () => {
+    if (ShowSettingsNav) {
+      return (
+        <SideModal
+          id="mobileSubSideMenuContainer"
+          onToggleModal={toggleSettingsNav}
+        >
+          <SettingsMenu
+            toggleCurrentTab={toggleCurrentTab}
+            currentTab={currentTab}
+            toggleCurrentTabClosed={() => {
+              setShowSettingsNav(false);
+              setCurrentTab("");
+            }}
+          />
         </SideModal>
-    );
+      );
+    }
+    return null;
+  };
+
+  if (!mobileMenuOpen) return;
+
+  return (
+    <SideModal id="mobileSideMenuContainer" onToggleModal={onToggleMenu}>
+      <div className={styles.sideNavMobile}>
+        <div className={styles.headerImage}>
+          <HarthLogoDark />
+        </div>
+        <div className={styles.text}>Your härths</div>
+        <DisplaySettingsNav />
+        <div className={styles.harthList}>
+          <HarthList
+            comms={comms}
+            selectedcomm={selectedcomm}
+            unreadMsgs={unreadMessagesRef}
+            toggleCreateComm={toggleCreateComm}
+            changeSelectedCom={changeSelectedCom}
+            changePage={changePage}
+          />
+        </div>
+        <div className={styles.settings}>
+          <SettingsList toggleCurrentTab={toggleCurrentTab} />
+        </div>
+      </div>
+    </SideModal>
+  );
 };
 
 export default MobileSideNav;

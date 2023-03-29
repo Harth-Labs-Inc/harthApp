@@ -272,9 +272,7 @@ const dashboard = () => {
                   user={user}
                   toggleNoHarthDetected={toggleNoHarthDetected}
                 >
-                  {/* <TransitionLayout> */}
                   {page}
-                  {/* </TransitionLayout> */}
                 </DashboardLayout>
               </VideoProvider>
             </SocketProvider>

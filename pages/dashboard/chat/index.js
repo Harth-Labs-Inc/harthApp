@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 // import { CSSTransition } from "react-transition-group";
 import { useComms } from "../../../contexts/comms";
 
@@ -14,73 +14,60 @@ import { MobileContext } from "../../../contexts/mobile.js";
 import styles from "./chatPage.module.scss";
 
 const Chat = () => {
-    // const { topicChange } = useComms();
-    const { isMobile } = useContext(MobileContext);
-    const { selectedTopic } = useComms();
-    const [chatVisible, setChatVisible] = useState(false);
+  // const { topicChange } = useComms();
+  const { isMobile } = useContext(MobileContext);
+  const { selectedTopic } = useComms();
+  const [chatVisible, setChatVisible] = useState(false);
 
-    // useEffect(() => {
-    //     if (isMobile && topicChange) {
-    //         setChatVisible(true);
-    //     } else {
-    //         setChatVisible(false);
-    //     }
-    // }, [topicChange]);
+  useEffect(() => {
+    const element = document.getElementById("mainchatContainer");
+    element.classList.add(styles.rendering);
+    setTimeout(() => {
+      element.classList.remove(styles.rendering);
+      element.classList.add(styles.entered);
+    }, 100);
 
-    // const toggleEditPanel = () => {
-    //     setShowEditPanel(!showEditPanel);
-    // };
+    return () => {
+      element.classList.remove(styles.entered);
+      element.classList.remove(styles.rendering);
+    };
+  }, []);
+  function handleMobileChat(newValue) {
+    setChatVisible(newValue);
+  }
 
-    // const topicChatClasses = () => {
-    //     const classes = [];
-    //     if (showEditPanel) {
-    //         classes.push("topic-edit-active");
-    //     }
-    //     if (isMobile && chatVisible) {
-    //         classes.push("chatVisible");
-    //     }
-    //     return classes.join(" ");
-    // };
-
-    // const toggleMobileMenu = () => {
-    //     setChatVisible((prevState) => !prevState);
-    // };
-
-    function handleMobileChat(newValue) {
-        setChatVisible(newValue);
-    }
-
-    return (
+  return (
+    <>
+      {isMobile ? (
         <>
-            {isMobile ? (
-                <>
-                    {!chatVisible ? (
-                        <div style={{ width: "100%", position: "relative" }}>
-                            <div className={styles.topicHolderMobile}>
-                                <TopicsNav
-                                    handleMobileChat={handleMobileChat}
-                                />
-                            </div>
-                        </div>
-                    ) : (
-                        <div className={styles.chatHolderMobile}>
-                            <MobileChatHeader
-                                selectedTopic={selectedTopic}
-                                handleMobileChat={handleMobileChat}
-                                toggleTopicEditModal
-                            />
-                            <ChatMessages />
-                        </div>
-                    )}
-                </>
-            ) : (
-                <>
-                    <TopicsNav />
-                    <ChatMessages />
-                </>
-            )}
+          {!chatVisible ? (
+            <div
+              id="mainchatContainer"
+              style={{ width: "100%", position: "relative" }}
+            >
+              <div className={styles.topicHolderMobile}>
+                <TopicsNav handleMobileChat={handleMobileChat} />
+              </div>
+            </div>
+          ) : (
+            <div id="mainchatContainer" className={styles.chatHolderMobile}>
+              <MobileChatHeader
+                selectedTopic={selectedTopic}
+                handleMobileChat={handleMobileChat}
+                toggleTopicEditModal
+              />
+              <ChatMessages />
+            </div>
+          )}
         </>
-    );
+      ) : (
+        <div id="mainchatContainer">
+          <TopicsNav />
+          <ChatMessages />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Chat;
