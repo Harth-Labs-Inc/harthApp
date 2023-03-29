@@ -36,7 +36,8 @@ const SideNav = (props) => {
   const [showRenameHarthModal, setShowRenameHarthModal] = useState(false);
   const [showDeleteHarthModal, setShowDeleteHarthModal] = useState(false);
   const [showLeaveHarthModal, setShowLeaveHarthModal] = useState(false);
-  const [inviteShortcut, setInviteShortcut] = useState(false);
+
+  const [currentTab, setCurrentTab] = useState("");
 
   const [newHarth, setNewHarth] = useState(null);
   const [showCreateHarthNameModal, setShowCreateHarthNameModal] =
@@ -52,19 +53,19 @@ const SideNav = (props) => {
 
   let leftNav = useRef();
 
+  const toggleCurrentTab = (name) => {
+    setCurrentTab(name);
+  };
   const changeSelectedCom = (com) => {
     setComm(com);
     setTopic({});
     onToggleMenu();
   };
-  const resetInviteShortcut = () => {
-    setInviteShortcut(false);
-  };
-  const toggleSettingsNav = (setOpenInvites) => {
+  const toggleSettingsNav = (e, setOpenInvites) => {
     if (setOpenInvites) {
-      setInviteShortcut(true);
+      setCurrentTab("invites");
     } else {
-      setInviteShortcut(false);
+      setCurrentTab("");
     }
     setShowSettingsNav(!ShowSettingsNav);
   };
@@ -73,8 +74,8 @@ const SideNav = (props) => {
       return (
         <SideModal onToggleModal={toggleSettingsNav}>
           <SettingsMenu
-            hasInviteShortcut={inviteShortcut}
-            resetInviteShortcut={resetInviteShortcut}
+            toggleCurrentTab={toggleCurrentTab}
+            currentTab={currentTab}
           />
         </SideModal>
       );
@@ -164,7 +165,6 @@ const SideNav = (props) => {
   const onCloseLeaveModal = () => {
     setShowLeaveHarthModal(false);
   };
-
   const submitHarthLeaveHandler = async (newHarth) => {
     await leaveHarthByID({ harth: newHarth, user });
     let msg = {};
@@ -178,7 +178,6 @@ const SideNav = (props) => {
       setOpenEditHarthMenu(null);
     });
   };
-
   const harthNameCreationHandler = async (harth) => {
     setNewHarth(harth);
     setShowCreateHarthNameModal(false);
@@ -289,7 +288,7 @@ const SideNav = (props) => {
           </button>
           <button
             className={` ${styles.SettingsButton} ${styles.SettingsButtonInvites} `}
-            onClick={() => toggleSettingsNav(true)}
+            onClick={(e) => toggleSettingsNav(e, true)}
             aria-label="Toggle Invites menu"
           >
             <IconInvite />

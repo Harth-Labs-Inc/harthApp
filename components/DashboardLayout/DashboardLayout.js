@@ -92,10 +92,12 @@ const DashboardLayout = (props) => {
             mobileMenuOpen={mobileMenuOpen}
             onToggleMenu={toggleMenu}
             setShowCreateHarthNameModal={setShowCreateHarthNameModal}
+            changePage={changePage}
+            toggleNoHarthDetected={toggleNoHarthDetected}
           />
         ) : null}
         <div className={styles.DashboardContent}>
-          <TopBar currentPage={currentPage}></TopBar>
+          <TopBar currentPage={currentPage} changePage={changePage}></TopBar>
           <section
             className={`${styles.DashboardContentWrapper} ${styles.Mobile}`}
             id="content_wrapper"
