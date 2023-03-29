@@ -133,6 +133,7 @@ const GatheringSchedule = (props) => {
         <ErrorMessage
           errorMsg={errors.gatheringName ? "Gathering name is required" : null}
         />
+
         <p className={styles.GatheringScheduleSubTitle}>Choose date</p>
         <div className={styles.GatheringScheduleDateTime}>
           <input

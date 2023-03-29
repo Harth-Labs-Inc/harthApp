@@ -228,11 +228,11 @@
     }
 
     &Now {
-      @include worksans;
+      @include montserrat;
       font-size: 10px;
-      font-weight: 500;;
-      letter-spacing: 0.06em;
-      padding: 9px 12px;
+      font-weight: 700;;
+      letter-spacing: 0.08em;
+      padding: 8px 10px;
       color: $white;
       background-color: $fuel;
       border-radius: 9999px;
@@ -263,18 +263,19 @@
 
     .profileImage {
       position: relative;
-      height: 48px;
-      width: 48px;
+      height: 46px;
+      width: 46px;
       border-radius: 999px;
-      margin-right: -6px;
+      margin-right: -12px;
       padding: 0;
-      border: 2px solid transparent;
+      border: 3px solid white;
 
       img {
         position: relative;
         height: 100%;
         width: 100%;
         border-radius: 999px;
+        border: 1px solid $fuel_5;
       }
     }
 
@@ -291,16 +292,16 @@
       border: 2px solid $white;
       background-color: $warm_blue;
       color: $fuel_50;
-      @include rubik;
+      @include worksans;
       font-size: 14px;
       font-weight: 500;
     }
 
     .emptyMessage {
-      color: $fuel_light;
-      @include rubik;
+      color: $fuel_50F;
+      @include worksans;
       font-size: 14px;
-      font-weight: 300;
+      font-weight: 800;
       margin-left: auto;
       margin-right: auto;
       padding-right: 8px;
@@ -343,10 +344,8 @@
       }
 
       &:hover {
-        background-color: $fuel_dark;
-        svg path {
-          fill: $white;
-        }
+            background: $fuel_light;
+
       }
     }
 
@@ -372,32 +371,16 @@
 
 
       &:hover {
-        background: $hot_orange;
+        background: $fuel_light;
       }
 
       &Active {
-        .party & {
           //background: linear-gradient(to left, $hot_purple 10%, $fuel 200%);
-          background: $fuel;
+          background: $muted_text;
           &:hover {
-            background: $fuel_dark;
+            background: $fuel;
           }
-        }
-        .stream & {
-          //background: linear-gradient(to left, $hot_purple 10%, $fuel 200%);
-          background: $fuel;
-          &:hover {
-            background: $fuel_dark;
-          }
-        }
-        .voice & {
-          //background: linear-gradient(to left, $hot_purple 10%, $fuel 200%);
-          background: $fuel;
-          &:hover {
-            background: $fuel_dark;
-          }
-        }
-    }
+      }
 
     }
 
