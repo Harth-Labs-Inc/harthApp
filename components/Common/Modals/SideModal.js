@@ -27,7 +27,12 @@ export const SideModal = (props) => {
     }, [id]);
 
     const closeToolTip = () => {
-        onToggleModal();
+        const element = document.getElementById(id);
+        element.classList.add(styles.rendering);
+        element.classList.remove(styles.entered);
+        setTimeout(() => {
+            onToggleModal();
+        }, 400);
     };
 
     return (
