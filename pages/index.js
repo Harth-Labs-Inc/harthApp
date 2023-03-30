@@ -1,34 +1,34 @@
 import Head from "next/head";
 import { useAuth } from "../contexts/auth";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const IndexPage = () => {
     const { user, loading } = useAuth();
 
-    useEffect(() => {
-        function handleVisibilityChange() {
-            let storedValue = localStorage.getItem("forceReload");
-            if (!storedValue) {
-                localStorage.setItem("forceReload", true);
-            } else {
-                localStorage.removeItem("forceReload");
-                location.reload();
-            }
-        }
-        document.addEventListener(
-            "visibilitychange",
-            handleVisibilityChange,
-            false
-        );
-        return () => {
-            document.removeEventListener(
-                "visibilitychange",
-                handleVisibilityChange,
-                false
-            );
-        };
-    }, []);
+    // useEffect(() => {
+    //     function handleVisibilityChange() {
+    //         let storedValue = localStorage.getItem("forceReload");
+    //         if (!storedValue) {
+    //             localStorage.setItem("forceReload", true);
+    //         } else {
+    //             localStorage.removeItem("forceReload");
+    //             location.reload();
+    //         }
+    //     }
+    //     document.addEventListener(
+    //         "visibilitychange",
+    //         handleVisibilityChange,
+    //         false
+    //     );
+    //     return () => {
+    //         document.removeEventListener(
+    //             "visibilitychange",
+    //             handleVisibilityChange,
+    //             false
+    //         );
+    //     };
+    // }, []);
 
     const AuthOrDashboard = ({ user, loading }) => {
         if (loading) {

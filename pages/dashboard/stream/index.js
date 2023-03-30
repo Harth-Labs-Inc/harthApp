@@ -87,57 +87,57 @@ const Stream = () => {
             setHarthId(HARTHID);
         }
 
-        const handleVisibilityChange = () => {
-            if (document.visibilityState === "visible") {
-                if (wakeLock) {
-                    wakeLock
-                        .request("screen")
-                        .then(() => {
-                            setWakeLockActive(true);
-                        })
-                        .catch((err) => {
-                            setWakeLockActive(false);
-                        });
-                } else {
-                    setWakeLockActive(false);
-                }
-            } else {
-                if (wakeLockActive) {
-                    wakeLock.release().then(() => {
-                        setWakeLockActive(false);
-                    });
-                }
-            }
-        };
+        // const handleVisibilityChange = () => {
+        //     if (document.visibilityState === "visible") {
+        //         if (wakeLock) {
+        //             wakeLock
+        //                 .request("screen")
+        //                 .then(() => {
+        //                     setWakeLockActive(true);
+        //                 })
+        //                 .catch((err) => {
+        //                     setWakeLockActive(false);
+        //                 });
+        //         } else {
+        //             setWakeLockActive(false);
+        //         }
+        //     } else {
+        //         if (wakeLockActive) {
+        //             wakeLock.release().then(() => {
+        //                 setWakeLockActive(false);
+        //             });
+        //         }
+        //     }
+        // };
 
-        if (document.visibilityState === "visible") {
-            if (wakeLock) {
-                wakeLock
-                    .request("screen")
-                    .then(() => {
-                        setWakeLockActive(true);
-                    })
-                    .catch(() => {
-                        setWakeLockActive(false);
-                    });
-            }
-        }
+        // if (document.visibilityState === "visible") {
+        //     if (wakeLock) {
+        //         wakeLock
+        //             .request("screen")
+        //             .then(() => {
+        //                 setWakeLockActive(true);
+        //             })
+        //             .catch(() => {
+        //                 setWakeLockActive(false);
+        //             });
+        //     }
+        // }
 
-        document.addEventListener("visibilitychange", handleVisibilityChange);
-        return () => {
-            document.removeEventListener(
-                "visibilitychange",
-                handleVisibilityChange
-            );
+        // document.addEventListener("visibilitychange", handleVisibilityChange);
+        // return () => {
+        //     document.removeEventListener(
+        //         "visibilitychange",
+        //         handleVisibilityChange
+        //     );
 
-            if (wakeLockActive) {
-                if (wakeLock) {
-                    wakeLock.release().then(() => {
-                        setWakeLockActive(false);
-                    });
-                }
-            }
-        };
+        //     if (wakeLockActive) {
+        //         if (wakeLock) {
+        //             wakeLock.release().then(() => {
+        //                 setWakeLockActive(false);
+        //             });
+        //         }
+        //     }
+        // };
     }, []);
 
     useEffect(() => {
