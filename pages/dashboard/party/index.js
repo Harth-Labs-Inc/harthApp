@@ -37,6 +37,7 @@ const Party = () => {
   const [isActiveScreenShare, setIsActiveScreenShare] = useState(false);
   const [TurnServers, setTurnServers] = useState([]);
   const [diceAlerts, setDiceAlerts] = useState([]);
+  const [wakeLockActive, setWakeLockActive] = useState(false);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -51,8 +52,9 @@ const Party = () => {
   const userInfo = useRef();
 
   const { comms } = useComms();
-
   const { width } = useSize();
+  const { wakeLock } = navigator;
+
   useEffect(() => {
     const container = document.getElementById("peerContainer");
     resize(container);
@@ -93,6 +95,55 @@ const Party = () => {
     if (HARTHID) {
       setHarthId(HARTHID);
     }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        if (wakeLock) {
+          wakeLock
+            .request("screen")
+            .then(() => {
+              setWakeLockActive(true);
+            })
+            .catch((err) => {
+              setWakeLockActive(false);
+            });
+        } else {
+          setWakeLockActive(false);
+        }
+      } else {
+        if (wakeLockActive) {
+          wakeLock.release().then(() => {
+            setWakeLockActive(false);
+          });
+        }
+      }
+    };
+
+    if (document.visibilityState === "visible") {
+      if (wakeLock) {
+        wakeLock
+          .request("screen")
+          .then(() => {
+            setWakeLockActive(true);
+          })
+          .catch(() => {
+            setWakeLockActive(false);
+          });
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+
+      if (wakeLockActive) {
+        if (wakeLock) {
+          wakeLock.release().then(() => {
+            setWakeLockActive(false);
+          });
+        }
+      }
+    };
   }, []);
 
   useEffect(() => {
