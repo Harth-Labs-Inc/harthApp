@@ -34,6 +34,7 @@ const Stream = () => {
   const [TurnServers, setTurnServers] = useState([]);
   const [diceAlerts, setDiceAlerts] = useState([]);
   const [playingStreams, setPlayingStreams] = useState({});
+  const [wakeLockActive, setWakeLockActive] = useState(false);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -48,6 +49,8 @@ const Stream = () => {
   const userInfo = useRef();
 
   const { comms } = useComms();
+
+  const { wakeLock } = navigator;
 
   useEffect(() => {
     let URLS = videoSocketUrls;
@@ -84,6 +87,55 @@ const Stream = () => {
     if (HARTHID) {
       setHarthId(HARTHID);
     }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        if (wakeLock) {
+          wakeLock
+            .request("screen")
+            .then(() => {
+              setWakeLockActive(true);
+            })
+            .catch((err) => {
+              setWakeLockActive(false);
+            });
+        } else {
+          setWakeLockActive(false);
+        }
+      } else {
+        if (wakeLockActive) {
+          wakeLock.release().then(() => {
+            setWakeLockActive(false);
+          });
+        }
+      }
+    };
+
+    if (document.visibilityState === "visible") {
+      if (wakeLock) {
+        wakeLock
+          .request("screen")
+          .then(() => {
+            setWakeLockActive(true);
+          })
+          .catch(() => {
+            setWakeLockActive(false);
+          });
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+
+      if (wakeLockActive) {
+        if (wakeLock) {
+          wakeLock.release().then(() => {
+            setWakeLockActive(false);
+          });
+        }
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -223,11 +275,36 @@ const Stream = () => {
       socket.on("userInfo-update", (info) => {
         if (info && ownerData.current) {
           userInfo.current = info;
-          let match = Object.values(info).find(
-            (usr) => usr.screenShare === true
-          );
-          if (typeof isActiveScreenShare !== typeof match) {
-            setIsActiveScreenShare(match);
+          if (info.code == "isTalking") {
+            let userData = info[info?.userName];
+            if (userData.isTalking) {
+              let element = document.getElementById(info?.socketID);
+              if (!element) {
+                let myElement = document.getElementById(info?.peerId);
+                if (myElement) {
+                  myElement.style.border = "1px solid #e46eb1";
+                }
+              } else {
+                element.style.border = "1px solid #e46eb1";
+              }
+            } else {
+              let element = document.getElementById(info?.socketID);
+              if (!element) {
+                let myElement = document.getElementById(info?.peerId);
+                if (myElement) {
+                  myElement.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                }
+              } else {
+                element.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+              }
+            }
+          } else {
+            let match = Object.values(info).find(
+              (usr) => usr.screenShare === true
+            );
+            if (typeof isActiveScreenShare !== typeof match) {
+              setIsActiveScreenShare(match);
+            }
           }
         }
       });
@@ -270,6 +347,69 @@ const Stream = () => {
         try {
           let stream = await navigator.mediaDevices.getUserMedia(constraints);
 
+          try {
+            const audioCtx = new AudioContext();
+            const source = audioCtx.createMediaStreamSource(stream);
+            const analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 2048;
+            source.connect(analyser);
+
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+
+            function detectSpeaking() {
+              requestAnimationFrame(detectSpeaking);
+              analyser.getByteFrequencyData(dataArray);
+              const average =
+                dataArray.reduce((acc, val) => acc + val) / bufferLength;
+              if (average > 10) {
+                if (
+                  userInfo.current &&
+                  userInfo.current[userName] &&
+                  !userInfo.current[userName].isTalking
+                ) {
+                  socket &&
+                    socket.emit(
+                      "set-user-is-speaking",
+                      {
+                        harthId,
+                        socketID,
+                        userName,
+                        roomId,
+                        ...ownerData.current,
+                      },
+                      () => {}
+                    );
+                }
+              } else {
+                if (
+                  userInfo.current &&
+                  userInfo.current[userName] &&
+                  userInfo.current[userName].isTalking
+                ) {
+                  socket &&
+                    socket.emit(
+                      "set-user-is-not-speaking",
+                      {
+                        harthId,
+                        socketID,
+                        userName,
+                        roomId,
+                        ...ownerData.current,
+                      },
+                      () => {}
+                    );
+                }
+              }
+            }
+
+            detectSpeaking();
+          } catch (error) {
+            if (stream) {
+              resolve(stream);
+            }
+            resolve(false);
+          }
           resolve(stream);
         } catch (error) {
           resolve(false);
@@ -786,7 +926,6 @@ const Stream = () => {
     }
   };
   const setPeerContainers = (owner) => {
-    console.log(owner, "v");
     PEERS.current?.forEach((peer) => {
       if (socketID && peer) {
         let parentContainer = document.getElementById(peer?.socketID);
@@ -1048,6 +1187,8 @@ const Stream = () => {
   if (ownerData.current) {
     setPeerContainers(ownerData.current);
   }
+
+  console.log(wakeLockActive, "wakeLockActive");
 
   return (
     <>
