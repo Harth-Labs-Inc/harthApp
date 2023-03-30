@@ -63,7 +63,10 @@ const Chat = () => {
                     )}
                 </>
             ) : (
-                <div id="mainchatContainer">
+                <div
+                    id="mainchatContainer"
+                    className={styles.MainChatContainer}
+                >
                     <TopicsNav />
                     <ChatMessages />
                 </div>
