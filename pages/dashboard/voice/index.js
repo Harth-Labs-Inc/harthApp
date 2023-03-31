@@ -343,27 +343,80 @@ const Stream = () => {
   ) => {
     return new Promise((resolve) => {
       async function run() {
-        try {
-          let stream = await navigator.mediaDevices.getUserMedia(constraints);
-
+        let lastUsedAudioDeviceID = localStorage.getItem(
+          "lastUsedAudioDeviceID"
+        );
+        if (lastUsedAudioDeviceID) {
+          constraints.audio.deviceId = { exact: lastUsedAudioDeviceID };
           try {
-            const audioCtx = new AudioContext();
-            localStreamSource.current =
-              audioCtx.createMediaStreamSource(stream);
-            localStreamAnalyser.current = audioCtx.createAnalyser();
-            localStreamAnalyser.current.fftSize = 2048;
-            localStreamSource.current.connect(localStreamAnalyser.current);
+            let stream = await navigator.mediaDevices.getUserMedia(constraints);
 
-            startDetectSpeaking();
-          } catch (error) {
-            if (stream) {
-              resolve(stream);
+            try {
+              const audioCtx = new AudioContext();
+              localStreamSource.current =
+                audioCtx.createMediaStreamSource(stream);
+              localStreamAnalyser.current = audioCtx.createAnalyser();
+              localStreamAnalyser.current.fftSize = 2048;
+              localStreamSource.current.connect(localStreamAnalyser.current);
+
+              startDetectSpeaking();
+            } catch (error) {
+              if (stream) {
+                resolve(stream);
+              }
+              resolve(false);
             }
+            resolve(stream);
+          } catch (error) {
+            try {
+              delete constraints.audio.deviceId;
+              let stream = await navigator.mediaDevices.getUserMedia(
+                constraints
+              );
+
+              try {
+                const audioCtx = new AudioContext();
+                localStreamSource.current =
+                  audioCtx.createMediaStreamSource(stream);
+                localStreamAnalyser.current = audioCtx.createAnalyser();
+                localStreamAnalyser.current.fftSize = 2048;
+                localStreamSource.current.connect(localStreamAnalyser.current);
+
+                startDetectSpeaking();
+              } catch (error) {
+                if (stream) {
+                  resolve(stream);
+                }
+                resolve(false);
+              }
+              resolve(stream);
+            } catch (error) {
+              resolve(false);
+            }
+          }
+        } else {
+          try {
+            let stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+            try {
+              const audioCtx = new AudioContext();
+              localStreamSource.current =
+                audioCtx.createMediaStreamSource(stream);
+              localStreamAnalyser.current = audioCtx.createAnalyser();
+              localStreamAnalyser.current.fftSize = 2048;
+              localStreamSource.current.connect(localStreamAnalyser.current);
+
+              startDetectSpeaking();
+            } catch (error) {
+              if (stream) {
+                resolve(stream);
+              }
+              resolve(false);
+            }
+            resolve(stream);
+          } catch (error) {
             resolve(false);
           }
-          resolve(stream);
-        } catch (error) {
-          resolve(false);
         }
       }
       run();
