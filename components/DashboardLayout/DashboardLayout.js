@@ -4,7 +4,8 @@ import dynamic from "next/dynamic";
 import SideNav from "../Menus/SideMenu/SideMenu";
 import TopBar from "../Menus/TopBar/TopBar";
 import MainNav from "../MainNav/MainNav";
-// import MobileSideNav from "../Menus/SideMenu/MobileSideMenu";
+
+import MobileSideNav from "../Menus/SideMenu/MobileSideMenu";
 
 import styles from "./DashboardLayout.module.scss";
 import { useVideo } from "contexts/video";
@@ -79,23 +80,16 @@ const DashboardLayout = (props) => {
   };
 
   if (isMobile) {
-    const MobileSideNav = dynamic(
-      () => import("../Menus/SideMenu/MobileSideMenu"),
-      {
-        loading: () => null,
-      }
-    );
     return (
       <main className={styles.Dashboard}>
-        {MobileSideNav ? (
-          <MobileSideNav
-            mobileMenuOpen={mobileMenuOpen}
-            onToggleMenu={toggleMenu}
-            setShowCreateHarthNameModal={setShowCreateHarthNameModal}
-            changePage={changePage}
-            toggleNoHarthDetected={toggleNoHarthDetected}
-          />
-        ) : null}
+        <MobileSideNav
+          mobileMenuOpen={mobileMenuOpen}
+          onToggleMenu={toggleMenu}
+          setShowCreateHarthNameModal={setShowCreateHarthNameModal}
+          changePage={changePage}
+          toggleNoHarthDetected={toggleNoHarthDetected}
+        />
+
         <div className={styles.DashboardContent}>
           <TopBar currentPage={currentPage} changePage={changePage}></TopBar>
           <section
