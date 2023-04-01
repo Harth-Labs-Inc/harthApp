@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { IconDiceD20 } from "../../../resources/icons/IconDiceD20";
 import { IconDiceD12 } from "../../../resources/icons/IconDiceD12";
@@ -7,10 +7,15 @@ import { IconDiceD8 } from "../../../resources/icons/IconDiceD8";
 import { IconDiceD6 } from "../../../resources/icons/IconDiceD6";
 import { IconDiceD4 } from "../../../resources/icons/IconDiceD4";
 
+import { MobileContext } from "../../../contexts/mobile";
+
 import styles from "./dice.module.scss";
 
 export const Dice = (props) => {
     const { size = "large", number = 20, diceRollHandler } = props;
+
+    const { isMobile } = useContext(MobileContext);
+
     const [isDisabled, setIsDisabled] = useState(false);
     const [rollResult, setRollResult] = useState();
     const [showRoll, setShowRoll] = useState(false);
@@ -49,6 +54,7 @@ export const Dice = (props) => {
                         ? styles.diceButtonAnimated
                         : styles.diceButtonInactive
                 }
+                ${isMobile && styles.diceButtonMobile}
             `}
                 aria-label="dice"
                 onClick={rollAnimation}

@@ -1,5 +1,4 @@
 import { useRef } from "react";
-// import ReactCSSTransitionGroup from "react-transition-group";
 
 import OutsideClickHandler from "./OutsideClick";
 import styles from "./Modal.module.scss";
@@ -22,10 +21,6 @@ export const Modal = (props) => {
     };
 
     return (
-        // <ReactCSSTransitionGroup
-        //     transitionName="modalTransition"
-        //     transitionAppear={true}
-        // >
         <div id={id} className={`${styles.Modal} ${classNames}`}>
             <OutsideClickHandler
                 onClickOutside={closeModal}
@@ -44,6 +39,5 @@ export const Modal = (props) => {
                 </section>
             </OutsideClickHandler>
         </div>
-        // </ReactCSSTransitionGroup>
     );
 };

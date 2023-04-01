@@ -1,11 +1,17 @@
-import { useState, useRef, useEffect } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
+import ReactPanZoom from "react-image-pan-zoom-rotate";
+import Draggable from "react-draggable";
+
 import styles from "./gatherTools.module.scss";
 import { IconClose } from "../../../resources/icons/IconClose";
-import Draggable from "react-draggable";
+
 import { Button } from "../../Common";
 import { IconMap } from "../../../resources/icons/IconMap";
-import ReactPanZoom from "react-image-pan-zoom-rotate";
-import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
+
+// import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
+
+import { MobileContext } from "../../../contexts/mobile";
+
 import {
     checkForBadFile,
     uploadCustomNamedFile,
@@ -19,12 +25,14 @@ import {
 
 export const MapBar = (props) => {
     const {
-        type = "desktop",
+        // type = "desktop",
         togggleMapModal,
         roomId,
         mapChangeHandler,
         mapUpdate,
     } = props;
+
+    const { isMobile } = useContext(MobileContext);
 
     const [loading, setLoading] = useState(true);
     const [hasMap, setHasMap] = useState(false);
@@ -36,6 +44,24 @@ export const MapBar = (props) => {
 
     const inputRef = useRef();
     const imageRef = useRef();
+
+    useEffect(() => {
+        const element = document.getElementById("mainContainerMap");
+        if (element) {
+            element.classList.add(styles.rendering);
+            setTimeout(() => {
+                element.classList.remove(styles.rendering);
+                element.classList.add(styles.entered);
+            }, 100);
+        }
+
+        return () => {
+            if (element) {
+                element.classList.remove(styles.entered);
+                element.classList.remove(styles.rendering);
+            }
+        };
+    }, [loading]);
 
     useEffect(() => {
         async function checkForExistingMap() {
@@ -135,7 +161,66 @@ export const MapBar = (props) => {
                 id="image-uploader"
                 onChange={saveFile}
             ></input>
-            {type == "desktop" ? (
+            <Draggable
+                handle="#handle"
+                bounds={isMobile ? "#PartyWindow" : "#video-container"}
+            >
+                <div
+                    id="mainContainerMap"
+                    className={`${styles.mainContainerMap} ${
+                        isMobile && styles.mainContainerMapMobile
+                    }`}
+                >
+                    <div className={styles.topBar} id="handle">
+                        <div className={styles.spacer} />
+                        <div className={styles.grabber} />
+                        <button
+                            className={styles.close}
+                            aria-label="close dice bar"
+                            onClick={togggleMapModal}
+                        >
+                            <IconClose />
+                        </button>
+                    </div>
+
+                    {!hasMap ? (
+                        <div className={styles.mapContainer}>
+                            <div className={styles.icon}>
+                                <IconMap />
+                            </div>
+                            <div className={styles.label}>Game Board</div>
+                            <Button
+                                tier="primary"
+                                size="small"
+                                text="add an image"
+                                onClick={clickHandler}
+                            />
+                        </div>
+                    ) : (
+                        <div
+                            className={`
+                ${styles.mapContainer} 
+                ${styles.mapContainerActive} 
+                `}
+                            onMouseOver={showBottomBar}
+                            onMouseLeave={hideBottomBar}
+                        >
+                            <ReactPanZoom image={mapImg} alt="Image alt text" />
+                            {hasBottomBar && (
+                                <div className={styles.bottomBar}>
+                                    <Button
+                                        tier="secondary"
+                                        size="small"
+                                        text="clear image"
+                                        onClick={clearMap}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            </Draggable>
+            {/* {type == "desktop" ? (
                 <Draggable handle="#handle" bounds={"#video-container"}>
                     <div className={styles.mainContainerMap}>
                         <div className={styles.topBar} id="handle">
@@ -233,7 +318,7 @@ export const MapBar = (props) => {
                         </>
                     )}
                 </div>
-            )}
+            )} */}
         </>
     );
 };

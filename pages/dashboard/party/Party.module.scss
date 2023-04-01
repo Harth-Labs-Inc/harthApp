@@ -20,7 +20,11 @@
         flex-direction: row;
         height: calc(100% - 108px);
         width: 100%;
-        
+
+        &Mobile {
+            flex-direction: column-reverse;
+        }
+
         .peerContainer {
             display: flex;
             flex-wrap: wrap;
@@ -42,9 +46,17 @@
                 }
             }
 
+            &Mobile {
+                &.peerContainerActive {
+                    flex-direction: row;
+                    justify-content: center;
+                    width: 100%;
+                }
+            }
+
             &Active {
-                width: 160px;
-                min-width: 160px;
+                width: 200px;
+                min-width: 200px;
                 flex-wrap: wrap;
                 flex-direction: column;
                 justify-content: flex-start;
@@ -71,7 +83,6 @@
             .peerName {
                 color: $white;
                 @include topicTitle;
-
             }
 
             .peerImage {
@@ -115,6 +126,12 @@
             visibility: hidden;
             position: relative;
             background-color: transparent;
+
+            &Mobile {
+                &.streamContainerActive {
+                    width: 100%;
+                }
+            }
 
             &Active {
                 visibility: visible;
@@ -162,6 +179,7 @@
 
         .ChatPanelContainer {
             position: relative;
+            left: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -173,11 +191,42 @@
             margin-right: 8px;
             width: 0;
             visibility: hidden;
+            transition: width 0.3s ease-in-out;
 
             &Open {
                 width: 420px;
                 padding: 0 8px;
                 visibility: visible;
+
+                &.rendering {
+                    left: 100%;
+                    transition: all 0.4s ease-in-out;
+                }
+                &.entered {
+                    left: 0%;
+                    transition: all 0.4s ease-in-out;
+                }
+            }
+
+            &Mobile {
+                position: absolute;
+                top: 0;
+                left: 100%;
+                z-index: 1;
+                height: calc(100% - 20px);
+
+                &.ChatPanelContainerOpen {
+                    width: 100%;
+                }
+
+                &.rendering {
+                    left: 100%;
+                    transition: all 0.4s ease-in-out;
+                }
+                &.entered {
+                    left: 0%;
+                    transition: all 0.4s ease-in-out;
+                }
             }
         }
 
@@ -225,9 +274,7 @@
 
             display: flex;
             flex-direction: column;
-           // gap: 12px;
+            // gap: 12px;
         }
     }
 }
-
-
