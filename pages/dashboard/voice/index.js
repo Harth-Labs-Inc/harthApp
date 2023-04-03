@@ -7,7 +7,8 @@ import GatherControlBar from "../../../components/Gathering/GatherControlBar/Gat
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
-
+import { useAuth } from "../../../contexts/auth";
+import { getHarthByID } from "../../../requests/community";
 import styles from "./Voice.module.scss";
 import { envUrls, videoSocketUrls } from "../../../constants/urls";
 
@@ -30,7 +31,7 @@ const Stream = () => {
   const [isActiveScreenShare, setIsActiveScreenShare] = useState(false);
   const [TurnServers, setTurnServers] = useState([]);
   const [playingStreams, setPlayingStreams] = useState({});
-  const [wakeLockActive, setWakeLockActive] = useState(false);
+  const [userID, setUserID] = useState("");
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -46,97 +47,57 @@ const Stream = () => {
   const localStreamAnalyser = useRef();
   const detectSpeakingIntervalId = useRef(null);
 
+  const { user, loading } = useAuth();
   const { comms } = useComms();
 
   useEffect(() => {
-    const { wakeLock } = navigator;
-    const URLS = videoSocketUrls;
-    axios
-      .get(`${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`)
-      .then((responseData) => {
-        setTurnServers(responseData.data.token.iceServers);
-
-        setSocket(
-          io.connect(URLS[process.env.NODE_ENV], {
-            transports: ["websocket"],
-          })
-        );
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const USRNM = urlParams.get("user_name");
-    const USRIMG = urlParams.get("user_img");
-    const ROOMID = urlParams.get("room_id");
-    const HARTHID = urlParams.get("harth_id");
-    if (USRIMG) {
-      setUserIcon(USRIMG);
+    if (!loading && user) {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const ROOMID = urlParams.get("room_id");
+      const HARTHID = urlParams.get("harth_id");
+      async function getHarth(id) {
+        const results = await getHarthByID(id);
+        if (results.ok) {
+          let creator = results?.data?.users.find(
+            (usr) => usr.userId === user._id
+          );
+          if (creator) {
+            setHarthId(id);
+            if (creator?.iconKey) {
+              setUserIcon(creator?.iconKey);
+            }
+            if (creator?.name) {
+              setUserName(creator?.name);
+            }
+            if (creator?._id) {
+              setUserID(creator?._id);
+            }
+            const URLS = videoSocketUrls;
+            axios
+              .get(`${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`)
+              .then((responseData) => {
+                setTurnServers(responseData.data.token.iceServers);
+                setSocket(
+                  io.connect(URLS[process.env.NODE_ENV], {
+                    transports: ["websocket"],
+                  })
+                );
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        }
+      }
+      if (ROOMID) {
+        setRoomId(ROOMID);
+      }
+      if (HARTHID) {
+        getHarth(HARTHID);
+      }
     }
-    if (USRNM) {
-      setUserName(USRNM);
-    }
-    if (ROOMID) {
-      setRoomId(ROOMID);
-    }
-    if (HARTHID) {
-      setHarthId(HARTHID);
-    }
-
-    // const handleVisibilityChange = () => {
-    //     if (document.visibilityState === "visible") {
-    //         if (wakeLock) {
-    //             wakeLock
-    //                 .request("screen")
-    //                 .then(() => {
-    //                     setWakeLockActive(true);
-    //                 })
-    //                 .catch((err) => {
-    //                     setWakeLockActive(false);
-    //                 });
-    //         } else {
-    //             setWakeLockActive(false);
-    //         }
-    //     } else {
-    //         if (wakeLockActive) {
-    //             wakeLock.release().then(() => {
-    //                 setWakeLockActive(false);
-    //             });
-    //         }
-    //     }
-    // };
-
-    // if (document.visibilityState === "visible") {
-    //     if (wakeLock) {
-    //         wakeLock
-    //             .request("screen")
-    //             .then(() => {
-    //                 setWakeLockActive(true);
-    //             })
-    //             .catch(() => {
-    //                 setWakeLockActive(false);
-    //             });
-    //     }
-    // }
-
-    // document.addEventListener("visibilitychange", handleVisibilityChange);
-    // return () => {
-    //     document.removeEventListener(
-    //         "visibilitychange",
-    //         handleVisibilityChange
-    //     );
-
-    //     if (wakeLockActive) {
-    //         if (wakeLock) {
-    //             wakeLock.release().then(() => {
-    //                 setWakeLockActive(false);
-    //             });
-    //         }
-    //     }
-    // };
-  }, []);
+  }, [loading, user]);
 
   useEffect(() => {
     if (socket) {
@@ -163,6 +124,30 @@ const Stream = () => {
           remoteUserLeft(newMsg);
         }
         if (newMsg?.code == 9) {
+          if (newMsg?.userID == user._id) {
+            if (localAudioStream.current) {
+              disconnectAudios();
+            }
+            if (localCaptureStream.current) {
+              disconnectCaptures();
+            }
+            let newMsg = {
+              value: `${userName} alternate device detected`,
+              code: 22,
+              userName: userName,
+              roomId: roomId,
+              date: new Date(),
+              creator_name: "Admin",
+              flames: [],
+              reactions: [],
+              attachments: [],
+              hidden: true,
+              ...ownerData.current,
+            };
+            sendNewChatMessage(newMsg);
+            leaveGroupCall();
+          }
+
           if (localAudioStream.current) {
             let options = {
               metadata: {
@@ -181,21 +166,10 @@ const Stream = () => {
             );
           }
           if (localCaptureStream.current) {
-            let msg = {
-              value: ``,
-              code: 101,
-              userName: userName,
-              roomId: roomId,
-              date: new Date(),
-              creator_name: "Admin",
-              flames: [],
-              reactions: [],
-              attachments: [],
-              ignoreInChat: true,
-              callerID: newMsg.socketID,
-              ...ownerData.current,
-            };
-            sendNewChatMessage(msg);
+            ScreenSharePeer.current.call(
+              newMsg.capturePeer,
+              localCaptureStream.current
+            );
           }
         }
         setChats((prevChats) => [newMsg, ...(prevChats || [])]);
@@ -227,6 +201,9 @@ const Stream = () => {
               }
             });
           }
+        }
+        if (newMsg?.code == 22) {
+          removeElement(newMsg?.socketID);
         }
         if (
           newMsg?.code == 100 &&
@@ -505,6 +482,7 @@ const Stream = () => {
       let obj = {
         userName,
         userIcon,
+        userID: user._id,
         peerId: peerid,
         socketID,
         roomId,
