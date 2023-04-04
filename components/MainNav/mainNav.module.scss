@@ -8,7 +8,7 @@
     justify-content: space-between;
     //height: 64px;
     width: 100%;
-    //background-color: aquamarine;
+    //background-color: $silver-xlight;
       
 
     &TitleHolder {
@@ -17,7 +17,7 @@
         .Section {
             @include harthTitle2;
             //font-size: 20px;
-            color: $fuel_light;
+            color: $silver-dark;
             text-transform: capitalize;
             margin-left: 4px;
             padding-top: 2px;
@@ -27,6 +27,8 @@
     }
 
     &HarthButton {
+        
+
         .Mobile & {
             position: absolute;
             top: -18px;
@@ -42,7 +44,7 @@
             background-color: $light_ash;
             //background-color: transparent;
             padding: 8px;
-
+            box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 6px;
             &:after {
                 position: absolute;
                 top: 0px;
@@ -51,12 +53,12 @@
                 width: 84px;
                 //z-index: 20;
                 content: "";
-                background-color: $light_ash;
+                background-color: $silver-xlight;
                 border-top-right-radius: 20px;
                 border-top-left-radius: 20px;
-                border-top: 1px solid $fuel_10;
-                border-left: 1px solid $fuel_10;
-                border-right: 1px solid $fuel_10;
+                border-top: 1px solid $silver-med;
+                border-left: 1px solid $silver-med;
+                border-right: 1px solid $silver-med;
             }
 
             &Image {
@@ -67,7 +69,9 @@
                 min-width: 68px;
                 border-radius: 12px;
                 z-index: 1;
-                border: 1px solid $fuel_5;
+                border: 1px solid $silver-med;
+                //box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 12px;
+
                 
             }
 
@@ -121,7 +125,7 @@
 
 
             &:hover {
-                background-color: $black_05;
+                background-color: $silver-med;
 
                 .icon {
                     path {
@@ -169,9 +173,180 @@
         cursor: pointer;
         user-select: none;
         path {
-            fill: $fuel_light;
+            fill: $silver-dark;
         }
 
+        &Chat {
+
+            .Desktop & {
+                transition: opacity;
+
+                &::before {
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    content: "Chat";
+                    width: fit-content;
+                    border: 0;
+                    bottom: -44px;
+                    left: 50%;
+                    transform: translate3d(-50%,-50%,0);
+                    padding: 6px 10px;
+                    background-color: $ash;
+                    border-radius: 2px;
+                    @include worksans;
+                    letter-spacing: 0.05em;
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: $white;
+                    z-index: 10;
+                    opacity: 0;
+                }
+        
+                &::after {
+                    position: absolute;
+                    content: " ";
+                    bottom: -19px;
+                    left: 50%;
+                    transform: translate3d(-50%,-50%,0);
+                    width: 0;
+                    height: 0;
+                    border: 0;
+                    border-left: 12px solid transparent;
+                    border-bottom: 12px solid $ash;
+                    border-right: 12px solid transparent;
+                    z-index: 9;
+                    opacity: 0;
+                }
+                &:hover {
+
+                    &::before {
+                        opacity: 1;
+                        transition-delay: .6s;
+                    }
+            
+                    &::after {
+                        opacity: 1;
+                        transition-delay: .6s;
+                    }
+                }
+            }
+        }
+
+        &Gather {
+            .Desktop & {
+                transition: opacity;
+
+                &::before {
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    content: "Gather";
+                    width: fit-content;
+                    border: 0;
+                    bottom: -44px;
+                    left: 50%;
+                    transform: translate3d(-50%,-50%,0);
+                    padding: 6px 10px;
+                    background-color: $ash;
+                    border-radius: 2px;
+                    @include worksans;
+                    letter-spacing: 0.05em;
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: $white;
+                    z-index: 10;
+                    opacity: 0;
+                }
+        
+                &::after {
+                    position: absolute;
+                    content: " ";
+                    bottom: -19px;
+                    left: 50%;
+                    transform: translate3d(-50%,-50%,0);
+                    width: 0;
+                    height: 0;
+                    border: 0;
+                    border-left: 12px solid transparent;
+                    border-bottom: 12px solid $ash;
+                    border-right: 12px solid transparent;
+                    z-index: 9;
+                    opacity: 0;
+                }
+                &:hover {
+
+                    &::before {
+                        opacity: 1;
+                        transition-delay: .6s;
+                    }
+            
+                    &::after {
+                        opacity: 1;
+                        transition-delay: .6s;
+                    }
+                }
+            }
+        }
+
+        &Message {
+            .Desktop & {
+                transition: opacity;
+
+                &::before {
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    content: "Message";
+                    width: fit-content;
+                    border: 0;
+                    bottom: -44px;
+                    left: 50%;
+                    transform: translate3d(-50%,-50%,0);
+                    padding: 6px 10px;
+                    background-color: $ash;
+                    border-radius: 2px;
+                    @include worksans;
+                    letter-spacing: 0.05em;
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: $white;
+                    z-index: 10;
+                    opacity: 0;
+                }
+        
+                &::after {
+                    position: absolute;
+                    content: " ";
+                    bottom: -19px;
+                    left: 50%;
+                    transform: translate3d(-50%,-50%,0);
+                    width: 0;
+                    height: 0;
+                    border: 0;
+                    border-left: 12px solid transparent;
+                    border-bottom: 12px solid $ash;
+                    border-right: 12px solid transparent;
+                    z-index: 9;
+                    opacity: 0;
+                }
+                &:hover {
+
+                    &::before {
+                        opacity: 1;
+                        transition-delay: .6s;
+                    }
+            
+                    &::after {
+                        opacity: 1;
+                        transition-delay: .6s;
+                    }
+                }
+            }
+        }
 
         .iconHolder {
             position: relative;
@@ -197,36 +372,30 @@
 
         }
         
+        .mobileTitle {
+            @include cooper;
+            font-size: 11px;
+            margin-top: 4px;
+            margin-left: 1px;
+            width: 100%;
+            text-align: center;
+            //background-color: aqua;
+            user-select: none;
+            color: $silver-dark;
+        }
 
         &.ActiveChat {
             background-color: $fuel_3;
             path {
-                fill: $hot_blue;
+                fill: $warm_blue;
             }
             
-            .Desktop & {
-                &::after {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    height: 2px;
-                    width: 100%;
-                    content: " ";
-                    background-color: $hot_blue;
-                }
-            }
-
             .Mobile & {
                 background-color: transparent;
-                &::after {
-                    position: absolute;
-                    top: -5px;
-                    left: 0;
-                    height: 3px;
-                    width: 100%;
-                    content: " ";
-                    background-color: $hot_blue;
+                .mobileTitle {
+                    color: $warm_blue;
                 }
+
             }
 
         }
@@ -234,30 +403,13 @@
         &.ActiveGather {
             background-color: $fuel_3;
             path {
-                fill: $hot_orange;
-            }
-            .Desktop & {
-                &::after {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    height: 2px;
-                    width: 100%;
-                    content: " ";
-                    background-color: $hot_orange;
-                }
+                fill: $warm_red;
             }
 
             .Mobile & {
                 background-color: transparent;
-                &::after {
-                    position: absolute;
-                    top: -5px;
-                    left: 0;
-                    height: 3px;
-                    width: 100%;
-                    content: " ";
-                    background-color: $hot_orange;
+                .mobileTitle {
+                    color: $warm_red;
                 }
             }
         }
@@ -265,30 +417,14 @@
         &.ActiveMessage{
             background-color: $fuel_3;
             path {
-                fill: $hot_green;
+                fill: $warm_slate;
             }
-            .Desktop & {
-                &::after {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    height: 2px;
-                    width: 100%;
-                    content: " ";
-                    background-color: $hot_green;
-                }
-            }
+
 
             .Mobile & {
                 background-color: transparent;
-                &::after {
-                    position: absolute;
-                    top: -5px;
-                    left: 0;
-                    height: 3px;
-                    width: 100%;
-                    content: " ";
-                    background-color: $hot_green;
+                .mobileTitle {
+                    color: $warm_slate;
                 }
             }
 
@@ -323,7 +459,7 @@
             //width: fit-content;
 
             &:hover {
-                background-color: $fuel_5;
+                background-color: $fuel_3;
 
             }
 
@@ -339,8 +475,8 @@
         bottom: 0;
         height: 76px;
         padding: 0px 0px 24px 0px;
-        border-top: 1px solid $fuel_10;
-        background-color: $light_ash;
+        border-top: 1px solid $silver-med;
+        background-color: $silver-xlight;
 
 
     }

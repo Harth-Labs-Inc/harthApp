@@ -233,6 +233,10 @@
   //text-rendering: optimizeLegibility;
 }
 
+@mixin cooper {
+  font-family: var(--COOPBL-font);
+}
+
 @mixin interfaceH1 {
   font-family: var(--Work_Sans-font);
   font-weight: 500;

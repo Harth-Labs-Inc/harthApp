@@ -23,11 +23,11 @@ $warm_blue_highlight: #5c6676;
 // Warm Slate
 $warm_slate: #2f6067;
 
-//Warm Neutral
-//$warm_neutral: #f1cfc1;
+// Warm Red
+$warm_red: #9b0022;
 
+//Warm Neutral
 $warm_neutral: #e4dcdc;
-//$warm_neutral: #7e4646;
 
 // White
 $white: #ffffff;
@@ -77,6 +77,14 @@ $ash_dark: #080808;
 //$light_ash: #fffbff;
 $light_ash: #f9f9f9;
 
+
+// Silvers
+$silver-xlight:  #f3f7fa;
+$silver-light: #edf1f5;
+$silver-med: #e4e7eb;
+$silver-heavy: #b9bfc7;
+$silver-dark: #929ca8;
+
 // Fuel
 $fuel: #2f1d2a;
 $fuel_90: rgba(47, 29, 42, 0.9);
@@ -118,8 +126,9 @@ $hot_purple_80: rgba(170, 104, 200, 0.8);
 $hot_purple_10: rgba(170, 104, 200, 0.1);
 
 // Hot Pink
-$hot_pink: #e46eb1;
+$hot_pink: rgb(217, 111, 171);
 $hot_pink_20: rgba(217, 111, 171, 0.2);
+$hot_pink_10: rgba(217, 111, 171, 0.1);
 $hot_pink_80: rgba(217, 111, 171, 0.8);
 $hot_pink_90: rgba(217, 111, 171, 0.9);
 
