@@ -34,7 +34,7 @@
             border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
-            border: 1px solid $fuel_10;
+            border: 1px solid $silver_light;
         }
         &Icon {
             margin: auto;
@@ -52,12 +52,13 @@
         }
 
         &Active {
-            background-color: $fuel_5;
-            border-left: 3px solid $fuel;
+            background-color: $hot_pink_10;
+            border-left: 3px solid $hot_pink;
+
         }
 
         &:hover {
-            background-color: $fuel_5;
+            background-color: $hot_pink_10;
         }
 
         &UnreadMessage {
@@ -91,17 +92,17 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            border: 1px solid $fuel_10;
-            border-radius: 8px;
+            border: 1px solid $silver_med;
+            border-radius: 8px; 
             background: transparent;
             padding: 6px;
 
             path {
-                fill: $fuel_50;
+                fill: $silver_heavy;
             }
 
             &:hover {
-                background-color: $black_20;
+                background-color: $silver_light;
             }
         }
     }
@@ -159,7 +160,7 @@
             height: 48px;
             padding: 6px;
             border-radius: 8px;
-            background-color: $fuel_50;
+            background-color: $silver_heavy;
         }
 
         &Image {
@@ -173,7 +174,8 @@
         }
 
         &Active {
-            background-color: $fuel_5;
+            //background-color: $silver_light;
+            background-color: $hot_pink_20;
         }
 
         &Name {
@@ -184,8 +186,8 @@
             vertical-align: top;
         }
 
-        &:hover {
-            background-color: $fuel_5;
+        &:active {
+            background-color: $silver_light;
         }
 
         &SettingsButton {
@@ -203,7 +205,7 @@
             margin-right: 8px;
 
             path {
-                fill: $fuel_20;
+                fill: $silver-heavy;
             }
         }
 
@@ -218,7 +220,7 @@
                 width: 4px;
                 border-radius: 99px;
                 content: "";
-                background-color: $hot_salmon_light;
+                background-color: $hot_salmon;
             }
         }
     }
@@ -240,17 +242,17 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            border: 1px solid $fuel_10;
+            border: 1px solid $silver_med;
             border-radius: 8px;
             background: transparent;
             padding: 6px;
 
             path {
-                fill: $fuel_50;
+                fill: $silver_heavy;
             }
 
-            &:hover {
-                background-color: $black_20;
+            &:active {
+                background-color: $silver_light;
             }
         }
     }
