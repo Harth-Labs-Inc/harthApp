@@ -119,7 +119,12 @@ const MainNav = (props) => {
             >
               {selectedcomm?.name}
             </button>
-            <span className={styles.Section}>\ {currentPage}</span>
+            <span className={`
+              ${styles.Section}
+              ${currentPage == "chat" && styles.SectionChat}
+              ${currentPage == "gather" && styles.SectionGather}
+              ${currentPage == "message" && styles.SectionMessage}
+              `}>\ {currentPage}</span>
           </div>
         )}
 

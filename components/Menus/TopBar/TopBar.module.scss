@@ -52,6 +52,18 @@
     text-transform: capitalize;
     margin-left: 8px;
     user-select: none;
+
+    &Chat {
+        color: $warm_blue;
+    }
+
+    &Gather {
+        color: $warm_red;
+    }
+
+    &Message {
+        color: $warm_slate;
+    }
 }
 
 .TopBarStreaming {

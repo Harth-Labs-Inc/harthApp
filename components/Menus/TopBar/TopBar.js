@@ -44,7 +44,14 @@ const TopBar = ({ children, currentPage }) => {
         {isMobile ? (
           <div className={styles.TopBarName}>
             {selectedcomm?.name}
-            <span className={styles.TopBarSection}>\ {currentPage}</span>
+            <span className={`
+              ${styles.TopBarSection}
+              ${currentPage == "chat" && styles.TopBarSectionChat}
+              ${currentPage == "gather" && styles.TopBarSectionGather}
+              ${currentPage == "message" && styles.TopBarSectionMessage}
+              `}
+            
+            >\ {currentPage}</span>
           </div>
         ) : null}
         {children}

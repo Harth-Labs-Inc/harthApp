@@ -23,6 +23,18 @@
             padding-top: 2px;
             user-select: none;
             align-self: center;
+
+            &Chat {
+                color: $warm_blue;
+            }
+
+            &Gather {
+                color: $warm_red;
+            }
+
+            &Message {
+                color: $warm_slate;
+            }
         }
     }
 

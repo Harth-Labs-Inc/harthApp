@@ -99,9 +99,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    border: 1px solid $fuel_10;
-    border-left: 0;
-    border-bottom: 0;
+    border: 0;
     border-radius: 0px 24px 48px 0px;
     
 
@@ -275,7 +273,7 @@
         height: 100%;
         width: 100%;
         border-radius: 999px;
-        border: 1px solid $fuel_5;
+        border: 1px solid $silver-light;
       }
     }
 
@@ -298,7 +296,7 @@
     }
 
     .emptyMessage {
-      color: $fuel_50F;
+      color: $silver-heavy;
       @include worksans;
       font-size: 14px;
       font-weight: 800;

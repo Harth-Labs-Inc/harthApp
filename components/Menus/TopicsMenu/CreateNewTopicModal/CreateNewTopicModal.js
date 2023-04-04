@@ -105,18 +105,23 @@ export default function CreateNewTopicModal({ toggleModal }) {
                         }}
                     >
                         <Picker
+                        
                             data={data}
                             className="attach-emoji"
                             onEmojiSelect={addEmoji}
                             autoFocus={true}
-                            emojiButtonSize={22}
-                            emojiSize={16}
+                            emojiButtonSize={32}
+                            emojiSize={20}
+                            perLine={8}
+                            previewPosition="none"
+                            navPosition="none"
                             emojiButtonColors={[
                                 "rgba(187,126,196,0.8)",
                                 "rgba(13,161,181,0.8)",
                                 "rgba(240,101,115,0.8)",
                                 "rgba(0,163,150,0.8)",
                             ]}
+
                         />
                     </OutsideClickHandler>
                 </div>
@@ -162,9 +167,9 @@ export default function CreateNewTopicModal({ toggleModal }) {
                         />
                     </div>
 
-                    <div className={styles.subtext}>
+                    {/* <div className={styles.subtext}>
                         Content in this topic will be kept for 90 days
-                    </div>
+                    </div> */}
                     <div className={styles.CreateTopicButtons}>
                         <Button
                             size="large"
