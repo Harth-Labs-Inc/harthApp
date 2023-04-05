@@ -15,9 +15,9 @@ const UserIcon = ({
 
     useEffect(() => {
         if (size === "small") {
-            setDimensions({ height: 32, width: 32 });
+            setDimensions({ height: 36, width: 36 });
         } else {
-            setDimensions({ height: 48, width: 48 });
+            setDimensions({ height: 44, width: 44 });
         }
     }, [size]);
 

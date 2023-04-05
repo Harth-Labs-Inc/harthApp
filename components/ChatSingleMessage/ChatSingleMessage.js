@@ -350,12 +350,14 @@ const ChatSingleMessage = (props) => {
                     editBarSelection={editBarSelection}
                     triggerPicker={triggerPicker}
                 />
-                <UserIcon
-                    img={creator_image}
-                    showName={false}
-                    size="small"
-                    iconClass={`${selectedcomm._id}_${creator_id}`}
-                />
+                <span className={styles.UserIcon}>
+                    <UserIcon
+                        img={creator_image}
+                        showName={false}
+                        size="regular"
+                        iconClass={`${selectedcomm._id}_${creator_id}`}
+                    />
+                </span>
 
                 <div className={styles.Body}>
                     <span className={styles.Info}>
@@ -375,8 +377,8 @@ const ChatSingleMessage = (props) => {
                                 key={url}
                                 className="active-image"
                                 src={url}
-                                width={100}
-                                height={100 / ratio}
+                                width={240}
+                                height={240 / ratio}
                                 placeholder="blur"
                                 blurDataURL={`data:image/svg+xml;base64,${toBase64(
                                     shimmer(200, 200 / ratio)
@@ -392,7 +394,7 @@ const ChatSingleMessage = (props) => {
                             />
                         ))}
 
-                        <div id={`message-content${messageID}`}>
+                        <div id={`message-content${messageID}`} >
                             {message}
                             <LinkPreview
                                 message={message}

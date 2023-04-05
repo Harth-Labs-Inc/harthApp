@@ -14,13 +14,13 @@
     height: 52px;
     min-height: 52px;
     max-height: 52px;
-    background-color: $light_ash;
-    @include montserrat;
+    background-color: $silver-xlight;
     color: $fuel;
     font-size: 14px;
     font-weight: 600;
     //backdrop-filter: blur(12px);
-    border-bottom: 1px solid $fuel_10;
+    border-bottom: 1px solid $silver-med;
+    @include topicTitleActive;
 
     button {
         height: 44px;
@@ -38,7 +38,7 @@
         }
 
         &:hover {
-            background-color: $fuel_10;
+            background-color: $silver-med;
         }
 
     }

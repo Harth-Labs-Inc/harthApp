@@ -43,8 +43,8 @@
 
         .Mobile & {
             position: absolute;
-            top: -18px;
-            left: 12px;
+            top: -12px;
+            left: 16px;
             height: fit-content;
             width: fit-content;
             //top: -10px;
@@ -53,25 +53,26 @@
             //margin-left: 16px;
             //border: 1px solid $fuel_10;
             border: 0;
-            background-color: $light_ash;
+            background-color: $silver-xlight;
             //background-color: transparent;
-            padding: 8px;
+            padding: 6px;
             box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 6px;
-            &:after {
-                position: absolute;
-                top: 0px;
-                left: -1px;
-                height: 16px;
-                width: 84px;
-                //z-index: 20;
-                content: "";
-                background-color: $silver-xlight;
-                border-top-right-radius: 20px;
-                border-top-left-radius: 20px;
-                border-top: 1px solid $silver-med;
-                border-left: 1px solid $silver-med;
-                border-right: 1px solid $silver-med;
-            }
+            border: 1px solid $silver-med;
+            // &:after {
+            //     position: absolute;
+            //     top: 0px;
+            //     left: -1px;
+            //     height: 16px;
+            //     width: 84px;
+            //     //z-index: 20;
+            //     content: "";
+            //     background-color: $silver-xlight;
+            //     border-top-right-radius: 20px;
+            //     border-top-left-radius: 20px;
+            //     border-top: 1px solid $silver-med;
+            //     border-left: 1px solid $silver-med;
+            //     border-right: 1px solid $silver-med;
+            // }
 
             &Image {
                 position: relative;
@@ -81,7 +82,7 @@
                 min-width: 68px;
                 border-radius: 12px;
                 z-index: 1;
-                border: 1px solid $silver-med;
+                //border: 1px solid $silver-med;
                 //box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 12px;
 
                 
@@ -92,7 +93,7 @@
                 &:before {
                     position: absolute;
                     top: 50%;
-                    left: 0;
+                    left: -2px;
                     transform: translate(-50%, -50%);
                     z-index: 2;
                     height: 16px;
@@ -167,9 +168,9 @@
             margin: 0;
             border-radius: 0;
             justify-content: space-evenly;
-            padding: 0px 0px 0px 0px;
+            padding: 4px 0px 0px 0px;
             //background-color: aqua;
-            margin-left: 96px;
+            margin-left: 84px;
         }
     }
 
@@ -387,7 +388,7 @@
         .mobileTitle {
             @include cooper;
             font-size: 11px;
-            margin-top: 4px;
+            margin-top: 1px;
             margin-left: 1px;
             width: 100%;
             text-align: center;
@@ -447,10 +448,10 @@
             //flex-direction: column;
             //@include titleNavMobile;
             border: 0;
-            height: 44px;
+            height: 48px;
             width: 68px;
             padding: 0;
-            padding-top: 4px;
+            padding-top: 2px;
             border-radius: 8px;
             //padding-top: 6px;
             //background-color: aqua;
@@ -485,7 +486,7 @@
     &.Mobile {
         position: absolute;
         bottom: 0;
-        height: 76px;
+        height: 80px;
         padding: 0px 0px 24px 0px;
         border-top: 1px solid $silver-med;
         background-color: $silver-xlight;

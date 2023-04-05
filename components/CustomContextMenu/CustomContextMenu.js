@@ -1,7 +1,8 @@
 import { useRef } from "react";
 
 import { useComms } from "../../contexts/comms";
-
+import { useContext } from "react";
+import { MobileContext } from "contexts/mobile";
 import { IconNotificationsNoFill } from "../../resources/icons/IconNotificationsNoFill";
 
 import { IconVisibilityNoFill } from "../../resources/icons/IconVisibilityNoFill";
@@ -25,7 +26,7 @@ export const CustomContextMenu = ({
 }) => {
     const contextRef = useRef(null);
     const { selectedcomm } = useComms();
-
+    const { isMobile } = useContext(MobileContext);
     let userIndex = topic.members.findIndex(({ user_id }) => {
         return user_id == user._id;
     });
@@ -63,7 +64,7 @@ export const CustomContextMenu = ({
                 onFocusOutside={closeModal}
             >
                 <div
-                    className={styles.CustomContextMenu}
+                    className={` ${styles.CustomContextMenu} ${isMobile && styles.CustomContextMenuMobile} `}
                     style={
                         pos
                             ? { top: `${pos.y}px`, left: `${pos.x}px` }
