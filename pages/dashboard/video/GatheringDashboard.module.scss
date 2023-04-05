@@ -23,7 +23,7 @@
     //background-repeat: repeat;
     //background-size: 32px;
     //background-position: 16px 16px;
-    background: linear-gradient(100deg, lighten($warm_red, 64%) 10%, lighten($hot_pink, 34%) 100%);  
+    background: linear-gradient(100deg, lighten($hot_pink, 30%) 10%, $oxygen 100%);  
 
     &Mobile {
         //background-size: 40px;
