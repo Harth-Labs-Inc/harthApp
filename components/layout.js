@@ -39,15 +39,9 @@ const Layout = ({ children }) => {
                 <link rel="icon" type="image/png" sizes="310x310" href="/icons/icon-310x310.png" />
                 <link rel="icon" type="image/png" sizes="384x384" href="/icons/icon-384x384.png" />
                 <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png" />
-                <meta name="msapplication-TileColor" content="#f3f7fa" />
 
 
-                <meta
-                    name="msapplication-TileImage"
-                    content="/icons/icon-144x144.png"
-                />
-
-                <meta name="theme-color" content="#f9f9f9" />
+                <meta name="theme-color" content="#f3f7fa" />
 
                 <meta name="apple-mobile-web-app-title" content="Härth" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
