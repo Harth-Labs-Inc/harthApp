@@ -23,11 +23,9 @@
     transition: all 0.2s;
     background-color: transparent;
     path {
-        fill: $oxygen;
+        fill: $fuel;
     }
-    &:hover {
-        background-color: $oxygen_10;
-    }
+
 }
 
 .editButton {

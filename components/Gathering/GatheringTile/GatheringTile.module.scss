@@ -7,12 +7,14 @@
   background-color: transparent;
   border-radius: 36px 24px 48px 36px;
     //overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 12px;
   width: 336px;
-  //background: $white;
-  background: linear-gradient(to top, $white_80, $white);
-  backdrop-filter: blur(4px);
+  background: $white;
   border: 0;
+  box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075),
+        0 4px 4px hsl(0deg 0% 0% / 0.075),
+        0 8px 8px hsl(0deg 0% 0% / 0.075);
 
 
   &Label {
