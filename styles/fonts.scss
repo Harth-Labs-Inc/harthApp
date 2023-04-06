@@ -92,10 +92,9 @@
 }
 
 @mixin chatText {
-  font-family: var(--Arvo-font);
-
-  font-weight: 400;
-  font-size: 13px;
+  font-family: var(--Open_Sans-font);
+  font-weight: 500;
+  font-size: 14px;
   line-height: 150%;
   letter-spacing: 0.01em;
   text-rendering: optimizeLegibility;
@@ -103,19 +102,19 @@
 
 @mixin chatProfile {
   font-family: var(--Rubik-font);
-  font-weight: 500;
-  font-size: 11px;
+  font-weight: 600;
+  font-size: 12px;
   letter-spacing: 0.02em;
-  line-height: 11px;
+  line-height: 12px;
   //text-rendering: optimizeLegibility;
 }
 
 @mixin timeStamp {
-  font-family: var(--Rubik-font);
+  font-family: var(--Work_Sans-font);
   font-weight: 400;
-  font-size: 10px;
-  letter-spacing: 0.02em;
-  line-height: 11px;
+  font-size: 12px;
+  //letter-spacing: 0.01em;
+  line-height: 12px;
   //text-rendering: optimizeLegibility;
 }
 

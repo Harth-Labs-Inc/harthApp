@@ -11,6 +11,7 @@ import {
   Asap_Condensed,
   Rubik,
   Montserrat,
+  Open_Sans,
 } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -74,6 +75,13 @@ const montserrat = Montserrat({
   preload: false,
 });
 
+const opensans = Open_Sans({
+  //weight: "400",
+  subsets: ["latin"],
+  variable: "--Open_Sans-font",
+  preload: false,
+});
+
 // local fonts
 const coopbl = localFont({
   src: "../public/fonts/COOPBL.ttf",
@@ -90,6 +98,7 @@ fontClassNames.push(asap.variable);
 fontClassNames.push(asap_Condensed.variable);
 fontClassNames.push(rubik.variable);
 fontClassNames.push(montserrat.variable);
+fontClassNames.push(opensans.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

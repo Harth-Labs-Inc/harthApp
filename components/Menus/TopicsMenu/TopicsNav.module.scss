@@ -65,15 +65,16 @@
         @include smallTitle;
         padding: 2px;
         border-radius: 2px;
-        background-color: $white;
+        background-color: transparent;
         width: fit-content;
         text-transform: uppercase;
-        color: $fuel_50;
+        color: $silver-dark;
         border: 0;
         cursor: pointer;
         //margin-bottom: 8px;
         user-select: none;
         margin-bottom: 6px;
+        text-shadow: 1px 1px 2px $silver-med;
 
         &Mobile {
             @include smallTitleMobile;

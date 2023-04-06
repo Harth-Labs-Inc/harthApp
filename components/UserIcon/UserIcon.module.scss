@@ -36,16 +36,18 @@
 
     &Regular {
         .userIconImage {
-            height: 48px;
-            width: 48px;
-            margin-right: 8px;
+            height: 44px;
+            width: 44px;
+            //margin-right: 8px;
         }
     }
     &Small {
         .userIconImage {
             height: 36px;
             width: 36px;
-            margin-right: 2px;
+            //margin-right: 2px;
         }
     }
+
+
 }
