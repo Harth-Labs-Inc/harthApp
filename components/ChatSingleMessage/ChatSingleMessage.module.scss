@@ -24,11 +24,18 @@
     //background-color: aqua;
 
     .UserIcon {
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 6px;
+        //box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px;
+        box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075),
+        0 4px 4px hsl(0deg 0% 0% / 0.075),
+        0 8px 8px hsl(0deg 0% 0% / 0.075);
+
         height: fit-content;
         width: fit-content;
         border-radius: 50%;
         user-select: none;
+       // border: 1px solid $black_10;
     }
     .emoji-mart {
         position: absolute;
