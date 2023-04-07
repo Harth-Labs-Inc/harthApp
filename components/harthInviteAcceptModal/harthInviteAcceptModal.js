@@ -26,7 +26,7 @@ export default function HarthInviteAcceptModal({
   };
 
   return (
-    <Modal onToggleModal={() => {}}>
+    <Modal onToggleModal={() => {}} blockBackground={true}>
       <div className={styles.mainContainer}>
         <div className={styles.title}>New Härth Invite</div>
         <TalkingHead text={talkingHeadMsg} />

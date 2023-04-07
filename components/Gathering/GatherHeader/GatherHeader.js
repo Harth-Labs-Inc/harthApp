@@ -31,13 +31,13 @@ const GatherHeader = (props) => {
                     isDark={true}
                 >
                     <div className={styles.leaveMenu}>
-                        <button
+                        {/* <button
                             className={styles.menuItem}
                             onClick={leaveMethod}
                         >
                             <IconCloseFullScreen />
                             <p>Minimize Gathering</p>
-                        </button>
+                        </button> */}
                         <button
                             className={styles.menuItem}
                             onClick={leaveMethod}

@@ -200,7 +200,7 @@ const SideNav = (props) => {
         <>
             {showCreateHarthNameModal ? (
                 <CreateHarthName
-                    talkingHeadMsg="Give your härth a name and and image"
+                    talkingHeadMsg="Time to make a sweet new härth for you and your crew."
                     footer="Tip: You can change your härth name and image at any time"
                     placeholder="härth name"
                     submitText="Create"
@@ -210,9 +210,9 @@ const SideNav = (props) => {
             ) : null}
             {showCreateHarthProfileModal ? (
                 <CreateHarthProfile
-                    talkingHeadMsg="Enter the name you would like to be called in your new härth and add a profile picture"
-                    footer="Familiar Tip: You can change your profile name nad picture at any time"
-                    placeholder="your profile name"
+                    talkingHeadMsg="Enter the name you would like to be called and don't forget to add a profile pic."
+                    footer="Tip: You can change your profile name nad picture at any time"
+                    placeholder="profile name"
                     submitText="Join"
                     submitHandler={resetNewHarth}
                     harth={newHarth}
@@ -279,13 +279,13 @@ const SideNav = (props) => {
                 />
 
                 <div className={styles.bottomHolder}>
-                    <button
+                    {/* <button
                         className={` ${styles.SettingsButton} ${styles.SettingsButtonFeedback} `}
                         //onClick={toggleSettingsNav}
                         aria-label="Toggle User Feedback menu"
                     >
                         <IconFeedback />
-                    </button>
+                    </button> */}
                     <button
                         className={` ${styles.SettingsButton} ${styles.SettingsButtonInvites} `}
                         onClick={(e) => toggleSettingsNav(e, true)}

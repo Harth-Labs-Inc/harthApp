@@ -49,11 +49,11 @@ const SettingsList = ({ toggleCurrentTab }) => {
         Sign Out
       </button>
 
-      {isMobile ? null : (
+      {/* {isMobile ? null : (
         <button className={styles.menuItem} onClick={() => window.close()}>
           Exit
         </button>
-      )}
+      )} */}
     </div>
   );
 };

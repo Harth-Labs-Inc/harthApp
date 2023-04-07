@@ -46,7 +46,7 @@ const OtpValidator = (props) => {
 
     const [inviteCode, setInviteCode] = useState();
     const [helpText, setHelpText] = useState([
-        "Enter your secret code below to pass.",
+        "Go ahead and punch in that secret code of yours.",
     ]);
     const inputChangeHandler = (text) => {
         setInviteCode(text);
@@ -82,7 +82,7 @@ const OtpValidator = (props) => {
         } else {
             setBadCode(true);
             setInviteCode("");
-            setHelpText(["HALT!!", "The code you entered was not correct."]);
+            setHelpText(["Whoa, hold up.", "That code you punched in was wrong."]);
         }
     };
     const resendOTP = async () => {
