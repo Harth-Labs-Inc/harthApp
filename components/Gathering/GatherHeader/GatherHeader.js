@@ -5,7 +5,7 @@ import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
 
 
 import { IconPower } from "../../../resources/icons/IconPower";
-import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScreen";
+//import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScreen";
 import styles from "./gatherHeader.module.scss";
 
 const GatherHeader = (props) => {

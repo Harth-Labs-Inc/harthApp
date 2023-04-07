@@ -12,7 +12,7 @@ import {
 import { MobileContext } from "../../../contexts/mobile";
 import { IconMenu } from "../../../resources/icons/IconMenu";
 import { IconInvite } from "resources/icons/IconInvite";
-import { IconFeedback } from "resources/icons/IconFeedback";
+//import { IconFeedback } from "resources/icons/IconFeedback";
 import { updateHarthData } from "../../../requests/community";
 
 import { Modal, SideModal } from "../../Common";
