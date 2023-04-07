@@ -20,6 +20,14 @@
   line-height: 18px;
 }
 
+@mixin talkingHead {
+  font-family: var(--COOPBL-font);
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  line-height: 18px;
+}
+
+
 @mixin titleNav {
   font-family: var(--COOPBL-font);
   //font-family: var(--Asap_Condensed-font);
@@ -92,7 +100,7 @@
 }
 
 @mixin chatText {
-  font-family: var(--Open_Sans-font);
+  font-family: var(--Montserrat-font);
   font-weight: 500;
   font-size: 14px;
   line-height: 150%;

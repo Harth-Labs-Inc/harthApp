@@ -85,7 +85,7 @@ const CreateAccount = () => {
     };
 
     const bubbleText =
-        "Welcome to the early release of Härth. Enter your details below to create an account.";
+        "Welcome to the early release of Härth. Just enter your deets below to create an account.";
 
     return (
         <div className={styles.CreateModule}>

@@ -21,6 +21,17 @@
     }
 }
 
+@keyframes blur-in-block {
+    from {
+        background-color: transparent;
+        backdrop-filter: blur(0px) grayscale(0%);
+    }
+    to {
+        background-color: $black_20;
+        backdrop-filter: blur(16px) grayscale(60%);
+    }
+}
+
 .Modal {
     position: fixed;
     top: 0;
@@ -34,6 +45,9 @@
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 
+    &Block {
+        animation-name: blur-in-block;
+    }
     .Modal {
         height: 100%;
         width: 100%;

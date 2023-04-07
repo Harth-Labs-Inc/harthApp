@@ -11,7 +11,7 @@
 }
 .SideNav {
     position: relative;
-    padding: 8px 0px 128px 0px;
+    padding: 8px 0px 96px 0px;
     width: 56px;
     height: 100vh;
     min-width: 56px;
@@ -180,6 +180,7 @@
 
     .headerImage {
         width: 124px;
+        max-width: 124px;
         margin: auto;
         margin-top: 40px; 
         margin-bottom: 40px; 
