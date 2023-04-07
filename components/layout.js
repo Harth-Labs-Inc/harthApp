@@ -41,7 +41,7 @@ const Layout = ({ children }) => {
                 <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png" />
 
 
-                <meta name="theme-color" content="#f5f5f8" />
+                <meta name="theme-color" content="#f3f7fa" />
 
                 <meta name="apple-mobile-web-app-title" content="Härth" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
