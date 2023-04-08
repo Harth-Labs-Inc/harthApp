@@ -5,7 +5,7 @@ import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
 
 
 import { IconPower } from "../../../resources/icons/IconPower";
-import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScreen";
+//import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScreen";
 import styles from "./gatherHeader.module.scss";
 
 const GatherHeader = (props) => {
@@ -31,13 +31,13 @@ const GatherHeader = (props) => {
                     isDark={true}
                 >
                     <div className={styles.leaveMenu}>
-                        <button
+                        {/* <button
                             className={styles.menuItem}
                             onClick={leaveMethod}
                         >
                             <IconCloseFullScreen />
                             <p>Minimize Gathering</p>
-                        </button>
+                        </button> */}
                         <button
                             className={styles.menuItem}
                             onClick={leaveMethod}

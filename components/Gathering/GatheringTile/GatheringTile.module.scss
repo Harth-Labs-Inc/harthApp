@@ -7,12 +7,14 @@
   background-color: transparent;
   border-radius: 36px 24px 48px 36px;
     //overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 12px;
   width: 336px;
-  //background: $white;
-  background: linear-gradient(to top, $white_80, $white);
-  backdrop-filter: blur(4px);
+  background: $white;
   border: 0;
+  box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075),
+        0 4px 4px hsl(0deg 0% 0% / 0.075),
+        0 8px 8px hsl(0deg 0% 0% / 0.075);
 
 
   &Label {
@@ -99,9 +101,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    border: 1px solid $fuel_10;
-    border-left: 0;
-    border-bottom: 0;
+    border: 0;
     border-radius: 0px 24px 48px 0px;
     
 
@@ -275,7 +275,7 @@
         height: 100%;
         width: 100%;
         border-radius: 999px;
-        border: 1px solid $fuel_5;
+        border: 1px solid $silver-light;
       }
     }
 
@@ -298,7 +298,7 @@
     }
 
     .emptyMessage {
-      color: $fuel_50F;
+      color: $silver-heavy;
       @include worksans;
       font-size: 14px;
       font-weight: 800;

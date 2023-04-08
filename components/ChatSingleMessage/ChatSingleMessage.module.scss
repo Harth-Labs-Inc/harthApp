@@ -3,6 +3,7 @@
 
 .ChatParentContainer {
     max-width: 100%;
+    width: 100%;
     border: 2px solid transparent;
     border-radius: 8px;
 
@@ -20,7 +21,22 @@
     padding: 6px;
     column-gap: 10px;
     border-radius: 8px;
+    //background-color: aqua;
 
+    .UserIcon {
+        //box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px;
+        box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075),
+        0 4px 4px hsl(0deg 0% 0% / 0.075),
+        0 8px 8px hsl(0deg 0% 0% / 0.075);
+
+        height: fit-content;
+        width: fit-content;
+        border-radius: 50%;
+        user-select: none;
+       // border: 1px solid $black_10;
+    }
     .emoji-mart {
         position: absolute;
         top: 40px;
@@ -44,13 +60,14 @@
     &Avatar {
         position: relative;
         //margin-top: 8px;
-        width: 36px;
-        max-height: 36px;
+        width: 40px;
+        max-height: 40px;
 
         //margin-right: $gutter;
         border-radius: 9999px;
         //background-color: $fuel;
         //padding: 2px;
+
         overflow: hidden;
         object-fit: cover;
     }
@@ -90,49 +107,56 @@
             }
             .Timestamp {
                 visibility: hidden;
-                color: $fuel_light;
+                color: $silver-dark;
                 @include timeStamp;
                 user-select: none;
             }
         }
 
         .Content {
-            width: 100%;
+            //width: 100%;
             position: relative;
             width: fit-content;
-            max-width: 540px;
+            max-width: 100%;
             //margin-right: 56px;
             color: $fuel;
             @include chatText;
-            //background-color: $chat_bubble;
-            padding: 2px 0px 4px 0px;
             border: 0;
+            padding: 8px 12px;
+            border: 0;
+            white-space: pre-wrap;
+            border-radius: 18px;
             border-top-left-radius: 0;
-            border-top-right-radius: 12px;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
+            background-color: $silver-light;
 
             .message-text {
                 margin: 0;
                 white-space: pre-wrap;
+
             }
+
 
             a {
                 display: inline-block;
                 font-size: inherit;
                 white-space: pre-wrap;
                 overflow-wrap: anywhere;
+                @include montserrat;
+                font-weight: 600;
+                font-size: 13px;
             }
 
             > img {
                 height: auto;
                 width: auto;
                 border-radius: 8px;
-                border: 3px solid $warm_blue;
+                border: 3px solid transparent;
                 object-fit: cover;
+                margin-top: 4px;
+                margin-bottom: 4px;
 
                 &:hover {
-                    border-color: $hot_salmon_light;
+                    border-color: $hot_pink;
                 }
             }
         }
@@ -160,12 +184,12 @@
         gap: 4px;
         top: -8px;
         right: 16px;
-        background-color: $light_ash;
+        background-color: $silver-light;
         backdrop-filter: blur(24px);
         border-radius: 8px;
         padding: 2px;
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
-        border: 1px solid $fuel_5;
+        border: 1px solid $silver-med;
 
         > button {
             position: relative;
@@ -182,19 +206,22 @@
             overflow: hidden;
 
             path {
-                fill: $fuel_light;
+                fill: $silver-dark;
             }
 
             &:hover {
-                scale: 1.1;
+                scale: 1.2;
             }
         }
     }
 
     &:hover {
-        background-color: $fuel_5;
+        background-color: $silver-xlight;
 
         .Body {
+            .Content {
+                background-color: $silver-med;
+            }
             .Info {
                 .Timestamp {
                     visibility: visible;

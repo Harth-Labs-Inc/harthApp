@@ -1,4 +1,6 @@
 @import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
+
 
 .TopicButtonClickWrapper {
     position: relative;
@@ -31,12 +33,15 @@
 
     &Button {
         display: flex;
+        align-items: center;
         padding: 6px 8px;
         color: $white;
         background-color: $white_10;
         border: 0;
         border-radius: 6px;
         cursor: pointer;
+        @include worksans;
+        font-size: 14px;
 
         &:not(:last-of-type) {
             margin-bottom: 8px;
@@ -50,5 +55,30 @@
         &:hover {
             background-color: $black;
         }
+    }
+
+    &Mobile {
+        padding: 16px;
+        border-radius: 12px;
+
+        button {
+            height: 48px;
+            width: 280px;
+            font-size: 16px;
+
+            svg {
+                width: 24px;
+                margin-right: 12px;
+            }
+
+            &:hover {
+                background-color: $white_10;
+            }
+
+            &:active {
+                background-color: $black;
+            }
+        }
+
     }
 }

@@ -2,96 +2,109 @@
 @import "../../styles/fonts.scss";
 
 .mainContainer {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
 
-  .title {
-    @include overlayMenuTitle;
-    width: 100%;
-    text-align: left;
-    margin-top: 8px;
-    margin-bottom: 40px;
-  }
+    .title {
+        @include overlayMenuTitle;
+        width: 100%;
+        text-align: left;
+        margin-top: 8px;
+        margin-bottom: 40px;
+    }
+
+    .EmojiPicker {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        z-index: 1;
+
+        #root {
+            background-color: $fuel;
+        }
+    }
 }
 
 .CreateTopic {
-  .inputHolder {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    padding: 0px 16px;
-    margin: 8px 0px 0px 0px;
+    .inputHolder {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding: 0px 16px;
+        margin: 8px 0px 0px 0px;
 
-    button {
-      position: relative;
-      padding: 6px 6px;
-      width: fit-content;
-      height: fit-content;
-      border-radius: 8px;
-      border: 1px solid $fuel_10;
-      background-color: transparent;
+        button {
+            position: relative;
+            padding: 6px 6px;
+            width: fit-content;
+            height: fit-content;
+            border-radius: 8px;
+            border: 1px solid $fuel_10;
+            background-color: transparent;
 
-      img {
-        width: 28px;
-        height: 28px;
-      }
+            img {
+                width: 28px;
+                height: 28px;
+            }
 
-      &:hover {
-        background-color: $fuel_10;
+            &:hover {
+                background-color: $fuel_10;
 
-        &::before {
-          position: absolute;
-          top: -36px;
-          width: 96px;
-          left: 50%;
-          transform: translate3d(-50%, 0, 0);
-          padding: 6px 0px;
-          border-radius: 8px;
-          background-color: $ash_medium;
-          content: "Pick an Emoji";
-          @include mouseover;
-          z-index: 10;
+                &::before {
+                    position: absolute;
+                    top: -36px;
+                    width: 96px;
+                    left: 50%;
+                    transform: translate3d(-50%, 0, 0);
+                    padding: 6px 0px;
+                    border-radius: 8px;
+                    background-color: $ash_medium;
+                    content: "Pick an Emoji";
+                    @include mouseover;
+                    z-index: 10;
+                }
+
+                &::after {
+                    position: absolute;
+                    content: "";
+                    width: 0;
+                    height: 0;
+                    top: -13px;
+                    left: 50%;
+                    transform: translate3d(-50%, 0, 0);
+                    border-left: 8px solid transparent;
+                    border-right: 8px solid transparent;
+                    border-top: 10px solid $ash_medium;
+                    z-index: 9;
+                }
+            }
         }
 
-        &::after {
-          position: absolute;
-          content: "";
-          width: 0;
-          height: 0;
-          top: -13px;
-          left: 50%;
-          transform: translate3d(-50%, 0, 0);
-          border-left: 8px solid transparent;
-          border-right: 8px solid transparent;
-          border-top: 10px solid $ash_medium;
-          z-index: 9;
+        input {
+            @include topicTitleActive;
         }
-      }
     }
 
-    input {
-      @include topicTitleActive;
+    .error {
+        text-align: center;
+        margin-left: 64px;
+        margin-top: -4px;
     }
-  }
+    .subtext {
+        width: 80%;
+        margin: auto;
+        text-align: center;
+        @include subtext;
+    }
 
-  .error {
-    text-align: center;
-    margin-left: 64px;
-    margin-top: -4px;
-  }
-  .subtext {
-    width: 80%;
-    margin: auto;
-    text-align: center;
-    @include subtext;
-  }
-
-  &Buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: space-between;
-    margin-top: 48px;
-  }
+    &Buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: space-between;
+        margin-top: 48px;
+    }
 }

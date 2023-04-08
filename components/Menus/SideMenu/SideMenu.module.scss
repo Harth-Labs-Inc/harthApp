@@ -11,13 +11,13 @@
 }
 .SideNav {
     position: relative;
-    padding: 8px 0px 148px 0px;
+    padding: 8px 0px 96px 0px;
     width: 56px;
     height: 100vh;
     min-width: 56px;
-    background-color: $light_ash;
-    border-right: 1px solid $fuel_10;
-    border-top: 1px solid $fuel_10;
+    background-color: $silver-xlight;
+    border-right: 1px solid $silver-med;
+    border-top: 1px solid $silver-med;
 
 
 
@@ -31,8 +31,8 @@
         bottom: 0px;
         height: fit-content;
         width: 100%;
-        background-color: $light_ash;
-        border-top: 1px solid $fuel_5;
+        background-color: $silver-xlight;
+        border-top: 1px solid $silver-med;
         z-index: 20;
         padding: 12px 0px 12px 0px;
         gap: 8px;
@@ -50,16 +50,16 @@
     
     
             path {
-                fill: $fuel_20;
+                fill: $silver-heavy;
             }
     
     
             &:hover {
                 //border: 1px solid $fuel_10;
-                background-color: $fuel_5;
+                background-color: $silver-light;
     
                 path {
-                    fill: $fuel_50;
+                    fill: $silver-dark;
                 }
             }
     
@@ -71,7 +71,7 @@
     
                 &:hover {
                     //border: 1px solid $fuel_10;
-                    background-color: $fuel_5;
+                    background-color: $silver-light;
     
                     path {
                         fill: $hot_pink;
@@ -171,7 +171,7 @@
         text-align: left;
         padding: 4px 20px;
         border: 0;
-        border-bottom: solid 1px $fuel_10;
+        border-bottom: solid 1px $silver-med;
         margin: 0;
         @include menuSubTitle;
         color: $fuel;
@@ -180,6 +180,7 @@
 
     .headerImage {
         width: 124px;
+        max-width: 124px;
         margin: auto;
         margin-top: 40px; 
         margin-bottom: 40px; 
@@ -198,7 +199,7 @@
     .settings {
         position: relative;
         bottom: 0;
-        border-top: 1px solid $fuel_10;
+        border-top: 1px solid $silver-med;
     }
 
 

@@ -12,7 +12,7 @@ import styles from "./ConversationsNav.module.scss";
 
 /* eslint-disable */
 
-const ConversationsNav = () => {
+const ConversationsNav = ({ toggleConversationEditModal }) => {
     const [openConversationBuilder, setOpenConversationBuilder] =
         useState(false);
     const [showDeleteConversationModal, setShowDeleteConversationModal] =
@@ -96,9 +96,9 @@ const ConversationsNav = () => {
                                     isActive={isActive}
                                     isShort={isShort}
                                     label={conversation?.name}
-                                    // toggleConversationEditModal={
-                                    //     toggleConversationEditModal
-                                    // }
+                                    toggleConversationEditModal={
+                                        toggleConversationEditModal
+                                    }
                                 />
                             );
                         })}

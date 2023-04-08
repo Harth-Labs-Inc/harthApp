@@ -23,6 +23,7 @@ export const ConversationMessages = () => {
     const [editMessageObj, setEditMessageObj] = useState({});
     const [conversationInputs, setConversationInputs] = useState({});
     const [currentMessages, setCurrentMessages] = useState([]);
+    const [disableChat, setDisableChat] = useState(false);
 
     const {
         selectedcomm,
@@ -56,6 +57,7 @@ export const ConversationMessages = () => {
             }
         }
     }, [incomingConversationMsg]);
+
     useEffect(() => {
         if (incomingConversationMsgUpdate && conversationMessages) {
             const { conversation_id, action, _id } =
@@ -123,6 +125,16 @@ export const ConversationMessages = () => {
             setCurrentMessages(tempMsgs);
         }
     }, [conversationMessages, selectedConversation]);
+
+    useEffect(() => {
+        if (selectedConversation) {
+            const numberOfUsers = selectedConversation.users.length;
+
+            if (numberOfUsers <= 1) {
+                setDisableChat(true);
+            }
+        }
+    }, [selectedConversation]);
 
     const editMessage = (msg) => {
         setEditMessageObj(msg);
@@ -305,6 +317,7 @@ export const ConversationMessages = () => {
                             selectedInputID={selectedConversation?._id}
                             sendMessagge={sumbitMessageHandler}
                             updateMessage={updateConversation}
+                            disableChat={disableChat}
                         ></DumbChatInput>
                     </div>
                 )}

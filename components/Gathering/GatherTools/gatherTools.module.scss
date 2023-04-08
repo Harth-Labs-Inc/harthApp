@@ -18,12 +18,12 @@
 
     &Mobile {
         top: auto;
-        bottom: -30%;
+        bottom: -50%;
         left: 0;
         width: 100%;
 
         &.rendering {
-            bottom: -30%;
+            bottom: -50%;
             transition: all 0.4s ease-in-out;
         }
         &.entered {
@@ -36,6 +36,7 @@
             flex-wrap: wrap;
             justify-content: center;
             width: 100%;
+            padding-bottom: 80px;
         }
     }
 }
@@ -70,12 +71,12 @@
 
     &Mobile {
         top: auto;
-        bottom: -45%;
+        bottom: -75%;
         left: 0;
         width: 100%;
 
         &.rendering {
-            bottom: -45%;
+            bottom: -75%;
             transition: all 0.4s ease-in-out;
         }
         &.entered {
@@ -84,6 +85,7 @@
         }
 
         .mapContainer {
+            height: 70vh;
             width: 100%;
         }
     }

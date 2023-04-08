@@ -119,7 +119,12 @@ const MainNav = (props) => {
             >
               {selectedcomm?.name}
             </button>
-            <span className={styles.Section}>\ {currentPage}</span>
+            <span className={`
+              ${styles.Section}
+              ${currentPage == "chat" && styles.SectionChat}
+              ${currentPage == "gather" && styles.SectionGather}
+              ${currentPage == "message" && styles.SectionMessage}
+              `}>\ {currentPage}</span>
           </div>
         )}
 
@@ -136,6 +141,7 @@ const MainNav = (props) => {
             aria-label="Community Chat"
             className={`
                             ${styles.MainNavPageButton} 
+                            ${styles.MainNavPageButtonChat} 
                             ${currentPage == "chat" && styles.ActiveChat}
 
                         `}
@@ -157,6 +163,7 @@ const MainNav = (props) => {
             >
               {currentPage == "chat" ? <IconChatFill /> : <IconChatNoFill />}
             </div>
+            {isMobile && <div className={styles.mobileTitle}>Chat</div>}
           </button>
 
           <button
@@ -165,6 +172,7 @@ const MainNav = (props) => {
             aria-label="Gather"
             className={`
                             ${styles.MainNavPageButton} 
+                            ${styles.MainNavPageButtonGather} 
                             ${
                               currentPage == "gather"
                                 ? styles.ActiveGather
@@ -187,7 +195,9 @@ const MainNav = (props) => {
                             `}
             >
               {currentPage == "gather" ? <IconFireFill /> : <IconFireNoFill />}
+              
             </div>
+            {isMobile && <div className={styles.mobileTitle}>Gather</div>}
           </button>
 
           <button
@@ -196,6 +206,7 @@ const MainNav = (props) => {
             aria-label="Private Messages"
             className={`
                             ${styles.MainNavPageButton} 
+                            ${styles.MainNavPageButtonMessage} 
                             ${
                               currentPage == "message"
                                 ? styles.ActiveMessage
@@ -224,6 +235,7 @@ const MainNav = (props) => {
                 <IconForumNoFill />
               )}
             </div>
+            {isMobile && <div className={styles.mobileTitle}>Message</div>}
           </button>
         </div>
       </header>

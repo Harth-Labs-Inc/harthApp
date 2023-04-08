@@ -8,15 +8,19 @@
     //align-items: center;
     height: fit-content;
     width: 90%;
-    padding: 4px 8px 10px 6px;
+    padding: 8px 8px 12px 8px;
     border: 0;
-    border-radius: 8px;
+    border-radius: 27px;
     background-color: $white;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     //margin-right: 16px;
     cursor: pointer;
-    border: 1px solid $fuel_10;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
+    border: 0;
+    box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075),
+        0 4px 4px hsl(0deg 0% 0% / 0.075),
+        0 8px 8px hsl(0deg 0% 0% / 0.075);
 
     .label {
         display: flex;
@@ -51,15 +55,18 @@
         width: 100%;
         height: 100%;
         margin-bottom: -6px;
+        border:0;
 
         .avatar {
             //margin-bottom: -6px;
             height: 36px;
             width: 36px;
             border-radius: 9999px;
-            border: 2px solid $white;
+            border:0;
+            border: 1px solid $silver-light;
             user-select: none;
 
+            //background-color: aqua;
             &Mobile {
                 height: 48px;
                 width: 48px;
@@ -74,7 +81,7 @@
 
     &Mobile {
 
-        margin-bottom: 8px;
+        margin-bottom: 12px;
         padding: 8px 8px 14px 8px;
         .label {
             @include topicTitleMobile;
@@ -83,13 +90,8 @@
         }
 
         &:active {
-            background-color: $fuel_light;
-            .participantElement {
-                .avatar {
-                    border-color: $fuel_light;
-    
-                    }
-            }
+            background-color: $silver-light;
+
         }
         
     }
@@ -98,18 +100,8 @@
     &Desktop {
         
         &:hover {
-            background-color: $fuel_light;
+            background-color: $silver-light;
 
-            .label {
-                color: $white;
-
-            }
-            .participantElement {
-                .avatar {
-                    border-color: $fuel_light;
-    
-                    }
-            }
         }
 
     }

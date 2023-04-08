@@ -20,7 +20,7 @@
     &SubText {
         @include interfaceR3;
         margin-top: 4px;
-        color: $fuel_50;
+        color: $silver-dark;
         text-align: center;
     }
 
@@ -39,6 +39,7 @@
         display: flex;
         justify-content: flex-start;
         width: 96px;
+        max-width: 96px;
         margin-bottom: 36px;
         margin-right: auto;
     }

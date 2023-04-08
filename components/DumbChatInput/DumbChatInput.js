@@ -25,6 +25,7 @@ const DumbChatInput = (props) => {
         selectedInputID,
         sendMessagge,
         updateMessage,
+        disableChat,
     } = props;
 
     const textRef = useRef();
@@ -219,6 +220,7 @@ const DumbChatInput = (props) => {
                     ref={textRef}
                     onChange={inputHandler}
                     value={(Inputs && Inputs[selectedInputID]) || ""}
+                    disabled={disableChat}
                     onKeyDown={(e) => {
                         let input = Inputs[selectedInputID] || "";
                         if (e.altKey) {

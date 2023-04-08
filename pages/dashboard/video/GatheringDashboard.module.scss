@@ -19,13 +19,14 @@
     width: 100%;
     overflow-y: scroll;
     padding: 20px 24px 96px 24px;
-    background-image: url("../../../public/images/background_gather_dark.png");
-    background-repeat: repeat;
-    background-size: 32px;
+    //background-image: url("../../../public/images/background_gather_dark.png");
+    //background-repeat: repeat;
+    //background-size: 32px;
     //background-position: 16px 16px;
+    background: linear-gradient(100deg, lighten($hot_pink, 30%) 10%, $oxygen 100%);  
 
     &Mobile {
-        background-size: 40px;
+        //background-size: 40px;
     }
 
     .roomContainer {
@@ -57,14 +58,14 @@
         @include smallTitle;
         padding: 1px 2px;
         border-radius: 2px;
-        background-color: $white;
+        //background-color: $white;
         text-transform: uppercase;
         color: $fuel;
-        width: fit-content;
+         width: fit-content;
         //margin-bottom: 8px;
         user-select: none ;
         margin-bottom: 6px;
-
+        text-shadow: 1px 1px 2px $silver-med;
 
     }
 
@@ -73,7 +74,7 @@
         @include smallTitleMobile;
         padding: 1px 2px;
         border-radius: 4px;
-        background-color: $white;
+        //background-color: $white;
         width: fit-content;
         text-transform: uppercase;
         color: $fuel;
@@ -81,6 +82,7 @@
         user-select: none ;
         margin-top: 4px;
         margin-bottom: 12px;
+        text-shadow: 1px 1px 2px $silver-med;
     }
 
 

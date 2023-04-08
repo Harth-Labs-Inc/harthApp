@@ -1,7 +1,9 @@
 import { Modal } from "Common";
 
+import { useComms } from "../../../contexts/comms";
 import { useAuth } from "../../../contexts/auth";
-import { updatedTopic } from "../../../requests/community";
+import { useSocket } from "../../../contexts/socket";
+import { updatedTopic, deleteTopicByID } from "../../../requests/community";
 
 import { CustomContextMenu } from "../../CustomContextMenu/CustomContextMenu";
 import TopicEditModal from "../../TopicEditModal";
@@ -13,13 +15,13 @@ import { IconChevronLeft } from "../../../resources/icons/IconChevronLeft";
 import styles from "./MobileChatHeader.module.scss";
 import { useState } from "react";
 
-/* eslint-disable */
-
 const MobileChatHeader = ({ handleMobileChat, selectedTopic }) => {
     const [openEditTopicMenu, setOpenEditTopicMenu] = useState(null);
     const [showRenameTopicModal, setShowRenameTopicModal] = useState(false);
     const [showDeleteTopicModal, setShowDeleteTopicModal] = useState(false);
     const { user } = useAuth();
+    const { emitUpdate } = useSocket();
+    const { updateSelectedTopic, selectedcomm } = useComms();
     const handleBackToNav = () => {
         handleMobileChat(false);
     };
@@ -106,6 +108,20 @@ const MobileChatHeader = ({ handleMobileChat, selectedTopic }) => {
     const onCloseDeleteModal = () => {
         setShowDeleteTopicModal(false);
     };
+    const submitTopicDeleteHandler = async (newTopic) => {
+        await deleteTopicByID(newTopic._id);
+        let msg = {};
+        msg.updateType = "topic deleted";
+        msg.comm = selectedcomm;
+        msg.topic = newTopic;
+        emitUpdate(selectedcomm._id, msg, async (err) => {
+            if (err) {
+                console.error(err);
+            }
+            setShowDeleteTopicModal(false);
+            setOpenEditTopicMenu(null);
+        });
+    };
 
     return (
         <>
@@ -114,6 +130,7 @@ const MobileChatHeader = ({ handleMobileChat, selectedTopic }) => {
                     user={user}
                     topic={openEditTopicMenu.topic}
                     pos={openEditTopicMenu.pos}
+                    isHiddenTopic={openEditTopicMenu.isHidden}
                     closeModal={closeTopicEditModal}
                     onMuteHandler={onMuteHandler}
                     onHideHandler={onHideHandler}

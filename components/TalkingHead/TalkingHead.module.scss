@@ -10,7 +10,7 @@
     &HelperContainer {
         display: flex;
         justify-content: center;
-        max-width: 320px;
+        max-width: 340px;
         margin-bottom: 12px;
 
         &TextBubble {
@@ -25,11 +25,12 @@
             border-bottom-right-radius: 0;
         }
         &Text {
-            @include contentR1;
+            @include talkingHead;
         }
         &Image {
             width: 88px;
             min-width: 88px;
+            max-width: 88px;
             height: auto;
             //height: 154px;
             margin-top: auto;

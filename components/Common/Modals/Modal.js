@@ -12,6 +12,7 @@ export const Modal = (props) => {
         classNames,
         hasPadding = true,
         containerStyle,
+        blockBackground = false,
     } = props;
 
     const ref = useRef();
@@ -21,7 +22,7 @@ export const Modal = (props) => {
     };
 
     return (
-        <div id={id} className={`${styles.Modal} ${classNames}`}>
+        <div id={id} className={`${styles.Modal} ${classNames} ${blockBackground && styles.ModalBlock}`}>
             <OutsideClickHandler
                 onClickOutside={closeModal}
                 onFocusOutside={closeModal}
