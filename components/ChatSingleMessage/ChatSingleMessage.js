@@ -52,6 +52,7 @@ const ChatSingleMessage = (props) => {
         creator_image,
         creator_id,
         creator_name,
+        // creator_type,
         message,
         attachments = [],
         reactions = [],
@@ -394,7 +395,7 @@ const ChatSingleMessage = (props) => {
                             />
                         ))}
 
-                        <div id={`message-content${messageID}`} >
+                        <div id={`message-content${messageID}`}>
                             {message}
                             <LinkPreview
                                 message={message}

@@ -10,6 +10,7 @@ const ConversationListElement = (props) => {
         isActive = false,
         conversation,
         label,
+        toggleConversationEditModal,
     } = props;
 
     const [buttonState, setButtonState] = useState(isActive);
@@ -27,6 +28,24 @@ const ConversationListElement = (props) => {
 
     /* eslint-disable */
 
+    const toggleEditMenu = (evt, id, conversation) => {
+        if (evt.button === 2) {
+            const targetElement = document.getElementById(id);
+            if (targetElement && targetElement.contains(evt.target)) {
+                evt.preventDefault();
+                toggleConversationEditModal({
+                    conversation,
+                    pos: {
+                        x: evt.clientX,
+                        y: evt.clientY,
+                    },
+                });
+            }
+        }
+    };
+
+    /* eslint-disable */
+
     return (
         <>
             <button
@@ -35,11 +54,18 @@ const ConversationListElement = (props) => {
                 id={conversation._id}
                 className={`
                     ${styles.conversation} 
-                    ${isMobile ? styles.conversationMobile : styles.conversationDesktop} 
+                    ${
+                        isMobile
+                            ? styles.conversationMobile
+                            : styles.conversationDesktop
+                    } 
                     ${isActive && styles.conversationActive} 
                     ${hasAlert && styles.conversationAlert} 
                     `}
                 onClick={toggleActive}
+                onMouseUp={(e) =>
+                    toggleEditMenu(e, conversation._id, conversation)
+                }
             >
                 {conversation.users?.map((e) => (
                     <div key={e.userId} className={styles.participantElement}>

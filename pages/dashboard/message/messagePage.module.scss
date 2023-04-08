@@ -1,14 +1,18 @@
 @import "../../../styles/globals.scss";
 @import "../../../styles/fonts.scss";
 
-.rendering{
+.rendering {
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
 }
-.entered{
+.entered {
     opacity: 1;
     transition: opacity 0.2s ease-in-out;
+}
 
+.ConversationMessages {
+    display: flex;
+    width: 100%;
 }
 
 .topicHolderMobile {
@@ -34,11 +38,4 @@
     position: relative;
     height: 100%;
     overflow: auto;
-}
-
-.chatHolderDesktop {
-    //position: relative;
-    //height: 100%;
-    //overflow: auto;
-    //background-color: #ee5500;
 }

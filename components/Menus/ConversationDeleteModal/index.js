@@ -2,10 +2,14 @@ import { Button } from "Common";
 
 import styles from "./ConversationDeleteModal.module.scss";
 
-const ConversationDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
+const ConversationDeleteModal = ({
+    setHidden,
+    submitDeleteConversation,
+    conversation,
+}) => {
     const submitHandler = async (e) => {
         e.preventDefault();
-        submitTopicChange(topic);
+        submitDeleteConversation(conversation);
     };
     const handleCancel = () => {
         setHidden();
@@ -18,7 +22,6 @@ const ConversationDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
                 You are about to remove this conversation from your message
                 history:
             </p>
-            <div className={styles.conversation}>{topic?.title}</div>
             <p className={styles.subtext}>
                 This conversation will be removed. This cannot be undone.
             </p>
