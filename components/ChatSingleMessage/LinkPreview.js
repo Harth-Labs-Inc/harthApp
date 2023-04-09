@@ -46,9 +46,10 @@ export const LinkPreview = ({ message }) => {
 
     if (ogData) {
         return (
+            <a href={rawURL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none"}}>
             <article id="ogCard" className={styles.ogCard}>
-                <span>
-                    {ogData?.result?.ogTitle || ogData?.result?.ogSiteName}
+                <span className={styles.title}>
+                   {ogData?.result?.ogTitle || ogData?.result?.ogSiteName}
                 </span>
                 <span>{ogData?.result?.ogDescription}</span>
                 <img
@@ -59,6 +60,7 @@ export const LinkPreview = ({ message }) => {
                     loading="lazy"
                 />
             </article>
+            </a>
         );
     }
 
