@@ -131,9 +131,13 @@ export const CommsProvider = ({ children }) => {
                     if (setNew) {
                         setComm(comms[0]);
                     }
+                    if (!comms.length) {
+                        setForceHarthCreation(true);
+                    }
                     resolve(comms);
                 }
             }
+            setForceHarthCreation(false);
             run();
         });
     };
