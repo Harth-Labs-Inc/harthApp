@@ -48,7 +48,7 @@ const Video = () => {
   }, []);
 
   useEffect(() => {
-    if (socketID) {
+    if (socketID && selectedcomm) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
       let data = {};
       data.icon = creator.iconKey;

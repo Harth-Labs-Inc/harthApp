@@ -333,7 +333,6 @@ const ChatSingleMessage = (props) => {
                 isEditing ? styles.Editing : null
             }`}
         >
-            <EmojiPicker />
             <div
                 className={styles.SingleMessage}
                 onMouseEnter={() => toggleEdit(true)}
@@ -342,6 +341,7 @@ const ChatSingleMessage = (props) => {
                     setEmojiPicker(false);
                 }}
             >
+                <EmojiPicker />
                 <EditBar
                     showEditBar={showEditBar}
                     _id={_id}

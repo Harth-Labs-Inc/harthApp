@@ -52,7 +52,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
                 let { name } = await uploadCustomNamedFile({
                     file: newFile,
                     bucket: "community-profile-images",
-                    name: `${harth._id}_${updatedProfile.userId}`,
+                    name: `${harth._id}_${updatedProfile.userId}_${new Date()}`,
                 });
                 if (name) {
                     // await compressImage(

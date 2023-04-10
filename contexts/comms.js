@@ -22,6 +22,7 @@ export const CommsProvider = ({ children }) => {
     const [selectedTopic, setSelectedTopic] = useState({});
     const [topicChange, setTopicChange] = useState(0);
     const [profile, setProfile] = useState(null);
+    const [forceHarthCreation, setForceHarthCreation] = useState(false);
 
     const [conversations, setConversations] = useState(null);
     const [selectedConversation, setSelectedConversation] = useState(null);
@@ -36,6 +37,7 @@ export const CommsProvider = ({ children }) => {
     const { user } = useAuth();
 
     const selectedCommRef = useRef(null);
+    const profileRef = useRef(null);
 
     useEffect(() => {
         if (user) {
@@ -45,7 +47,18 @@ export const CommsProvider = ({ children }) => {
                     const { ok, comms } = result;
                     if (ok) {
                         setComms(comms);
-                        setComm(comms[0]);
+                        let prevID = localStorage.getItem("selectedHarthID");
+
+                        if (prevID) {
+                            let match = comms.find((com) => com._id == prevID);
+                            if (match) {
+                                setComm(match);
+                            } else {
+                                setComm(comms[0]);
+                            }
+                        } else {
+                            setComm(comms[0]);
+                        }
                     } else if (result.lockDown) {
                         localStorage.removeItem("token");
                         window.location.pathname = "/";
@@ -83,6 +96,10 @@ export const CommsProvider = ({ children }) => {
         }
     }, [selectedConversation]);
 
+    useEffect(() => {
+        profileRef.current = profile;
+    }, [profile, setProfile]);
+
     const grabConversationMessages = async () => {
         const sortMessages = (msgs) => {
             return msgs
@@ -114,9 +131,13 @@ export const CommsProvider = ({ children }) => {
                     if (setNew) {
                         setComm(comms[0]);
                     }
+                    if (!comms.length) {
+                        setForceHarthCreation(true);
+                    }
                     resolve(comms);
                 }
             }
+            setForceHarthCreation(false);
             run();
         });
     };
@@ -334,11 +355,20 @@ export const CommsProvider = ({ children }) => {
         }
         return;
     };
-
     const setUnreadConversationMessagesHandler = (incomingMsg) => {
         if (incomingMsg.userIDS?.includes(user?._id || "")) {
             setIncomingConversationMsg(incomingMsg);
         }
+    };
+    const resetConversations = () => {
+        setConversations(null);
+        setSelectedConversation(null);
+        setConversationMessages(null);
+    };
+    const resetTopics = () => {
+        setTopics(null);
+        setSelectedTopic(null);
+        setTopicChange(0);
     };
 
     return (
@@ -381,6 +411,11 @@ export const CommsProvider = ({ children }) => {
                 setIncomingConversationMsgUpdate,
                 incomingConversationMsgUpdate,
                 selectedCommRef,
+                setProfile,
+                profileRef: profileRef.current,
+                resetConversations,
+                resetTopics,
+                forceHarthCreation,
             }}
         >
             {children}
