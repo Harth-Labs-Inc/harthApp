@@ -22,6 +22,7 @@ export const CommsProvider = ({ children }) => {
     const [selectedTopic, setSelectedTopic] = useState({});
     const [topicChange, setTopicChange] = useState(0);
     const [profile, setProfile] = useState(null);
+    const [forceHarthCreation, setForceHarthCreation] = useState(false);
 
     const [conversations, setConversations] = useState(null);
     const [selectedConversation, setSelectedConversation] = useState(null);
@@ -114,9 +115,13 @@ export const CommsProvider = ({ children }) => {
                     if (setNew) {
                         setComm(comms[0]);
                     }
+                    if (!comms.length) {
+                        setForceHarthCreation(true);
+                    }
                     resolve(comms);
                 }
             }
+            setForceHarthCreation(false);
             run();
         });
     };
@@ -381,6 +386,7 @@ export const CommsProvider = ({ children }) => {
                 setIncomingConversationMsgUpdate,
                 incomingConversationMsgUpdate,
                 selectedCommRef,
+                forceHarthCreation,
             }}
         >
             {children}

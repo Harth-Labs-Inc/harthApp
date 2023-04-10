@@ -25,7 +25,7 @@ const DashboardLayout = (props) => {
         toggleNoHarthDetected,
     } = props;
 
-    const { selectedcomm } = useComms();
+    const { selectedcomm, forceHarthCreation } = useComms();
     const { getInitialCallRooms, socketID, callRooms } = useVideo();
     const { user } = useAuth();
     const { mainAlertsRef, setMainAlertsFromChild } = useSocket();
@@ -71,6 +71,12 @@ const DashboardLayout = (props) => {
             }
         }
     }, [callRooms, mainAlertsRef, selectedcomm]);
+
+    useEffect(() => {
+        if (forceHarthCreation) {
+            setShowCreateHarthNameModal(true);
+        }
+    }, [forceHarthCreation]);
 
     const toggleMenu = () => {
         if (isMobile) {
