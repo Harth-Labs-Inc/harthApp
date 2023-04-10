@@ -327,8 +327,6 @@ const ChatSingleMessage = (props) => {
 
     let timeStamp = getTimeStamp();
 
-    if (!selectedcomm) return null;
-
     return (
         <div
             className={`${styles.ChatParentContainer} ${
@@ -358,7 +356,7 @@ const ChatSingleMessage = (props) => {
                         img={creator_image}
                         showName={false}
                         size="regular"
-                        iconClass={`${selectedcomm?._id}_${creator_id}`}
+                        iconClass={`${selectedcomm._id}_${creator_id}`}
                     />
                 </span>
 

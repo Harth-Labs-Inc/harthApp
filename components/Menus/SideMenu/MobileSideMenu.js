@@ -12,85 +12,86 @@ import { useState } from "react";
 import SettingsMenu from "../AccountSettings";
 
 const MobileSideNav = (props) => {
-    const {
-        mobileMenuOpen,
-        onToggleMenu,
-        setShowCreateHarthNameModal,
-        changePage,
-    } = props;
+  const {
+    mobileMenuOpen,
+    onToggleMenu,
+    setShowCreateHarthNameModal,
+    changePage,
+  } = props;
 
-    const [ShowSettingsNav, setShowSettingsNav] = useState(false);
-    const [currentTab, setCurrentTab] = useState("");
+  const [ShowSettingsNav, setShowSettingsNav] = useState(false);
+  const [currentTab, setCurrentTab] = useState("");
 
-    const { comms, setComm, selectedcomm, setTopic } = useComms();
-    const { unreadMessagesRef } = useSocket();
+  const { comms, setComm, selectedcomm, setTopic } = useComms();
+  const { unreadMessagesRef } = useSocket();
 
-    const changeSelectedCom = (com) => {
-        setComm(com);
-        setTopic({});
-        onToggleMenu();
-    };
+  const changeSelectedCom = (com) => {
+    localStorage.setItem("selectedHarthID", com._id);
+    setComm(com);
+    setTopic({});
+    onToggleMenu();
+  };
 
-    const toggleCreateComm = () => {
-        onToggleMenu();
-        setShowCreateHarthNameModal(true);
-    };
-    const toggleSettingsNav = () => {
-        setShowSettingsNav(!ShowSettingsNav);
-    };
-    const toggleCurrentTab = (name) => {
-        setCurrentTab(name);
-        if (!ShowSettingsNav) {
-            setShowSettingsNav(!ShowSettingsNav);
-        }
-    };
-    const DisplaySettingsNav = () => {
-        if (ShowSettingsNav) {
-            return (
-                <SideModal
-                    id="mobileSubSideMenuContainer"
-                    onToggleModal={toggleSettingsNav}
-                >
-                    <SettingsMenu
-                        toggleCurrentTab={toggleCurrentTab}
-                        currentTab={currentTab}
-                        toggleCurrentTabClosed={() => {
-                            setShowSettingsNav(false);
-                            setCurrentTab("");
-                        }}
-                    />
-                </SideModal>
-            );
-        }
-        return null;
-    };
-
-    if (!mobileMenuOpen) return;
-
-    return (
-        <SideModal id="mobileSideMenuContainer" onToggleModal={onToggleMenu}>
-            <div className={styles.sideNavMobile}>
-                <div className={styles.headerImage}>
-                    <HarthLogoDark />
-                </div>
-                <div className={styles.text}>Your härths</div>
-                <DisplaySettingsNav />
-                <div className={styles.harthList}>
-                    <HarthList
-                        comms={comms}
-                        selectedcomm={selectedcomm}
-                        unreadMsgs={unreadMessagesRef}
-                        toggleCreateComm={toggleCreateComm}
-                        changeSelectedCom={changeSelectedCom}
-                        changePage={changePage}
-                    />
-                </div>
-                <div className={styles.settings}>
-                    <SettingsList toggleCurrentTab={toggleCurrentTab} />
-                </div>
-            </div>
+  const toggleCreateComm = () => {
+    onToggleMenu();
+    setShowCreateHarthNameModal(true);
+  };
+  const toggleSettingsNav = () => {
+    setShowSettingsNav(!ShowSettingsNav);
+  };
+  const toggleCurrentTab = (name) => {
+    setCurrentTab(name);
+    if (!ShowSettingsNav) {
+      setShowSettingsNav(!ShowSettingsNav);
+    }
+  };
+  const DisplaySettingsNav = () => {
+    if (ShowSettingsNav) {
+      return (
+        <SideModal
+          id="mobileSubSideMenuContainer"
+          onToggleModal={toggleSettingsNav}
+        >
+          <SettingsMenu
+            toggleCurrentTab={toggleCurrentTab}
+            currentTab={currentTab}
+            toggleCurrentTabClosed={() => {
+              setShowSettingsNav(false);
+              setCurrentTab("");
+            }}
+          />
         </SideModal>
-    );
+      );
+    }
+    return null;
+  };
+
+  if (!mobileMenuOpen) return;
+
+  return (
+    <SideModal id="mobileSideMenuContainer" onToggleModal={onToggleMenu}>
+      <div className={styles.sideNavMobile}>
+        <div className={styles.headerImage}>
+          <HarthLogoDark />
+        </div>
+        <div className={styles.text}>Your härths</div>
+        <DisplaySettingsNav />
+        <div className={styles.harthList}>
+          <HarthList
+            comms={comms}
+            selectedcomm={selectedcomm}
+            unreadMsgs={unreadMessagesRef}
+            toggleCreateComm={toggleCreateComm}
+            changeSelectedCom={changeSelectedCom}
+            changePage={changePage}
+          />
+        </div>
+        <div className={styles.settings}>
+          <SettingsList toggleCurrentTab={toggleCurrentTab} />
+        </div>
+      </div>
+    </SideModal>
+  );
 };
 
 export default MobileSideNav;

@@ -244,10 +244,27 @@
 .ogCard {
     padding: 16px;
     background-color: $white;
-    border: 1px solid $fuel_10;
+    border: 1px solid $silver-med;
     border-radius: 12px;
+    @include montserrat;
+    font-size: 13px;
+    font-weight: 500;
+    color: $silver-dark;
+    width: 100%;
+    max-width: 360px;
+    user-select: none;
+    text-decoration: none;
+    .title {
+        font-weight: 700;
+        display: block;
+        color: $fuel;
+        text-decoration: none;
+    }
 
     img {
         max-width: 100%;
+        height: auto;
+        display: block;
+        
     }
 }

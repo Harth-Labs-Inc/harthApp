@@ -8,7 +8,8 @@ import GatherControlBar from "../../../components/Gathering/GatherControlBar/Gat
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
-
+import { useAuth } from "../../../contexts/auth";
+import { getHarthByID } from "../../../requests/community";
 import styles from "./Voice.module.scss";
 import { envUrls, videoSocketUrls } from "../../../constants/urls";
 
@@ -37,6 +38,7 @@ const Stream = () => {
         isMobile ? false : true
     );
     const [wakeLockActive, setWakeLockActive] = useState(false);
+    const [userID, setUserID] = useState("");
 
     const ownerData = useRef({});
     const PEERS = useRef([]);
@@ -52,6 +54,7 @@ const Stream = () => {
     const localStreamAnalyser = useRef();
     const detectSpeakingIntervalId = useRef(null);
 
+    const { user, loading } = useAuth();
     const { comms } = useComms();
 
     useEffect(() => {
@@ -145,6 +148,61 @@ const Stream = () => {
     }, []);
 
     useEffect(() => {
+        if (!loading && user) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const ROOMID = urlParams.get("room_id");
+            const HARTHID = urlParams.get("harth_id");
+            async function getHarth(id) {
+                const results = await getHarthByID(id);
+                if (results.ok) {
+                    let creator = results?.data?.users.find(
+                        (usr) => usr.userId === user._id
+                    );
+                    if (creator) {
+                        setHarthId(id);
+                        if (creator?.iconKey) {
+                            setUserIcon(creator?.iconKey);
+                        }
+                        if (creator?.name) {
+                            setUserName(creator?.name);
+                        }
+                        if (creator?._id) {
+                            setUserID(creator?._id);
+                        }
+                        const URLS = videoSocketUrls;
+                        axios
+                            .get(
+                                `${
+                                    URLS[process.env.NODE_ENV]
+                                }/api/get-turn-credentials`
+                            )
+                            .then((responseData) => {
+                                setTurnServers(
+                                    responseData.data.token.iceServers
+                                );
+                                setSocket(
+                                    io.connect(URLS[process.env.NODE_ENV], {
+                                        transports: ["websocket"],
+                                    })
+                                );
+                            })
+                            .catch((err) => {
+                                console.error(err);
+                            });
+                    }
+                }
+            }
+            if (ROOMID) {
+                setRoomId(ROOMID);
+            }
+            if (HARTHID) {
+                getHarth(HARTHID);
+            }
+        }
+    }, [loading, user]);
+
+    useEffect(() => {
         if (socket) {
             socket.on("connection", () => {
                 setSocketID(socket.id);
@@ -169,6 +227,30 @@ const Stream = () => {
                     remoteUserLeft(newMsg);
                 }
                 if (newMsg?.code == 9) {
+                    if (newMsg?.userID == user._id) {
+                        if (localAudioStream.current) {
+                            disconnectAudios();
+                        }
+                        if (localCaptureStream.current) {
+                            disconnectCaptures();
+                        }
+                        let newMsg = {
+                            value: `${userName} alternate device detected`,
+                            code: 22,
+                            userName: userName,
+                            roomId: roomId,
+                            date: new Date(),
+                            creator_name: "Admin",
+                            flames: [],
+                            reactions: [],
+                            attachments: [],
+                            hidden: true,
+                            ...ownerData.current,
+                        };
+                        sendNewChatMessage(newMsg);
+                        leaveGroupCall();
+                    }
+
                     if (localAudioStream.current) {
                         let options = {
                             metadata: {
@@ -187,21 +269,10 @@ const Stream = () => {
                         );
                     }
                     if (localCaptureStream.current) {
-                        let msg = {
-                            value: ``,
-                            code: 101,
-                            userName: userName,
-                            roomId: roomId,
-                            date: new Date(),
-                            creator_name: "Admin",
-                            flames: [],
-                            reactions: [],
-                            attachments: [],
-                            ignoreInChat: true,
-                            callerID: newMsg.socketID,
-                            ...ownerData.current,
-                        };
-                        sendNewChatMessage(msg);
+                        ScreenSharePeer.current.call(
+                            newMsg.capturePeer,
+                            localCaptureStream.current
+                        );
                     }
                 }
                 setChats((prevChats) => [newMsg, ...(prevChats || [])]);
@@ -241,6 +312,9 @@ const Stream = () => {
                             }
                         );
                     }
+                }
+                if (newMsg?.code == 22) {
+                    removeElement(newMsg?.socketID);
                 }
                 if (
                     newMsg?.code == 100 &&
@@ -567,6 +641,7 @@ const Stream = () => {
             let obj = {
                 userName,
                 userIcon,
+                userID: user._id,
                 peerId: peerid,
                 socketID,
                 roomId,
@@ -590,9 +665,12 @@ const Stream = () => {
                 });
                 createAudio(incomingStream, peer, call);
             });
-            call.on("error", function (err) {});
+            call.on("error", function (err) {
+                console.error(err);
+            });
         });
     };
+
     const createScreenSharePeer = (peerobj) => {
         let servers = [];
         if (TurnServers.length) {

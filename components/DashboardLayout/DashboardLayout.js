@@ -11,6 +11,7 @@ import { useVideo } from "contexts/video";
 import { useAuth } from "contexts/auth";
 import { useComms } from "contexts/comms";
 import { useSocket } from "contexts/socket";
+import { useChat } from "contexts/chat";
 
 const DashboardLayout = (props) => {
     const [menuActive, setmenuActive] = useState(false);
@@ -25,10 +26,18 @@ const DashboardLayout = (props) => {
         toggleNoHarthDetected,
     } = props;
 
-    const { selectedcomm, forceHarthCreation } = useComms();
+    const {
+        grabTopics,
+        selectedcomm,
+        resetConversations,
+        fetchConversations,
+        resetTopics,
+        forceHarthCreation,
+    } = useComms();
     const { getInitialCallRooms, socketID, callRooms } = useVideo();
     const { user } = useAuth();
     const { mainAlertsRef, setMainAlertsFromChild } = useSocket();
+    const { resetChats } = useChat();
 
     useEffect(() => {
         if (socketID && selectedcomm && user) {
@@ -77,6 +86,25 @@ const DashboardLayout = (props) => {
             setShowCreateHarthNameModal(true);
         }
     }, [forceHarthCreation]);
+
+    useEffect(() => {
+        if (selectedcomm) {
+            if (currentPage === "message") {
+                resetChats();
+                resetTopics();
+                fetchConversations();
+            }
+            if (currentPage === "chat") {
+                grabTopics(selectedcomm._id);
+                resetConversations();
+            }
+            if (currentPage === "gather") {
+                resetChats();
+                resetTopics();
+                resetConversations();
+            }
+        }
+    }, [currentPage, selectedcomm]);
 
     const toggleMenu = () => {
         if (isMobile) {
