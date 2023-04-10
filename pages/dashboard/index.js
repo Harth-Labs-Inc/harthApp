@@ -69,7 +69,12 @@ const dashboard = () => {
       } else if (roomType) {
         changePageHandler(roomType);
       } else {
-        changePageHandler("chat");
+        let prevPage = localStorage.getItem("selectedPage");
+        if (prevPage) {
+          changePageHandler(prevPage);
+        } else {
+          changePageHandler("chat");
+        }
         const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");
         if (showFirstTimeUser) {
           sendWelcomeEmailToUser({
@@ -109,6 +114,10 @@ const dashboard = () => {
   }, [loading]);
 
   const changePageHandler = (pg) => {
+    if (["gather", "chat", "message"].includes(pg)) {
+      localStorage.setItem("selectedPage", pg);
+    }
+
     setCurrentPage(pg);
   };
   const harthNameCreationHandler = async (harth) => {
@@ -190,7 +199,11 @@ const dashboard = () => {
     }
 
     if (GatherWindow) {
-      return <CommsProvider>{page}</CommsProvider>;
+      return (
+        <CommsProvider>
+          <ChatProvider>{page}</ChatProvider>
+        </CommsProvider>
+      );
     } else {
       return (
         <CommsProvider>
