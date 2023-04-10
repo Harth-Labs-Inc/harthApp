@@ -40,7 +40,7 @@ const TopicsNav = (props) => {
 
     useEffect(() => {
         if (topics) {
-            let unhiddenTopics = topics.filter(({ members }) => {
+            const unhiddenTopics = topics.filter(({ members }) => {
                 let userIndex = members.findIndex(({ user_id }) => {
                     return user_id == user._id;
                 });
@@ -55,7 +55,7 @@ const TopicsNav = (props) => {
                     return true;
                 }
             });
-            let hiddenTopics = topics.filter(({ members }) => {
+            const hiddenTopics = topics.filter(({ members }) => {
                 let userIndex = members.findIndex(({ user_id }) => {
                     return user_id == user._id;
                 });
@@ -69,6 +69,51 @@ const TopicsNav = (props) => {
                 if (isHidden) {
                     return true;
                 }
+            });
+
+            unhiddenTopics.sort((a, b) => {
+                const removeEmoji = (str) => {
+                    return str
+                        .replace(
+                            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+                            ""
+                        )
+                        .replace(/\s+/g, " ")
+                        .trim();
+                };
+                const nameA = removeEmoji(a.title);
+                const nameB = removeEmoji(b.title);
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+
+                return 0;
+            });
+            hiddenTopics.sort((a, b) => {
+                const removeEmoji = (str) => {
+                    return str
+                        .replace(
+                            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+                            ""
+                        )
+                        .replace(/\s+/g, " ")
+                        .trim();
+                };
+                const nameA = removeEmoji(a.title);
+                const nameB = removeEmoji(b.title);
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+
+                return 0;
             });
 
             setTopicsArr(unhiddenTopics);
@@ -326,7 +371,7 @@ const TopicsNav = (props) => {
                         }
                     >
                         <button id="create_topic" onClick={openCreateTopic}>
-                                <IconAdd />
+                            <IconAdd />
                         </button>
                     </div>
                     {hiddenTopicsArr.length > 0 && (
