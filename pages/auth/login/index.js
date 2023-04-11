@@ -40,9 +40,10 @@ const Login = () => {
 
     return (
         <div className={styles.loginModule}>
-            <HarthLogoDark />
+            <div className={styles.logoHolder}><HarthLogoDark /></div>
+    
             <div className={styles.greeting}>
-                A place for friends to gather.
+                A place for friends
             </div>
             <form onSubmit={handleSubmit(submitHandler)}>
                 <input
@@ -56,7 +57,18 @@ const Login = () => {
                             : errorMessage
                     }
                 />
-
+                {errorMessage === "Invalid Email" ? 
+                    (
+                        <div className={styles.accountCreateAlert}>Do you need to create an account? 
+                            <button
+                                onClick={() => {
+                                router.push("/auth/createAccount");
+                                // changePage("createaccount");
+                                }}>
+                                Click Here
+                            </button>
+                        </div>
+                    ) : (null)}
                 <Button
                     className={styles.loginButton}
                     type="submit"

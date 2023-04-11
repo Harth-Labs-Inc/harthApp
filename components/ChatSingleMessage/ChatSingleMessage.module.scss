@@ -128,10 +128,12 @@
             border-radius: 18px;
             border-top-left-radius: 0;
             background-color: $silver-light;
+            overflow-wrap: anywhere;
 
             .message-text {
                 margin: 0;
                 white-space: pre-wrap;
+                overflow-wrap: anywhere;
 
             }
 
@@ -141,9 +143,7 @@
                 font-size: inherit;
                 white-space: pre-wrap;
                 overflow-wrap: anywhere;
-                @include montserrat;
-                font-weight: 600;
-                font-size: 13px;
+                @include url;
             }
 
             > img {
@@ -254,6 +254,7 @@
     max-width: 360px;
     user-select: none;
     text-decoration: none;
+    overflow-wrap: anywhere;
     .title {
         font-weight: 700;
         display: block;
