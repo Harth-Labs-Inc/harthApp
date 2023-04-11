@@ -9,7 +9,7 @@ const ImageHolder = ({ attachments, removeAttachment, attRefs, uploading }) => {
                 {(attachments || []).map((file, idx) => (
                     <div
                         className={`${styles.imageContainer} ${
-                            uploading.includes(file.name) &&
+                            uploading?.includes(file.name) &&
                             styles.imageUploading
                         }`}
                         key={file?.name}

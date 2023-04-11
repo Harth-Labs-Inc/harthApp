@@ -26,6 +26,9 @@ const DumbChatInput = (props) => {
         sendMessagge,
         updateMessage,
         disableChat,
+        resetEdit,
+        toggleEditing,
+        uploadingAttachments,
     } = props;
 
     const textRef = useRef();
@@ -112,33 +115,7 @@ const DumbChatInput = (props) => {
         event.preventDefault();
         setEmojiPicker(!emojiPickerState);
     };
-    // const ImageHolder = () => {
-    //   if (attachments.length > 0) {
-    //     return (
-    //       <div className={styles.imageBar}>
-    //         {(attachments || []).map((file, idx) => (
-    //           <div className={styles.imageContainer}>
-    //             <button
-    //               onClick={() => {
-    //                 removeAttachment(idx);
-    //               }}
-    //             >
-    //               <IconClose />
-    //             </button>
-    //             <img
-    //               id={file.name}
-    //               key={file.name}
-    //               ref={(el) => (attRefs.current[idx] = el)}
-    //               alt=""
-    //             />
-    //           </div>
-    //         ))}
-    //       </div>
-    //     );
-    //   }
 
-    //   return null;
-    // };
     const inputHandler = (e) => {
         const { value } = e.target;
         setInputs({ ...Inputs, [selectedInputID]: value });
@@ -146,6 +123,8 @@ const DumbChatInput = (props) => {
     const cancelEdit = () => {
         setInputs({ ...Inputs, [selectedInputID]: "" });
         setSelectedEditMsg({});
+        resetEdit();
+        toggleEditing();
     };
     const addEmoji = (e) => {
         let text = Inputs[selectedInputID];
@@ -214,6 +193,7 @@ const DumbChatInput = (props) => {
                     attachments={attachments}
                     removeAttachment={removeAttachment}
                     attRefs={attRefs}
+                    uploading={uploadingAttachments}
                 />
                 <textarea
                     id={styles.ChatInputText}
