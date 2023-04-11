@@ -10,140 +10,148 @@ import ConversationsNav from "../../../components/Menus/ConversationMenu/Convers
 import styles from "./messagePage.module.scss";
 import ConversationDeleteModal from "components/Menus/ConversationDeleteModal";
 import { saveConversationMessage } from "requests/conversations";
-import { deleteConversation } from "requests/conversations";
+import {
+  deleteConversation,
+  deleteConversationFinal,
+} from "requests/conversations";
 
 const Message = () => {
-    const { isMobile } = useContext(MobileContext);
-    const { emitUpdate } = useSocket();
-    const { selectedcomm, fetchConversations } = useComms();
-    const { user } = useAuth();
-    const [openEditConversationMenu, setOpenEditConversationMenu] =
-        useState(false);
-    const [showLeaveConversationModal, setShowLeaveConversationModal] =
-        useState(false);
+  const { isMobile } = useContext(MobileContext);
+  const { emitUpdate } = useSocket();
+  const { selectedcomm, fetchConversations } = useComms();
+  const { user } = useAuth();
+  const [openEditConversationMenu, setOpenEditConversationMenu] =
+    useState(false);
+  const [showLeaveConversationModal, setShowLeaveConversationModal] =
+    useState(false);
 
-    useEffect(() => {
-        const element = document.getElementById("mainmessageContainer");
-        element.classList.add(styles.rendering);
-        setTimeout(() => {
-            element.classList.remove(styles.rendering);
-            element.classList.add(styles.entered);
-        }, 100);
+  useEffect(() => {
+    const element = document.getElementById("mainmessageContainer");
+    element.classList.add(styles.rendering);
+    setTimeout(() => {
+      element.classList.remove(styles.rendering);
+      element.classList.add(styles.entered);
+    }, 100);
 
-        return () => {
-            element.classList.remove(styles.entered);
-            element.classList.remove(styles.rendering);
-        };
-    }, []);
-
-    const toggleConversationEditModal = ({ conversation, pos }) => {
-        setOpenEditConversationMenu({ conversation, pos });
+    return () => {
+      element.classList.remove(styles.entered);
+      element.classList.remove(styles.rendering);
     };
+  }, []);
 
-    const closeConversationEditModal = () => {
-        if (!showLeaveConversationModal) {
-            setOpenEditConversationMenu(false);
+  const toggleConversationEditModal = ({ conversation, pos }) => {
+    setOpenEditConversationMenu({ conversation, pos });
+  };
+
+  const closeConversationEditModal = () => {
+    if (!showLeaveConversationModal) {
+      setOpenEditConversationMenu(false);
+    }
+  };
+
+  const onLeaveHandler = () => {
+    setShowLeaveConversationModal(true);
+  };
+
+  const submitDeleteConversation = async () => {
+    let numOfUsers = openEditConversationMenu?.conversation?.users?.length;
+
+    if (numOfUsers >= 2) {
+      await deleteConversation({
+        conversation: openEditConversationMenu.conversation,
+        user,
+      });
+      let creator = openEditConversationMenu.conversation.users?.find(
+        (usr) => usr.userId === user?._id
+      );
+      let ids = openEditConversationMenu.conversation.users?.map(
+        (usr) => usr.userId
+      );
+      let newMessage = {
+        creator_type: "Admin",
+        creator_id: "",
+        creator_name: "",
+        creator_image: "",
+        comm_id: selectedcomm?._id,
+        bookmarked: false,
+        date: new Date(),
+        message: `${creator.name} has left the conversation`,
+        reactions: [],
+        attachments: [],
+        userIDS: ids,
+        conversation_id: openEditConversationMenu.conversation._id,
+      };
+      const data = await saveConversationMessage(newMessage);
+
+      let { id, ok } = data;
+      if (ok) {
+        if (id) {
+          newMessage._id = id;
         }
-    };
 
-    const onLeaveHandler = () => {
-        setShowLeaveConversationModal(true);
-    };
+        fetchConversations();
+        broadcastMessage(newMessage);
+        setShowLeaveConversationModal(false);
+        setOpenEditConversationMenu(false);
+      }
+    } else {
+      await deleteConversationFinal({
+        conversation: openEditConversationMenu.conversation,
+      });
 
-    const submitDeleteConversation = async () => {
-        await deleteConversation({
-            conversation: openEditConversationMenu.conversation,
-            user,
-        });
-        let creator = openEditConversationMenu.conversation.users?.find(
-            (usr) => usr.userId === user?._id
-        );
-        let ids = openEditConversationMenu.conversation.users?.map(
-            (usr) => usr.userId
-        );
-        let newMessage = {
-            creator_type: "Admin",
-            creator_id: "",
-            creator_name: "",
-            creator_image: "",
-            comm_id: selectedcomm?._id,
-            bookmarked: false,
-            date: new Date(),
-            message: `${creator.name} has left the conversation`,
-            reactions: [],
-            attachments: [],
-            userIDS: ids,
-            conversation_id: openEditConversationMenu.conversation._id,
-        };
-        const data = await saveConversationMessage(newMessage);
+      fetchConversations();
+      setShowLeaveConversationModal(false);
+      setOpenEditConversationMenu(false);
+    }
+  };
 
-        let { id, ok } = data;
-        if (ok) {
-            if (id) {
-                newMessage._id = id;
-            }
+  const broadcastMessage = (message) => {
+    message.updateType = "new conversation message";
+    emitUpdate(selectedcomm?._id, message, async (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+  };
 
-            fetchConversations();
-            broadcastMessage(newMessage);
-            setShowLeaveConversationModal(false);
-            setOpenEditConversationMenu(false);
-        }
-    };
-
-    const broadcastMessage = (message) => {
-        message.updateType = "new conversation message";
-        emitUpdate(selectedcomm?._id, message, async (err) => {
-            if (err) {
-                console.error(err);
-            }
-        });
-    };
-
-    return (
+  return (
+    <>
+      {isMobile ? (
         <>
-            {isMobile ? (
-                <>
-                    <div
-                        id="mainmessageContainer"
-                        style={{ width: "100%", position: "relative" }}
-                    >
-                        <div className={styles.topicHolderMobile}>
-                            <ConversationsNav />
-                        </div>
-                    </div>
-                </>
-            ) : (
-                <div
-                    id="mainmessageContainer"
-                    className={styles.ConversationMessages}
-                >
-                    {openEditConversationMenu ? (
-                        <CustomConversationContextMenu
-                            harth={openEditConversationMenu.harth}
-                            pos={openEditConversationMenu.pos}
-                            closeModal={closeConversationEditModal}
-                            onLeaveHandler={onLeaveHandler}
-                        />
-                    ) : null}
-                    {showLeaveConversationModal ? (
-                        <ConversationDeleteModal
-                            setHidden={() =>
-                                setShowLeaveConversationModal(false)
-                            }
-                            submitDeleteConversation={submitDeleteConversation}
-                            conversation={openEditConversationMenu.conversation}
-                        />
-                    ) : null}
-                    <ConversationsNav
-                        toggleConversationEditModal={
-                            toggleConversationEditModal
-                        }
-                    />
-                    <ConversationMessages />
-                </div>
-            )}
+          <div
+            id="mainmessageContainer"
+            style={{ width: "100%", position: "relative" }}
+          >
+            <div className={styles.topicHolderMobile}>
+              <ConversationsNav />
+            </div>
+          </div>
         </>
-    );
+      ) : (
+        <div id="mainmessageContainer" className={styles.ConversationMessages}>
+          {openEditConversationMenu ? (
+            <CustomConversationContextMenu
+              harth={openEditConversationMenu.harth}
+              pos={openEditConversationMenu.pos}
+              closeModal={closeConversationEditModal}
+              onLeaveHandler={onLeaveHandler}
+            />
+          ) : null}
+          {showLeaveConversationModal ? (
+            <ConversationDeleteModal
+              setHidden={() => setShowLeaveConversationModal(false)}
+              submitDeleteConversation={submitDeleteConversation}
+              conversation={openEditConversationMenu.conversation}
+            />
+          ) : null}
+          <ConversationsNav
+            toggleConversationEditModal={toggleConversationEditModal}
+          />
+          <ConversationMessages />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default Message;

@@ -46,7 +46,7 @@ const OtpValidator = (props) => {
 
     const [inviteCode, setInviteCode] = useState();
     const [helpText, setHelpText] = useState([
-        "Go ahead and punch in that secret code of yours.",
+        "Go ahead and punch in the secret code I just sent you.",
     ]);
     const inputChangeHandler = (text) => {
         setInviteCode(text);

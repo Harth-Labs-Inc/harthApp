@@ -39,6 +39,7 @@ export const SocketProvider = ({ children }) => {
     setIncomingConversationMsgUpdate,
     setProfile,
     profileRef,
+    fetchConversations,
   } = useComms();
 
   const selectedHarthRef = useRef();
@@ -215,6 +216,9 @@ export const SocketProvider = ({ children }) => {
             }
             break;
           case "new conversation message":
+            if (incomingUpdate?.creator_type == "Admin") {
+              fetchConversations();
+            }
             setUnreadConversationMessagesHandler(incomingUpdate);
             setNewAlerts(incomingUpdate, "message");
 
