@@ -4,22 +4,34 @@
 
 
 .mainContainer {
-    display: flex;
-    flex-direction: column;
-    min-width: 320px;
-    row-gap: 24px;
-
+    width: 300px;
+    //row-gap: 24px;
+    padding-top: 16px;
+    //background-color: aqua;
     .title {
         @include overlayMenuTitle;
         width: 100%;
         text-align: left;
-        margin-top: 8px;
-        margin-bottom: 40px;
+        //margin-top: 8px;
+        margin-bottom: 8px;
+        text-align: center
+    }
+
+    .harth {
+        @include harthTitle1;
+        width: 100%;
+        overflow-wrap: anywhere;
+        font-size: 36px;
+        text-align: center;
+        margin-bottom: 48px;
     }
 
     .textEntry {
         width: 90%;
-        @include topicTitleActive
+        @include topicTitleActive;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 24px;
     }
 
     .form {
@@ -28,11 +40,18 @@
         align-items: center;
     }
 
-    .harthTitle {
+    .helpText {
         position: relative;
-        margin-top: 4px;      
-        @include harthTitleSmall;
-        color: $fuel_light
+        text-align: center;     
+        width: 90%;
+        margin: 4px auto;
+        
+        color: $silver-dark;
+        @include interfaceR3;
+        overflow-wrap: anywhere;
+        p{
+            font-weight: 700;
+        }
     }
     
 
@@ -42,7 +61,7 @@
         align-items: flex-start;
         width: 98%;
         column-gap: 8px;
-        margin-top: 40px;
+        margin-top: 24px;
 
         .cancelButton {
              width: 96px;

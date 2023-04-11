@@ -4,6 +4,7 @@
 .mainContainer {
     display: flex;
     flex-direction: column;
+    width: 340px;
 
     .title {
         @include overlayMenuTitle;
@@ -22,6 +23,7 @@
         width: 88%;
         @include interfaceR3;
         padding-top: 4px;
+        color: $silver-dark;
     }
 
     .form {

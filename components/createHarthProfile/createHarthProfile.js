@@ -10,7 +10,7 @@ import { compressImage } from "../../requests/s3";
 import styles from "./CreateHarthProfile.module.scss";
 
 export default function CreateHarthProfile({
-  talkingHeadMsg,
+    talkingHeadMsg,
   footer,
   placeholder,
   submitText,
@@ -93,7 +93,7 @@ export default function CreateHarthProfile({
   return (
     <Modal onToggleModal={togglemodal}>
       <div className={styles.mainContainer}>
-        <div className={styles.title}>Make a profile</div>
+        <div className={styles.title}>Create your avatar</div>
         <TalkingHead text={talkingHeadMsg} />
         <div className={styles.imageHolder}>
           <IconUploader
@@ -104,7 +104,7 @@ export default function CreateHarthProfile({
             changeHandler={fileUploadHandler}
           />
         </div>
-
+        
         <form onSubmit={joinHarthHandler} className={styles.form}>
           <input
             placeholder={placeholder}
