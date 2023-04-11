@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-
+import { generateID } from "services/helper";
 import { useComms } from "../../../contexts/comms";
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
@@ -11,7 +11,11 @@ import { useAuth } from "../../../contexts/auth";
 import { getHarthByID } from "../../../requests/community";
 import styles from "./Stream.module.scss";
 import { envUrls, videoSocketUrls } from "../../../constants/urls";
-
+import {
+  compressImage,
+  getUploadURL,
+  putImageInBucket,
+} from "../../../requests/s3";
 /* eslint-disable */
 
 const Stream = () => {
@@ -20,7 +24,7 @@ const Stream = () => {
   const [chats, setChats] = useState([]);
   const [update, triggerUpdate] = useState(0);
   const [mapUpdate, triggerMapUpdate] = useState(0);
-
+  const [uploadingAttachments, setUploadingAttachments] = useState([]);
   const [selectedHarth, setSelectedHarth] = useState(null);
   const [screenShareActive, setScreenShareActive] = useState(false);
   const [showChatPannel, setShowChatPannel] = useState(false);
@@ -1046,7 +1050,7 @@ const Stream = () => {
       return newvalue;
     });
   };
-  const chatSubmitHandler = (msg) => {
+  const chatSubmitHandler = async (msg) => {
     let message = {
       ...msg,
       roomId: roomId,
@@ -1056,6 +1060,45 @@ const Stream = () => {
       userName: userName,
       creator_image: userIcon,
     };
+
+    if (msg.attachments?.length) {
+      let promises = [];
+      msg.attachments.forEach((file, idx) => {
+        setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
+        promises.push(
+          new Promise(async (res) => {
+            let uniqueID = generateID();
+            let extention = file.name.split(".").pop();
+            let name = `${roomId}_${uniqueID}_full.${extention}`;
+            let thumbnail = `${roomId}_${uniqueID}_thumbnail.${extention}`;
+
+            let bucket = "room-attachments";
+            const data = await getUploadURL(name, file.type, bucket);
+            const { ok, uploadURL } = data;
+            if (ok) {
+              let reader = new FileReader();
+              reader.addEventListener("loadend", async () => {
+                let result = await putImageInBucket(
+                  uploadURL,
+                  reader,
+                  file.type
+                );
+                let { status } = result;
+                if (status == 200) {
+                  await compressImage(name, thumbnail, bucket, file.type);
+                  res({ name: thumbnail, fileType: file.type });
+                }
+              });
+              reader.readAsArrayBuffer(file);
+            }
+          })
+        );
+      });
+      const outputs = await Promise.all(promises);
+      message.attachments = outputs;
+    }
+
+    setUploadingAttachments([]);
     sendNewChatMessage(message);
   };
   const leaveRoom = () => {
@@ -1296,7 +1339,10 @@ const Stream = () => {
             } `}
           >
             <ChatMessagesGeneral messages={chats} userName={userName} />
-            <GeneralChatInput onSubmitHandler={chatSubmitHandler} />
+            <GeneralChatInput
+              uploadingAttachments={uploadingAttachments}
+              onSubmitHandler={chatSubmitHandler}
+            />
           </section>
 
           <section

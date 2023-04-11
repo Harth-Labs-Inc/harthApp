@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
@@ -11,7 +11,11 @@ import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFi
 import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
 
-const GeneralChatInput = ({ onSubmitHandler }) => {
+const GeneralChatInput = ({
+  onSubmitHandler,
+  uploadingAttachments = [],
+  shouldReset,
+}) => {
   const [attachments, setAttachments] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [altKey, setAltKey] = useState(false);
@@ -22,6 +26,25 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
   const attRefs = useRef([]);
 
   const { isMobile } = useContext(MobileContext);
+
+  useEffect(() => {
+    if (attachments.length > 0) {
+      attachments.forEach((file, idx) => {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          const { result } = e.target;
+          attRefs.current[idx].src = result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  }, [attachments]);
+
+  useEffect(() => {
+    if (!uploadingAttachments.length) {
+      resetInput();
+    }
+  }, [uploadingAttachments]);
 
   const removeAttachment = (idx) => {
     const tempAttachments = [...attachments];
@@ -123,7 +146,6 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
       attachments: attachments,
     };
     onSubmitHandler(message);
-    resetInput();
   };
 
   const resetInput = () => {
@@ -138,7 +160,7 @@ const GeneralChatInput = ({ onSubmitHandler }) => {
         attachments={attachments}
         removeAttachment={removeAttachment}
         attRefs={attRefs}
-        uploading={[]}
+        uploading={uploadingAttachments}
       />
       <textarea
         id={styles.ChatInputText}

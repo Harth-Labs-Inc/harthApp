@@ -1,6 +1,13 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
+
+.imageViewer {
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+}
+
 #ChatInput {
     width: 100%;
     display: flex;
