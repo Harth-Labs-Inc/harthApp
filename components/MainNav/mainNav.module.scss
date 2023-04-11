@@ -167,10 +167,10 @@
             border: 0;
             margin: 0;
             border-radius: 0;
-            justify-content: space-evenly;
+            justify-content:space-evenly;
             padding: 4px 0px 0px 0px;
             //background-color: aqua;
-            margin-left: 84px;
+            margin-left: 96px;
         }
     }
 
@@ -397,51 +397,6 @@
             color: $silver-dark;
         }
 
-        &.ActiveChat {
-            background-color: $silver-med;
-            path {
-                fill: $warm_blue;
-            }
-            
-            .Mobile & {
-                background-color: transparent;
-                .mobileTitle {
-                    color: $warm_blue;
-                }
-
-            }
-
-        }
-
-        &.ActiveGather {
-            background-color: $silver-med;
-            path {
-                fill: $warm_red;
-            }
-
-            .Mobile & {
-                background-color: transparent;
-                .mobileTitle {
-                    color: $warm_red;
-                }
-            }
-        }
-
-        &.ActiveMessage{
-            background-color: $silver-med;
-            path {
-                fill: $warm_slate;
-            }
-
-
-            .Mobile & {
-                background-color: transparent;
-                .mobileTitle {
-                    color: $warm_slate;
-                }
-            }
-
-        }
 
         .Mobile & {
             position: relative;
@@ -454,7 +409,7 @@
             padding-top: 2px;
             border-radius: 8px;
             //padding-top: 6px;
-            //background-color: aqua;
+            //background-color: aquamarine;
             //border-top: 2px solid transparent;
             .iconHolder {
                 position: relative;
@@ -476,6 +431,60 @@
             &:hover {
                 background-color: $silver-light;
 
+            }
+
+        }
+
+        &.ActiveChat {
+            background-color: $silver-med;
+            path {
+                fill: $warm_blue;
+            }
+            &:hover {
+                background-color: $silver-med;
+            }
+            .Mobile & {
+                background-color: transparent;
+                .mobileTitle {
+                    color: $warm_blue;
+                }
+
+            }
+
+        }
+
+        &.ActiveGather {
+            background-color: $silver-med;
+            path {
+                fill: $warm_red;
+            }
+
+            &:hover {
+                background-color: $silver-med;
+            }
+            .Mobile & {
+                background-color: transparent;
+                .mobileTitle {
+                    color: $warm_red;
+                }
+            }
+        }
+
+        &.ActiveMessage{
+            background-color: $silver-med;
+            path {
+                fill: $warm_slate;
+            }
+
+            &:hover {
+                background-color: $silver-med;
+            }
+
+            .Mobile & {
+                background-color: transparent;
+                .mobileTitle {
+                    color: $warm_slate;
+                }
             }
 
         }

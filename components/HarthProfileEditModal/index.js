@@ -150,7 +150,8 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     return (
         <Modal onToggleModal={setHidden} show={true}>
             <div className={styles.mainContainer}>
-                <div className={styles.title}>Your profile</div>
+                {/* <div className={styles.title}>This is your avatar for</div>
+                <div className={styles.harth}>{harth.name}</div> */}
                 <IconUploader
                     shape="circle"
                     id={harth?._id || ""}
@@ -168,7 +169,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
                         autoComplete="off"
                         maxLength={20}
                     />
-                    <div className={styles.harthTitle}>{harth.name}</div>
+                    <div className={styles.helpText}>{`Tip: This is your avatar for ${harth.name} only. Switch härths to personalize all your different avatars.`}</div>
                     <div className={styles.buttonBar}>
                         <Button
                             text="Cancel"

@@ -23,7 +23,7 @@ const UserIcon = ({
     if (size === "small") {
       setDimensions({ height: 36, width: 36 });
     } else {
-      setDimensions({ height: 44, width: 44 });
+      setDimensions({ height: 40, width: 40 });
     }
   }, [size]);
 

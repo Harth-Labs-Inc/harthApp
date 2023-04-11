@@ -58,7 +58,7 @@ const IconUploader = ({ shape, icon, changeHandler }) => {
                         src={image}
                         // height={88}
                         // width={88}
-                        alt="your profile avatar"
+                        alt="your avatar"
                     />
                 </div>
             </div>

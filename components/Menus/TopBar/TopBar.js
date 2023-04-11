@@ -71,10 +71,11 @@ const TopBar = ({ children, currentPage }) => {
             <UserIcon
               img={iconKey || ""}
               showName={false}
-              size="small"
+              size={isMobile ? "regular" : "small"}
               isPressable
               pressHandler={editUserModalHandler}
             />
+            
           </div>
         </div>
       </div>
