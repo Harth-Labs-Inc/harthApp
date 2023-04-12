@@ -155,10 +155,11 @@ export const SocketProvider = ({ children }) => {
             break;
           case "topic deleted":
             let deleteResult = getTopics(incomingUpdate?.comm?._id, user._id);
+
             deleteResult.then(({ topics }) => {
               if (topics) {
                 if (activeTopic?._id === incomingUpdate?.topic?._id) {
-                  setSelectedTopic(topics[0]);
+                  setSelectedTopic(topics[0] || {});
                 }
                 setTopics(topics);
               }

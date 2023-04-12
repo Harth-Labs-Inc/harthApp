@@ -10,7 +10,7 @@ import { compressImage } from "../../requests/s3";
 import styles from "./CreateHarthProfile.module.scss";
 
 export default function CreateHarthProfile({
-    talkingHeadMsg,
+  talkingHeadMsg,
   footer,
   placeholder,
   submitText,
@@ -69,7 +69,6 @@ export default function CreateHarthProfile({
       userId: user._id,
       iconKey: profileIconKey,
       name: profileName,
-      personalInfo: {},
       admin: admin,
       owner,
       muted: false,
@@ -104,7 +103,7 @@ export default function CreateHarthProfile({
             changeHandler={fileUploadHandler}
           />
         </div>
-        
+
         <form onSubmit={joinHarthHandler} className={styles.form}>
           <input
             placeholder={placeholder}
