@@ -13,16 +13,14 @@
     justify-content: center;
     background: transparent;
 
-    &Large {
-        height: 80px;
-        width: 80px;
 
+    &Large {
         .icon {
             position: relative;
             top: 0px;
             left: 3px;
-            width: 60px;
-            height: 60px;
+            width: 72px;
+            height: 72px;
             //background-color: aqua;
         }
 
@@ -36,9 +34,7 @@
         }
     }
 
-    &Mobile {
-        width: calc(100% / 3);
-    }
+
 
     &Small {
         height: 56px;
@@ -98,6 +94,13 @@
             //animation: roll 1s;
             animation: roll 600ms 2 linear;
         }
+    }
+
+    &Mobile {
+        //width: calc(100% / 3);
+        width: 26%;
+        border-radius: 12px;
+        height: 110px;
     }
 }
 

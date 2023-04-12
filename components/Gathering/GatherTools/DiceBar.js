@@ -44,15 +44,22 @@ export const DiceBar = (props) => {
               isMobile && styles.mainContainerDiceMobile
             }`}
           >
-            <div className={styles.topBar} id="handle">
-              <div className={styles.grabber} />
-              <button
-                className={styles.close}
-                aria-label="close dice bar"
-                onClick={togggleDiceModal}
-              >
-                <IconClose />
-              </button>
+            <div 
+              className={`
+                ${styles.topBar} 
+                ${isMobile && styles.topBarMobile}
+              `} 
+              id="handle">
+                <div className={styles.grabber} />
+                {!isMobile ?
+                  <button
+                    className={styles.close}
+                    aria-label="close dice bar"
+                    onClick={togggleDiceModal}
+                  >
+                    <IconClose />
+                  </button>
+                  : null}
             </div>
 
             <div className={styles.diceContainer} aria-label="dice bar">
