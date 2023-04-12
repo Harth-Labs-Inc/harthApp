@@ -23,6 +23,8 @@ export const ChatProvider = ({ children }) => {
           });
         }
       })();
+    } else {
+      setMessages({});
     }
   }, [selectedTopic]);
 
