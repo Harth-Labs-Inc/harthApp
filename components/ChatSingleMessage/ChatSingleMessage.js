@@ -70,7 +70,7 @@ const ChatSingleMessage = (props) => {
 
   const { user } = useAuth();
   const { emitUpdate } = useSocket();
-  const { selectedcomm } = useComms();
+  const { selectedcomm, selectedTopic } = useComms();
 
   useEffect(() => {
     async function fetchDownloadURL() {
@@ -112,7 +112,10 @@ const ChatSingleMessage = (props) => {
     if (chatType == "gather") {
       deleteConversation();
     } else {
-      await deleteMessage(_id);
+      await deleteMessage(
+        _id,
+        `${selectedcomm._id}-${selectedTopic._id}-${_id}`
+      );
       let msg = props.msg;
       msg.action = "delete";
       msg.updateType = "message update";
@@ -333,6 +336,10 @@ const ChatSingleMessage = (props) => {
   // };
 
   let timeStamp = getTimeStamp();
+
+  if (!selectedcomm) {
+    return null;
+  }
 
   return (
     <div

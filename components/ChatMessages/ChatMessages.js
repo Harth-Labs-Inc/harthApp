@@ -81,6 +81,8 @@ const MessageWrapper = () => {
         setDisplayScrollButton(true);
       }
       setCurrentMessages(tempMsgs);
+    } else {
+      setCurrentMessages([]);
     }
   }, [selectedTopic, messages]);
 
@@ -158,7 +160,7 @@ const MessageWrapper = () => {
     setEditMessageObj(msg);
   };
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({
+    messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });

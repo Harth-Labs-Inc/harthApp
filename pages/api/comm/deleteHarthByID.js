@@ -70,6 +70,39 @@ export default async (req, res) => {
       );
     });
   };
+  const deleteTopicImages = (db, id = "") => {
+    return new Promise(async (resolve, reject) => {
+      const aws = require("aws-sdk");
+      aws.config = {
+        accessKeyId: process.env.AWS_ACCESS,
+        secretAccessKey: process.env.AWS_SECRET,
+        region: "us-east-2",
+      };
+      const s3 = new aws.S3();
+      const params = {
+        Bucket: "topic-message-attachments",
+        Prefix: `${id}-`,
+      };
+      let data = await s3.listObjectsV2(params).promise();
+      if (data.Contents && data.Contents.length) {
+        const filesToDelete = data.Contents.map(({ Key }) => ({ Key }));
+        const deleteParams = {
+          Bucket: "topic-message-attachments",
+          Delete: {
+            Objects: filesToDelete,
+          },
+        };
+        s3.deleteObjects(deleteParams, (err, result) => {
+          if (err) {
+            resolve(false);
+          }
+          resolve(true);
+        });
+      } else {
+        resolve(false);
+      }
+    });
+  };
 
   const client = await clientPromise;
   const db = client.db("blarg");
@@ -127,6 +160,7 @@ export default async (req, res) => {
   }
   await deleteTopic(db, obj.id);
   await deleteTopicMessages(db, obj.id);
+  await deleteTopicImages(db, obj.id);
 
   return res.json({ ok: 1, msg: "success" });
 };
