@@ -222,7 +222,7 @@ const TopicsNav = (props) => {
     setShowDeleteTopicModal(false);
   };
   const submitTopicDeleteHandler = async (newTopic) => {
-    await deleteTopicByID(newTopic._id);
+    await deleteTopicByID(newTopic._id, selectedcomm._id);
     let msg = {};
     msg.updateType = "topic deleted";
     msg.comm = selectedcomm;
@@ -293,7 +293,8 @@ const TopicsNav = (props) => {
           Topics
         </p>
         <div className={styles.TopicsNavContainer}>
-          {topicsArr &&
+          {selectedcomm &&
+            topicsArr &&
             topicsArr.map((topic) => {
               let isActive = false;
               let isShort = false;
