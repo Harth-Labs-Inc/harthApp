@@ -43,6 +43,33 @@ export default async (req, res) => {
       );
     });
   };
+  const deleteTopic = (db, harthID) => {
+    return new Promise((resolve, reject) => {
+      db.collection("topics").deleteMany(
+        { comm_id: harthID },
+        function (err, result) {
+          if (err) {
+            resolve(false);
+          }
+          resolve(true);
+        }
+      );
+    });
+  };
+
+  const deleteTopicMessages = (db, id = "") => {
+    return new Promise((resolve, reject) => {
+      db.collection("messages").deleteMany(
+        { comm_id: id.toString() },
+        function (err, result) {
+          if (err) {
+            resolve(false);
+          }
+          resolve(true);
+        }
+      );
+    });
+  };
 
   const client = await clientPromise;
   const db = client.db("blarg");
@@ -98,5 +125,8 @@ export default async (req, res) => {
   if (!removeFromUsers) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
+  await deleteTopic(db, obj.id);
+  await deleteTopicMessages(db, obj.id);
+
   return res.json({ ok: 1, msg: "success" });
 };
