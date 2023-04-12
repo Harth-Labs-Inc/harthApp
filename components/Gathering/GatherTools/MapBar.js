@@ -169,16 +169,26 @@ export const MapBar = (props) => {
               isMobile && styles.mainContainerMapMobile
             }`}
           >
-            <div className={styles.topBar} id="handle">
-              <div className={styles.spacer} />
-              <div className={styles.grabber} />
-              <button
-                className={styles.close}
-                aria-label="close dice bar"
-                onClick={togggleMapModal}
-              >
-                <IconClose />
-              </button>
+            <div className={`
+                ${styles.topBar} 
+                ${isMobile && styles.topBarMobile}
+              `} id="handle">
+
+                {isMobile ? (
+                  <div className={styles.grabber} />
+                ):(
+                  <>
+                  <div className={styles.spacer} />
+                  <div className={styles.grabber} />
+                  <button
+                    className={styles.close}
+                    aria-label="close dice bar"
+                    onClick={togggleMapModal}
+                  >
+                    <IconClose />
+                  </button>
+                  </>
+                )}
             </div>
 
             {!hasMap ? (
@@ -199,6 +209,7 @@ export const MapBar = (props) => {
                 className={`
                 ${styles.mapContainer} 
                 ${styles.mapContainerActive} 
+                ${isMobile && styles.mapContainerActiveMobile} 
                 `}
                 onMouseOver={showBottomBar}
                 onMouseLeave={hideBottomBar}

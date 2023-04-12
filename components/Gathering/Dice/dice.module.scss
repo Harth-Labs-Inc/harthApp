@@ -15,9 +15,6 @@
 
 
     &Large {
-        height: 100px;
-        width: 100px;
-
         .icon {
             position: relative;
             top: 0px;
@@ -101,8 +98,9 @@
 
     &Mobile {
         //width: calc(100% / 3);
-        width: 100px;
+        width: 26%;
         border-radius: 12px;
+        height: 110px;
     }
 }
 
