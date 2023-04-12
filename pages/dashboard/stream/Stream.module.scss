@@ -13,15 +13,23 @@
     font-style: normal;
 }
 
-.volumeButton:before {
-    font-family: "icomoon";
-    content: "\e900";
-    color: rgba(252, 255, 246, 0.5);
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
+.volumeButton {
+    &:before {
+        font-family: "icomoon";
+        content: "\e900";
+        color: rgba(252, 255, 246, 0.5);
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    &Active {
+        &:before {
+            color: $hot_pink;
+        }
+    }
 }
 
 .streamWindow {
@@ -45,12 +53,24 @@
         width: 100%;
         padding-top: 8px;
 
+        &Mobile {
+            flex-direction: column-reverse;
+            justify-content: flex-end;
+        }
+
         .leftContainer {
             margin-right: 12px;
             margin-left: 4px;
             width: 240px;
             //background-color: aqua;
             user-select: none;
+
+            &Mobile {
+                width: calc(100% - 8px);
+                max-height: 50%;
+                margin: 0;
+                overflow: auto;
+            }
         }
 
         .peerContainer {
@@ -303,10 +323,22 @@
             flex: 1;
             flex-direction: column;
             background-color: transparent;
+
+            &Mobile {
+                flex: unset;
+                max-height: 50%;
+                overflow: scroll;
+
+                .videoContainer {
+                    max-height: 250px;
+                    min-height: 250px;
+                }
+            }
         }
 
         .ChatPanelContainer {
             position: relative;
+            left: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -318,12 +350,43 @@
             margin-right: 8px;
             width: 0;
             visibility: hidden;
+            transition: width 0.3s ease-in-out;
 
             &Open {
                 width: 420px;
                 margin-left: 12px;
                 padding: 0 8px;
                 visibility: visible;
+
+                &.rendering {
+                    left: 100%;
+                    transition: all 0.4s ease-in-out;
+                }
+                &.entered {
+                    left: 0%;
+                    transition: all 0.4s ease-in-out;
+                }
+            }
+
+            &Mobile {
+                position: absolute;
+                top: 0;
+                left: 100%;
+                z-index: 1;
+                height: calc(100% - 20px);
+
+                &.ChatPanelContainerOpen {
+                    width: 100%;
+                }
+
+                &.rendering {
+                    left: 100%;
+                    transition: all 0.4s ease-in-out;
+                }
+                &.entered {
+                    left: 0%;
+                    transition: all 0.4s ease-in-out;
+                }
             }
         }
 
