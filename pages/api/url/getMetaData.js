@@ -48,13 +48,19 @@ export default async (req, res) => {
         return res.json({ ok: 0, data: {} });
     }
 
-    if (obj.url.includes("www.instagram.com")) {
-        let data = await getMeta(obj.url);
-        if (!data) {
-            return res.json({ ok: 0, data: {} });
-        }
-        return res.json({ ok: 1, data });
-    } else {
+    let data = await getMeta(obj.url);
+    if (!data) {
         return res.json({ ok: 0, data: {} });
     }
+    return res.json({ ok: 1, data });
+
+    // if (obj.url.includes("www.instagram.com")) {
+    //     let data = await getMeta(obj.url);
+    //     if (!data) {
+    //         return res.json({ ok: 0, data: {} });
+    //     }
+    //     return res.json({ ok: 1, data });
+    // } else {
+    //     return res.json({ ok: 0, data: {} });
+    // }
 };

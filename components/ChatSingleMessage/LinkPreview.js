@@ -16,16 +16,16 @@ export const LinkPreview = ({ message }) => {
         let rawurl = "";
         let replacedURL = innerHtml.replace(urlRegex, function (url) {
             rawurl = url;
-            if (!url.match("^https?://")) {
-                url = "http://" + url;
-            }
+            return url;
         });
+
         setRawURL(rawurl);
         setAlteredURL(replacedURL);
     };
 
     const getMetaData = async (url) => {
-        getURLMetaData(url).then(({ data }) => {
+        const token = localStorage.getItem("token");
+        getURLMetaData(url, token).then(({ data }) => {
             if (data.ok) {
                 setOgData(data.data);
             }
@@ -46,21 +46,47 @@ export const LinkPreview = ({ message }) => {
 
     if (ogData) {
         return (
-            <a href={rawURL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none"}}>
-            <article id="ogCard" className={styles.ogCard}>
-                <span className={styles.title}>
-                   {ogData?.result?.ogTitle || ogData?.result?.ogSiteName}
-                </span>
-                <span>{ogData?.result?.ogDescription}</span>
-                <img
-                    src={
-                        ogData?.result?.ogImage?.url || ogData?.result?.favicon
-                    }
-                    alt={ogData?.result?.ogTitle}
-                    loading="lazy"
-                />
-            </article>
-            </a>
+            <>
+                <br />
+                <a
+                    href={rawURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: "none" }}
+                >
+                    <article id="ogCard" className={styles.ogCard}>
+                        <span className={styles.title}>
+                            {ogData?.result?.ogTitle ||
+                                ogData?.result?.ogSiteName}
+                        </span>
+                        <span>{ogData?.result?.ogDescription}</span>
+                        <img
+                            src={
+                                ogData?.result?.ogImage?.url ||
+                                ogData?.result?.favicon
+                            }
+                            alt={ogData?.result?.ogTitle}
+                            loading="lazy"
+                        />
+                        {/* {ogData?.result?.ogVideo ? (
+                        <video
+                            src={ogData?.result?.ogVideo?.url}
+                            controls
+                            autoPlay
+                        />
+                    ) : (
+                        <img
+                            src={
+                                ogData?.result?.ogImage?.url ||
+                                ogData?.result?.favicon
+                            }
+                            alt={ogData?.result?.ogTitle}
+                            loading="lazy"
+                        />
+                    )} */}
+                    </article>
+                </a>
+            </>
         );
     }
 

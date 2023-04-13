@@ -2,20 +2,22 @@ import api from "../services/api";
 
 /* eslint-disable */
 
-export const getURLMetaData = async (url) => {
+export const getURLMetaData = async (url, token) => {
+    // let token;
+    // if (url.indexOf("instagram") > -1) {
+    //     token = localStorage.getItem("token");
+    // }
     try {
-        const token = localStorage.getItem("token");
-
         const res = await api.post(
             `/api/url/getMetaData`,
             {
                 url,
-            },
-            {
-                headers: {
-                    "x-auth-token": token,
-                },
             }
+            // {
+            //     headers: {
+            //         "x-auth-token": token,
+            //     },
+            // }
         );
         return res;
     } catch (error) {
