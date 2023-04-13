@@ -36,6 +36,10 @@
             cursor: pointer;
             border: 0;
             //border: 1px solid $silver_light;
+            box-shadow:
+                    0 1px 1px hsl(0deg 0% 0% / 0.075);
+                    //0 2px 2px hsl(0deg 0% 0% / 0.075);
+                    //0 4px 4px hsl(0deg 0% 0% / 0.075);
         }
         &Icon {
             margin: auto;
@@ -100,17 +104,17 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            border: 1px solid $silver_med;
+            border: 1px solid $silver_heavy;
             border-radius: 8px; 
             background: transparent;
             padding: 6px;
-
+            cursor: pointer;
             path {
-                fill: $silver_heavy;
+                fill: $silver_dark;
             }
 
             &:hover {
-                background-color: $silver_light;
+                background-color: $silver_med;
             }
         }
     }
@@ -250,7 +254,7 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            border: 1px solid $silver_med;
+            border: 1px solid $silver_heavy;
             border-radius: 8px;
             background: transparent;
             padding: 6px;
@@ -260,7 +264,7 @@
             }
 
             &:active {
-                background-color: $silver_light;
+                background-color: $silver_med;
             }
         }
     }

@@ -101,7 +101,7 @@ const Login = () => {
                 <Button
                     size="small"
                     tier="secondary"
-                    text="Need an account?"
+                    text="Create an Account"
                     className={styles.loginModuleSignUpLink}
                     onClick={() => {
                         router.push("/auth/createAccount");
