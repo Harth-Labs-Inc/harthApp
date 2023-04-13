@@ -19,6 +19,7 @@ const AuthIndexPage = () => {
     useEffect(() => {
         if (tkn) {
             if (invite) {
+                localStorage.setItem("inviteToken", tkn);
                 setInviteToken(tkn);
                 setCurrentPage("login");
             }
