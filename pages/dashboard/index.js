@@ -59,13 +59,15 @@ const dashboard = () => {
         query: { tkn },
     } = router;
 
-    const inviteTKN = localStorage.getItem("inviteToken");
+    let inviteTKN;
 
     useEffect(() => {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const gatherWindow = urlParams.get("gather_window");
         const roomType = urlParams.get("room_type");
+
+        inviteTKN = localStorage.getItem("inviteToken");
 
         if (!loading) {
             if (!user) {
