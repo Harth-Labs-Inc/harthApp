@@ -28,8 +28,8 @@
         box-shadow:
         0 1px 1px hsl(0deg 0% 0% / 0.075),
         0 2px 2px hsl(0deg 0% 0% / 0.075),
-        0 4px 4px hsl(0deg 0% 0% / 0.075),
-        0 8px 8px hsl(0deg 0% 0% / 0.075);
+        0 4px 4px hsl(0deg 0% 0% / 0.075);
+        //0 8px 8px hsl(0deg 0% 0% / 0.075);
 
         height: fit-content;
         width: fit-content;
@@ -164,14 +164,22 @@
         &Reactions {
             display: flex;
             align-items: center;
+            margin-left: 16px;
+            margin-top: -8px;
+           
 
             > * {
                 margin-right: $gutter;
             }
 
             &Emoji {
-                font-size: 32px;
-                line-height: 32px;
+                font-size: 28px;
+                line-height: 28px;
+                background-color: $white;
+                padding: 8px 4px;
+                border-radius: 28px;
+                z-index: 1;
+                
             }
         }
     }
