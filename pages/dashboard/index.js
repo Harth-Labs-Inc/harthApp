@@ -51,15 +51,14 @@ const dashboard = () => {
         useState(false);
     const [showInviteAcceptModal, setShowInviteAcceptModal] = useState(false);
     const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
+    const [inviteTKN, setInviteTKN] = useState(false);
 
-    const { user, loading, setInviteTKN } = useAuth();
+    const { user, loading } = useAuth();
 
     const router = useRouter();
     const {
         query: { tkn },
     } = router;
-
-    let inviteTKN;
 
     useEffect(() => {
         const queryString = window.location.search;
@@ -67,7 +66,10 @@ const dashboard = () => {
         const gatherWindow = urlParams.get("gather_window");
         const roomType = urlParams.get("room_type");
 
-        inviteTKN = localStorage.getItem("inviteToken");
+        let storedinviteTKN = localStorage.getItem("inviteToken");
+        if (storedinviteTKN) {
+            setInviteTKN(storedinviteTKN);
+        }
 
         if (!loading) {
             if (!user) {
@@ -88,13 +90,13 @@ const dashboard = () => {
                         user,
                         subject: "Welcome To Härth",
                     });
-                    if (!inviteTKN && !tkn) {
+                    if (!storedinviteTKN && !tkn) {
                         setShowCreateHarthNameModal(true);
                     } else {
                         localStorage.removeItem("showFirstTimeUser");
                         async function testToken() {
                             let results = await checkIfInviteTokenIsGood({
-                                token: tkn || inviteTKN,
+                                token: tkn || storedinviteTKN,
                                 user,
                             });
                             if (results?.ok) {
@@ -109,10 +111,10 @@ const dashboard = () => {
                         }
                         testToken();
                     }
-                } else if (inviteTKN || tkn) {
+                } else if (storedinviteTKN || tkn) {
                     async function testToken() {
                         let results = await checkIfInviteTokenIsGood({
-                            token: tkn || inviteTKN,
+                            token: tkn || storedinviteTKN,
                             user,
                         });
                         if (results?.ok) {
@@ -132,6 +134,10 @@ const dashboard = () => {
             }
             if (gatherWindow) setGatherWindow(gatherWindow);
         }
+
+        return () => {
+            setInviteTKN(null);
+        };
     }, [loading]);
 
     const changePageHandler = (pg) => {
