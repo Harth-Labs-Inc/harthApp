@@ -74,7 +74,7 @@ const HarthNotificationSettings = () => {
                 </div>
 
                 <div className={styles.chatListHolder}>
-                    {topics.map((topic, idx) => {
+                    {topics?.map((topic, idx) => {
                         let userIndex = topic.members.findIndex(
                             ({ user_id }) => {
                                 return user_id == user._id;

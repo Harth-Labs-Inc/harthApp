@@ -6,37 +6,22 @@ import { useEffect } from "react";
 const IndexPage = () => {
     const { user, loading } = useAuth();
 
-    // useEffect(() => {
-    //     function handleVisibilityChange() {
-    //         let storedValue = localStorage.getItem("forceReload");
-    //         if (!storedValue) {
-    //             localStorage.setItem("forceReload", true);
-    //         } else {
-    //             localStorage.removeItem("forceReload");
-    //             location.reload();
-    //         }
-    //     }
-    //     document.addEventListener(
-    //         "visibilitychange",
-    //         handleVisibilityChange,
-    //         false
-    //     );
-    //     return () => {
-    //         document.removeEventListener(
-    //             "visibilitychange",
-    //             handleVisibilityChange,
-    //             false
-    //         );
-    //     };
-    // }, []);
-
     useEffect(() => {
-        document.addEventListener("contextmenu", (event) => {
+        function handleNetworkChange() {
+            if (navigator && navigator.onLine) {
+                location.reload();
+            }
+        }
+        window.addEventListener("contextmenu", (event) => {
             event.preventDefault();
         });
 
+        window.addEventListener("online", handleNetworkChange);
+        window.addEventListener("offline", handleNetworkChange);
         return () => {
             window.removeEventListener("contextmenu", () => {});
+            window.removeEventListener("online", handleNetworkChange);
+            window.removeEventListener("offline", handleNetworkChange);
         };
     }, []);
 
@@ -57,9 +42,6 @@ const IndexPage = () => {
             return Auth ? <Auth></Auth> : null;
         }
     };
-
-    // console.log(isLaptopOpen, "isLaptopOpen");
-    // console.log(prevIsLaptopOpenRef.current, "prevIsLaptopOpen");
 
     return (
         <>
