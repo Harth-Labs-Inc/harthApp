@@ -393,6 +393,7 @@ const ChatSingleMessage = (props) => {
                         showName={false}
                         size="regular"
                         iconClass={`${selectedcomm._id}_${creator_id}`}
+                        shouldIgnoreUserId={true}
                     />
                 </span>
 
