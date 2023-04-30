@@ -13,9 +13,9 @@ const IndexPage = () => {
             }
         }
 
-        screen.orientation.lock("portrait").catch((err) => {
-            console.error(err);
-        });
+        // screen.orientation.lock("portrait").catch((err) => {
+        //     console.error(err);
+        // });
         // window.addEventListener("contextmenu", (event) => {
         //     event.preventDefault();
         // });
