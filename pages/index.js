@@ -12,9 +12,9 @@ const IndexPage = () => {
                 location.reload();
             }
         }
-        window.addEventListener("contextmenu", (event) => {
-            event.preventDefault();
-        });
+        // window.addEventListener("contextmenu", (event) => {
+        //     event.preventDefault();
+        // });
 
         window.addEventListener("online", handleNetworkChange);
         window.addEventListener("offline", handleNetworkChange);

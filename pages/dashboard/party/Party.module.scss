@@ -23,6 +23,10 @@
 
         &Mobile {
             flex-direction: column-reverse;
+
+            .ownerVideo {
+                bottom: 20px !important;
+            }
         }
 
         .peerContainer {
@@ -91,10 +95,6 @@
                 width: 64px;
                 border-radius: 50%;
                 object-fit: cover;
-            }
-
-            &.ownerVideo {
-                transform: scaleX(-1);
             }
 
             audio {
@@ -212,7 +212,7 @@
                 position: absolute;
                 top: 0;
                 left: 100%;
-                z-index: 1;
+                z-index: 98;
                 height: calc(100% - 20px);
 
                 &.ChatPanelContainerOpen {
@@ -237,7 +237,7 @@
             height: 120px;
             width: 120px;
             transform: scaleX(-1);
-            z-index: 1000000000;
+            z-index: 97;
             background-color: transparent;
 
             &Alone {
