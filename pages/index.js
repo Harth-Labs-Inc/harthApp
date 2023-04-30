@@ -12,6 +12,10 @@ const IndexPage = () => {
                 location.reload();
             }
         }
+
+        screen.orientation.lock("portrait").catch((err) => {
+            console.error(err);
+        });
         // window.addEventListener("contextmenu", (event) => {
         //     event.preventDefault();
         // });
