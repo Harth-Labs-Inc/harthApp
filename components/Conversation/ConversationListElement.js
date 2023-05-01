@@ -67,54 +67,81 @@ const ConversationListElement = (props) => {
         onClick={toggleActive}
         onMouseUp={(e) => toggleEditMenu(e, conversation._id, conversation)}
       >
-        {conversation.users?.map((e) => {
-          if (e.userId == profile?.userId) {
-            return (
-              <div key={e.userId} className={styles.participantElement}>
-                <img
-                  className={`
+        {conversation.OriginalUsers
+          ? conversation.OriginalUsers?.map((e) => {
+              if (e.userId !== profile.userId) {
+                return (
+                  <div key={e.userId} className={styles.participantElement}>
+                    <img
+                      className={`
+                                  ${styles.avatar} 
+                                  ${isMobile && styles.avatarMobile} 
+                                  ${selectedcomm?._id}_${e.userId}
+                                  `}
+                      src={e.iconKey}
+                      loading="lazy"
+                    />
+                    <div
+                      className={[
+                        styles.label,
+                        `${selectedcomm._id}_${e.userId}_name`,
+                      ].join(" ")}
+                    >
+                      {e.name}
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            })
+          : conversation.users?.map((e) => {
+              if (e.userId == profile?.userId) {
+                return (
+                  <div key={e.userId} className={styles.participantElement}>
+                    <img
+                      className={`
                                             ${styles.avatar}
                                             ${isMobile && styles.avatarMobile}
                                             ${selectedcomm?._id}_${
-                    profile?.userId
-                  }
+                        profile?.userId
+                      }
                                             `}
-                  src={profile?.iconKey}
-                  loading="lazy"
-                />
-                <div
-                  className={[
-                    styles.label,
-                    `${selectedcomm._id}_${profile?.userId}_name`,
-                  ]}
-                >
-                  {profile?.name}
-                </div>
-              </div>
-            );
-          }
-          return (
-            <div key={e.userId} className={styles.participantElement}>
-              <img
-                className={`
+                      src={profile?.iconKey}
+                      loading="lazy"
+                    />
+                    <div
+                      className={[
+                        styles.label,
+                        `${selectedcomm._id}_${profile?.userId}_name`,
+                      ]}
+                    >
+                      {profile?.name}
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <div key={e.userId} className={styles.participantElement}>
+                  <img
+                    className={`
                                 ${styles.avatar} 
                                 ${isMobile && styles.avatarMobile} 
                                 ${selectedcomm?._id}_${e.userId}
                                 `}
-                src={e.iconKey}
-                loading="lazy"
-              />
-              <div
-                className={[
-                  styles.label,
-                  `${selectedcomm._id}_${e.userId}_name`,
-                ].join(" ")}
-              >
-                {e.name}
-              </div>
-            </div>
-          );
-        })}
+                    src={e.iconKey}
+                    loading="lazy"
+                  />
+                  <div
+                    className={[
+                      styles.label,
+                      `${selectedcomm._id}_${e.userId}_name`,
+                    ].join(" ")}
+                  >
+                    {e.name}
+                  </div>
+                </div>
+              );
+            })}
       </button>
     </>
   );
