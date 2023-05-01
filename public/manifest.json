@@ -168,6 +168,5 @@
     "display": "fullscreen",
     "scope": "/",
     "background_color": "#f5f5f8",
-    "theme_color": "#f5f5f8",
-    "display_override": ["window-controls-overlay"]
+    "theme_color": "#f5f5f8"
 }
