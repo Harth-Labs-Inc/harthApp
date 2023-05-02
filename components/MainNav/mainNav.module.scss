@@ -29,11 +29,11 @@
             }
 
             &Gather {
-                color: $warm_red;
+                color: $warm_blue;
             }
 
             &Message {
-                color: $warm_slate;
+                color: $warm_blue;
             }
         }
     }
@@ -43,7 +43,7 @@
 
         .Mobile & {
             position: absolute;
-            top: -12px;
+            top: -16px;
             left: 16px;
             height: fit-content;
             width: fit-content;
@@ -55,7 +55,7 @@
             border: 0;
             background-color: $silver-xlight;
             //background-color: transparent;
-            padding: 6px;
+            padding: 4px;
             box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 6px;
             border: 1px solid $silver-med;
             // &:after {
@@ -76,10 +76,10 @@
 
             &Image {
                 position: relative;
-                height: 68px;
-                min-height: 68px;
-                width: 68px;
-                min-width: 68px;
+                height: 72px;
+                min-height: 72px;
+                width: 72px;
+                min-width: 72px;
                 border-radius: 12px;
                 z-index: 1;
                 //border: 1px solid $silver-med;
@@ -188,6 +188,7 @@
         path {
             fill: $silver-dark;
         }
+
 
         &Chat {
 
@@ -436,12 +437,19 @@
         }
 
         &.ActiveChat {
-            background-color: $silver-med;
+            background-color: $silver-light;
             path {
                 fill: $warm_blue;
             }
             &:hover {
-                background-color: $silver-med;
+                background-color: $silver-light;
+            }
+
+            .Desktop & {
+                background-color: $silver-light;
+                padding-top: 1px;
+                border-bottom: 2px solid $warm_blue;
+
             }
             .Mobile & {
                 background-color: transparent;
@@ -454,36 +462,48 @@
         }
 
         &.ActiveGather {
-            background-color: $silver-med;
+            background-color: $silver-light;
             path {
-                fill: $warm_red;
+                fill: $hot_salmon;
             }
 
             &:hover {
-                background-color: $silver-med;
+                background-color: $silver-light;
+            }
+            .Desktop & {
+                background-color: $silver-light;
+                padding-top: 1px;
+                border-bottom: 2px solid $warm_blue;
+
             }
             .Mobile & {
                 background-color: transparent;
                 .mobileTitle {
-                    color: $warm_red;
+                    color: $warm_blue;
                 }
             }
         }
 
         &.ActiveMessage{
-            background-color: $silver-med;
+            background-color: $silver-light;
             path {
-                fill: $warm_slate;
+                fill: $warm_blue;
             }
 
             &:hover {
-                background-color: $silver-med;
+                background-color: $silver-light;
+            }
+            .Desktop & {
+                background-color: $silver-light;
+                padding-top: 1px;
+                border-bottom: 2px solid $warm_blue;
+
             }
 
             .Mobile & {
                 background-color: transparent;
                 .mobileTitle {
-                    color: $warm_slate;
+                    color: $warm_blue;
                 }
             }
 
@@ -497,7 +517,7 @@
     &.Mobile {
         position: absolute;
         bottom: 0;
-        height: 80px;
+        height: 76px;
         padding: 0px 0px 24px 0px;
         border-top: 1px solid $silver-med;
         background-color: $silver-xlight;

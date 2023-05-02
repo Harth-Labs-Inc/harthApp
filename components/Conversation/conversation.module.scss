@@ -106,7 +106,7 @@
 
     }
     &Active {
-        background-color: $warm_slate;
+        background-color: $warm_blue;
         
         .label {
             color: $white;
@@ -115,13 +115,13 @@
         }
         .participantElement {
             .avatar {
-                border-color: $warm_slate;
+                border-color: $warm_blue;
 
                 }
         }
 
         &:hover {
-            background-color: $warm_slate;
+            background-color: $warm_blue;
 
         }
 
