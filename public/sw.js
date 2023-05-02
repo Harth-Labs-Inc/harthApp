@@ -95,6 +95,14 @@ define("./sw.js",['./workbox-32092201'], function (workbox) { 'use strict';
   * See https://goo.gl/2aRDsh
   */
 
+  self.addEventListener('activate', function(event){
+    event.waitUntil(self.clients.claim())
+  })
+  self.addEventListener('message', function(event){
+    if(event.data === 'ping'){
+      event.source.postMessage('pong')
+    }
+  })
   importScripts();
   self.skipWaiting();
   workbox.clientsClaim();

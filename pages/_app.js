@@ -108,17 +108,11 @@ function MyApp({ Component, pageProps }) {
             if (typeof navigator !== "undefined") {
                 try {
                     navigator?.serviceWorker.register("/sw.js").then(
-                        (reg) => {
-                            console.info(
-                                "Service worker registered: ",
-                                reg.scope
-                            );
+                        () => {
+                            console.log();
                         },
-                        (err) => {
-                            console.error(
-                                "Service worker registration failed: ",
-                                err
-                            );
+                        () => {
+                            console.error();
                         }
                     );
                 } catch (error) {
