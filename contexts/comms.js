@@ -38,6 +38,7 @@ export const CommsProvider = ({ children }) => {
 
     const selectedCommRef = useRef(null);
     const profileRef = useRef(null);
+    const selectedTopicRef= useRef({})
 
     useEffect(() => {
         if (user) {
@@ -103,6 +104,9 @@ export const CommsProvider = ({ children }) => {
         profileRef.current = profile;
     }, [profile, setProfile]);
 
+    useEffect(() => {
+        selectedTopicRef.current = selectedTopic
+    }, [selectedTopic]);
     const grabConversationMessages = async () => {
         const sortMessages = (msgs) => {
             return msgs
@@ -449,6 +453,7 @@ export const CommsProvider = ({ children }) => {
                 resetConversations,
                 resetTopics,
                 forceHarthCreation,
+                selectedTopicRef
             }}
         >
             {children}

@@ -9,6 +9,8 @@ import {
 } from "../requests/community";
 import { getConversations } from "../requests/conversations";
 import { socketUrls } from "../constants/urls";
+import { getMessagesByTopic } from "requests/chat";
+import { useChat } from "./chat";
 
 const SocketContext = createContext({});
 
@@ -26,6 +28,7 @@ export const SocketProvider = ({ children }) => {
     const [mainAlerts, setMainAlerts] = useState({});
 
     const { user } = useAuth();
+const {setMessages,messages} = useChat()
     const {
         selectedTopic,
         setTopics,
@@ -40,14 +43,52 @@ export const SocketProvider = ({ children }) => {
         setProfile,
         profileRef,
         fetchConversations,
+        selectedTopicRef
     } = useComms();
 
+    const socketRef = useRef(null)
     const selectedHarthRef = useRef();
     const unreadMessagesRef = useRef([]);
     const mainAlertsRef = useRef({});
 
     useEffect(() => {
         if (user) {
+ if(navigator && 'serviceWorker' in navigator){
+    navigator.serviceWorker.addEventListener('message',function(event){
+        if(event.data === 'pong'){
+            if(!socketRef.current?.connected){
+                if (navigator && navigator.onLine) {
+                    const URLS = socketUrls;
+                    setSocket(
+                        io.connect(URLS[process.env.NODE_ENV], {
+                            transports: ["websocket"],
+                        })
+                    ); 
+                    if(selectedTopicRef?.current?._id){
+                        (async () => {
+                            let data = await getMessagesByTopic(selectedTopicRef.current._id);
+                            const { ok, fetchResults } = data;
+                            if (ok) {
+                              setMessages({
+                                ...messages,
+                                [selectedTopicRef.current._id]: fetchResults.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse(),
+                              });
+                            }
+                          })();
+                    }
+                    
+                }
+                  
+
+                
+            }
+           
+        }
+    })
+    setInterval(function(){
+        navigator.serviceWorker.controller.postMessage('ping')
+    },5000)
+ }
             const URLS = socketUrls;
             setSocket(
                 io.connect(URLS[process.env.NODE_ENV], {
@@ -55,7 +96,9 @@ export const SocketProvider = ({ children }) => {
                 })
             );
         }
+
     }, [user]);
+
 
     useEffect(() => {
         if (selectedcomm) {
@@ -65,10 +108,9 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         if (socket && user && comms) {
+            socketRef.current = socket
             join([...(comms || [])]);
             getUnreadMessages(user);
-
-            socket.on("error", function (err) {});
 
             socket.on(
                 "new update",
@@ -296,6 +338,27 @@ export const SocketProvider = ({ children }) => {
                     }
                 }
             );
+
+            
+            
+
+            window.addEventListener("online", () => {
+
+            });
+            window.addEventListener("offline", ()=>{
+                socket.disconnect()
+
+            });
+            return () => {
+                window.removeEventListener("offline", ()=>{
+                    socket.disconnect()
+    
+                });
+                window.removeEventListener("online", ()=>{
+    
+                });
+                socket.disconnect()
+            };
         }
     }, [socket, comms, user]);
 
