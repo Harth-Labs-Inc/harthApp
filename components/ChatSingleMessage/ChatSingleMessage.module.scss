@@ -21,6 +21,7 @@
     padding: 6px;
     column-gap: 10px;
     border-radius: 8px;
+    border: 2px solid transparent;
     //background-color: aqua;
 
     .UserIcon {
@@ -90,7 +91,6 @@
         position: relative;
         width: 100%;
         //background-color: aqua;
-
         .Info {
             display: flex;
             align-items: baseline;
@@ -98,7 +98,7 @@
             //justify-items: center;
             column-gap: 8px;
             height: 16px;
-            padding: 0px 0px 0px 0;
+            padding: 0px 0px 0px 0px;
             //background-color: aquamarine;
             .Creator {
                 @include chatProfile;
@@ -129,6 +129,7 @@
             border-top-left-radius: 0;
             background-color: $silver-light;
             overflow-wrap: anywhere;
+
 
             .message-text {
                 margin: 0;
@@ -165,8 +166,8 @@
             display: flex;
             align-items: center;
             margin-left: 16px;
-            margin-top: -8px;
-           
+           // margin-top: -8px;
+         
 
             > * {
                 margin-right: $gutter;
@@ -179,6 +180,7 @@
                 padding: 8px 4px;
                 border-radius: 28px;
                 z-index: 1;
+                margin-top: -6px;
                 
             }
         }
@@ -192,7 +194,7 @@
         gap: 4px;
         top: -8px;
         right: 16px;
-        background-color: $silver-light;
+        background-color: $silver-xlight;
         backdrop-filter: blur(24px);
         border-radius: 8px;
         padding: 2px;
@@ -224,12 +226,10 @@
     }
 
     &:hover {
-        background-color: $silver-xlight;
-
+        //background-color: $silver-xlight;
+        border: 2px solid $silver-xlight;
         .Body {
-            .Content {
-                background-color: $silver-med;
-            }
+
             .Info {
                 .Timestamp {
                     visibility: visible;
