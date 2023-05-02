@@ -99,9 +99,9 @@ export const GatheringTile = (props) => {
       `}
         >
             <div className={styles.GatheringTileLabel}>
-                <div className={styles.GatheringTileLabelIcon}>
+                {/* <div className={styles.GatheringTileLabelIcon}>
                     <Icon />
-                </div>
+                </div> */}
             </div>
 
             <div className={styles.Info}>

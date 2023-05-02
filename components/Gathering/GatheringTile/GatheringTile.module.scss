@@ -5,7 +5,7 @@
   display: flex;
   gap: 0;
   background-color: transparent;
-  border-radius: 36px 24px 48px 36px;
+  border-radius: 24px 24px 48px 24px;
     //overflow: hidden;
   width: 336px;
   background: $white;
@@ -13,8 +13,8 @@
   box-shadow:
         0 1px 1px hsl(0deg 0% 0% / 0.075),
         0 2px 2px hsl(0deg 0% 0% / 0.075),
-        0 4px 4px hsl(0deg 0% 0% / 0.075),
-        0 8px 8px hsl(0deg 0% 0% / 0.075);
+        0 4px 4px hsl(0deg 0% 0% / 0.075);
+        //0 8px 8px hsl(0deg 0% 0% / 0.075);
 
 
   &Label {
@@ -23,11 +23,11 @@
     flex-direction: column;
     justify-content: center ;
     align-items: center;
-    width: 56px;
-    min-width: 56px;
+    width: 64px;
+    min-width: 64px;
     //background-color: $fuel;
     
-    padding: 8px 0 0 0;
+    //padding: 8px 0 0 0;
     border: 0;
     outline: 0;
     overflow: hidden;
@@ -51,44 +51,49 @@
       margin-left: 2px;
     }
     .party & {
-      background: linear-gradient(to right, $hot_purple, $fuel_50 500%);
-      //background: $hot_purple;
-      svg path {       
-        fill: $white_10;
-      }
+      background-color: $silver-light;
+      background-image: url("../../../public/images/gather_card_neutral.png");
+      background-repeat: repeat;
+      background-position: 12px 12px;
+      background-size: 96px;
+
     }
     .stream & {
-      background: linear-gradient(to right, $hot_red, $fuel_50 500%);
-      svg path {
-        fill: $white_10;
-      }
+      background-color: $silver-light;
+      background-image: url("../../../public/images/gather_card_neutral.png");
+      background-repeat: repeat;
+      background-position: 12px 12px;
+      background-size: 96px;
     }
     .voice & {
-      background: linear-gradient(to right, $hot_salmon, $fuel_50 500%);
-      svg path {
-        fill: $white_10;
-      }
+      background-color: $silver-light;
+      background-image: url("../../../public/images/gather_card_neutral.png");
+      background-repeat: repeat;
+      background-position: 12px 12px;
+      background-size: 96px;
     }
 
     .partyActive & {
-      background: linear-gradient(to right, $hot_purple, $fuel_50 500%);
-      
-      svg path {       
-        fill: $white_10;
-      }
+      background-color: $hot_purple_light;
+      background-image: url("../../../public/images/gather_card_neutral.png");
+      background-repeat: repeat;
+      background-position: 12px 12px;
+      background-size: 96px;
     }
     .streamActive & {
-      background: linear-gradient(to right, $hot_red, $fuel_50 500%);
-      svg path {
-        fill: $white_10;
-      }
+      background-color: $hot_red_light;
+      background-image: url("../../../public/images/gather_card_neutral.png");
+      background-repeat: repeat;
+      background-position: 12px 12px;
+      background-size: 96px;
     }
     .voiceActive & {
-      background: linear-gradient(to right, $hot_salmon, $fuel_50 500%);
-      //background: $hot_salmon;
-      svg path {
-        fill: $white_10;
-      }
+      background-color: $hot_salmon_light;
+      background-image: url("../../../public/images/gather_card_neutral.png");
+      background-repeat: repeat;
+      background-position: 12px 12px;
+      background-size: 96px;
+
     }
   }
 
@@ -103,7 +108,7 @@
     align-items: flex-start;
     border: 0;
     border-radius: 0px 24px 48px 0px;
-    
+    z-index: 1;
 
 
   }
@@ -114,8 +119,11 @@
     align-items: center;
     gap: 2px;
     margin-top: 4px;
-    margin-bottom: 16px;
-    margin-left: -8px;
+    margin-bottom: 4px;
+    margin-left: -32px;
+    background-color: $white;
+    padding: 8px 4px;
+    border-radius: 999px;
 
     .iconHolder {
       width: 18px;
@@ -181,11 +189,14 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     //min-height: 60px;
-    padding: 0px 0px 0px 0px;
+    padding: 12px 32px 12px 6px;
     text-overflow: ellipsis;
     overflow: hidden;
     user-select: none;
-    width: 100%;
+    width: fit-content;
+    background-color: $white;
+    border-radius: 28px;
+    margin-left: -32px;
     
 
   }
@@ -335,7 +346,7 @@
       padding: 9px;
       //margin-right: 24px;
       border: 0;
-      background-color: $fuel;
+      background-color: $fuel_light;
       border-top-left-radius: 24px;
       border-bottom-right-radius: 24px;
       cursor: pointer;
@@ -344,7 +355,7 @@
       }
 
       &:hover {
-            background: $fuel_light;
+            background: $fuel;
 
       }
     }
@@ -367,11 +378,11 @@
       text-transform: capitalize;
       user-select: none;
 
-      background-color: $fuel;
+      background-color: $fuel_light;
 
 
       &:hover {
-        background: $fuel_light;
+        background: $fuel;
       }
 
       &Active {
