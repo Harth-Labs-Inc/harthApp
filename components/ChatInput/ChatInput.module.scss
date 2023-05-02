@@ -23,14 +23,14 @@
         resize: none;
         display: block;
         width: 100%;
-        min-height: 40px;
-        height: 40px;
+        min-height: 56px;
+        height: 56px;
         max-height: 50vh;
         margin: 0;
         padding: 8px 12px;
         @include chatText;
         color: $fuel;
-        background: $light_ash;
+        background: $silver_xxlight;
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
@@ -41,8 +41,8 @@
     }
 
     .entryBox {
-        border: 1px solid $ash_10;
-        border-radius: 6px;
+        border: 2px solid $silver_med;
+        border-radius: 20px;
         padding: 0;
         overflow: hidden;
     }
@@ -62,16 +62,16 @@
             > button {
                 position: relative;
                 margin: 0 0px;
-                height: 28px;
-                width: 28px;
-                padding: 4px;
+                height: 36px;
+                width: 36px;
+                padding: 6px;
                 background-color: transparent;
-                border-radius: 4px;
+                border-radius: 8px;
                 border: 0px;
                 cursor: pointer;
 
                 path {
-                    fill: $ash_30;
+                    fill: $silver_heavy;
                 }
 
                 &Mobile {
@@ -81,18 +81,32 @@
                 }
 
                 &:hover {
-                    background-color: $ash_05;
+                    background-color: $silver_xlight;
                     path {
-                        fill: $ash;
+                        fill: $silver_dark;
                     }
                 }
 
                 &.EditCancel {
                     width: auto;
+                    height: fit-content;
+                    background-color: $fuel_light;
+                    border: 0;
+                    @include worksans;
+                    font-size: 12px;
+                    font-weight: 500;
+                    border-radius: 24px;
+                    color: $white;
+                    padding: 8px 12px;
+                    margin: auto;
+
+                    &:hover {
+                        background-color: $fuel;
+                    }
                 }
 
                 &.SendActive {
-                    border: 1px solid $ash_05;
+                    //border: 1px solid $silver-med;
                     background-color: $hot_pink;
                     path {
                         fill: $white;
@@ -183,9 +197,9 @@
     row-gap: 8px;
     justify-content: flex-start;
     width: auto;
-    background: $ash_10;
+    background: $silver_light;
     padding: 8px;
-    border-bottom: 1px solid $ash_10;
+    border-bottom: 1px solid $silver-med;
 
     .imageContainer {
         position: relative;
@@ -216,7 +230,7 @@
             cursor: pointer;
 
             path {
-                fill: $oxygen;
+                fill: $white;
             }
         }
     }

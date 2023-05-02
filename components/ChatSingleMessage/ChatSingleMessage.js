@@ -415,11 +415,11 @@ const ChatSingleMessage = (props) => {
                                 key={url}
                                 className="active-image"
                                 src={url}
-                                width={150}
-                                height={150 / ratio}
+                                width={280}
+                                height={280 / ratio}
                                 placeholder="blur"
                                 blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                                    shimmer(200, 200 / ratio)
+                                    shimmer(280, 280 / ratio)
                                 )}`}
                                 alt="message image"
                                 onClick={() =>
