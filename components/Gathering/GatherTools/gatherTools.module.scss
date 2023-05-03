@@ -45,13 +45,13 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 24px;;
+    gap: 8px;
     justify-content: space-evenly;
     border: 0;
     background-color: $black_60;
     backdrop-filter: blur(12px);
     width: fit-content;
-    padding: 4px 0px 4px 0px; // 0px;
+    padding: 6px; // 0px;
     //border-top: 1px solid $white_10;
 }
 
@@ -283,7 +283,7 @@
     align-items: center;
     justify-content: space-between;
     cursor: grab;
-    padding: 0px 2px 0px 10px;
+    padding: 0px 2px 0px 2px;
 
     path {
         fill: transparent;

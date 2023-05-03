@@ -113,6 +113,9 @@
             }
     
             &Invites {
+                path{
+                    fill: $hot_pink;
+                }
                 &:hover {
                     &::before {
                         position: absolute;

@@ -59,15 +59,24 @@ const Login = () => {
                 />
                 {errorMessage === "Invalid Email" ? 
                     (
-                        <div className={styles.accountCreateAlert}>Do you need to create an account? 
-                            <button
-                                onClick={() => {
-                                router.push("/auth/createAccount");
-                                // changePage("createaccount");
-                                }}>
-                                Click Here
-                            </button>
-                        </div>
+                        // <div className={styles.accountCreateAlert}>Do you need to create an account? 
+                        //     <button
+                        //         onClick={() => {
+                        //         router.push("/auth/createAccount");
+                        //         // changePage("createaccount");
+                        //         }}>
+                        //         Click Here
+                        //     </button>
+                        // </div>
+                        <div className={styles.accountCreateAlert}>
+                            We are currently in a closed beta. 
+                            <br />
+                            Click below to get on the list. 
+                            <br />
+                            <br />
+                            <a href="https://www.harthsocial.com/">www.harthsocial.com</a>
+
+                    </div>
                     ) : (null)}
                 <Button
                     className={styles.loginButton}
@@ -98,7 +107,7 @@ const Login = () => {
                     </a>
                     .
                 </p>
-                <Button
+                {/* <Button
                     size="small"
                     tier="secondary"
                     text="Create an Account"
@@ -107,7 +116,7 @@ const Login = () => {
                         router.push("/auth/createAccount");
                         // changePage("createaccount");
                     }}
-                />
+                /> */}
             </div>
         </div>
     );

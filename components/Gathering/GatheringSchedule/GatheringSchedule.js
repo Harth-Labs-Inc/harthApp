@@ -129,6 +129,7 @@ const GatheringSchedule = (props) => {
           placeholder="room name"
           type="text"
           className={styles.GatheringScheduleInput}
+          autoComplete="off"
         />
         <ErrorMessage
           errorMsg={errors.gatheringName ? "Gathering name is required" : null}
@@ -207,6 +208,7 @@ const GatheringSchedule = (props) => {
         <input
           {...register("gatheringDescription")}
           placeholder="let's all..."
+          autoComplete="off"
         />
         <div className={styles.GatheringScheduleButtons}>
           {props.type === "edit" ? (
