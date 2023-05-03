@@ -23,7 +23,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
       ) : null}
 
       <button
-        className={styles.menuItem}
+        className={` ${styles.menuItem} ${styles.menuItemInvites}`}
         onClick={() => toggleCurrentTab("invites")}
       >
         Invites

@@ -171,6 +171,10 @@
     @include menuText;
     color: $fuel;
 
+    &Invites {
+        color: $hot_pink;
+
+    }
     &:hover {
         background-color: $fuel_10;
     }

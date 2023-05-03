@@ -105,7 +105,7 @@ export const GatheringTile = (props) => {
             </div>
 
             <div className={styles.Info}>
-                <div>
+                <div className={styles.TopHolder}>
                     <div className={styles.GatheringTileType}>
                         <div className={styles.iconHolder}>
                             <Icon />

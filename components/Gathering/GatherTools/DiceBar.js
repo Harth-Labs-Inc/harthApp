@@ -119,6 +119,7 @@ export const DiceBar = (props) => {
           }`}
         >
           <div className={styles.topBar} id="handle">
+          <div className={styles.spacer} />
             <div className={styles.grabber} />
             <button
               className={styles.close}
