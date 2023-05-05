@@ -152,7 +152,7 @@ const CreateAccount = () => {
                 <p className={styles.CreateModuleDisclaimer}>
                     By continuing, you are agreeing to our Customer{" "}
                     <a
-                        href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4edc850907fdf964473/1665512685436/Terms%26Conditions.pdf"
+                        href="https://harthsocial.com/terms"
                         target="_blank"
                         rel="noreferrer"
                     >
@@ -160,7 +160,7 @@ const CreateAccount = () => {
                     </a>{" "}
                     and{" "}
                     <a
-                        href="https://static1.squarespace.com/static/6324af2b1cf55f7c7acccaa1/t/6345b4a7a74906570621b492/1665512615431/HarthPrivacyPolicy.pdf"
+                        href="https://harthsocial.com/privacy"
                         target="_blank"
                         rel="noreferrer"
                     >
