@@ -253,6 +253,7 @@
 
 .ogCard {
     padding: 16px;
+    margin-top: 10px;
     background-color: $white;
     border: 1px solid $silver-med;
     border-radius: 12px;
@@ -265,6 +266,35 @@
     user-select: none;
     text-decoration: none;
     overflow-wrap: anywhere;
+
+    .attribution {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        //background-color: aqua;
+        width: 100%;
+        padding: 0px;
+        margin-bottom: 8px;
+
+        img {
+            margin: 0;
+            width: 20px;
+            height: 20px;
+            //border-radius: 8px;
+            overflow: hidden;
+        }
+
+        p {
+            margin-left: 4px;
+            @include worksans;
+            font-size: 14px;
+            line-height: 100%;
+            font-weight: 800;
+            color: $fuel;
+
+        }
+    }
+
     .title {
         font-weight: 700;
         display: block;

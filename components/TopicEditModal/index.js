@@ -111,7 +111,7 @@ const TopicEditModal = ({ setHidden, topic, submitTopicChange }) => {
                     <Button
                         fullWidth
                         size="large"
-                        text="Create Topic"
+                        text="Rename"
                         type="submit"
                     />
                 </div>
