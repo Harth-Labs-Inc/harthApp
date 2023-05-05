@@ -51,6 +51,9 @@ const Party = () => {
     const chatPannel = useRef(false);
 
     const localAudioStream = useRef();
+    const localStreamSource = useRef();
+    const localStreamAnalyser = useRef();
+    const detectSpeakingIntervalId = useRef(null);
     const localVideoStream = useRef();
     const localCaptureStream = useRef();
     const userInfo = useRef();
@@ -272,11 +275,47 @@ const Party = () => {
             socket.on("userInfo-update", (info) => {
                 if (info && ownerData.current) {
                     userInfo.current = info;
-                    let match = Object.values(info).find(
-                        (usr) => usr.screenShare === true
-                    );
-                    if (typeof isActiveScreenShare !== typeof match) {
-                        setIsActiveScreenShare(match);
+                    if (info.code == "isTalking") {
+                        let userData = info[info?.userName];
+                        if (userData.isTalking) {
+                            let element = document.getElementById(
+                                info?.socketID
+                            );
+                            if (!element) {
+                                let myElement = document.getElementById(
+                                    info?.peerId
+                                );
+                                if (myElement) {
+                                    myElement.style.border =
+                                        "1px solid #e46eb1";
+                                }
+                            } else {
+                                element.style.border = "1px solid #e46eb1";
+                            }
+                        } else {
+                            let element = document.getElementById(
+                                info?.socketID
+                            );
+                            if (!element) {
+                                let myElement = document.getElementById(
+                                    info?.peerId
+                                );
+                                if (myElement) {
+                                    myElement.style.border =
+                                        "1px solid rgba(255, 255, 255, 0.1)";
+                                }
+                            } else {
+                                element.style.border =
+                                    "1px solid rgba(255, 255, 255, 0.1)";
+                            }
+                        }
+                    } else {
+                        let match = Object.values(info).find(
+                            (usr) => usr.screenShare === true
+                        );
+                        if (typeof isActiveScreenShare !== typeof match) {
+                            setIsActiveScreenShare(match);
+                        }
                     }
                 }
             });
@@ -392,6 +431,24 @@ const Party = () => {
                             constraints
                         );
 
+                        try {
+                            const audioCtx = new AudioContext();
+                            localStreamSource.current =
+                                audioCtx.createMediaStreamSource(stream);
+                            localStreamAnalyser.current =
+                                audioCtx.createAnalyser();
+                            localStreamAnalyser.current.fftSize = 2048;
+                            localStreamSource.current.connect(
+                                localStreamAnalyser.current
+                            );
+
+                            startDetectSpeaking();
+                        } catch (error) {
+                            if (stream) {
+                                resolve(stream);
+                            }
+                            resolve(false);
+                        }
                         resolve(stream);
                     } catch (error) {
                         try {
@@ -401,6 +458,24 @@ const Party = () => {
                                     constraints
                                 );
 
+                            try {
+                                const audioCtx = new AudioContext();
+                                localStreamSource.current =
+                                    audioCtx.createMediaStreamSource(stream);
+                                localStreamAnalyser.current =
+                                    audioCtx.createAnalyser();
+                                localStreamAnalyser.current.fftSize = 2048;
+                                localStreamSource.current.connect(
+                                    localStreamAnalyser.current
+                                );
+
+                                startDetectSpeaking();
+                            } catch (error) {
+                                if (stream) {
+                                    resolve(stream);
+                                }
+                                resolve(false);
+                            }
                             resolve(stream);
                         } catch (error) {
                             resolve(false);
@@ -412,6 +487,24 @@ const Party = () => {
                             constraints
                         );
 
+                        try {
+                            const audioCtx = new AudioContext();
+                            localStreamSource.current =
+                                audioCtx.createMediaStreamSource(stream);
+                            localStreamAnalyser.current =
+                                audioCtx.createAnalyser();
+                            localStreamAnalyser.current.fftSize = 2048;
+                            localStreamSource.current.connect(
+                                localStreamAnalyser.current
+                            );
+
+                            startDetectSpeaking();
+                        } catch (error) {
+                            if (stream) {
+                                resolve(stream);
+                            }
+                            resolve(false);
+                        }
                         resolve(stream);
                     } catch (error) {
                         resolve(false);
@@ -420,6 +513,60 @@ const Party = () => {
             }
             run();
         });
+    };
+    const startDetectSpeaking = () => {
+        if (detectSpeakingIntervalId.current !== null) {
+            return;
+        }
+
+        const interval = 100;
+        detectSpeakingIntervalId.current = setInterval(() => {
+            const bufferLength = localStreamAnalyser.current.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            localStreamAnalyser.current.getByteFrequencyData(dataArray);
+            const average =
+                dataArray.reduce((acc, val) => acc + val) / bufferLength;
+
+            if (average > 10) {
+                if (
+                    userInfo.current &&
+                    userInfo.current[userName] &&
+                    !userInfo.current[userName].isTalking
+                ) {
+                    socket &&
+                        socket.emit(
+                            "set-user-is-speaking",
+                            {
+                                harthId,
+                                socketID,
+                                userName,
+                                roomId,
+                                ...ownerData.current,
+                            },
+                            () => {}
+                        );
+                }
+            } else {
+                if (
+                    userInfo.current &&
+                    userInfo.current[userName] &&
+                    userInfo.current[userName].isTalking
+                ) {
+                    socket &&
+                        socket.emit(
+                            "set-user-is-not-speaking",
+                            {
+                                harthId,
+                                socketID,
+                                userName,
+                                roomId,
+                                ...ownerData.current,
+                            },
+                            () => {}
+                        );
+                }
+            }
+        }, interval);
     };
     const getLocalVideoStream = async (
         constraints = {
