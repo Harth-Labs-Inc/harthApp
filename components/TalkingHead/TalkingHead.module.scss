@@ -6,8 +6,9 @@
     flex-direction: column;
     width: 100%;
     align-items: flex-end;
+    //background-color: aqua;
 
-    &HelperContainer {
+    .HelperContainer {
         display: flex;
         justify-content: center;
         max-width: 340px;
@@ -32,10 +33,52 @@
             width: 88px;
             min-width: 88px;
             max-width: 88px;
-            height: auto;
+            //height: auto;
             //height: 154px;
             margin-top: auto;
             margin-left: 8px;
+        }
+    }
+}
+
+.TalkingHeadSmall {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-end;
+
+
+    .HelperContainer {
+        display: flex;
+        justify-content: center;
+        max-width: 320px;
+        margin-bottom: 12px;
+
+        &TextBubble {
+            //width: 223px;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 84px;
+            text-align: center;
+            background-color: $white;
+            border: solid 2px $fuel;
+            border-radius: 24px;
+            border-bottom-right-radius: 0;
+            overflow-wrap: anywhere;
+        }
+        &Text {
+            @include talkingHead;
+            font-size: 16px;
+            color: $fuel;
+        }
+        &Image {
+            width: 68px;
+            min-width: 68px;
+            max-width: 68px;
+            height: auto;
+            //height: 154px;
+            margin-top: auto;
+            margin-left: 2px;
         }
     }
 }

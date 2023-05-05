@@ -1,20 +1,20 @@
 import { Wizard } from "../../resources/icons/wizard";
 import styles from "./TalkingHead.module.scss";
 
-const TalkingHead = ({ text, textArray }) => {
+const TalkingHead = ({ text, textArray, isSmall }) => {
     return (
-        <div className={styles.TalkingHead}>
-            <div className={styles.TalkingHeadHelperContainer}>
-                <div className={styles.TalkingHeadHelperContainerTextBubble}>
+        <div className={isSmall ? styles.TalkingHeadSmall : styles.TalkingHead}>
+            <div className={styles.HelperContainer}>
+                <div className={styles.HelperContainerTextBubble}>
                     {textArray ? (
                         textArray.map((entry, idx) => <p key={idx}>{entry}</p>)
                     ) : (
-                        <p className={styles.TalkingHeadHelperContainerText}>
+                        <p className={styles.HelperContainerText}>
                             {text}
                         </p>
                     )}
                 </div>
-                <div className={styles.TalkingHeadHelperContainerImage}>
+                <div className={styles.HelperContainerImage}>
                     <Wizard />
                 </div>
             </div>

@@ -8,6 +8,7 @@ import ChatInput from "../ChatInput/ChatInput";
 import ChatSingleMessage from "../ChatSingleMessage/ChatSingleMessage";
 import styles from "./ChatMessages.module.scss";
 import ImageViewer from "react-simple-image-viewer";
+import TalkingHead from "components/TalkingHead/TalkingHead";
 
 const MessageWrapper = () => {
   const [currentMessages, setCurrentMessages] = useState([]);
@@ -236,8 +237,9 @@ const MessageWrapper = () => {
         <div id={styles.ChatMessages}>
           <div ref={messagesEndRef} />
           <div ref={setBottom} />
-          {currentMessages &&
+          {(currentMessages && (currentMessages.length > 0)) ?
             currentMessages.map((msg) => (
+              <>
               <ChatSingleMessage
                 msgReload={msgReload}
                 editMessageText={editMessage}
@@ -252,7 +254,14 @@ const MessageWrapper = () => {
                 isEditing={messageEditing === msg?._id ? true : false}
                 toggleEditing={toggleEditing}
               />
-            ))}
+              </>
+            ))
+            : (
+            
+            <div className={styles.NoPosts}>
+              <TalkingHead className={styles.wizard} text="Nothing to see here yet. Why don't you post something already?" isSmall={true}/>
+              </div>
+            )}
           <ScrollButton />
         </div>
 
