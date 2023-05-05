@@ -121,6 +121,15 @@ export const LinkPreview = ({ message }) => {
                     style={{ textDecoration: "none" }}
                 >
                     <article id="ogCard" className={styles.ogCard}>
+                        <div className={styles.attribution}>
+                            <img
+                                src={linkPreview?.favicon || linkPreview?.image}
+                                alt={linkPreview?.title}
+                                loading="lazy"
+                                />
+                            <p>{linkPreview?.site_name}</p>
+                        </div>
+
                         <span className={styles.title}>
                             {linkPreview?.title || linkPreview?.site_name}
                         </span>
@@ -164,6 +173,14 @@ export const LinkPreview = ({ message }) => {
                     style={{ textDecoration: "none" }}
                 >
                     <article id="ogCard" className={styles.ogCard}>
+                        <div className={styles.attribution}>
+                            <img
+                                src={ogData?.result?.favicon}
+                                alt={ogData?.result?.ogSiteName}
+                                loading="lazy"
+                                />
+                            <p>{ogData?.result?.ogSiteName}</p>
+                        </div>
                         <span className={styles.title}>
                             {ogData?.result?.ogTitle ||
                                 ogData?.result?.ogSiteName}
