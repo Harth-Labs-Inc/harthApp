@@ -51,24 +51,25 @@
     .HelperContainer {
         display: flex;
         justify-content: center;
-        max-width: 320px;
+        width: 360px;
+        max-width: 100%;
         margin-bottom: 12px;
 
         &TextBubble {
             //width: 223px;
             width: 100%;
-            padding: 8px;
+            padding: 12px;
             margin-bottom: 84px;
             text-align: center;
-            background-color: $white;
-            border: solid 2px $fuel;
+            background-color: $silver_xlight;
+            //border: solid 2px $fuel;
             border-radius: 24px;
             border-bottom-right-radius: 0;
             overflow-wrap: anywhere;
         }
         &Text {
-            @include talkingHead;
-            font-size: 16px;
+            @include chatText;
+            font-size: 14px;
             color: $fuel;
         }
         &Image {
