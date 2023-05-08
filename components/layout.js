@@ -39,6 +39,7 @@ const Layout = ({ children }) => {
                 <link rel="icon" type="image/png" sizes="310x310" href="/icons/icon-310x310.png" />
                 <link rel="icon" type="image/png" sizes="384x384" href="/icons/icon-384x384.png" />
                 <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png" />
+                <link rel="icon" type="image/png" sizes="1024x1024" href="/icons/icon-1024x1024.png" />
 
 
                 <meta name="theme-color" content="#f5f5f8" />
@@ -47,24 +48,19 @@ const Layout = ({ children }) => {
                 <meta name="apple-mobile-web-app-capable" content="yes" />
 
                 
-                {/* <!-- iPhone Xs Max (1242px x 2688px) --> 
-                <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="/apple-launch-1242x2688.png"> 
-                <!-- iPhone Xr (828px x 1792px) --> 
-                <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-828x1792.png"> 
-                <!-- iPhone X, Xs (1125px x 2436px) --> 
-                <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="/apple-launch-1125x2436.png"> 
-                <!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus (1242px x 2208px) --> 
-                <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="/apple-launch-1242x2208.png"> 
-                <!-- iPhone 8, 7, 6s, 6 (750px x 1334px) --> 
-                <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-750x1334.png">  
-                <!-- iPad Pro 12.9" (2048px x 2732px) --> 
-                <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-2048x2732.png"> 
-                <!-- iPad Pro 11” (1668px x 2388px) --> 
-                <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-1668x2388.png"> 
-                <!-- iPad Pro 10.5" (1668px x 2224px) --> 
-                <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-1668x2224.png"> 
-                <!-- iPad Mini, Air (1536px x 2048px) --> 
-                <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" href="/apple-launch-1536x2048.png"> */}
+                <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/splashscreens/launch-640x1136.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/splashscreens/launch-750x1334.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/splashscreens/launch-1125x2436.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/splashscreens/launch-828x1792.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/splashscreens/launch-1242x2688.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/splashscreens/launch-1170x2532.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/splashscreens/launch-1080x2340.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/splashscreens/launch-1284x2778.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 1) and (orientation: portrait)" href="/splashscreens/launch-768x1024.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/splashscreens/launch-1536x2048.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/splashscreens/launch-2048x2732.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/splashscreens/launch-1290x2796.png" />
+                <link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/splashscreens/launch-1179x2556.png" />
 
             </Head>
             {children}

@@ -1,4 +1,6 @@
 import styles from "./topics.module.scss";
+import { IconMoreDots } from "resources/icons/IconMoreDots";
+
 
 const TopicListElement = (props) => {
     const {
@@ -56,6 +58,8 @@ const TopicListElement = (props) => {
                     {topic.marker ? <p>{topic.marker}</p> : <p>&#128512;</p>}
                 </div>
                 <p>{label}</p>
+
+                <button className={styles.moreMenu}><IconMoreDots /></button>
             </div>
             {hasAlert && (
                 <div

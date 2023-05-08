@@ -42,14 +42,14 @@
         display: flex;
         text-align: left;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         width: fit-content;
         color: $fuel;
         @include topicTitle;
-        padding: 4px 6px 5px 8px;
+        padding: 4px 30px 5px 8px;
         gap: 6px;
         user-select: none;
-        
+        width: 100%;
         //background-color: aqua;
     }
 
@@ -94,12 +94,43 @@
     }
 
     &Desktop {
+        .moreMenu {
+            position: absolute;
+            visibility: hidden;
+            right: 4px;
+            border: 0;
+            width: 24px;
+            min-width: 24px;
+            height: 24px;
+            min-height: 24px;
+            padding: 0;
+            transform: rotate(90deg);
+            border-radius: 999px;
+            //visibility: hidden;
+            background-color: transparent;
+            border: 1px solid $silver-heavy;
+            cursor: pointer;
+            path {
+                fill: $silver-heavy;
+            }
+
+            &:hover {
+                //background-color: $silver-heavy;
+                border-color: $silver-dark;
+                path {
+                    fill: $silver-dark;
+                }
+            }
+
+        }
         
         &:hover {
             background-color: $silver-light;
-            // .label {
-            //     color: $white;
-            // }
+
+            .moreMenu {
+                visibility: visible;
+            }
+
         }
     }
 
@@ -111,7 +142,13 @@
             color: $white;
         }
 
-        &:hover {
+        .moreMenu {
+            border-color: $silver-light;
+            path {
+                fill: $silver-light;
+            }
+        }
+        &:hover {   
             background-color: $warm_blue;
             .label {
                 color: $white;
@@ -126,6 +163,10 @@
         //margin-right: 12px;
         margin-bottom: 8px;
         border-radius: 28px;
+
+        .moreMenu {
+            display: none;
+        }
         .emojiHolder {
             font-size: 28px;
             margin-right: 8px;

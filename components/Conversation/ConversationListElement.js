@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import styles from "./conversation.module.scss";
 import { useComms } from "contexts/comms";
+import { IconMoreDots } from "resources/icons/IconMoreDots";
 
 const ConversationListElement = (props) => {
   const {
@@ -142,6 +143,7 @@ const ConversationListElement = (props) => {
                 </div>
               );
             })}
+            <button className={styles.moreMenu}><IconMoreDots /></button>
       </button>
     </>
   );
