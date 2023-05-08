@@ -19,6 +19,7 @@ const CreateAccount = () => {
         email: "",
         match: "",
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [todayMax, setTodayMax] = useState();
 
     useEffect(() => {
@@ -47,6 +48,7 @@ const CreateAccount = () => {
     } = useForm();
 
     const submitHandler = async (data) => {
+        setIsSubmitting(true);
         if (submissionType == "create") {
             const response = await addUser(data);
             const { ok, errors, user } = response;
@@ -57,6 +59,7 @@ const CreateAccount = () => {
                 sendOTPEmail(user);
             }
         }
+        setIsSubmitting(false);
     };
 
     const sendOTPEmail = async (user) => {
@@ -147,6 +150,7 @@ const CreateAccount = () => {
                         onClick={() => {
                             setSubmissionType("create");
                         }}
+                        isLoading={isSubmitting}
                     />
                 </form>
                 <p className={styles.CreateModuleDisclaimer}>

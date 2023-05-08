@@ -4,6 +4,7 @@ import { Button, Modal } from "Common";
 import { checkIfInviteTokenIsGood } from "../../requests/community";
 
 import styles from "./harthinvite.module.scss";
+import { useState } from "react";
 
 export default function HarthInviteAcceptModal({
     talkingHeadMsg,
@@ -15,14 +16,18 @@ export default function HarthInviteAcceptModal({
     footer,
     invitedHarth,
 }) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const invitationAcceptHandler = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
         let results = await checkIfInviteTokenIsGood({ token: tkn, user });
         let { ok, harth } = results;
 
         if (ok) {
             submitHandler(harth);
         }
+        setIsSubmitting(false);
     };
 
     return (
@@ -44,6 +49,7 @@ export default function HarthInviteAcceptModal({
                             fullWidth
                             text={submitText}
                             type="submit"
+                            isLoading={isSubmitting}
                         />
                         <Button
                             tier="secondary"
