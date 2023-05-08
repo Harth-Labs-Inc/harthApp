@@ -16,7 +16,7 @@
     display: inline-flex;
     position: relative;
     background-color: transparent;
-    width: 100%;
+    width: 98%;
     margin: 6px 4px;
     padding: 6px;
     column-gap: 10px;
@@ -26,17 +26,15 @@
 
     .UserIcon {
         //box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px;
-        box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.075),
-        0 2px 2px hsl(0deg 0% 0% / 0.075),
-        0 4px 4px hsl(0deg 0% 0% / 0.075);
+        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+            0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075);
         //0 8px 8px hsl(0deg 0% 0% / 0.075);
 
         height: fit-content;
         width: fit-content;
         border-radius: 50%;
         user-select: none;
-       // border: 1px solid $black_10;
+        // border: 1px solid $black_10;
     }
     .emoji-mart {
         position: absolute;
@@ -130,14 +128,11 @@
             background-color: $silver-light;
             overflow-wrap: anywhere;
 
-
             .message-text {
                 margin: 0;
                 white-space: pre-wrap;
                 overflow-wrap: anywhere;
-
             }
-
 
             a {
                 display: inline-block;
@@ -148,7 +143,6 @@
             }
 
             > img {
-                
                 width: fit-content;
                 max-width: 100%;
                 height: auto;
@@ -168,8 +162,7 @@
             display: flex;
             align-items: center;
             margin-left: 16px;
-           // margin-top: -8px;
-         
+            // margin-top: -8px;
 
             > * {
                 margin-right: $gutter;
@@ -183,7 +176,6 @@
                 border-radius: 28px;
                 z-index: 1;
                 margin-top: -6px;
-                
             }
         }
     }
@@ -231,7 +223,6 @@
         //background-color: $silver-xlight;
         border: 2px solid $silver-xlight;
         .Body {
-
             .Info {
                 .Timestamp {
                     visibility: visible;
@@ -291,7 +282,6 @@
             line-height: 100%;
             font-weight: 800;
             color: $fuel;
-
         }
     }
 
@@ -306,6 +296,5 @@
         max-width: 100%;
         height: auto;
         display: block;
-        
     }
 }
