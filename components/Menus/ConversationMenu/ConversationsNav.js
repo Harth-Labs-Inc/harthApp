@@ -12,7 +12,10 @@ import styles from "./ConversationsNav.module.scss";
 
 /* eslint-disable */
 
-const ConversationsNav = ({ toggleConversationEditModal }) => {
+const ConversationsNav = ({
+    toggleConversationEditModal,
+    handleMobileChat,
+}) => {
     const [openConversationBuilder, setOpenConversationBuilder] =
         useState(false);
     const [showDeleteConversationModal, setShowDeleteConversationModal] =
@@ -29,8 +32,14 @@ const ConversationsNav = ({ toggleConversationEditModal }) => {
     const openCreateConversation = () => {
         setOpenConversationBuilder((prevState) => !prevState);
     };
+    const handleMobileChatWindow = (newValue) => {
+        handleMobileChat(newValue);
+    };
     const changeSelectedConversation = (conversation) => {
         setSelectedConversation(conversation);
+        {
+            isMobile && handleMobileChatWindow(conversation);
+        }
     };
 
     return (

@@ -12,7 +12,7 @@ import styles from "./login.module.scss";
 
 const Login = () => {
     const [errorMessage, setErrorMessage] = useState();
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const {
         register,
         handleSubmit,
@@ -22,6 +22,7 @@ const Login = () => {
     const router = useRouter();
 
     const submitHandler = async (data) => {
+        setIsSubmitting(true);
         const results = await loginAttempt(data);
         const { ok, user } = results;
         if (ok) {
@@ -36,15 +37,16 @@ const Login = () => {
         } else {
             setErrorMessage("Invalid Email");
         }
+        setIsSubmitting(false);
     };
 
     return (
         <div className={styles.loginModule}>
-            <div className={styles.logoHolder}><HarthLogoDark /></div>
-    
-            <div className={styles.greeting}>
-                A place for friends
+            <div className={styles.logoHolder}>
+                <HarthLogoDark />
             </div>
+
+            <div className={styles.greeting}>A place for friends</div>
             <form onSubmit={handleSubmit(submitHandler)}>
                 <input
                     {...register("email", { required: true })}
@@ -57,33 +59,34 @@ const Login = () => {
                             : errorMessage
                     }
                 />
-                {errorMessage === "Invalid Email" ? 
-                    (
-                        // <div className={styles.accountCreateAlert}>Do you need to create an account? 
-                        //     <button
-                        //         onClick={() => {
-                        //         router.push("/auth/createAccount");
-                        //         // changePage("createaccount");
-                        //         }}>
-                        //         Click Here
-                        //     </button>
-                        // </div>
-                        <div className={styles.accountCreateAlert}>
-                            We are currently in a closed beta. 
-                            <br />
-                            Click below to get on the list. 
-                            <br />
-                            <br />
-                            <a href="https://www.harthsocial.com/">www.harthsocial.com</a>
-
+                {errorMessage === "Invalid Email" ? (
+                    // <div className={styles.accountCreateAlert}>Do you need to create an account?
+                    //     <button
+                    //         onClick={() => {
+                    //         router.push("/auth/createAccount");
+                    //         // changePage("createaccount");
+                    //         }}>
+                    //         Click Here
+                    //     </button>
+                    // </div>
+                    <div className={styles.accountCreateAlert}>
+                        We are currently in a closed beta.
+                        <br />
+                        Click below to get on the list.
+                        <br />
+                        <br />
+                        <a href="https://www.harthsocial.com/">
+                            www.harthsocial.com
+                        </a>
                     </div>
-                    ) : (null)}
+                ) : null}
                 <Button
                     className={styles.loginButton}
                     type="submit"
                     text="Sign In"
                     tier="primary"
                     fullWidth
+                    isLoading={isSubmitting}
                 />
             </form>
 
