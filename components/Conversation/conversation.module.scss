@@ -80,7 +80,10 @@
 
 
     &Mobile {
-
+        .moreMenu {
+            display: none;
+        }
+        
         margin-bottom: 12px;
         padding: 8px 8px 14px 8px;
         .label {
