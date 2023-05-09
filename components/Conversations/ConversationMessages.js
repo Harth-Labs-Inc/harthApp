@@ -368,13 +368,18 @@ export const ConversationMessages = () => {
 
                 {isMobile ? (
                     <div className={styles.InputMobile}>
-                        {/* <ChatInput
+                        <DumbChatInput
                             selectedEdit={editMessageObj}
-                            isReply={false}
-                            replyOwner={selectedReplyOwner}
-                            topicInputs={topicInputs}
-                            setTopicInputs={setTopicInputs}
-                        ></ChatInput> */}
+                            Inputs={conversationInputs}
+                            setInputs={setConversationInputs}
+                            selectedInputID={selectedConversation?._id}
+                            sendMessagge={sumbitMessageHandler}
+                            updateMessage={updateConversation}
+                            disableChat={disableChat}
+                            resetEdit={resetEdit}
+                            toggleEditing={toggleEditing}
+                            uploading={uploadingAttachments}
+                        ></DumbChatInput>
                     </div>
                 ) : (
                     <div className={styles.InputDesktop}>

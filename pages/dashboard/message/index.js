@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { IconChevronLeft } from "../../../resources/icons/IconChevronLeft";
 
 import { CustomConversationContextMenu } from "components/CustomConversationContextMenu/CustomConversationContextMenu";
 import { ConversationMessages } from "../../../components/Conversations/ConversationMessages";
@@ -117,7 +118,9 @@ const Message = () => {
     function handleMobileChat(newValue) {
         setChatVisible(newValue);
     }
-
+    const handleBackToNav = () => {
+        handleMobileChat(false);
+    };
     return (
         <>
             {isMobile ? (
@@ -138,6 +141,14 @@ const Message = () => {
                             id="mainchatContainer"
                             className={styles.chatHolderMobile}
                         >
+                            <div className={styles.MobileChatHeader}>
+                                <button
+                                    onClick={handleBackToNav}
+                                    aria-label="back"
+                                >
+                                    <IconChevronLeft />
+                                </button>
+                            </div>
                             <ConversationMessages />
                         </div>
                     )}

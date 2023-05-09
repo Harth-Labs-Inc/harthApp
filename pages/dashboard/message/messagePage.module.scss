@@ -40,6 +40,47 @@
     overflow: auto;
 }
 
+.MobileChatHeader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px 8px;
+    height: 52px;
+    min-height: 52px;
+    max-height: 52px;
+    background-color: $silver-xlight;
+    color: $fuel;
+    font-size: 14px;
+    font-weight: 600;
+    //backdrop-filter: blur(12px);
+    border-bottom: 1px solid $silver-med;
+    @include topicTitleActive;
+
+    button {
+        height: 44px;
+        width: 44px;
+        border-radius: 999px;
+        margin: 0;
+        padding: 8px;
+        background-color: transparent;
+        border: 0;
+        outline: 0;
+
+        path {
+            fill: $fuel;
+        }
+
+        &:hover {
+            background-color: $silver-med;
+        }
+    }
+}
+
 @media screen and (max-width: 640px) {
     .chatHolderMobile {
         //position: relative;
