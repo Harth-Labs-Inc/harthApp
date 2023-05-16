@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { uploadCustomNamedFile } from "../../services/helper";
 import { updateHarthData } from "../../requests/community";
 import { useComms } from "../../contexts/comms";
-import { useChat } from "../../contexts/chat";
 import IconUploader from "../IconUploader";
 import { Button, Modal } from "../Common";
 import {
@@ -19,7 +18,6 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     const [nameChanged, setNameCHanged] = useState(false);
 
     const { setCommsFromChild, comms } = useComms();
-    const { refreshTopicsChatIcon, refreshTopicsChatName } = useChat();
     const { emitUpdate } = useSocket();
 
     useEffect(() => {
@@ -145,6 +143,18 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
     const handleCancel = () => {
         setHidden();
     };
+    const refreshTopicsChatIcon = async (id, userID, newIconKey) => {
+        let elements = document.getElementsByClassName(`${id}_${userID}`);
+        for (let imgELement of elements) {
+            imgELement.setAttribute("src", newIconKey);
+        }
+    };
+    const refreshTopicsChatName = async (id, userID, newName) => {
+        let elements = document.getElementsByClassName(`${id}_${userID}_name`);
+        for (let nameElement of elements) {
+            nameElement.innerHTML = newName;
+        }
+    };
 
     let { iconKey, name } = updatedProfile;
     return (
@@ -169,7 +179,9 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
                         autoComplete="off"
                         maxLength={20}
                     />
-                    <div className={styles.helpText}>{`Tip: This is your avatar for ${harth.name} only. Switch härths to personalize all your different avatars.`}</div>
+                    <div
+                        className={styles.helpText}
+                    >{`Tip: This is your avatar for ${harth.name} only. Switch härths to personalize all your different avatars.`}</div>
                     <div className={styles.buttonBar}>
                         <Button
                             text="Cancel"

@@ -1,7 +1,6 @@
 import styles from "./topics.module.scss";
 import { IconMoreDots } from "resources/icons/IconMoreDots";
 
-
 const TopicListElement = (props) => {
     const {
         topic,
@@ -21,19 +20,18 @@ const TopicListElement = (props) => {
     };
 
     const toggleEditMenu = (evt) => {
-        if (evt.button === 2) {
-            const targetElement = document.getElementById(topic._id);
-            if (targetElement && targetElement.contains(evt.target)) {
-                evt.preventDefault();
-                toggleTopicEditModal({
-                    topic,
-                    pos: {
-                        x: evt.clientX,
-                        y: evt.clientY,
-                    },
-                    isHidden: isHidden,
-                });
-            }
+        evt.stopPropagation();
+        const targetElement = document.getElementById(topic._id);
+        if (targetElement && targetElement.contains(evt.target)) {
+            evt.preventDefault();
+            toggleTopicEditModal({
+                topic,
+                pos: {
+                    x: evt.clientX,
+                    y: evt.clientY,
+                },
+                isHidden: isHidden,
+            });
         }
     };
 
@@ -51,7 +49,6 @@ const TopicListElement = (props) => {
         ${isActive && styles.topicActive} 
         `}
             onClick={toggleActive}
-            onMouseUp={toggleEditMenu}
         >
             <div className={styles.label}>
                 <div className={styles.emojiHolder}>
@@ -59,7 +56,9 @@ const TopicListElement = (props) => {
                 </div>
                 <p>{label}</p>
 
-                <button className={styles.moreMenu}><IconMoreDots /></button>
+                <button className={styles.moreMenu} onClick={toggleEditMenu}>
+                    <IconMoreDots />
+                </button>
             </div>
             {hasAlert && (
                 <div

@@ -11,10 +11,14 @@ export default async (req, res) => {
         obj = req.body;
     }
 
-    const getMsgs = (db, id) => {
+    const getMsgs = (db, id, page = 1, limit = 10) => {
         return new Promise((resolve) => {
+            const skip = (page - 1) * limit;
             db.collection("messages")
                 .find({ topic_id: id })
+                .sort({ _id: -1 })
+                .skip(skip)
+                .limit(limit)
                 .toArray(function (err, results) {
                     if (err) {
                         resolve(false);
@@ -71,7 +75,7 @@ export default async (req, res) => {
     }
     // passed authentication ------------------------------------------
 
-    let fetchResults = await getMsgs(db, obj.id);
+    let fetchResults = await getMsgs(db, obj.id, obj.page, obj.limit);
     if (!fetchResults) {
         return res.json({ msg: "Something Went Wrong", ok: 0 });
     }

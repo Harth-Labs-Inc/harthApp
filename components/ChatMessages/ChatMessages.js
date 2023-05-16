@@ -1,298 +1,349 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { useComms } from "../../contexts/comms";
-import { useChat } from "../../contexts/chat";
 import { useSocket } from "../../contexts/socket";
 import { MobileContext } from "../../contexts/mobile";
 import { getDownloadURL } from "../../requests/s3";
+import { removeUnsavedMessages } from "../../requests/chat";
 import ChatInput from "../ChatInput/ChatInput";
 import ChatSingleMessage from "../ChatSingleMessage/ChatSingleMessage";
 import styles from "./ChatMessages.module.scss";
 import ImageViewer from "react-simple-image-viewer";
 import TalkingHead from "components/TalkingHead/TalkingHead";
+import { getMessagesByTopic } from "requests/chat";
+import { useAuth } from "contexts/auth";
 
 const MessageWrapper = () => {
-  const [currentMessages, setCurrentMessages] = useState([]);
-  // const [currentReplies, setCurrentReplies] = useState([]);
-  const [topicInputs, setTopicInputs] = useState({});
-  const [editMessageObj, setEditMessageObj] = useState({});
-  const [bottom, setBottom] = useState(null);
-  const [inview, setInview] = useState(null);
-  const [displayScrollButton, setDisplayScrollButton] = useState(false);
-  const [msgReload, triggerMsgReload] = useState(0);
-  const [showImageSlideShow, setShowImageSlideShow] = useState(false);
-  const [imageSlideshowURL, setImageSlideshowURL] = useState();
-  const [messageEditing, setMessageEditing] = useState();
+    const [currentMessages, setCurrentMessages] = useState([]);
+    const [topicInputs, setTopicInputs] = useState({});
+    const [editMessageObj, setEditMessageObj] = useState({});
+    const [bottom, setBottom] = useState(null);
+    // eslint-disable-next-line no-unused-vars
+    const [inview, setInview] = useState(null);
+    const [displayScrollButton, setDisplayScrollButton] = useState(false);
+    const [msgReload, triggerMsgReload] = useState(0);
+    const [showImageSlideShow, setShowImageSlideShow] = useState(false);
+    const [imageSlideshowURL, setImageSlideshowURL] = useState();
+    const [messageEditing, setMessageEditing] = useState();
 
-  const bottomObserver = useRef(null);
-  const { messages, setMessages, selectedReplyOwner } = useChat();
-  const { selectedTopic } = useComms();
-  const {
-    incomingMsg,
-    incomingMsgUpdate,
-    unreadMessagesRef,
-    setUnreadMessagesRef,
-  } = useSocket();
+    const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1);
 
-  const messagesEndRef = useRef(null);
-  const { isMobile } = useContext(MobileContext);
+    const bottomObserver = useRef(null);
+    const { selectedTopic, selectedCommRef } = useComms();
+    const { incomingMsg, incomingMsgUpdate, emitUpdateFromRef } = useSocket();
+    const { user } = useAuth();
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
+    const messagesEndRef = useRef(null);
+    const { isMobile } = useContext(MobileContext);
 
-        if (entry.isIntersecting) {
-          setInview(true);
-          setDisplayScrollButton(false);
-        } else {
-          setInview(false);
-        }
-      },
-      { threshold: 0.25, rootMargin: "50px" }
-    );
-    bottomObserver.current = observer;
-  }, []);
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const entry = entries[0];
 
-  useEffect(() => {
-    const observer = bottomObserver.current;
-    if (bottom) {
-      observer.observe(bottom);
-    }
-    return () => {
-      if (bottom) {
-        observer.unobserve(bottom);
-      }
-    };
-  }, [bottom]);
-
-  useEffect(() => {
-    if (messages && selectedTopic) {
-      let tempMsgs = [...(messages[selectedTopic._id] || [])];
-
-      if (unreadMessagesRef.length && tempMsgs && tempMsgs.length) {
-        let filteredUnread = unreadMessagesRef.filter(
-          (msg) => msg.topic_id !== selectedTopic._id
+                if (entry.isIntersecting) {
+                    setInview(true);
+                    setDisplayScrollButton(false);
+                } else {
+                    setInview(false);
+                }
+            },
+            { threshold: 0.25, rootMargin: "50px" }
         );
+        bottomObserver.current = observer;
+    }, []);
 
-        setUnreadMessagesRef(filteredUnread);
-      }
-      if (inview) {
-        scrollToBottom("smooth");
-      } else {
-        setDisplayScrollButton(true);
-      }
-      setCurrentMessages(tempMsgs);
-    } else {
-      setCurrentMessages([]);
-    }
-  }, [selectedTopic, messages]);
-
-  useEffect(() => {
-    if (incomingMsg && messages) {
-      const { topic_id, owner_id } = incomingMsg;
-      if (owner_id) {
-        let tempMsgs = messages[topic_id];
-        if (tempMsgs && topic_id) {
-          let index;
-          tempMsgs.forEach((msg, idx) => {
-            if (msg._id === owner_id) {
-              index = idx;
-            }
-            if (index) {
-              tempMsgs[index].replies = [
-                ...new Set([...tempMsgs[index].replies, incomingMsg._id]),
-              ];
-            }
-            setMessages({
-              ...messages,
-              [topic_id]: tempMsgs,
-            });
-          });
+    useEffect(() => {
+        const observer = bottomObserver.current;
+        if (bottom) {
+            observer.observe(bottom);
         }
-      } else {
-        let tempMsgs = messages[topic_id];
-        if (tempMsgs && topic_id) {
-          let msgs = [incomingMsg, ...tempMsgs];
-          setMessages({
-            ...messages,
-            [topic_id]: msgs,
-          });
-        }
-      }
-    }
-  }, [incomingMsg]);
-
-  useEffect(() => {
-    if (incomingMsgUpdate && messages) {
-      const { topic_id, action, _id } = incomingMsgUpdate;
-
-      let tempMsgs = messages[topic_id];
-      if (tempMsgs && topic_id) {
-        if (action == "delete") {
-          let filteredMsgs = tempMsgs.filter((msg) => msg._id !== _id);
-          setMessages({
-            ...messages,
-            [topic_id]: filteredMsgs,
-          });
-        }
-        if (action == "update") {
-          let index;
-          tempMsgs.forEach((msg, idx) => {
-            if (msg._id === _id) {
-              index = idx;
+        return () => {
+            if (bottom) {
+                observer.unobserve(bottom);
             }
-            if (tempMsgs[index]) {
-              tempMsgs[index].reactions = incomingMsgUpdate.reactions;
-              tempMsgs[index].flames = incomingMsgUpdate.flames;
-              tempMsgs[index].message = incomingMsgUpdate.message;
-            }
-            setMessages({
-              ...messages,
-              [topic_id]: tempMsgs,
-            });
-          });
+        };
+    }, [bottom]);
+
+    useEffect(() => {
+        if (selectedTopic) {
+            setLoading(true);
+            (async () => {
+                let data = await getMessagesByTopic(
+                    selectedTopic._id,
+                    page,
+                    10
+                );
+                const { ok, fetchResults } = data;
+                if (ok) {
+                    const sortedMessages = sortMessages([...fetchResults]);
+                    setCurrentMessages([...currentMessages, ...sortedMessages]);
+                    setHasMore(fetchResults.length > 0);
+                    setLoading(false);
+                } else {
+                    setCurrentMessages([]);
+                    setPage(1);
+                    setLoading(false);
+                }
+            })();
+        } else {
+            setPage(1);
+            setCurrentMessages([]);
+            setLoading(false);
         }
-        triggerMsgReload((prevState) => (prevState += 1));
-      }
-    }
-  }, [incomingMsgUpdate]);
+    }, [page]);
 
-  const editMessage = (msg) => {
-    setEditMessageObj(msg);
-  };
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-  const ScrollButton = () => {
-    if (displayScrollButton) {
-      // -- remove style from this needs repositioning and styling sometimes shows when you reload over and over
-      return (
-        <button
-          onClick={scrollToBottom}
-          className="scroll-to-bottom hidden"
-          style={{
-            border: "none",
-            background: "none",
-            color: "transparent",
-          }}
-        >
-          New Message
-        </button>
-      );
-    }
-    return null;
-  };
-  const openImageSlideShow = async (idx, attachments) => {
-    let att = attachments[idx];
-    let name = { ...att }?.name || "";
-    if (name.includes("thumbnail")) {
-      name = name.replace("thumbnail", "full");
-    }
-    const data = await getDownloadURL(
-      name,
-      att.fileType,
-      "topic-message-attachments"
-    );
-    if (data) {
-      const { ok, downloadURL } = data;
-      if (ok) {
-        setShowImageSlideShow(true);
-        setImageSlideshowURL(downloadURL);
-      }
-    }
-  };
-  const resetImageSLideshow = () => {
-    setImageSlideshowURL(null);
-    setShowImageSlideShow(false);
-  };
-  const resetEdit = () => {
-    setEditMessageObj({});
-  };
+    useEffect(() => {
+        if (selectedTopic) {
+            setLoading(true);
+            setPage(1);
+            setCurrentMessages([]);
+            (async () => {
+                let data = await getMessagesByTopic(selectedTopic._id, 1, 10);
+                const { ok, fetchResults } = data;
+                if (ok) {
+                    setCurrentMessages(sortMessages([...fetchResults]));
+                    setHasMore(fetchResults.length > 0);
+                    setLoading(false);
+                } else {
+                    setCurrentMessages([]);
+                    setPage(1);
+                    setLoading(false);
+                }
+                await removeUnsavedMessages(selectedTopic._id, user._id);
+                let message = {};
+                message.updateType = "reload unreads";
+                message.topic_id = selectedTopic._id;
+                message.user_id = user._id;
+                emitUpdateFromRef(
+                    selectedCommRef.current?._id,
+                    message,
+                    async (err) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                    }
+                );
+            })();
+        } else {
+            setPage(1);
+            setCurrentMessages([]);
+            setLoading(false);
+        }
+    }, [selectedTopic]);
+    useEffect(() => {
+        if (incomingMsg && Object.keys(incomingMsg).length) {
+            if (selectedTopic && incomingMsg.topic_id === selectedTopic._id) {
+                setCurrentMessages([incomingMsg, ...currentMessages]);
+                removeUnsavedMessages(selectedTopic._id, user._id);
+                let message = {};
+                message.updateType = "reload unreads";
+                message.topic_id = selectedTopic._id;
+                message.user_id = user._id;
+                emitUpdateFromRef(
+                    selectedCommRef.current?._id,
+                    message,
+                    async (err) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                    }
+                );
+            }
+        }
+    }, [incomingMsg]);
 
-  const toggleEditing = (msgId) => {
-    setMessageEditing(msgId);
-  };
+    useEffect(() => {
+        if (
+            incomingMsgUpdate &&
+            selectedTopic &&
+            incomingMsgUpdate?.topic_id === selectedTopic._id
+        ) {
+            const { topic_id, action, _id } = incomingMsgUpdate;
 
-  return (
-    <>
-      {showImageSlideShow ? (
+            let tempMsgs = currentMessages;
+            if (tempMsgs && topic_id) {
+                if (action == "delete") {
+                    let filteredMsgs = tempMsgs.filter(
+                        (msg) => msg._id !== _id
+                    );
+                    setCurrentMessages(filteredMsgs);
+                }
+                if (action == "update") {
+                    let index;
+                    tempMsgs.forEach((msg, idx) => {
+                        if (msg._id === _id) {
+                            index = idx;
+                        }
+                        if (tempMsgs[index]) {
+                            tempMsgs[index].reactions =
+                                incomingMsgUpdate.reactions;
+                            tempMsgs[index].flames = incomingMsgUpdate.flames;
+                            tempMsgs[index].message = incomingMsgUpdate.message;
+                        }
+                        setCurrentMessages(tempMsgs);
+                    });
+                }
+                triggerMsgReload((prevState) => (prevState += 1));
+            }
+        }
+    }, [incomingMsgUpdate]);
+
+    const sortMessages = (msgs) => {
+        return msgs
+            .sort((a, b) => new Date(a.date) - new Date(b.date))
+            .reverse();
+    };
+    const editMessage = (msg) => {
+        setEditMessageObj(msg);
+    };
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    };
+    const ScrollButton = () => {
+        if (displayScrollButton) {
+            // -- remove style from this needs repositioning and styling sometimes shows when you reload over and over
+            return (
+                <button
+                    onClick={scrollToBottom}
+                    className="scroll-to-bottom hidden"
+                    style={{
+                        border: "none",
+                        background: "none",
+                        color: "transparent",
+                    }}
+                >
+                    New Message
+                </button>
+            );
+        }
+        return null;
+    };
+    const openImageSlideShow = async (idx, attachments) => {
+        let att = attachments[idx];
+        let name = { ...att }?.name || "";
+        if (name.includes("thumbnail")) {
+            name = name.replace("thumbnail", "full");
+        }
+        const data = await getDownloadURL(
+            name,
+            att.fileType,
+            "topic-message-attachments"
+        );
+        if (data) {
+            const { ok, downloadURL } = data;
+            if (ok) {
+                setShowImageSlideShow(true);
+                setImageSlideshowURL(downloadURL);
+            }
+        }
+    };
+    const resetImageSLideshow = () => {
+        setImageSlideshowURL(null);
+        setShowImageSlideShow(false);
+    };
+    const resetEdit = () => {
+        setEditMessageObj({});
+    };
+    const toggleEditing = (msgId) => {
+        setMessageEditing(msgId);
+    };
+    const handleScroll = (e) => {
+        const bottom =
+            e.target.scrollHeight - Math.abs(e.target.scrollTop) <=
+            e.target.clientHeight + 200;
+
+        if (bottom && !loading && hasMore) {
+            setPage((prevState) => prevState + 1);
+        }
+    };
+
+    return (
         <>
-          <div className={styles.imageViewer}>
-            <ImageViewer
-              src={[imageSlideshowURL]}
-              closeOnClickOutside={true}
-              onClose={resetImageSLideshow}
-              backgroundStyle={{
-                backgroundColor: "rgba(0,0,0,0.92)",
-              }}
-            />
-          </div>
+            {showImageSlideShow ? (
+                <>
+                    <div className={styles.imageViewer}>
+                        <ImageViewer
+                            src={[imageSlideshowURL]}
+                            closeOnClickOutside={true}
+                            onClose={resetImageSLideshow}
+                            backgroundStyle={{
+                                backgroundColor: "rgba(0,0,0,0.92)",
+                            }}
+                        />
+                    </div>
+                </>
+            ) : null}
+
+            <div className={styles.Holder}>
+                <div id={styles.ChatMessages} onScroll={handleScroll}>
+                    <div ref={messagesEndRef} />
+                    <div ref={setBottom} />
+                    {currentMessages && currentMessages.length > 0 ? (
+                        currentMessages.map((msg) => (
+                            <>
+                                <ChatSingleMessage
+                                    msgReload={msgReload}
+                                    editMessageText={editMessage}
+                                    msg={msg}
+                                    key={msg?._id}
+                                    messageID={msg?._id}
+                                    openImageSlideShow={openImageSlideShow}
+                                    showImageSlideShow={showImageSlideShow}
+                                    imageSlideshowURL={imageSlideshowURL}
+                                    resetImageSLideshow={resetImageSLideshow}
+                                    resetEdit={resetEdit}
+                                    isEditing={
+                                        messageEditing === msg?._id
+                                            ? true
+                                            : false
+                                    }
+                                    toggleEditing={toggleEditing}
+                                />
+                            </>
+                        ))
+                    ) : (
+                        <div className={styles.NoPosts}>
+                            <TalkingHead
+                                className={styles.wizard}
+                                text="Nothing to see here yet. Why don't you post something already?"
+                                isSmall={true}
+                            />
+                        </div>
+                    )}
+                    <ScrollButton />
+                </div>
+
+                {isMobile ? (
+                    <div className={styles.InputMobile}>
+                        <ChatInput
+                            selectedEdit={editMessageObj}
+                            isReply={false}
+                            topicInputs={topicInputs}
+                            setTopicInputs={setTopicInputs}
+                            resetEdit={resetEdit}
+                            toggleEditing={toggleEditing}
+                        ></ChatInput>
+                    </div>
+                ) : (
+                    <div className={styles.InputDesktop}>
+                        <ChatInput
+                            selectedEdit={editMessageObj}
+                            isReply={false}
+                            topicInputs={topicInputs}
+                            setTopicInputs={setTopicInputs}
+                            resetEdit={resetEdit}
+                            toggleEditing={toggleEditing}
+                        ></ChatInput>
+                    </div>
+                )}
+            </div>
         </>
-      ) : null}
-
-      <div className={styles.Holder}>
-        <div id={styles.ChatMessages}>
-          <div ref={messagesEndRef} />
-          <div ref={setBottom} />
-          {(currentMessages && (currentMessages.length > 0)) ?
-            currentMessages.map((msg) => (
-              <>
-              <ChatSingleMessage
-                msgReload={msgReload}
-                editMessageText={editMessage}
-                msg={msg}
-                key={msg?._id}
-                messageID={msg?._id}
-                openImageSlideShow={openImageSlideShow}
-                showImageSlideShow={showImageSlideShow}
-                imageSlideshowURL={imageSlideshowURL}
-                resetImageSLideshow={resetImageSLideshow}
-                resetEdit={resetEdit}
-                isEditing={messageEditing === msg?._id ? true : false}
-                toggleEditing={toggleEditing}
-              />
-              </>
-            ))
-            : (
-            
-            <div className={styles.NoPosts}>
-              <TalkingHead className={styles.wizard} text="Nothing to see here yet. Why don't you post something already?" isSmall={true}/>
-              </div>
-            )}
-          <ScrollButton />
-        </div>
-
-        {isMobile ? (
-          <div className={styles.InputMobile}>
-            <ChatInput
-              selectedEdit={editMessageObj}
-              isReply={false}
-              replyOwner={selectedReplyOwner}
-              topicInputs={topicInputs}
-              setTopicInputs={setTopicInputs}
-              resetEdit={resetEdit}
-              toggleEditing={toggleEditing}
-            ></ChatInput>
-          </div>
-        ) : (
-          <div className={styles.InputDesktop}>
-            <ChatInput
-              selectedEdit={editMessageObj}
-              isReply={false}
-              replyOwner={selectedReplyOwner}
-              topicInputs={topicInputs}
-              setTopicInputs={setTopicInputs}
-              resetEdit={resetEdit}
-              toggleEditing={toggleEditing}
-            ></ChatInput>
-          </div>
-        )}
-      </div>
-    </>
-  );
+    );
 };
 
 export default MessageWrapper;

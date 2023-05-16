@@ -11,7 +11,6 @@ import { useVideo } from "contexts/video";
 import { useAuth } from "contexts/auth";
 import { useComms } from "contexts/comms";
 import { useSocket } from "contexts/socket";
-import { useChat } from "contexts/chat";
 
 const DashboardLayout = (props) => {
     const [menuActive, setmenuActive] = useState(false);
@@ -37,7 +36,6 @@ const DashboardLayout = (props) => {
     const { getInitialCallRooms, socketID, callRooms } = useVideo();
     const { user } = useAuth();
     const { mainAlertsRef, setMainAlertsFromChild } = useSocket();
-    const { resetChats } = useChat();
 
     useEffect(() => {
         if (socketID && selectedcomm && user) {
@@ -90,7 +88,6 @@ const DashboardLayout = (props) => {
     useEffect(() => {
         if (selectedcomm) {
             if (currentPage === "message") {
-                resetChats();
                 resetTopics();
                 fetchConversations();
             }
@@ -99,7 +96,6 @@ const DashboardLayout = (props) => {
                 resetConversations();
             }
             if (currentPage === "gather") {
-                resetChats();
                 resetTopics();
                 resetConversations();
             }
