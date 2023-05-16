@@ -12,8 +12,9 @@
     padding-left: 8px;
 
     @media screen and (max-width: 640px) {
-        height: 100vh;
+        height: 94vh;
         padding: 8px;
+        margin-top: 60px;
     }
 }
 
@@ -47,10 +48,8 @@
     max-width: 100%;
     margin: auto;
     opacity: 0;
-    animation: fadeIn 1s ease-in-out 1s forwards; 
+    animation: fadeIn 1s ease-in-out 1s forwards;
 }
-
-
 
 .AdminMessage {
     color: #ee5500;
@@ -490,7 +489,6 @@
 .shadow {
     box-shadow: 10px 10px 8px 10px #888888;
 }
-
 
 @keyframes fadeIn {
     from {
