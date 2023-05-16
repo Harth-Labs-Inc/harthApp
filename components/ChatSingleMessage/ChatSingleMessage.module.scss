@@ -253,7 +253,7 @@
     font-weight: 500;
     color: $silver-dark;
     width: 100%;
-    max-width: 360px;
+    max-width: 460px;
     user-select: none;
     text-decoration: none;
     overflow-wrap: anywhere;
@@ -287,14 +287,36 @@
 
     .title {
         font-weight: 700;
-        display: block;
+        //display: block;
+        font-size: 14px;
+        line-height: 125%;
         color: $fuel;
         text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     img {
         max-width: 100%;
         height: auto;
         display: block;
+    }
+
+    .description {
+        width: 100%;
+        @include montserrat;
+        line-height: 135%;
+        font-weight: 500;
+        font-size: 13px;
+        margin-bottom: 8px;;
+        display: block;
+        color: $silver-dark;
+        //background-color: aqua;
+        max-height: 90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
     }
 }

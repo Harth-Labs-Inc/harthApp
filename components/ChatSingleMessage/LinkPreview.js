@@ -114,50 +114,47 @@ export const LinkPreview = ({ message }) => {
         return (
             <>
                 <br />
-                <a
-                    href={rawURL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ textDecoration: "none" }}
-                >
-                    <article id="ogCard" className={styles.ogCard}>
-                        <div className={styles.attribution}>
-                            <img
-                                src={linkPreview?.favicon || linkPreview?.image}
-                                alt={linkPreview?.title}
-                                loading="lazy"
-                                />
-                            <p>{linkPreview?.site_name}</p>
-                        </div>
-
-                        <span className={styles.title}>
-                            {linkPreview?.title || linkPreview?.site_name}
-                        </span>
-                        <span>{linkPreview?.description}</span>
-
-                        {linkPreview?.video ? (
-                            <iframe
-                                width="100%"
-                                height="315"
-                                src={linkPreview?.video}
-                                title={linkPreview?.title}
-                                allowFullScreen
+                <article id="ogCard" className={styles.ogCard}>
+                    <div className={styles.attribution}>
+                        <img
+                            src={linkPreview?.favicon || linkPreview?.image}
+                            alt={linkPreview?.title}
+                            loading="lazy"
                             />
-                        ) : linkPreview?.image ||
-                          linkPreview?.imageSecureUrl ||
-                          linkPreview?.favicon ? (
-                            <img
-                                src={
-                                    linkPreview?.image ||
-                                    linkPreview?.imageSecureUrl ||
-                                    linkPreview?.favicon
-                                }
-                                alt={linkPreview?.title}
-                                loading="lazy"
-                            />
-                        ) : null}
-                    </article>
-                </a>
+                        <p>{linkPreview?.site_name}</p>
+                    </div>
+                    <a
+                        href={rawURL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none" }}
+                    >
+                       <div className={styles.title}>{linkPreview?.title || linkPreview?.site_name}</div> 
+                    </a>
+                    <div className={styles.description}>here{linkPreview?.description}</div>
+
+                    {linkPreview?.video ? (
+                        <iframe
+                            width="100%"
+                            height="315"
+                            src={linkPreview?.video}
+                            title={linkPreview?.title}
+                            allowFullScreen
+                        />
+                    ) : linkPreview?.image ||
+                        linkPreview?.imageSecureUrl ||
+                        linkPreview?.favicon ? (
+                        <img
+                            src={
+                                linkPreview?.image ||
+                                linkPreview?.imageSecureUrl ||
+                                linkPreview?.favicon
+                            }
+                            alt={linkPreview?.title}
+                            loading="lazy"
+                        />
+                    ) : null}
+                </article>
             </>
         );
     }
