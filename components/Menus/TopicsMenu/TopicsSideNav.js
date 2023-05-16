@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from "react";
 
 import { useComms } from "../../../contexts/comms";
 import { useAuth } from "../../../contexts/auth";
-import { useChat } from "../../../contexts/chat";
 import { useSocket } from "../../../contexts/socket";
 import { MobileContext } from "../../../contexts/mobile";
 import { Modal } from "../../Common";

@@ -3,7 +3,7 @@ import { useComms } from "../../contexts/comms";
 import { useSocket } from "../../contexts/socket";
 import { MobileContext } from "../../contexts/mobile";
 import { getDownloadURL } from "../../requests/s3";
-import { removeUnsavedMessages, saveUnreadMessage } from "../../requests/chat";
+import { removeUnsavedMessages } from "../../requests/chat";
 import ChatInput from "../ChatInput/ChatInput";
 import ChatSingleMessage from "../ChatSingleMessage/ChatSingleMessage";
 import styles from "./ChatMessages.module.scss";
@@ -17,6 +17,7 @@ const MessageWrapper = () => {
     const [topicInputs, setTopicInputs] = useState({});
     const [editMessageObj, setEditMessageObj] = useState({});
     const [bottom, setBottom] = useState(null);
+    // eslint-disable-next-line no-unused-vars
     const [inview, setInview] = useState(null);
     const [displayScrollButton, setDisplayScrollButton] = useState(false);
     const [msgReload, triggerMsgReload] = useState(0);
