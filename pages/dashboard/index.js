@@ -7,7 +7,6 @@ import { checkIfInviteTokenIsGood, getComms } from "../../requests/community";
 import { VideoProvider } from "../../contexts/video";
 import { CommsProvider } from "../../contexts/comms";
 import { SocketProvider } from "../../contexts/socket";
-import { ChatProvider } from "../../contexts/chat";
 import { useAuth } from "../../contexts/auth";
 
 /* eslint-disable */
@@ -226,134 +225,106 @@ const dashboard = () => {
         }
 
         if (GatherWindow) {
-            return (
-                <CommsProvider>
-                    <ChatProvider>{page}</ChatProvider>
-                </CommsProvider>
-            );
+            return <CommsProvider>{page}</CommsProvider>;
         } else {
             return (
                 <CommsProvider>
-                    <ChatProvider>
-                        <SocketProvider>
-                            <VideoProvider>
-                                {showCreateHarthNameModal ? (
-                                    <CreateHarthName
-                                        talkingHeadMsg="Time to make a sweet new härth for you and your crew."
-                                        footer="Tip: You can change your härth name and image at any time"
-                                        placeholder="härth name"
-                                        submitText="Create"
-                                        closeHandler={async () => {
-                                            let result = await getComms(user);
-                                            const { ok, comms } = result;
-                                            console.log(ok, comms, "test");
-                                            console.log(
-                                                !ok,
-                                                !comms,
-                                                !comms.length
-                                            );
-                                            if (
-                                                !ok ||
-                                                !comms ||
-                                                !comms.length
-                                            ) {
-                                                setShowCreateHarthNameModal(
-                                                    true
-                                                );
-                                            } else {
-                                                setShowCreateHarthNameModal(
-                                                    false
-                                                );
-                                            }
-                                        }}
-                                        submitHandler={harthNameCreationHandler}
-                                    />
-                                ) : null}
-                                {showCreateHarthProfileModal ? (
-                                    <CreateHarthProfile
-                                        talkingHeadMsg={`Enter the name you would like to be called in ${newHarth.name}. Don't forget to add a picture.`}
-                                        footer="Tip: Since each härth has a unique avatar, choose one that represents who you want to be for this härth."
-                                        placeholder="avatar name"
-                                        submitText="Join"
-                                        submitHandler={resetNewHarth}
-                                        harth={newHarth}
-                                    />
-                                ) : null}
-                                {showInviteAcceptModal ? (
-                                    <HarthInviteAcceptModal
-                                        talkingHeadMsg="You have been invited to join a new härth"
-                                        footer="Remember to be safe and only accept invites from people that you know."
-                                        submitText="Accept Invite"
-                                        submitHandler={goodInviteHandler}
-                                        tkn={tkn || inviteTKN || ""}
-                                        user={user}
-                                        closeHandler={async () => {
-                                            resetNewInviteHarth();
-                                            window.history.replaceState(
-                                                null,
-                                                null,
-                                                "dashboard"
-                                            );
-                                            let result = await getComms(user);
-                                            const { ok, comms } = result;
-                                            if (
-                                                !ok ||
-                                                !comms ||
-                                                !comms.length
-                                            ) {
-                                                toggleNoHarthDetected(true);
-                                            }
-                                        }}
-                                        invitedHarth={invitedHarth}
-                                    />
-                                ) : null}
-                                {showInviteProfileModal ? (
-                                    <CreateHarthProfile
-                                        header="harth"
-                                        talkingHeadMsg={`Enter the name you would like to be called in ${invitedHarth.name}. Don't forget to add a picture.`}
-                                        footer="Tip: Since each härth has a unique avatar, choose one that represents who you want to be for this härth."
-                                        //placeholder={`${"First Name"}`}
-                                        placeholder="avatar name"
-                                        submitText="Join"
-                                        submitHandler={resetNewInviteHarth}
-                                        harth={invitedHarth}
-                                        invite={true}
-                                        closeHandler={async () => {
-                                            resetNewInviteHarth();
-                                            window.history.replaceState(
-                                                null,
-                                                null,
-                                                "dashboard"
-                                            );
-                                            let result = await getComms(user);
-                                            const { ok, comms } = result;
-                                            if (
-                                                !ok ||
-                                                !comms ||
-                                                !comms.length
-                                            ) {
-                                                toggleNoHarthDetected(true);
-                                            }
-                                        }}
-                                    />
-                                ) : null}
-
-                                <DashboardLayout
-                                    changePage={changePageHandler}
-                                    currentPage={currentPage}
-                                    setShowCreateHarthNameModal={
-                                        setShowCreateHarthNameModal
-                                    }
+                    <SocketProvider>
+                        <VideoProvider>
+                            {showCreateHarthNameModal ? (
+                                <CreateHarthName
+                                    talkingHeadMsg="Time to make a sweet new härth for you and your crew."
+                                    footer="Tip: You can change your härth name and image at any time"
+                                    placeholder="härth name"
+                                    submitText="Create"
+                                    closeHandler={async () => {
+                                        let result = await getComms(user);
+                                        const { ok, comms } = result;
+                                        console.log(ok, comms, "test");
+                                        console.log(!ok, !comms, !comms.length);
+                                        if (!ok || !comms || !comms.length) {
+                                            setShowCreateHarthNameModal(true);
+                                        } else {
+                                            setShowCreateHarthNameModal(false);
+                                        }
+                                    }}
+                                    submitHandler={harthNameCreationHandler}
+                                />
+                            ) : null}
+                            {showCreateHarthProfileModal ? (
+                                <CreateHarthProfile
+                                    talkingHeadMsg={`Enter the name you would like to be called in ${newHarth.name}. Don't forget to add a picture.`}
+                                    footer="Tip: Since each härth has a unique avatar, choose one that represents who you want to be for this härth."
+                                    placeholder="avatar name"
+                                    submitText="Join"
+                                    submitHandler={resetNewHarth}
+                                    harth={newHarth}
+                                />
+                            ) : null}
+                            {showInviteAcceptModal ? (
+                                <HarthInviteAcceptModal
+                                    talkingHeadMsg="You have been invited to join a new härth"
+                                    footer="Remember to be safe and only accept invites from people that you know."
+                                    submitText="Accept Invite"
+                                    submitHandler={goodInviteHandler}
+                                    tkn={tkn || inviteTKN || ""}
                                     user={user}
-                                    toggleNoHarthDetected={
-                                        toggleNoHarthDetected
-                                    }
-                                >
-                                    {page}
-                                </DashboardLayout>
-                            </VideoProvider>
-                        </SocketProvider>
-                    </ChatProvider>
+                                    closeHandler={async () => {
+                                        resetNewInviteHarth();
+                                        window.history.replaceState(
+                                            null,
+                                            null,
+                                            "dashboard"
+                                        );
+                                        let result = await getComms(user);
+                                        const { ok, comms } = result;
+                                        if (!ok || !comms || !comms.length) {
+                                            toggleNoHarthDetected(true);
+                                        }
+                                    }}
+                                    invitedHarth={invitedHarth}
+                                />
+                            ) : null}
+                            {showInviteProfileModal ? (
+                                <CreateHarthProfile
+                                    header="harth"
+                                    talkingHeadMsg={`Enter the name you would like to be called in ${invitedHarth.name}. Don't forget to add a picture.`}
+                                    footer="Tip: Since each härth has a unique avatar, choose one that represents who you want to be for this härth."
+                                    //placeholder={`${"First Name"}`}
+                                    placeholder="avatar name"
+                                    submitText="Join"
+                                    submitHandler={resetNewInviteHarth}
+                                    harth={invitedHarth}
+                                    invite={true}
+                                    closeHandler={async () => {
+                                        resetNewInviteHarth();
+                                        window.history.replaceState(
+                                            null,
+                                            null,
+                                            "dashboard"
+                                        );
+                                        let result = await getComms(user);
+                                        const { ok, comms } = result;
+                                        if (!ok || !comms || !comms.length) {
+                                            toggleNoHarthDetected(true);
+                                        }
+                                    }}
+                                />
+                            ) : null}
+
+                            <DashboardLayout
+                                changePage={changePageHandler}
+                                currentPage={currentPage}
+                                setShowCreateHarthNameModal={
+                                    setShowCreateHarthNameModal
+                                }
+                                user={user}
+                                toggleNoHarthDetected={toggleNoHarthDetected}
+                            >
+                                {page}
+                            </DashboardLayout>
+                        </VideoProvider>
+                    </SocketProvider>
                 </CommsProvider>
             );
         }

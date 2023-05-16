@@ -11,20 +11,16 @@ export default async (req, res) => {
         obj = req.body;
     }
 
-    const getData = (db, id) => {
+    const createMessage = (db, data) => {
         return new Promise((resolve, reject) => {
-            db.collection("unread_messages")
-                .find({ user_id: id })
-                .toArray(function (err, results) {
+            db.collection("unread_messages").insertOne(
+                data,
+                function (err, msgCreated) {
                     if (err) {
-                        resolve([]);
                     }
-                    if (results) {
-                        resolve(results);
-                    } else {
-                        resolve([]);
-                    }
-                });
+                    resolve(msgCreated);
+                }
+            );
         });
     };
 
@@ -74,9 +70,13 @@ export default async (req, res) => {
         return res.json({ msg: "expired token", ok: 0, lockDown: true });
     }
     // passed authentication ------------------------------------------
-    let fetchResults = await getData(db, obj.id);
-    if (!fetchResults) {
-        return res.json({ msg: "Something Went Wrong", ok: 0 });
+
+    let insertResult = await createMessage(db, obj.msg);
+    if (!insertResult) {
+        return res.json({ ok: 0, msg: "something went wrong" });
     }
-    return res.json({ msg: "successful", ok: 1, data: fetchResults });
+    if (!insertResult.insertedId) {
+        return res.json({ ok: 0, msg: "something went wrong" });
+    }
+    return res.json({ ok: 1, msg: "success", id: insertResult.insertedId });
 };

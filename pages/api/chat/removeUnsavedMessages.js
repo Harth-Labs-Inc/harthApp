@@ -5,26 +5,24 @@ import jwt from "jsonwebtoken";
 
 export default async (req, res) => {
     let obj;
+
     try {
         obj = JSON.parse(req.body);
     } catch (e) {
         obj = req.body;
     }
 
-    const getData = (db, id) => {
-        return new Promise((resolve, reject) => {
-            db.collection("unread_messages")
-                .find({ user_id: id })
-                .toArray(function (err, results) {
+    const deleteMessage = (db, topicid, userid) => {
+        return new Promise((resolve) => {
+            db.collection("unread_messages").deleteMany(
+                { user_id: userid, topic_id: topicid },
+                function (err, msgCreated) {
                     if (err) {
-                        resolve([]);
+                        resolve(false);
                     }
-                    if (results) {
-                        resolve(results);
-                    } else {
-                        resolve([]);
-                    }
-                });
+                    resolve(msgCreated);
+                }
+            );
         });
     };
 
@@ -33,7 +31,7 @@ export default async (req, res) => {
 
     // authentication ---------------------------------
     const findUser = (db, id) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             let mongo = require("mongodb");
             let o_id = new mongo.ObjectID(id);
             db.collection("users")
@@ -47,7 +45,7 @@ export default async (req, res) => {
         });
     };
     const decode = (tokn) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             resolve(jwt.verify(tokn, process.env.SECRET));
         });
     };
@@ -74,9 +72,11 @@ export default async (req, res) => {
         return res.json({ msg: "expired token", ok: 0, lockDown: true });
     }
     // passed authentication ------------------------------------------
-    let fetchResults = await getData(db, obj.id);
-    if (!fetchResults) {
-        return res.json({ msg: "Something Went Wrong", ok: 0 });
+    console.log(obj);
+    let deleteResult = await deleteMessage(db, obj.topicid, obj.userid);
+    if (!deleteResult) {
+        return res.json({ ok: 0, msg: "something went wrong" });
     }
-    return res.json({ msg: "successful", ok: 1, data: fetchResults });
+
+    return res.json({ ok: 1, msg: "success" });
 };

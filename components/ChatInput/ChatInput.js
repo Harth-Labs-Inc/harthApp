@@ -7,7 +7,11 @@ import { IconSend } from "../../resources/icons/IconSend";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
 
-import { saveMessage, updateMessage } from "../../requests/chat";
+import {
+    saveMessage,
+    saveUnreadMessage,
+    updateMessage,
+} from "../../requests/chat";
 import { useComms } from "../../contexts/comms";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
@@ -31,7 +35,7 @@ const ChatInput = (props) => {
     const [altKey, setAltKey] = useState(false);
 
     const { user } = useAuth();
-    const { selectedcomm, selectedTopic } = useComms();
+    const { selectedcomm, selectedTopic, selectedCommRef } = useComms();
     const { emitUpdate, setIncomingMsg, setNewAlerts, socketID } = useSocket();
 
     const {
@@ -186,7 +190,7 @@ const ChatInput = (props) => {
             }
         }
     };
-    const broadcastMessage = (message) => {
+    const broadcastMessage = async (message) => {
         setUploadingAttachments([]);
         setAttachments([]);
         message.updateType = "new message";
@@ -194,6 +198,35 @@ const ChatInput = (props) => {
         setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
         setIncomingMsg(message);
         setNewAlerts(message, "chat");
+        const users = selectedCommRef.current?.users?.filter(
+            (usr) => usr.userId !== user._id
+        );
+        if (users) {
+            const promises = [];
+            users.forEach((usr) => {
+                promises.push(
+                    new Promise(async (res) => {
+                        let data = {
+                            topic_id: message.topic_id,
+                            creator_id: message.creator_id,
+                            user_id: usr.userId,
+                            creator_name: message.creator_name,
+                            creator_image: message.creator_image,
+                            comm_id: message.comm_id,
+                            date: message.date,
+                        };
+                        await saveUnreadMessage(data);
+                        res(true);
+                    })
+                );
+            });
+            await Promise.all(promises);
+            let unreadmessage = {};
+            unreadmessage.updateType = "reload unreads";
+            unreadmessage.topic_id = selectedTopic._id;
+            unreadmessage.user_id = user._id;
+            emitUpdate(selectedCommRef.current?._id, unreadmessage, () => {});
+        }
         emitUpdate(selectedcomm?._id, message, async (err) => {
             if (err) {
                 console.error(err);
