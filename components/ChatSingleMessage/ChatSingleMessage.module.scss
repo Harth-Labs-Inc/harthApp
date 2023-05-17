@@ -320,3 +320,33 @@
         text-decoration: none;
     }
 }
+
+.linkCard {
+    padding: 16px 16px;
+    gap: 20px;
+    margin-top: 10px;
+    background-color: $white;
+    border: 1px solid $silver-med;
+    border-radius: 12px;
+    width: fit-content;
+    max-width: 100%;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+
+    .urlLogo {
+        width: 56px;
+        height: auto;
+    }
+
+    .icon {
+        width: 32px;
+        height: auto;
+        path {
+            fill: $silver-heavy;
+        }
+    }
+}

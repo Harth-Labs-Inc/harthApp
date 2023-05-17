@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getURLMetaData } from "../../requests/urls";
+import { IconLink } from "resources/icons/IconLink";
 
 import styles from "./ChatSingleMessage.module.scss";
 
@@ -12,6 +13,24 @@ export const LinkPreview = ({ message }) => {
     const [alteredURL, setAlteredURL] = useState();
     const [ogData, setOgData] = useState();
     const [linkPreview, setLinkPreview] = useState(null);
+
+
+    const getHostName = (url) => {
+        let hostnameRegex = /^https?:\/\/(?:www\.)?([^/?#]+)(?:[/?#]|$)/i;
+        let matches = url.match(hostnameRegex);
+        if (matches && matches.length > 1) {
+            const hostname = matches[1].toLowerCase();
+            if (hostname === 'amazon.com') {
+                return 'amazon';
+            } else if (hostname === 'twitter.com') {
+                return 'twitter';
+            } else if ((hostname === 'youtu.be') || (hostname === 'youtube.com')){
+                return 'youtube';
+            }
+        }   
+
+        return null; // or handle the case when no hostname is found or it's not from amazon.com or twitter.com
+    };
 
     const wrapLink = (innerHtml, urlRegex) => {
         let rawurl = "";
@@ -111,52 +130,67 @@ export const LinkPreview = ({ message }) => {
             linkPreview.imageSecureUrl ||
             linkPreview.favicon)
     ) {
-        return (
+        if (getHostName(rawURL) === "amazon") {
+            return (      
             <>
-                <br />
-                <article id="ogCard" className={styles.ogCard}>
-                    <div className={styles.attribution}>
-                        <img
-                            src={linkPreview?.favicon || linkPreview?.image}
-                            alt={linkPreview?.title}
-                            loading="lazy"
-                            />
-                        <p>{linkPreview?.site_name}</p>
-                    </div>
-                    <a
-                        href={rawURL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ textDecoration: "none" }}
-                    >
-                       <div className={styles.title}>{linkPreview?.title || linkPreview?.site_name}</div> 
-                    </a>
-                    <div className={styles.description}>here{linkPreview?.description}</div>
-
-                    {linkPreview?.video ? (
-                        <iframe
-                            width="100%"
-                            height="315"
-                            src={linkPreview?.video}
-                            title={linkPreview?.title}
-                            allowFullScreen
-                        />
-                    ) : linkPreview?.image ||
-                        linkPreview?.imageSecureUrl ||
-                        linkPreview?.favicon ? (
-                        <img
-                            src={
-                                linkPreview?.image ||
-                                linkPreview?.imageSecureUrl ||
-                                linkPreview?.favicon
-                            }
-                            alt={linkPreview?.title}
-                            loading="lazy"
-                        />
-                    ) : null}
-                </article>
+            <br />
+            <a href={rawURL} target="_blank" rel="noopener noreferrer">
+            <article id="ogCard" className={styles.linkCard}>
+                <img src="/images/amazon_logo.png" className={styles.urlLogo} />
+                <div className={styles.icon}><IconLink /></div>
+            </article>
+            </a>
             </>
-        );
+            );
+        }
+        else {
+            return (
+                <>
+                    <br />
+                    <article id="ogCard" className={styles.ogCard}>
+                        <div className={styles.attribution}>
+                            <img
+                                src={linkPreview?.favicon || linkPreview?.image}
+                                alt={linkPreview?.title}
+                                loading="lazy"
+                                />
+                            <p>{getHostName(rawURL) === 'youtube' ? "YouTube" : linkPreview?.site_name}</p>
+                        </div>
+                        <a
+                            href={rawURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ textDecoration: "none" }}
+                        >
+                        <div className={styles.title}>{linkPreview?.title || linkPreview?.site_name}</div> 
+                        </a>
+                        <div className={styles.description}>{linkPreview?.description}</div>
+
+                        {linkPreview?.video ? (
+                            <iframe
+                                width="100%"
+                                height="315"
+                                src={linkPreview?.video}
+                                title={linkPreview?.title}
+                                allowFullScreen
+                            />
+                        ) : linkPreview?.image ||
+                            linkPreview?.imageSecureUrl ||
+                            linkPreview?.favicon ? (
+                            <img
+                                src={
+                                    linkPreview?.image ||
+                                    linkPreview?.imageSecureUrl ||
+                                    linkPreview?.favicon
+                                }
+                                alt={linkPreview?.title}
+                                loading="lazy"
+                            />
+                        ) : null}
+                    </article>
+                </>
+            );
+        }
     }
 
     if (ogData) {
@@ -198,11 +232,31 @@ export const LinkPreview = ({ message }) => {
     }
 
     if (rawURL) {
-        return (
-            <a href={rawURL} target="_blank" rel="noopener noreferrer">
-                {alteredURL}
-            </a>
-        );
+
+        if (getHostName(rawURL) === "twitter") {
+            return (      
+                <>
+                <br />
+                <a href={rawURL} target="_blank" rel="noopener noreferrer">
+                <article id="ogCard" className={styles.linkCard}>
+                    <img src="/images/twitter_logo.png" className={styles.urlLogo} />
+                    <div className={styles.icon}><IconLink /></div>
+                </article>
+                </a>
+                </>
+                );
+        }
+        else {
+            return (
+                <>
+                <article id="ogCard" className={styles.ogCard}>
+                    <a href={rawURL} target="_blank" rel="noopener noreferrer">
+                        {alteredURL}
+                    </a>
+                </article>
+                </>
+            );
+        }
     }
 
     return null;
