@@ -55,31 +55,17 @@
             border: 0;
             background-color: $silver-xlight;
             //background-color: transparent;
-            padding: 4px;
+            padding: 0px;
             box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 6px;
             border: 1px solid $silver-med;
-            // &:after {
-            //     position: absolute;
-            //     top: 0px;
-            //     left: -1px;
-            //     height: 16px;
-            //     width: 84px;
-            //     //z-index: 20;
-            //     content: "";
-            //     background-color: $silver-xlight;
-            //     border-top-right-radius: 20px;
-            //     border-top-left-radius: 20px;
-            //     border-top: 1px solid $silver-med;
-            //     border-left: 1px solid $silver-med;
-            //     border-right: 1px solid $silver-med;
-            // }
+
 
             &Image {
                 position: relative;
-                height: 72px;
-                min-height: 72px;
-                width: 72px;
-                min-width: 72px;
+                height: 80px;
+                min-height: 80px;
+                width: 80px;
+                min-width: 80px;
                 border-radius: 12px;
                 z-index: 1;
                 //border: 1px solid $silver-med;
@@ -375,11 +361,12 @@
                     top: -2px;
                     right: -2px;
                     z-index: 2;
-                    height: 5px;
-                    width: 5px;
+                    height: 7px;
+                    width: 7px;
                     content: "";
                     background-color: $hot_salmon;
                     border-radius: 9999px;
+                    border: 1px solid $silver-xlight;
                 }
 
             }

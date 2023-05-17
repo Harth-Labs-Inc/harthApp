@@ -117,7 +117,7 @@
             border-radius: 999px;
             //visibility: hidden;
             background-color: transparent;
-            border: 1px solid $silver-heavy;
+            border: 1px solid transparent;
             cursor: pointer;
             path {
                 fill: $silver-heavy;
@@ -159,9 +159,18 @@
                 }
         }
         .moreMenu {
-            border-color: $silver-light;
+            //border-color: $silver-light;
             path {
                 fill: $silver-light;
+            }
+
+            &:hover {
+                //background-color: $silver-light;
+                border-color: $silver-light;
+
+                path {
+                    fill: $silver-light;
+                }
             }
         }
 
