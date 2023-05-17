@@ -78,7 +78,10 @@ const MessageWrapper = () => {
                 const { ok, fetchResults } = data;
                 if (ok) {
                     const sortedMessages = sortMessages([...fetchResults]);
-                    setCurrentMessages([...currentMessages, ...sortedMessages]);
+                    setCurrentMessages((prevState) => [
+                        ...prevState,
+                        ...sortedMessages,
+                    ]);
                     setHasMore(fetchResults.length > 0);
                     setLoading(false);
                 } else {
@@ -135,7 +138,7 @@ const MessageWrapper = () => {
     useEffect(() => {
         if (incomingMsg && Object.keys(incomingMsg).length) {
             if (selectedTopic && incomingMsg.topic_id === selectedTopic._id) {
-                setCurrentMessages([incomingMsg, ...currentMessages]);
+                setCurrentMessages((prevState) => [incomingMsg, ...prevState]);
                 removeUnsavedMessages(selectedTopic._id, user._id);
                 let message = {};
                 message.updateType = "reload unreads";
@@ -285,12 +288,11 @@ const MessageWrapper = () => {
                     <div ref={setBottom} />
                     {currentMessages && currentMessages.length > 0 ? (
                         currentMessages.map((msg) => (
-                            <>
+                            <div key={msg?._id}>
                                 <ChatSingleMessage
                                     msgReload={msgReload}
                                     editMessageText={editMessage}
                                     msg={msg}
-                                    key={msg?._id}
                                     messageID={msg?._id}
                                     openImageSlideShow={openImageSlideShow}
                                     showImageSlideShow={showImageSlideShow}
@@ -304,7 +306,7 @@ const MessageWrapper = () => {
                                     }
                                     toggleEditing={toggleEditing}
                                 />
-                            </>
+                            </div>
                         ))
                     ) : (
                         <div className={styles.NoPosts}>

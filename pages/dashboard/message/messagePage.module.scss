@@ -92,3 +92,19 @@
         background-color: #ee5500;
     }
 }
+
+.avatar {
+    //margin-bottom: -6px;
+    height: 36px;
+    width: 36px;
+    border-radius: 9999px;
+    border: 0;
+    border: 1px solid $silver-light;
+    user-select: none;
+
+    //background-color: aqua;
+    &Mobile {
+        height: 48px;
+        width: 48px;
+    }
+}
