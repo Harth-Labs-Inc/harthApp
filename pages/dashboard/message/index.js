@@ -29,15 +29,15 @@ const Message = () => {
 
     useEffect(() => {
         const element = document.getElementById("mainmessageContainer");
-        element.classList.add(styles.rendering);
+        element?.classList.add(styles.rendering);
         setTimeout(() => {
-            element.classList.remove(styles.rendering);
-            element.classList.add(styles.entered);
+            element?.classList.remove(styles.rendering);
+            element?.classList.add(styles.entered);
         }, 100);
 
         return () => {
-            element.classList.remove(styles.entered);
-            element.classList.remove(styles.rendering);
+            element?.classList.remove(styles.entered);
+            element?.classList.remove(styles.rendering);
         };
     }, []);
 
@@ -148,6 +148,36 @@ const Message = () => {
                                 >
                                     <IconChevronLeft />
                                 </button>
+                                <div>
+                                    {chatVisible?.OriginalUsers && (
+                                        <>
+                                            {chatVisible?.OriginalUsers.map(
+                                                (e) => {
+                                                    if (e.userId !== user._id) {
+                                                        return (
+                                                            <>
+                                                                <img
+                                                                    key={
+                                                                        e.userId
+                                                                    }
+                                                                    className={`
+                                                        ${styles.avatar} 
+                                                        ${selectedcomm?._id}_${e.userId}
+                                                        `}
+                                                                    src={
+                                                                        e.iconKey
+                                                                    }
+                                                                    loading="lazy"
+                                                                />
+                                                            </>
+                                                        );
+                                                    }
+                                                    return null;
+                                                }
+                                            )}
+                                        </>
+                                    )}
+                                </div>
                             </div>
                             <ConversationMessages />
                         </div>
