@@ -67,7 +67,7 @@ const MessageWrapper = () => {
     }, [bottom]);
 
     useEffect(() => {
-        if (selectedTopic) {
+        if (selectedTopic && page > 1) {
             setLoading(true);
             (async () => {
                 let data = await getMessagesByTopic(
@@ -98,10 +98,10 @@ const MessageWrapper = () => {
     }, [page]);
 
     useEffect(() => {
+        setLoading(true);
+        setPage(1);
+        setCurrentMessages([]);
         if (selectedTopic) {
-            setLoading(true);
-            setPage(1);
-            setCurrentMessages([]);
             (async () => {
                 let data = await getMessagesByTopic(selectedTopic._id, 1, 10);
                 const { ok, fetchResults } = data;
@@ -129,11 +129,8 @@ const MessageWrapper = () => {
                     }
                 );
             })();
-        } else {
-            setPage(1);
-            setCurrentMessages([]);
-            setLoading(false);
         }
+        setLoading(false);
     }, [selectedTopic]);
     useEffect(() => {
         if (incomingMsg && Object.keys(incomingMsg).length) {
@@ -264,6 +261,8 @@ const MessageWrapper = () => {
             setPage((prevState) => prevState + 1);
         }
     };
+
+    console.log("currentMessages", currentMessages);
 
     return (
         <>
