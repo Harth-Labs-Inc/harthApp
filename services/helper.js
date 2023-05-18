@@ -55,6 +55,29 @@ export const validateEmail = (value) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 };
 
+export const formatTimeString = (value) => {
+    if (value) {
+        try {
+            let timeparts = value.split(":");
+            let hour = parseInt(timeparts[0]);
+            let minute = parseInt(timeparts[1]);
+            let period = timeparts[2].split(" ")[1];
+
+            let convertedTimeString =
+                hour +
+                ":" +
+                (minute < 10 ? "0" + minute : minute) +
+                " " +
+                period;
+            return convertedTimeString;
+        } catch (err) {
+            console.log(err);
+            return value;
+        }
+    }
+    return value;
+};
+
 export const convertToAmPm = (value) => {
     if (value) {
         let [h, m] = value.split(":");
