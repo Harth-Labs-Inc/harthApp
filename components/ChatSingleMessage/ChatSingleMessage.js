@@ -461,7 +461,9 @@ const ChatSingleMessage = (props) => {
                             <button className={` 
                                     ${styles.BodyReactionsAddReaction}
                                     ${isMobile ? styles.BodyReactionsAddReactionMobile : styles.BodyReactionsAddReactionDesktop}
-                                `}>
+                                `}
+                                onClick={triggerPicker}
+                            >
                                 <IconAddReactionNoFill />
                             </button>
                         </div>
