@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { combineDateTime } from "services/helper";
+import { combineDateTime, convertToAmPm } from "services/helper";
 import { updateScheduleRoom } from "../../../requests/rooms";
 import { IconHeadsetMic } from "../../../resources/icons/IconHeadsetMic";
 import { IconCastNoFill } from "../../../resources/icons/IconCastNoFill";
@@ -12,6 +12,9 @@ import styles from "./GatheringTile.module.scss";
 
 export const GatheringTile = (props) => {
     const [isInRoom, setIsInRoom] = useState(false);
+    const [localTime, setLocalTime] = useState(null);
+    const [localDate, setLocalDate] = useState(null);
+
     const {
         room,
         user,
@@ -24,6 +27,32 @@ export const GatheringTile = (props) => {
 
     const { refreshScheduledCallRooms } = useVideo();
     const { isMobile } = useContext(MobileContext);
+
+    useEffect(() => {
+        if (room) {
+            if (room.localTimeDate) {
+                try {
+                    const userTimeZone =
+                        Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    const userDateTime = new Date(
+                        room.localTimeDate
+                    ).toLocaleString("en-US", {
+                        timeZone: userTimeZone,
+                    });
+                    const [date, time] = userDateTime.split(",");
+                    setLocalTime(convertToAmPm(time));
+                    setLocalDate(date);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
+
+        return () => {
+            setLocalTime(convertToAmPm(null));
+            setLocalDate(null);
+        };
+    }, [room]);
 
     useEffect(() => {
         if (peers && peers.length && user) {
@@ -72,7 +101,9 @@ export const GatheringTile = (props) => {
     };
 
     const dateFormat = () => {
-        let date = combineDateTime(room.gatheringDate, room.gatheringTime);
+        let date =
+            new Date(localDate) ||
+            combineDateTime(room.gatheringDate, room.gatheringTime);
         const scheduleDate = date.toLocaleDateString([], {
             month: "short",
             day: "2-digit",
@@ -81,7 +112,6 @@ export const GatheringTile = (props) => {
 
         return scheduleDate;
     };
-
     /* eslint-disable */
 
     return (
@@ -98,12 +128,7 @@ export const GatheringTile = (props) => {
       
       `}
         >
-            <div className={styles.GatheringTileLabel}>
-                {/* <div className={styles.GatheringTileLabelIcon}>
-                    <Icon />
-                </div> */}
-            </div>
-
+            <div className={styles.GatheringTileLabel}></div>
             <div className={styles.Info}>
                 <div className={styles.TopHolder}>
                     <div className={styles.GatheringTileType}>
@@ -125,19 +150,8 @@ export const GatheringTile = (props) => {
                                             styles.GatheringTileScheduledTime
                                         }
                                     >
-                                        {room.gatheringTime}
+                                        {localTime || room.gatheringTime}
                                     </p>
-                                    {/* <div className={styles.GatheringTileType}>
-                                        <div className={styles.iconHolder}>
-                                            <Icon />
-                                        </div>
-                                        <p className={styles.roomTitle}>
-                                            {room.gatheringType}
-                                        </p>
-                                    </div>
-                                    <p className={styles.GatheringTileName}>
-                                        {room.roomName}
-                                    </p> */}
                                 </div>
                                 <p
                                     className={
@@ -207,7 +221,6 @@ export const GatheringTile = (props) => {
                             <IconEditFill />
                         </button>
                     ) : null}
-                    {/* <EditGathering onPress={pressing}/> */}
 
                     <GatheringTileControls
                         isInRoom={isInRoom}
