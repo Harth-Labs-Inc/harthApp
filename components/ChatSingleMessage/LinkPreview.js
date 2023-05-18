@@ -24,6 +24,8 @@ export const LinkPreview = ({ message }) => {
                 return 'amazon';
             } else if (hostname === 'twitter.com') {
                 return 'twitter';
+            } else if (hostname === 'tiktok.com') {
+                return 'tiktok';
             } else if ((hostname === 'youtu.be') || (hostname === 'youtube.com')){
                 return 'youtube';
             }
@@ -143,18 +145,33 @@ export const LinkPreview = ({ message }) => {
             </>
             );
         }
+
         else {
             return (
                 <>
                     <br />
                     <article id="ogCard" className={styles.ogCard}>
                         <div className={styles.attribution}>
-                            <img
-                                src={linkPreview?.favicon || linkPreview?.image}
-                                alt={linkPreview?.title}
-                                loading="lazy"
-                                />
-                            <p>{getHostName(rawURL) === 'youtube' ? "YouTube" : linkPreview?.site_name}</p>
+                            {getHostName(rawURL) === 'tiktok' ? (
+                                <>
+                                <img
+                                    src="/images/tiktok_logo.png"
+                                    alt="TikTok Post"
+                                    loading="lazy"
+                                    />
+                                <p>TikTok</p>
+                                </>
+                            ) : (
+                                <>
+                                <img
+                                    src={linkPreview?.favicon || linkPreview?.image}
+                                    alt={linkPreview?.title}
+                                    loading="lazy"
+                                    />
+                                <p> {getHostName(rawURL) === 'youtube' ? "YouTube" : linkPreview?.site_name}</p>
+                                </>
+                            
+                            )}
                         </div>
                         <a
                             href={rawURL}
@@ -165,7 +182,6 @@ export const LinkPreview = ({ message }) => {
                         <div className={styles.title}>{linkPreview?.title || linkPreview?.site_name}</div> 
                         </a>
                         <div className={styles.description}>{linkPreview?.description}</div>
-
                         {linkPreview?.video ? (
                             <iframe
                                 width="100%"

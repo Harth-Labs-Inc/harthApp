@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-
 import { useComms } from "../../../contexts/comms";
-
 import { CloseButton } from "Common";
 import { IconNotificationsNoFill } from "../../../resources/icons/IconNotificationsNoFill";
 import { IconNotificationsFill } from "../../../resources/icons/IconNotificationsFill";
@@ -9,10 +7,10 @@ import IconAdminPanel from "../../../resources/icons/IconAdminPanel";
 import { IconAccountNoFill } from "../../../resources/icons/IconAccountNoFill";
 import { IconAccountFill } from "../../../resources/icons/IconAccountFill";
 import { getHarthByID } from "../../../requests/community";
-
 import HarthNotificationSettings from "./HarthNotificationSettings/HarthNotificationSettings";
 import HarthAdminSettings from "./HarthAdminSettings/HarthAdminSettings";
 import HarthMembersSettings from "./HarthMembersSettings/HarthMembersSettings";
+
 import styles from "./HarthSettings.module.scss";
 
 const HarthSettings = (props) => {
