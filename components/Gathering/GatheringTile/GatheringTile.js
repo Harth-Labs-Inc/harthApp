@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { combineDateTime, convertToAmPm } from "services/helper";
+import { combineDateTime, formatTimeString } from "services/helper";
 import { updateScheduleRoom } from "../../../requests/rooms";
 import { IconHeadsetMic } from "../../../resources/icons/IconHeadsetMic";
 import { IconCastNoFill } from "../../../resources/icons/IconCastNoFill";
@@ -40,7 +40,7 @@ export const GatheringTile = (props) => {
                         timeZone: userTimeZone,
                     });
                     const [date, time] = userDateTime.split(",");
-                    setLocalTime(convertToAmPm(time));
+                    setLocalTime(formatTimeString(time));
                     setLocalDate(date);
                 } catch (error) {
                     console.log(error);
@@ -49,7 +49,7 @@ export const GatheringTile = (props) => {
         }
 
         return () => {
-            setLocalTime(convertToAmPm(null));
+            setLocalTime(null);
             setLocalDate(null);
         };
     }, [room]);
