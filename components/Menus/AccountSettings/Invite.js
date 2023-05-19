@@ -115,7 +115,6 @@ const InviteComp = (props) => {
                             {!validCode ? (
                                 <Button
                                     text="Create Invite"
-                                    size="small"
                                     onClick={() => handleClick(comm)}
                                 />
                             ) : (

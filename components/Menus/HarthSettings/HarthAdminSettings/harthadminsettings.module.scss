@@ -42,7 +42,7 @@
         margin: 0;
         width: 220px;
         padding: 8.5px 20px;
-        background-color: $fuel_10;
+        background-color: $silver-light;
         border: 0;
         border-radius: 99px 0 0 99px;
         @include harthTitleSmall;
@@ -53,10 +53,9 @@
         background-color: $hot_pink;
         border-radius: 0 99px 99px 0;
         color: $oxygen;
-        @include worksans;
+        @include buttonLarge;
         border: 0;
         outline: 0;
-        font-size: 14px;
         cursor: pointer;
     }
 }

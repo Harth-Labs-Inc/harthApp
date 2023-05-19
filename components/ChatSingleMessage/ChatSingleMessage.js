@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-
+import { MobileContext } from "contexts/mobile";
 import { getDownloadURL } from "../../requests/s3";
 import { deleteMessage, updateMessage } from "../../requests/chat";
 
@@ -20,6 +20,7 @@ import EditBar from "./EditBar";
 import styles from "./ChatSingleMessage.module.scss";
 import { LinkPreview } from "./LinkPreview";
 import OutsideClickHandler from "components/Common/Modals/OutsideClick";
+import { IconAddReactionNoFill } from "resources/icons/IconAddReactionNoFill";
 
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -46,6 +47,7 @@ const ChatSingleMessage = (props) => {
     const [urls, setUrls] = useState([]);
     const [showEditBar, setShowEditBar] = useState("");
     const [ratio, setRatio] = useState(16 / 9);
+    const { isMobile } = useContext(MobileContext);
     // const [groupedReactions, setGroupedReactions] = useState({});
 
     const {
@@ -440,18 +442,32 @@ const ChatSingleMessage = (props) => {
                             />
                         </div>
                     </div>
-                    <div className={styles.BodyReactions}>
-                        {[...(reactions || [])].map((reaction, index) => {
-                            return (
-                                <p
-                                    className={styles.BodyReactionsEmoji}
-                                    key={index}
-                                >
-                                    {reaction}
-                                </p>
-                            );
-                        })}
-                    </div>
+                    {reactions && reactions.length > 0 && (
+                        <div className={styles.BodyReactions}>
+                            {[...(reactions || [])].map((reaction, index) => {
+                                return (
+                                    <button
+                                        className={` 
+                                            ${styles.BodyReactionsEmoji}
+                                            ${isMobile ? styles.BodyReactionsEmojiMobile : styles.BodyReactionsEmojiDesktop}
+                                        `}
+                                        key={index}
+                                    >
+                                        {reaction}
+                                    </button>
+                                );
+                            })}
+
+                            <button className={` 
+                                    ${styles.BodyReactionsAddReaction}
+                                    ${isMobile ? styles.BodyReactionsAddReactionMobile : styles.BodyReactionsAddReactionDesktop}
+                                `}
+                                onClick={triggerPicker}
+                            >
+                                <IconAddReactionNoFill />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

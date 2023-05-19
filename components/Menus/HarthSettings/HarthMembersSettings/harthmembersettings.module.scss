@@ -4,11 +4,9 @@
 .listHolder{
     display: flex;
     flex-direction: column;
-    //align-items: flex-start;
-    //row-gap: 4px;
     width: 100%;
-    padding: 4px 0px;
-
+    padding: 8px 0px;
+    gap: 0px;
 
     .peopleRow {
         display: flex;
@@ -16,28 +14,25 @@
         column-gap: 12px;
         justify-content:space-between;
         align-items: center;
-        background-color: transparent;
+        background-color: $silver-light;
         width: 100%;
         height: 52px;
         padding: 0px 8px 0px 8px;
-        //background-color: aqua;
-        border: 2px solid $warm_blue_light;
+        border: 2px solid $silver-light;
         border-radius: 12px;
-        margin-top: 4px;
+        margin-top:8px;
 
         &Active {
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
-            border-color: $warm_blue_light;
+
         }
 
         .userInfo {
             display: flex;
             flex-direction: column;
 
-            @include contentR2;
+            @include chatProfile;
             width: 100%;
             p{
                 @include interfaceR4;
@@ -63,13 +58,32 @@
             min-width: 36px;
             border: 0;
             background: transparent;
-            border-radius: 8px;
+            border-radius: 99px;
             padding: 6px;
 
-            &:hover {
-                background: $fuel_10;
-
+            path {
+                fill: $silver-heavy;
             }
+
+            &Desktop {
+                &:hover {
+                    background: $silver-med;
+                    path {
+                        fill: $silver-heavy;
+                    }
+                }
+            }
+
+            &Mobile {
+                &:active {
+                    background: $silver-med;
+                    path {
+                        fill: $silver-heavy;
+                    }
+                }
+            }
+
+            
 
         }
     }
@@ -81,14 +95,16 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $warm_blue_light;
+        background-color: $silver-xxlight;
         padding: 0px 20px;
         border-top-left-radius: 0px;
         border-top-right-radius: 0px;
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
-        
-
+        border: 0px;
+        border-left: 2px solid $silver-light;
+        border-right: 2px solid $silver-light;
+        border-bottom: 2px solid $silver-light;
         .makeAdmin {
             display: flex;
             flex-direction: row;
@@ -115,12 +131,13 @@
         background-color: transparent;
         width: 100%;
         height: 52px;
+        border-radius: 12px;
         padding: 0px 8px 0px 8px;
-        //background-color: aqua;
-        border: 2px solid transparent;
-        margin-top: 4px;
-        @include contentR2;
-        color: $fuel_50;
+        background-color: transparent;
+        border: 2px dashed $silver-light;
+        margin-top: 8px;
+        @include chatProfile;
+        color: $silver-heavy;
 
         .numberHolder {
             display: flex;
@@ -133,9 +150,11 @@
             border-radius: 9999px;
             align-items: center;
             justify-content: center;
-            background-color: $warm_blue_light;
-            color: $fuel_50;
-            @include interfaceH2;
+            background-color: $silver-light;
+            color: $silver-heavy;
+            @include worksans;
+            font-size: 20px;
+            font-weight: 700;
         }
     }
 
@@ -148,10 +167,5 @@
     align-items: center;
     justify-items: center;
     align-content: center;
-    //background: aqua;
-    // section {
-    //     top: 0;
-    //     left: 0;
-    //     transform: none;
-    // }
+
 }

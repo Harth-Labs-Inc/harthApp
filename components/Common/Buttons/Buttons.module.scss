@@ -3,14 +3,33 @@
 
 .closeButton {
     position: relative;
-    padding: 8px 8px;
-    border: 1px;
-    border-radius: 8px;
+    padding: 7px 7px;
+    border: 0;
+    border-radius: 99px;
     cursor: pointer;
     transition: all 0.2s;
     background-color: transparent;
-    &:hover {
-        background-color: $fuel_10;
+    path {
+        fill: $silver_heavy;
+    }
+    &Desktop {
+        &:hover {
+            background-color: $silver_med;
+    
+            path {
+                fill: $silver_dark;
+            }
+        }
+    }
+
+    &Mobile {
+        &:active {
+            background-color: $silver_med;
+    
+            path {
+                fill: $silver_dark;
+            }
+        }
     }
 }
 

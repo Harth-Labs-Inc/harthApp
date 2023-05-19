@@ -7,13 +7,13 @@
     cursor: pointer;
 
     &Background {
-      height: 24px;
-      max-height: 24px;
-      width: 40px;
+      height: 26px;
+      max-height: 26px;
+      width: 44px;
       border-radius: 9999px;
-      border: 1px solid $fuel_10;
+      border: 1px solid $silver-med;
       margin: 0;
-      background-color: $light_ash;
+      background-color: $white;
       transition: background-color 0.3s;
     }
 
@@ -41,7 +41,7 @@
         z-index: 2;
         height: 100%;
         width: 100%;
-        background-color: $fuel;
+        background-color: $silver-heavy;
         border-radius: 50%;
         transition: background-color 0.3s;
       }

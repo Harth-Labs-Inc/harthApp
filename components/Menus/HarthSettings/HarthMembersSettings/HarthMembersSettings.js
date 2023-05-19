@@ -1,16 +1,17 @@
-import { useState } from "react";
-
+import { useState, useContext } from "react";
+import { MobileContext } from "contexts/mobile";
 import { Toggle } from "../../../Common/Toggle/Toggle";
 import { useComms } from "../../../../contexts/comms";
 import { useAuth } from "../../../../contexts/auth";
 import { useSocket } from "../../../../contexts/socket";
 import { IconMoreDots } from "../../../../resources/icons/IconMoreDots";
 import { Button, Modal } from "Common";
-
 import { getHarthByID, leaveHarthByID } from "../../../../requests/community";
+import KickUserModal from "../KickUserModal/KickUserModal";
+
 import styles from "./harthmembersettings.module.scss";
 
-import KickUserModal from "../KickUserModal/KickUserModal";
+
 
 const HarthMembersSettings = () => {
     const { selectedcomm, updateSelectedHarth, updateLocalSelectedHarth } =
@@ -21,6 +22,7 @@ const HarthMembersSettings = () => {
     const [selectedMembers, setSelectedMembers] = useState([]);
     const [modal, setModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState();
+    const { isMobile } = useContext(MobileContext);
 
     const toggleAdminHandler = async (usr) => {
         let newHarth = {
@@ -138,14 +140,6 @@ const HarthMembersSettings = () => {
                         membershipStatus = "OWNER";
                     }
 
-                    // if (isSuperUser || isAdminUser) {
-                    //   if (usr.userId !== user._id && isOwner) {
-                    //     hasAdminControls = false;
-                    //   } else {
-                    //     hasAdminControls = true;
-                    //   }
-                    // }
-
                     if (isAdminUser && !isAdmin) {
                         hasAdminControls = true;
                     }
@@ -176,7 +170,10 @@ const HarthMembersSettings = () => {
 
                                 {hasAdminControls ? (
                                     <button
-                                        className={styles.adminButton}
+                                        className={` 
+                                            ${styles.adminButton}
+                                            ${isMobile ? styles.adminButtonMobile : styles.adminButtonDesktop}
+                                        `}
                                         onClick={() => toggleAdminPanel(usr)}
                                     >
                                         <IconMoreDots />
