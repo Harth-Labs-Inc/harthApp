@@ -24,6 +24,21 @@ export default async (req, res) => {
         });
     };
 
+    const getSelectedHarth = (db, id) => {
+        return new Promise((resolve) => {
+            let mongo = require("mongodb");
+            let o_id = new mongo.ObjectId(id);
+            db.collection("communities")
+                .find({ _id: o_id })
+                .toArray(function (err, results) {
+                    if (err) {
+                        resolve(false);
+                    }
+                    resolve(results[0]);
+                });
+        });
+    };
+
     const client = await clientPromise;
     const db = client.db("blarg");
 
@@ -70,7 +85,14 @@ export default async (req, res) => {
         return res.json({ msg: "expired token", ok: 0, lockDown: true });
     }
     // passed authentication ------------------------------------------
+    let selectedHarth = await getSelectedHarth(db, obj.topic.comm_id);
+    if (!selectedHarth || !selectedHarth.users) {
+        return res.json({ ok: 0, msg: "something went wrong" });
+    }
 
+    obj.topic.members = selectedHarth.users.map((usr) => {
+        return { ...usr, user_id: usr.userId };
+    });
     let getTopicResult = await createTopic(db, obj.topic);
     if (!getTopicResult) {
         return res.json({ ok: 0, msg: "something went wrong" });
