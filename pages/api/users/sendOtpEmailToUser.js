@@ -34,7 +34,6 @@ export default async (req, res) => {
                     to: email,
                     subject: subject,
                     html: `  <div style="height: 600px; width: 355px; margin: 50px auto">
-                    <img style="height:40px" src="cid:logo">
           <div
             style="
               background: #2f1d2a;
