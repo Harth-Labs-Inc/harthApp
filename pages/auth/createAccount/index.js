@@ -177,7 +177,7 @@ const CreateAccount = () => {
                     size="small"
                     text="Already have an account?"
                     onClick={() => {
-                        router.push("/");
+                        router.push("/auth/login");
                     }}
                     className={styles.CreateModuleLinkToSignin}
                 />
