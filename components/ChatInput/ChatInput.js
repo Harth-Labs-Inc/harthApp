@@ -31,6 +31,7 @@ const ChatInput = (props) => {
     const [emojiPickerState, setEmojiPicker] = useState(false);
     const [selectedEditMsg, setSelectedEditMsg] = useState({});
     const [uploadingAttachments, setUploadingAttachments] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [altKey, setAltKey] = useState(false);
 
@@ -159,6 +160,7 @@ const ChatInput = (props) => {
                 (usr) => usr.userId === user._id
             );
             if (creator) {
+                setIsSubmitting(true);
                 let newMessage = {
                     creator_id: user?._id,
                     creator_name: creator.name,
@@ -198,6 +200,7 @@ const ChatInput = (props) => {
         setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
         setIncomingMsg(message);
         setNewAlerts(message, "chat");
+        setIsSubmitting(false);
         const users = selectedCommRef.current?.users?.filter(
             (usr) => usr.userId !== user._id
         );
@@ -304,43 +307,49 @@ const ChatInput = (props) => {
         }
     };
     const MessageSubmits = () => {
-        const isDisabled =
+        let isDisabled =
             ((topicInputs && topicInputs[selectedTopic?._id]) || "").trim()
                 .length === 0 && attachments.length == 0;
-        if (Object.keys(selectedEditMsg).length > 0) {
-            return (
-                <div id={styles.ChatInputControlsRight}>
-                    <button
-                        onClick={cancelEdit}
-                        className={styles.EditCancel}
-                        aria-label="cancel edit chat message"
-                    >
-                        cancel
-                    </button>
-                    <button
-                        className={styles.SendActive}
-                        aria-label="send chat message"
-                        disabled={isDisabled}
-                        onClick={updateMsg}
-                    >
-                        <IconSend />
-                    </button>
-                </div>
-            );
-        } else {
-            return (
-                <div id={styles.ChatInputControlsRight}>
-                    <button
-                        disabled={isDisabled}
-                        aria-label="send chat message"
-                        onClick={() => {
-                            submitMessageLogic();
-                        }}
-                    >
-                        <IconSend />
-                    </button>
-                </div>
-            );
+
+        if (isSubmitting) {
+            isDisabled = true;
+        }
+        if (!isSubmitting) {
+            if (Object.keys(selectedEditMsg).length > 0) {
+                return (
+                    <div id={styles.ChatInputControlsRight}>
+                        <button
+                            onClick={cancelEdit}
+                            className={styles.EditCancel}
+                            aria-label="cancel edit chat message"
+                        >
+                            cancel
+                        </button>
+                        <button
+                            className={styles.SendActive}
+                            aria-label="send chat message"
+                            disabled={isDisabled}
+                            onClick={updateMsg}
+                        >
+                            <IconSend />
+                        </button>
+                    </div>
+                );
+            } else {
+                return (
+                    <div id={styles.ChatInputControlsRight}>
+                        <button
+                            disabled={isDisabled}
+                            aria-label="send chat message"
+                            onClick={() => {
+                                submitMessageLogic();
+                            }}
+                        >
+                            <IconSend />
+                        </button>
+                    </div>
+                );
+            }
         }
     };
     return (
