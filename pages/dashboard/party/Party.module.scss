@@ -278,3 +278,10 @@
         }
     }
 }
+
+.videoActive {
+    > img,
+    > p {
+        opacity: 0;
+    }
+}

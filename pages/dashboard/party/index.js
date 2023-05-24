@@ -228,6 +228,13 @@ const Party = () => {
                             }
                         );
                     }
+                    console.log(newMsg);
+                    let parentContainer = document.getElementById(
+                        newMsg.socketID
+                    );
+                    if (parentContainer) {
+                        parentContainer.classList.remove(styles.videoActive);
+                    }
                     removeElement(newMsg.videoPeer);
                 }
                 if (newMsg?.code == 4) {
@@ -1142,6 +1149,7 @@ const Party = () => {
             video.playsInline = true;
             videoContainer.appendChild(video);
             parentContainer.appendChild(videoContainer);
+            parentContainer.classList.add(styles.videoActive);
         }
     };
     const createVideo = (incomingStream, peer, call) => {
@@ -1177,6 +1185,7 @@ const Party = () => {
             video.playsInline = true;
             videoContainer.appendChild(video);
             parentContainer.appendChild(videoContainer);
+            parentContainer.classList.add(styles.videoActive);
         }
     };
     const createAudio = (incomingStream, peer, call) => {

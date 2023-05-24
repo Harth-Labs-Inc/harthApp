@@ -110,7 +110,7 @@ const Login = () => {
                     </a>
                     .
                 </p>
-                {/* <Button
+                <Button
                     size="small"
                     tier="secondary"
                     text="Create an Account"
@@ -119,7 +119,7 @@ const Login = () => {
                         router.push("/auth/createAccount");
                         // changePage("createaccount");
                     }}
-                /> */}
+                />
             </div>
         </div>
     );
