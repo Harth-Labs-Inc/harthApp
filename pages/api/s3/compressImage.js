@@ -122,12 +122,19 @@ export default async (req, res) => {
         return res.json({ ok: 0, msg: "something went wrong" });
     }
 
-    let compressedBuffer = await compress(file.Body, obj.height, obj.width);
-    if (!compressedBuffer) {
-        return res.json({ ok: 0, msg: "something went wrong" });
-    }
+    // let compressedBuffer = await compress(file.Body, obj.height, obj.width);
+    // if (!compressedBuffer) {
+    //     return res.json({ ok: 0, msg: "something went wrong" });
+    // }
+    // let saveResult = await pushConvertedFileToS3(
+    //     compressedBuffer,
+    //     obj.thumbnail,
+    //     obj.bucket,
+    //     obj.type
+    // );
+
     let saveResult = await pushConvertedFileToS3(
-        compressedBuffer,
+        file.Body,
         obj.thumbnail,
         obj.bucket,
         obj.type

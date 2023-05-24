@@ -76,11 +76,6 @@ const dashboard = () => {
             } else if (roomType) {
                 changePageHandler(roomType);
             } else {
-                sendWelcomeEmailToUser({
-                    user,
-                    subject: "Welcome To Härth",
-                });
-
                 let prevPage = localStorage.getItem("selectedPage");
                 if (prevPage) {
                     changePageHandler(prevPage);
