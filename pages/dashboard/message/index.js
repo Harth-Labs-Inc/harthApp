@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { IconChevronLeft } from "../../../resources/icons/IconChevronLeft";
-
+import { IconMoreDots } from "../../../resources/icons/IconMoreDots";
 import { CustomConversationContextMenu } from "components/CustomConversationContextMenu/CustomConversationContextMenu";
 import { ConversationMessages } from "../../../components/Conversations/ConversationMessages";
 import { MobileContext } from "../../../contexts/mobile.js";
@@ -148,7 +148,7 @@ const Message = () => {
                                 >
                                     <IconChevronLeft />
                                 </button>
-                                <div>
+                                <div className={styles.people}>
                                     {chatVisible?.OriginalUsers && (
                                         <>
                                             {chatVisible?.OriginalUsers.map(
@@ -161,9 +161,10 @@ const Message = () => {
                                                                         e.userId
                                                                     }
                                                                     className={`
-                                                        ${styles.avatar} 
-                                                        ${selectedcomm?._id}_${e.userId}
-                                                        `}
+                                                                        ${styles.avatar} 
+                                                                        ${styles.avatarMobile} 
+                                                                        ${selectedcomm?._id}_${e.userId}
+                                                                        `}
                                                                     src={
                                                                         e.iconKey
                                                                     }
@@ -178,6 +179,9 @@ const Message = () => {
                                         </>
                                     )}
                                 </div>
+                                <button  aria-label="conversation menu">
+                                    <IconMoreDots />
+                                </button>
                             </div>
                             <ConversationMessages />
                         </div>

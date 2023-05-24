@@ -61,6 +61,11 @@
     border-bottom: 1px solid $silver-med;
     @include topicTitleActive;
 
+    .people {
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+    }
     button {
         height: 44px;
         width: 44px;
@@ -104,7 +109,7 @@
 
     //background-color: aqua;
     &Mobile {
-        height: 48px;
-        width: 48px;
+        height: 44px;
+        width: 44px;
     }
 }
