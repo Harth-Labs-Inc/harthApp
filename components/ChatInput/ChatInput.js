@@ -81,26 +81,26 @@ const ChatInput = (props) => {
 
     // input only related
     const calcHeight = (value) => {
-  const textarea = textRef.current;
-  const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
-  const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
-  const paddingBottom = parseInt(getComputedStyle(textarea).paddingBottom);
-  const minHeight = lineHeight + paddingTop + paddingBottom;
-  textarea.style.height = "auto";
-  textarea.style.overflowY = "hidden"; // Temporarily hide the scrollbar
+        const textarea = textRef.current;
+        const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+        const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
+        const paddingBottom = parseInt(getComputedStyle(textarea).paddingBottom);
+        const minHeight = lineHeight + paddingTop + paddingBottom;
+        textarea.style.height = "auto";
+        textarea.style.overflowY = "hidden"; // Temporarily hide the scrollbar
 
-  // Calculate the scrollHeight and newHeight
-  const scrollHeight = textarea.scrollHeight;
-  const newHeight = Math.max(minHeight, scrollHeight);
+        // Calculate the scrollHeight and newHeight
+        const scrollHeight = textarea.scrollHeight;
+        const newHeight = Math.max(minHeight, scrollHeight);
 
-  if (newHeight > 360) {
-    textarea.style.height = "360px";
-    textarea.style.overflowY = "scroll";
-  } else {
-    textarea.style.height = `${newHeight}px`;
-    textarea.style.overflowY = "auto";
-  }
-};
+        if (newHeight > 360) {
+            textarea.style.height = "360px";
+            textarea.style.overflowY = "scroll";
+        } else {
+            textarea.style.height = `${newHeight}px`;
+            textarea.style.overflowY = "auto";
+        }
+    };
     
     const resetHeight = () => {
         textRef.current.style.height = originalHeightRef.current;
