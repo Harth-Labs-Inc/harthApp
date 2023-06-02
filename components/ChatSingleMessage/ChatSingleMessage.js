@@ -75,6 +75,31 @@ const ChatSingleMessage = (props) => {
     const { emitUpdate } = useSocket();
     const { selectedcomm, selectedTopic } = useComms();
 
+    const wrapUrls = (text) => {
+        // Regular expression to match URLs
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+      
+        // Split the text into parts containing URLs and non-URLs
+        const parts = text.split(urlRegex);
+      
+        // Map over the parts and wrap URLs with <a> tags
+        const wrappedText = parts.map((part, index) => {
+          if (part.match(urlRegex)) {
+            // Wrap the URL in an <a> tag
+            return (
+              <a key={index} href={part} target="_blank" rel="noopener noreferrer">
+                {part}
+              </a>
+            );
+          } else {
+            // Return non-URL parts as they are
+            return part;
+          }
+        });
+      
+        return <>{wrappedText}</>;
+      };
+
     useEffect(() => {
         async function fetchDownloadURL() {
             if (attachments.length > 0) {
@@ -105,28 +130,6 @@ const ChatSingleMessage = (props) => {
             setUrls([]);
         };
     }, [_id]);
-
-    // useEffect(() => {
-    //     console.log(reactions);
-    //     if (reactions?.length) {
-    //         const matchingReactings = {};
-    //         reactions.forEach((reaction) => {
-    //             if (!matchingReactings[reaction]) {
-    //                 matchingReactings[reaction] = 0;
-    //             }
-    //             matchingReactings[reaction] += 1;
-    //         });
-    //         console.log(matchingReactings, "matchingReactings");
-    //     }
-    // }, [reactions]);
-
-    // useEffect(() => {
-    //     replaceURLs();
-    // }, []);
-
-    // useEffect(() => {
-    //     replaceURLs();
-    // }, [msgReload]);
 
     // chat specific
     const deleteMsg = async () => {
@@ -159,9 +162,7 @@ const ChatSingleMessage = (props) => {
             if (err) {
                 console.error(err);
             }
-            // let { ok } = status;
-            // if (ok) {
-            // }
+
         });
     };
 
@@ -175,9 +176,7 @@ const ChatSingleMessage = (props) => {
             if (err) {
                 console.error(err);
             }
-            // let { ok } = status;
-            // if (ok) {
-            // }
+
         });
     };
     const deleteConversation = async () => {
@@ -189,9 +188,7 @@ const ChatSingleMessage = (props) => {
             if (err) {
                 console.error(err);
             }
-            // let { ok } = status;
-            // if (ok) {
-            // }
+
         });
     };
 
@@ -284,79 +281,6 @@ const ChatSingleMessage = (props) => {
         return null;
     };
 
-    // const wrapLink = (innerHtml, urlRegex) => {
-    //     let rawurl = "";
-    //     let replacedURL = innerHtml.replace(urlRegex, function (url) {
-    //         rawurl = url;
-    //         if (!url.match("^https?://")) {
-    //             url = "http://" + url;
-    //         }
-
-    //         return (
-    //             '<a href="' +
-    //             url +
-    //             '" target="_blank" rel="noopener noreferrer">' +
-    //             url +
-    //             "</a>"
-    //         );
-    //     });
-
-    //     return { rawURL: rawurl, alteredURL: replacedURL };
-    // };
-
-    // const replaceURLs = async () => {
-    //     let messageBody = document.getElementById(
-    //         `message-content${messageID}`
-    //     );
-    //     let innerHtml = message;
-    //     if (messageBody) {
-    //         const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
-    //         if (urlRegex.test(innerHtml)) {
-    //             let { rawURL, alteredURL } = wrapLink(innerHtml, urlRegex);
-    //             let ogWrapper = document.getElementById("ogCard");
-
-    //             innerHtml = `<span>${alteredURL}</span>`;
-    //             messageBody.innerHTML = innerHtml;
-
-    //             getURLMetaData(rawURL).then((pullResult) => {
-
-    //             });
-    //             // let pullResult = await getURLMetaData(rawURL);
-
-    //             // if (!ogWrapper && pullResult?.data?.ok) {
-    //             //     ogWrapper = document.createElement("article");
-    //             //     ogWrapper.id = "ogCard";
-    //             //     ogWrapper.className = styles.ogCard;
-
-    //             //     const ogTitle = document.createElement("span");
-    //             //     const ogTitleText = document.createTextNode(
-    //             //         result?.ogTitle
-    //             //     );
-    //             //     ogTitle.appendChild(ogTitleText);
-
-    //             //     const ogDescription = document.createElement("span");
-    //             //     const ogDescriptionText = document.createTextNode(
-    //             //         result?.ogDescription
-    //             //     );
-    //             //     ogDescription.appendChild(ogDescriptionText);
-
-    //             //     const ogImage = document.createElement("img");
-    //             //     ogImage.setAttribute("src", result?.ogImage?.url);
-
-    //             //     ogWrapper.appendChild(ogTitle);
-    //             //     ogWrapper.appendChild(ogDescription);
-    //             //     ogWrapper.appendChild(ogImage);
-
-    //             //     messageBody.append(ogWrapper);
-    //             // }
-    //         } else {
-    //             if (innerHtml !== undefined) {
-    //                 messageBody.innerHTML = `<span>${innerHtml}</span>`;
-    //             }
-    //         }
-    //     }
-    // };
-
     let timeStamp = getTimeStamp();
 
     if (!selectedcomm) {
@@ -435,7 +359,7 @@ const ChatSingleMessage = (props) => {
                         ))}
 
                         <div id={`message-content${messageID}`}>
-                            {message}
+                            {wrapUrls(message)}
                             <LinkPreview
                                 message={message}
                                 messageID={messageID}
