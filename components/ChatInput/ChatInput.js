@@ -51,6 +51,7 @@ const ChatInput = (props) => {
     const textRef = useRef();
     const fileRef = useRef();
     const attRefs = useRef([]);
+    const originalHeightRef = useRef();
 
     useEffect(() => {
         if (attachments.length > 0) {
@@ -66,6 +67,10 @@ const ChatInput = (props) => {
     }, [attachments]);
 
     useEffect(() => {
+        originalHeightRef.current = textRef.current.style.height;
+      }, []);
+
+    useEffect(() => {
         setTopicInputs({
             ...topicInputs,
             [selectedTopic?._id]: selectedEdit?.message,
@@ -76,9 +81,30 @@ const ChatInput = (props) => {
 
     // input only related
     const calcHeight = (value) => {
-        let numberOfLineBreaks = (value.match(/\n/g) || []).length;
-        let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
-        return newHeight;
+  const textarea = textRef.current;
+  const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+  const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
+  const paddingBottom = parseInt(getComputedStyle(textarea).paddingBottom);
+  const minHeight = lineHeight + paddingTop + paddingBottom;
+  textarea.style.height = "auto";
+  textarea.style.overflowY = "hidden"; // Temporarily hide the scrollbar
+
+  // Calculate the scrollHeight and newHeight
+  const scrollHeight = textarea.scrollHeight;
+  const newHeight = Math.max(minHeight, scrollHeight);
+
+  if (newHeight > 360) {
+    textarea.style.height = "360px";
+    textarea.style.overflowY = "scroll";
+  } else {
+    textarea.style.height = `${newHeight}px`;
+    textarea.style.overflowY = "auto";
+  }
+};
+    
+    const resetHeight = () => {
+        textRef.current.style.height = originalHeightRef.current;
+        textRef.current.style.overflowY = "auto";
     };
     const getPastedData = (e) => {
         const { files } = e.clipboardData;
@@ -187,6 +213,7 @@ const ChatInput = (props) => {
                         uploadAttacments(id, newMessage);
                     } else {
                         broadcastMessage(newMessage);
+                        resetHeight();
                     }
                 }
             }
@@ -340,6 +367,7 @@ const ChatInput = (props) => {
                     <div id={styles.ChatInputControlsRight}>
                         <button
                             disabled={isDisabled}
+                            className={topicInputs[selectedTopic?._id] ? styles.SendActive : ''}
                             aria-label="send chat message"
                             onClick={() => {
                                 submitMessageLogic();
@@ -364,7 +392,10 @@ const ChatInput = (props) => {
                 <textarea
                     id={styles.ChatInputText}
                     ref={textRef}
-                    onChange={inputHandler}
+                    onChange={(e) => {
+                        inputHandler(e);
+                        calcHeight(e.target.value);
+                      }}
                     value={
                         (topicInputs && topicInputs[selectedTopic?._id]) || ""
                     }
