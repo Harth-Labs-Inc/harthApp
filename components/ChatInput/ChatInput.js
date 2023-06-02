@@ -80,7 +80,7 @@ const ChatInput = (props) => {
     }, [selectedEdit]);
 
     // input only related
-    const calcHeight = (value) => {
+    const calcHeight = () => {
         const textarea = textRef.current;
         const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
         const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
