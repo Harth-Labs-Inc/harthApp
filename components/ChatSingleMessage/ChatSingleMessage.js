@@ -75,30 +75,58 @@ const ChatSingleMessage = (props) => {
     const { emitUpdate } = useSocket();
     const { selectedcomm, selectedTopic } = useComms();
 
-    const wrapUrls = (text) => {
+    const formatMessage = (text) => {
+        if (typeof text !== 'string') {
+            return ''; 
+        }
+
+
         // Regular expression to match URLs
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-      
+        const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
+    
+        // Regex to match emojis
+        const emojiRegex = /([\uD800-\uDBFF][\uDC00-\uDFFF])/g;
+    
         // Split the text into parts containing URLs and non-URLs
-        const parts = text.split(urlRegex);
-      
-        // Map over the parts and wrap URLs with <a> tags
-        const wrappedText = parts.map((part, index) => {
-          if (part.match(urlRegex)) {
+        const urlParts = text.split(urlRegex);
+    
+        // Map over the URL parts and wrap URLs with <a> tags
+        const wrappedText = urlParts.map((urlPart, urlIndex) => {
+          if (urlPart.match(urlRegex)) {
+            // Construct proper URL 
+            const properURL = urlPart.startsWith('www') ? 'http://' + urlPart : urlPart;
+    
             // Wrap the URL in an <a> tag
             return (
-              <a key={index} href={part} target="_blank" rel="noopener noreferrer">
-                {part}
+              <a key={`url_${urlIndex}`} href={properURL} target="_blank" rel="noopener noreferrer">
+                {urlPart}
               </a>
             );
           } else {
-            // Return non-URL parts as they are
-            return part;
+            // Split each URL part into parts containing emojis and non-emojis
+            const emojiParts = urlPart.split(emojiRegex);
+    
+            // Map over the emoji parts and wrap emojis with <span> tags
+            const modifiedUrlPart = emojiParts.map((emojiPart, emojiIndex) => {
+              if (emojiRegex.test(emojiPart)) {
+                return (
+                  <span key={`emoji_${emojiIndex}`} className={styles.MessageEmoji}>
+                    {emojiPart}
+                  </span>
+                );
+              } else {
+                // Return non-emoji parts as they are
+                return emojiPart;
+              }
+            });
+    
+            return <>{modifiedUrlPart}</>;
           }
         });
+    
+        return wrappedText;
+    };
       
-        return <>{wrappedText}</>;
-      };
 
     useEffect(() => {
         async function fetchDownloadURL() {
@@ -359,7 +387,7 @@ const ChatSingleMessage = (props) => {
                         ))}
 
                         <div id={`message-content${messageID}`}>
-                            {wrapUrls(message)}
+                            {formatMessage(message)}
                             <LinkPreview
                                 message={message}
                                 messageID={messageID}

@@ -309,6 +309,7 @@ const ChatInput = (props) => {
         const outputs = await Promise.all(promises);
         message.attachments = outputs;
         broadcastMessage(message);
+        resetHeight();
     };
     const updateMsg = async () => {
         let msg = selectedEditMsg;

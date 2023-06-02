@@ -14,10 +14,10 @@
     flex-direction: column;
     row-gap: 2px;
     margin: 0px 0px 8px 0px;
-    background-color: transparent;
+    background-color: $silver-xxlight;
     border-radius: 12px;
-    padding: 0px 0px 8px 0px;
-    //border: 1px solid $ash_10;
+    padding: 8px 8px 8px 8px;
+    border: 1px solid $silver-med;
 
     &Text {
         resize: none;
@@ -30,7 +30,7 @@
         padding: 8px 12px;
         @include chatText;
         color: $fuel;
-        background: $silver_xxlight;
+        background: $silver_light;
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
@@ -41,7 +41,7 @@
     }
 
     .entryBox {
-        border: 2px solid $silver_med;
+        //border: 1px solid $silver_med;
         border-radius: 12px;
         padding: 0;
         overflow: hidden;
@@ -107,9 +107,9 @@
 
                 &.SendActive {
                     //border: 1px solid $silver-med;
-                    background-color: $hot_pink;
+                    //background-color: $hot_pink;
                     path {
-                        fill: $white;
+                        fill: $hot_pink;
                     }
                 }
 
@@ -199,7 +199,7 @@
     width: auto;
     background: $silver_light;
     padding: 8px;
-    border-bottom: 1px solid $silver-med;
+    border-bottom: 2px solid $silver-xxlight;
 
     .imageContainer {
         position: relative;
