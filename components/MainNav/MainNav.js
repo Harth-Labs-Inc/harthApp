@@ -3,9 +3,6 @@ import { MobileContext } from "../../contexts/mobile";
 import { IconChatNoFill } from "../../resources/icons/IconChatNoFill";
 import { IconFireNoFill } from "../../resources/icons/IconFireNoFill";
 import { IconForumNoFill } from "../../resources/icons/IconForumNoFill";
-import { IconChatFill } from "../../resources/icons/IconChatFill";
-import { IconFireFill } from "../../resources/icons/IconFireFill";
-import { IconForumFill } from "../../resources/icons/IconForumFill";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
@@ -21,7 +18,7 @@ const MainNav = (props) => {
     const { selectedcomm, selectedCommRef } = useComms();
     const { mainAlerts, setMainAlertsFromChild } = useSocket();
 
-    const unreadMessagesOther = true;
+   // const unreadMessagesOther = true;
 
     useEffect(() => {
         if (
