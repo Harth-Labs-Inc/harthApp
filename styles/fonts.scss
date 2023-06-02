@@ -29,29 +29,23 @@
 
 
 @mixin titleNav {
-  font-family: var(--COOPBL-font);
-  //font-family: var(--Asap_Condensed-font);
-  //font-family: "Work Sans", sans-serif;
-  //font-weight: 400;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  line-height: 13px;
-  //text-rendering: optimizeLegibility;
+  font-family: var(--Work_Sans-font);
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 100%;
 }
 
 @mixin titleNavMobile {
-  font-family: var(--COOPBL-font);
-  //font-family: "Ubuntu", sans-serif;
-  //font-weight: 400;
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  line-height: 11px;
-  //text-rendering: optimizeLegibility;
+  font-family: var(--Work_Sans-font);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
 }
 
 @mixin smallTitle {
   //font-family: "Work Sans", sans-serif;
   font-family: var(--Rubik-font);
+  //font-family: var(--Montserrat-font);
   font-weight: 700;
   font-size: 10px;
   letter-spacing: 0.1em;

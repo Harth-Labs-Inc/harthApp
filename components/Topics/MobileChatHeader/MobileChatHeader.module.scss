@@ -20,7 +20,7 @@
     font-weight: 600;
     //backdrop-filter: blur(12px);
     border-bottom: 1px solid $silver-med;
-    @include topicTitleActive;
+    @include topicTitle;
 
     button {
         height: 44px;

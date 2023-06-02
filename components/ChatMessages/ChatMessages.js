@@ -311,7 +311,7 @@ const MessageWrapper = () => {
                         <div className={styles.NoPosts}>
                             <TalkingHead
                                 className={styles.wizard}
-                                text="Nothing to see here yet. Why don't you post something already?"
+                                text="Nothing to see here yet. Be the first and share something awesome!"
                                 isSmall={true}
                             />
                         </div>

@@ -125,6 +125,7 @@ const DashboardLayout = (props) => {
                     <TopBar
                         currentPage={currentPage}
                         changePage={changePage}
+                        onToggleMenu={toggleMenu}
                     ></TopBar>
                     <section
                         className={`${styles.DashboardContentWrapper} ${styles.Mobile}`}

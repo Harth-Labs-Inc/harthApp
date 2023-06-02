@@ -5,11 +5,9 @@
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    //height: 64px;
+    justify-content: flex-start;
     width: 100%;
-    //background-color: $silver-xlight;
-      
+    background-color: $silver-xlight;      
 
     &TitleHolder {
         display: flex;
@@ -40,74 +38,23 @@
 
     &HarthButton {
         
-
-        .Mobile & {
-            position: absolute;
-            top: -16px;
-            left: 16px;
-            height: fit-content;
-            width: fit-content;
-            //top: -10px;
-            background-color: transparent;
-            border-radius: 16px;
-            //margin-left: 16px;
-            //border: 1px solid $fuel_10;
-            border: 0;
-            background-color: $silver-xlight;
-            //background-color: transparent;
-            padding: 0px;
-            box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 6px;
-            border: 1px solid $silver-med;
-
-
-            &Image {
-                position: relative;
-                height: 80px;
-                min-height: 80px;
-                width: 80px;
-                min-width: 80px;
-                border-radius: 12px;
-                z-index: 1;
-                //border: 1px solid $silver-med;
-                //box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 12px;
-
-                
-            }
-
-            &UnreadMessage {
-
-                &:before {
-                    position: absolute;
-                    top: 50%;
-                    left: -2px;
-                    transform: translate(-50%, -50%);
-                    z-index: 2;
-                    height: 16px;
-                    width: 4px;
-                    content: "";
-                    background-color: $hot_salmon;
-                    border-radius: 9999px;
-                }
-
-            }
-
-        }
         .Desktop & {
+            position: relative;
             display: flex;
             flex-direction: row;
             align-items: center;
+            height: 48px;
+            width: fit-content;
+            max-width: 100%;
             @include harthTitle1;
             color: $fuel;
-            padding: 0px 6px 0px 6px;
+            padding: 0px 8px 0px 8px;
             border-radius: 8px;
             text-overflow: ellipsis;
-            overflow: hidden;
+            //overflow: hidden;
             background-color: transparent;
-            height: 44px;
-            max-width: 360px;
-            border: 0;
-            
-            //margin-top: 2px;
+            margin-left: 233px;
+            border: 1px solid transparent;
             cursor: pointer;
             white-space: nowrap;
             user-select: none;
@@ -122,9 +69,18 @@
                 }
             }
 
+            &::before {
+                position: absolute;
+                content: "";
+                left: -12px;
+                height: 32px;
+                width: 1px;
+                background-color: $silver-med;
+            }
 
             &:hover {
-                background-color: $silver-med;
+                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
+                border-color: $silver-light;
 
                 .icon {
                     path {
@@ -139,16 +95,41 @@
     &Pages {
         display: flex;
         width: fit-content;
-        height: 100%;
-        //border: 1px solid $ash_border;
-        justify-content: center;
         align-items: center;
-        //border-radius: 8px;
-        //overflow: hidden;
-        //background-color: aqua;
-        //margin-top: 4px;
+        gap: 4px;
 
+        .Desktop & {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            display: flex;
+            width: fit-content;
+            height: 56px;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 16px 0px 16px;
+            gap: 8px;
+            background-color: $silver-xlight;
+
+            &::after {
+                position: absolute;
+                content: "";
+                bottom: -10px;
+                left: 0px;
+                height: 10px;
+                width: 100%;
+                background-color: $silver-xlight;
+                border-bottom-right-radius: 6px;
+                border-bottom: 1px solid $silver-med;
+                border-right: 1px solid $silver-med;
+
+                z-index: 1;
+            }
+        }
         &Mobile {
+            position: relative;
+            top: 0px;
+            left: 0px;
             width: 100%;
             border: 0;
             margin: 0;
@@ -156,203 +137,28 @@
             justify-content:space-evenly;
             padding: 4px 0px 0px 0px;
             //background-color: aqua;
-            margin-left: 96px;
+            //margin-left: 96px;
         }
     }
 
     &PageButton {
-        @include titleNav;
         position: relative;
-        //display: flex;
-        //align-items: center;
-        //justify-content: center;
-        //color: $fuel_light;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: $silver-dark;
         background-color: transparent;
         border: 0;
-        cursor: pointer;
         user-select: none;
         path {
             fill: $silver-dark;
-        }
-
-
-        &Chat {
-
-            .Desktop & {
-                transition: opacity;
-
-                &::before {
-                    position: absolute;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    content: "Chat";
-                    width: fit-content;
-                    border: 0;
-                    bottom: -44px;
-                    left: 50%;
-                    transform: translate3d(-50%,-50%,0);
-                    padding: 6px 10px;
-                    background-color: $ash;
-                    border-radius: 2px;
-                    @include worksans;
-                    letter-spacing: 0.05em;
-                    font-size: 12px;
-                    font-weight: 400;
-                    color: $white;
-                    z-index: 10;
-                    opacity: 0;
-                }
-        
-                &::after {
-                    position: absolute;
-                    content: " ";
-                    bottom: -19px;
-                    left: 50%;
-                    transform: translate3d(-50%,-50%,0);
-                    width: 0;
-                    height: 0;
-                    border: 0;
-                    border-left: 12px solid transparent;
-                    border-bottom: 12px solid $ash;
-                    border-right: 12px solid transparent;
-                    z-index: 9;
-                    opacity: 0;
-                }
-                &:hover {
-
-                    &::before {
-                        opacity: 1;
-                        transition-delay: .6s;
-                    }
-            
-                    &::after {
-                        opacity: 1;
-                        transition-delay: .6s;
-                    }
-                }
-            }
-        }
-
-        &Gather {
-            .Desktop & {
-                transition: opacity;
-
-                &::before {
-                    position: absolute;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    content: "Gather";
-                    width: fit-content;
-                    border: 0;
-                    bottom: -44px;
-                    left: 50%;
-                    transform: translate3d(-50%,-50%,0);
-                    padding: 6px 10px;
-                    background-color: $ash;
-                    border-radius: 2px;
-                    @include worksans;
-                    letter-spacing: 0.05em;
-                    font-size: 12px;
-                    font-weight: 400;
-                    color: $white;
-                    z-index: 10;
-                    opacity: 0;
-                }
-        
-                &::after {
-                    position: absolute;
-                    content: " ";
-                    bottom: -19px;
-                    left: 50%;
-                    transform: translate3d(-50%,-50%,0);
-                    width: 0;
-                    height: 0;
-                    border: 0;
-                    border-left: 12px solid transparent;
-                    border-bottom: 12px solid $ash;
-                    border-right: 12px solid transparent;
-                    z-index: 9;
-                    opacity: 0;
-                }
-                &:hover {
-
-                    &::before {
-                        opacity: 1;
-                        transition-delay: .6s;
-                    }
-            
-                    &::after {
-                        opacity: 1;
-                        transition-delay: .6s;
-                    }
-                }
-            }
-        }
-
-        &Message {
-            .Desktop & {
-                transition: opacity;
-
-                &::before {
-                    position: absolute;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    content: "Message";
-                    width: fit-content;
-                    border: 0;
-                    bottom: -44px;
-                    left: 50%;
-                    transform: translate3d(-50%,-50%,0);
-                    padding: 6px 10px;
-                    background-color: $ash;
-                    border-radius: 2px;
-                    @include worksans;
-                    letter-spacing: 0.05em;
-                    font-size: 12px;
-                    font-weight: 400;
-                    color: $white;
-                    z-index: 10;
-                    opacity: 0;
-                }
-        
-                &::after {
-                    position: absolute;
-                    content: " ";
-                    bottom: -19px;
-                    left: 50%;
-                    transform: translate3d(-50%,-50%,0);
-                    width: 0;
-                    height: 0;
-                    border: 0;
-                    border-left: 12px solid transparent;
-                    border-bottom: 12px solid $ash;
-                    border-right: 12px solid transparent;
-                    z-index: 9;
-                    opacity: 0;
-                }
-                &:hover {
-
-                    &::before {
-                        opacity: 1;
-                        transition-delay: .6s;
-                    }
-            
-                    &::after {
-                        opacity: 1;
-                        transition-delay: .6s;
-                    }
-                }
-            }
         }
 
         .iconHolder {
             position: relative;
             height: 24px;
             width: 24px;
-            margin: auto;
 
             &UnreadMessage {
                 position: relative;
@@ -373,14 +179,10 @@
 
         }
         
-        .mobileTitle {
-            @include cooper;
-            font-size: 11px;
-            margin-top: 1px;
-            margin-left: 1px;
+        .title {
+            @include titleNav;
             width: 100%;
             text-align: center;
-            //background-color: aqua;
             user-select: none;
             color: $silver-dark;
         }
@@ -388,117 +190,79 @@
 
         .Mobile & {
             position: relative;
-            //flex-direction: column;
-            //@include titleNavMobile;
-            border: 0;
-            height: 48px;
-            width: 68px;
+        
+            height: 52px;
+            width: 72px;
             padding: 0;
             padding-top: 2px;
             border-radius: 8px;
-            //padding-top: 6px;
-            //background-color: aquamarine;
-            //border-top: 2px solid transparent;
+            border: 1px solid transparent;
+            gap: 2px;
+
             .iconHolder {
                 position: relative;
-                margin: auto;
                 height: 28px;
                 width: 28px;
+            }
+            .title {
+                @include titleNavMobile;
+            }
+            &:active {
+                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
+                border-color: $silver-light;
             }
 
         }
         
         .Desktop & {
-            height: 100%;
-            width: 64px;
-            border-top: 1px solid $silver-med;
-            border-bottom: 1px solid $silver-med;
-            //padding: 8px 16px 8px 16px;
-            //width: fit-content;
+            width: 58px;
+            height: 48px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            gap: 2px;
+
 
             &:hover {
-                background-color: $silver-light;
-
+                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
+                border-color: $silver-light;
             }
 
         }
 
-        &.ActiveChat {
-            background-color: $silver-light;
-            path {
-                fill: $warm_blue;
-            }
-            &:hover {
-                background-color: $silver-light;
-            }
+        &.Active {
 
             .Desktop & {
-                background-color: $silver-light;
-                padding-top: 1px;
-                border-bottom: 2px solid $warm_blue;
+                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
+                border-color: $silver-light;
 
-            }
-            .Mobile & {
-                background-color: transparent;
-                .mobileTitle {
-                    color: $warm_blue;
+                .title {
+                    color: $fuel;
+                    color: $hot_blue;
+                    font-weight: 500;
                 }
-
-            }
-
-        }
-
-        &.ActiveGather {
-            background-color: $silver-light;
-            path {
-                fill: $hot_salmon;
-            }
-
-            &:hover {
-                background-color: $silver-light;
-            }
-            .Desktop & {
-                background-color: $silver-light;
-                padding-top: 1px;
-                border-bottom: 2px solid $warm_blue;
-
-            }
-            .Mobile & {
-                background-color: transparent;
-                .mobileTitle {
-                    color: $warm_blue;
-                }
-            }
-        }
-
-        &.ActiveMessage{
-            background-color: $silver-light;
-            path {
-                fill: $warm_blue;
-            }
-
-            &:hover {
-                background-color: $silver-light;
-            }
-            .Desktop & {
-                background-color: $silver-light;
-                padding-top: 1px;
-                border-bottom: 2px solid $warm_blue;
-
-            }
-
-            .Mobile & {
-                background-color: transparent;
-                .mobileTitle {
-                    color: $warm_blue;
+                path {
+                    fill: $fuel;
+                    fill: $hot_blue;
                 }
             }
 
+            .Mobile & {
+                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
+                border-color: $silver-light;
+
+                .title {
+                    color: $fuel;
+                    color: $hot_blue;
+                    font-weight: 500;
+                }
+                path {
+                    fill: $fuel;
+                    fill: $hot_blue;
+                }
+            }
         }
     }
-
-
-
 
 
     &.Mobile {
@@ -514,15 +278,8 @@
 
 
     &.Desktop {
-        height: 60px;
+        height: 100%;
         padding: 0px 36px 0px 0px;
-        //background-color: aqua;
-
-        // &::after {
-        //     content: " ";
-        //     position: relative;
-        //     width: 1px;
-        // }
 
     }
 }
