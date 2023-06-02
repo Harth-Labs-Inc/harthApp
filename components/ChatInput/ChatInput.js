@@ -404,7 +404,7 @@ const ChatInput = (props) => {
                         if (e.altKey) {
                             setAltKey(true);
                         }
-                        if (e.key == "Enter" && altKey) {
+                        if (e.key === "Enter" && altKey) {
                             input = input + "\r\n";
                             setTopicInputs({
                                 ...topicInputs,
@@ -412,10 +412,8 @@ const ChatInput = (props) => {
                             });
                             textRef.current.style.height =
                                 calcHeight(textRef.current.value) + "px";
-                        } else if (
-                            e.key === "Enter" &&
-                            input.trim().length > 0
-                        ) {
+                        } else if (e.key === "Enter" && !e.shiftKey && input.trim().length > 0) {
+                            e.preventDefault(); // Prevents the default behavior of sending the message
                             submitMessageLogic();
                         }
                     }}
