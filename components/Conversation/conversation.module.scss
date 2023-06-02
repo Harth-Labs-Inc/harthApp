@@ -5,22 +5,15 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    //align-items: center;
     height: fit-content;
-    width: 90%;
+    width: 100%;
     padding: 8px 8px 12px 8px;
     border: 0;
-    border-radius: 27px;
-    background-color: $white;
-    margin-bottom: 8px;
-    //margin-right: 16px;
+    border-radius:8px;
+    background-color: transparent;
+    margin-bottom: 4px;
     cursor: pointer;
     border: 0;
-    box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.075),
-        0 2px 2px hsl(0deg 0% 0% / 0.075),
-        0 4px 4px hsl(0deg 0% 0% / 0.075),
-        0 8px 8px hsl(0deg 0% 0% / 0.075);
 
     .label {
         display: flex;
@@ -29,21 +22,10 @@
         @include topicTitle;
         color: $fuel;
         height: 32px;
-        margin-left: 6px;
+        margin-left: 10px;
         width: fit-content;
         user-select: none;
-
     }
-
-
-    .alertProfiles {
-        display: flex;
-        flex-direction: row;
-        column-gap: 1px;
-        row-gap: 1px;
-        flex-wrap: wrap;
-    }
-
 
     .participantElement {
         position: relative;
@@ -58,15 +40,13 @@
         border:0;
 
         .avatar {
-            //margin-bottom: -6px;
-            height: 36px;
-            width: 36px;
+            height: 40px;
+            width: 40px;
             border-radius: 9999px;
             border:0;
-            border: 1px solid $silver-light;
+            border: 1px solid $silver-med;
             user-select: none;
 
-            //background-color: aqua;
             &Mobile {
                 height: 48px;
                 width: 48px;
@@ -75,21 +55,17 @@
     }
     
 
-
-
-
-
     &Mobile {
+        margin-bottom: 12px;
+        padding: 10px 8px 14px 12px;
+
         .moreMenu {
             display: none;
         }
-        
-        margin-bottom: 12px;
-        padding: 8px 8px 14px 8px;
+
         .label {
             @include topicTitleMobile;
-            //font-size: 20px;
-            margin-left: 12px;
+            margin-left: 16px;
         }
 
         &:active {
@@ -105,8 +81,8 @@
             position: absolute;
             visibility: hidden;
             right: 4px;
-            //top: 12px;
-            margin-top: 4px;
+            top: 14px;
+            //transform: translateY(-50%);
             border: 0;
             width: 24px;
             min-width: 24px;
@@ -115,7 +91,6 @@
             padding: 0;
             transform: rotate(90deg);
             border-radius: 999px;
-            //visibility: hidden;
             background-color: transparent;
             border: 1px solid transparent;
             cursor: pointer;
@@ -124,9 +99,7 @@
             }
 
             &:hover {
-                //background-color: $silver-heavy;
-                border-color: $silver-dark;
-
+                background-color: $silver-med;
                 path {
                     fill: $silver-dark;
                 }
@@ -135,7 +108,7 @@
         }
         
         &:hover {
-            background-color: $silver-light;
+            background-color: $silver-xlight;
 
             .moreMenu {
                 visibility: visible;
@@ -145,37 +118,13 @@
 
     }
     &Active {
-        background-color: $warm_blue;
-        
+        background-color: $silver-light;
+
         .label {
-            color: $white;
-            //background-color: $white;
-            //font-weight: 600;
+            font-weight: 800;
         }
-        .participantElement {
-            .avatar {
-                border-color: $warm_blue;
-
-                }
-        }
-        .moreMenu {
-            //border-color: $silver-light;
-            path {
-                fill: $silver-light;
-            }
-
-            &:hover {
-                //background-color: $silver-light;
-                border-color: $silver-light;
-
-                path {
-                    fill: $silver-light;
-                }
-            }
-        }
-
         &:hover {
-            background-color: $warm_blue;
+            background-color: $silver-light;
 
         }
 

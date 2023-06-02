@@ -1,19 +1,20 @@
 import { useContext, useState } from "react";
 import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "../../../contexts/mobile";
-import { IconBroadcasting } from "resources/icons/IconBroadcasting";
+//import { IconBroadcasting } from "resources/icons/IconBroadcasting";
 import styles from "./TopBar.module.scss";
 import HarthProfileEditModal from "../../HarthProfileEditModal";
 import UserIcon from "../../UserIcon/userIcon";
 
-const TopBar = ({ children, currentPage }) => {
+const TopBar = (props) => {
+  const { children, onToggleMenu } = props;
   const [showEditUserModal, setShowEditUserModal] = useState(false);
 
   const { selectedcomm, profile } = useComms();
   const { isMobile } = useContext(MobileContext);
 
   // In room indicator.
-  const isStreaming = false;
+  //const isStreaming = false;
 
   const editUserModalHandler = () => {
     setShowEditUserModal((prevState) => !prevState);
@@ -42,28 +43,36 @@ const TopBar = ({ children, currentPage }) => {
                     `}
       >
         {isMobile ? (
-          <div className={styles.TopBarName}>
-            {selectedcomm?.name}
-            <span className={`
-              ${styles.TopBarSection}
-              ${currentPage == "chat" && styles.TopBarSectionChat}
-              ${currentPage == "gather" && styles.TopBarSectionGather}
-              ${currentPage == "message" && styles.TopBarSectionMessage}
-              `}
-            
-            >\ {currentPage}</span>
+          <div className={styles.MobileNavTitle}>
+            <button
+                className={`
+                ${styles.HarthButton}
+                `}
+                onClick={onToggleMenu}
+                aria-label="Current Harth"
+            >
+                <img
+                    src={selectedcomm?.iconKey}
+                    loading="lazy"
+                />
+            </button>
+
+            <div className={styles.TopBarName}>
+              {selectedcomm?.name}
+            </div>
           </div>
         ) : null}
         {children}
 
-        {/* This is the broadcasting icon. If you are in a room 
-                    and the room is minimized, it should be present. */}
         <div className={styles.holder}>
+        {/* This is the broadcasting icon. If you are in a room 
+                    and the room is minimized, it should be present. 
           {isMobile && isStreaming ? (
             <button className={styles.TopBarStreaming}>
               <IconBroadcasting />
             </button>
           ) : null}
+        */}
 
           <div
             className={isMobile ? styles.avatarMobile : styles.avatarDesktop}

@@ -3,44 +3,29 @@
 
 .ConversationsNav {
     position: relative;
-    width: 260px;
-    min-width: 260px;
-    padding: 20px 0px 0px 24px;
-    //background-color: $warm_blue_light;
+    width: 250px;
+    min-width: 250px;
+    padding: 12px 8px 0px 8px;
     background-color: $white;
     height: 100%;
     overflow-y: scroll;
-
-    // background-image: url("../../../public/images/background_message_dark.png");
-    // background-repeat: repeat;
-    // background-size: 32px;
-    //background-position: 16px 16px;
-    box-shadow: inset -4px 0px 6px 0px $fuel_5;
-    //background: linear-gradient(100deg, lighten($warm_slate, 50%), lighten($hot_pink, 32%));  
-    background: linear-gradient(100deg, lighten($warm_blue, 50%), lighten($hot_pink, 32%));  
-
+    border-right: 1px solid $silver-med;
 
     &Mobile {
+        border: 0;
         width: 100%;
-        //background-size: 40px;
-        padding: 16px 0px 24px 24px;
+        padding: 16px 16px 24px 16px;
     }
 
     &Title {
         position: relative;
         @include smallTitle;
-        padding: 1px 2px;
-        border-radius: 2px;
-        //background-color: $white;
         text-transform: uppercase;
         color: $fuel;
-        width: fit-content;
-        //margin-bottom: 8px;
-        user-select: none ;
-        margin-bottom: 6px;
-        text-shadow: 1px 1px 2px $silver-med;
-
-
+        user-select: none;
+        margin-left: 8px;
+        margin-top: 12px;
+        margin-bottom: 8px;
     }
 
     &TitleMobile {
@@ -48,111 +33,111 @@
         @include smallTitleMobile;
         padding: 1px 2px;
         border-radius: 4px;
-        //background-color: $white;
         width: fit-content;
         text-transform: uppercase;
         color: $fuel;
-        //margin-bottom: 8px;
         user-select: none ;
         margin-top: 8px;
         margin-bottom: 12px;
-        text-shadow: 1px 1px 2px $silver-med;
-
-    }
-
-
-    &Hidden {
-        position: relative;
-        @include smallTitle;
-        padding: 0px 0px 6px 0px;
-        text-transform: uppercase;
-        color: $white_80;
-        border: 0;
-        background: transparent;
-        cursor: pointer;
-        margin-bottom: 8px;
-        user-select: none;
-
-        &:hover {
-            color: $white;
-        }
-
-        &Active {
-            color: $white;
-        }
     }
 
     &Container {
         position: relative;
         margin: 0;
         padding: 0px 0 80px 0;
-        //overflow: scroll;
-
     }
 
-    &Create {
+    .Create {
         position: relative;
-        padding: 0px 0px;
-        margin-top: 16px;
-        margin-left: 0px;
-        margin-bottom: 24px;
-        button {
-            border: 0;
-            cursor: pointer;
-            height: 32px;
-            width: 32px;
-            border-radius: 99px;
-            background-color: $white;
-            //backdrop-filter: blur(8px);
-            padding: 7px;
-            box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 6px;
-            path {
-                fill: $silver-heavy;
+        display: block;
+        cursor: pointer;
+        height: 32px;
+        width: 32px;
+        border-radius: 99px;
+        border: 0;
+        padding: 6px;
+        margin-left: 12px;
+        margin-top: 12px;
+        margin-bottom: 4px;
+        transition: opacity;
+        background-color: $silver-xlight;
+        
+        path {
+            fill: $silver-dark;
+        }
+
+        &::before {
+            position: absolute;
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            content: "new topic";
+            width: 80px;
+            height: 24px;
+            top: 0px;
+            left: 34px;
+            background-color: $silver-med;
+            border-radius: 2px;
+            @include worksans;
+            letter-spacing: 0.05em;
+            font-size: 12px;
+            font-weight: 400;
+            color: $silver-dark;
+            z-index: 10;
+        }
+
+        &::after {
+            position: absolute;
+            opacity: 0;
+            content: " ";
+            top: 0px;
+            left: 28px;
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-right: 12px solid $silver-med;
+            z-index: 9;
+        }
+        
+        &:hover {
+            background-color: $silver-med;
+
+            &::before {
+                opacity: 1;
+                transition-delay: .6s;
             }
-
-
-            &:hover {
-                background-color: $silver-light;
-                //border-color: $white_50;
-                path {
-                    fill: $silver-dark;
-                }
-
+    
+            &::after {
+                opacity: 1;
+                transition-delay: .6s;
             }
         }
     }
 
-    &CreateMobile {
+    .CreateMobile {
         position: relative;
-        padding: 0px;
-        margin-left: 0px;
+        display: block;
+        cursor: pointer;
+        height: 40px;
+        width: 40px;
+        border-radius: 99px;
+        border: 0;
+        padding: 8px;
+        margin-left: 16px;
         margin-top: 20px;
-        margin-bottom: 32px;
+        margin-bottom: 36px;
+        transition: opacity;
+        background-color: $silver-xlight;
         
-        
-        //background-color: aqua;
-        button {
-            border: 0;
-            cursor: pointer;
-            height: 44px;
-            width: 44px;
-            border-radius: 99px;
-            padding: 10px;
-            background-color: $white;
-            //backdrop-filter: blur(8px);
-            box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 6px;
-            path {
-                fill: $silver-heavy;
-            }
-
-            &:active {
-                background-color: $silver-light;
-                //border-color: $white_50;
-                path {
-                    fill: $silver-dark;
-                }
-
-            }
+        path {
+            fill: $silver-dark;
         }
+        
+        &:active{
+            background-color: $silver-med;
+        }
+
     }
 }

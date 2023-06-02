@@ -3,9 +3,6 @@ import { MobileContext } from "../../contexts/mobile";
 import { IconChatNoFill } from "../../resources/icons/IconChatNoFill";
 import { IconFireNoFill } from "../../resources/icons/IconFireNoFill";
 import { IconForumNoFill } from "../../resources/icons/IconForumNoFill";
-import { IconChatFill } from "../../resources/icons/IconChatFill";
-import { IconFireFill } from "../../resources/icons/IconFireFill";
-import { IconForumFill } from "../../resources/icons/IconForumFill";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
@@ -21,7 +18,7 @@ const MainNav = (props) => {
     const { selectedcomm, selectedCommRef } = useComms();
     const { mainAlerts, setMainAlertsFromChild } = useSocket();
 
-    const unreadMessagesOther = true;
+   // const unreadMessagesOther = true;
 
     useEffect(() => {
         if (
@@ -94,46 +91,6 @@ const MainNav = (props) => {
                     isMobile ? styles.Mobile : styles.Desktop
                 }`}
             >
-                {isMobile ? (
-                    <button
-                        className={`
-                        ${styles.MainNavHarthButton}
-                        ${
-                            unreadMessagesOther && !isMobile
-                                ? styles.MainNavHarthButtonUnreadMessage
-                                : null
-                        }
-                        `}
-                        onClick={handleHarthMenu}
-                        aria-label="Current Harth"
-                    >
-                        <img
-                            className={styles.MainNavHarthButtonImage}
-                            src={selectedcomm?.iconKey}
-                            loading="lazy"
-                        />
-                    </button>
-                ) : (
-                    <div className={styles.MainNavTitleHolder}>
-                        <button
-                            className={styles.MainNavHarthButton}
-                            onClick={handleHarthMenu}
-                            aria-label="Current Harth Settings"
-                        >
-                            {selectedcomm?.name}
-                        </button>
-                        <span
-                            className={`
-              ${styles.Section}
-              ${currentPage == "chat" && styles.SectionChat}
-              ${currentPage == "gather" && styles.SectionGather}
-              ${currentPage == "message" && styles.SectionMessage}
-              `}
-                        >
-                            \ {currentPage}
-                        </span>
-                    </div>
-                )}
 
                 <div
                     className={`
@@ -148,8 +105,7 @@ const MainNav = (props) => {
                         aria-label="Community Chat"
                         className={`
                             ${styles.MainNavPageButton} 
-                            ${styles.MainNavPageButtonChat} 
-                            ${currentPage == "chat" && styles.ActiveChat}
+                            ${currentPage == "chat" && styles.Active}
 
                         `}
                         onClick={() => {
@@ -169,15 +125,9 @@ const MainNav = (props) => {
 
                             `}
                         >
-                            {currentPage == "chat" ? (
-                                <IconChatFill />
-                            ) : (
-                                <IconChatNoFill />
-                            )}
+                            <IconChatNoFill />
                         </div>
-                        {isMobile && (
-                            <div className={styles.mobileTitle}>Chat</div>
-                        )}
+                        <div className={styles.title}>Chat</div>
                     </button>
 
                     <button
@@ -186,10 +136,9 @@ const MainNav = (props) => {
                         aria-label="Gather"
                         className={`
                             ${styles.MainNavPageButton} 
-                            ${styles.MainNavPageButtonGather} 
                             ${
                                 currentPage == "gather"
-                                    ? styles.ActiveGather
+                                    ? styles.Active
                                     : null
                             } 
                         `}
@@ -208,15 +157,10 @@ const MainNav = (props) => {
                             }
                             `}
                         >
-                            {currentPage == "gather" ? (
-                                <IconFireFill />
-                            ) : (
-                                <IconFireNoFill />
-                            )}
+
+                            <IconFireNoFill />
                         </div>
-                        {isMobile && (
-                            <div className={styles.mobileTitle}>Gather</div>
-                        )}
+                        <div className={styles.title}>Gather</div>
                     </button>
 
                     <button
@@ -225,10 +169,9 @@ const MainNav = (props) => {
                         aria-label="Private Messages"
                         className={`
                             ${styles.MainNavPageButton} 
-                            ${styles.MainNavPageButtonMessage} 
                             ${
                                 currentPage == "message"
-                                    ? styles.ActiveMessage
+                                    ? styles.Active
                                     : null
                             } 
                         `}
@@ -248,17 +191,27 @@ const MainNav = (props) => {
                             }
                             `}
                         >
-                            {currentPage == "message" ? (
-                                <IconForumFill />
-                            ) : (
-                                <IconForumNoFill />
-                            )}
+                            <IconForumNoFill />
                         </div>
-                        {isMobile && (
-                            <div className={styles.mobileTitle}>Message</div>
-                        )}
+                        <div className={styles.title}>Message</div>
                     </button>
                 </div>
+                {isMobile ? (
+                    null
+                ) : (
+                    <div className={styles.MainNavTitleHolder}>
+                        <button
+                            className={styles.MainNavHarthButton}
+                            onClick={handleHarthMenu}
+                            aria-label="Current Harth Settings"
+                        >
+                            {selectedcomm?.name}
+                        </button>
+
+                    </div>
+                )}
+
+                
             </header>
         </>
     );

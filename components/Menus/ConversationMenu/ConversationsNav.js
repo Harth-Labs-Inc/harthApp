@@ -122,15 +122,13 @@ const ConversationsNav = ({
                         <button
                             className={
                                 isMobile
-                                    ? styles.ConversationsNavCreateMobileButton
-                                    : styles.ConversationsNavCreateButton
+                                    ? styles.CreateMobile
+                                    : styles.Create
                             }
                             id="create_conversation"
                             onClick={openCreateConversation}
                         >
-                            <div className={styles.iconHolder}>
-                                <IconAdd />
-                            </div>
+                            <IconAdd />
                         </button>
                     </div>
                 </div>
