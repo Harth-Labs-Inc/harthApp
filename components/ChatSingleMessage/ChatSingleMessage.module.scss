@@ -47,6 +47,10 @@
         }
     }
 
+    .MessageEmoji {
+        font-size: 22px;
+    }
+
     > img,
     &Avatar {
         position: relative;
@@ -118,8 +122,9 @@
                 display: inline-block;
                 font-size: inherit;
                 white-space: pre-wrap;
-                overflow-wrap: anywhere;
+                //overflow-wrap: anywhere;
                 @include url;
+                word-break: break-all;
             }
 
             > img {
@@ -375,6 +380,7 @@
 
     .urlLogo {
         width: 40px;
+        min-width: 40px;
     }
 
     .icon {
@@ -382,6 +388,7 @@
         top: 4px;
         right: 4px;
         width: 24px;
+        min-width: 24px;
         path {
             fill: $silver-med;
         }

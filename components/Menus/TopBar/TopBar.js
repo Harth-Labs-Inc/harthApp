@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "../../../contexts/mobile";
 //import { IconBroadcasting } from "resources/icons/IconBroadcasting";
+import { IconMenu } from "resources/icons/IconMenu";
 import styles from "./TopBar.module.scss";
 import HarthProfileEditModal from "../../HarthProfileEditModal";
 import UserIcon from "../../UserIcon/userIcon";
@@ -55,6 +56,7 @@ const TopBar = (props) => {
                     src={selectedcomm?.iconKey}
                     loading="lazy"
                 />
+                <div className={styles.menuIcon}><IconMenu /></div>
             </button>
 
             <div className={styles.TopBarName}>
