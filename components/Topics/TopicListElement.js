@@ -54,7 +54,7 @@ const TopicListElement = (props) => {
                 <div className={styles.emojiHolder}>
                     {topic.marker ? <p>{topic.marker}</p> : <p>&#128512;</p>}
                 </div>
-                <p>{label}</p>
+                <span>{label}</span>
 
                 <button className={styles.moreMenu} onClick={toggleEditMenu}>
                     <IconMoreDots />
