@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
-
+import OutsideClickHandler from "components/Common/Modals/OutsideClick";
 import { Button } from "Common";
 
 import styles from "./TopicEditModal.module.scss";
@@ -42,18 +42,34 @@ const TopicEditModal = ({ setHidden, topic, submitTopicChange }) => {
         if (emojiPickerState) {
             return (
                 <div className={styles.EmojiPicker}>
-                    <Picker
-                        data={data}
-                        className="attach-emoji"
-                        onEmojiSelect={addEmoji}
-                        autoFocus={true}
-                        emojiButtonColors={[
-                            "rgba(187,126,196,0.8)",
-                            "rgba(13,161,181,0.8)",
-                            "rgba(240,101,115,0.8)",
-                            "rgba(0,163,150,0.8)",
-                        ]}
-                    />
+                    <OutsideClickHandler
+                        onClickOutside={() => {
+                            if (emojiPickerState) setEmojiPicker(false);
+                        }}
+                        onFocusOutside={() => {
+                            if (emojiPickerState) setEmojiPicker(false);
+                        }}
+                    >
+                        <Picker
+                        
+                            data={data}
+                            className="attach-emoji"
+                            onEmojiSelect={addEmoji}
+                            autoFocus={true}
+                            emojiButtonSize={32}
+                            emojiSize={20}
+                            perLine={8}
+                            previewPosition="none"
+                            navPosition="none"
+                            emojiButtonColors={[
+                                "rgba(187,126,196,0.8)",
+                                "rgba(13,161,181,0.8)",
+                                "rgba(240,101,115,0.8)",
+                                "rgba(0,163,150,0.8)",
+                            ]}
+
+                        />
+                    </OutsideClickHandler>
                 </div>
             );
         }
@@ -61,10 +77,10 @@ const TopicEditModal = ({ setHidden, topic, submitTopicChange }) => {
 
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.title}>Rename a topic</div>
+            <div className={styles.title}>Rename topic</div>
             <form
                 onSubmit={handleSubmit(submitHandler)}
-                className={styles.form}
+                className={styles.CreateTopic}
             >
                 <div className={styles.inputHolder}>
                     <button type="button" onClick={toggleEmojiPicker}>
@@ -72,12 +88,7 @@ const TopicEditModal = ({ setHidden, topic, submitTopicChange }) => {
                         {Emoji ? (
                             <p style={{ fontSize: "28px" }}>{Emoji}</p>
                         ) : (
-                            <img
-                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Twemoji_1f600.svg/1024px-Twemoji_1f600.svg.png"
-                                loading="lazy"
-                                height={28}
-                                width={28}
-                            />
+                            <p style={{ fontSize: "28px" }}>&#x1F600;</p>
                         )}
                     </button>
 
@@ -98,9 +109,6 @@ const TopicEditModal = ({ setHidden, topic, submitTopicChange }) => {
                     />
                 </div>
 
-                <div className={styles.subtext}>
-                    Content in this topic will be kept for 90 days
-                </div>
                 <div className={styles.CreateTopicButtons}>
                     <Button
                         size="large"

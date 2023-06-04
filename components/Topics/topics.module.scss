@@ -38,16 +38,19 @@
         gap: 8px;
         user-select: none;
         width: 100%;
+
+        span {
+            padding: 4px 0px;
+        }
     }
 
     .alertProfiles {
         display: flex;
         flex-direction: row;
-        //column-gap: 1px;
-        //row-gap: 1px;
+        gap: 2px;
         flex-wrap: wrap;
-        padding: 0px 8px 4px 32px;
-        margin-top: -2px;
+        padding: 0px 8px 4px 56px;
+        margin-top: -4px;
         //margin-left: 38px;
         z-index: 1;
         //background-color: aqua;
@@ -64,21 +67,14 @@
             margin-top: -12px;
             padding: 0px 8px 8px 64px;
             img {
-                width: 36px;
-                height: 36px;
+                width: 40px;
+                height: 40px;
                 //object-fit: cover;
                 border-radius: 999px;
             }
         }
     }
 
-
-    &Alert {
-        .label {
-            //@include topicTitleActive;
-            font-weight: 800;
-        }
-    }
 
     &Desktop {
         .moreMenu {
@@ -136,6 +132,10 @@
         margin-bottom: 4px;
         border-radius: 8px;
 
+        .alertProfiles {
+            padding: 0px 8px 4px 88px;
+        }
+
         .moreMenu {
             display: none;
         }
@@ -152,6 +152,9 @@
             @include topicTitleMobile;
             padding: 8px 8px 8px 12px;
             gap: 16px;
+            span {
+                padding: 10px 0px;
+            }
         }
 
         &:active {
@@ -159,6 +162,13 @@
             // .label {
             //     color: $white;
             // }
+        }
+    }
+
+    &Alert {
+        .label {
+            //@include topicTitleActive;
+            font-weight: 800;
         }
     }
 }

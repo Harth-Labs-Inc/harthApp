@@ -36,6 +36,30 @@
             transform: translate3d(-50%, -50%, 0);
         }
     }
+
+    .reminder {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        .icon {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            transform: rotate(90deg);
+            left: 30px;
+            top: -14px;
+            path {
+                fill: $silver_dark;
+            }
+        }
+
+        .text {
+            margin-left: 62px;
+            @include cooper;
+            font-size: 13px;
+            color: $silver_dark;
+        }
+    }
 }
 
 .CreateTopic {
@@ -108,7 +132,7 @@
 
     .error {
         text-align: center;
-        margin-left: 64px;
+        margin-left: 96px;
         margin-top: -4px;
     }
     .subtext {

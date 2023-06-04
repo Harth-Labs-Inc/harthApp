@@ -45,6 +45,7 @@
         padding-left: 10px;
         padding-right: 8px;
         //border: 1px solid $silver-med;
+        user-select: none;
 
         &::after {
             content: "";
@@ -100,6 +101,12 @@
                 content: "";
                 background-color: $hot_salmon;
                 border-radius: 9999px;
+            }
+        }
+
+        &:active {
+            .menuIcon {
+                border-color: $hot_pink;
             }
         }
 

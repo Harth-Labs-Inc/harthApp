@@ -19,8 +19,34 @@
     width: 100%;
     padding: 8px 6px 20px 6px;
     column-gap: 10px;
-    border: 0;
     border-top: 1px solid transparent;
+
+    &Desktop {
+        &:hover {
+            border-image: linear-gradient(to right, $silver-med, $white) 1;
+            .Body {
+                .Info {
+                    .Timestamp {
+                        visibility: visible;
+                    }
+                }
+            }
+        }
+    }
+
+    &Mobile {
+        &:active {
+            border-radius: 12px;
+            background-color: $black_05;
+            .Body {
+                .Info {
+                    .Timestamp {
+                        visibility: visible;
+                    }
+                }
+            }
+        }
+    }
 
     .UserIcon {
         box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
@@ -267,17 +293,10 @@
         }
     }
 
-    &:hover {
-        border-style: solid;
-        border-image: linear-gradient(to right, $silver-med, $white) 1;
-        .Body {
-            .Info {
-                .Timestamp {
-                    visibility: visible;
-                }
-            }
-        }
-    }
+
+    
+
+
 }
 
 .EmojiPicker {

@@ -119,8 +119,8 @@
             content: "new topic";
             width: 80px;
             height: 24px;
-            top: 0px;
-            left: 34px;
+            top: 2px;
+            left: 38px;
             background-color: $silver-med;
             border-radius: 2px;
             @include worksans;
@@ -135,8 +135,8 @@
             position: absolute;
             opacity: 0;
             content: " ";
-            top: 0px;
-            left: 28px;
+            top: 2px;
+            left: 32px;
             width: 0;
             height: 0;
             border-top: 12px solid transparent;
