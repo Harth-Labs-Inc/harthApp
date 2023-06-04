@@ -169,6 +169,7 @@ const ChatInput = (props) => {
         setSelectedEditMsg({});
         resetEdit();
         toggleEditing();
+
     };
     const addEmoji = (e) => {
         let text = topicInputs[selectedTopic?._id];

@@ -1,8 +1,12 @@
 import { useState, useContext, useEffect } from "react";
 import { MobileContext } from "../../contexts/mobile";
-import { IconChatNoFill } from "../../resources/icons/IconChatNoFill";
-import { IconFireNoFill } from "../../resources/icons/IconFireNoFill";
-import { IconForumNoFill } from "../../resources/icons/IconForumNoFill";
+import { IconGather } from "resources/icons/IconGather";
+import { IconGatherMuted } from "resources/icons/IconGatherMuted";
+import { IconMessage } from "resources/icons/IconMessage";
+import { IconMessageMuted } from "resources/icons/IconMessageMuted";
+import { IconChat } from "resources/icons/IconChat";
+import { IconChatMuted } from "resources/icons/IconChatMuted";
+import { IconExpand } from "resources/icons/IconExpand";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
@@ -125,7 +129,7 @@ const MainNav = (props) => {
 
                             `}
                         >
-                            <IconChatNoFill />
+                            {currentPage == "chat" ? <IconChat /> : <IconChatMuted />}
                         </div>
                         <div className={styles.title}>Chat</div>
                     </button>
@@ -158,7 +162,7 @@ const MainNav = (props) => {
                             `}
                         >
 
-                            <IconFireNoFill />
+                            {currentPage == "gather" ? <IconGather /> : <IconGatherMuted />}
                         </div>
                         <div className={styles.title}>Gather</div>
                     </button>
@@ -191,7 +195,7 @@ const MainNav = (props) => {
                             }
                             `}
                         >
-                            <IconForumNoFill />
+                            {currentPage == "message" ? <IconMessage /> : <IconMessageMuted />}
                         </div>
                         <div className={styles.title}>Message</div>
                     </button>
@@ -206,6 +210,7 @@ const MainNav = (props) => {
                             aria-label="Current Harth Settings"
                         >
                             {selectedcomm?.name}
+                            <div className={styles.iconHolder}><IconExpand /></div>
                         </button>
 
                     </div>

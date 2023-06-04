@@ -30,8 +30,9 @@
         padding: 8px 12px;
         @include chatText;
         color: $fuel;
-        background: $silver_light;
+        background: $silver_xxlight;
         border: 0;
+        //border: 1px solid $silver_med;
 
         white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
@@ -41,7 +42,7 @@
     }
 
     .entryBox {
-        //border: 1px solid $silver_med;
+        border: 1px solid $silver_med;
         border-radius: 12px;
         padding: 0;
         overflow: hidden;
@@ -90,7 +91,7 @@
                 &.EditCancel {
                     width: auto;
                     height: fit-content;
-                    background-color: $fuel_light;
+                    background-color: $silver_dark;
                     border: 0;
                     @include worksans;
                     font-size: 12px;
@@ -197,9 +198,9 @@
     row-gap: 8px;
     justify-content: flex-start;
     width: auto;
-    background: $silver_light;
+    background: $silver_xxlight;
     padding: 8px;
-    border-bottom: 2px solid $silver-xxlight;
+    border-bottom: 1px solid $silver-med;
 
     .imageContainer {
         position: relative;
