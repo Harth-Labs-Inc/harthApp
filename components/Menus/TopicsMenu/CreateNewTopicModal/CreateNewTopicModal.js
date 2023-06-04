@@ -5,6 +5,7 @@ import { Button, Modal } from "../../../Common";
 import { useComms } from "../../../../contexts/comms";
 import { useAuth } from "../../../../contexts/auth";
 import { useSocket } from "../../../../contexts/socket";
+import { IconArrowLeft } from "resources/icons/IconArrowLeft";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 
@@ -146,7 +147,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
                             {Emoji ? (
                                 <p className={styles.TopicEmoji}>{Emoji}</p>
                             ) : (
-                                <p className={styles.TopicEmoji}>😀</p>
+                                <p style={{ fontSize: "28px" }}>&#x1F600;</p>
                             )}
                         </button>
 
@@ -166,10 +167,10 @@ export default function CreateNewTopicModal({ toggleModal }) {
                             }
                         />
                     </div>
-
-                    {/* <div className={styles.subtext}>
-                        Content in this topic will be kept for 90 days
-                    </div> */}
+                    <div className={styles.reminder}>
+                        <div className={styles.icon}> <IconArrowLeft /></div>
+                        <span className={styles.text}>Don&rsquo;t forget to add an emoji!</span>
+                    </div>
                     <div className={styles.CreateTopicButtons}>
                         <Button
                             size="large"

@@ -322,7 +322,10 @@ const ChatSingleMessage = (props) => {
             }`}
         >
             <div
-                className={styles.SingleMessage}
+                className={` 
+                    ${styles.SingleMessage}
+                    ${isMobile ? styles.SingleMessageMobile : styles.SingleMessageDesktop}
+                `}
                 onMouseEnter={() => toggleEdit(true)}
                 onMouseLeave={() => {
                     if (!emojiPickerState) {

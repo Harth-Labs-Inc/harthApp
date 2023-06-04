@@ -29,7 +29,7 @@ export const Button = (props) => {
                 ${size === "large" ? styles.buttonLarge : styles.buttonSmall} 
                 ${fullWidth ? styles.buttonFullWidth : ""}
                 ${className}
-                ${isLoading && tier == "primary" && styles.buttonLoading}
+                ${(isLoading && tier == "primary") ? styles.buttonLoading : null}
             `}
             disabled={isDisabled || isLoading}
             aria-label={textLabel}
