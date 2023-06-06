@@ -1,7 +1,6 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { MobileContext } from "../../contexts/mobile";
 import { IconSend } from "../../resources/icons/IconSend";
 import { IconImage } from "../../resources/icons/IconImage";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
