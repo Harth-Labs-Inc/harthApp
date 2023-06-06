@@ -17,7 +17,6 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
   const fileRef = useRef();
   const attRefs = useRef([]);
   const originalHeightRef = useRef();
-  const { isMobile } = useContext(MobileContext);
   const [hasInput, setHasInput] = useState(false);
 
   useEffect(() => {
