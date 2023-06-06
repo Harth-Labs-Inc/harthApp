@@ -66,6 +66,10 @@ export default function ChatAttachment({
   );
 
   useEffect(() => {
+    // console.log('new list item added', listRef.current)
+  }, [count]);
+
+  useEffect(() => {
     async function fetchDownloadURL() {
       if (attachments.length > 0) {
         let promises = [];
