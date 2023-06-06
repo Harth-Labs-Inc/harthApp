@@ -2,11 +2,6 @@
 @import "../../styles/fonts.scss";
 
 
-.imageViewer {
-    width: 100vw;
-    height: 100vh;
-    z-index: 100;
-}
 
 #ChatInput {
     width: 100%;
@@ -30,7 +25,7 @@
         padding: 8px 12px;
         @include chatText;
         color: $fuel;
-        background: #fafaff;
+        background: #f8f8ff;
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
@@ -208,7 +203,7 @@
         img {
             position: relative;
             z-index: 1;
-            border-radius: 12px;
+            border-radius: 8px;
             height: 80px;
             width: 80px;
             border: 1px solid $fuel;
@@ -220,11 +215,11 @@
             z-index: 2;
             height: 24px;
             width: 24px;
-            padding: 3px;
+            padding: 4px;
             border-top-left-radius: 0px;
-            border-top-right-radius: 12px;
+            border-top-right-radius: 8px;
             border-bottom-right-radius: 0px;
-            border-bottom-left-radius: 12px;
+            border-bottom-left-radius: 8px;
             border: 0;
             background-color: $fuel;
             cursor: pointer;
@@ -253,6 +248,17 @@
             border-top-color: $hot_pink;
             border-radius: 50%;
             animation: spinner 1s ease infinite;
+        }
+    }
+
+    &Dark {
+        background: rgba(0,0,0,0.7);
+        border-bottom: 1px solid transparent;
+        .imageContainer {
+    
+            img {
+                background-color: $white;
+            }
         }
     }
 }

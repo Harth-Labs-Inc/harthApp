@@ -1,27 +1,22 @@
-import { useContext, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-
-import { MobileContext } from "../../contexts/mobile";
-
 import { IconSend } from "../../resources/icons/IconSend";
 import { IconImage } from "../../resources/icons/IconImage";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
-
 import ImageHolder from "./ImageHolder";
-import styles from "./ChatInput.module.scss";
+import styles from "./ChatInputGeneral.module.scss";
 
-const GeneralChatInput = ({ onSubmitHandler, uploadingAttachments = [] }) => {
+const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
   const [attachments, setAttachments] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [altKey, setAltKey] = useState(false);
   const [emojiPickerState, setEmojiPicker] = useState(false);
-
   const textRef = useRef();
   const fileRef = useRef();
   const attRefs = useRef([]);
-
-  const { isMobile } = useContext(MobileContext);
+  const originalHeightRef = useRef();
+  const [hasInput, setHasInput] = useState(false);
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -39,6 +34,10 @@ const GeneralChatInput = ({ onSubmitHandler, uploadingAttachments = [] }) => {
   }, [attachments]);
 
   useEffect(() => {
+    originalHeightRef.current = textRef.current.style.height;
+  }, []);
+
+  useEffect(() => {
     if (!uploadingAttachments.length) {
       resetInput();
     }
@@ -53,12 +52,34 @@ const GeneralChatInput = ({ onSubmitHandler, uploadingAttachments = [] }) => {
   const inputHandler = (e) => {
     const { value } = e.target;
     setMessageText(value);
+    setHasInput(value.trim().length > 0);
   };
 
-  const calcHeight = (value) => {
-    let numberOfLineBreaks = (value.match(/\n/g) || []).length;
-    let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
-    return newHeight;
+  const calcHeight = () => {
+      const textarea = textRef.current;
+      const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+      const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
+      const paddingBottom = parseInt(getComputedStyle(textarea).paddingBottom);
+      const minHeight = lineHeight + paddingTop + paddingBottom;
+      textarea.style.height = "auto";
+      textarea.style.overflowY = "hidden"; // Temporarily hide the scrollbar
+
+      // Calculate the scrollHeight and newHeight
+      const scrollHeight = textarea.scrollHeight;
+      const newHeight = Math.max(minHeight, scrollHeight);
+
+      if (newHeight > 360) {
+          textarea.style.height = "360px";
+          textarea.style.overflowY = "scroll";
+      } else {
+          textarea.style.height = `${newHeight}px`;
+          textarea.style.overflowY = "auto";
+      }
+  };
+  const resetHeight = () => {
+      textRef.current.style.height = originalHeightRef.current;
+      textRef.current.style.overflowY = "auto";
+      setHasInput(false);
   };
   const getPastedData = (e) => {
     const { files } = e.clipboardData;
@@ -125,7 +146,7 @@ const GeneralChatInput = ({ onSubmitHandler, uploadingAttachments = [] }) => {
     return (
       <div id={styles.ChatInputControlsRight}>
         <button
-          className={styles.SendMessage}
+          className={hasInput ? styles.SendActive : styles.SendMessage}
           disabled={isDisabled}
           onClick={() => {
             sendMessagge();
@@ -143,6 +164,7 @@ const GeneralChatInput = ({ onSubmitHandler, uploadingAttachments = [] }) => {
       value: messageText,
       attachments: attachments,
     };
+    resetHeight();
     onSubmitHandler(message);
   };
 
@@ -154,51 +176,55 @@ const GeneralChatInput = ({ onSubmitHandler, uploadingAttachments = [] }) => {
 
   return (
     <div id={styles.ChatInput}>
-      <ImageHolder
-        attachments={attachments}
-        removeAttachment={removeAttachment}
-        attRefs={attRefs}
-        uploading={uploadingAttachments}
-      />
-      <textarea
-        id={styles.ChatInputText}
-        ref={textRef}
-        onChange={inputHandler}
-        value={messageText}
-        onKeyDown={(e) => {
-          let input = messageText;
-          if (e.altKey) {
-            setAltKey(true);
-          }
-          if (e.key == "Enter" && altKey) {
-            input = input + "\r\n";
-            setMessageText(input);
-            textRef.current.style.height =
-              calcHeight(textRef.current.value) + "px";
-          } else if (e.key === "Enter" && input.trim().length > 0) {
-            sendMessagge();
-          }
-        }}
-        onKeyUp={() => {
-          setAltKey(false);
-        }}
-        onPaste={getPastedData}
-        onDragEnter={(e) => {
-          e.preventDefault();
-          return false;
-        }}
-        onDragOver={(e) => {
-          e.preventDefault();
-        }}
-        onDrop={(e) => {
-          e.preventDefault();
-          dropHandler(e);
-        }}
-        onDragLeave={(e) => {
-          e.preventDefault();
-        }}
-      ></textarea>
-      {!isMobile ? (
+      <div className={styles.entryBox}>
+        <ImageHolder
+          attachments={attachments}
+          removeAttachment={removeAttachment}
+          attRefs={attRefs}
+          uploading={uploadingAttachments}
+          isDark={true}
+        />
+        <textarea
+          id={styles.ChatInputText}
+          ref={textRef}
+          onChange={(e) => {
+            inputHandler(e);
+            calcHeight(e.target.value);
+          }}
+          value={messageText}
+          onKeyDown={(e) => {
+            let input = messageText;
+            if (e.altKey) {
+                setAltKey(true);
+            }
+            if (e.key === "Enter" && altKey) {
+                input = input + "\r\n";
+                setMessageText(input);
+            } else if (e.key === "Enter" && !e.shiftKey && input.trim().length > 0) {
+                e.preventDefault(); // Prevents the default behavior of sending the message
+                sendMessagge();
+            }
+          }}
+          onKeyUp={() => {
+            setAltKey(false);
+          }}
+          onPaste={getPastedData}
+          onDragEnter={(e) => {
+            e.preventDefault();
+            return false;
+          }}
+          onDragOver={(e) => {
+            e.preventDefault();
+          }}
+          onDrop={(e) => {
+            e.preventDefault();
+            dropHandler(e);
+          }}
+          onDragLeave={(e) => {
+            e.preventDefault();
+          }}
+        ></textarea>
+      </div>
         <div id={styles.ChatInputControls}>
           <div id={styles.ChatInputControlsLeft}>
             <button
@@ -230,9 +256,8 @@ const GeneralChatInput = ({ onSubmitHandler, uploadingAttachments = [] }) => {
           </div>
           <MessageSubmits />
         </div>
-      ) : null}
     </div>
   );
 };
 
-export default GeneralChatInput;
+export default ChatInputGeneral;

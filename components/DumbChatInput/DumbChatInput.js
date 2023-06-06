@@ -3,7 +3,6 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
 import { IconSend } from "../../resources/icons/IconSend";
-import { IconCancelFill } from "../../resources/icons/IconCancelFill";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
 
@@ -23,7 +22,7 @@ const DumbChatInput = (props) => {
         Inputs,
         setInputs,
         selectedInputID,
-        sendMessagge,
+        sendMessage,
         updateMessage,
         disableChat,
         resetEdit,
@@ -34,6 +33,7 @@ const DumbChatInput = (props) => {
     const textRef = useRef();
     const fileRef = useRef();
     const attRefs = useRef([]);
+    const originalHeightRef = useRef();
 
     useEffect(() => {
         if (attachments.length > 0) {
@@ -49,6 +49,10 @@ const DumbChatInput = (props) => {
     }, [attachments]);
 
     useEffect(() => {
+        originalHeightRef.current = textRef.current.style.height;
+      }, []);
+
+    useEffect(() => {
         if (setInputs) {
             setInputs({
                 ...Inputs,
@@ -59,11 +63,33 @@ const DumbChatInput = (props) => {
         setSelectedEditMsg(selectedEdit);
     }, [selectedEdit]);
 
-    const calcHeight = (value) => {
-        let numberOfLineBreaks = (value.match(/\n/g) || []).length;
-        let newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
-        return newHeight;
+    const calcHeight = () => {
+        const textarea = textRef.current;
+        const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+        const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
+        const paddingBottom = parseInt(getComputedStyle(textarea).paddingBottom);
+        const minHeight = lineHeight + paddingTop + paddingBottom;
+        textarea.style.height = "auto";
+        textarea.style.overflowY = "hidden"; // Temporarily hide the scrollbar
+
+        // Calculate the scrollHeight and newHeight
+        const scrollHeight = textarea.scrollHeight;
+        const newHeight = Math.max(minHeight, scrollHeight);
+
+        if (newHeight > 360) {
+            textarea.style.height = "360px";
+            textarea.style.overflowY = "scroll";
+        } else {
+            textarea.style.height = `${newHeight}px`;
+            textarea.style.overflowY = "auto";
+        }
     };
+
+    const resetHeight = () => {
+        textRef.current.style.height = originalHeightRef.current;
+        textRef.current.style.overflowY = "auto";
+    };
+
     const getPastedData = (e) => {
         const { files } = e.clipboardData;
         // const text = e.clipboardData.getData("Text");
@@ -145,8 +171,9 @@ const DumbChatInput = (props) => {
                     <button
                         onClick={cancelEdit}
                         aria-label="cancel chat message"
+                        className={styles.EditCancel}
                     >
-                        <IconCancelFill />
+                        cancel
                     </button>
                     <button
                         className={styles.SendActive}
@@ -167,6 +194,8 @@ const DumbChatInput = (props) => {
                     <button
                         disabled={isDisabled}
                         aria-label="send chat message"
+                        className={Inputs[selectedInputID] ? styles.SendActive : ''}
+
                         onClick={() => {
                             submitMessageLogic();
                         }}
@@ -179,11 +208,15 @@ const DumbChatInput = (props) => {
     };
     const submitMessageLogic = () => {
         setAttachments([]);
-        sendMessagge({
-            msg: Inputs[selectedInputID],
-            atts: attachments,
-            parentID: selectedInputID,
-        });
+            if (
+            sendMessage({
+                msg: Inputs[selectedInputID],
+                atts: attachments,
+                parentID: selectedInputID,
+            }))
+            {
+                resetHeight();
+            }
     };
 
     return (
@@ -198,7 +231,10 @@ const DumbChatInput = (props) => {
                 <textarea
                     id={styles.ChatInputText}
                     ref={textRef}
-                    onChange={inputHandler}
+                    onChange={(e) => {
+                        inputHandler(e);
+                        calcHeight(e.target.value);
+                      }}
                     value={(Inputs && Inputs[selectedInputID]) || ""}
                     disabled={disableChat}
                     onKeyDown={(e) => {
@@ -212,12 +248,9 @@ const DumbChatInput = (props) => {
                                 ...Inputs,
                                 [selectedInputID]: input,
                             });
-                            textRef.current.style.height =
-                                calcHeight(textRef.current.value) + "px";
-                        } else if (
-                            e.key === "Enter" &&
-                            input.trim().length > 0
-                        ) {
+
+                        } else if (e.key === "Enter" && !e.shiftKey && input.trim().length > 0) {
+                            e.preventDefault(); // Prevents the default behavior of sending the message
                             submitMessageLogic();
                         }
                     }}

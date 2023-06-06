@@ -219,6 +219,7 @@ const ChatInput = (props) => {
                 }
             }
         }
+        return true;
     };
     const broadcastMessage = async (message) => {
         setUploadingAttachments([]);
@@ -412,8 +413,6 @@ const ChatInput = (props) => {
                                 ...topicInputs,
                                 [selectedTopic?._id]: input,
                             });
-                            textRef.current.style.height =
-                                calcHeight(textRef.current.value) + "px";
                         } else if (e.key === "Enter" && !e.shiftKey && input.trim().length > 0) {
                             e.preventDefault(); // Prevents the default behavior of sending the message
                             submitMessageLogic();

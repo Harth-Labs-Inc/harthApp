@@ -9,7 +9,7 @@ import { MobileContext } from "contexts/mobile";
 
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
-import GeneralChatInput from "../../../components/ChatInput/ChatInputGeneral";
+import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
 
 import { getHarthByID } from "../../../requests/community";
@@ -1489,7 +1489,7 @@ const Stream = () => {
                             messages={chats}
                             userName={userName}
                         />
-                        <GeneralChatInput
+                        <ChatInputGeneral
                             uploadingAttachments={uploadingAttachments}
                             onSubmitHandler={chatSubmitHandler}
                         />

@@ -53,7 +53,7 @@
             text-overflow: ellipsis;
             //overflow: hidden;
             background-color: transparent;
-            margin-left: 233px;
+            margin-left: 252px;
             border: 1px solid transparent;
             cursor: pointer;
             white-space: nowrap;
@@ -72,14 +72,14 @@
             }
 
 
-            &::before {
-                position: absolute;
-                content: "";
-                left: -12px;
-                height: 32px;
-                width: 1px;
-                background-color: $silver-med;
-            }
+            // &::before {
+            //     position: absolute;
+            //     content: "";
+            //     left: -12px;
+            //     height: 32px;
+            //     width: 1px;
+            //     background-color: $silver-med;
+            // }
 
             &:hover {
                 background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
@@ -109,8 +109,8 @@
             height: 56px;
             justify-content: center;
             align-items: center;
-            padding: 8px 16px 0px 16px;
-            gap: 8px;
+            padding: 8px 28px 0px 20px;
+            gap: 16px;
             background-color: $silver-xlight;
 
             &::after {

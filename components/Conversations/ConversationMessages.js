@@ -373,7 +373,7 @@ export const ConversationMessages = () => {
                             Inputs={conversationInputs}
                             setInputs={setConversationInputs}
                             selectedInputID={selectedConversation?._id}
-                            sendMessagge={sumbitMessageHandler}
+                            sendMessage={sumbitMessageHandler}
                             updateMessage={updateConversation}
                             disableChat={disableChat}
                             resetEdit={resetEdit}
@@ -388,7 +388,7 @@ export const ConversationMessages = () => {
                             Inputs={conversationInputs}
                             setInputs={setConversationInputs}
                             selectedInputID={selectedConversation?._id}
-                            sendMessagge={sumbitMessageHandler}
+                            sendMessage={sumbitMessageHandler}
                             updateMessage={updateConversation}
                             disableChat={disableChat}
                             resetEdit={resetEdit}
