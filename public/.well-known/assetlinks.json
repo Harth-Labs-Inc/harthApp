@@ -1,6 +1,6 @@
 [{
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target" : { "namespace": "android_app", "package_name": "social.harth.www.twa",
-                 "sha256_cert_fingerprints": ["5C:D0:BB:86:D0:9F:AC:42:3D:37:A0:57:C4:63:5A:12:B4:9E:E8:D1:5E:35:5D:74:0B:26:FF:DC:BE:E4:34:A5"] }
+                 "sha256_cert_fingerprints": ["8C:7E:34:A6:B1:97:4B:0A:63:7E:5B:1D:90:AE:9D:1A:C7:43:3E:79:73:6B:51:83:42:5B:C5:F8:17:E7:36:37"] }
   }
 ]
