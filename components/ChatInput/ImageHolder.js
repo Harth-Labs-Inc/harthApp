@@ -2,10 +2,10 @@ import { IconClose } from "../../resources/icons/IconClose";
 
 import styles from "./ChatInput.module.scss";
 
-const ImageHolder = ({ attachments, removeAttachment, attRefs, uploading }) => {
+const ImageHolder = ({ attachments, removeAttachment, attRefs, uploading, isDark }) => {
   if (attachments.length > 0) {
     return (
-      <div className={styles.imageBar}>
+      <div className={` ${styles.imageBar} ${isDark ? styles.imageBarDark : null} `}>
         {(attachments || []).map((file, idx) => (
           <div
             className={`${styles.imageContainer} ${

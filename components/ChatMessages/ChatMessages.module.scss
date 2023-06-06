@@ -26,7 +26,7 @@
     background-color: transparent;
     // min-height: calc(100% - 98px);
     width: 100%;
-    padding: 16px 24px 24px 12px;
+    padding: 24px 8px;
     overflow-y: scroll;
     -ms-overflow-style: none;
     //scrollbar-width: 0px;
@@ -58,6 +58,7 @@
     font-size: 12px;
     letter-spacing: 0.02em;
     text-align: center;
+    padding: 8px 0px;
     &:before,
     &:after {
         content: "--";
@@ -70,52 +71,125 @@
 
 .SelfMessage,
 .IncomingMessage {
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
+    .Creator {
+        @include chatProfile;
+        color: $silver-light;
+        user-select: none;
+        margin-right: 4px;
+    }
     > p {
-        margin: 0 0 4px 0;
-        padding: 8px;
+        margin: 0 0 12px 0;
+        padding: 8px 12px;
+        @include chatText;
         white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
         white-space: -pre-wrap; /* Opera 4-6 */
         white-space: -o-pre-wrap; /* Opera 7 */
         word-wrap: break-word; /* Internet Explorer 5.5+ */
         border-radius: 12px;
+
+        a {
+            @include url;
+            color: $hot_blue;
+            font-size: 13px;
+        }
     }
+    .MessageEmoji {
+        font-size: 22px;
+    }
+    img {
+        width: 400px;
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        border: 3px solid transparent;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        background-color: $white;
+        &:hover {
+            border-color: $hot_pink;
+        }
+    }
+
+    li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+
 }
 
 .SelfMessage {
-    margin-left: 24px;
+    align-self: flex-end;
+    //background-color: aqua;
+    padding: 0px 0px 0px 24px;
+    position: relative;
     > p {
-        background-color: $silver-med;
+        position: relative;
+        background-color: $black;
         border-bottom-right-radius: 0px;
+        margin-top: 2px;
+        color: $silver-light;
     }
     .TimeStamp {
         display: block;
-        margin-right: 16px;
+        margin-right: 0px;
         text-align: right;
+        @include timeStamp;
+        font-size: 11px;
+        line-height: 12px;
+        user-select: none;
+        color: $silver-heavy;
+        margin-top: 8px;
     }
 }
 .IncomingMessage {
     > p {
-        background-color: #eaeaea;
+        background-color: $fuel;
+        margin-left: 40px;
+        margin-top: -24px;
+        margin-right: 12px;
+        border-top-left-radius: 0px;
+        color: $silver-light;
+        
     }
     .TimeStamp {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        //background-color: aqua;
+        color: $silver-heavy;
+        @include timeStamp;
+        font-size: 11px;
+        line-height: 12px;
+        user-select: none;
         img {
-            height: 24px;
-            width: 24px;
+            height: 32px;
+            width: 32px;
             margin-right: 8px;
             border-radius: 50%;
-            object-fit: cover;
+            box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+            0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075);
+            border: 0;
+            &hover {
+                border-color: initial;
+            }
         }
     }
 }
 
-.TimeStamp {
-    font-size: 11px;
-    line-height: 15px;
-}
+// .TimeStamp {
+//     font-size: 11px;
+//     line-height: 15px;
+// }
 
 .ScrollButton {
     @include x-center;

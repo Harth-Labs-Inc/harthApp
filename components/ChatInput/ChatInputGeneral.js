@@ -6,7 +6,7 @@ import { IconSend } from "../../resources/icons/IconSend";
 import { IconImage } from "../../resources/icons/IconImage";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import ImageHolder from "./ImageHolder";
-import styles from "./ChatInput.module.scss";
+import styles from "./ChatInputGeneral.module.scss";
 
 const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
   const [attachments, setAttachments] = useState([]);
@@ -184,6 +184,7 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
           removeAttachment={removeAttachment}
           attRefs={attRefs}
           uploading={uploadingAttachments}
+          isDark={true}
         />
         <textarea
           id={styles.ChatInputText}
@@ -226,7 +227,6 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
           }}
         ></textarea>
       </div>
-      {!isMobile ? (
         <div id={styles.ChatInputControls}>
           <div id={styles.ChatInputControlsLeft}>
             <button
@@ -258,7 +258,6 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
           </div>
           <MessageSubmits />
         </div>
-      ) : null}
     </div>
   );
 };

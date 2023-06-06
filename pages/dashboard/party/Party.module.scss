@@ -186,12 +186,25 @@
             height: 100%;
             background-color: $white;
             border: 0;
+            
             border-radius: 18px;
             margin: 0;
             margin-right: 8px;
             width: 0;
             visibility: hidden;
             transition: width 0.3s ease-in-out;
+            border: 1px solid rgba(256,256,256,0.05);
+		    background: rgba(256,256,256,0.05);
+		    backdrop-filter: blur(5px);
+  	        -webkit-backdrop-filter: blur(5px);
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+
+
 
             &Open {
                 width: 420px;
@@ -216,7 +229,8 @@
                 height: calc(100% - 20px);
 
                 &.ChatPanelContainerOpen {
-                    width: 100%;
+                    width: calc(100% - 20px);
+                    margin-left: 10px;
                 }
 
                 &.rendering {

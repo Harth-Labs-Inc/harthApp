@@ -253,8 +253,10 @@
             height: 100%;
             width: 100%;
             padding: 2px 12px;
-            background-color: $white;
-            border: 4px solid $white_10;
+            border: 1px solid rgba(256,256,256,0.05);
+		    background: rgba(256,256,256,0.05);
+		    backdrop-filter: blur(5px);
+  	        -webkit-backdrop-filter: blur(5px);
             border-radius: 18px;
             margin: 0;
 

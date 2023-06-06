@@ -343,8 +343,10 @@
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
-            background-color: $white;
-            border: 0;
+            border: 1px solid rgba(256,256,256,0.05);
+		    background: rgba(256,256,256,0.05);
+		    backdrop-filter: blur(5px);
+  	        -webkit-backdrop-filter: blur(5px);
             border-radius: 18px;
             margin: 0;
             margin-right: 8px;
@@ -372,11 +374,15 @@
                 position: absolute;
                 top: 0;
                 left: 100%;
+                margin: 0;
                 z-index: 1;
                 height: calc(100% - 20px);
+                
 
                 &.ChatPanelContainerOpen {
-                    width: 100%;
+                    width: calc(100% - 20px);
+                    margin-left: 10px;
+                
                 }
 
                 &.rendering {
