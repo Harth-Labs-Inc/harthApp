@@ -219,6 +219,7 @@ const ChatInput = (props) => {
                 }
             }
         }
+        return true;
     };
     const broadcastMessage = async (message) => {
         setUploadingAttachments([]);

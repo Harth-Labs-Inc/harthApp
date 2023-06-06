@@ -2,11 +2,6 @@
 @import "../../styles/fonts.scss";
 
 
-.imageViewer {
-    width: 100vw;
-    height: 100vh;
-    z-index: 100;
-}
 
 #ChatInput {
     width: 100%;
@@ -30,7 +25,7 @@
         padding: 8px 12px;
         @include chatText;
         color: $fuel;
-        background: #fafaff;
+        background: #f8f8ff;
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
