@@ -7,8 +7,8 @@ import { getDownloadURL } from "../../requests/s3";
 import { deleteMessage, updateMessage } from "../../requests/chat";
 
 import {
-    updateConversationMessage,
-    deleteConversationMessage,
+  updateConversationMessage,
+  deleteConversationMessage,
 } from "../../requests/conversations";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
@@ -37,396 +37,400 @@ const shimmer = (w, h) => `
 </svg>`;
 
 const toBase64 = (str) =>
-    typeof window === "undefined"
-        ? // eslint-disable-next-line
-          Buffer.from(str).toString("base64")
-        : window.btoa(str);
+  typeof window === "undefined"
+    ? // eslint-disable-next-line
+      Buffer.from(str).toString("base64")
+    : window.btoa(str);
 
 const ChatSingleMessage = (props) => {
-    const [emojiPickerState, setEmojiPicker] = useState(false);
-    const [urls, setUrls] = useState([]);
-    const [showEditBar, setShowEditBar] = useState("");
-    const [ratio, setRatio] = useState(16 / 9);
-    const { isMobile } = useContext(MobileContext);
-    // const [groupedReactions, setGroupedReactions] = useState({});
+  const [emojiPickerState, setEmojiPicker] = useState(false);
+  const [urls, setUrls] = useState([]);
+  const [showEditBar, setShowEditBar] = useState("");
+  const [ratio, setRatio] = useState(16 / 9);
+  const { isMobile } = useContext(MobileContext);
+  // const [groupedReactions, setGroupedReactions] = useState({});
 
-    const {
-        _id,
-        date,
-        creator_image,
-        creator_id,
-        creator_name,
-        // creator_type,
-        message,
-        attachments = [],
-        reactions = [],
-    } = props.msg;
-    const {
-        editMessageText,
-        messageID,
-        bucket = "topic-message-attachments",
-        chatType = "topic",
-        openImageSlideShow,
-        isEditing,
-        toggleEditing,
-    } = props;
+  const {
+    _id,
+    date,
+    creator_image,
+    creator_id,
+    creator_name,
+    // creator_type,
+    message,
+    attachments = [],
+    reactions = [],
+  } = props.msg;
+  const {
+    editMessageText,
+    messageID,
+    bucket = "topic-message-attachments",
+    chatType = "topic",
+    openImageSlideShow,
+    isEditing,
+    toggleEditing,
+  } = props;
 
-    const { user } = useAuth();
-    const { emitUpdate } = useSocket();
-    const { selectedcomm, selectedTopic } = useComms();
+  const { user } = useAuth();
+  const { emitUpdate } = useSocket();
+  const { selectedcomm, selectedTopic } = useComms();
 
-    const formatMessage = (text) => {
-        if (typeof text !== 'string') {
-            return ''; 
-        }
-
-
-        // Regular expression to match URLs
-        const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
-    
-        // Regex to match emojis
-        const emojiRegex = /([\uD800-\uDBFF][\uDC00-\uDFFF])/g;
-    
-        // Split the text into parts containing URLs and non-URLs
-        const urlParts = text.split(urlRegex);
-    
-        // Map over the URL parts and wrap URLs with <a> tags
-        const wrappedText = urlParts.map((urlPart, urlIndex) => {
-          if (urlPart.match(urlRegex)) {
-            // Construct proper URL 
-            const properURL = urlPart.startsWith('www') ? 'http://' + urlPart : urlPart;
-    
-            // Wrap the URL in an <a> tag
-            return (
-              <a key={`url_${urlIndex}`} href={properURL} target="_blank" rel="noopener noreferrer">
-                {urlPart}
-              </a>
-            );
-          } else {
-            // Split each URL part into parts containing emojis and non-emojis
-            const emojiParts = urlPart.split(emojiRegex);
-    
-            // Map over the emoji parts and wrap emojis with <span> tags
-            const modifiedUrlPart = emojiParts.map((emojiPart, emojiIndex) => {
-              if (emojiRegex.test(emojiPart)) {
-                return (
-                  <span key={`emoji_${emojiIndex}`} className={styles.MessageEmoji}>
-                    {emojiPart}
-                  </span>
-                );
-              } else {
-                // Return non-emoji parts as they are
-                return emojiPart;
-              }
-            });
-    
-            return <>{modifiedUrlPart}</>;
-          }
-        });
-    
-        return wrappedText;
-    };
-      
-
-    useEffect(() => {
-        async function fetchDownloadURL() {
-            if (attachments.length > 0) {
-                let promises = [];
-                attachments.forEach((att) => {
-                    promises.push(
-                        new Promise(async (res) => {
-                            const data = await getDownloadURL(
-                                att.name,
-                                att.fileType,
-                                bucket
-                            );
-                            if (data) {
-                                const { ok, downloadURL } = data;
-                                if (ok) {
-                                    res(downloadURL);
-                                }
-                            }
-                        })
-                    );
-                });
-
-                Promise.all(promises).then((outputs) => setUrls(outputs));
-            }
-        }
-        fetchDownloadURL();
-        return () => {
-            setUrls([]);
-        };
-    }, [_id]);
-
-    // chat specific
-    const deleteMsg = async () => {
-        if (chatType == "gather") {
-            deleteConversation();
-        } else {
-            await deleteMessage(
-                _id,
-                `${selectedcomm._id}-${selectedTopic._id}-${_id}`
-            );
-            let msg = props.msg;
-            msg.action = "delete";
-            msg.updateType = "message update";
-            emitUpdate(selectedcomm._id, msg, async (err) => {
-                if (err) {
-                    console.error(err);
-                }
-                // let { ok } = status;
-                // if (ok) {
-                // }
-            });
-        }
-    };
-    const updateMsg = async () => {
-        let msg = props.msg;
-        await updateMessage(msg);
-        msg.updateType = "message update";
-        msg.action = "update";
-        emitUpdate(selectedcomm._id, msg, async (err) => {
-            if (err) {
-                console.error(err);
-            }
-
-        });
-    };
-
-    // gather/conversation specific
-    const updateConversation = async () => {
-        let msg = props.msg;
-        await updateConversationMessage(msg);
-        msg.updateType = "conversation message update";
-        msg.action = "update";
-        emitUpdate(selectedcomm._id, msg, async (err) => {
-            if (err) {
-                console.error(err);
-            }
-
-        });
-    };
-    const deleteConversation = async () => {
-        await deleteConversationMessage(_id);
-        let msg = props.msg;
-        msg.action = "delete";
-        msg.updateType = "conversation message update";
-        emitUpdate(selectedcomm._id, msg, async (err) => {
-            if (err) {
-                console.error(err);
-            }
-
-        });
-    };
-
-    const editBarSelection = () => {
-        toggleEditing(messageID);
-        editMessageText(props.msg);
-    };
-    const getTimeStamp = () => {
-        let timeStamp;
-        let today = new Date();
-        let weekBefore = today.setDate(today.getDate() - 6);
-
-        if (
-            new Date(date).toLocaleDateString() ===
-            new Date().toLocaleDateString()
-        ) {
-            timeStamp = new Date(date).toLocaleTimeString([], {
-                timeStyle: "short",
-            });
-        } else if (new Date(date) >= new Date(weekBefore)) {
-            timeStamp = `${new Date(date).toLocaleDateString("default", {
-                weekday: "long",
-            })} @ ${new Date(date).toLocaleTimeString([], {
-                timeStyle: "short",
-            })}`;
-        } else {
-            timeStamp = `${new Date(date).toLocaleDateString("default", {
-                weekday: "long",
-            })}, ${new Date(date).toLocaleDateString("default", {
-                month: "short",
-            })} ${new Date(date).toLocaleDateString("default", {
-                day: "numeric",
-            })} @ ${new Date(date).toLocaleTimeString([], {
-                timeStyle: "short",
-            })}`;
-        }
-        return timeStamp;
-    };
-    const toggleEdit = (show) => {
-        if (show) {
-            setShowEditBar(_id);
-        } else {
-            setShowEditBar("");
-        }
-    };
-    const triggerPicker = (e) => {
-        e.preventDefault();
-        setEmojiPicker(!emojiPickerState);
-    };
-    const addEmoji = (e) => {
-        reactions.push(e.native);
-        setEmojiPicker(!emojiPickerState);
-        if (chatType == "gather") {
-            updateConversation();
-        } else {
-            updateMsg();
-        }
-    };
-    const EmojiPicker = () => {
-        if (emojiPickerState) {
-            return (
-                <div className={styles.EmojiPicker}>
-                    <OutsideClickHandler
-                        onClickOutside={() => {
-                            toggleEdit(false);
-                            setEmojiPicker(false);
-                        }}
-                        onFocusOutside={() => {
-                            toggleEdit(false);
-                            setEmojiPicker(false);
-                        }}
-                    >
-                        <Picker
-                            data={data}
-                            className={"attach-emoji"}
-                            onEmojiSelect={addEmoji}
-                            autoFocus={true}
-                            emojiButtonColors={[
-                                "rgba(187, 126, 196, 0.8)",
-                                "rgb(13, 161, 181, .8)",
-                                "rgba(240, 101, 115, 0.8)",
-                                "rgb(0, 163, 150, 0.8)",
-                            ]}
-                            //onClickOutside={setEmojiPicker(!emojiPickerState)}
-                        />
-                    </OutsideClickHandler>
-                </div>
-            );
-        }
-        return null;
-    };
-
-    let timeStamp = getTimeStamp();
-
-    if (!selectedcomm) {
-        return null;
+  const formatMessage = (text) => {
+    if (typeof text !== "string") {
+      return "";
     }
 
-    return (
-        <div
-            className={`${styles.ChatParentContainer} ${
-                isEditing ? styles.Editing : null
-            }`}
-        >
-            <div
-                className={` 
-                    ${styles.SingleMessage}
-                    ${isMobile ? styles.SingleMessageMobile : styles.SingleMessageDesktop}
-                `}
-                onMouseEnter={() => toggleEdit(true)}
-                onMouseLeave={() => {
-                    if (!emojiPickerState) {
-                        toggleEdit(false);
-                    }
-                }}
-            >
-                <EmojiPicker />
+    // Regular expression to match URLs
+    const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
 
-                <EditBar
-                    showEditBar={showEditBar}
-                    _id={_id}
-                    creator_id={creator_id}
-                    user_id={user._id}
-                    deleteMsg={deleteMsg}
-                    editBarSelection={editBarSelection}
-                    triggerPicker={triggerPicker}
-                />
-                <span className={styles.UserIcon}>
-                    <UserIcon
-                        img={creator_image}
-                        showName={false}
-                        size="regular"
-                        iconClass={`${selectedcomm._id}_${creator_id}`}
-                        shouldIgnoreUserId={true}
-                    />
-                </span>
+    // Regex to match emojis
+    const emojiRegex = /([\uD800-\uDBFF][\uDC00-\uDFFF])/g;
 
-                <div className={styles.Body}>
-                    <span className={styles.Info}>
-                        <p
-                            className={[
-                                styles.Creator,
-                                `${selectedcomm._id}_${creator_id}_name`,
-                            ].join(" ")}
-                        >
-                            {creator_name}
-                        </p>
-                        <p className={styles.Timestamp}>{timeStamp}</p>
-                    </span>
-                    <div className={styles.Content}>
-                        {(urls || []).map((url, idx) => (
-                            <Image
-                                key={url}
-                                className="active-image"
-                                src={url}
-                                width={280}
-                                height={280 / ratio}
-                                placeholder="blur"
-                                blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                                    shimmer(280, 280 / ratio)
-                                )}`}
-                                alt="message image"
-                                onClick={() =>
-                                    openImageSlideShow(idx, attachments)
-                                }
-                                onLoadingComplete={({
-                                    naturalWidth,
-                                    naturalHeight,
-                                }) => setRatio(naturalHeight / naturalWidth)}
-                            />
-                        ))}
+    // Split the text into parts containing URLs and non-URLs
+    const urlParts = text.split(urlRegex);
 
-                        <div id={`message-content${messageID}`}>
-                            {formatMessage(message)}
-                            <LinkPreview
-                                message={message}
-                                messageID={messageID}
-                            />
-                        </div>
-                    </div>
-                    {reactions && reactions.length > 0 && (
-                        <div className={styles.BodyReactions}>
-                            {[...(reactions || [])].map((reaction, index) => {
-                                return (
-                                    <button
-                                        className={` 
-                                            ${styles.BodyReactionsEmoji}
-                                            ${isMobile ? styles.BodyReactionsEmojiMobile : styles.BodyReactionsEmojiDesktop}
-                                        `}
-                                        key={index}
-                                    >
-                                        {reaction}
-                                    </button>
-                                );
-                            })}
+    // Map over the URL parts and wrap URLs with <a> tags
+    const wrappedText = urlParts.map((urlPart, urlIndex) => {
+      if (urlPart.match(urlRegex)) {
+        // Construct proper URL
+        const properURL = urlPart.startsWith("www")
+          ? "http://" + urlPart
+          : urlPart;
 
-                            <button className={` 
-                                    ${styles.BodyReactionsAddReaction}
-                                    ${isMobile ? styles.BodyReactionsAddReactionMobile : styles.BodyReactionsAddReactionDesktop}
-                                `}
-                                onClick={triggerPicker}
-                            >
-                                <IconAddReactionNoFill />
-                            </button>
-                        </div>
-                    )}
-                </div>
-            </div>
+        // Wrap the URL in an <a> tag
+        return (
+          <a
+            key={`url_${urlIndex}`}
+            href={properURL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {urlPart}
+          </a>
+        );
+      } else {
+        // Split each URL part into parts containing emojis and non-emojis
+        const emojiParts = urlPart.split(emojiRegex);
+
+        // Map over the emoji parts and wrap emojis with <span> tags
+        const modifiedUrlPart = emojiParts.map((emojiPart, emojiIndex) => {
+          if (emojiRegex.test(emojiPart)) {
+            return (
+              <span key={`emoji_${emojiIndex}`} className={styles.MessageEmoji}>
+                {emojiPart}
+              </span>
+            );
+          } else {
+            // Return non-emoji parts as they are
+            return emojiPart;
+          }
+        });
+
+        return <div key={urlIndex}>{modifiedUrlPart}</div>;
+      }
+    });
+
+    return wrappedText;
+  };
+
+  useEffect(() => {
+    async function fetchDownloadURL() {
+      if (attachments.length > 0) {
+        let promises = [];
+        attachments.forEach((att) => {
+          promises.push(
+            new Promise(async (res) => {
+              const data = await getDownloadURL(att.name, att.fileType, bucket);
+              if (data) {
+                const { ok, downloadURL } = data;
+                if (ok) {
+                  res(downloadURL);
+                }
+              }
+            })
+          );
+        });
+
+        Promise.all(promises).then((outputs) => setUrls(outputs));
+      }
+    }
+    fetchDownloadURL();
+    return () => {
+      setUrls([]);
+    };
+  }, [_id]);
+
+  // chat specific
+  const deleteMsg = async () => {
+    if (chatType == "gather") {
+      deleteConversation();
+    } else {
+      await deleteMessage(
+        _id,
+        `${selectedcomm._id}-${selectedTopic._id}-${_id}`
+      );
+      let msg = props.msg;
+      msg.action = "delete";
+      msg.updateType = "message update";
+      emitUpdate(selectedcomm._id, msg, async (err) => {
+        if (err) {
+          console.error(err);
+        }
+        // let { ok } = status;
+        // if (ok) {
+        // }
+      });
+    }
+  };
+  const updateMsg = async () => {
+    let msg = props.msg;
+    await updateMessage(msg);
+    msg.updateType = "message update";
+    msg.action = "update";
+    emitUpdate(selectedcomm._id, msg, async (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+  };
+
+  // gather/conversation specific
+  const updateConversation = async () => {
+    let msg = props.msg;
+    await updateConversationMessage(msg);
+    msg.updateType = "conversation message update";
+    msg.action = "update";
+    emitUpdate(selectedcomm._id, msg, async (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+  };
+  const deleteConversation = async () => {
+    await deleteConversationMessage(_id);
+    let msg = props.msg;
+    msg.action = "delete";
+    msg.updateType = "conversation message update";
+    emitUpdate(selectedcomm._id, msg, async (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+  };
+
+  const editBarSelection = () => {
+    toggleEditing(messageID);
+    editMessageText(props.msg);
+  };
+  const getTimeStamp = () => {
+    let timeStamp;
+    let today = new Date();
+    let weekBefore = today.setDate(today.getDate() - 6);
+
+    if (
+      new Date(date).toLocaleDateString() === new Date().toLocaleDateString()
+    ) {
+      timeStamp = new Date(date).toLocaleTimeString([], {
+        timeStyle: "short",
+      });
+    } else if (new Date(date) >= new Date(weekBefore)) {
+      timeStamp = `${new Date(date).toLocaleDateString("default", {
+        weekday: "long",
+      })} @ ${new Date(date).toLocaleTimeString([], {
+        timeStyle: "short",
+      })}`;
+    } else {
+      timeStamp = `${new Date(date).toLocaleDateString("default", {
+        weekday: "long",
+      })}, ${new Date(date).toLocaleDateString("default", {
+        month: "short",
+      })} ${new Date(date).toLocaleDateString("default", {
+        day: "numeric",
+      })} @ ${new Date(date).toLocaleTimeString([], {
+        timeStyle: "short",
+      })}`;
+    }
+    return timeStamp;
+  };
+  const toggleEdit = (show) => {
+    if (show) {
+      setShowEditBar(_id);
+    } else {
+      setShowEditBar("");
+    }
+  };
+  const triggerPicker = (e) => {
+    e.preventDefault();
+    setEmojiPicker(!emojiPickerState);
+  };
+  const addEmoji = (e) => {
+    reactions.push(e.native);
+    setEmojiPicker(!emojiPickerState);
+    if (chatType == "gather") {
+      updateConversation();
+    } else {
+      updateMsg();
+    }
+  };
+  const EmojiPicker = () => {
+    if (emojiPickerState) {
+      return (
+        <div className={styles.EmojiPicker}>
+          <OutsideClickHandler
+            onClickOutside={() => {
+              toggleEdit(false);
+              setEmojiPicker(false);
+            }}
+            onFocusOutside={() => {
+              toggleEdit(false);
+              setEmojiPicker(false);
+            }}
+          >
+            <Picker
+              data={data}
+              className={"attach-emoji"}
+              onEmojiSelect={addEmoji}
+              autoFocus={true}
+              emojiButtonColors={[
+                "rgba(187, 126, 196, 0.8)",
+                "rgb(13, 161, 181, .8)",
+                "rgba(240, 101, 115, 0.8)",
+                "rgb(0, 163, 150, 0.8)",
+              ]}
+              //onClickOutside={setEmojiPicker(!emojiPickerState)}
+            />
+          </OutsideClickHandler>
         </div>
-    );
+      );
+    }
+    return null;
+  };
+
+  let timeStamp = getTimeStamp();
+
+  if (!selectedcomm) {
+    return null;
+  }
+
+  return (
+    <div
+      className={`${styles.ChatParentContainer} ${
+        isEditing ? styles.Editing : null
+      }`}
+    >
+      <div
+        className={` 
+                    ${styles.SingleMessage}
+                    ${
+                      isMobile
+                        ? styles.SingleMessageMobile
+                        : styles.SingleMessageDesktop
+                    }
+                `}
+        onMouseEnter={() => toggleEdit(true)}
+        onMouseLeave={() => {
+          if (!emojiPickerState) {
+            toggleEdit(false);
+          }
+        }}
+      >
+        <EmojiPicker />
+
+        <EditBar
+          showEditBar={showEditBar}
+          _id={_id}
+          creator_id={creator_id}
+          user_id={user._id}
+          deleteMsg={deleteMsg}
+          editBarSelection={editBarSelection}
+          triggerPicker={triggerPicker}
+        />
+        <span className={styles.UserIcon}>
+          <UserIcon
+            img={creator_image}
+            showName={false}
+            size="regular"
+            iconClass={`${selectedcomm._id}_${creator_id}`}
+            shouldIgnoreUserId={true}
+          />
+        </span>
+
+        <div className={styles.Body}>
+          <span className={styles.Info}>
+            <p
+              className={[
+                styles.Creator,
+                `${selectedcomm._id}_${creator_id}_name`,
+              ].join(" ")}
+            >
+              {creator_name}
+            </p>
+            <p className={styles.Timestamp}>{timeStamp}</p>
+          </span>
+          <div className={styles.Content}>
+            {(urls || []).map((url, idx) => (
+              <Image
+                key={url}
+                className="active-image"
+                src={url}
+                width={280}
+                height={280 / ratio}
+                placeholder="blur"
+                blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                  shimmer(280, 280 / ratio)
+                )}`}
+                alt="message image"
+                onClick={() => openImageSlideShow(idx, attachments)}
+                onLoadingComplete={({ naturalWidth, naturalHeight }) =>
+                  setRatio(naturalHeight / naturalWidth)
+                }
+              />
+            ))}
+
+            <div id={`message-content${messageID}`}>
+              {formatMessage(message)}
+              <LinkPreview message={message} messageID={messageID} />
+            </div>
+          </div>
+          {reactions && reactions.length > 0 && (
+            <div className={styles.BodyReactions}>
+              {[...(reactions || [])].map((reaction, index) => {
+                return (
+                  <button
+                    className={` 
+                                            ${styles.BodyReactionsEmoji}
+                                            ${
+                                              isMobile
+                                                ? styles.BodyReactionsEmojiMobile
+                                                : styles.BodyReactionsEmojiDesktop
+                                            }
+                                        `}
+                    key={index}
+                  >
+                    {reaction}
+                  </button>
+                );
+              })}
+
+              <button
+                className={` 
+                                    ${styles.BodyReactionsAddReaction}
+                                    ${
+                                      isMobile
+                                        ? styles.BodyReactionsAddReactionMobile
+                                        : styles.BodyReactionsAddReactionDesktop
+                                    }
+                                `}
+                onClick={triggerPicker}
+              >
+                <IconAddReactionNoFill />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ChatSingleMessage;
