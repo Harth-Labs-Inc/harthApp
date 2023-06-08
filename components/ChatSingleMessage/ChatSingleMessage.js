@@ -54,24 +54,6 @@ const ChatSingleMessage = (props) => {
 
   let timeout;
 
-  const handleTouchStart = (event) => {
-    event.stopPropagation();
-    timeout = setTimeout(() => {
-      setIsLongPressing(true);
-    }, 300);
-  };
-
-  const handleTouchEnd = () => {
-    setIsLongPressing(false);
-    clearTimeout(timeout);
-  };
-
-  useEffect(() => {
-    if (isLongPressing) {
-      console.log("do itttttttttttttttttttttttttttt");
-    }
-  }, [isLongPressing]);
-
   let {
     _id,
     date,
@@ -180,6 +162,18 @@ const ChatSingleMessage = (props) => {
       setUrls([]);
     };
   }, [_id]);
+
+  const handleTouchStart = (event) => {
+    event.stopPropagation();
+    timeout = setTimeout(() => {
+      setIsLongPressing(true);
+    }, 300);
+  };
+
+  const handleTouchEnd = () => {
+    setIsLongPressing(false);
+    clearTimeout(timeout);
+  };
 
   // chat specific
   const deleteMsg = async () => {
@@ -460,9 +454,9 @@ const ChatSingleMessage = (props) => {
                 <div className={styles.BodyReactionsEmojiDataGroup}>
                   <ul>
                     {[...(reactionsData || [])].map((data) => {
-                      const { reaction, name, iconKey, userId } = data;
+                      const { reaction, name, id } = data;
                       return (
-                        <li>
+                        <li key={id}>
                           <span>{reaction}</span>
                           <span>{name}</span>
                         </li>
@@ -472,7 +466,7 @@ const ChatSingleMessage = (props) => {
                 </div>
               ) : null}
               {[...(reactionsData || [])].map((data, index) => {
-                const { reaction, name, iconKey, userId } = data;
+                const { reaction, userId, id } = data;
                 let isReactionOwner = false;
                 if (userId == user._id) {
                   isReactionOwner = true;
@@ -536,9 +530,9 @@ const ChatSingleMessage = (props) => {
                                                 : null
                                             }
                                         `}
-                    key={index}
+                    key={id}
                   >
-                    {hoveredEmojiData && hoveredEmojiData?.index == index ? (
+                    {hoveredEmojiData && hoveredEmojiData?.id == id ? (
                       <span className={styles.BodyReactionsEmojiData}>
                         <span>{hoveredEmojiData?.reaction}</span>{" "}
                         {hoveredEmojiData?.name}
