@@ -169,6 +169,7 @@
         }
 
         &Reactions {
+            position: relative;
             display: flex;
             align-items: center;
             margin-left: 16px;
@@ -179,6 +180,7 @@
             }
 
             &Emoji {
+                position: relative;
                 font-size: 28px;
                 line-height: 28px;
                 background-color: $white;
@@ -198,6 +200,18 @@
                     0 1px 1px hsl(326deg 58% 64% / 0.20),
                     0 2px 2px hsl(326deg 58% 64% / 0.20),
                     0 4px 4px hsl(326deg 58% 64% / 0.20);
+                }
+                &Data {
+                    position: absolute;
+                    top: -87%;
+                    background: black;
+                    color: white; 
+                    &Group {
+                        position: absolute;
+                        top: -87%;
+                        background: black;
+                        color: white; 
+                    }
                 }
 
                 &Desktop {
