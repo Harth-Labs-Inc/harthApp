@@ -21,6 +21,7 @@ import styles from "./ChatSingleMessage.module.scss";
 import { LinkPreview } from "./LinkPreview";
 import OutsideClickHandler from "components/Common/Modals/OutsideClick";
 import { IconAddReactionNoFill } from "resources/icons/IconAddReactionNoFill";
+import { generateID } from "services/helper";
 
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -48,18 +49,20 @@ const ChatSingleMessage = (props) => {
   const [showEditBar, setShowEditBar] = useState("");
   const [ratio, setRatio] = useState(16 / 9);
   const { isMobile } = useContext(MobileContext);
-  // const [groupedReactions, setGroupedReactions] = useState({});
+  const [hoveredEmojiData, setHoveredEmojiData] = useState(null);
+  const [isLongPressing, setIsLongPressing] = useState(false);
 
-  const {
+  let timeout;
+
+  let {
     _id,
     date,
     creator_image,
     creator_id,
     creator_name,
-    // creator_type,
     message,
     attachments = [],
-    reactions = [],
+    reactionsData = [],
   } = props.msg;
   const {
     editMessageText,
@@ -73,7 +76,7 @@ const ChatSingleMessage = (props) => {
 
   const { user } = useAuth();
   const { emitUpdate } = useSocket();
-  const { selectedcomm, selectedTopic } = useComms();
+  const { selectedcomm, selectedTopic, profile } = useComms();
 
   const formatMessage = (text) => {
     if (typeof text !== "string") {
@@ -159,6 +162,18 @@ const ChatSingleMessage = (props) => {
       setUrls([]);
     };
   }, [_id]);
+
+  const handleTouchStart = (event) => {
+    event.stopPropagation();
+    timeout = setTimeout(() => {
+      setIsLongPressing(true);
+    }, 300);
+  };
+
+  const handleTouchEnd = () => {
+    setIsLongPressing(false);
+    clearTimeout(timeout);
+  };
 
   // chat specific
   const deleteMsg = async () => {
@@ -264,7 +279,16 @@ const ChatSingleMessage = (props) => {
     setEmojiPicker(!emojiPickerState);
   };
   const addEmoji = (e) => {
-    reactions.push(e.native);
+    if (!props.msg.reactionsData) {
+      props.msg.reactionsData = [];
+    }
+    props.msg.reactionsData.push({
+      id: generateID(),
+      reaction: e.native,
+      name: profile?.name,
+      iconKey: profile?.iconKey,
+      userId: profile.userId,
+    });
     setEmojiPicker(!emojiPickerState);
     if (chatType == "gather") {
       updateConversation();
@@ -304,6 +328,38 @@ const ChatSingleMessage = (props) => {
       );
     }
     return null;
+  };
+  const ExistingReactionClickHandler = (data, isReactionOwner, e) => {
+    e.stopPropagation();
+    if (!isReactionOwner) {
+      props.msg.reactionsData.push({
+        id: generateID(),
+        reaction: data.reaction,
+        name: profile?.name,
+        iconKey: profile?.iconKey,
+        userId: profile.userId,
+      });
+    } else {
+      let index = -1;
+      for (let i = 0; i < props.msg.reactionsData.length; i++) {
+        if (props.msg.reactionsData[i].id === data.id) {
+          index = i;
+          break;
+        }
+      }
+      if (index !== -1) {
+        props.msg.reactionsData.splice(index, 1);
+      }
+    }
+    updateMsg();
+  };
+  const displayEmojiData = (data, e) => {
+    e.stopPropagation();
+    setHoveredEmojiData(data);
+  };
+  const removeEmojiData = (e) => {
+    e.stopPropagation();
+    setHoveredEmojiData(null);
   };
 
   let timeStamp = getTimeStamp();
@@ -392,21 +448,96 @@ const ChatSingleMessage = (props) => {
               <LinkPreview message={message} messageID={messageID} />
             </div>
           </div>
-          {reactions && reactions.length > 0 && (
+          {reactionsData && reactionsData.length > 0 ? (
             <div className={styles.BodyReactions}>
-              {[...(reactions || [])].map((reaction, index) => {
+              {isLongPressing ? (
+                <div className={styles.BodyReactionsEmojiDataGroup}>
+                  <ul>
+                    {[...(reactionsData || [])].map((data) => {
+                      const { reaction, name, id } = data;
+                      return (
+                        <li key={id}>
+                          <span>{reaction}</span>
+                          <span>{name}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : null}
+              {[...(reactionsData || [])].map((data, index) => {
+                const { reaction, userId, id } = data;
+                let isReactionOwner = false;
+                if (userId == user._id) {
+                  isReactionOwner = true;
+                }
+
+                if (isMobile) {
+                  return (
+                    <button
+                      onTouchStart={handleTouchStart}
+                      onTouchEnd={handleTouchEnd}
+                      onClick={(e) =>
+                        ExistingReactionClickHandler(data, isReactionOwner, e)
+                      }
+                      className={` 
+                                              ${styles.BodyReactionsEmoji}
+                                              ${
+                                                isMobile
+                                                  ? styles.BodyReactionsEmojiMobile
+                                                  : styles.BodyReactionsEmojiDesktop
+                                              } 
+                                              ${
+                                                isReactionOwner
+                                                  ? styles.BodyReactionsEmojiOwner
+                                                  : null
+                                              }
+                                          `}
+                      key={index}
+                    >
+                      {hoveredEmojiData && hoveredEmojiData?.index == index ? (
+                        <span className={styles.BodyReactionsEmojiData}>
+                          <span>{hoveredEmojiData?.reaction}</span>
+                          {hoveredEmojiData?.name}
+                        </span>
+                      ) : null}
+                      {reaction}
+                    </button>
+                  );
+                }
                 return (
                   <button
+                    onMouseEnter={(e) =>
+                      displayEmojiData({ ...data, index }, e)
+                    }
+                    onMouseLeave={(e) => {
+                      handleTouchEnd(e);
+                      removeEmojiData(e);
+                    }}
+                    onClick={(e) =>
+                      ExistingReactionClickHandler(data, isReactionOwner, e)
+                    }
                     className={` 
                                             ${styles.BodyReactionsEmoji}
                                             ${
                                               isMobile
                                                 ? styles.BodyReactionsEmojiMobile
                                                 : styles.BodyReactionsEmojiDesktop
+                                            } 
+                                            ${
+                                              isReactionOwner
+                                                ? styles.BodyReactionsEmojiOwner
+                                                : null
                                             }
                                         `}
-                    key={index}
+                    key={id}
                   >
+                    {hoveredEmojiData && hoveredEmojiData?.id == id ? (
+                      <span className={styles.BodyReactionsEmojiData}>
+                        <span>{hoveredEmojiData?.reaction}</span>{" "}
+                        {hoveredEmojiData?.name}
+                      </span>
+                    ) : null}
                     {reaction}
                   </button>
                 );
@@ -426,7 +557,7 @@ const ChatSingleMessage = (props) => {
                 <IconAddReactionNoFill />
               </button>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

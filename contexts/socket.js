@@ -58,22 +58,6 @@ export const SocketProvider = ({ children }) => {
                     transports: ["websocket"],
                   })
                 );
-                // if (selectedTopicRef?.current?._id) {
-                //   (async () => {
-                //     let data = await getMessagesByTopic(
-                //       selectedTopicRef.current._id
-                //     );
-                //     const { ok, fetchResults } = data;
-                //     if (ok) {
-                //       setMessages({
-                //         ...messages,
-                //         [selectedTopicRef.current._id]: fetchResults
-                //           .sort((a, b) => new Date(a.date) - new Date(b.date))
-                //           .reverse(),
-                //       });
-                //     }
-                //   })();
-                // }
               }
             } else {
               socketRef.current?.emit("ping", (response) => {
@@ -85,24 +69,6 @@ export const SocketProvider = ({ children }) => {
                         transports: ["websocket"],
                       })
                     );
-                    // if (selectedTopicRef?.current?._id) {
-                    //   (async () => {
-                    //     let data = await getMessagesByTopic(
-                    //       selectedTopicRef.current._id
-                    //     );
-                    //     const { ok, fetchResults } = data;
-                    //     if (ok) {
-                    //       setMessages({
-                    //         ...messages,
-                    //         [selectedTopicRef.current._id]: fetchResults
-                    //           .sort(
-                    //             (a, b) => new Date(a.date) - new Date(b.date)
-                    //           )
-                    //           .reverse(),
-                    //       });
-                    //     }
-                    //   })();
-                    // }
                   }
                 }
               });
@@ -116,8 +82,6 @@ export const SocketProvider = ({ children }) => {
             navigator.serviceWorker.controller
           ) {
             navigator.serviceWorker.controller.postMessage("ping");
-          } else {
-            console.error("Service worker is not available.");
           }
         }, 5000);
       }
@@ -132,22 +96,6 @@ export const SocketProvider = ({ children }) => {
                   transports: ["websocket"],
                 })
               );
-              // if (selectedTopicRef?.current?._id) {
-              //   (async () => {
-              //     let data = await getMessagesByTopic(
-              //       selectedTopicRef.current._id
-              //     );
-              //     const { ok, fetchResults } = data;
-              //     if (ok) {
-              //       setMessages({
-              //         ...messages,
-              //         [selectedTopicRef.current._id]: fetchResults
-              //           .sort((a, b) => new Date(a.date) - new Date(b.date))
-              //           .reverse(),
-              //       });
-              //     }
-              //   })();
-              // }
             }
           } else {
             socketRef.current?.emit("ping", (response) => {
@@ -159,29 +107,12 @@ export const SocketProvider = ({ children }) => {
                       transports: ["websocket"],
                     })
                   );
-                  // if (selectedTopicRef?.current?._id) {
-                  //   (async () => {
-                  //     let data = await getMessagesByTopic(
-                  //       selectedTopicRef.current._id
-                  //     );
-                  //     const { ok, fetchResults } = data;
-                  //     if (ok) {
-                  //       setMessages({
-                  //         ...messages,
-                  //         [selectedTopicRef.current._id]: fetchResults
-                  //           .sort((a, b) => new Date(a.date) - new Date(b.date))
-                  //           .reverse(),
-                  //       });
-                  //     }
-                  //   })();
-                  // }
                 }
               }
             });
           }
         }
       });
-      // setting starting socket connection when a valid user if found
       const URLS = socketUrls;
       setSocket(
         io.connect(URLS[process.env.NODE_ENV], {

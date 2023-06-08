@@ -169,6 +169,8 @@ const MessageWrapper = () => {
             }
             if (tempMsgs[index]) {
               tempMsgs[index].reactions = incomingMsgUpdate.reactions;
+              tempMsgs[index].reactionsData = incomingMsgUpdate.reactionsData;
+
               tempMsgs[index].flames = incomingMsgUpdate.flames;
               tempMsgs[index].message = incomingMsgUpdate.message;
             }
