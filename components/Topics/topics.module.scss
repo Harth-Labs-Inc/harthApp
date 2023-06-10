@@ -9,7 +9,7 @@
     height: fit-content;
     width: fit-content;
     width: 100%;
-    padding: 4px 2px;
+    //padding: 4px 2px;
     border: 0;
     border-radius: 8px;
     background-color: transparent;
@@ -17,12 +17,28 @@
     cursor: pointer;
 
     .emojiHolder {
-        padding-right: 4px;
-        width: fit-content;
-        height: fit-content;
-        border-right: 1px solid $silver-med;
-        line-height: 100%;
+        position: relative;
+        //display: flex;
+        //justify-content: center;
+        padding-right: 6px;
+        //width: 36px;
+        //background-color: turquoise;
+        //border-right: 1px solid $silver-med;
         font-size: 26px;
+        opacity: .7;
+        @include emoji;
+
+        &::after {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translate(0, -50%);
+            content: "";
+            height: 28px;
+            width: 1px;
+            background-color: $silver-med;
+
+        }
     }
 
     .label {
@@ -32,13 +48,13 @@
         align-items: center;
         justify-content: flex-start;
         width: fit-content;
-        color: $fuel;
+        color: #666677;
+        //background-color: turquoise;
         @include topicTitle;
-        padding: 4px 28px 5px 8px;
+        padding: 2px 28px 3px 8px;
         gap: 8px;
         user-select: none;
         width: 100%;
-
         span {
             padding: 4px 0px;
         }
@@ -49,8 +65,8 @@
         flex-direction: row;
         gap: 2px;
         flex-wrap: wrap;
-        padding: 0px 8px 4px 56px;
-        margin-top: -4px;
+        padding: 0px 8px 4px 58px;
+        margin-top: -8px;
         //margin-left: 38px;
         z-index: 1;
         //background-color: aqua;
@@ -104,25 +120,23 @@
             }
 
         }
-        
+
         &:hover {
-            background-color: $silver-xlight;
+            //background-color: $silver-xlight;
+            .emojiHolder {
+                opacity: 1;
+                
+                &::after {
+                    background-color: $silver-dark;
+                }
+            }
+            .label {
+                color: $fuel;
+            }
 
             .moreMenu {
                 visibility: visible;
             }
-
-        }
-    }
-
-    &Active {
-        background-color: $silver-light;
-
-        .label {
-            font-weight: 800;
-        }
-        &:hover {
-            background-color: $silver-light;
 
         }
     }
@@ -141,16 +155,15 @@
         }
         .emojiHolder {
             padding-right: 12px;
-            width: fit-content;
-            height: fit-content;
-            border-right: 1px solid $silver-med;
-            line-height: 100%;
             font-size: 36px;
+            &::after {
+                height: 36px;
+            }
 
         }
         .label {
             @include topicTitleMobile;
-            padding: 8px 8px 8px 12px;
+            padding: 6px 6px 6px 12px;
             gap: 16px;
             span {
                 padding: 10px 0px;
@@ -159,16 +172,43 @@
 
         &:active {
             background-color: $silver-light;
-            // .label {
-            //     color: $white;
-            // }
+
+        }
+    }
+
+    &Active {
+        background-color: $silver-light;
+        .emojiHolder {
+            opacity: 1;
+            &::after {
+                background-color: $silver-dark;
+            }
+        }
+        .label {
+            color: $fuel;
+            font-weight: 800;
+        }
+        &:hover {
+            background-color: $silver-light;
+            .label {
+                font-weight: 800;
+            }
         }
     }
 
     &Alert {
+        .emojiHolder {
+            opacity: 1;
+            
+            &::after {
+                background-color: $silver-dark;
+            }
+        }
         .label {
             //@include topicTitleActive;
+            opacity: 1;
             font-weight: 800;
+            color: $fuel;
         }
     }
 }

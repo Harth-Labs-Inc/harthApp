@@ -202,9 +202,12 @@
                     0 4px 4px hsl(326deg 58% 64% / 0.20);
                 }
                 &Data {
+                    display: flex;
+                    flex-direction: row;
                     position: absolute;
-                    top: -87%;
-                    background: black;
+                    top: -95%;
+                    background: $ash;
+                    border-radius: 12px;
                     color: white; 
                     &Group {
                         position: absolute;
@@ -216,13 +219,13 @@
 
                 &Desktop {
                     &:hover {
-                        scale: 1.2;
+                        scale: 1.1;
                     }
                 }
 
                 &Mobile {
                     &:active {
-                        scale: 1.2;
+                        scale: 1.1;
                     }
                 } 
             }
