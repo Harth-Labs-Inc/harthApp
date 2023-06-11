@@ -795,7 +795,9 @@ const Party = () => {
         ...obj,
       };
       sendNewChatMessage(newMsg);
-      setIsFinishedInitialSetup(true);
+      setTimeout(() => {
+        setIsFinishedInitialSetup(true);
+      }, 2500);
     }
   };
   const connectAudioToUsers = async () => {

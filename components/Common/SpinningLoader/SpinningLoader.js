@@ -7,16 +7,16 @@ export const SpinningLoader = () => {
   const { query } = router;
 
   const Spinner = () => {
-    return <div className={styles.spinner} />;
+    return <div className={styles.loader} />;
   };
 
   if (query.gather_window) {
     return (
       <div className={`${styles.Maincontainer} ${styles.MaincontainerDark}`}>
         <div className={`${styles.content}`}>
-          <img height={70} width={70} src={query.harth_icon || ""} />
-          <p style={{ color: "white" }}>{query?.room_name}</p>
+          {/* <img height={70} width={70} src={query.harth_icon || ""} /> */}
           <Spinner />
+          <p style={{ color: "white" }}>{query?.room_name}</p>
         </div>
       </div>
     );

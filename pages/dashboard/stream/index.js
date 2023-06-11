@@ -6,7 +6,7 @@ import { generateID } from "services/helper";
 import { useComms } from "contexts/comms";
 import { useAuth } from "contexts/auth";
 import { MobileContext } from "contexts/mobile";
-
+import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
@@ -48,6 +48,7 @@ const Stream = () => {
     // const [diceAlerts, setDiceAlerts] = useState([]);
     const [playingStreams, setPlayingStreams] = useState({});
     const [userID, setUserID] = useState("");
+    const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
 
     const ownerData = useRef({});
     const PEERS = useRef([]);
@@ -726,6 +727,7 @@ const Stream = () => {
                 ...obj,
             };
             sendNewChatMessage(newMsg);
+            setIsFinishedInitialSetup(true);
         }
     };
     const connectAudioToUsers = async () => {
@@ -1449,6 +1451,7 @@ const Stream = () => {
 
     return (
         <>
+        {isFinishedInitialSetup ? <SpinningLoader /> : null}
             <main className={styles.streamWindow}>
                 <GatherHeader
                     gatheringName={activeCallRoom?.roomName}

@@ -12,6 +12,7 @@ import { useAuth } from "../../../contexts/auth";
 import { getHarthByID } from "../../../requests/community";
 import styles from "./Voice.module.scss";
 import { envUrls, videoSocketUrls } from "../../../constants/urls";
+import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 import {
   compressImage,
   getUploadURL,
@@ -42,6 +43,7 @@ const Stream = () => {
   const [showChatPannel, setShowChatPannel] = useState(isMobile ? false : true);
   const [wakeLockActive, setWakeLockActive] = useState(false);
   const [userID, setUserID] = useState("");
+  const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -712,6 +714,7 @@ const Stream = () => {
         ...obj,
       };
       sendNewChatMessage(newMsg);
+      setIsFinishedInitialSetup(true);
     }
   };
   const connectAudioToUsers = async () => {
@@ -1358,6 +1361,7 @@ const Stream = () => {
 
   return (
     <>
+    {isFinishedInitialSetup ? <SpinningLoader /> : null}
       <main className={styles.VoiceWindow}>
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}
