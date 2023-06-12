@@ -76,7 +76,7 @@ const Party = () => {
 
   useEffect(() => {
     setTimeout(() => {
-         //setHasMinLoadTime(true);
+         setHasMinLoadTime(true);
        }, 2500);
   }, []);
 
@@ -1472,7 +1472,7 @@ const Party = () => {
 
   return (
     <>
-      {(hasMinLoadTime && isFinishedInitialSetup) ? null : <SpinningLoader />}
+      {(hasMinLoadTime && isFinishedInitialSetup) ? null : <SpinningLoader isDark={true} />}
       <main id="PartyWindow" className={styles.PartyWindow}>
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}
