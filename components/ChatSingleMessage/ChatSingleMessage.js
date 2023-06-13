@@ -457,7 +457,7 @@ const ChatSingleMessage = (props) => {
                       const { reaction, name, id } = data;
                       return (
                         <li key={id}>
-                          <span>{reaction}</span>
+                          <span className={styles.emoji}>{reaction}</span>
                           <span>{name}</span>
                         </li>
                       );
@@ -497,7 +497,7 @@ const ChatSingleMessage = (props) => {
                     >
                       {hoveredEmojiData && hoveredEmojiData?.index == index ? (
                         <span className={styles.BodyReactionsEmojiData}>
-                          <span>{hoveredEmojiData?.reaction}</span>
+                          <span className={styles.emoji}>{hoveredEmojiData?.reaction}</span>
                           {hoveredEmojiData?.name}
                         </span>
                       ) : null}
@@ -534,7 +534,7 @@ const ChatSingleMessage = (props) => {
                   >
                     {hoveredEmojiData && hoveredEmojiData?.id == id ? (
                       <span className={styles.BodyReactionsEmojiData}>
-                        <span>{hoveredEmojiData?.reaction}</span>{" "}
+                        <span className={styles.emoji}>{hoveredEmojiData?.reaction}</span>{" "}
                         {hoveredEmojiData?.name}
                       </span>
                     ) : null}
