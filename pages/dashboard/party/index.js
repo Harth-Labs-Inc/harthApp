@@ -19,7 +19,6 @@ import { useAuth } from "contexts/auth";
 import { getHarthByID } from "requests/community";
 import { compressImage, getUploadURL, putImageInBucket } from "requests/s3";
 import { SpinningLoader } from "../../../components/Common/SpinningLoader/SpinningLoader";
-import { set } from "js-cookie";
 
 /* eslint-disable */
 
@@ -45,7 +44,6 @@ const Party = () => {
   const [diceAlerts, setDiceAlerts] = useState([]);
   const [userID, setUserID] = useState("");
   const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
-  const [hasMinLoadTime, setHasMinLoadTime] = useState(false);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -73,12 +71,6 @@ const Party = () => {
       resize(container);
     }
   }, [width, showChatPannel, chats, screenShareActive, isActiveScreenShare]);
-
-  useEffect(() => {
-    setTimeout(() => {
-         setHasMinLoadTime(true);
-       }, 2500);
-  }, []);
 
   useEffect(() => {
     if (!loading && user) {
@@ -1472,7 +1464,7 @@ const Party = () => {
 
   return (
     <>
-      {(hasMinLoadTime && isFinishedInitialSetup) ? null : <SpinningLoader isDark={true} />}
+      {!isFinishedInitialSetup ? <SpinningLoader /> : null}
       <main id="PartyWindow" className={styles.PartyWindow}>
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}

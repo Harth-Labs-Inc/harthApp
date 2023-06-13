@@ -49,7 +49,6 @@ const Stream = () => {
     const [playingStreams, setPlayingStreams] = useState({});
     const [userID, setUserID] = useState("");
     const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
-    const [hasMinLoadTime, setHasMinLoadTime] = useState(false);
 
     const ownerData = useRef({});
     const PEERS = useRef([]);
@@ -67,12 +66,6 @@ const Stream = () => {
 
     const { user, loading } = useAuth();
     const { comms } = useComms();
-
-    useEffect(() => {
-        setTimeout(() => {
-             setHasMinLoadTime(true);
-           }, 2500);
-      }, []);
 
     useEffect(() => {
         if (!loading && user) {
@@ -1458,7 +1451,7 @@ const Stream = () => {
 
     return (
         <>
-        {(hasMinLoadTime && isFinishedInitialSetup) ? null : <SpinningLoader isDark={true} />}
+        {!isFinishedInitialSetup ? <SpinningLoader /> : null}
             <main className={styles.streamWindow}>
                 <GatherHeader
                     gatheringName={activeCallRoom?.roomName}

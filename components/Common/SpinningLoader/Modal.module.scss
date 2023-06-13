@@ -31,6 +31,8 @@
       width: 56px;
       //height: 56px;
       opacity: 0.8;
+      margin-top: 24px;
+      transform: scaleX(-1);
     }
 
     p {
@@ -44,11 +46,6 @@
       width: 96px;
     }
 }
-.loadingDots {
-  background-color: transparent;
-  width: 56px;
-  margin-top: 24px;
-  transform: scaleX(-1);
-}
+
 
 

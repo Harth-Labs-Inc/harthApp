@@ -50,7 +50,6 @@ const dashboard = () => {
   const [inviteTKN, setInviteTKN] = useState(false);
 
   const { user, loading } = useAuth();
-  const [hasMinLoadTime, setHasMinLoadTime] = useState(false);
   const router = useRouter();
   const {
     query: { tkn, gather_window, room_type },
@@ -59,12 +58,6 @@ const dashboard = () => {
   const [currentPage, setCurrentPage] = useState(
     gather_window ? room_type : null
   );
-
-  useEffect(() => {
-    setTimeout(() => {
-         setHasMinLoadTime(true);
-       }, 2000);
-  }, []);
 
   useEffect(() => {
     const queryString = window.location.search;
@@ -186,7 +179,7 @@ const dashboard = () => {
     }
   };
 
-  if (user && currentPage && hasMinLoadTime) {
+  if (user && currentPage) {
     let page;
     switch (currentPage) {
       case "chat":
@@ -325,7 +318,7 @@ const dashboard = () => {
       );
     }
   }
-  return <SpinningLoader isDark={false}/>;
+  return <SpinningLoader />;
 };
 
 export default dashboard;

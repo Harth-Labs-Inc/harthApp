@@ -44,7 +44,6 @@ const Stream = () => {
   const [wakeLockActive, setWakeLockActive] = useState(false);
   const [userID, setUserID] = useState("");
   const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
-  const [hasMinLoadTime, setHasMinLoadTime] = useState(false);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -62,12 +61,6 @@ const Stream = () => {
 
   const { user, loading } = useAuth();
   const { comms } = useComms();
-
-  useEffect(() => {
-    setTimeout(() => {
-         setHasMinLoadTime(true);
-       }, 2500);
-  }, []);
   
   useEffect(() => {
     const { wakeLock } = navigator;
@@ -1368,7 +1361,7 @@ const Stream = () => {
 
   return (
     <>
-    {(hasMinLoadTime && isFinishedInitialSetup) ? null : <SpinningLoader isDark={true} />}
+    {!isFinishedInitialSetup ? <SpinningLoader /> : null}
       <main className={styles.VoiceWindow}>
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}
