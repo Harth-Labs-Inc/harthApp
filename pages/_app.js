@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
@@ -102,45 +101,6 @@ fontClassNames.push(opensans.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  //reset call
-  //   if (typeof navigator !== "undefined") {
-  //     if (navigator && "serviceWorker" in navigator) {
-  //       navigator.serviceWorker.ready
-  //         .then((registration) => {
-  //           registration.unregister();
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error unregistering service worker:", error);
-  //         });
-  //     } else {
-  //       console.error("Service worker is not available.");
-  //     }
-  //   }
-
-  useEffect(() => {
-    function registerSW() {
-      if (typeof navigator !== "undefined") {
-        try {
-          navigator?.serviceWorker.register("/sw.js").then(
-            () => {
-              console.log();
-            },
-            () => {
-              console.error();
-            }
-          );
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    }
-    if (document.readyState === "complete") {
-      registerSW();
-    } else {
-      window.addEventListener("load", registerSW);
-      return () => window.removeEventListener("load", registerSW);
-    }
-  }, []);
   return (
     <main className={`${fontClassNames.join(" ")}`}>
       <ResponsiveProvider>

@@ -25,6 +25,7 @@ import { addKeyToDB } from "../../requests/chat";
 
 import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
+import { sendPushToSubscribers } from "requests/subscriptions";
 
 const ChatInput = (props) => {
   const [attachments, setAttachments] = useState([]);
@@ -202,7 +203,7 @@ const ChatInput = (props) => {
         };
 
         const data = await saveMessage(newMessage);
-
+        sendPushToSubscribers(newMessage);
         let { id, ok } = data;
         if (ok) {
           if (id) {
