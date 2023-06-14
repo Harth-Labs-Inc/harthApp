@@ -1,6 +1,6 @@
 import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
-
+import webpush from "web-push";
 /* eslint-disable */
 
 export default async (req, res) => {
@@ -10,44 +10,35 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  const getMsgs = (db, id) => {
+
+  const getHarth = (db, id) => {
     return new Promise((resolve, reject) => {
-      db.collection("conversation_messages")
-        .find({ conversation_id: id })
+      let mongo = require("mongodb");
+      let o_id = new mongo.ObjectId(id);
+      db.collection("communities")
+        .find({ _id: o_id })
+        .toArray(function (err, results) {
+          if (err) {
+            resolve(false);
+          }
+          if (results[0]) {
+            resolve(results[0]);
+          } else {
+            resolve(false);
+          }
+        });
+    });
+  };
+  const getSubscriptions = (db, ids) => {
+    return new Promise((resolve, reject) => {
+      db.collection("subscriptions")
+        .find({ userId: { $in: ids } })
         .toArray(function (err, results) {
           if (err) {
             resolve(false);
           }
           resolve(results);
         });
-    });
-  };
-  const decrypt = (data) => {
-    return new Promise((resolve) => {
-      const { encryptedMessage } = data;
-      if (encryptedMessage) {
-        const crypto = require("crypto");
-        const algorithm = "aes-256-cbc";
-        const encryptionKey = Buffer.from(
-          process.env.MESSAGE_ENCRYPTION_KEY,
-          "hex"
-        );
-        const key = crypto.scryptSync(encryptionKey, "salt", 32);
-        const iv = Buffer.alloc(16, 0);
-        const decipher = crypto.createDecipheriv(algorithm, key, iv);
-        let decrypted = decipher.update(encryptedMessage, "hex", "utf8");
-        decrypted += decipher.final("utf8");
-        data.message = decrypted;
-      }
-      resolve(data);
-    });
-  };
-
-  const decryptMessages = (msgs) => {
-    return new Promise(async (resolve) => {
-      const decryptionPromises = msgs.map((message) => decrypt(message));
-      const decryptedMessages = await Promise.all(decryptionPromises);
-      resolve(decryptedMessages);
     });
   };
 
@@ -98,14 +89,44 @@ export default async (req, res) => {
   }
   // passed authentication ------------------------------------------
 
-  let fetchResults = await getMsgs(db, obj.id._id);
-  if (!fetchResults) {
+  let fetchedHarth = await getHarth(db, obj.data.comm_id);
+  if (!fetchedHarth) {
     return res.json({ msg: "Something Went Wrong", ok: 0 });
   }
-  let decryptedMessages = await decryptMessages(fetchResults);
-  return res.json({
-    msg: "successful",
-    ok: 1,
-    fetchResults: decryptedMessages,
+
+  const { users } = fetchedHarth;
+  if (!users || !users.length) {
+    return res.json({ msg: "Something Went Wrong", ok: 0 });
+  }
+
+  let ids = users.map((user) => user.userId);
+  if (!ids || !ids.length) {
+    return res.json({ msg: "Something Went Wrong", ok: 0 });
+  }
+
+  const subscriptions = await getSubscriptions(db, ids);
+  if (!subscriptions || !subscriptions.length) {
+    return res.json({ msg: "Something Went Wrong", ok: 0 });
+  }
+  webpush.setVapidDetails(
+    "mailto:phil@harthsocial.com",
+    "BLmVZKPUxgCfITiXnsBehXwxHGXXOhDoTSBsQYgEu21Gn6kTicS0viMLkjpyAiP5ewX9xS-jQ3GreXB3-eO0tMA",
+    "Vwf1mmSKmiAsG6rGqVGWttghTQzRMyzAsHoNkvw4G_g"
+  );
+  subscriptions.forEach(async ({ sub, userId }) => {
+    let pushConfig = {
+      endpoint: sub.endpoint,
+      keys: sub.keys,
+    };
+    webpush.sendNotification(
+      pushConfig,
+      JSON.stringify({
+        title: `New message from ${obj.data.creator_name}`,
+        content: `${obj.data.message}`,
+        openUrl: "/",
+      })
+    );
   });
+
+  return res.json({ ok: 1, msg: "success" });
 };

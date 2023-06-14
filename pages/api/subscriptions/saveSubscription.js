@@ -10,37 +10,17 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  const encryptMessages = (data) => {
-    return new Promise((resolve) => {
-      const { message } = data;
-      if (message) {
-        const crypto = require("crypto");
-        const algorithm = "aes-256-cbc";
-        const encryptionKey = Buffer.from(
-          process.env.MESSAGE_ENCRYPTION_KEY,
-          "hex"
-        );
-        const key = crypto.scryptSync(encryptionKey, "salt", 32);
-        const iv = Buffer.alloc(16, 0);
-        const cipher = crypto.createCipheriv(algorithm, key, iv);
-        let encrypted = cipher.update(message, "utf8", "hex");
-        encrypted += cipher.final("hex");
-        delete data.message;
-        data.encryptedMessage = encrypted;
-        resolve(data);
-      }
-      resolve(data);
-    });
-  };
 
-  const createMessage = (db, data) => {
+  const saveSubscription = (db, data) => {
     return new Promise((resolve, reject) => {
-      db.collection("conversation_messages").insertOne(
-        data,
-        function (err, msgCreated) {
+      db.collection("subscriptions").updateOne(
+        { userId: data.userId },
+        { $set: { ...data } },
+        { upsert: true },
+        function (err, roomCreated) {
           if (err) {
           }
-          resolve(msgCreated);
+          resolve(roomCreated);
         }
       );
     });
@@ -92,13 +72,11 @@ export default async (req, res) => {
     return res.json({ msg: "expired token", ok: 0, lockDown: true });
   }
   // passed authentication ------------------------------------------
-  let encryptedMessages = await encryptMessages(obj.msg);
-  let insertResult = await createMessage(db, encryptedMessages);
+
+  let insertResult = await saveSubscription(db, obj.data);
   if (!insertResult) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
-  if (!insertResult.insertedId) {
-    return res.json({ ok: 0, msg: "something went wrong" });
-  }
+
   return res.json({ ok: 1, msg: "success", id: insertResult.insertedId });
 };

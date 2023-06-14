@@ -118,7 +118,8 @@
         align-items: center;
     }
     &Mobile {
-        //background-color: $light_ash;
+        position: fixed;
+        top: 0;
         border-top: 1px solid transparent;
         height: 52px;
         min-height: 52px;
