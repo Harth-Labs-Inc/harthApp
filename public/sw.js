@@ -13,6 +13,25 @@ self.addEventListener("message", function (event) {
     event.source.postMessage("pong");
   }
 });
+self.addEventListener("push", function (event) {
+  var data = {
+    title: "New!",
+    content: "Something new happened!",
+    openUrl: "/",
+  };
+
+  if (event.data) {
+    data = JSON.parse(event.data.text());
+  }
+  var options = {
+    body: data.content,
+    data: {
+      url: data.openUrl,
+    },
+  };
+
+  event.waitUntil(self.registration.showNotification(data.title, options));
+});
 
 const { NetworkOnly } = workbox.strategies;
 

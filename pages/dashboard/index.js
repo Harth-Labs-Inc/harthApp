@@ -8,6 +8,8 @@ import { VideoProvider } from "../../contexts/video";
 import { CommsProvider } from "../../contexts/comms";
 import { SocketProvider } from "../../contexts/socket";
 import { useAuth } from "../../contexts/auth";
+import { urlBase64ToUint8Array } from "services/helper";
+import { saveUserSubscription } from "../../requests/subscriptions";
 
 /* eslint-disable */
 
@@ -138,6 +140,47 @@ const dashboard = () => {
       setInviteTKN(null);
     };
   }, [loading]);
+
+  useEffect(() => {
+    if (user?._id) {
+      async function registerSW() {
+        if (
+          typeof navigator == "undefined" ||
+          !("serviceWorker" in navigator)
+        ) {
+          return;
+        }
+
+        try {
+          const swReg = await navigator?.serviceWorker.register("/sw.js");
+          const sub = await swReg.pushManager.getSubscription();
+          if (sub === null) {
+            const vapidPublicKey =
+              "BLmVZKPUxgCfITiXnsBehXwxHGXXOhDoTSBsQYgEu21Gn6kTicS0viMLkjpyAiP5ewX9xS-jQ3GreXB3-eO0tMA";
+            const convertedVapidPublicKey =
+              urlBase64ToUint8Array(vapidPublicKey);
+            const newSub = await swReg.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: convertedVapidPublicKey,
+            });
+            saveUserSubscription({
+              sub: newSub,
+              userId: user._id,
+            });
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      if (document.readyState === "complete") {
+        registerSW();
+      } else {
+        window.addEventListener("load", registerSW);
+        return () => window.removeEventListener("load", registerSW);
+      }
+    }
+  }, [user]);
 
   const changePageHandler = (pg) => {
     if (["gather", "chat", "message"].includes(pg)) {
