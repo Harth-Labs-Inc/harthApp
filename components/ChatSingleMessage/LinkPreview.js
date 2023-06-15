@@ -132,7 +132,7 @@ export const LinkPreview = ({ message }) => {
             linkPreview.imageSecureUrl ||
             linkPreview.favicon)
     ) {
-        if (getHostName(rawURL) === "amazon") {
+        if (getHostName(alteredURL) === "amazon") {
             return (      
             <>
             <br />
@@ -174,7 +174,7 @@ export const LinkPreview = ({ message }) => {
                             )}
                         </div>
                         <a
-                            href={rawURL}
+                            href={alteredURL}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{ textDecoration: "none" }}
