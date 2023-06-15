@@ -16,6 +16,7 @@ const IndexPage = () => {
           setSwReg(registration);
         })
         .catch((err) => {
+          console.log(err);
           setSwReg({});
         });
     }
