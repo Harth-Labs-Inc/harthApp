@@ -1,25 +1,29 @@
 import Head from "next/head";
 import { useAuth } from "../contexts/auth";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 
 const IndexPage = () => {
+  const [swReg, setSwReg] = useState(null);
   const { user, loading } = useAuth();
 
   useEffect(() => {
+    if (navigator && "serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((registration) => {
+          setSwReg(registration);
+        })
+        .catch((err) => {
+          setSwReg({});
+        });
+    }
     function handleNetworkChange() {
       if (navigator && navigator.onLine) {
         location.reload();
       }
     }
-
-    // screen.orientation.lock("portrait").catch((err) => {
-    //     console.error(err);
-    // });
-    // window.addEventListener("contextmenu", (event) => {
-    //     event.preventDefault();
-    // });
 
     window.addEventListener("online", handleNetworkChange);
     window.addEventListener("offline", handleNetworkChange);
@@ -27,18 +31,19 @@ const IndexPage = () => {
       window.removeEventListener("contextmenu", () => {});
       window.removeEventListener("online", handleNetworkChange);
       window.removeEventListener("offline", handleNetworkChange);
+      setSwReg(null);
     };
   }, []);
 
-  const AuthOrDashboard = ({ user, loading }) => {
-    if (loading) {
+  const AuthOrDashboard = ({ user, loading, swReg }) => {
+    if (loading || !swReg) {
       return <SpinningLoader />;
     }
     if (user) {
       const Dashboard = dynamic(() => import("./dashboard/index"), {
         loading: () => null,
       });
-      return Dashboard ? <Dashboard></Dashboard> : null;
+      return Dashboard ? <Dashboard swReg={swReg}></Dashboard> : null;
     }
     if (!user) {
       const Auth = dynamic(() => import("../pages/auth/index"), {
@@ -54,7 +59,11 @@ const IndexPage = () => {
         <title>Härth</title>
       </Head>
 
-      <AuthOrDashboard user={user} loading={loading}></AuthOrDashboard>
+      <AuthOrDashboard
+        swReg={swReg}
+        user={user}
+        loading={loading}
+      ></AuthOrDashboard>
     </>
   );
 };

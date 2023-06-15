@@ -39,7 +39,7 @@ const HarthInviteAcceptModal = dynamic(
   }
 );
 
-const dashboard = () => {
+const dashboard = ({ swReg }) => {
   const [GatherWindow, setGatherWindow] = useState("");
   const [invitedHarth, setInvitedHarth] = useState(null);
   const [newHarth, setNewHarth] = useState(null);
@@ -142,17 +142,9 @@ const dashboard = () => {
   }, [loading]);
 
   useEffect(() => {
-    if (user?._id) {
-      async function registerSW() {
-        if (
-          typeof navigator == "undefined" ||
-          !("serviceWorker" in navigator)
-        ) {
-          return;
-        }
-
+    if (swReg && "pushManager" in swReg) {
+      async function subscribeSW() {
         try {
-          const swReg = await navigator?.serviceWorker.register("/sw.js");
           const sub = await swReg.pushManager.getSubscription();
           if (sub === null) {
             const vapidPublicKey =
@@ -172,15 +164,9 @@ const dashboard = () => {
           console.error(error);
         }
       }
-
-      if (document.readyState === "complete") {
-        registerSW();
-      } else {
-        window.addEventListener("load", registerSW);
-        return () => window.removeEventListener("load", registerSW);
-      }
+      subscribeSW();
     }
-  }, [user]);
+  }, [swReg]);
 
   const changePageHandler = (pg) => {
     if (["gather", "chat", "message"].includes(pg)) {
@@ -272,7 +258,7 @@ const dashboard = () => {
     } else {
       return (
         <CommsProvider>
-          <SocketProvider>
+          <SocketProvider swReg={swReg}>
             <VideoProvider>
               {showCreateHarthNameModal ? (
                 <CreateHarthName

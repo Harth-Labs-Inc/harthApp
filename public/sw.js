@@ -7,7 +7,6 @@ const { precaching, routing, strategies } = workbox;
 self.addEventListener("activate", function (event) {
   event.waitUntil(self.clients.claim());
 });
-
 self.addEventListener("message", function (event) {
   if (event.data === "ping") {
     event.source.postMessage("pong");
@@ -17,6 +16,12 @@ self.addEventListener("push", function (event) {
   var data = {
     title: "New!",
     content: "Something new happened!",
+    dir: "ltr",
+    lang: "en-US",
+    vibrate: [100, 50, 200],
+    tag: "chat-notification",
+    icon: "/icons/icon-150x150.png",
+    badge: "/icons/icon-150x150.png",
     openUrl: "/",
   };
 
@@ -25,6 +30,12 @@ self.addEventListener("push", function (event) {
   }
   var options = {
     body: data.content,
+    dir: "ltr",
+    lang: "en-US",
+    vibrate: [100, 50, 200],
+    tag: "chat-notification",
+    icon: "/icons/icon-150x150.png",
+    badge: "/icons/icon-150x150.png",
     data: {
       url: data.openUrl,
     },
@@ -33,18 +44,11 @@ self.addEventListener("push", function (event) {
   event.waitUntil(self.registration.showNotification(data.title, options));
 });
 
-const { NetworkOnly } = workbox.strategies;
-
 // Precache and route any assets you need
 precaching.precacheAndRoute([]);
 
-// Cache CSS files
-routing.registerRoute(
-  /\.css$/,
-  new strategies.CacheFirst({
-    cacheName: "css-cache",
-  })
-);
+// CacheFirst
+//
 // Cache font files
 workbox.routing.registerRoute(
   /\.(woff|woff2|ttf|otf)$/i,
@@ -66,24 +70,41 @@ workbox.routing.registerRoute(
     cacheName: "html-cache",
   })
 );
+
+// StaleWhileRevalidate
+// get requests
+routing.registerRoute(
+  ({ request }) => request.method === "GET",
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: "GET-cache",
+  })
+);
+// Cache CSS files
+routing.registerRoute(
+  /\.css$/,
+  new strategies.StaleWhileRevalidate({
+    cacheName: "css-cache",
+  })
+);
 // Cache json files
 workbox.routing.registerRoute(
   /\.json$/i,
-  new workbox.strategies.CacheFirst({
+  new workbox.strategies.StaleWhileRevalidate({
     cacheName: "json-cache",
   })
 );
+// Cache js files
+workbox.routing.registerRoute(
+  /\.js$/i,
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: "js-cache",
+  })
+);
+
 // Cache api responses when network fails
 // workbox.routing.registerRoute(
 //   /\/api\/endpoint/,
 //   new workbox.strategies.NetworkFirst({
 //     cacheName: "api-cache",
-//   })
-// );
-// Cache js files
-// workbox.routing.registerRoute(
-//   /\.js$/i,
-//   new workbox.strategies.CacheFirst({
-//     cacheName: "js-cache",
 //   })
 // );
