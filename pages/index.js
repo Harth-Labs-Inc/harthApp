@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useAuth } from "../contexts/auth";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 
 const IndexPage = () => {
