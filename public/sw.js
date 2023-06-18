@@ -1,18 +1,22 @@
 importScripts(
   "https://storage.googleapis.com/workbox-cdn/releases/6.3.0/workbox-sw.js"
 );
+workbox.setConfig({ debug: false });
 
-const { precaching, routing, strategies } = workbox;
-
-self.addEventListener("activate", function (event) {
-  event.waitUntil(self.clients.claim());
+self.addEventListener("install", (event) => {
+  self.skipWaiting();
 });
+self.addEventListener("activate", (event) => {
+  event.waitUntil(clients.claim());
+});
+
 self.addEventListener("message", function (event) {
   if (event.data === "ping") {
     event.source.postMessage("pong");
   }
 });
 self.addEventListener("push", function (event) {
+  console.log("sw push event fired event: ", event);
   var data = {
     title: "New!",
     content: "Something new happened!",
@@ -43,6 +47,8 @@ self.addEventListener("push", function (event) {
 
   event.waitUntil(self.registration.showNotification(data.title, options));
 });
+
+const { precaching, routing, strategies } = workbox;
 
 // Precache and route any assets you need
 precaching.precacheAndRoute([]);
@@ -100,11 +106,3 @@ workbox.routing.registerRoute(
     cacheName: "js-cache",
   })
 );
-
-// Cache api responses when network fails
-// workbox.routing.registerRoute(
-//   /\/api\/endpoint/,
-//   new workbox.strategies.NetworkFirst({
-//     cacheName: "api-cache",
-//   })
-// );

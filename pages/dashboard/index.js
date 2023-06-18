@@ -143,28 +143,32 @@ const dashboard = ({ swReg }) => {
 
   useEffect(() => {
     if (swReg && "pushManager" in swReg) {
-      async function subscribeSW() {
+      async function subscribePushServer() {
         try {
           const sub = await swReg.pushManager.getSubscription();
           if (sub === null) {
-            const vapidPublicKey =
-              "BLmVZKPUxgCfITiXnsBehXwxHGXXOhDoTSBsQYgEu21Gn6kTicS0viMLkjpyAiP5ewX9xS-jQ3GreXB3-eO0tMA";
-            const convertedVapidPublicKey =
-              urlBase64ToUint8Array(vapidPublicKey);
-            const newSub = await swReg.pushManager.subscribe({
-              userVisibleOnly: true,
-              applicationServerKey: convertedVapidPublicKey,
-            });
-            saveUserSubscription({
-              sub: newSub,
-              userId: user._id,
-            });
+            const permission = await Notification.requestPermission();
+            if (permission === "granted") {
+              const vapidPublicKey =
+                "BLmVZKPUxgCfITiXnsBehXwxHGXXOhDoTSBsQYgEu21Gn6kTicS0viMLkjpyAiP5ewX9xS-jQ3GreXB3-eO0tMA";
+              const convertedVapidPublicKey =
+                urlBase64ToUint8Array(vapidPublicKey);
+              const newSub = await swReg.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: convertedVapidPublicKey,
+              });
+              saveUserSubscription({
+                sub: newSub,
+                userId: user._id,
+              });
+            }
           }
         } catch (error) {
           console.error(error);
         }
       }
-      subscribeSW();
+
+      subscribePushServer();
     }
   }, [swReg]);
 

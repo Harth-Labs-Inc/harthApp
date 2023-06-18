@@ -1,6 +1,5 @@
 import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
-
 /* eslint-disable */
 
 export default async (req, res) => {
@@ -72,11 +71,10 @@ export default async (req, res) => {
     return res.json({ msg: "expired token", ok: 0, lockDown: true });
   }
   // passed authentication ------------------------------------------
-
   let insertResult = await saveSubscription(db, obj.data);
   if (!insertResult) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
 
-  return res.json({ ok: 1, msg: "success", id: insertResult.insertedId });
+  return res.json({ ok: 1, msg: "success" });
 };
