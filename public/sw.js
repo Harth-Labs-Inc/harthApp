@@ -7,6 +7,15 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          return caches.delete(cacheName);
+        })
+      );
+    })
+  );
   event.waitUntil(clients.claim());
 });
 
@@ -25,8 +34,8 @@ self.addEventListener("push", function (event) {
     vibrate: [100, 50, 200],
     tag: "chat-notification",
     icon: "/icons/icon-150x150.png",
-    badge: "/icons/icon-150x150.png",
-    openUrl: "/",
+    badge: "/icons/icon-96x96.png",
+    openUrl: "https://www.harth.social/",
   };
 
   if (event.data) {
@@ -39,9 +48,9 @@ self.addEventListener("push", function (event) {
     vibrate: [100, 50, 200],
     tag: "chat-notification",
     icon: "/icons/icon-150x150.png",
-    badge: "/icons/icon-150x150.png",
+    badge: "/icons/icon-96x96.png",
     data: {
-      url: data.openUrl,
+      url: "https://www.harth.social/",
     },
   };
 
@@ -60,6 +69,11 @@ workbox.routing.registerRoute(
   /\.(woff|woff2|ttf|otf)$/i,
   new workbox.strategies.CacheFirst({
     cacheName: "font-cache",
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxAgeSeconds: 7 * 24 * 60 * 60,
+      }),
+    ],
   })
 );
 // Cache image files
@@ -67,6 +81,11 @@ workbox.routing.registerRoute(
   /\.(png|jpg|jpeg|gif|svg)$/i,
   new workbox.strategies.CacheFirst({
     cacheName: "image-cache",
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxAgeSeconds: 7 * 24 * 60 * 60,
+      }),
+    ],
   })
 );
 // Cache html files
@@ -74,17 +93,16 @@ workbox.routing.registerRoute(
   /\.html$/i,
   new workbox.strategies.CacheFirst({
     cacheName: "html-cache",
+    plugins: [
+      new workbox.expiration.ExpirationPlugin({
+        maxAgeSeconds: 7 * 24 * 60 * 60,
+      }),
+    ],
   })
 );
 
 // StaleWhileRevalidate
-// get requests
-routing.registerRoute(
-  ({ request }) => request.method === "GET",
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: "GET-cache",
-  })
-);
+
 // Cache CSS files
 routing.registerRoute(
   /\.css$/,
