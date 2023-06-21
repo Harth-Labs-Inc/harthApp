@@ -100,11 +100,6 @@ workbox.routing.registerRoute(
     ],
   })
 );
-// Cache the external script using Workbox
-workbox.routing.registerRoute(
-  new RegExp("^https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js$"),
-  new workbox.strategies.CacheFirst()
-);
 
 // StaleWhileRevalidate
 

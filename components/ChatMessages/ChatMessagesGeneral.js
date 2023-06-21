@@ -53,10 +53,9 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
   }, [messages]);
 
   const formatMessage = (text) => {
-    if (typeof text !== 'string') {
-        return ''; 
+    if (typeof text !== "string") {
+      return "";
     }
-
 
     // Regular expression to match URLs
     const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
@@ -70,12 +69,19 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
     // Map over the URL parts and wrap URLs with <a> tags
     const wrappedText = urlParts.map((urlPart, urlIndex) => {
       if (urlPart.match(urlRegex)) {
-        // Construct proper URL 
-        const properURL = urlPart.startsWith('www') ? 'http://' + urlPart : urlPart;
+        // Construct proper URL
+        const properURL = urlPart.startsWith("www")
+          ? "http://" + urlPart
+          : urlPart;
 
         // Wrap the URL in an <a> tag
         return (
-          <a key={`url_${urlIndex}`} href={properURL} target="_blank" rel="noopener noreferrer">
+          <a
+            key={`url_${urlIndex}`}
+            href={properURL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {urlPart}
           </a>
         );
@@ -102,7 +108,7 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
     });
 
     return wrappedText;
-};
+  };
 
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
@@ -154,19 +160,27 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
                 );
               }
               return (
-                <div key={idx} className={chatClassname(chat.creator_name)}>
+                <div
+                  key={chat.date + chat.value}
+                  className={chatClassname(chat.creator_name)}
+                >
                   <p>{chat.value}</p>
                 </div>
               );
             }
             const date = new Date(chat.date);
             return (
-              <div key={idx} className={chatClassname(chat.creator_name)}>
+              <div
+                key={chat.date + chat.value}
+                className={chatClassname(chat.creator_name)}
+              >
                 <span className={styles.TimeStamp}>
                   {chat.creator_name !== userName ? (
                     <>
-                    <img src={chat.creator_image} loading="lazy" />
-                    <span className={styles.Creator}>{chat.creator_name}</span>
+                      <img src={chat.creator_image} loading="lazy" />
+                      <span className={styles.Creator}>
+                        {chat.creator_name}
+                      </span>
                     </>
                   ) : null}
                   {date.toLocaleTimeString([], {
