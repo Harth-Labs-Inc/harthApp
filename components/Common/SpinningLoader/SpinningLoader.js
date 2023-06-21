@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import styles from "./Modal.module.scss";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
 
-export const SpinningLoader = () => {
+export const SpinningLoader = ({ spinnerOnly }) => {
   const router = useRouter();
   const { query } = router;
 
@@ -10,6 +10,9 @@ export const SpinningLoader = () => {
     return <div className={styles.spinner} />;
   };
 
+  if (spinnerOnly) {
+    return <Spinner />;
+  }
   if (query.gather_window) {
     return (
       <div className={`${styles.Maincontainer} ${styles.MaincontainerDark}`}>
