@@ -1,4 +1,5 @@
 import { useContext, useState, useRef } from "react";
+import Cookies from "js-cookie";
 
 import { useAuth } from "../../../contexts/auth";
 import { useComms } from "../../../contexts/comms";
@@ -47,8 +48,12 @@ const SideNav = (props) => {
 
   const { isMobile } = useContext(MobileContext);
   const { user } = useAuth();
-  const { comms, setComm, selectedcomm, setTopic, updateSelectedHarth } =
-    useComms();
+  const {
+    comms,
+    selectedcomm,
+    updateSelectedHarth,
+    setSelectedHarthFromChild,
+  } = useComms();
   const { emitUpdate, unreadMessagesRef } = useSocket();
 
   let leftNav = useRef();
@@ -58,8 +63,8 @@ const SideNav = (props) => {
   };
   const changeSelectedCom = (com) => {
     localStorage.setItem("selectedHarthID", com._id);
-    setComm(com);
-    setTopic({});
+    Cookies.set("selectedHarthID", com._id);
+    setSelectedHarthFromChild(com);
     onToggleMenu();
   };
   const toggleSettingsNav = (e, setOpenInvites) => {

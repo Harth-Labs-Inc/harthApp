@@ -57,7 +57,7 @@ const Video = () => {
       data.socketId = socketID;
       data.harthName = selectedcomm.name;
       setSocketData(data);
-      getInitialCallRooms(data);
+      getInitialCallRooms(data, true);
     }
   }, [socketID, selectedcomm]);
 

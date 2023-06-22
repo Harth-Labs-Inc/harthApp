@@ -15,14 +15,22 @@ import { useRouter } from "next/router";
 
 const CommsContext = createContext({});
 
-export const CommsProvider = ({ children }) => {
-  const [comms, setComms] = useState(null);
-  const [selectedcomm, setSelectedcomm] = useState(null);
+export const CommsProvider = ({
+  children,
+  user,
+  commsProps,
+  selectedCommProp,
+  topicsArr,
+  roomsArr,
+  creator,
+}) => {
+  const [comms, setComms] = useState(commsProps);
+  const [selectedcomm, setSelectedcomm] = useState(selectedCommProp);
   const [topics, setTopics] = useState(null);
-  const [rooms, setRooms] = useState({});
+  const [rooms, setRooms] = useState({ [selectedCommProp._id]: roomsArr });
   const [selectedTopic, setSelectedTopic] = useState({});
   const [topicChange, setTopicChange] = useState(0);
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState(creator);
   const [forceHarthCreation, setForceHarthCreation] = useState(false);
 
   const [conversations, setConversations] = useState(null);
@@ -35,10 +43,8 @@ export const CommsProvider = ({ children }) => {
   const [unreadConversationMsg, setUnreadConversationMsg] = useState({});
   const [unreadConversationMsgs, setUnreadConversationMsgs] = useState([]);
 
-  const { user } = useAuth();
-
-  const selectedCommRef = useRef(null);
-  const profileRef = useRef(null);
+  const selectedCommRef = useRef(selectedCommProp);
+  const profileRef = useRef(creator);
   const selectedTopicRef = useRef({});
 
   const router = useRouter();
@@ -47,50 +53,64 @@ export const CommsProvider = ({ children }) => {
   } = router;
 
   useEffect(() => {
-    if (user) {
-      if (user?.comms && user?.comms.length > 0) {
-        (async () => {
-          let result = await getComms(user);
-          const { ok, comms } = result;
-          if (ok) {
-            setComms(comms);
-            let prevID = localStorage.getItem("selectedHarthID");
+    let startingTopic;
+    let filteredTopics = topicsArr.sort((a, b) => {
+      const removeEmoji = (str) => {
+        return str
+          .replace(
+            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+            ""
+          )
+          .replace(/\s+/g, " ")
+          .trim();
+      };
+      const nameA = removeEmoji(a.title);
+      const nameB = removeEmoji(b.title);
 
-            if (prevID) {
-              let match = comms.find((com) => com._id == prevID);
-              if (match) {
-                setComm(match);
-              } else {
-                setComm(comms[0]);
-              }
-            } else {
-              setComm(comms[0]);
-            }
-          } else if (result.lockDown) {
-            localStorage.removeItem("token");
-            window.location.pathname = "/";
-          }
-        })();
+      if (nameA < nameB) {
+        return -1;
       }
-    }
-  }, [user]);
+      if (nameA > nameB) {
+        return 1;
+      }
 
-  useEffect(() => {
-    if (selectedcomm) {
-      if (user) {
-        if (!gather_window) {
-          setTopicChange(0);
-          grabTopics(selectedcomm._id);
-          grabRooms(selectedcomm._id);
-          fetchConversations();
-          let creator = selectedcomm.users.find(
-            (usr) => usr.userId === user._id
-          );
-          if (creator) setProfile(creator);
+      return 0;
+    });
+
+    for (let topic of filteredTopics) {
+      for (let member of topic.members) {
+        if (member.user_id == user._id) {
+          if (!member.hidden && !startingTopic) {
+            startingTopic = topic;
+          }
         }
       }
     }
-  }, [selectedcomm, user]);
+
+    let storedTopic = localStorage.getItem("selected_topic");
+    if (storedTopic) {
+      try {
+        let parsedStoredTopic = JSON.parse(storedTopic);
+        let matchingTopic = filteredTopics.find(
+          (topic) => topic._id == parsedStoredTopic._id
+        );
+        if (matchingTopic) {
+          for (let member of matchingTopic.members) {
+            if (member.user_id == user._id) {
+              if (!member.hidden) {
+                startingTopic = matchingTopic;
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.log();
+      }
+    }
+    localStorage.setItem("selected_topic", JSON.stringify(startingTopic));
+    setTopics(filteredTopics);
+    setSelectedTopic(startingTopic);
+  }, [topicsArr]);
 
   useEffect(() => {
     if (
@@ -333,14 +353,6 @@ export const CommsProvider = ({ children }) => {
     if (matchingTopicIndex >= 0) {
       /* eslint-disable */
       switch (type) {
-        // case 'edit':
-        //   console.log('made it to edit', user)
-        //   tmpTopics[matchingTopicIndex] = user
-
-        //   setTopics(tmpTopics)
-        //   await updatedTopic({ type: 'replace', topic: user })
-
-        //   break
         case "mute":
           tmpSelectedTopic?.members?.filter(Boolean).forEach((member) => {
             if (member._id === user._id) {
@@ -403,6 +415,15 @@ export const CommsProvider = ({ children }) => {
     setSelectedTopic(null);
     setTopicChange(0);
   };
+  const setSelectedHarthFromChild = (com) => {
+    setComm(com);
+    setTopicChange(0);
+    grabTopics(com._id);
+    grabRooms(com._id);
+    fetchConversations();
+    let creator = com.users.find((usr) => usr.userId === user._id);
+    if (creator) setProfile(creator);
+  };
 
   return (
     <CommsContext.Provider
@@ -450,6 +471,7 @@ export const CommsProvider = ({ children }) => {
         resetTopics,
         forceHarthCreation,
         selectedTopicRef,
+        setSelectedHarthFromChild,
       }}
     >
       {children}

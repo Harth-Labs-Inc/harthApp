@@ -10,6 +10,7 @@ import styles from "./SideMenu.module.scss";
 import SettingsList from "../AccountSettings/AccountSettings";
 import { useState } from "react";
 import SettingsMenu from "../AccountSettings";
+import Cookies from "js-cookie";
 
 const MobileSideNav = (props) => {
   const {
@@ -27,6 +28,7 @@ const MobileSideNav = (props) => {
 
   const changeSelectedCom = (com) => {
     localStorage.setItem("selectedHarthID", com._id);
+    Cookies.set("selectedHarthID", com._id);
     setComm(com);
     setTopic({});
     onToggleMenu();

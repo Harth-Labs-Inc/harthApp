@@ -15,7 +15,6 @@ import {
 import localFont from "next/font/local";
 
 import "../styles/Styles.modules.scss";
-import { AuthProvider } from "../contexts/auth";
 import { ResponsiveProvider } from "../contexts/mobile";
 import { CreateGatheringFormProvider as GatheringFormProvider } from "../pages/dashboard/video/GatherForm/GatheringFormContext";
 import { CreateGatheringFormProvider as GatheringEditFormProvider } from "../pages/dashboard/video/GatherEditForm/GatheringFormContext";
@@ -104,21 +103,19 @@ function MyApp({ Component, pageProps }) {
   return (
     <main className={`${fontClassNames.join(" ")}`}>
       <ResponsiveProvider>
-        <AuthProvider>
-          <Layout>
-            <TransitionLayout>
-              <GatheringFormProvider>
-                <GatheringEditFormProvider>
-                  <Script
-                    src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"
-                    preload
-                  />
-                  <Component key={router.asPath} {...pageProps} />
-                </GatheringEditFormProvider>
-              </GatheringFormProvider>
-            </TransitionLayout>
-          </Layout>
-        </AuthProvider>
+        <Layout>
+          <TransitionLayout>
+            <GatheringFormProvider>
+              <GatheringEditFormProvider>
+                <Script
+                  src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"
+                  preload
+                />
+                <Component key={router.asPath} {...pageProps} />
+              </GatheringEditFormProvider>
+            </GatheringFormProvider>
+          </TransitionLayout>
+        </Layout>
       </ResponsiveProvider>
       <Analytics />
     </main>

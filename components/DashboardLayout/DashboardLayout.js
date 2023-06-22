@@ -8,7 +8,6 @@ import MobileSideNav from "../Menus/SideMenu/MobileSideMenu";
 
 import styles from "./DashboardLayout.module.scss";
 import { useVideo } from "contexts/video";
-import { useAuth } from "contexts/auth";
 import { useComms } from "contexts/comms";
 import { useSocket } from "contexts/socket";
 
@@ -23,6 +22,7 @@ const DashboardLayout = (props) => {
     currentPage,
     setShowCreateHarthNameModal,
     toggleNoHarthDetected,
+    user,
   } = props;
 
   const {
@@ -34,20 +34,7 @@ const DashboardLayout = (props) => {
     forceHarthCreation,
   } = useComms();
   const { getInitialCallRooms, socketID, callRooms } = useVideo();
-  const { user } = useAuth();
   const { mainAlertsRef, setMainAlertsFromChild } = useSocket();
-
-  // useEffect(() => {
-  //   const handleContextMenu = (event) => {
-  //     event.preventDefault();
-  //   };
-
-  //   document.addEventListener("contextmenu", handleContextMenu);
-
-  //   return () => {
-  //     document.removeEventListener("contextmenu", handleContextMenu);
-  //   };
-  // }, []);
 
   useEffect(() => {
     if (socketID && selectedcomm && user) {
@@ -95,23 +82,6 @@ const DashboardLayout = (props) => {
     }
   }, [forceHarthCreation]);
 
-  useEffect(() => {
-    if (selectedcomm) {
-      if (currentPage === "message") {
-        resetTopics();
-        fetchConversations();
-      }
-      if (currentPage === "chat") {
-        grabTopics(selectedcomm._id);
-        resetConversations();
-      }
-      if (currentPage === "gather") {
-        resetTopics();
-        resetConversations();
-      }
-    }
-  }, [currentPage, selectedcomm]);
-
   const toggleMenu = () => {
     if (isMobile) {
       setMobileMenuOpen((prevState) => !prevState);
@@ -152,7 +122,6 @@ const DashboardLayout = (props) => {
       </main>
     );
   }
-
   return (
     <main className={styles.Dashboard}>
       <SideNav
