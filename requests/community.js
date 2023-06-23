@@ -91,7 +91,21 @@ export const deleteTopicByID = async (id, harthId) => {
   }
 };
 
-export const getHarthByID = async (id) => {
+export const getHarthByID = async (id, tokenProp) => {
+  if (tokenProp) {
+    const res = await api.post(
+      `/api/comm/getHarthByID`,
+      {
+        id,
+      },
+      {
+        headers: {
+          "x-auth-token": tokenProp,
+        },
+      }
+    );
+    return res.data;
+  }
   const token = localStorage.getItem("token");
 
   try {

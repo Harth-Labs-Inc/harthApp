@@ -66,13 +66,13 @@ const Video = () => {
     const urls = envUrls;
     window.open(
       /* eslint-disable-next-line */
-      `${urls[process.env.NODE_ENV]}?gather_window=true&room_type=${
+      `${urls[process.env.NODE_ENV]}/dashboard/${
         data.gatheringType
-      }&user_name=${socketData.name}&user_img=${socketData.icon}&room_id=${
-        data.roomId
-      }&harth_id=${selectedcomm._id}&room_name=${data.roomName}&harth_icon=${
-        selectedcomm.iconKey
-      }`,
+      }?gather_window=true&room_type=${data.gatheringType}&user_name=${
+        socketData.name
+      }&user_img=${socketData.icon}&room_id=${data.roomId}&harth_id=${
+        selectedcomm._id
+      }&room_name=${data.roomName}&harth_icon=${selectedcomm.iconKey}`,
       "_blank",
       windowFeatures //"new-window"
     );

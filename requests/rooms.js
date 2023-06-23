@@ -2,6 +2,23 @@ import api from "../services/api";
 
 /* eslint-disable */
 
+export const getTurnServers = async (tokenProp) => {
+  try {
+    const res = await api.post(
+      `/api/rooms/getTurnServers`,
+      {},
+      {
+        headers: {
+          "x-auth-token": tokenProp,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const connectUserToRoom = async (user, id) => {
   try {
     const token = localStorage.getItem("token");

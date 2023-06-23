@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Script from "next/script";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
@@ -319,10 +318,6 @@ const dashboard = ({
               roomsArr={roomsArr}
               creator={creator}
             >
-              <Script
-                src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"
-                preload
-              />
               {page}
             </CommsProvider>
           </AuthProvider>
