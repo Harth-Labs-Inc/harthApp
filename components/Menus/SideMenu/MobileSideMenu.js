@@ -10,6 +10,7 @@ import styles from "./SideMenu.module.scss";
 import SettingsList from "../AccountSettings/AccountSettings";
 import { useState } from "react";
 import SettingsMenu from "../AccountSettings";
+import Cookies from "js-cookie";
 
 const MobileSideNav = (props) => {
   const {
@@ -22,13 +23,13 @@ const MobileSideNav = (props) => {
   const [ShowSettingsNav, setShowSettingsNav] = useState(false);
   const [currentTab, setCurrentTab] = useState("");
 
-  const { comms, setComm, selectedcomm, setTopic } = useComms();
+  const { comms, selectedcomm, setSelectedHarthFromChild } = useComms();
   const { unreadMessagesRef } = useSocket();
 
   const changeSelectedCom = (com) => {
     localStorage.setItem("selectedHarthID", com._id);
-    setComm(com);
-    setTopic({});
+    Cookies.set("selectedHarthID", com._id);
+    setSelectedHarthFromChild(com);
     onToggleMenu();
   };
 

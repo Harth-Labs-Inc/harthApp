@@ -1,6 +1,5 @@
 import { createContext, useState, useContext, useEffect, useRef } from "react";
 import io from "socket.io-client";
-import { useAuth } from "./auth";
 import { useComms } from "./comms";
 import { getTopics, getExistingUnreadMessages } from "../requests/community";
 import { getConversations } from "../requests/conversations";
@@ -11,7 +10,7 @@ const SocketContext = createContext({});
 
 /* eslint-disable */
 
-export const SocketProvider = ({ children }) => {
+export const SocketProvider = ({ children, user, unreadMsgsProps }) => {
   const [socket, setSocket] = useState(null);
   const [incomingMsg, setIncomingMsg] = useState({});
   const [incomingMsgUpdate, setIncomingMsgUpdate] = useState({});
@@ -22,7 +21,6 @@ export const SocketProvider = ({ children }) => {
   const [unusedValue, triggerUpdate] = useState(0);
   const [mainAlerts, setMainAlerts] = useState({});
 
-  const { user } = useAuth();
   const {
     setTopics,
     setSelectedTopic,
@@ -40,7 +38,7 @@ export const SocketProvider = ({ children }) => {
 
   const socketRef = useRef(null);
   const selectedHarthRef = useRef();
-  const unreadMessagesRef = useRef([]);
+  const unreadMessagesRef = useRef(unreadMsgsProps);
   const mainAlertsRef = useRef({});
 
   useEffect(() => {
@@ -58,97 +56,6 @@ export const SocketProvider = ({ children }) => {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     if (navigator && "serviceWorker" in navigator) {
-  //       navigator.serviceWorker.addEventListener("message", function (event) {
-  //         if (event.data === "pong") {
-  //           if (!socketRef.current?.connected) {
-  //             if (navigator && navigator.onLine) {
-  //               const URLS = socketUrls;
-  //               console.log(1);
-  //               setSocket(
-  //                 io.connect(URLS[process.env.NODE_ENV], {
-  //                   transports: ["websocket"],
-  //                 })
-  //               );
-  //             }
-  //           } else {
-  //             socketRef.current?.emit("ping", (response) => {
-  //               if (!response || response !== "pong") {
-  //                 if (navigator && navigator.onLine) {
-  //                   const URLS = socketUrls;
-  //                   console.log(2);
-
-  //                   setSocket(
-  //                     io.connect(URLS[process.env.NODE_ENV], {
-  //                       transports: ["websocket"],
-  //                     })
-  //                   );
-  //                 }
-  //               }
-  //             });
-  //           }
-  //         }
-  //       });
-  //       setInterval(function () {
-  //         if (
-  //           navigator &&
-  //           "serviceWorker" in navigator &&
-  //           navigator.serviceWorker.controller
-  //         ) {
-  //           navigator.serviceWorker.controller.postMessage("ping");
-  //         }
-  //       }, 5000);
-  //     }
-
-  //     document.addEventListener("visibilitychange", () => {
-  //       if (!document.hidden) {
-  //         if (!socketRef.current?.connected) {
-  //           if (navigator && navigator.onLine) {
-  //             const URLS = socketUrls;
-  //             console.log(3);
-
-  //             setSocket(
-  //               io.connect(URLS[process.env.NODE_ENV], {
-  //                 transports: ["websocket"],
-  //               })
-  //             );
-  //           }
-  //         } else {
-  //           socketRef.current?.emit("ping", (response) => {
-  //             if (!response || response !== "pong") {
-  //               if (navigator && navigator.onLine) {
-  //                 const URLS = socketUrls;
-  //                 console.log(4);
-
-  //                 setSocket(
-  //                   io.connect(URLS[process.env.NODE_ENV], {
-  //                     transports: ["websocket"],
-  //                   })
-  //                 );
-  //               }
-  //             }
-  //           });
-  //         }
-  //       }
-  //     });
-  //     const URLS = socketUrls;
-  //     console.log(5);
-
-  //     setSocket(
-  //       io.connect(URLS[process.env.NODE_ENV], {
-  //         transports: ["websocket"],
-  //       })
-  //     );
-
-  //     return () => {
-  //       document.removeEventListener("visibilitychange", () => {});
-  //       setSocket(null)
-  //     };
-  //   }
-  // }, [user]);
-
   useEffect(() => {
     if (selectedcomm) {
       selectedHarthRef.current = selectedcomm;
@@ -159,7 +66,6 @@ export const SocketProvider = ({ children }) => {
     if (socket && user && comms) {
       socketRef.current = socket;
       join([...(comms || [])]);
-      getUnreadMessages(user);
 
       socket.on("new update", async ({ updateType, ...incomingUpdate }) => {
         let activeTopic = JSON.parse(localStorage.getItem("selected_topic"));

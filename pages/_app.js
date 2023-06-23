@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Script from "next/script";
+
 import { Analytics } from "@vercel/analytics/react";
 import {
   Righteous,
@@ -15,7 +15,6 @@ import {
 import localFont from "next/font/local";
 
 import "../styles/Styles.modules.scss";
-import { AuthProvider } from "../contexts/auth";
 import { ResponsiveProvider } from "../contexts/mobile";
 import { CreateGatheringFormProvider as GatheringFormProvider } from "../pages/dashboard/video/GatherForm/GatheringFormContext";
 import { CreateGatheringFormProvider as GatheringEditFormProvider } from "../pages/dashboard/video/GatherEditForm/GatheringFormContext";
@@ -66,14 +65,12 @@ const rubik = Rubik({
   variable: "--Rubik-font",
   preload: false,
 });
-
 const montserrat = Montserrat({
   //weight: "400",
   subsets: ["latin"],
   variable: "--Montserrat-font",
   preload: false,
 });
-
 const opensans = Open_Sans({
   //weight: "400",
   subsets: ["latin"],
@@ -104,21 +101,15 @@ function MyApp({ Component, pageProps }) {
   return (
     <main className={`${fontClassNames.join(" ")}`}>
       <ResponsiveProvider>
-        <AuthProvider>
-          <Layout>
-            <TransitionLayout>
-              <GatheringFormProvider>
-                <GatheringEditFormProvider>
-                  <Script
-                    src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"
-                    preload
-                  />
-                  <Component key={router.asPath} {...pageProps} />
-                </GatheringEditFormProvider>
-              </GatheringFormProvider>
-            </TransitionLayout>
-          </Layout>
-        </AuthProvider>
+        <Layout>
+          <TransitionLayout>
+            <GatheringFormProvider>
+              <GatheringEditFormProvider>
+                <Component key={router.asPath} {...pageProps} />
+              </GatheringEditFormProvider>
+            </GatheringFormProvider>
+          </TransitionLayout>
+        </Layout>
       </ResponsiveProvider>
       <Analytics />
     </main>

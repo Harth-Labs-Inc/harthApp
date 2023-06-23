@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
+import Cookies from "js-cookie";
 import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
-
-import { useAuth } from "../../../contexts/auth";
 import {
   verifyOtp,
   login,
@@ -32,8 +30,6 @@ const OtpValidator = (props) => {
 
   const router = useRouter();
   const { user } = router.query;
-
-  const { setContextUser } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -71,11 +67,10 @@ const OtpValidator = (props) => {
           setBadCode(false);
           setHelpText(["SUCCESS!!"]);
           localStorage.setItem("token", tkn);
-
+          Cookies.set("authToken", tkn);
           if (newUser.showFirstTimeUser) {
             localStorage.setItem("showFirstTimeUser", true);
           }
-          setContextUser(newUser);
           router.push("/");
         }
       }
