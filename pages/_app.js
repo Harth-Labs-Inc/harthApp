@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Script from "next/script";
+
 import { Analytics } from "@vercel/analytics/react";
 import {
   Righteous,
@@ -105,10 +105,6 @@ function MyApp({ Component, pageProps }) {
           <TransitionLayout>
             <GatheringFormProvider>
               <GatheringEditFormProvider>
-                <Script
-                  src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"
-                  preload
-                />
                 <Component key={router.asPath} {...pageProps} />
               </GatheringEditFormProvider>
             </GatheringFormProvider>
