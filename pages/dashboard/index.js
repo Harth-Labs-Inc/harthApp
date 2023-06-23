@@ -52,7 +52,6 @@ const dashboard = ({ swReg }) => {
   const [inviteTKN, setInviteTKN] = useState(false);
 
   const { user, loading } = useAuth();
-
   const router = useRouter();
   const {
     query: { tkn, gather_window, room_type },

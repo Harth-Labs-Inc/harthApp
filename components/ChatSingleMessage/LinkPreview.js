@@ -132,7 +132,7 @@ export const LinkPreview = ({ message }) => {
             linkPreview.imageSecureUrl ||
             linkPreview.favicon)
     ) {
-        if (getHostName(rawURL) === "amazon") {
+        if (getHostName(alteredURL) === "amazon") {
             return (      
             <>
             <br />
@@ -174,7 +174,7 @@ export const LinkPreview = ({ message }) => {
                             )}
                         </div>
                         <a
-                            href={rawURL}
+                            href={alteredURL}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{ textDecoration: "none" }}
@@ -252,25 +252,21 @@ export const LinkPreview = ({ message }) => {
         if (getHostName(rawURL) === "twitter") {
             return (      
                 <>
-                <br />
+                {/* <br />
                 <a href={rawURL} target="_blank" rel="noopener noreferrer">
                 <article id="ogCard" className={styles.linkCard}>
                     <img src="/images/twitter_logo.png" className={styles.urlLogo} />
                     <div className={styles.icon}><IconLink /></div>
                 </article>
-                </a>
+                </a> */}
                 </>
                 );
         }
         else {
             return (
-                <>
-                <article id="ogCard" className={styles.ogCard}>
-                    <a href={rawURL} target="_blank" rel="noopener noreferrer">
-                        {alteredURL}
-                    </a>
-                </article>
-                </>
+                null
+
+
             );
         }
     }
