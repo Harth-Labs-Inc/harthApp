@@ -11,179 +11,179 @@ import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 import styles from "./createAccount.module.scss";
 
 const CreateAccount = () => {
-    // const { changePage, inviteToken } = props;
-    const router = useRouter();
+  const router = useRouter();
 
-    const [submissionType, setSubmissionType] = useState();
-    const [customErrors, setCustomErrors] = useState({
-        email: "",
-        match: "",
-    });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [todayMax, setTodayMax] = useState();
+  const [submissionType, setSubmissionType] = useState();
+  const [customErrors, setCustomErrors] = useState({
+    email: "",
+    match: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [todayMax, setTodayMax] = useState();
 
-    useEffect(() => {
-        setTodayMax(new Date().toISOString().split("T")[0]);
-    }, []);
+  const {
+    query: { tkn, invite },
+  } = router;
 
-    function calculateAge(birthdate) {
-        const today = new Date();
-        const birthDate = new Date(birthdate);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-
-        if (
-            monthDiff < 0 ||
-            (monthDiff === 0 && today.getDate() < birthDate.getDate())
-        ) {
-            age--;
-        }
-        return age;
+  useEffect(() => {
+    if (tkn && invite) {
+      localStorage.setItem("inviteToken", tkn);
     }
+  }, [tkn]);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+  useEffect(() => {
+    setTodayMax(new Date().toISOString().split("T")[0]);
+  }, []);
 
-    const submitHandler = async (data) => {
-        setIsSubmitting(true);
-        if (submissionType == "create") {
-            const response = await addUser(data);
-            const { ok, errors, user } = response;
+  function calculateAge(birthdate) {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
 
-            if (!ok) {
-                setCustomErrors(errors);
-            } else {
-                sendOTPEmail(user);
-            }
-        }
-        setIsSubmitting(false);
-    };
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  }
 
-    const sendOTPEmail = async (user) => {
-        await sendOtpEmailToUser({ user, subject: "Email Verification" });
-        user.showFirstTimeUser = true;
-        router.push(
-            {
-                pathname: "/auth/OtpValidator",
-                query: { user: JSON.stringify(user) },
-            },
-            "/about/OtpValidator"
-        );
-    };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    const handleEmailError = () => {
-        if (errors?.email?.type === "required")
-            return "You must enter your email";
-        if (errors?.email?.type === "pattern")
-            return "You must enter a valid email";
-    };
-    const handleDobError = () => {
-        if (errors?.dob?.type === "required")
-            return "You must enter a valid birthdate";
-        if (errors?.dob?.type === "olderThanThirteen")
-            return "You must be at least 13 years old to register";
-    };
+  const submitHandler = async (data) => {
+    setIsSubmitting(true);
+    if (submissionType == "create") {
+      const response = await addUser(data);
+      const { ok, errors, user } = response;
 
-    const bubbleText =
-        "Welcome to the early release of Härth. Just enter your deets below to create an account.";
+      if (!ok) {
+        setCustomErrors(errors);
+      } else {
+        sendOTPEmail(user);
+      }
+    }
+    setIsSubmitting(false);
+  };
 
-    return (
-        <div className={styles.CreateModule}>
-            <div className={styles.CreateModuleContent}>
-                <div className={styles.CreateModuleLogo}>
-                    <HarthLogoDark />
-                </div>
-                <TalkingHead text={bubbleText} />
-                <form onSubmit={handleSubmit(submitHandler)}>
-                    <input
-                        {...register("fullName", { required: true })}
-                        type="text"
-                        placeholder="Name"
-                    />
-                    <ErrorMessage
-                        errorMsg={
-                            errors.fullName ? "You must enter your name" : null
-                        }
-                    />
-                    <input
-                        {...register("email", {
-                            required: true,
-                            /* eslint-disable-next-line */
-                            pattern: /.*\@.*\.\w{2,3}/g,
-                        })}
-                        type="email"
-                        placeholder="Email"
-                    />
-                    <ErrorMessage
-                        errorMsg={errors.email ? handleEmailError() : null}
-                    />
-
-                    <input
-                        {...register("dob", {
-                            required: true,
-                            validate: {
-                                olderThanThirteen: (v) => calculateAge(v) > 12,
-                            },
-                        })}
-                        type="date"
-                        max={todayMax}
-                        min={new Date("1/1/1910").toISOString().split("T")[0]}
-                    />
-                    <div className={styles.small}>
-                        Enter your birthday for verification. Your birthday will
-                        not be publicly displayed.
-                    </div>
-                    <ErrorMessage
-                        errorMsg={errors.dob ? handleDobError() : null}
-                    />
-                    <ErrorMessage
-                        errorMsg={customErrors ? customErrors.match : null}
-                    />
-                    <Button
-                        tier="primary"
-                        type="submit"
-                        text="Sign Up"
-                        fullWidth
-                        onClick={() => {
-                            setSubmissionType("create");
-                        }}
-                        isLoading={isSubmitting}
-                    />
-                </form>
-                <p className={styles.CreateModuleDisclaimer}>
-                    By continuing, you are agreeing to our Customer{" "}
-                    <a
-                        href="https://harthsocial.com/terms"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Terms of Service
-                    </a>{" "}
-                    and{" "}
-                    <a
-                        href="https://harthsocial.com/privacy"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Privacy Policy
-                    </a>
-                    .
-                </p>
-                <Button
-                    tier="secondary"
-                    size="small"
-                    text="Already have an account?"
-                    onClick={() => {
-                        router.push("/auth/login");
-                    }}
-                    className={styles.CreateModuleLinkToSignin}
-                />
-            </div>
-        </div>
+  const sendOTPEmail = async (user) => {
+    await sendOtpEmailToUser({ user, subject: "Email Verification" });
+    user.showFirstTimeUser = true;
+    router.push(
+      {
+        pathname: "/auth/OtpValidator",
+        query: { user: JSON.stringify(user) },
+      },
+      "/about/OtpValidator"
     );
+  };
+
+  const handleEmailError = () => {
+    if (errors?.email?.type === "required") return "You must enter your email";
+    if (errors?.email?.type === "pattern")
+      return "You must enter a valid email";
+  };
+  const handleDobError = () => {
+    if (errors?.dob?.type === "required")
+      return "You must enter a valid birthdate";
+    if (errors?.dob?.type === "olderThanThirteen")
+      return "You must be at least 13 years old to register";
+  };
+
+  const bubbleText =
+    "Welcome to the early release of Härth. Just enter your deets below to create an account.";
+
+  return (
+    <div className={styles.CreateModule}>
+      <div className={styles.CreateModuleContent}>
+        <div className={styles.CreateModuleLogo}>
+          <HarthLogoDark />
+        </div>
+        <TalkingHead text={bubbleText} />
+        <form onSubmit={handleSubmit(submitHandler)}>
+          <input
+            {...register("fullName", { required: true })}
+            type="text"
+            placeholder="Name"
+          />
+          <ErrorMessage
+            errorMsg={errors.fullName ? "You must enter your name" : null}
+          />
+          <input
+            {...register("email", {
+              required: true,
+              /* eslint-disable-next-line */
+              pattern: /.*\@.*\.\w{2,3}/g,
+            })}
+            type="email"
+            placeholder="Email"
+          />
+          <ErrorMessage errorMsg={errors.email ? handleEmailError() : null} />
+
+          <input
+            {...register("dob", {
+              required: true,
+              validate: {
+                olderThanThirteen: (v) => calculateAge(v) > 12,
+              },
+            })}
+            type="date"
+            max={todayMax}
+            min={new Date("1/1/1910").toISOString().split("T")[0]}
+          />
+          <div className={styles.small}>
+            Enter your birthday for verification. Your birthday will not be
+            publicly displayed.
+          </div>
+          <ErrorMessage errorMsg={errors.dob ? handleDobError() : null} />
+          <ErrorMessage errorMsg={customErrors ? customErrors.match : null} />
+          <Button
+            tier="primary"
+            type="submit"
+            text="Sign Up"
+            fullWidth
+            onClick={() => {
+              setSubmissionType("create");
+            }}
+            isLoading={isSubmitting}
+          />
+        </form>
+        <p className={styles.CreateModuleDisclaimer}>
+          By continuing, you are agreeing to our Customer{" "}
+          <a
+            href="https://harthsocial.com/terms"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://harthsocial.com/privacy"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Privacy Policy
+          </a>
+          .
+        </p>
+        <Button
+          tier="secondary"
+          size="small"
+          text="Already have an account?"
+          onClick={() => {
+            router.push("/auth/login");
+          }}
+          className={styles.CreateModuleLinkToSignin}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default CreateAccount;

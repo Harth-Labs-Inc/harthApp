@@ -65,14 +65,12 @@ const rubik = Rubik({
   variable: "--Rubik-font",
   preload: false,
 });
-
 const montserrat = Montserrat({
   //weight: "400",
   subsets: ["latin"],
   variable: "--Montserrat-font",
   preload: false,
 });
-
 const opensans = Open_Sans({
   //weight: "400",
   subsets: ["latin"],

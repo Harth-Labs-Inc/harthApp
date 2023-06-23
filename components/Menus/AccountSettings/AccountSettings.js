@@ -6,11 +6,14 @@ import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
+import Cookies from "js-cookie";
 
 const SettingsList = ({ toggleCurrentTab }) => {
   const { isMobile } = useContext(MobileContext);
   const signOut = () => {
     localStorage.removeItem("token");
+    Cookies.remove("authToken");
+
     window.location.pathname = "/";
   };
 
