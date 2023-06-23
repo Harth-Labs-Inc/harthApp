@@ -24,7 +24,6 @@ export const SocketProvider = ({ children }) => {
 
   const { user } = useAuth();
   const {
-    selectedTopic,
     setTopics,
     setSelectedTopic,
     comms,
@@ -37,7 +36,6 @@ export const SocketProvider = ({ children }) => {
     setProfile,
     profileRef,
     fetchConversations,
-    selectedTopicRef,
   } = useComms();
 
   const socketRef = useRef(null);
@@ -47,72 +45,6 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      if (navigator && "serviceWorker" in navigator) {
-        navigator.serviceWorker.addEventListener("message", function (event) {
-          if (event.data === "pong") {
-            if (!socketRef.current?.connected) {
-              if (navigator && navigator.onLine) {
-                const URLS = socketUrls;
-                setSocket(
-                  io.connect(URLS[process.env.NODE_ENV], {
-                    transports: ["websocket"],
-                  })
-                );
-              }
-            } else {
-              socketRef.current?.emit("ping", (response) => {
-                if (!response || response !== "pong") {
-                  if (navigator && navigator.onLine) {
-                    const URLS = socketUrls;
-                    setSocket(
-                      io.connect(URLS[process.env.NODE_ENV], {
-                        transports: ["websocket"],
-                      })
-                    );
-                  }
-                }
-              });
-            }
-          }
-        });
-        setInterval(function () {
-          if (
-            navigator &&
-            "serviceWorker" in navigator &&
-            navigator.serviceWorker.controller
-          ) {
-            navigator.serviceWorker.controller.postMessage("ping");
-          }
-        }, 5000);
-      }
-
-      document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) {
-          if (!socketRef.current?.connected) {
-            if (navigator && navigator.onLine) {
-              const URLS = socketUrls;
-              setSocket(
-                io.connect(URLS[process.env.NODE_ENV], {
-                  transports: ["websocket"],
-                })
-              );
-            }
-          } else {
-            socketRef.current?.emit("ping", (response) => {
-              if (!response || response !== "pong") {
-                if (navigator && navigator.onLine) {
-                  const URLS = socketUrls;
-                  setSocket(
-                    io.connect(URLS[process.env.NODE_ENV], {
-                      transports: ["websocket"],
-                    })
-                  );
-                }
-              }
-            });
-          }
-        }
-      });
       const URLS = socketUrls;
       setSocket(
         io.connect(URLS[process.env.NODE_ENV], {
@@ -121,10 +53,101 @@ export const SocketProvider = ({ children }) => {
       );
 
       return () => {
-        document.removeEventListener("visibilitychange", () => {});
+        setSocket(null);
       };
     }
   }, [user]);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     if (navigator && "serviceWorker" in navigator) {
+  //       navigator.serviceWorker.addEventListener("message", function (event) {
+  //         if (event.data === "pong") {
+  //           if (!socketRef.current?.connected) {
+  //             if (navigator && navigator.onLine) {
+  //               const URLS = socketUrls;
+  //               console.log(1);
+  //               setSocket(
+  //                 io.connect(URLS[process.env.NODE_ENV], {
+  //                   transports: ["websocket"],
+  //                 })
+  //               );
+  //             }
+  //           } else {
+  //             socketRef.current?.emit("ping", (response) => {
+  //               if (!response || response !== "pong") {
+  //                 if (navigator && navigator.onLine) {
+  //                   const URLS = socketUrls;
+  //                   console.log(2);
+
+  //                   setSocket(
+  //                     io.connect(URLS[process.env.NODE_ENV], {
+  //                       transports: ["websocket"],
+  //                     })
+  //                   );
+  //                 }
+  //               }
+  //             });
+  //           }
+  //         }
+  //       });
+  //       setInterval(function () {
+  //         if (
+  //           navigator &&
+  //           "serviceWorker" in navigator &&
+  //           navigator.serviceWorker.controller
+  //         ) {
+  //           navigator.serviceWorker.controller.postMessage("ping");
+  //         }
+  //       }, 5000);
+  //     }
+
+  //     document.addEventListener("visibilitychange", () => {
+  //       if (!document.hidden) {
+  //         if (!socketRef.current?.connected) {
+  //           if (navigator && navigator.onLine) {
+  //             const URLS = socketUrls;
+  //             console.log(3);
+
+  //             setSocket(
+  //               io.connect(URLS[process.env.NODE_ENV], {
+  //                 transports: ["websocket"],
+  //               })
+  //             );
+  //           }
+  //         } else {
+  //           socketRef.current?.emit("ping", (response) => {
+  //             if (!response || response !== "pong") {
+  //               if (navigator && navigator.onLine) {
+  //                 const URLS = socketUrls;
+  //                 console.log(4);
+
+  //                 setSocket(
+  //                   io.connect(URLS[process.env.NODE_ENV], {
+  //                     transports: ["websocket"],
+  //                   })
+  //                 );
+  //               }
+  //             }
+  //           });
+  //         }
+  //       }
+  //     });
+  //     const URLS = socketUrls;
+  //     console.log(5);
+
+  //     setSocket(
+  //       io.connect(URLS[process.env.NODE_ENV], {
+  //         transports: ["websocket"],
+  //       })
+  //     );
+
+  //     return () => {
+  //       document.removeEventListener("visibilitychange", () => {});
+  //       setSocket(null)
+  //     };
+  //   }
+  // }, [user]);
 
   useEffect(() => {
     if (selectedcomm) {

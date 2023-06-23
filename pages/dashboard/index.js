@@ -39,7 +39,7 @@ const HarthInviteAcceptModal = dynamic(
   }
 );
 
-const dashboard = () => {
+const dashboard = ({ swReg }) => {
   const [GatherWindow, setGatherWindow] = useState("");
   const [invitedHarth, setInvitedHarth] = useState(null);
   const [newHarth, setNewHarth] = useState(null);
@@ -141,45 +141,35 @@ const dashboard = () => {
   }, [loading]);
 
   useEffect(() => {
-    if (user?._id) {
-      async function registerSW() {
-        if (
-          typeof navigator == "undefined" ||
-          !("serviceWorker" in navigator)
-        ) {
-          return;
-        }
-
+    if (swReg && "pushManager" in swReg) {
+      async function subscribePushServer() {
         try {
-          const swReg = await navigator?.serviceWorker.register("/sw.js");
           const sub = await swReg.pushManager.getSubscription();
           if (sub === null) {
-            const vapidPublicKey =
-              "BLmVZKPUxgCfITiXnsBehXwxHGXXOhDoTSBsQYgEu21Gn6kTicS0viMLkjpyAiP5ewX9xS-jQ3GreXB3-eO0tMA";
-            const convertedVapidPublicKey =
-              urlBase64ToUint8Array(vapidPublicKey);
-            const newSub = await swReg.pushManager.subscribe({
-              userVisibleOnly: true,
-              applicationServerKey: convertedVapidPublicKey,
-            });
-            saveUserSubscription({
-              sub: newSub,
-              userId: user._id,
-            });
+            const permission = await Notification.requestPermission();
+            if (permission === "granted") {
+              const vapidPublicKey =
+                "BLmVZKPUxgCfITiXnsBehXwxHGXXOhDoTSBsQYgEu21Gn6kTicS0viMLkjpyAiP5ewX9xS-jQ3GreXB3-eO0tMA";
+              const convertedVapidPublicKey =
+                urlBase64ToUint8Array(vapidPublicKey);
+              const newSub = await swReg.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: convertedVapidPublicKey,
+              });
+              saveUserSubscription({
+                sub: newSub,
+                userId: user._id,
+              });
+            }
           }
         } catch (error) {
           console.error(error);
         }
       }
 
-      if (document.readyState === "complete") {
-        registerSW();
-      } else {
-        window.addEventListener("load", registerSW);
-        return () => window.removeEventListener("load", registerSW);
-      }
+      subscribePushServer();
     }
-  }, [user]);
+  }, [swReg]);
 
   const changePageHandler = (pg) => {
     if (["gather", "chat", "message"].includes(pg)) {
@@ -271,7 +261,7 @@ const dashboard = () => {
     } else {
       return (
         <CommsProvider>
-          <SocketProvider>
+          <SocketProvider swReg={swReg}>
             <VideoProvider>
               {showCreateHarthNameModal ? (
                 <CreateHarthName

@@ -109,7 +109,10 @@ function MyApp({ Component, pageProps }) {
             <TransitionLayout>
               <GatheringFormProvider>
                 <GatheringEditFormProvider>
-                  <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" />
+                  <Script
+                    src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"
+                    preload
+                  />
                   <Component key={router.asPath} {...pageProps} />
                 </GatheringEditFormProvider>
               </GatheringFormProvider>

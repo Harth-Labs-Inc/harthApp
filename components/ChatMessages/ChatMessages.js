@@ -11,6 +11,7 @@ import ImageViewer from "react-simple-image-viewer";
 import TalkingHead from "components/TalkingHead/TalkingHead";
 import { getMessagesByTopic } from "requests/chat";
 import { useAuth } from "contexts/auth";
+import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 
 const MessageWrapper = () => {
   const [currentMessages, setCurrentMessages] = useState([]);
@@ -107,24 +108,27 @@ const MessageWrapper = () => {
           setPage(1);
           setLoading(false);
         }
-        await removeUnsavedMessages(selectedTopic._id, user._id);
-        let message = {};
-        message.updateType = "reload unreads";
-        message.topic_id = selectedTopic._id;
-        message.user_id = user._id;
-        emitUpdateFromRef(
-          selectedCommRef.current?._id,
-          message,
-          async (err) => {
-            if (err) {
-              console.error(err);
+        removeUnsavedMessages(selectedTopic._id, user._id).then(() => {
+          let message = {};
+          message.updateType = "reload unreads";
+          message.topic_id = selectedTopic._id;
+          message.user_id = user._id;
+          emitUpdateFromRef(
+            selectedCommRef.current?._id,
+            message,
+            async (err) => {
+              if (err) {
+                console.error(err);
+              }
             }
-          }
-        );
+          );
+        });
       })();
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, [selectedTopic]);
+
   useEffect(() => {
     if (incomingMsg && Object.keys(incomingMsg).length) {
       if (selectedTopic && incomingMsg.topic_id === selectedTopic._id) {
@@ -251,7 +255,6 @@ const MessageWrapper = () => {
       setPage((prevState) => prevState + 1);
     }
   };
-
   return (
     <>
       {showImageSlideShow ? (
@@ -291,6 +294,17 @@ const MessageWrapper = () => {
                 />
               </div>
             ))
+          ) : loading ? (
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate3d(-50%, -50%, 0)",
+              }}
+            >
+              <SpinningLoader spinnerOnly={true} />
+            </div>
           ) : (
             <div className={styles.NoPosts}>
               <TalkingHead
