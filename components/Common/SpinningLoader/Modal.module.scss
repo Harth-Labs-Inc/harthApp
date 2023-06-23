@@ -1,58 +1,51 @@
 @import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
 
 
 .Maincontainer {
     position: fixed;
-    z-index: 10000000000000000000000000;
+    z-index: 10000;
     top: 0;
     left: 0;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-    background: white;  
+    background: $silver_xxlight;  
+    
     &Dark {
-    background: $fuel;
-    &p {
-      color: white;
+      background: $fuel;
     }
 }
 
-}
 .content {
-       position: absolute;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
-}
-.spinner {
-    position: relative;
-    height: 70px;
-    width: 70px;
-    &::after {
-        content: "";
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        background-color: transparent;
-        border: 4px solid transparent;
-        border-top-color: $hot_pink;
-        border-radius: 50%;
-        animation: spinner 1s ease infinite;
+
+    img {
+      border-radius: 12px;
+      width: 56px;
+      //height: 56px;
+      opacity: 0.8;
+      margin-top: 24px;
+      transform: scaleX(-1);
     }
 
+    p {
+        @include montserrat;
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        color: $white_90;
+    }
+    .logo {
+      width: 96px;
+    }
 }
 
-@keyframes spinner {
-    from {
-      transform: rotate(0turn);
-    }
-  
-    to {
-      transform: rotate(1turn);
-    }
-  }
+
+

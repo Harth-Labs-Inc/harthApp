@@ -171,9 +171,11 @@
         &Reactions {
             position: relative;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             margin-left: 16px;
-            gap: 8px;
+            margin-top: -6px;
+            gap: 4px;
 
             > * {
                 margin-right: $gutter;
@@ -181,15 +183,15 @@
 
             &Emoji {
                 position: relative;
+                @include emoji;
                 font-size: 28px;
                 line-height: 28px;
                 background-color: $white;
-                padding: 7px 6px;
+                padding: 8px 8px 2px 8px;
                 border-radius: 99px;
                 z-index: 1;
                 margin: 0;
-                margin-top: -6px;
-                border: 1px solid transparent;
+                border: 1px solid $silver_xxlight;
                 box-shadow:
                 0 1px 1px hsl(0deg 0% 0% / 0.05),
                 0 2px 2px hsl(0deg 0% 0% / 0.05);
@@ -197,32 +199,105 @@
 
                 &Owner {
                     box-shadow:
-                    0 1px 1px hsl(326deg 58% 64% / 0.20),
-                    0 2px 2px hsl(326deg 58% 64% / 0.20),
-                    0 4px 4px hsl(326deg 58% 64% / 0.20);
+                    0 2px 0px $hot_pink;
                 }
                 &Data {
+                    display: flex;
+                    flex-direction: row;
                     position: absolute;
-                    top: -87%;
-                    background: black;
-                    color: white; 
+                    top: -105%;
+                    left: -4px;
+                    background: $ash;
+                    border-radius: 12px;
+                    color: $white; 
+                    @include rubik;
+                    padding: 0px 8px;
+                    gap: 6px;
+                    padding-top: 2px;
+
+                    
+                    .emoji {
+                        position: relative;
+                        @include emoji;
+                        font-size: 20px;
+                        //line-height: 100%;
+                        //background-color: aqua;
+                        padding-top: 4px;
+                        &::after {
+                            position: absolute;
+                            content: " ";
+                            bottom: -6px;
+                            left: 10px;
+                            z-index: 1000;
+                            //transform: translate3d(-50%, -50%, 0);
+                            width: 0;
+                            height: 0;
+                            border-left: 8px solid transparent;
+                            border-right: 8px solid transparent;
+                            border-top: 10px solid $ash;
+                        }
+                    }
+                    
                     &Group {
                         position: absolute;
-                        top: -87%;
-                        background: black;
-                        color: white; 
+                        width: fit-content;
+                        top: 0px;
+                        transform: translate(0px, calc(-100% - 16px));
+                        padding: 8px 20px 8px 12px;
+                        background: $ash;
+                        color: $white; 
+                        z-index: 100;
+                        border-radius: 16px;
+                        
+                        ul {
+                            margin: 0;
+                            padding: 0;
+                            list-style: none;
+
+                            &::after {
+                                position: absolute;
+                                content: " ";
+                                bottom: -6px;
+                                left: calc(50% - 10px);
+                                z-index: 1000;
+                                //transform: translate3d(-50%, -50%, 0);
+                                width: 0;
+                                height: 0;
+                                border-left: 8px solid transparent;
+                                border-right: 8px solid transparent;
+                                border-top: 10px solid $ash;
+                            }
+                        }
+                        
+                        li {
+                            margin: 0;
+                            padding: 0;
+                            list-style: none;
+                            @include rubik;
+                            font-size: 16px;
+                            font-weight: 500;
+                            .emoji {
+                                @include emoji;
+                                font-size: 32px;
+                                margin-right: 12px;
+                                margin-top: 3px;
+                                
+                            }
+                        }
+
+                        
                     }
                 }
 
                 &Desktop {
                     &:hover {
-                        scale: 1.2;
+                        scale: 1.1;
                     }
                 }
 
                 &Mobile {
                     &:active {
-                        scale: 1.2;
+                        scale: 1.1;
                     }
                 } 
             }
@@ -231,12 +306,11 @@
                 //width: 40px;
                 background-color: $white;
                 padding: 0;
-                padding: 7px 8px 5px 8px;;
+                padding: 5px 9px 3px 8px;
                 border-radius: 99px;
                 z-index: 1;
                 margin: 0;
-                margin-top: -6px;
-                border: 1px solid $silver-xxlight;
+                border: 1px solid transparent;
                 border: 0;
                 box-shadow:
                 0 1px 1px hsl(0deg 0% 0% / 0.05),
@@ -258,6 +332,7 @@
                 }
 
                 &Mobile {
+                    padding: 7px 11px 5px 10px;
                     &:active {
                         scale: 1.2;
                     }

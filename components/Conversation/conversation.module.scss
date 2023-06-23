@@ -19,7 +19,7 @@
         align-items: center;
         text-align: left;
         @include topicTitle;
-        color: $fuel;
+        color: #666677;
         height: 32px;
         margin-left: 10px;
         width: fit-content;
@@ -45,6 +45,7 @@
             border:0;
             border: 1px solid $silver-med;
             user-select: none;
+            opacity: .7;
 
             &Mobile {
                 height: 48px;
@@ -69,7 +70,14 @@
 
         &:active {
             background-color: $silver-light;
-
+            .label {
+                color: $fuel;
+            }
+            .participantElement {
+                .avatar {
+                    opacity: 1;
+                }
+            }
         }
         
     }
@@ -107,8 +115,15 @@
         }
         
         &:hover {
-            background-color: $silver-xlight;
-
+            //background-color: $silver-xlight;
+            .label {
+                color: $fuel;
+            }
+            .participantElement {
+                .avatar {
+                    opacity: 1;
+                }
+            }
             .moreMenu {
                 visibility: visible;
             }
@@ -118,9 +133,15 @@
     }
     &Active {
         background-color: $silver-light;
+        .participantElement {
+            .avatar {
+                opacity: 1;
+            }
+        }
 
         .label {
             font-weight: 800;
+            color: $fuel;
         }
         &:hover {
             background-color: $silver-light;
@@ -133,8 +154,13 @@
     &Alert {
         .label {
             font-weight: 800;
+            color: $fuel;
         }
-
+        .participantElement {
+            .avatar {
+                opacity: 1;
+            }
+        }
         &::before {
             content: "";
             position: absolute;
