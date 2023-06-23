@@ -67,7 +67,7 @@ const OtpValidator = (props) => {
           setBadCode(false);
           setHelpText(["SUCCESS!!"]);
           localStorage.setItem("token", tkn);
-          Cookies.set("authToken", tkn);
+          Cookies.set("authToken", tkn, { expires: 365 });
           if (newUser.showFirstTimeUser) {
             localStorage.setItem("showFirstTimeUser", true);
           }

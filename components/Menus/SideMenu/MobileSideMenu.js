@@ -28,7 +28,7 @@ const MobileSideNav = (props) => {
 
   const changeSelectedCom = (com) => {
     localStorage.setItem("selectedHarthID", com._id);
-    Cookies.set("selectedHarthID", com._id);
+    Cookies.set("selectedHarthID", com._id, { expires: 365 });
     setSelectedHarthFromChild(com);
     onToggleMenu();
   };
