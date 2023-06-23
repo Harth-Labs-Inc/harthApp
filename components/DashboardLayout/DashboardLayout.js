@@ -25,14 +25,7 @@ const DashboardLayout = (props) => {
     user,
   } = props;
 
-  const {
-    grabTopics,
-    selectedcomm,
-    resetConversations,
-    fetchConversations,
-    resetTopics,
-    forceHarthCreation,
-  } = useComms();
+  const { selectedcomm, forceHarthCreation } = useComms();
   const { getInitialCallRooms, socketID, callRooms } = useVideo();
   const { mainAlertsRef, setMainAlertsFromChild } = useSocket();
 
