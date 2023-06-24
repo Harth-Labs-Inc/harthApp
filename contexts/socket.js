@@ -68,7 +68,12 @@ export const SocketProvider = ({ children, user, unreadMsgsProps }) => {
       join([...(comms || [])]);
 
       socket.on("new update", async ({ updateType, ...incomingUpdate }) => {
-        let activeTopic = JSON.parse(localStorage.getItem("selected_topic"));
+        let storedTopc = localStorage.getItem("selected_topic");
+        let activeTopic = {};
+        if (storedTopc && storedTopc !== "undefined") {
+          activeTopic = JSON.parse(storedTopc);
+        }
+
         switch (updateType) {
           case "new message":
             if (

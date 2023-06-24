@@ -46,33 +46,19 @@ const HarthInviteAcceptModal = dynamic(
 );
 
 const dashboard = ({
-  badAuth,
-  redirectDestination,
-  user,
-  commsProps,
-  selectedCommProp,
-  topicsArr,
-  roomsArr,
-  creator,
-  unreadMsgs,
-  scheduledRooms,
+  JSONbadAuth,
+  JSONredirectDestination,
+  JSONuser,
+  JSONcommsProps,
+  JSONselectedCommProp,
+  JSONtopicsArr,
+  JSONroomsArr,
+  JSONcreator,
+  JSONunreadMsgs,
+  JSONscheduledRooms,
 }) => {
-  const [GatherWindow, setGatherWindow] = useState("");
-  const [invitedHarth, setInvitedHarth] = useState(null);
-  const [newHarth, setNewHarth] = useState(null);
-  const [showCreateHarthNameModal, setShowCreateHarthNameModal] =
-    useState(false);
-  const [showCreateHarthProfileModal, setShowCreateHarthProfileModal] =
-    useState(false);
-  const [showInviteAcceptModal, setShowInviteAcceptModal] = useState(false);
-  const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
-  const [inviteTKN, setInviteTKN] = useState(false);
-  const [swReg, setSwReg] = useState(null);
-
-  const router = useRouter();
-  const {
-    query: { tkn, gather_window, room_type },
-  } = router;
+  const badAuth = JSON.parse(JSONbadAuth || false);
+  const redirectDestination = JSONredirectDestination;
 
   useEffect(() => {
     if (badAuth) {
@@ -81,6 +67,32 @@ const dashboard = ({
   }, [badAuth]);
 
   if (!badAuth) {
+    const user = JSON.parse(JSONuser);
+    const commsProps = JSON.parse(JSONcommsProps);
+    const selectedCommProp = JSON.parse(JSONselectedCommProp);
+    const topicsArr = JSON.parse(JSONtopicsArr);
+    const roomsArr = JSON.parse(JSONroomsArr);
+    const creator = JSON.parse(JSONcreator);
+    const unreadMsgs = JSON.parse(JSONunreadMsgs);
+    const scheduledRooms = JSON.parse(JSONscheduledRooms);
+
+    const [GatherWindow, setGatherWindow] = useState("");
+    const [invitedHarth, setInvitedHarth] = useState(null);
+    const [newHarth, setNewHarth] = useState(null);
+    const [showCreateHarthNameModal, setShowCreateHarthNameModal] =
+      useState(false);
+    const [showCreateHarthProfileModal, setShowCreateHarthProfileModal] =
+      useState(false);
+    const [showInviteAcceptModal, setShowInviteAcceptModal] = useState(false);
+    const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
+    const [inviteTKN, setInviteTKN] = useState(false);
+    const [swReg, setSwReg] = useState(null);
+
+    const router = useRouter();
+    const {
+      query: { tkn, gather_window, room_type },
+    } = router;
+
     let prevPage = Cookies.get("selectedPage");
     let page;
     if (gather_window) {
@@ -437,7 +449,6 @@ export async function getServerSideProps(context) {
   const { cookie } = req.headers;
   const cookies = parseCookies(cookie);
   const { authToken, selectedHarthID } = cookies;
-
   const { url } = req;
   const [_, queryString] = url.split("?");
   const search = queryString ? `?${queryString}` : "";
@@ -446,90 +457,188 @@ export async function getServerSideProps(context) {
   if (!authToken) {
     return {
       props: {
-        badAuth: true,
-        redirectDestination: redirectDestination,
+        JSONbadAuth: true,
+        JSONredirectDestination: redirectDestination,
       },
     };
   }
-
-  const userResult = await getUserFromToken(authToken);
-  const { user } = userResult;
-  if (!user) {
+  const mongo = require("mongodb");
+  const jwt = require("jsonwebtoken");
+  const decode = (tokn) => {
+    return new Promise((resolve, reject) => {
+      resolve(jwt.verify(tokn, process.env.SECRET));
+    });
+  };
+  let decodedToken;
+  try {
+    decodedToken = await decode(authToken);
+  } catch (error) {
     return {
       props: {
-        badAuth: true,
-        redirectDestination: redirectDestination,
+        JSONbadAuth: true,
+        JSONredirectDestination: redirectDestination,
       },
     };
   }
 
-  let commResult = await getComms(user, authToken);
-  const { comms } = commResult;
+  let { userId } = decodedToken;
+  if (!userId) {
+    return {
+      props: {
+        JSONbadAuth: true,
+        JSONredirectDestination: redirectDestination,
+      },
+    };
+  }
+
+  const clientPromise = require("util/mongodb").default;
+  const client = await clientPromise;
+  const db = client.db("blarg");
+
+  const findUser = (db, id) => {
+    return new Promise((resolve, reject) => {
+      let o_id = new mongo.ObjectId(id);
+      db.collection("users")
+        .find({ _id: o_id })
+        .toArray(function (err, results) {
+          if (err) {
+            resolve(false);
+          }
+          resolve(results[0]);
+        });
+    });
+  };
+
+  let user = await findUser(db, userId);
+  if (
+    !user ||
+    user.token !== authToken ||
+    new Date() > new Date(user.token_expiration)
+  ) {
+    return {
+      props: {
+        JSONbadAuth: true,
+        JSONredirectDestination: redirectDestination,
+      },
+    };
+  }
+
+  user._id = user._id.toString();
+
+  const getComms = (db, ids) => {
+    return new Promise((resolve, reject) => {
+      let oids = [];
+      ids.forEach((id) => {
+        oids.push(new mongo.ObjectId(id));
+      });
+      db.collection("communities")
+        .find({ _id: { $in: oids } })
+        .project({ invites: 0 })
+        .toArray(function (err, results) {
+          if (err) {
+            resolve(false);
+          }
+          resolve(results);
+        });
+    });
+  };
+
+  let comms = await getComms(db, user.comms);
   if (!comms) {
     return {
       props: {
-        badAuth: true,
-        redirectDestination: redirectDestination,
+        JSONuser: JSON.stringify(user),
+        JSONcommsProps: [],
       },
     };
   }
 
   let selectedComm;
   if (selectedHarthID) {
-    let match = comms.find((com) => com._id == selectedHarthID);
-    if (match) {
-      selectedComm = match;
-    } else {
-      selectedComm = comms[0];
-    }
+    selectedComm = comms.find(
+      (com) => com._id.toString() === selectedHarthID.toString()
+    );
   } else {
     selectedComm = comms[0];
   }
-
-  let creator = selectedComm.users.find((usr) => usr.userId === user._id);
-
-  const selectedID = selectedComm._id;
-  let topicsArr = [];
-  let roomsArr = [];
-  let unreadMsgs = [];
-  let scheduledRooms = [];
-
-  if (selectedID) {
-    const [topicsResult, roomsResult, unreadResult, scheduleResult] =
-      await Promise.all([
-        getTopics(selectedID, user._id, authToken),
-        getRooms(selectedID, user._id, authToken),
-        getExistingUnreadMessages(user._id, null, authToken),
-        getScheduledCallRooms(selectedID, authToken),
-      ]);
-    const { topics } = topicsResult;
-    const { rms } = roomsResult;
-    const { data } = unreadResult;
-    const schRms = scheduleResult.rms;
-    if (topics) {
-      topicsArr = topics;
-    }
-    if (rms) {
-      roomsArr = rms;
-    }
-    if (data) {
-      unreadMsgs = data;
-    }
-    if (schRms) {
-      scheduledRooms = schRms;
-    }
-    schRms;
+  if (!selectedComm) {
+    return {
+      props: {
+        JSONuser: JSON.stringify(user),
+        JSONcommsProps: JSON.stringify(comms),
+        JSONselectedCommProp: {},
+        JSONtopicsArr: [],
+        JSONroomsArr: [],
+        JSONcreator: {},
+        JSONunreadMsgs: [],
+        JSONscheduledRooms: [],
+      },
+    };
   }
 
+  let creator = selectedComm.users?.find(
+    (usr) => usr.userId === user._id.toString()
+  );
+  if (!creator) {
+    return {
+      props: {
+        JSONuser: JSON.stringify(user),
+        JSONcommsProps: JSON.stringify(comms),
+        JSONselectedCommProp: JSON.stringify(selectedComm),
+        JSONtopicsArr: [],
+        JSONroomsArr: [],
+        JSONcreator: {},
+        JSONunreadMsgs: [],
+        JSONscheduledRooms: [],
+      },
+    };
+  }
+
+  const selectedID = selectedComm._id.toString();
+  if (selectedID) {
+    const getTopics = (id, usrId) => {
+      return db
+        .collection("topics")
+        .find({ comm_id: id, members: { $elemMatch: { user_id: usrId } } })
+        .toArray();
+    };
+    const getExistingUnreadMessages = (id) => {
+      return db.collection("unread_messages").find({ user_id: id }).toArray();
+    };
+    const getScheduledCallRooms = (id) => {
+      return db.collection("rooms").find({ harthId: id }).toArray();
+    };
+    const [topics, unreadResult, scheduleResult] = await Promise.all([
+      getTopics(selectedID, user._id),
+      getExistingUnreadMessages(user._id),
+      getScheduledCallRooms(selectedID),
+    ]);
+
+    const { data: unreadMsgs } = unreadResult || { data: [] };
+    const { rms: scheduledRooms } = scheduleResult || { rms: [] };
+
+    const props = {
+      JSONuser: JSON.stringify(user),
+      JSONcommsProps: JSON.stringify(comms),
+      JSONselectedCommProp: JSON.stringify(selectedComm),
+      JSONtopicsArr: JSON.stringify(topics || []),
+      JSONroomsArr: JSON.stringify(scheduledRooms || []),
+      JSONcreator: JSON.stringify(creator || {}),
+      JSONunreadMsgs: JSON.stringify(unreadMsgs || []),
+      JSONscheduledRooms: JSON.stringify(scheduledRooms || []),
+    };
+
+    return { props };
+  }
   const props = {
-    user,
-    commsProps: comms,
-    selectedCommProp: selectedComm,
-    topicsArr,
-    roomsArr,
-    creator,
-    unreadMsgs,
-    scheduledRooms,
+    JSONuser,
+    JSONcommsProps: [],
+    JSONselectedCommProp: {},
+    JSONtopicsArr: [],
+    JSONroomsArr: [],
+    JSONcreator: {},
+    JSONunreadMsgs: [],
+    JSONscheduledRooms: [],
   };
   return {
     props,
