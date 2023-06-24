@@ -2,20 +2,14 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
-import { sendWelcomeEmailToUser, getUserFromToken } from "requests/userApi";
-import {
-  checkIfInviteTokenIsGood,
-  getComms,
-  getExistingUnreadMessages,
-  getTopics,
-} from "requests/community";
+import { sendWelcomeEmailToUser } from "requests/userApi";
+import { checkIfInviteTokenIsGood, getComms } from "requests/community";
 import { VideoProvider } from "contexts/video";
 import { CommsProvider } from "contexts/comms";
 import { SocketProvider } from "contexts/socket";
 import { urlBase64ToUint8Array } from "services/helper";
 import { saveUserSubscription } from "../requests/subscriptions";
 import { AuthProvider } from "contexts/auth";
-import { getRooms, getScheduledCallRooms } from "requests/rooms";
 import Cookies from "js-cookie";
 
 /* eslint-disable */
