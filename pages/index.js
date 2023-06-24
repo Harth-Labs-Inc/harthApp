@@ -40,20 +40,17 @@ const HarthInviteAcceptModal = dynamic(
 );
 
 const dashboard = ({
-  JSONbadAuth,
-  JSONredirectDestination,
-  JSONuser,
-  JSONcommsProps,
-  JSONselectedCommProp,
-  JSONtopicsArr,
-  JSONroomsArr,
-  JSONcreator,
-  JSONunreadMsgs,
-  JSONscheduledRooms,
+  badAuth,
+  redirectDestination,
+  user,
+  commsProps,
+  selectedCommProp,
+  topicsArr,
+  roomsArr,
+  creator,
+  unreadMsgs,
+  scheduledRooms,
 }) => {
-  const badAuth = JSON.parse(JSONbadAuth || false);
-  const redirectDestination = JSONredirectDestination;
-
   useEffect(() => {
     if (badAuth) {
       window.location.replace(redirectDestination);
@@ -61,15 +58,6 @@ const dashboard = ({
   }, [badAuth]);
 
   if (!badAuth) {
-    const user = JSON.parse(JSONuser);
-    const commsProps = JSON.parse(JSONcommsProps);
-    const selectedCommProp = JSON.parse(JSONselectedCommProp);
-    const topicsArr = JSON.parse(JSONtopicsArr);
-    const roomsArr = JSON.parse(JSONroomsArr);
-    const creator = JSON.parse(JSONcreator);
-    const unreadMsgs = JSON.parse(JSONunreadMsgs);
-    const scheduledRooms = JSON.parse(JSONscheduledRooms);
-
     const [GatherWindow, setGatherWindow] = useState("");
     const [invitedHarth, setInvitedHarth] = useState(null);
     const [newHarth, setNewHarth] = useState(null);
@@ -451,8 +439,8 @@ export async function getServerSideProps(context) {
   if (!authToken) {
     return {
       props: {
-        JSONbadAuth: true,
-        JSONredirectDestination: redirectDestination,
+        badAuth: true,
+        redirectDestination: redirectDestination,
       },
     };
   }
@@ -469,8 +457,8 @@ export async function getServerSideProps(context) {
   } catch (error) {
     return {
       props: {
-        JSONbadAuth: true,
-        JSONredirectDestination: redirectDestination,
+        badAuth: true,
+        redirectDestination: redirectDestination,
       },
     };
   }
@@ -479,8 +467,8 @@ export async function getServerSideProps(context) {
   if (!userId) {
     return {
       props: {
-        JSONbadAuth: true,
-        JSONredirectDestination: redirectDestination,
+        badAuth: true,
+        redirectDestination: redirectDestination,
       },
     };
   }
@@ -511,8 +499,8 @@ export async function getServerSideProps(context) {
   ) {
     return {
       props: {
-        JSONbadAuth: true,
-        JSONredirectDestination: redirectDestination,
+        badAuth: true,
+        redirectDestination: redirectDestination,
       },
     };
   }
@@ -538,11 +526,12 @@ export async function getServerSideProps(context) {
   };
 
   let comms = await getComms(db, user.comms);
+
   if (!comms) {
     return {
       props: {
-        JSONuser: JSON.stringify(user),
-        JSONcommsProps: [],
+        user: user ? JSON.parse(JSON.stringify(user)) : null,
+        commsProps: [],
       },
     };
   }
@@ -555,17 +544,18 @@ export async function getServerSideProps(context) {
   } else {
     selectedComm = comms[0];
   }
+
   if (!selectedComm) {
     return {
       props: {
-        JSONuser: JSON.stringify(user),
-        JSONcommsProps: JSON.stringify(comms),
-        JSONselectedCommProp: {},
-        JSONtopicsArr: [],
-        JSONroomsArr: [],
-        JSONcreator: {},
-        JSONunreadMsgs: [],
-        JSONscheduledRooms: [],
+        user: JSON.stringify(user),
+        commsProps: JSON.parse(JSON.stringify(comms)),
+        selectedCommProp: {},
+        topicsArr: [],
+        roomsArr: [],
+        creator: {},
+        unreadMsgs: [],
+        scheduledRooms: [],
       },
     };
   }
@@ -576,14 +566,14 @@ export async function getServerSideProps(context) {
   if (!creator) {
     return {
       props: {
-        JSONuser: JSON.stringify(user),
-        JSONcommsProps: JSON.stringify(comms),
-        JSONselectedCommProp: JSON.stringify(selectedComm),
-        JSONtopicsArr: [],
-        JSONroomsArr: [],
-        JSONcreator: {},
-        JSONunreadMsgs: [],
-        JSONscheduledRooms: [],
+        user: user ? JSON.parse(JSON.stringify(user)) : null,
+        commsProps: JSON.parse(JSON.stringify(comms)),
+        selectedCommProp: JSON.parse(JSON.stringify(selectedComm)),
+        topicsArr: [],
+        roomsArr: [],
+        creator: {},
+        unreadMsgs: [],
+        scheduledRooms: [],
       },
     };
   }
@@ -612,27 +602,27 @@ export async function getServerSideProps(context) {
     const { rms: scheduledRooms } = scheduleResult || { rms: [] };
 
     const props = {
-      JSONuser: JSON.stringify(user),
-      JSONcommsProps: JSON.stringify(comms),
-      JSONselectedCommProp: JSON.stringify(selectedComm),
-      JSONtopicsArr: JSON.stringify(topics || []),
-      JSONroomsArr: JSON.stringify(scheduledRooms || []),
-      JSONcreator: JSON.stringify(creator || {}),
-      JSONunreadMsgs: JSON.stringify(unreadMsgs || []),
-      JSONscheduledRooms: JSON.stringify(scheduledRooms || []),
+      user: user ? JSON.parse(JSON.stringify(user)) : null,
+      commsProps: JSON.parse(JSON.stringify(comms)),
+      selectedCommProp: JSON.parse(JSON.stringify(selectedComm)),
+      topicsArr: JSON.parse(JSON.stringify(topics || [])),
+      roomsArr: JSON.parse(JSON.stringify(scheduledRooms || [])),
+      creator: JSON.parse(JSON.stringify(creator || {})),
+      unreadMsgs: JSON.parse(JSON.stringify(unreadMsgs || [])),
+      scheduledRooms: JSON.parse(JSON.stringify(scheduledRooms || [])),
     };
 
     return { props };
   }
   const props = {
-    JSONuser,
-    JSONcommsProps: [],
-    JSONselectedCommProp: {},
-    JSONtopicsArr: [],
-    JSONroomsArr: [],
-    JSONcreator: {},
-    JSONunreadMsgs: [],
-    JSONscheduledRooms: [],
+    user,
+    commsProps: [],
+    selectedCommProp: {},
+    topicsArr: [],
+    roomsArr: [],
+    creator: {},
+    unreadMsgs: [],
+    scheduledRooms: [],
   };
   return {
     props,
