@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
+import Script from "next/script";
 import { generateID } from "services/helper";
 import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "contexts/mobile";
@@ -385,7 +386,7 @@ const Stream = () => {
 
   useEffect(() => {
     if (socketID && !audioSharePeer.current) {
-      if (userName && roomId) {
+      if (userName && roomId && typeof window !== "undefined") {
         createAudioSharePeer({ userName, userIcon, roomId });
       }
     }
@@ -578,45 +579,53 @@ const Stream = () => {
     }, interval);
   };
 
-  const createAudioSharePeer = () => {
-    let servers = [];
-    if (TurnServers.length) {
-      servers = TurnServers;
-    } else {
-      servers = [
-        {
-          url: "stun:stun.1und1.de:3478",
-        },
-      ];
-    }
-    servers.length = 2;
-    audioSharePeer.current = new window.Peer(undefined, {
-      config: {
-        iceServers: [...servers],
-        audioBitrate: 128,
-      },
-      debug: 2,
-    });
+  const createPeerConnection = (conf) => {
+    return new Promise((resolve, reject) => {
+      const peer = new window.Peer(undefined, {
+        config: { ...conf },
+        debug: 2,
+      });
 
-    audioSharePeer.current.on("open", async (peerid) => {
-      let obj = {
-        userName,
-        userIcon,
-        userID: user._id,
-        peerId: peerid,
-        socketID,
-        roomId,
-        harthId,
-      };
-      createScreenSharePeer(obj);
+      peer.on("open", () => {
+        resolve(peer);
+      });
+
+      peer.on("error", (error) => {
+        reject(error);
+      });
     });
-    audioSharePeer.current.on("error", function () {
-      try {
-        audioSharePeer.current.reconnect();
-      } catch (error) {
-        console.error(error);
-      }
-    });
+  };
+  const createAudioSharePeer = async () => {
+    const [authPeer, ScreenPeer] = await Promise.all([
+      createPeerConnection({
+        iceServers: [...TurnServers],
+        audioBitrate: 128,
+      }),
+
+      createPeerConnection({
+        iceServers: [...TurnServers],
+        videoBitrate: 256,
+        sdpSemantics: "unified-plan",
+        video: {
+          codecs: [
+            { name: "VP8", priority: 10, payloadType: 120 },
+            { name: "H264", priority: 20, payloadType: 100 },
+          ],
+        },
+      }),
+    ]);
+    let obj = {
+      userName,
+      userIcon,
+      userID: user._id,
+      socketID,
+      roomId,
+      harthId,
+      peerId: authPeer._id,
+      capturePeer: ScreenPeer._id,
+    };
+
+    audioSharePeer.current = authPeer;
     audioSharePeer.current.on("call", async (call) => {
       call.answer();
 
@@ -626,38 +635,13 @@ const Stream = () => {
         });
         createAudio(incomingStream, peer, call);
       });
-      call.on("error", function (err) {
-        console.error(err);
-      });
+      call.on("error", function (err) {});
     });
-  };
-
-  const createScreenSharePeer = (peerobj) => {
-    let servers = [];
-    if (TurnServers.length) {
-      servers = TurnServers;
-    } else {
-      servers = [
-        {
-          url: "stun:stun.1und1.de:3478",
-        },
-      ];
-    }
-    servers.length = 2;
-    ScreenSharePeer.current = new window.Peer(undefined, {
-      config: {
-        iceServers: [...servers],
-      },
-      debug: 2,
+    audioSharePeer.current.on("error", function (err) {
+      audioSharePeer.current.reconnect();
     });
 
-    ScreenSharePeer.current.on("open", (peerid) => {
-      peerobj.capturePeer = peerid;
-      joinRoomSocket(peerobj);
-    });
-    ScreenSharePeer.current.on("error", function (err) {
-      ScreenSharePeer.current.reconnect();
-    });
+    ScreenSharePeer.current = ScreenPeer;
     ScreenSharePeer.current.on("call", async (call) => {
       call.answer();
 
@@ -667,6 +651,10 @@ const Stream = () => {
       });
       call.on("error", function (err) {});
     });
+    ScreenSharePeer.current.on("error", function (err) {
+      ScreenSharePeer.current.reconnect();
+    });
+    joinRoomSocket(obj);
   };
   const joinRoomSocket = (obj) => {
     socket &&
@@ -1358,6 +1346,7 @@ const Stream = () => {
 
   return (
     <>
+      <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
       <main className={styles.VoiceWindow}>
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}

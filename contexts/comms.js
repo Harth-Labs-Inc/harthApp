@@ -80,9 +80,7 @@ export const CommsProvider = ({ children }) => {
       if (user) {
         if (!gather_window) {
           setTopicChange(0);
-          grabTopics(selectedcomm._id);
           grabRooms(selectedcomm._id);
-          fetchConversations();
           let creator = selectedcomm.users.find(
             (usr) => usr.userId === user._id
           );
@@ -231,6 +229,7 @@ export const CommsProvider = ({ children }) => {
     });
   };
   const grabTopics = async (comid) => {
+    console.log("comms.js");
     let result = await getTopics(comid, user._id);
     const { ok, topics } = result;
     if (ok) {
@@ -366,6 +365,7 @@ export const CommsProvider = ({ children }) => {
           tmpSelectedTopic.members = newMembers;
           tmpTopics[matchingTopicIndex] = tmpSelectedTopic;
           setTopics(tmpTopics);
+          console.log(2);
           grabTopics(selectedcomm._id);
           grabRooms(selectedcomm._id);
           await updatedTopic({

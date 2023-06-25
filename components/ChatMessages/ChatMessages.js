@@ -95,7 +95,7 @@ const MessageWrapper = () => {
     setLoading(true);
     setPage(1);
     setCurrentMessages([]);
-    if (selectedTopic) {
+    if (selectedTopic && selectedTopic._id) {
       (async () => {
         let data = await getMessagesByTopic(selectedTopic._id, 1, 10);
         const { ok, fetchResults } = data;

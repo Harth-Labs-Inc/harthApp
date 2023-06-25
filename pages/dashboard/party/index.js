@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-
+import Script from "next/script";
 import { generateID } from "../../../services/helper";
 import { useSize, MobileContext } from "../../../contexts/mobile";
 import { resize } from "../../../util/resize";
@@ -303,7 +303,7 @@ const Party = () => {
 
   useEffect(() => {
     if (socketID && !audioSharePeer.current) {
-      if (userName && roomId) {
+      if (userName && roomId && typeof window !== "undefined") {
         createAudioSharePeer({ userName, userIcon, roomId });
       }
     }
@@ -617,41 +617,64 @@ const Party = () => {
       run();
     });
   };
-  const createAudioSharePeer = () => {
-    let servers = [];
-    if (TurnServers.length) {
-      servers = TurnServers;
-    } else {
-      servers = [
-        {
-          url: "stun:stun.1und1.de:3478",
-        },
-      ];
-    }
-    servers.length = 2;
-    audioSharePeer.current = new window.Peer(undefined, {
-      config: {
-        iceServers: [...servers],
-        audioBitrate: 128,
-      },
-      debug: 2,
-    });
+  const createPeerConnection = (conf) => {
+    return new Promise((resolve, reject) => {
+      const peer = new window.Peer(undefined, {
+        config: { ...conf },
+        debug: 2,
+      });
 
-    audioSharePeer.current.on("open", async (peerid) => {
-      let obj = {
-        userName,
-        userIcon,
-        userID: user._id,
-        peerId: peerid,
-        socketID,
-        roomId,
-        harthId,
-      };
-      createVideoSharePeer(obj);
+      peer.on("open", () => {
+        resolve(peer);
+      });
+
+      peer.on("error", (error) => {
+        reject(error);
+      });
     });
-    audioSharePeer.current.on("error", function (err) {
-      audioSharePeer.current.reconnect();
-    });
+  };
+  const createAudioSharePeer = async () => {
+    const [authPeer, videoPeer, ScreenPeer] = await Promise.all([
+      createPeerConnection({
+        iceServers: [...TurnServers],
+        audioBitrate: 128,
+      }),
+      createPeerConnection({
+        iceServers: [...TurnServers],
+        videoBitrate: 256,
+        sdpSemantics: "unified-plan",
+        video: {
+          codecs: [
+            { name: "VP8", priority: 10, payloadType: 120 },
+            { name: "H264", priority: 20, payloadType: 100 },
+          ],
+        },
+      }),
+      createPeerConnection({
+        iceServers: [...TurnServers],
+        videoBitrate: 256,
+        sdpSemantics: "unified-plan",
+        video: {
+          codecs: [
+            { name: "VP8", priority: 10, payloadType: 120 },
+            { name: "H264", priority: 20, payloadType: 100 },
+          ],
+        },
+      }),
+    ]);
+    let obj = {
+      userName,
+      userIcon,
+      userID: user._id,
+      socketID,
+      roomId,
+      harthId,
+      peerId: authPeer._id,
+      videoPeer: videoPeer._id,
+      capturePeer: ScreenPeer._id,
+    };
+
+    audioSharePeer.current = authPeer;
     audioSharePeer.current.on("call", async (call) => {
       call.answer();
 
@@ -663,41 +686,11 @@ const Party = () => {
       });
       call.on("error", function (err) {});
     });
-  };
-  const createVideoSharePeer = (peerobj) => {
-    let servers = [];
-    if (TurnServers.length) {
-      servers = TurnServers;
-    } else {
-      servers = [
-        {
-          url: "stun:stun.1und1.de:3478",
-        },
-      ];
-    }
-    servers.length = 2;
-    videoSharePeer.current = new window.Peer(undefined, {
-      config: {
-        iceServers: [...servers],
-        videoBitrate: 256,
-        sdpSemantics: "unified-plan",
-        video: {
-          codecs: [
-            { name: "VP8", priority: 10, payloadType: 120 },
-            { name: "H264", priority: 20, payloadType: 100 },
-          ],
-        },
-      },
-      debug: 2,
+    audioSharePeer.current.on("error", function (err) {
+      audioSharePeer.current.reconnect();
     });
 
-    videoSharePeer.current.on("open", (peerid) => {
-      peerobj.videoPeer = peerid;
-      createScreenSharePeer(peerobj);
-    });
-    videoSharePeer.current.on("error", function (err) {
-      videoSharePeer.current.reconnect();
-    });
+    videoSharePeer.current = videoPeer;
     videoSharePeer.current.on("call", async (call) => {
       call.answer();
 
@@ -707,41 +700,11 @@ const Party = () => {
       });
       call.on("error", function (err) {});
     });
-  };
-  const createScreenSharePeer = (peerobj) => {
-    let servers = [];
-    if (TurnServers.length) {
-      servers = TurnServers;
-    } else {
-      servers = [
-        {
-          url: "stun:stun.1und1.de:3478",
-        },
-      ];
-    }
-    servers.length = 2;
-    ScreenSharePeer.current = new window.Peer(undefined, {
-      config: {
-        iceServers: [...servers],
-        videoBitrate: 256,
-        sdpSemantics: "unified-plan",
-        video: {
-          codecs: [
-            { name: "VP8", priority: 10, payloadType: 120 },
-            { name: "H264", priority: 20, payloadType: 100 },
-          ],
-        },
-      },
-      debug: 2,
+    videoSharePeer.current.on("error", function (err) {
+      videoSharePeer.current.reconnect();
     });
 
-    ScreenSharePeer.current.on("open", (peerid) => {
-      peerobj.capturePeer = peerid;
-      joinRoomSocket(peerobj);
-    });
-    ScreenSharePeer.current.on("error", function (err) {
-      ScreenSharePeer.current.reconnect();
-    });
+    ScreenSharePeer.current = ScreenPeer;
     ScreenSharePeer.current.on("call", async (call) => {
       call.answer();
 
@@ -751,6 +714,10 @@ const Party = () => {
       });
       call.on("error", function (err) {});
     });
+    ScreenSharePeer.current.on("error", function (err) {
+      ScreenSharePeer.current.reconnect();
+    });
+    joinRoomSocket(obj);
   };
   const joinRoomSocket = (obj) => {
     socket &&
@@ -1464,6 +1431,7 @@ const Party = () => {
 
   return (
     <>
+      <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
       {!isFinishedInitialSetup ? <SpinningLoader /> : null}
       <main id="PartyWindow" className={styles.PartyWindow}>
         <GatherHeader
