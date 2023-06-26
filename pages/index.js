@@ -38,7 +38,7 @@ const IndexPage = () => {
 
   const AuthOrDashboard = ({ user, loading, swReg }) => {
     if (loading || !swReg) {
-      return <SpinningLoader />;
+      return null;
     }
     if (user) {
       const Dashboard = dynamic(() => import("./dashboard/index"), {
