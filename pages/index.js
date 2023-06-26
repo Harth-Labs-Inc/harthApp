@@ -2,7 +2,6 @@ import Head from "next/head";
 import { useAuth } from "../contexts/auth";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 
 const IndexPage = () => {
   const [swReg, setSwReg] = useState(null);
