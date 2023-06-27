@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 import { sendWelcomeEmailToUser } from "requests/userApi";
-import { envUrls } from "constants/urls";
 import { checkIfInviteTokenIsGood, getComms } from "requests/community";
 import { VideoProvider } from "contexts/video";
 import { CommsProvider } from "contexts/comms";
