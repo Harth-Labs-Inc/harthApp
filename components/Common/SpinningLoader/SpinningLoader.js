@@ -67,3 +67,5 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
     </div>
   );
 });
+
+SpinningLoader.displayName = "SpinningLoader";
