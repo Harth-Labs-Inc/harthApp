@@ -18,6 +18,8 @@ import {
   getUploadURL,
   putImageInBucket,
 } from "../../../requests/s3";
+import { SpinningLoader } from "../../../components/Common/SpinningLoader/SpinningLoader";
+
 /* eslint-disable */
 
 const Stream = () => {
@@ -43,6 +45,7 @@ const Stream = () => {
   const [showChatPannel, setShowChatPannel] = useState(isMobile ? false : true);
   const [wakeLockActive, setWakeLockActive] = useState(false);
   const [userID, setUserID] = useState("");
+  const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -700,6 +703,7 @@ const Stream = () => {
         ...obj,
       };
       sendNewChatMessage(newMsg);
+      setIsFinishedInitialSetup(true);
     }
   };
   const connectAudioToUsers = async () => {
@@ -1347,6 +1351,7 @@ const Stream = () => {
   return (
     <>
       <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
+      {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
       <main className={styles.VoiceWindow}>
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}

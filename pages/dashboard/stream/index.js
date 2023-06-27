@@ -11,6 +11,7 @@ import GatherControlBar from "../../../components/Gathering/GatherControlBar/Gat
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
+import { SpinningLoader } from "../../../components/Common/SpinningLoader/SpinningLoader";
 
 import { getHarthByID } from "../../../requests/community";
 import {
@@ -48,6 +49,7 @@ const Stream = () => {
   // const [diceAlerts, setDiceAlerts] = useState([]);
   const [playingStreams, setPlayingStreams] = useState({});
   const [userID, setUserID] = useState("");
+  const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -659,6 +661,7 @@ const Stream = () => {
         ...obj,
       };
       sendNewChatMessage(newMsg);
+      setIsFinishedInitialSetup(true);
     }
   };
   const connectAudioToUsers = async () => {
@@ -1348,6 +1351,7 @@ const Stream = () => {
   return (
     <>
       <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
+      {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
       <main className={styles.streamWindow}>
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}

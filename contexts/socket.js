@@ -376,13 +376,14 @@ export const SocketProvider = ({ children }) => {
       mainAlertsRef.current = alerts;
     }
   };
-  const getUnreadMessages = async (user) => {
-    let results = await getExistingUnreadMessages(user._id);
-    let { data } = results;
-    if (data) {
-      unreadMessagesRef.current = data;
-      triggerUpdate((prevValue) => (prevValue += 1));
-    }
+  const getUnreadMessages = (user) => {
+    getExistingUnreadMessages(user._id).then((results) => {
+      let { data } = results;
+      if (data) {
+        unreadMessagesRef.current = data;
+        triggerUpdate((prevValue) => (prevValue += 1));
+      }
+    });
   };
   const join = async (topics) => {
     let promises = [];

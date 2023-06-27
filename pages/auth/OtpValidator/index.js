@@ -141,7 +141,7 @@ const OtpValidator = (props) => {
             if (isInModal) {
               closeModal();
             } else {
-              router.push("/");
+              router.push("/auth/createAccount");
             }
           }}
         />

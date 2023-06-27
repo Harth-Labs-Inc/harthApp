@@ -1432,7 +1432,7 @@ const Party = () => {
   return (
     <>
       <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
-      {!isFinishedInitialSetup ? <SpinningLoader /> : null}
+      {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
       <main id="PartyWindow" className={styles.PartyWindow}>
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}
