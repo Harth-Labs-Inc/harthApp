@@ -15,8 +15,8 @@ import { useRouter } from "next/router";
 
 const CommsContext = createContext({});
 
-export const CommsProvider = ({ children }) => {
-  const [comms, setComms] = useState(null);
+export const CommsProvider = ({ children, CommsArr }) => {
+  const [comms, setComms] = useState(CommsArr);
   const [selectedcomm, setSelectedcomm] = useState(null);
   const [topics, setTopics] = useState(null);
   const [rooms, setRooms] = useState({});
@@ -47,33 +47,20 @@ export const CommsProvider = ({ children }) => {
   } = router;
 
   useEffect(() => {
-    if (user) {
-      if (user?.comms && user?.comms.length > 0) {
-        (async () => {
-          let result = await getComms(user);
-          const { ok, comms } = result;
-          if (ok) {
-            setComms(comms);
-            let prevID = localStorage.getItem("selectedHarthID");
-
-            if (prevID) {
-              let match = comms.find((com) => com._id == prevID);
-              if (match) {
-                setComm(match);
-              } else {
-                setComm(comms[0]);
-              }
-            } else {
-              setComm(comms[0]);
-            }
-          } else if (result.lockDown) {
-            localStorage.removeItem("token");
-            window.location.pathname = "/";
-          }
-        })();
+    if (CommsArr) {
+      let prevID = localStorage.getItem("selectedHarthID");
+      if (prevID) {
+        let match = CommsArr.find((com) => com._id == prevID);
+        if (match) {
+          setComm(match);
+        } else {
+          setComm(CommsArr[0]);
+        }
+      } else {
+        setComm(CommsArr[0]);
       }
     }
-  }, [user]);
+  }, [CommsArr]);
 
   useEffect(() => {
     if (selectedcomm) {
@@ -229,7 +216,6 @@ export const CommsProvider = ({ children }) => {
     });
   };
   const grabTopics = async (comid) => {
-    console.log("comms.js");
     let result = await getTopics(comid, user._id);
     const { ok, topics } = result;
     if (ok) {
@@ -332,14 +318,6 @@ export const CommsProvider = ({ children }) => {
     if (matchingTopicIndex >= 0) {
       /* eslint-disable */
       switch (type) {
-        // case 'edit':
-        //   console.log('made it to edit', user)
-        //   tmpTopics[matchingTopicIndex] = user
-
-        //   setTopics(tmpTopics)
-        //   await updatedTopic({ type: 'replace', topic: user })
-
-        //   break
         case "mute":
           tmpSelectedTopic?.members?.filter(Boolean).forEach((member) => {
             if (member._id === user._id) {
@@ -365,7 +343,6 @@ export const CommsProvider = ({ children }) => {
           tmpSelectedTopic.members = newMembers;
           tmpTopics[matchingTopicIndex] = tmpSelectedTopic;
           setTopics(tmpTopics);
-          console.log(2);
           grabTopics(selectedcomm._id);
           grabRooms(selectedcomm._id);
           await updatedTopic({

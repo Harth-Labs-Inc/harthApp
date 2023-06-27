@@ -12,7 +12,7 @@ import {
   Open_Sans,
 } from "next/font/google";
 import localFont from "next/font/local";
-
+import Head from "next/head";
 import "../styles/Styles.modules.scss";
 import { AuthProvider } from "../contexts/auth";
 import { ResponsiveProvider } from "../contexts/mobile";
@@ -102,6 +102,9 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
   return (
     <main className={`${fontClassNames.join(" ")}`}>
+      <Head>
+        <title>Härth</title>
+      </Head>
       <ResponsiveProvider>
         <AuthProvider>
           <Layout>
