@@ -37,18 +37,6 @@ const DashboardLayout = (props) => {
   const { user } = useAuth();
   const { mainAlertsRef, setMainAlertsFromChild } = useSocket();
 
-  // useEffect(() => {
-  //   const handleContextMenu = (event) => {
-  //     event.preventDefault();
-  //   };
-
-  //   document.addEventListener("contextmenu", handleContextMenu);
-
-  //   return () => {
-  //     document.removeEventListener("contextmenu", handleContextMenu);
-  //   };
-  // }, []);
-
   useEffect(() => {
     if (socketID && selectedcomm && user) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
@@ -95,29 +83,27 @@ const DashboardLayout = (props) => {
     }
   }, [forceHarthCreation]);
 
-  useEffect(() => {
-    if (selectedcomm) {
-      if (currentPage === "message") {
-        resetTopics();
-        fetchConversations();
-      }
-      if (currentPage === "chat") {
-        grabTopics(selectedcomm._id);
-        resetConversations();
-      }
-      if (currentPage === "gather") {
-        resetTopics();
-        resetConversations();
-      }
-    }
-  }, [currentPage, selectedcomm]);
-
   const toggleMenu = () => {
     if (isMobile) {
       setMobileMenuOpen((prevState) => !prevState);
     } else {
       setmenuActive((prevState) => !prevState);
     }
+  };
+  const changePageHandler = (pg) => {
+    if (pg === "message") {
+      resetTopics();
+      fetchConversations();
+    }
+    if (pg === "chat") {
+      grabTopics(selectedcomm._id);
+      resetConversations();
+    }
+    if (pg === "gather") {
+      resetTopics();
+      resetConversations();
+    }
+    changePage(pg);
   };
 
   if (isMobile) {
@@ -127,14 +113,14 @@ const DashboardLayout = (props) => {
           mobileMenuOpen={mobileMenuOpen}
           onToggleMenu={toggleMenu}
           setShowCreateHarthNameModal={setShowCreateHarthNameModal}
-          changePage={changePage}
+          changePage={changePageHandler}
           toggleNoHarthDetected={toggleNoHarthDetected}
         />
 
         <div className={styles.DashboardContent}>
           <TopBar
             currentPage={currentPage}
-            changePage={changePage}
+            changePage={changePageHandler}
             onToggleMenu={toggleMenu}
           ></TopBar>
           <section
@@ -145,7 +131,7 @@ const DashboardLayout = (props) => {
           </section>
           <MainNav
             onToggleMenu={toggleMenu}
-            changePage={changePage}
+            changePage={changePageHandler}
             currentPage={currentPage}
           />
         </div>
@@ -165,7 +151,7 @@ const DashboardLayout = (props) => {
         <TopBar currentPage={currentPage}>
           <MainNav
             onToggleMenu={toggleMenu}
-            changePage={changePage}
+            changePage={changePageHandler}
             currentPage={currentPage}
           />
         </TopBar>

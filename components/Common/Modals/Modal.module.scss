@@ -3,11 +3,11 @@
 
 .rendering {
     left: -356px;
-    transition: all 0.4s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 .entered {
     left: 0;
-    transition: all 0.4s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 @keyframes blur-in {
@@ -41,7 +41,7 @@
     width: 100vw;
 
     animation-name: blur-in;
-    animation-duration: 0.4s;
+    animation-duration: 0.2s;
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 

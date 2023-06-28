@@ -15,16 +15,22 @@ import { useRouter } from "next/router";
 
 const CommsContext = createContext({});
 
-export const CommsProvider = ({ children, CommsArr }) => {
+export const CommsProvider = ({
+  children,
+  CommsArr,
+  CREATOR,
+  SELECTEDCOMM,
+  TOPICS,
+  currentPage,
+}) => {
   const [comms, setComms] = useState(CommsArr);
-  const [selectedcomm, setSelectedcomm] = useState(null);
-  const [topics, setTopics] = useState(null);
+  const [selectedcomm, setSelectedcomm] = useState(SELECTEDCOMM);
+  const [topics, setTopics] = useState(TOPICS);
   const [rooms, setRooms] = useState({});
   const [selectedTopic, setSelectedTopic] = useState({});
   const [topicChange, setTopicChange] = useState(0);
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState(CREATOR);
   const [forceHarthCreation, setForceHarthCreation] = useState(false);
-
   const [conversations, setConversations] = useState(null);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [conversationMessages, setConversationMessages] = useState({});
@@ -37,8 +43,8 @@ export const CommsProvider = ({ children, CommsArr }) => {
 
   const { user } = useAuth();
 
-  const selectedCommRef = useRef(null);
-  const profileRef = useRef(null);
+  const selectedCommRef = useRef(SELECTEDCOMM);
+  const profileRef = useRef(CREATOR);
   const selectedTopicRef = useRef({});
 
   const router = useRouter();
@@ -47,20 +53,10 @@ export const CommsProvider = ({ children, CommsArr }) => {
   } = router;
 
   useEffect(() => {
-    if (CommsArr) {
-      let prevID = localStorage.getItem("selectedHarthID");
-      if (prevID) {
-        let match = CommsArr.find((com) => com._id == prevID);
-        if (match) {
-          setComm(match);
-        } else {
-          setComm(CommsArr[0]);
-        }
-      } else {
-        setComm(CommsArr[0]);
-      }
+    if (TOPICS) {
+      setStartingTopic(TOPICS);
     }
-  }, [CommsArr]);
+  }, [TOPICS]);
 
   useEffect(() => {
     if (selectedcomm) {
@@ -101,6 +97,41 @@ export const CommsProvider = ({ children, CommsArr }) => {
     selectedTopicRef.current = selectedTopic;
   }, [selectedTopic]);
 
+  const setStartingTopic = (tpcs) => {
+    let startingTopic;
+
+    for (let topic of tpcs) {
+      for (let member of topic.members) {
+        if (member.user_id == user._id) {
+          if (!member.hidden && !startingTopic) {
+            startingTopic = topic;
+          }
+        }
+      }
+    }
+
+    let storedTopic = localStorage.getItem("selected_topic");
+    if (storedTopic) {
+      try {
+        let parsedStoredTopic = JSON.parse(storedTopic);
+        let matchingTopic = tpcs.find(
+          (topic) => topic._id == parsedStoredTopic._id
+        );
+        if (matchingTopic) {
+          for (let member of matchingTopic.members) {
+            if (member.user_id == user._id) {
+              if (!member.hidden) {
+                startingTopic = matchingTopic;
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.log();
+      }
+    }
+    setSelectedTopic(startingTopic);
+  };
   const grabConversationMessages = async () => {
     const sortMessages = (msgs) => {
       return msgs.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
@@ -380,10 +411,28 @@ export const CommsProvider = ({ children, CommsArr }) => {
     setSelectedTopic(null);
     setTopicChange(0);
   };
+  const changeSelectedCommFromChild = (com) => {
+    if (currentPage === "message") {
+      resetTopics();
+      fetchConversations();
+    }
+    if (currentPage === "chat") {
+      grabTopics(com._id);
+      resetConversations();
+    }
+    if (currentPage === "gather") {
+      resetTopics();
+      resetConversations();
+    }
+    setComm(com);
+    setTopic({});
+    grabRooms();
+  };
 
   return (
     <CommsContext.Provider
       value={{
+        changeSelectedCommFromChild,
         updateLocalSelectedHarth,
         updateSelectedHarth,
         updateSelectedTopic,

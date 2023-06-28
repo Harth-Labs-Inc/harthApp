@@ -58,9 +58,12 @@ export const addUser = async (formData) => {
   }
 };
 
-export const getUserDataFromToken = async (token) => {
+export const getUserDataFromToken = async (token, selectedHarthID) => {
   try {
-    const res = await api.post("/api/users/getUserDataFromToken", { token });
+    const res = await api.post("/api/users/getUserDataFromToken", {
+      token,
+      selectedHarthID,
+    });
     return res.data;
   } catch (error) {
     console.error(error);
