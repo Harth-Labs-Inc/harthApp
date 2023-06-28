@@ -7,6 +7,9 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [Comms, setComms] = useState([]);
+  const [CREATOR, setCREATOR] = useState(null);
+  const [SELECTEDCOMM, setSELECTEDCOMM] = useState(null);
+  const [TOPICS, setTOPICS] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [inviteTKN, setInviteTKN] = useState(null);
@@ -20,13 +23,17 @@ export const AuthProvider = ({ children }) => {
     }
     async function fetchUserFromToken() {
       const token = localStorage.getItem("token");
+      const prevID = localStorage.getItem("selectedHarthID");
       if (token) {
-        const data = await getUserDataFromToken(token);
-        const { ok, user, comms } = data;
+        const data = await getUserDataFromToken(token, prevID);
+        const { ok, user, comms, creator, selectedComm, topics } = data;
         if (ok) {
           setUser(user);
           setLoading(false);
           setComms(comms);
+          setCREATOR(creator || {});
+          setSELECTEDCOMM(selectedComm || {});
+          setTOPICS(topics || []);
         } else {
           if (
             !["/auth/createAccount", "/auth/login"].includes(router.pathname)
@@ -65,6 +72,9 @@ export const AuthProvider = ({ children }) => {
         setInviteTKN,
         setContextUser,
         Comms,
+        CREATOR,
+        SELECTEDCOMM,
+        TOPICS,
       }}
     >
       {children}

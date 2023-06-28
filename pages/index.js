@@ -51,7 +51,7 @@ const dashboard = () => {
   const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
   const [inviteTKN, setInviteTKN] = useState(false);
 
-  const { user, loading, Comms } = useAuth();
+  const { user, loading, Comms, CREATOR, SELECTEDCOMM, TOPICS } = useAuth();
 
   const router = useRouter();
   const {
@@ -286,10 +286,26 @@ const dashboard = () => {
     }
 
     if (gather_window) {
-      return <CommsProvider CommsArr={Comms}>{page}</CommsProvider>;
+      return (
+        <CommsProvider
+          CommsArr={Comms}
+          CREATOR={CREATOR}
+          SELECTEDCOMM={SELECTEDCOMM}
+          TOPICS={TOPICS}
+          currentPage={currentPage}
+        >
+          {page}
+        </CommsProvider>
+      );
     } else {
       return (
-        <CommsProvider CommsArr={Comms}>
+        <CommsProvider
+          CommsArr={Comms}
+          CREATOR={CREATOR}
+          SELECTEDCOMM={SELECTEDCOMM}
+          TOPICS={TOPICS}
+          currentPage={currentPage}
+        >
           <SocketProvider swReg={swReg}>
             <VideoProvider>
               {showCreateHarthNameModal ? (
