@@ -12,6 +12,13 @@ export default async (req, res) => {
 
   const { token, selectedHarthID } = obj;
 
+  if (!token) {
+    return res.json({
+      msg: "No token provided, function is warmed up.",
+      ok: 0,
+    });
+  }
+
   const decodedToken = jwt.verify(token, process.env.SECRET);
   if (!decodedToken) return res.json({ msg: "Invalid Token", ok: 0 });
 
