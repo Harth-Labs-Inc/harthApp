@@ -10,6 +10,10 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
+  const authToken = req.headers["x-auth-token"];
+  if (!authToken) {
+    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
+  }
 
   const algorithm = "aes-256-cbc";
   const encryptionKey = Buffer.from(process.env.MESSAGE_ENCRYPTION_KEY, "hex");
@@ -65,10 +69,6 @@ export default async (req, res) => {
       resolve(jwt.verify(tokn, process.env.SECRET));
     });
   };
-  let authToken = req.headers["x-auth-token"];
-  if (!authToken) {
-    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
-  }
   let decodedToken = await decode(authToken);
   if (!decodedToken) {
     return res.json({ msg: "bad token", ok: 0, lockDown: true });
