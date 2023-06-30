@@ -1,6 +1,6 @@
 import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
-
+import crypto from "crypto";
 /* eslint-disable */
 
 export default async (req, res) => {
@@ -11,50 +11,35 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  const getMsgs = (db, id, page = 1, limit = 10) => {
-    return new Promise((resolve) => {
-      const skip = (page - 1) * limit;
-      db.collection("messages")
-        .find({ topic_id: id })
-        .sort({ _id: -1 })
-        .skip(skip)
-        .limit(limit)
-        .toArray(function (err, results) {
-          if (err) {
-            resolve(false);
-          }
-          resolve(results);
-        });
-    });
+  const algorithm = "aes-256-cbc";
+  const encryptionKey = Buffer.from(process.env.MESSAGE_ENCRYPTION_KEY, "hex");
+  const key = crypto.scryptSync(encryptionKey, "salt", 32);
+  const iv = Buffer.alloc(16, 0);
+
+  const getMsgs = async (db, id, page = 1, limit = 13) => {
+    const skip = (page - 1) * limit;
+    return await db
+      .collection("messages")
+      .find({ topic_id: id })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray();
   };
 
-  const decrypt = (data) => {
-    return new Promise((resolve) => {
-      const { encryptedMessage } = data;
-      if (encryptedMessage) {
-        const crypto = require("crypto");
-        const algorithm = "aes-256-cbc";
-        const encryptionKey = Buffer.from(
-          process.env.MESSAGE_ENCRYPTION_KEY,
-          "hex"
-        );
-        const key = crypto.scryptSync(encryptionKey, "salt", 32);
-        const iv = Buffer.alloc(16, 0);
-        const decipher = crypto.createDecipheriv(algorithm, key, iv);
-        let decrypted = decipher.update(encryptedMessage, "hex", "utf8");
-        decrypted += decipher.final("utf8");
-        data.message = decrypted;
-      }
-      resolve(data);
-    });
+  const decrypt = async (data) => {
+    const { encryptedMessage } = data;
+    if (encryptedMessage) {
+      const decipher = crypto.createDecipheriv(algorithm, key, iv);
+      let decrypted = decipher.update(encryptedMessage, "hex", "utf8");
+      decrypted += decipher.final("utf8");
+      data.message = decrypted;
+    }
+    return data;
   };
 
-  const decryptMessages = (msgs) => {
-    return new Promise(async (resolve) => {
-      const decryptionPromises = msgs.map((message) => decrypt(message));
-      const decryptedMessages = await Promise.all(decryptionPromises);
-      resolve(decryptedMessages);
-    });
+  const decryptMessages = async (msgs) => {
+    return await Promise.all(msgs.map((message) => decrypt(message)));
   };
 
   const client = await clientPromise;

@@ -71,7 +71,7 @@ const MessageWrapper = () => {
     if (selectedTopic && page > 1) {
       setLoading(true);
       (async () => {
-        let data = await getMessagesByTopic(selectedTopic._id, page, 10);
+        let data = await getMessagesByTopic(selectedTopic._id, page, 13);
         const { ok, fetchResults } = data;
         if (ok) {
           const sortedMessages = sortMessages([...fetchResults]);
@@ -97,7 +97,7 @@ const MessageWrapper = () => {
     setCurrentMessages([]);
     if (selectedTopic && selectedTopic._id) {
       (async () => {
-        let data = await getMessagesByTopic(selectedTopic._id, 1, 10);
+        let data = await getMessagesByTopic(selectedTopic._id, 1, 13);
         const { ok, fetchResults } = data;
         if (ok) {
           setCurrentMessages(sortMessages([...fetchResults]));
