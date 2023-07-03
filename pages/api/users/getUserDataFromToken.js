@@ -47,8 +47,10 @@ export default async (req, res) => {
 
   let selectedComm =
     comms.length > 0
-      ? selectedHarthID
-        ? comms.find((com) => com._id.toString() === selectedHarthID.toString())
+      ? selectedHarthID && selectedHarthID !== "undefined"
+        ? comms.find(
+            (com) => com._id.toString() === selectedHarthID.toString()
+          ) || comms[0]
         : comms[0]
       : null;
 

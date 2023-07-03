@@ -38,8 +38,8 @@ const DashboardLayout = (props) => {
   const { mainAlertsRef, setMainAlertsFromChild } = useSocket();
 
   useEffect(() => {
-    if (socketID && selectedcomm && user) {
-      let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
+    if (socketID && selectedcomm && selectedcomm.users && user) {
+      let creator = selectedcomm.users?.find((usr) => usr.userId === user._id);
       if (creator) {
         let data = {};
         data.icon = creator.iconKey;

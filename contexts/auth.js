@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     }
+
     fetchUserFromToken();
   }, []);
   useEffect(() => {
@@ -60,6 +61,38 @@ export const AuthProvider = ({ children }) => {
 
   const setContextUser = (user) => {
     setUser(user);
+  };
+  const getInitialData = (token) => {
+    async function fetchUserFromToken() {
+      const prevID = localStorage.getItem("selectedHarthID");
+      if (token) {
+        const data = await getUserDataFromToken(token, prevID);
+        const { ok, user, comms, creator, selectedComm, topics } = data;
+        if (ok) {
+          setUser(user);
+          setLoading(false);
+          setComms(comms);
+          setCREATOR(creator || {});
+          setSELECTEDCOMM(selectedComm || {});
+          setTOPICS(topics || []);
+          router.push("/");
+        } else {
+          if (
+            !["/auth/createAccount", "/auth/login"].includes(router.pathname)
+          ) {
+            router.push("/auth/createAccount");
+          }
+
+          setLoading(false);
+        }
+      } else {
+        if (!["/auth/createAccount", "/auth/login"].includes(router.pathname)) {
+          router.push("/auth/createAccount");
+        }
+        setLoading(false);
+      }
+    }
+    fetchUserFromToken();
   };
 
   return (
@@ -75,6 +108,7 @@ export const AuthProvider = ({ children }) => {
         CREATOR,
         SELECTEDCOMM,
         TOPICS,
+        getInitialData,
       }}
     >
       {children}

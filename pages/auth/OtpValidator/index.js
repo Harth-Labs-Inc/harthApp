@@ -33,7 +33,7 @@ const OtpValidator = (props) => {
   const router = useRouter();
   const { user } = router.query;
 
-  const { setContextUser } = useAuth();
+  const { getInitialData } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -75,8 +75,7 @@ const OtpValidator = (props) => {
           if (newUser.showFirstTimeUser) {
             localStorage.setItem("showFirstTimeUser", true);
           }
-          setContextUser(newUser);
-          router.push("/");
+          getInitialData(tkn);
         }
       }
     } else {

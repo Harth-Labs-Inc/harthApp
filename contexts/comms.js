@@ -64,7 +64,7 @@ export const CommsProvider = ({
         if (!gather_window) {
           setTopicChange(0);
           grabRooms(selectedcomm._id);
-          let creator = selectedcomm.users.find(
+          let creator = selectedcomm.users?.find(
             (usr) => usr.userId === user._id
           );
           if (creator) setProfile(creator);
