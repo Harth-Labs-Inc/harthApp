@@ -13,11 +13,8 @@
             display: flex;
 
             &.Mobile {
-                
-    margin-top: 65px;
-
                 display: flex;
-                height: calc(100vh - 128px);
+                height: calc(100vh - 75px);
                 width: 100%;
             }
 

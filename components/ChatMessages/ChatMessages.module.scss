@@ -38,7 +38,8 @@
 
     @media screen and (max-width: 640px) {
         // min-height: calc(100% - 80px);
-        padding: 0;
+        padding-top: 0;
+        padding-bottom: 121px;
     }
 }
 
@@ -208,7 +209,9 @@
 
 .Input {
     &Mobile {
-        width: 100%;
+        width: 96%;
+        position: fixed;
+        bottom: 0;
         //background-color: aqua;
     }
 
