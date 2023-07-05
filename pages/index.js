@@ -79,15 +79,6 @@ const dashboard = () => {
         location.reload();
       }
     }
-    window.addEventListener("resize", function () {
-      var scrollPosition =
-        window.scrollY ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        0;
-      document.documentElement.style.overflow = "hidden";
-      window.scrollTo(0, scrollPosition);
-    });
     window.addEventListener("online", handleNetworkChange);
     window.addEventListener("offline", handleNetworkChange);
     return () => {
