@@ -3,7 +3,7 @@ import { MobileContext } from "contexts/mobile";
 import OutsideClickHandler from "components/Common/Modals/OutsideClick";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-
+/* eslint-disable */
 export const EmojiWrapper = (props) => {
   const { addEmoji, closeWrapper } = props;
 

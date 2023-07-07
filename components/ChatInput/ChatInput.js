@@ -143,7 +143,7 @@ const ChatInput = (props) => {
     }
     return null;
   };
-  const triggerPicker = (e) => {
+  const triggerPicker = () => {
     setEmojiPicker(!emojiPickerState);
   };
 
