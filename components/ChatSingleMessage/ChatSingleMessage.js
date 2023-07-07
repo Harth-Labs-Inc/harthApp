@@ -315,10 +315,60 @@ const ChatSingleMessage = (props) => {
       updateMsg();
     }
   };
-  const EmojiPicker = (keepScroll) => {
+  const EmojiPicker = () => {
+    const [transition, setTransition] = useState(false);
+
+    useEffect(() => {
+      setTransition(true);
+    }, []);
+
     if (emojiPickerState) {
+      if (isMobile) {
+        return (
+          <div className={styles.EmojiMobile}>
+            <OutsideClickHandler
+              onClickOutside={() => {
+                toggleEdit(false);
+                setEmojiPicker(false);
+              }}
+              onFocusOutside={() => {
+                toggleEdit(false);
+                setEmojiPicker(false);
+              }}
+            >
+              <style jsx global>{`
+                em-emoji-picker {
+                  width: 100vw;
+                  min-width: 250px;
+                  resize: horizontal;
+                  overflow: auto;
+                  left: 0;
+                  position: fixed;
+                  bottom: 0;
+                  border-radius: none;
+                  transform: translateY(${transition ? "0%" : "100%"});
+                  transition: transform 0.2s ease-out;
+                  --border-radius: 0px;
+                }
+              `}</style>
+              <Picker
+                data={data}
+                className={"attach-emoji"}
+                onEmojiSelect={addEmoji}
+                dynamicWidth={true}
+                emojiButtonColors={[
+                  "rgba(187, 126, 196, 0.8)",
+                  "rgb(13, 161, 181, .8)",
+                  "rgba(240, 101, 115, 0.8)",
+                  "rgb(0, 163, 150, 0.8)",
+                ]}
+              />
+            </OutsideClickHandler>
+          </div>
+        );
+      }
       return (
-        <div className={keepScroll ? styles.EmojiMobile : styles.EmojiPicker}>
+        <div className={styles.EmojiPicker}>
           <OutsideClickHandler
             onClickOutside={() => {
               toggleEdit(false);
@@ -409,7 +459,7 @@ const ChatSingleMessage = (props) => {
             removeCB={deleteMsg}
           />
         ) : null}
-        <EmojiPicker keepScroll={true} />
+        <EmojiPicker />
         <div
           className={` 
                       ${styles.SingleMessage}
