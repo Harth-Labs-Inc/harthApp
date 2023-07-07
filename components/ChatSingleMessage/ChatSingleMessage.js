@@ -405,6 +405,7 @@ const ChatSingleMessage = (props) => {
             openEmojiPicker={triggerPicker}
             hasTextForClipboard={!!props.msg?.message}
             EditSelectCB={editBarSelection}
+            showEditButton={creator_id == user._id}
             removeCB={deleteMsg}
           />
         ) : null}

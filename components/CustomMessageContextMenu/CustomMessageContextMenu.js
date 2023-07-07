@@ -10,6 +10,7 @@ export const CustomMessageContextMenu = ({
   openEmojiPicker,
   hasTextForClipboard,
   EditSelectCB,
+  showEditButton,
   removeCB,
 }) => {
   const [isCopied, setIsCopied] = useState(false);
@@ -75,12 +76,15 @@ export const CustomMessageContextMenu = ({
               {isCopied ? "Copied!" : "Copy Text"}
             </button>
           ) : null}
-          <button
-            className={styles.CustomContextMenuButton}
-            onClick={editHandler}
-          >
-            Edit
-          </button>
+          {showEditButton ? (
+            <button
+              className={styles.CustomContextMenuButton}
+              onClick={editHandler}
+            >
+              Edit
+            </button>
+          ) : null}
+
           <button
             className={styles.CustomContextMenuButton}
             onClick={removeHandler}
