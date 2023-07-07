@@ -188,7 +188,7 @@ const ChatSingleMessage = (props) => {
     setLongPressActive(false);
   };
 
-  const move = (e) => {
+  const move = () => {
     if (longPressTimeOut.current) {
       clearTimeout(longPressTimeOut.current);
     }
@@ -479,7 +479,7 @@ const ChatSingleMessage = (props) => {
                 onTouchEnd={(event) => event.stopPropagation()}
               >
                 {[...(reactionsData || [])].map((data, index) => {
-                  const { reaction, userId, id } = data;
+                  const { reaction, userId } = data;
                   let isReactionOwner = false;
                   if (userId == user._id) {
                     isReactionOwner = true;
