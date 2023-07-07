@@ -1,11 +1,8 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import Image from "next/image";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
 import { MobileContext } from "contexts/mobile";
 import { getDownloadURL } from "../../requests/s3";
 import { deleteMessage, updateMessage } from "../../requests/chat";
-
 import {
   updateConversationMessage,
   deleteConversationMessage,
@@ -13,16 +10,14 @@ import {
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
 import { useComms } from "../../contexts/comms";
-
 import UserIcon from "../UserIcon/userIcon";
-
 import EditBar from "./EditBar";
 import styles from "./ChatSingleMessage.module.scss";
 import { LinkPreview } from "./LinkPreview";
-import OutsideClickHandler from "components/Common/Modals/OutsideClick";
 import { IconAddReactionNoFill } from "resources/icons/IconAddReactionNoFill";
 import { generateID } from "services/helper";
 import { CustomMessageContextMenu } from "components/CustomMessageContextMenu/CustomMessageContextMenu";
+import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -45,7 +40,6 @@ const toBase64 = (str) =>
     : window.btoa(str);
 
 /* eslint-disable */
-
 const ChatSingleMessage = (props) => {
   const [emojiPickerState, setEmojiPicker] = useState(false);
   const [urls, setUrls] = useState([]);
@@ -318,82 +312,16 @@ const ChatSingleMessage = (props) => {
     }
   };
   const EmojiPicker = () => {
-    const [transition, setTransition] = useState(false);
-
-    useEffect(() => {
-      setTransition(true);
-    }, []);
-
     if (emojiPickerState) {
-      if (isMobile) {
-        return (
-          <div className={styles.EmojiMobile}>
-            <OutsideClickHandler
-              onClickOutside={() => {
-                toggleEdit(false);
-                setEmojiPicker(false);
-              }}
-              onFocusOutside={() => {
-                toggleEdit(false);
-                setEmojiPicker(false);
-              }}
-            >
-              <style jsx global>{`
-                em-emoji-picker {
-                  width: 100vw;
-                  min-width: 250px;
-                  resize: horizontal;
-                  overflow: auto;
-                  left: 0;
-                  position: fixed;
-                  bottom: 0;
-                  border-radius: none;
-                  transform: translateY(${transition ? "0%" : "100%"});
-                  transition: transform 0.2s ease-out;
-                  --border-radius: 0px;
-                }
-              `}</style>
-              <Picker
-                data={data}
-                className={"attach-emoji"}
-                onEmojiSelect={addEmoji}
-                dynamicWidth={true}
-                emojiButtonColors={[
-                  "rgba(187, 126, 196, 0.8)",
-                  "rgb(13, 161, 181, .8)",
-                  "rgba(240, 101, 115, 0.8)",
-                  "rgb(0, 163, 150, 0.8)",
-                ]}
-              />
-            </OutsideClickHandler>
-          </div>
-        );
-      }
       return (
         <div className={styles.EmojiPicker}>
-          <OutsideClickHandler
-            onClickOutside={() => {
+          <EmojiWrapper
+            addEmoji={addEmoji}
+            closeWrapper={() => {
               toggleEdit(false);
               setEmojiPicker(false);
             }}
-            onFocusOutside={() => {
-              toggleEdit(false);
-              setEmojiPicker(false);
-            }}
-          >
-            <Picker
-              data={data}
-              className={"attach-emoji"}
-              onEmojiSelect={addEmoji}
-              autoFocus={true}
-              emojiButtonColors={[
-                "rgba(187, 126, 196, 0.8)",
-                "rgb(13, 161, 181, .8)",
-                "rgba(240, 101, 115, 0.8)",
-                "rgb(0, 163, 150, 0.8)",
-              ]}
-            />
-          </OutsideClickHandler>
+          ></EmojiWrapper>
         </div>
       );
     }

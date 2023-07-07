@@ -41,20 +41,19 @@
         }
     }
 
-    &Mobile {
-        user-select: none;
-        &:active {
-            border-radius: 12px;
-            background-color: $black_05;
-            .Body {
-                .Info {
-                    .Timestamp {
-                        visibility: visible;
-                    }
-                }
-            }
-        }
-    }
+    // &Mobile {
+    //     &:active {
+    //         border-radius: 12px;
+    //         background-color: $black_05;
+    //         .Body {
+    //             .Info {
+    //                 .Timestamp {
+    //                     visibility: visible;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     .UserIcon {
         box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
