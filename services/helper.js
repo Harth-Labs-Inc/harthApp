@@ -1,6 +1,24 @@
 import { v4 as uuidv4 } from "uuid";
 import { getUploadURL, putImageInBucket } from "../requests/s3";
 
+export const copyToClipboard = (text) => {
+  return new Promise((resolve) => {
+    if (!navigator || !navigator.clipboard) {
+      resolve(false);
+    }
+
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        resolve(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        resolve(false);
+      });
+  });
+};
+
 export const displayConfirmNotification = () => {
   if ("serviceWorker" in navigator && "Notification" in window) {
     Notification.requestPermission().then((permission) => {
