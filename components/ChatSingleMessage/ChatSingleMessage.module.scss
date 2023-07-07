@@ -10,6 +10,12 @@
     &.Editing {
         background-color: lighten($hot_pink, 30%);
     }
+
+    .EmojiMobile {
+        position: fixed;
+        z-index: 100;
+        bottom: 0;
+    }
 }
 
 .SingleMessage {
@@ -173,6 +179,7 @@
             display: flex;
             align-items: center;
             margin-left: 16px;
+            width: max-content;
             gap: 8px;
 
             > * {

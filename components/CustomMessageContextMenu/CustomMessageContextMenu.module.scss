@@ -1,0 +1,86 @@
+@import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
+
+
+.TopicButtonClickWrapper {
+    position: relative;
+    z-index: 3;
+}
+
+.TopicButtonWrapper {
+    @media screen and (max-width: 640px) {
+        position: fixed;
+        z-index: 12;
+        height: 100vh;
+        width: 100vw;
+        background-color: $fuel-10;
+        backdrop-filter: blur(4px);
+        top: 0;
+        left: 0;
+    }
+}
+
+.CustomContextMenu {
+    position: fixed;
+
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    color: $white;
+    backdrop-filter: blur(18px);
+    background-color: $overlay_dark;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    &Button {
+        display: flex;
+        align-items: center;
+        padding: 6px 8px;
+        color: $white;
+        background-color: $white_10;
+        border: 0;
+        border-radius: 6px;
+        cursor: pointer;
+        @include worksans;
+        font-size: 14px;
+
+        &:not(:last-of-type) {
+            margin-bottom: 8px;
+        }
+
+        svg {
+            width: 16px;
+            margin-right: 6px;
+        }
+
+        &:hover {
+            background-color: $black;
+        }
+    }
+
+    &Mobile {
+        padding: 16px;
+        border-radius: 12px;
+
+        button {
+            height: 48px;
+            width: 280px;
+            font-size: 16px;
+
+            svg {
+                width: 24px;
+                margin-right: 12px;
+            }
+
+            &:hover {
+                background-color: $white_10;
+            }
+
+            &:active {
+                background-color: $black;
+            }
+        }
+
+    }
+}
