@@ -1,9 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-
 import { IconSend } from "../../resources/icons/IconSend";
-// import { IconCancelFill } from "../../resources/icons/IconCancelFill";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
 
@@ -26,6 +22,7 @@ import { addKeyToDB } from "../../requests/chat";
 import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
 import { sendPushNotification } from "requests/subscriptions";
+import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 
 const ChatInput = (props) => {
   const [attachments, setAttachments] = useState([]);
@@ -137,26 +134,16 @@ const ChatInput = (props) => {
     if (emojiPickerState) {
       return (
         <div className={styles.EmojiPicker}>
-          <Picker
-            data={data}
-            className="attach-emoji"
-            onEmojiSelect={addEmoji}
-            autoFocus={true}
-            emojiButtonColors={[
-              "rgba(187, 126, 196, 0.8)",
-              "rgb(13, 161, 181, .8)",
-              "rgba(240, 101, 115, 0.8)",
-              "rgb(0, 163, 150, 0.8)",
-            ]}
-            // onClickOutside={setEmojiPicker(!emojiPickerState)}
-          />
+          <EmojiWrapper
+            addEmoji={addEmoji}
+            closeWrapper={triggerPicker}
+          ></EmojiWrapper>
         </div>
       );
     }
     return null;
   };
-  const triggerPicker = (event) => {
-    event.preventDefault();
+  const triggerPicker = (e) => {
     setEmojiPicker(!emojiPickerState);
   };
 

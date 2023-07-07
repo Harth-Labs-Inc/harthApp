@@ -84,13 +84,14 @@ export const CustomMessageContextMenu = ({
               Edit
             </button>
           ) : null}
-
-          <button
-            className={styles.CustomContextMenuButton}
-            onClick={removeHandler}
-          >
-            Remove
-          </button>
+          {showEditButton ? (
+            <button
+              className={styles.CustomContextMenuButton}
+              onClick={removeHandler}
+            >
+              Remove
+            </button>
+          ) : null}
         </div>
       </OutsideClickHandler>
     </div>
