@@ -39,7 +39,6 @@ const toBase64 = (str) =>
       Buffer.from(str).toString("base64")
     : window.btoa(str);
 
-/* eslint-disable */
 const ChatSingleMessage = (props) => {
   const [emojiPickerState, setEmojiPicker] = useState(false);
   const [urls, setUrls] = useState([]);
@@ -332,7 +331,6 @@ const ChatSingleMessage = (props) => {
                 setEmojiPicker(false);
               }}
             >
-              // eslint-disable-next-line
               <style jsx global>{`
                 em-emoji-picker {
                   width: 100vw;
