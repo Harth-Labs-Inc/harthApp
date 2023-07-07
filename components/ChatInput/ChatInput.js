@@ -143,7 +143,11 @@ const ChatInput = (props) => {
     }
     return null;
   };
+<<<<<<< HEAD
   const triggerPicker = () => {
+=======
+  const triggerPicker = (e) => {
+>>>>>>> ec572e7 (emoji wrapper added and cleanup)
     setEmojiPicker(!emojiPickerState);
   };
 

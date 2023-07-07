@@ -35,10 +35,96 @@
   column-gap: 10px;
   border-top: 1px solid transparent;
 
+<<<<<<< HEAD
   &Desktop {
     &:hover {
       border-image: linear-gradient(to right, $silver-med, $white) 1;
       .Body {
+=======
+    &Desktop {
+        &:hover {
+            border-image: linear-gradient(to right, $silver-med, $white) 1;
+            .Body {
+                .Info {
+                    .Timestamp {
+                        visibility: visible;
+                    }
+                }
+            }
+        }
+    }
+
+    // &Mobile {
+    //     &:active {
+    //         border-radius: 12px;
+    //         background-color: $black_05;
+    //         .Body {
+    //             .Info {
+    //                 .Timestamp {
+    //                     visibility: visible;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+    .UserIcon {
+        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+            0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075);
+        height: fit-content;
+        width: fit-content;
+        border-radius: 50%;
+        user-select: none;
+    }
+    .emoji-mart {
+        position: absolute;
+        top: 40px;
+        right: 0;
+        z-index: 999;
+    }
+
+    .EmojiPicker {
+        position: absolute;
+        bottom: 0px;
+        z-index: 10;
+
+        #root {
+            background-color: $fuel;
+        }
+    }
+
+    .MessageEmoji {
+        font-size: 22px;
+    }
+
+    > img,
+    &Avatar {
+        position: relative;
+        width: 40px;
+        max-height: 40px;
+        border-radius: 9999px;
+        overflow: hidden;
+        object-fit: cover;
+    }
+
+    &AvatarNo {
+        position: relative;
+        height: 36px;
+        width: 36px;
+        max-height: 36px;
+        max-width: 36px;
+        min-width: 36px;
+        max-width: 36px;
+        background-color: $warm_blue;
+        border-radius: 9999px;
+        @include topicTitleMobile;
+        color: $oxygen;
+    }
+
+    .Body {
+        position: relative;
+        width: 100%;
+>>>>>>> ec572e7 (emoji wrapper added and cleanup)
         .Info {
           .Timestamp {
             visibility: visible;
