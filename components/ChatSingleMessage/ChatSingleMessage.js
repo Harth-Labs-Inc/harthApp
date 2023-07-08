@@ -374,7 +374,7 @@ const ChatSingleMessage = (props) => {
       <div
         className={`${styles.ChatParentContainer} ${
           isEditing ? styles.Editing : null
-        }`}
+        } ${styles.noselect}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onTouchMove={move}
