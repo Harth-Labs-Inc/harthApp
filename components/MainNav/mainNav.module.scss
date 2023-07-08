@@ -7,33 +7,11 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    background-color: $silver-xlight;      
+    background-color: $ash_heavy;      
 
     &TitleHolder {
         display: flex;
 
-        .Section {
-            @include harthTitle2;
-            //font-size: 20px;
-            color: $silver-dark;
-            text-transform: capitalize;
-            margin-left: 4px;
-            padding-top: 2px;
-            user-select: none;
-            align-self: center;
-
-            &Chat {
-                color: $warm_blue;
-            }
-
-            &Gather {
-                color: $warm_blue;
-            }
-
-            &Message {
-                color: $warm_blue;
-            }
-        }
     }
 
     &HarthButton {
@@ -46,47 +24,35 @@
             height: 48px;
             width: fit-content;
             max-width: 100%;
+            border: 0;
             @include harthTitle1;
-            color: $fuel;
-            padding: 0px 8px 0px 16px;
+            color: $font_light;
+            padding: 0px 12px 0px 8px;
             border-radius: 8px;
             text-overflow: ellipsis;
-            //overflow: hidden;
             background-color: transparent;
-            margin-left: 252px;
-            border: 1px solid transparent;
+            margin-left: 256px;
             cursor: pointer;
             white-space: nowrap;
             user-select: none;
 
             .iconHolder {
                 position: absolute;
-                top: -2px;
-                left: 0px;
+                top: 0px;
+                right: 0px;
                 width: 20px;
                 height: 20px;
                 path {
-                    fill: $silver-dark;
+                    fill: $font_medium;
                 }
 
             }
 
-
-            // &::before {
-            //     position: absolute;
-            //     content: "";
-            //     left: -12px;
-            //     height: 32px;
-            //     width: 1px;
-            //     background-color: $silver-med;
-            // }
-
             &:hover {
-                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
-                border-color: $silver-light;
+                background: $ash;
                 .iconHolder {
                     path {
-                        fill: $fuel;
+                        fill: $font_light;
                     }
                 }
             }
@@ -111,7 +77,7 @@
             align-items: center;
             padding: 8px 28px 0px 20px;
             gap: 16px;
-            background-color: $silver-xlight;
+            background-color: $ash_heavy;
 
             &::after {
                 position: absolute;
@@ -120,11 +86,8 @@
                 left: 0px;
                 height: 10px;
                 width: 100%;
-                background-color: $silver-xlight;
+                background-color: $ash_heavy;
                 border-bottom-right-radius: 6px;
-                border-bottom: 1px solid $silver-med;
-                border-right: 1px solid $silver-med;
-
                 z-index: 1;
             }
         }

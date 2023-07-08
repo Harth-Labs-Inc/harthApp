@@ -26,6 +26,7 @@
     padding: 8px 6px 20px 6px;
     column-gap: 10px;
     border-top: 1px solid transparent;
+    
 
     &Desktop {
         &:hover {
@@ -41,6 +42,7 @@
     }
 
     &Mobile {
+        user-select: none;
         &:active {
             border-radius: 12px;
             background-color: $black_05;

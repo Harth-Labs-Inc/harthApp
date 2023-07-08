@@ -19,7 +19,7 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
     return (
       <div className={`${styles.Maincontainer} ${styles.MaincontainerDark}`}>
         <div className={`${styles.content}`}>
-          <div
+          {/* <div
             style={{
               position: "relative",
               width: "70px",
@@ -48,8 +48,8 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
                 }}
               />
             )}
-          </div>
-          <p style={{ color: "white", textAlign: "center" }}>
+          </div> */}
+          <p style={{ textAlign: "center" }}>
             {query?.room_name}
           </p>
           <Spinner />

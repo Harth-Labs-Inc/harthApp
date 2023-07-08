@@ -52,7 +52,7 @@ const GatherHeader = (props) => {
             )}
 
             <div className={isMobile ? styles.mobile : styles.desktop}>
-                {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : <img className={styles.harthImage} src={selectedHarthIcon} loading="lazy" />}
+                {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : null}
                 
                 <div className={styles.labelHolder}>
                     {gatheringName}
