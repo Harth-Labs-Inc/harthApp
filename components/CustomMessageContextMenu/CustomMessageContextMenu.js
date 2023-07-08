@@ -12,6 +12,7 @@ export const CustomMessageContextMenu = ({
   EditSelectCB,
   showEditButton,
   removeCB,
+  textForClipboard,
 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const contextRef = useRef(null);
@@ -25,7 +26,7 @@ export const CustomMessageContextMenu = ({
   const copyTextHandler = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    await copyToClipboard("test");
+    await copyToClipboard(textForClipboard);
     setIsCopied(true);
 
     setTimeout(() => {
