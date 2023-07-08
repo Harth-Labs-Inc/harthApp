@@ -1,436 +1,432 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .ChatParentContainer {
-    max-width: 100%;
-    width: 100%;
-    //border: 2px solid transparent;
-    border-radius: 8px;
+  max-width: 100%;
+  width: 100%;
+  //border: 2px solid transparent;
+  border-radius: 8px;
 
-    &.Editing {
-        background-color: lighten($hot_pink, 30%);
-    }
+  &.Editing {
+    background-color: lighten($hot_pink, 30%);
+  }
 
-    .EmojiMobile {
-        position: fixed;
-        z-index: 100;
-        bottom: 0;
-    }
+  .EmojiMobile {
+    position: fixed;
+    z-index: 100;
+    bottom: 0;
+  }
 }
 
 .SingleMessage {
-    display: inline-flex;
-    position: relative;
-    background-color: transparent;
-    width: 100%;
-    padding: 8px 6px 20px 6px;
-    column-gap: 10px;
-    border-top: 1px solid transparent;
+  display: inline-flex;
+  position: relative;
+  background-color: transparent;
+  width: 100%;
+  padding: 8px 6px 20px 6px;
+  column-gap: 10px;
+  border-top: 1px solid transparent;
 
-    &Desktop {
-        &:hover {
-            border-image: linear-gradient(to right, $silver-med, $white) 1;
-            .Body {
-                .Info {
-                    .Timestamp {
-                        visibility: visible;
-                    }
-                }
-            }
-        }
-    }
-
-    // &Mobile {
-    //     &:active {
-    //         border-radius: 12px;
-    //         background-color: $black_05;
-    //         .Body {
-    //             .Info {
-    //                 .Timestamp {
-    //                     visibility: visible;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    .UserIcon {
-        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-            0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075);
-        height: fit-content;
-        width: fit-content;
-        border-radius: 50%;
-        user-select: none;
-    }
-    .emoji-mart {
-        position: absolute;
-        top: 40px;
-        right: 0;
-        z-index: 999;
-    }
-
-    .EmojiPicker {
-        position: absolute;
-        bottom: 0px;
-        z-index: 10;
-
-        #root {
-            background-color: $fuel;
-        }
-    }
-
-    .MessageEmoji {
-        font-size: 22px;
-    }
-
-    > img,
-    &Avatar {
-        position: relative;
-        width: 40px;
-        max-height: 40px;
-        border-radius: 9999px;
-        overflow: hidden;
-        object-fit: cover;
-    }
-
-    &AvatarNo {
-        position: relative;
-        height: 36px;
-        width: 36px;
-        max-height: 36px;
-        max-width: 36px;
-        min-width: 36px;
-        max-width: 36px;
-        background-color: $warm_blue;
-        border-radius: 9999px;
-        @include topicTitleMobile;
-        color: $oxygen;
-    }
-
-    .Body {
-        position: relative;
-        width: 100%;
+  &Desktop {
+    &:hover {
+      border-image: linear-gradient(to right, $silver-med, $white) 1;
+      .Body {
         .Info {
-            display: flex;
-            align-items: baseline;
-            column-gap: 8px;
-            height: 16px;
-            padding: 0px 0px 0px 0px;
-            .Creator {
-                @include chatProfile;
-                color: $fuel;
-                user-select: none;
-            }
-            .Timestamp {
-                visibility: hidden;
-                color: $silver-dark;
-                @include timeStamp;
-                user-select: none;
-            }
+          .Timestamp {
+            visibility: visible;
+          }
         }
-
-        .Content {
-            position: relative;
-            width: fit-content;
-            max-width: 100%;
-            color: $black;
-            @include chatText;
-            border: 0;
-            padding: 8px 12px;
-            border: 0;
-            white-space: pre-wrap;
-            border-radius: 18px;
-            border-top-left-radius: 0;
-            background-color: $white;
-            overflow-wrap: anywhere;
-
-            .message-text {
-                margin: 0;
-                white-space: pre-wrap;
-                overflow-wrap: anywhere;
-            }
-
-            a {
-                display: inline-block;
-                font-size: inherit;
-                white-space: pre-wrap;
-                //overflow-wrap: anywhere;
-                @include url;
-                word-break: break-all;
-            }
-
-            > img {
-                width: 400px;
-                max-width: 100%;
-                height: auto;
-                border-radius: 8px;
-                border: 3px solid transparent;
-                margin-top: 4px;
-                margin-bottom: 4px;
-
-                &:hover {
-                    border-color: $hot_pink;
-                }
-            }
-        }
-
-        &Reactions {
-            position: relative;
-            display: flex;
-            align-items: center;
-            margin-left: 16px;
-            width: max-content;
-            gap: 8px;
-
-            > * {
-                margin-right: $gutter;
-            }
-
-            &Emoji {
-                position: relative;
-                font-size: 28px;
-                line-height: 28px;
-                background-color: $white;
-                padding: 7px 6px;
-                border-radius: 99px;
-                z-index: 1;
-                margin: 0;
-                margin-top: -6px;
-                border: 1px solid transparent;
-                box-shadow:
-                0 1px 1px hsl(0deg 0% 0% / 0.05),
-                0 2px 2px hsl(0deg 0% 0% / 0.05);
-                user-select: none;
-
-                &Owner {
-                    box-shadow:
-                    0 1px 1px hsl(326deg 58% 64% / 0.20),
-                    0 2px 2px hsl(326deg 58% 64% / 0.20),
-                    0 4px 4px hsl(326deg 58% 64% / 0.20);
-                }
-                &Data {
-                    position: absolute;
-                    top: -87%;
-                    background: black;
-                    color: white; 
-                    &Group {
-                        position: absolute;
-                        top: -87%;
-                        background: black;
-                        color: white; 
-                    }
-                }
-
-                &Desktop {
-                    &:hover {
-                        scale: 1.2;
-                    }
-                }
-
-                &Mobile {
-                    &:active {
-                        scale: 1.2;
-                    }
-                } 
-            }
-
-            &AddReaction{
-                //width: 40px;
-                background-color: $white;
-                padding: 0;
-                padding: 7px 8px 5px 8px;;
-                border-radius: 99px;
-                z-index: 1;
-                margin: 0;
-                margin-top: -6px;
-                border: 1px solid $silver-xxlight;
-                border: 0;
-                box-shadow:
-                0 1px 1px hsl(0deg 0% 0% / 0.05),
-                0 2px 2px hsl(0deg 0% 0% / 0.05);
-                user-select: none;
-                svg {
-                    width: 24px;
-                    height: 24px;
-                }
-                path {
-                    fill: $silver-heavy;
-                }
-
-                &Desktop {
-                    &:hover {
-                        scale: 1.2;
-                    }
-                    
-                }
-
-                &Mobile {
-                    &:active {
-                        scale: 1.2;
-                    }
-                }
-            }
-
-
-        }
+      }
     }
+  }
 
-    .Controls {
-        position: absolute;
-        z-index: 10;
-        display: flex;
-        flex-direction: row;
-        gap: 4px;
-        top: -8px;
-        right: 16px;
-        background-color: $silver-xlight;
-        backdrop-filter: blur(24px);
-        border-radius: 8px;
-        padding: 2px;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
-        border: 1px solid $silver-med;
+  // &Mobile {
+  //     &:active {
+  //         border-radius: 12px;
+  //         background-color: $black_05;
+  //         .Body {
+  //             .Info {
+  //                 .Timestamp {
+  //                     visibility: visible;
+  //                 }
+  //             }
+  //         }
+  //     }
+  // }
 
-        > button {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 28px;
-            width: 28px;
-            border-radius: 10px;
-            background-color: transparent;
-            cursor: pointer;
-            border: 0;
-            padding: 4px;
-            overflow: hidden;
+  .UserIcon {
+    box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075);
+    height: fit-content;
+    width: fit-content;
+    border-radius: 50%;
+    user-select: none;
+  }
+  .emoji-mart {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    z-index: 999;
+  }
 
-            path {
-                fill: $silver-dark;
-            }
-
-            &:hover {
-                scale: 1.2;
-            }
-        }
-    }
-
-
-    
-
-
-}
-
-.EmojiPicker {
+  .EmojiPicker {
     position: absolute;
     bottom: 0px;
     z-index: 10;
 
     #root {
-        background-color: $fuel;
+      background-color: $fuel;
     }
+  }
+
+  .MessageEmoji {
+    font-size: 22px;
+  }
+
+  > img,
+  &Avatar {
+    position: relative;
+    width: 40px;
+    max-height: 40px;
+    border-radius: 9999px;
+    overflow: hidden;
+    object-fit: cover;
+  }
+
+  &AvatarNo {
+    position: relative;
+    height: 36px;
+    width: 36px;
+    max-height: 36px;
+    max-width: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    background-color: $warm_blue;
+    border-radius: 9999px;
+    @include topicTitleMobile;
+    color: $oxygen;
+  }
+
+  .Body {
+    position: relative;
+    width: 100%;
+    .Info {
+      display: flex;
+      align-items: baseline;
+      column-gap: 8px;
+      height: 16px;
+      padding: 0px 0px 0px 0px;
+      .Creator {
+        @include chatProfile;
+        color: $fuel;
+        user-select: none;
+      }
+      .Timestamp {
+        visibility: hidden;
+        color: $silver-dark;
+        @include timeStamp;
+        user-select: none;
+      }
+    }
+
+    .Content {
+      position: relative;
+      width: fit-content;
+      max-width: 100%;
+      color: $black;
+      @include chatText;
+      border: 0;
+      padding: 8px 12px;
+      border: 0;
+      white-space: pre-wrap;
+      border-radius: 18px;
+      border-top-left-radius: 0;
+      background-color: $white;
+      overflow-wrap: anywhere;
+
+      .message-text {
+        margin: 0;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+
+      a {
+        display: inline-block;
+        font-size: inherit;
+        white-space: pre-wrap;
+        //overflow-wrap: anywhere;
+        @include url;
+        word-break: break-all;
+      }
+
+      > img {
+        width: 400px;
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        border: 3px solid transparent;
+        margin-top: 4px;
+        margin-bottom: 4px;
+
+        &:hover {
+          border-color: $hot_pink;
+        }
+      }
+    }
+
+    &Reactions {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-left: 16px;
+      width: max-content;
+      gap: 8px;
+
+      > * {
+        margin-right: $gutter;
+      }
+
+      &Emoji {
+        position: relative;
+        font-size: 28px;
+        line-height: 28px;
+        background-color: $white;
+        padding: 7px 6px;
+        border-radius: 99px;
+        z-index: 1;
+        margin: 0;
+        margin-top: -6px;
+        border: 1px solid transparent;
+        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.05),
+          0 2px 2px hsl(0deg 0% 0% / 0.05);
+        user-select: none;
+
+        &Owner {
+          box-shadow: 0 1px 1px hsl(326deg 58% 64% / 0.2),
+            0 2px 2px hsl(326deg 58% 64% / 0.2),
+            0 4px 4px hsl(326deg 58% 64% / 0.2);
+        }
+        &Data {
+          position: absolute;
+          top: -87%;
+          background: black;
+          color: white;
+          &Group {
+            position: absolute;
+            top: -87%;
+            background: black;
+            color: white;
+          }
+        }
+
+        &Desktop {
+          &:hover {
+            scale: 1.2;
+          }
+        }
+
+        &Mobile {
+          &:active {
+            scale: 1.2;
+          }
+        }
+      }
+
+      &AddReaction {
+        //width: 40px;
+        background-color: $white;
+        padding: 0;
+        padding: 7px 8px 5px 8px;
+        border-radius: 99px;
+        z-index: 1;
+        margin: 0;
+        margin-top: -6px;
+        border: 1px solid $silver-xxlight;
+        border: 0;
+        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.05),
+          0 2px 2px hsl(0deg 0% 0% / 0.05);
+        user-select: none;
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+        path {
+          fill: $silver-heavy;
+        }
+
+        &Desktop {
+          &:hover {
+            scale: 1.2;
+          }
+        }
+
+        &Mobile {
+          &:active {
+            scale: 1.2;
+          }
+        }
+      }
+    }
+  }
+
+  .Controls {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    top: -8px;
+    right: 16px;
+    background-color: $silver-xlight;
+    backdrop-filter: blur(24px);
+    border-radius: 8px;
+    padding: 2px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
+    border: 1px solid $silver-med;
+
+    > button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      width: 28px;
+      border-radius: 10px;
+      background-color: transparent;
+      cursor: pointer;
+      border: 0;
+      padding: 4px;
+      overflow: hidden;
+
+      path {
+        fill: $silver-dark;
+      }
+
+      &:hover {
+        scale: 1.2;
+      }
+    }
+  }
+}
+
+.EmojiPicker {
+  position: absolute;
+  bottom: 0px;
+  z-index: 10;
+
+  #root {
+    background-color: $fuel;
+  }
 }
 
 .ogCard {
-    padding: 16px;
-    margin-top: 10px;
-    background-color: $white;
-    border: 1px solid $silver-med;
-    border-radius: 12px;
-    @include montserrat;
-    font-size: 13px;
-    font-weight: 500;
-    color: $silver-dark;
+  padding: 16px;
+  margin-top: 10px;
+  background-color: $white;
+  border: 1px solid $silver-med;
+  border-radius: 12px;
+  @include montserrat;
+  font-size: 13px;
+  font-weight: 500;
+  color: $silver-dark;
+  width: 100%;
+  max-width: 460px;
+  user-select: none;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+
+  .attribution {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
-    max-width: 460px;
-    user-select: none;
-    text-decoration: none;
-    overflow-wrap: anywhere;
-
-    .attribution {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        width: 100%;
-        padding: 0px;
-        margin-bottom: 8px;
-
-        img {
-            margin: 0;
-            width: 20px;
-            height: 20px;
-            overflow: hidden;
-        }
-
-        p {
-            margin-left: 4px;
-            @include worksans;
-            font-size: 14px;
-            line-height: 100%;
-            font-weight: 800;
-            color: $fuel;
-        }
-    }
-
-    .title {
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 125%;
-        color: $fuel;
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
+    padding: 0px;
+    margin-bottom: 8px;
 
     img {
-        max-width: 100%;
-        height: auto;
-        display: block;
+      margin: 0;
+      width: 20px;
+      height: 20px;
+      overflow: hidden;
     }
 
-    .description {
-        width: 100%;
-        @include montserrat;
-        line-height: 135%;
-        font-weight: 500;
-        font-size: 13px;
-        margin-bottom: 8px;;
-        display: block;
-        color: $silver-dark;
-        max-height: 90px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        text-decoration: none;
+    p {
+      margin-left: 4px;
+      @include worksans;
+      font-size: 14px;
+      line-height: 100%;
+      font-weight: 800;
+      color: $fuel;
     }
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 125%;
+    color: $fuel;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .description {
+    width: 100%;
+    @include montserrat;
+    line-height: 135%;
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 8px;
+    display: block;
+    color: $silver-dark;
+    max-height: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+  }
 }
 
 .linkCard {
-    position: relative;
-    padding: 24px 32px 20px 20px;
-    gap: 20px;
-    margin-top: 10px;
-    background-color: $white;
-    border: 1px solid $silver-med;
-    border-radius: 12px;
-    width: fit-content;
-    max-width: 100%;
-    user-select: none;
+  position: relative;
+  padding: 24px 32px 20px 20px;
+  gap: 20px;
+  margin-top: 10px;
+  background-color: $white;
+  border: 1px solid $silver-med;
+  border-radius: 12px;
+  width: fit-content;
+  max-width: 100%;
+  user-select: none;
 
+  .urlLogo {
+    width: 40px;
+    min-width: 40px;
+  }
 
-    .urlLogo {
-        width: 40px;
-        min-width: 40px;
+  .icon {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    min-width: 24px;
+    path {
+      fill: $silver-med;
     }
-
-    .icon {
-        position: absolute;
-        top: 4px;
-        right: 4px;
-        width: 24px;
-        min-width: 24px;
-        path {
-            fill: $silver-med;
-        }
-    }
+  }
 }
