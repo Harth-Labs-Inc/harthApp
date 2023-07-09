@@ -12,10 +12,8 @@
     width: 100%;
     padding-right: 12px;
     //padding-left: 16px;
-    border-bottom: 1px solid $silver-med;
-    border-top: 1px solid $silver-med;
-    background-color: $silver-xlight;
-    
+    border-bottom: 1px solid $black;
+    background-color: $ash;
     z-index: 10;
 
 
@@ -29,9 +27,6 @@
         margin: 0;
     }
 
-    img {
-        border: 1px solid $silver-med;
-    }
 
     .HarthButton {
         position: relative;

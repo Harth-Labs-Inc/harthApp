@@ -7,33 +7,10 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    background-color: $silver-xlight;      
+    background-color: $ash_heavy;      
 
     &TitleHolder {
         display: flex;
-
-        .Section {
-            @include harthTitle2;
-            //font-size: 20px;
-            color: $silver-dark;
-            text-transform: capitalize;
-            margin-left: 4px;
-            padding-top: 2px;
-            user-select: none;
-            align-self: center;
-
-            &Chat {
-                color: $warm_blue;
-            }
-
-            &Gather {
-                color: $warm_blue;
-            }
-
-            &Message {
-                color: $warm_blue;
-            }
-        }
     }
 
     &HarthButton {
@@ -43,18 +20,17 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            height: 48px;
+            height: 44px;
+            border: 0;
             width: fit-content;
             max-width: 100%;
             @include harthTitle1;
-            color: $fuel;
-            padding: 0px 8px 0px 16px;
+            color: $font_light;
+            padding: 0px 12px 0px 8px;
             border-radius: 8px;
             text-overflow: ellipsis;
-            //overflow: hidden;
             background-color: transparent;
-            margin-left: 252px;
-            border: 1px solid transparent;
+            margin-left: 256px;
             cursor: pointer;
             white-space: nowrap;
             user-select: none;
@@ -62,33 +38,17 @@
             .iconHolder {
                 position: absolute;
                 top: -2px;
-                left: 0px;
+                right: 0px;
                 width: 20px;
                 height: 20px;
                 path {
-                    fill: $silver-dark;
+                    fill: $font_light;
                 }
 
             }
 
-
-            // &::before {
-            //     position: absolute;
-            //     content: "";
-            //     left: -12px;
-            //     height: 32px;
-            //     width: 1px;
-            //     background-color: $silver-med;
-            // }
-
             &:hover {
-                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
-                border-color: $silver-light;
-                .iconHolder {
-                    path {
-                        fill: $fuel;
-                    }
-                }
+                background: $black;
             }
         }
 
@@ -98,20 +58,21 @@
         display: flex;
         width: fit-content;
         align-items: center;
-        gap: 4px;
+        //gap: 4px;
+        padding-top: 6px;
 
         .Desktop & {
             position: absolute;
             top: 0px;
             left: 0px;
             display: flex;
-            width: fit-content;
+            width: 248px;
             height: 56px;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: 8px 28px 0px 20px;
+            padding: 0px 28px 0px 28px;
             gap: 16px;
-            background-color: $silver-xlight;
+            //background-color: aqua;
 
             &::after {
                 position: absolute;
@@ -120,12 +81,9 @@
                 left: 0px;
                 height: 10px;
                 width: 100%;
-                background-color: $silver-xlight;
-                border-bottom-right-radius: 6px;
-                border-bottom: 1px solid $silver-med;
-                border-right: 1px solid $silver-med;
-
-                z-index: 1;
+                background-color: $ash_heavy;
+                border-bottom: 1px solid $black;
+                border-bottom-right-radius: 10px;
             }
         }
         &Mobile {
@@ -149,15 +107,16 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: $silver-dark;
         background-color: transparent;
         border: 0;
         user-select: none;
+        z-index: 1;
+        //border: 1px solid $ash_heavy;
 
         .iconHolder {
             position: relative;
-            height: 30px;
-            width: 30px;
+            height: 28px;
+            width: 28px;
             &UnreadMessage {
                 position: relative;
                 &:before {
@@ -170,7 +129,7 @@
                     content: "";
                     background-color: $hot_salmon;
                     border-radius: 9999px;
-                    border: 1px solid $silver-xlight;
+                    border: 1px solid $ash;
                 }
 
             }
@@ -182,7 +141,7 @@
             width: 100%;
             text-align: center;
             user-select: none;
-            color: $silver-dark;
+            color: $ash_light;
         }
 
 
@@ -212,18 +171,14 @@
         }
         
         .Desktop & {
-            width: 58px;
-            height: 48px;
-            border: 1px solid transparent;
+            padding: 6px 12px;
+            width: 56px;
             border-radius: 6px;
             cursor: pointer;
-            gap: 1px;
+            gap: 2px;
             
-
-
             &:hover {
-                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
-                border-color: $silver-light;
+                background: $black;
             }
 
         }
@@ -231,11 +186,10 @@
         &.Active {
 
             .Desktop & {
-                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
-                border-color: $silver-light;
-                padding-bottom: 3px;
+                background: $black;
+                border-color: $black;
                 .title {
-                    color: $fuel;
+                    color: $font_light;
                     font-weight: 500;
                 }
 

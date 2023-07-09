@@ -16,11 +16,8 @@
         display: flex;
         width: 100%;
         height: 48px;
-        //padding-top: 2px;
         justify-content: center;
         align-items: center;
-        //margin-bottom: 1px;
-        //background-color: aqua;
 
         &Button {
             position: relative;
@@ -28,13 +25,13 @@
             width: 44px;
             padding: 3px;
             background-color: transparent;
-            border-radius: 8px;
+            border-radius: 11px;
             overflow: hidden;
             cursor: pointer;
-            border: 3px solid transparent;
+            border: 2px solid transparent;
             transition: all 0.1s ease-in-out;
             &:hover {
-                padding: 1px;
+                padding: 2px;
                 //border-color: $silver_med;
             }
 
@@ -51,8 +48,7 @@
             img {
                 width: 100%;
                 height: 100%;
-                border-radius: 6px;
-                border: 1px solid $silver_med;
+                border-radius: 8px;
             }
             
         }
@@ -60,8 +56,8 @@
         &Active {
 
             button {
-                border-color: $hot_blue;
-                padding: 1px;
+                border-color: $hot_salmon;
+                padding: 2px;
             }
 
         }
@@ -88,7 +84,7 @@
         height: 28px;
         width: 28px;
         border: 0px;
-        margin-top: 12px;
+        margin-top: 8px;
         margin-bottom: 24px;
         margin-left: auto;
         margin-right: auto;
@@ -100,18 +96,21 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            border: 0;
+            border: 1px solid $ash_medium;
             border-radius: 8px; 
-            background: $silver_light;
-            padding: 6px;
+            background: transparent;
+            padding: 5px;
             cursor: pointer;
             path {
-                fill: $silver_dark;
+                fill: $ash_medium;
             }
 
             &:hover {
-                background-color: $silver_med;
-
+                background-color: $ash_medium;
+                border-color: $ash_medium;
+                path {
+                    fill: $ash_heavy;
+                }
             }
         }
     }

@@ -1,6 +1,13 @@
 //app colors
 @import "./utility/ui-mixins";
 
+//Text Colors
+$font_light: #fafafa;
+$font_medium: #9a9a9a;
+$font_dark: #000000;
+
+
+
 // Oxygen
 $oxygen: #fcfff6;
 $oxygen_5: rgba(252, 255, 246, 0.05);
@@ -53,7 +60,13 @@ $black_80: rgba(0, 0, 0, 0.8);
 $black_90: rgba(0, 0, 0, 0.9);
 
 // Ash
-$ash: #282828;
+// Ash
+$ash: #28282e;
+$ash_heavy: #1a1a1f;
+$ash_medium: #48484e;
+$ash_light: #78787e;
+
+
 $ash_80: rgba(40, 40, 40, 0.8);
 $ash_60: rgba(40, 40, 40, 0.6);
 $ash_50: rgba(40, 40, 40, 0.5);
@@ -63,9 +76,8 @@ $ash_20: rgba(40, 40, 40, 0.2);
 $ash_10: rgba(40, 40, 40, 0.1);
 $ash_05: rgba(40, 40, 40, 0.05);
 $ash_border: #3e3e3e;
-$ash_light: #787878;
 $ash_ultralight: #e8e8e8;
-$ash_medium: #484848;
+
 $ash_dark: #080808;
 
 // Light Ash
@@ -83,7 +95,7 @@ $silver-heavy: #b9bfc7;
 $silver-dark: #929ca8;
 
 // Fuel
-$fuel: #2f1d2a;
+$fuel: #271623;
 $fuel_90: rgba(47, 29, 42, 0.9);
 $fuel_80: rgba(47, 29, 42, 0.8);
 $fuel_60: rgba(47, 29, 42, 0.6);

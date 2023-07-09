@@ -15,15 +15,10 @@
     width: 56px;
     height: 100vh;
     min-width: 56px;
-    background-color: $silver-xlight;
-    border-right: 1px solid $silver-med;
-    border-top: 1px solid $silver-med;
-
-
-
+    background-color: $ash_heavy;
+    border-right: 1px solid $black;
 
     .bottomHolder {
-
         position: absolute;
         display: flex;
         flex-direction: column;
@@ -31,8 +26,8 @@
         bottom: 0px;
         height: fit-content;
         width: 100%;
-        background-color: $silver-xlight;
-        border-top: 1px solid $silver-med;
+        background-color: $ash_heavy;
+        //border-top: 1px solid $ash_medium;
         z-index: 1;
         padding: 12px 0px 12px 0px;
         gap: 8px;
@@ -50,65 +45,16 @@
     
     
             path {
-                fill: $silver-heavy;
+                fill: $ash_light;
             }
     
     
             &:hover {
                 //border: 1px solid $fuel_10;
-                background-color: $silver-light;
+                background-color: $ash_light;
     
                 path {
-                    fill: $silver-dark;
-                }
-            }
-    
-            &Feedback {
-    
-                path {
-                    fill: $hot_pink;
-                }
-    
-                &:hover {
-                    //border: 1px solid $fuel_10;
-                    background-color: $silver-light;
-    
-                    path {
-                        fill: $hot_pink;
-                    }
-    
-                    &::before {
-                        position: absolute;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        content: "Give Feedback";
-                        width: fit-content;
-                        top: -4px;
-                        left: 38px;
-                        padding: 6px 10px;
-                        background-color: $ash;
-                        border-radius: 2px;
-                        @include worksans;
-                        letter-spacing: 0.05em;
-                        font-size: 12px;
-                        font-weight: 400;
-                        color: $white;
-                        z-index: 10;
-                    }
-            
-                    &::after {
-                        position: absolute;
-                        content: " ";
-                        top: 4px;
-                        left: 32px;
-                        width: 0;
-                        height: 0;
-                        border-top: 12px solid transparent;
-                        border-bottom: 12px solid transparent;
-                        border-right: 12px solid $ash;
-                        z-index: 9;
-                    }
+                    fill: $ash;
                 }
             }
     
@@ -117,6 +63,7 @@
                     fill: $hot_pink;
                 }
                 &:hover {
+
                     &::before {
                         position: absolute;
                         display: flex;
@@ -127,13 +74,13 @@
                         top: 3px;
                         left: 38px;
                         padding: 6px 10px;
-                        background-color: $ash;
+                        background-color: $ash_light;
                         border-radius: 2px;
                         @include worksans;
                         letter-spacing: 0.05em;
                         font-size: 12px;
                         font-weight: 400;
-                        color: $white;
+                        color: $ash;
                         z-index: 10;
                     }
             
@@ -146,7 +93,7 @@
                         height: 0;
                         border-top: 12px solid transparent;
                         border-bottom: 12px solid transparent;
-                        border-right: 12px solid $ash;
+                        border-right: 12px solid $ash_light;
                         z-index: 9;
                     }
                 }

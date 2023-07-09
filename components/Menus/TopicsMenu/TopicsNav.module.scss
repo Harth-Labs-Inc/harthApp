@@ -6,11 +6,11 @@
     width: 250px;
     min-width: 250px;
     padding: 12px 8px 0px 8px;
-    background-color: $silver-xxlight;
+    background-color: $black;
     height: 100%;
     overflow-y: scroll;
     border: 0;
-    border-right: 1px solid $silver-med;
+    border-right: 1px solid $black;
     //background: linear-gradient(100deg, lighten($warm_blue, 50%), lighten($hot_pink, 32%));  
 
 
@@ -27,7 +27,7 @@
         position: relative;
         @include smallTitle;
         text-transform: uppercase;
-        color: $fuel;
+        color: $font_light;
         user-select: none;
         margin-left: 8px;
         margin-top: 12px;
@@ -59,7 +59,7 @@
         margin-bottom: 8px;
         background-color: transparent;
         text-transform: uppercase;
-        color: $silver-dark;
+        color: $font_medium;
         border: 0;
         cursor: pointer;
         user-select: none;
@@ -71,11 +71,11 @@
         }
 
         &:hover {
-            color: $fuel;
+            color: $font_light;
         }
 
         &Active {
-            color: $fuel;
+            color: $font_light;
 
         }
     }
@@ -95,19 +95,19 @@
         position: relative;
         display: block;
         cursor: pointer;
-        height: 28px;
-        width: 28px;
+        height: 24px;
+        width: 24px;
         border-radius: 99px;
-        border: 0;
-        padding: 5px;
-        margin-left: 15px;
+        border: 1px solid $ash_medium;
+        padding: 4px;
+        margin-left: 10px;
         margin-top: 8px;
         margin-bottom: 4px;
         transition: opacity;
-        background-color: $silver-xlight;
+        background-color: transparent;
         
         path {
-            fill: $silver-dark;
+            fill: $ash_medium;
         }
 
         &::before {
@@ -119,15 +119,15 @@
             content: "new topic";
             width: 80px;
             height: 24px;
-            top: 2px;
-            left: 38px;
-            background-color: $silver-med;
+            top: 0px;
+            left: 34px;
+            background-color: $ash_medium;
             border-radius: 2px;
             @include worksans;
             letter-spacing: 0.05em;
             font-size: 12px;
             font-weight: 400;
-            color: $silver-dark;
+            color: $font_light;
             z-index: 10;
         }
 
@@ -135,18 +135,22 @@
             position: absolute;
             opacity: 0;
             content: " ";
-            top: 2px;
-            left: 32px;
+            top: 0px;
+            left: 28px;
             width: 0;
             height: 0;
             border-top: 12px solid transparent;
             border-bottom: 12px solid transparent;
-            border-right: 12px solid $silver-med;
+            border-right: 12px solid $ash_medium;
             z-index: 9;
         }
         
         &:hover {
-            background-color: $silver-med;
+            background-color: $ash_medium;
+
+            path {
+                fill: $black;
+            }
 
             &::before {
                 opacity: 1;
