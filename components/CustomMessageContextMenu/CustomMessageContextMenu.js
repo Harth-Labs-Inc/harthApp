@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import OutsideClickHandler from "../Common/Modals/OutsideClick";
 
@@ -16,10 +16,18 @@ export const CustomMessageContextMenu = ({
   const [isCopied, setIsCopied] = useState(false);
   const contextRef = useRef(null);
 
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, 200);
+  }, []);
+
   const addReactionHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    closeModal();
+    closeModal(null, isDisabled);
     openEmojiPicker(e);
   };
   const copyTextHandler = async (e) => {
@@ -35,13 +43,15 @@ export const CustomMessageContextMenu = ({
   const editHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    closeModal();
+    closeModal(null, isDisabled);
+
     EditSelectCB();
   };
   const removeHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    closeModal();
+    closeModal(null, isDisabled);
+
     removeCB();
   };
 
@@ -61,6 +71,7 @@ export const CustomMessageContextMenu = ({
           }}
         >
           <button
+            disabled={isDisabled}
             className={styles.CustomContextMenuButton}
             onClick={addReactionHandler}
           >
@@ -68,6 +79,7 @@ export const CustomMessageContextMenu = ({
           </button>
           {hasTextForClipboard ? (
             <button
+              disabled={isDisabled}
               id="copyButton"
               className={styles.CustomContextMenuButton}
               onClick={copyTextHandler}
@@ -78,6 +90,7 @@ export const CustomMessageContextMenu = ({
           ) : null}
           {showEditButton ? (
             <button
+              disabled={isDisabled}
               className={styles.CustomContextMenuButton}
               onClick={editHandler}
             >
@@ -86,6 +99,7 @@ export const CustomMessageContextMenu = ({
           ) : null}
           {showEditButton ? (
             <button
+              disabled={isDisabled}
               className={styles.CustomContextMenuButton}
               onClick={removeHandler}
             >

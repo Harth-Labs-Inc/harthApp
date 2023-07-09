@@ -47,9 +47,10 @@ const ChatSingleMessage = (props) => {
   const [ratio, setRatio] = useState(16 / 9);
   const { isMobile } = useContext(MobileContext);
   const [hoveredEmojiData, setHoveredEmojiData] = useState(null);
-  const [showLongPressMenu, setShowLongPressMenu] = useState(false);
-  const [longPressActive, setLongPressActive] = useState(false);
 
+  const [showLongPressMenu, setShowLongPressMenu] = useState(false);
+  const touchEndTimestamp = useRef(0);
+  const touchThreshold = 100;
   const longPressTimeOut = useRef();
 
   let {
@@ -135,14 +136,6 @@ const ChatSingleMessage = (props) => {
   };
 
   useEffect(() => {
-    return () => {
-      if (longPressTimeOut.current) {
-        clearTimeout(longPressTimeOut.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     const FetchDownloadURL = async () => {
       if (attachments.length > 0) {
         const data = await Promise.all(
@@ -166,30 +159,30 @@ const ChatSingleMessage = (props) => {
     };
   }, [attachments]);
 
+  useEffect(() => {
+    return () => {
+      if (longPressTimeOut.current) {
+        clearTimeout(longPressTimeOut.current);
+      }
+    };
+  }, []);
+
   const handleTouchStart = () => {
     if (!showLongPressMenu) {
       longPressTimeOut.current = setTimeout(() => {
         setShowLongPressMenu(true);
-        setLongPressActive(true);
       }, 300);
     }
   };
-  const handleTouchEnd = (e) => {
-    if (longPressTimeOut.current) {
+  const handleTouchEnd = () => {
+    if (!showLongPressMenu) {
       clearTimeout(longPressTimeOut.current);
     }
-    if (longPressActive) {
-      e.preventDefault();
-    }
-    setLongPressActive(false);
+    touchEndTimestamp.current = Date.now();
   };
-
   const move = () => {
     if (longPressTimeOut.current) {
       clearTimeout(longPressTimeOut.current);
-    }
-    if (longPressActive) {
-      setLongPressActive(false);
     }
   };
 
@@ -359,8 +352,12 @@ const ChatSingleMessage = (props) => {
     e.stopPropagation();
     setHoveredEmojiData(null);
   };
-  const closeLongPressMenu = () => {
-    if (!longPressActive) {
+  const closeLongPressMenu = (e, isDisabled) => {
+    if (
+      Date.now() - touchEndTimestamp.current > touchThreshold ||
+      isDisabled === false
+    ) {
+      touchEndTimestamp.current = 0;
       setShowLongPressMenu(false);
     }
   };
