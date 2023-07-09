@@ -12,6 +12,7 @@ export const CustomMessageContextMenu = ({
   EditSelectCB,
   showEditButton,
   removeCB,
+  isPressing,
 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const contextRef = useRef(null);
@@ -19,10 +20,12 @@ export const CustomMessageContextMenu = ({
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsDisabled(false);
-    }, 200);
-  }, []);
+    if (!isPressing && isDisabled) {
+      setTimeout(() => {
+        setIsDisabled(false);
+      }, 100);
+    }
+  }, [isPressing]);
 
   const addReactionHandler = (e) => {
     e.preventDefault();
