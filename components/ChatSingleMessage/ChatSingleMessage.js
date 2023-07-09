@@ -48,6 +48,7 @@ const ChatSingleMessage = (props) => {
   const { isMobile } = useContext(MobileContext);
   const [hoveredEmojiData, setHoveredEmojiData] = useState(null);
 
+  const [isPressing, setIsPressing] = useState(false);
   const [showLongPressMenu, setShowLongPressMenu] = useState(false);
   const touchEndTimestamp = useRef(0);
   const touchThreshold = 100;
@@ -173,12 +174,14 @@ const ChatSingleMessage = (props) => {
         setShowLongPressMenu(true);
       }, 300);
     }
+    setIsPressing(true);
   };
   const handleTouchEnd = () => {
     if (!showLongPressMenu) {
       clearTimeout(longPressTimeOut.current);
     }
     touchEndTimestamp.current = Date.now();
+    setIsPressing(false);
   };
   const move = () => {
     if (longPressTimeOut.current) {
@@ -384,6 +387,7 @@ const ChatSingleMessage = (props) => {
             EditSelectCB={editBarSelection}
             showEditButton={creator_id == user._id}
             removeCB={deleteMsg}
+            isPressing={isPressing}
           />
         ) : null}
         <EmojiPicker />
@@ -636,200 +640,6 @@ const ChatSingleMessage = (props) => {
       </div>
     </div>
   );
-  // return (
-  //   <div
-  //     className={`${styles.ChatParentContainer} ${
-  //       isEditing ? styles.Editing : null
-  //     }`}
-  //   >
-  //     <div
-  //       className={`
-  //                   ${styles.SingleMessage}
-  //                   ${
-  //                     isMobile
-  //                       ? styles.SingleMessageMobile
-  //                       : styles.SingleMessageDesktop
-  //                   }
-  //               `}
-  //       onMouseEnter={() => toggleEdit(true)}
-  //       onMouseLeave={() => {
-  //         if (!emojiPickerState) {
-  //           toggleEdit(false);
-  //         }
-  //       }}
-  //     >
-  //       <EmojiPicker />
-
-  //       <EditBar
-  //         showEditBar={showEditBar}
-  //         _id={_id}
-  //         creator_id={creator_id}
-  //         user_id={user._id}
-  //         deleteMsg={deleteMsg}
-  //         editBarSelection={editBarSelection}
-  //         triggerPicker={triggerPicker}
-  //       />
-  //       <span className={styles.UserIcon}>
-  //         <UserIcon
-  //           img={creator_image}
-  //           showName={false}
-  //           size="regular"
-  //           iconClass={`${selectedcomm._id}_${creator_id}`}
-  //           shouldIgnoreUserId={true}
-  //         />
-  //       </span>
-
-  //       <div className={styles.Body}>
-  //         <span className={styles.Info}>
-  //           <p
-  //             className={[
-  //               styles.Creator,
-  //               `${selectedcomm._id}_${creator_id}_name`,
-  //             ].join(" ")}
-  //           >
-  //             {creator_name}
-  //           </p>
-  //           <p className={styles.Timestamp}>{timeStamp}</p>
-  //         </span>
-  //         <div className={styles.Content}>
-  //           {(urls || []).map((url, idx) => (
-  //             <Image
-  //               key={url}
-  //               className="active-image"
-  //               src={url}
-  //               width={280}
-  //               height={280 / ratio}
-  //               placeholder="blur"
-  //               blurDataURL={`data:image/svg+xml;base64,${toBase64(
-  //                 shimmer(280, 280 / ratio)
-  //               )}`}
-  //               alt="message image"
-  //               onClick={() => openImageSlideShow(idx, attachments)}
-  //               onLoadingComplete={({ naturalWidth, naturalHeight }) =>
-  //                 setRatio(naturalHeight / naturalWidth)
-  //               }
-  //             />
-  //           ))}
-
-  //           <div id={`message-content${messageID}`}>
-  //             {formatMessage(message)}
-  //             <LinkPreview message={message} messageID={messageID} />
-  //           </div>
-  //         </div>
-  //         {reactionsData && reactionsData.length > 0 ? (
-  //           <div className={styles.BodyReactions}>
-  //             {isLongPressing ? (
-  //               <div className={styles.BodyReactionsEmojiDataGroup}>
-  //                 <ul>
-  //                   {[...(reactionsData || [])].map((data) => {
-  //                     const { reaction, name, id } = data;
-  //                     return (
-  //                       <li key={id}>
-  //                         <span>{reaction}</span>
-  //                         <span>{name}</span>
-  //                       </li>
-  //                     );
-  //                   })}
-  //                 </ul>
-  //               </div>
-  //             ) : null}
-  //             {[...(reactionsData || [])].map((data, index) => {
-  //               const { reaction, userId, id } = data;
-  //               let isReactionOwner = false;
-  //               if (userId == user._id) {
-  //                 isReactionOwner = true;
-  //               }
-
-  //               if (isMobile) {
-  //                 return (
-  //                   <button
-  //                     onTouchStart={handleTouchStart}
-  //                     onTouchEnd={handleTouchEnd}
-  //                     onClick={(e) =>
-  //                       ExistingReactionClickHandler(data, isReactionOwner, e)
-  //                     }
-  //                     className={`
-  //                                             ${styles.BodyReactionsEmoji}
-  //                                             ${
-  //                                               isMobile
-  //                                                 ? styles.BodyReactionsEmojiMobile
-  //                                                 : styles.BodyReactionsEmojiDesktop
-  //                                             }
-  //                                             ${
-  //                                               isReactionOwner
-  //                                                 ? styles.BodyReactionsEmojiOwner
-  //                                                 : null
-  //                                             }
-  //                                         `}
-  //                     key={index}
-  //                   >
-  //                     {hoveredEmojiData && hoveredEmojiData?.index == index ? (
-  //                       <span className={styles.BodyReactionsEmojiData}>
-  //                         <span>{hoveredEmojiData?.reaction}</span>
-  //                         {hoveredEmojiData?.name}
-  //                       </span>
-  //                     ) : null}
-  //                     {reaction}
-  //                   </button>
-  //                 );
-  //               }
-  //               return (
-  //                 <button
-  //                   onMouseEnter={(e) =>
-  //                     displayEmojiData({ ...data, index }, e)
-  //                   }
-  //                   onMouseLeave={(e) => {
-  //                     handleTouchEnd(e);
-  //                     removeEmojiData(e);
-  //                   }}
-  //                   onClick={(e) =>
-  //                     ExistingReactionClickHandler(data, isReactionOwner, e)
-  //                   }
-  //                   className={`
-  //                                           ${styles.BodyReactionsEmoji}
-  //                                           ${
-  //                                             isMobile
-  //                                               ? styles.BodyReactionsEmojiMobile
-  //                                               : styles.BodyReactionsEmojiDesktop
-  //                                           }
-  //                                           ${
-  //                                             isReactionOwner
-  //                                               ? styles.BodyReactionsEmojiOwner
-  //                                               : null
-  //                                           }
-  //                                       `}
-  //                   key={id}
-  //                 >
-  //                   {hoveredEmojiData && hoveredEmojiData?.id == id ? (
-  //                     <span className={styles.BodyReactionsEmojiData}>
-  //                       <span>{hoveredEmojiData?.reaction}</span>{" "}
-  //                       {hoveredEmojiData?.name}
-  //                     </span>
-  //                   ) : null}
-  //                   {reaction}
-  //                 </button>
-  //               );
-  //             })}
-
-  //             <button
-  //               className={`
-  //                                   ${styles.BodyReactionsAddReaction}
-  //                                   ${
-  //                                     isMobile
-  //                                       ? styles.BodyReactionsAddReactionMobile
-  //                                       : styles.BodyReactionsAddReactionDesktop
-  //                                   }
-  //                               `}
-  //               onClick={triggerPicker}
-  //             >
-  //               <IconAddReactionNoFill />
-  //             </button>
-  //           </div>
-  //         ) : null}
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default ChatSingleMessage;
