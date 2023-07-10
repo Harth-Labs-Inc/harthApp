@@ -15,6 +15,7 @@ import {
   deleteConversation,
   deleteConversationFinal,
 } from "requests/conversations";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const Message = () => {
   const { isMobile } = useContext(MobileContext);
@@ -111,53 +112,62 @@ const Message = () => {
     <>
       {isMobile ? (
         <>
-          {!chatVisible ? (
-            <div
-              id="mainmessageContainer"
-              style={{ width: "100%", position: "relative" }}
-            >
-              <div className={styles.topicHolderMobile}>
-                <ConversationsNav handleMobileChat={handleMobileChat} />
-              </div>
+          <div
+            id="mainmessageContainer"
+            style={{ width: "100%", position: "relative" }}
+          >
+            <div className={styles.topicHolderMobile}>
+              <ConversationsNav handleMobileChat={handleMobileChat} />
             </div>
-          ) : (
-            <div id="mainchatContainer" className={styles.chatHolderMobile}>
-              <div className={styles.MobileChatHeader}>
-                <button onClick={handleBackToNav} aria-label="back">
-                  <IconChevronLeft />
-                </button>
-                <div className={styles.people}>
-                  {chatVisible?.OriginalUsers && (
-                    <>
-                      {chatVisible?.OriginalUsers.map((e) => {
-                        if (e.userId !== user._id) {
-                          return (
-                            <>
-                              <img
-                                key={e.userId}
-                                className={`
+          </div>
+          <TransitionGroup>
+            <CSSTransition
+              key={chatVisible ? "chat" : "topics"}
+              timeout={300}
+              classNames="slide"
+            >
+              {chatVisible ? (
+                <div id="mainchatContainer" className={styles.chatHolderMobile}>
+                  <div className={styles.MobileChatHeader}>
+                    <button onClick={handleBackToNav} aria-label="back">
+                      <IconChevronLeft />
+                    </button>
+                    <div className={styles.people}>
+                      {chatVisible?.OriginalUsers && (
+                        <>
+                          {chatVisible?.OriginalUsers.map((e) => {
+                            if (e.userId !== user._id) {
+                              return (
+                                <>
+                                  <img
+                                    key={e.userId}
+                                    className={`
                                                                         ${styles.avatar} 
                                                                         ${styles.avatarMobile} 
                                                                         ${selectedcomm?._id}_${e.userId}
                                                                         `}
-                                src={e.iconKey}
-                                loading="lazy"
-                              />
-                            </>
-                          );
-                        }
-                        return null;
-                      })}
-                    </>
-                  )}
+                                    src={e.iconKey}
+                                    loading="lazy"
+                                  />
+                                </>
+                              );
+                            }
+                            return null;
+                          })}
+                        </>
+                      )}
+                    </div>
+                    <button aria-label="conversation menu">
+                      <IconMoreDots />
+                    </button>
+                  </div>
+                  <ConversationMessages />
                 </div>
-                <button aria-label="conversation menu">
-                  <IconMoreDots />
-                </button>
-              </div>
-              <ConversationMessages />
-            </div>
-          )}
+              ) : (
+                <></>
+              )}
+            </CSSTransition>
+          </TransitionGroup>
         </>
       ) : (
         <div id="mainmessageContainer" className={styles.ConversationMessages}>
