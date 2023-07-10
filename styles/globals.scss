@@ -260,3 +260,58 @@ $gutter: 8px;
         }
     }
 }
+.slideRight-enter {
+    transform: translateX(-100%);
+  }
+  
+  .slideRight-enter-active {
+    transform: translateX(0);
+    transition: transform 300ms;
+  }
+  
+  .slideRight-exit {
+    transform: translateX(0);
+  }
+  
+  .slideRight-exit-active {
+    transform: translateX(100%);
+    transition: transform 300ms;
+  }
+  
+  .slideLeft-enter {
+    transform: translateX(100%);
+  }
+  
+  .slideLeft-enter-active {
+    transform: translateX(0);
+    transition: transform 300ms;
+  }
+  
+  .slideLeft-exit {
+    transform: translateX(0);
+  }
+  
+  .slideLeft-exit-active {
+    transform: translateX(-100%);
+    transition: transform 300ms;
+  }
+
+  .slideRight-exit, .slideLeft-exit {
+    transition: background-color 300ms;
+  }
+  
+  .slideRight-exit-active, .slideLeft-exit-active {
+    background-color: purple
+  }
+  .gatherTransitionBackground {
+    background: linear-gradient(100deg, lighten($warm_blue, 50%), lighten($hot_pink, 32%));
+  }
+  .messageTransitionBackground {
+    background: $silver-xxlight
+  }
+  .chatTransitionBackground{
+    background: $silver-xxlight
+  }
+  .defaultTransitionBackground {
+    background: $silver-xxlight
+  }

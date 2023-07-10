@@ -1,8 +1,9 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { MobileContext } from "../../contexts/mobile";
 import SideNav from "../Menus/SideMenu/SideMenu";
 import TopBar from "../Menus/TopBar/TopBar";
 import MainNav from "../MainNav/MainNav";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import MobileSideNav from "../Menus/SideMenu/MobileSideMenu";
 
@@ -36,6 +37,13 @@ const DashboardLayout = (props) => {
   const { getInitialCallRooms, socketID, callRooms } = useVideo();
   const { user } = useAuth();
   const { mainAlertsRef, setMainAlertsFromChild } = useSocket();
+
+  const prePageRef = useRef("");
+  const backgroundColorClass = useRef("defaultTransitionBackground");
+
+  useEffect(() => {
+    prePageRef.current = currentPage;
+  }, [currentPage]);
 
   useEffect(() => {
     if (socketID && selectedcomm && selectedcomm.users && user) {
@@ -107,6 +115,34 @@ const DashboardLayout = (props) => {
   };
 
   if (isMobile) {
+    let previous = prePageRef.current;
+    let direction = "left";
+    if (previous !== currentPage) {
+      if (currentPage == "chat") {
+        direction = "right";
+      }
+      if (currentPage == "message") {
+        direction = "left";
+      }
+      if (currentPage == "gather") {
+        if (previous == "chat") {
+          direction = "left";
+        }
+        if (previous == "message") {
+          direction = "right";
+        }
+      }
+      if (previous == "gather") {
+        backgroundColorClass.current = "gatherTransitionBackground";
+      }
+      if (previous == "message") {
+        backgroundColorClass.current = "messageTransitionBackground";
+      }
+      if (previous == "chat") {
+        backgroundColorClass.current = "chatTransitionBackground";
+      }
+    }
+
     return (
       <main className={styles.Dashboard}>
         <MobileSideNav
@@ -123,12 +159,23 @@ const DashboardLayout = (props) => {
             changePage={changePageHandler}
             onToggleMenu={toggleMenu}
           ></TopBar>
-          <section
-            className={`${styles.DashboardContentWrapper} ${styles.Mobile}`}
-            id="content_wrapper"
-          >
-            {children}
-          </section>
+          <div className={backgroundColorClass.current}>
+            <TransitionGroup>
+              <CSSTransition
+                key={currentPage}
+                classNames={direction == "right" ? "slideRight" : "slideLeft"}
+                timeout={200}
+              >
+                <section
+                  className={`${styles.DashboardContentWrapper} ${styles.Mobile}`}
+                  id="content_wrapper"
+                >
+                  {children}
+                </section>
+              </CSSTransition>
+            </TransitionGroup>
+          </div>
+
           <MainNav
             onToggleMenu={toggleMenu}
             changePage={changePageHandler}
