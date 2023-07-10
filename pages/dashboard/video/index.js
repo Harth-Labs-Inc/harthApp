@@ -34,20 +34,6 @@ const Video = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    const element = document.getElementById("gatherings");
-    element.classList.add(styles.rendering);
-    setTimeout(() => {
-      element.classList.remove(styles.rendering);
-      element.classList.add(styles.entered);
-    }, 100);
-
-    return () => {
-      element.classList.remove(styles.entered);
-      element.classList.remove(styles.rendering);
-    };
-  }, []);
-
-  useEffect(() => {
     if (socketID && selectedcomm) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
       let data = {};

@@ -1,15 +1,6 @@
 @import "../../../styles/globals.scss";
 @import "../../../styles/fonts.scss";
 
-.rendering {
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-}
-.entered {
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out;
-}
-
 .ConversationMessages {
     display: flex;
     width: 100%;
