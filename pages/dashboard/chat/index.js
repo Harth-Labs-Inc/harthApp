@@ -5,6 +5,7 @@ import MobileChatHeader from "../../../components/Topics/MobileChatHeader/Mobile
 import ChatMessages from "../../../components/ChatMessages/ChatMessages";
 import { MobileContext } from "../../../contexts/mobile.js";
 import styles from "./chatPage.module.scss";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const Chat = () => {
   const { isMobile } = useContext(MobileContext);
@@ -19,25 +20,34 @@ const Chat = () => {
     <>
       {isMobile ? (
         <>
-          {!chatVisible ? (
-            <div
-              id="mainchatContainer"
-              style={{ width: "100%", position: "relative" }}
+          <div
+            id="mainchatContainer"
+            style={{ width: "100%", position: "relative" }}
+          >
+            <div className={styles.topicHolderMobile}>
+              <TopicsNav handleMobileChat={handleMobileChat} />
+            </div>
+          </div>
+          <TransitionGroup>
+            <CSSTransition
+              key={chatVisible ? "chat" : "topics"}
+              timeout={300}
+              classNames="slide"
             >
-              <div className={styles.topicHolderMobile}>
-                <TopicsNav handleMobileChat={handleMobileChat} />
-              </div>
-            </div>
-          ) : (
-            <div id="mainchatContainer" className={styles.chatHolderMobile}>
-              <MobileChatHeader
-                selectedTopic={selectedTopic}
-                handleMobileChat={handleMobileChat}
-                toggleTopicEditModal
-              />
-              <ChatMessages />
-            </div>
-          )}
+              {chatVisible ? (
+                <div id="mainchatContainer" className={styles.chatHolderMobile}>
+                  <MobileChatHeader
+                    selectedTopic={selectedTopic}
+                    handleMobileChat={handleMobileChat}
+                    toggleTopicEditModal
+                  />
+                  <ChatMessages />
+                </div>
+              ) : (
+                <></>
+              )}
+            </CSSTransition>
+          </TransitionGroup>
         </>
       ) : (
         <div id="mainchatContainer" className={styles.MainChatContainer}>
