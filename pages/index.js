@@ -51,7 +51,8 @@ const dashboard = () => {
   const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
   const [inviteTKN, setInviteTKN] = useState(false);
 
-  const { user, loading, Comms, CREATOR, SELECTEDCOMM, TOPICS } = useAuth();
+  const { user, loading, Comms, CREATOR, SELECTEDCOMM, TOPICS, Conversations } =
+    useAuth();
 
   const router = useRouter();
   const {
@@ -292,6 +293,7 @@ const dashboard = () => {
           SELECTEDCOMM={SELECTEDCOMM}
           TOPICS={TOPICS}
           currentPage={currentPage}
+          ConversationsArray={Conversations}
         >
           {page}
         </CommsProvider>
@@ -304,6 +306,7 @@ const dashboard = () => {
           SELECTEDCOMM={SELECTEDCOMM}
           TOPICS={TOPICS}
           currentPage={currentPage}
+          ConversationsArray={Conversations}
         >
           <SocketProvider swReg={swReg}>
             <VideoProvider>

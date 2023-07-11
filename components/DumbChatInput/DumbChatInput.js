@@ -1,13 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-
 import { IconSend } from "../../resources/icons/IconSend";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
-
-// import { updateConversationMessage } from "../../requests/conversations";
-
 import ImageHolder from "../ChatInput/ImageHolder";
 import styles from "./DumbChatInput.module.scss";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
