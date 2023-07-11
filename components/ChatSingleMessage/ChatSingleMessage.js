@@ -384,6 +384,7 @@ const ChatSingleMessage = (props) => {
             closeModal={closeLongPressMenu}
             openEmojiPicker={triggerPicker}
             hasTextForClipboard={!!props.msg?.message}
+            TextForClipboard={props.msg?.message}
             EditSelectCB={editBarSelection}
             showEditButton={creator_id == user._id}
             removeCB={deleteMsg}
