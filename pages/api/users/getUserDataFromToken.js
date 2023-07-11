@@ -10,7 +10,7 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  const { token, selectedHarthID } = obj;
+  const { token, selectedHarthID, selectedPage } = obj;
 
   if (!token) {
     return res.json({
@@ -59,32 +59,44 @@ export default async (req, res) => {
     : null;
 
   let topics = [],
-    filteredTopics = [];
+    filteredTopics = [],
+    conversations = [];
   if (selectedComm) {
     const selectedID = selectedComm._id.toString();
-    topics = await db
-      .collection("topics")
-      .find({
-        comm_id: selectedID,
-        members: { $elemMatch: { user_id: user._id } },
-      })
-      .sort({ title: 1 })
-      .toArray();
+    if (selectedPage == "chat" || !selectedPage) {
+      topics = await db
+        .collection("topics")
+        .find({
+          comm_id: selectedID,
+          members: { $elemMatch: { user_id: user._id } },
+        })
+        .sort({ title: 1 })
+        .toArray();
 
-    const removeEmoji = (str) =>
-      str
-        .replace(
-          /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-          ""
-        )
-        .replace(/\s+/g, " ")
-        .trim();
+      const removeEmoji = (str) =>
+        str
+          .replace(
+            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+            ""
+          )
+          .replace(/\s+/g, " ")
+          .trim();
 
-    filteredTopics = topics.sort((a, b) => {
-      const nameA = removeEmoji(a.title);
-      const nameB = removeEmoji(b.title);
-      return nameA.localeCompare(nameB);
-    });
+      filteredTopics = topics.sort((a, b) => {
+        const nameA = removeEmoji(a.title);
+        const nameB = removeEmoji(b.title);
+        return nameA.localeCompare(nameB);
+      });
+    }
+    if (selectedPage == "message") {
+      conversations = await db
+        .collection("conversations")
+        .find({
+          harthId: selectedID,
+          users: { $elemMatch: { userId: user._id } },
+        })
+        .toArray();
+    }
   }
 
   return res.json({
@@ -95,5 +107,6 @@ export default async (req, res) => {
     selectedComm,
     creator,
     topics: filteredTopics,
+    conversations,
   });
 };
