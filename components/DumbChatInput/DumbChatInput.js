@@ -10,6 +10,7 @@ import { IconImage } from "../../resources/icons/IconImage";
 
 import ImageHolder from "../ChatInput/ImageHolder";
 import styles from "./DumbChatInput.module.scss";
+import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 
 const DumbChatInput = (props) => {
   const [attachments, setAttachments] = useState([]);
@@ -127,19 +128,10 @@ const DumbChatInput = (props) => {
     if (emojiPickerState) {
       return (
         <div className={styles.EmojiPicker}>
-          <Picker
-            data={data}
-            className="attach-emoji"
-            onEmojiSelect={addEmoji}
-            autoFocus={true}
-            emojiButtonColors={[
-              "rgba(187, 126, 196, 0.8)",
-              "rgb(13, 161, 181, .8)",
-              "rgba(240, 101, 115, 0.8)",
-              "rgb(0, 163, 150, 0.8)",
-            ]}
-            // onClickOutside={setEmojiPicker(!emojiPickerState)}
-          />
+          <EmojiWrapper
+            addEmoji={addEmoji}
+            closeWrapper={triggerPicker}
+          ></EmojiWrapper>
         </div>
       );
     }
