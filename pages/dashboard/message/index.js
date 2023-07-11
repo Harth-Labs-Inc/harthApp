@@ -9,13 +9,13 @@ import { useSocket } from "contexts/socket";
 import { useComms } from "contexts/comms";
 import ConversationsNav from "../../../components/Menus/ConversationMenu/ConversationsNav";
 import styles from "./messagePage.module.scss";
-import ConversationDeleteModal from "components/Menus/ConversationDeleteModal";
 import { saveConversationMessage } from "requests/conversations";
 import {
   deleteConversation,
   deleteConversationFinal,
 } from "requests/conversations";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { CustomConvContextMenu } from "components/CustomConvContextMenu/CustomConvContextMenu";
 
 const Message = () => {
   const { isMobile } = useContext(MobileContext);
@@ -24,38 +24,28 @@ const Message = () => {
   const { user } = useAuth();
   const [openEditConversationMenu, setOpenEditConversationMenu] =
     useState(false);
-  const [showLeaveConversationModal, setShowLeaveConversationModal] =
-    useState(false);
   const [chatVisible, setChatVisible] = useState(false);
+  const [showMobileConvMenu, setShowMobileConvMenu] = useState(false);
 
   const toggleConversationEditModal = ({ conversation, pos }) => {
     setOpenEditConversationMenu({ conversation, pos });
   };
-
   const closeConversationEditModal = () => {
-    if (!showLeaveConversationModal) {
-      setOpenEditConversationMenu(false);
-    }
+    setOpenEditConversationMenu(false);
   };
 
-  const onLeaveHandler = () => {
-    setShowLeaveConversationModal(true);
-  };
-
-  const submitDeleteConversation = async () => {
-    let numOfUsers = openEditConversationMenu?.conversation?.users?.length;
-
+  const submitDeleteConversation = async (conv) => {
+    let conversation = openEditConversationMenu?.conversation || conv;
+    let numOfUsers = conversation?.users?.length;
     if (numOfUsers >= 2) {
       await deleteConversation({
-        conversation: openEditConversationMenu.conversation,
+        conversation: conversation,
         user,
       });
-      let creator = openEditConversationMenu.conversation.users?.find(
+      let creator = conversation?.users?.find(
         (usr) => usr.userId === user?._id
       );
-      let ids = openEditConversationMenu.conversation.users?.map(
-        (usr) => usr.userId
-      );
+      let ids = conversation?.users?.map((usr) => usr.userId);
       let newMessage = {
         creator_type: "Admin",
         creator_id: "",
@@ -68,7 +58,7 @@ const Message = () => {
         reactions: [],
         attachments: [],
         userIDS: ids,
-        conversation_id: openEditConversationMenu.conversation._id,
+        conversation_id: conversation._id,
       };
       const data = await saveConversationMessage(newMessage);
 
@@ -80,20 +70,17 @@ const Message = () => {
 
         fetchConversations();
         broadcastMessage(newMessage);
-        setShowLeaveConversationModal(false);
         setOpenEditConversationMenu(false);
       }
     } else {
       await deleteConversationFinal({
-        conversation: openEditConversationMenu.conversation,
+        conversation: conversation,
       });
 
       fetchConversations();
-      setShowLeaveConversationModal(false);
       setOpenEditConversationMenu(false);
     }
   };
-
   const broadcastMessage = (message) => {
     message.updateType = "new conversation message";
     emitUpdate(selectedcomm?._id, message, async (err) => {
@@ -108,8 +95,27 @@ const Message = () => {
   const handleBackToNav = () => {
     handleMobileChat(false);
   };
+  const handleMobileEditConvMenu = () => {
+    setShowMobileConvMenu(true);
+  };
+  const mobileLeaveConvHandler = () => {
+    setShowMobileConvMenu(false);
+    submitDeleteConversation({ ...chatVisible });
+    setChatVisible(null);
+  };
+
   return (
     <>
+      {showMobileConvMenu ? (
+        <CustomConvContextMenu
+          user={user}
+          topic={chatVisible}
+          pos={null}
+          isHiddenTopic={false}
+          closeModal={() => setShowMobileConvMenu(false)}
+          onDeleteHandler={mobileLeaveConvHandler}
+        />
+      ) : null}
       {isMobile ? (
         <>
           <div
@@ -157,7 +163,10 @@ const Message = () => {
                         </>
                       )}
                     </div>
-                    <button aria-label="conversation menu">
+                    <button
+                      onClick={handleMobileEditConvMenu}
+                      aria-label="conversation menu"
+                    >
                       <IconMoreDots />
                     </button>
                   </div>
@@ -176,14 +185,7 @@ const Message = () => {
               harth={openEditConversationMenu.harth}
               pos={openEditConversationMenu.pos}
               closeModal={closeConversationEditModal}
-              onLeaveHandler={onLeaveHandler}
-            />
-          ) : null}
-          {showLeaveConversationModal ? (
-            <ConversationDeleteModal
-              setHidden={() => setShowLeaveConversationModal(false)}
-              submitDeleteConversation={submitDeleteConversation}
-              conversation={openEditConversationMenu.conversation}
+              onLeaveHandler={submitDeleteConversation}
             />
           ) : null}
           <ConversationsNav

@@ -9,6 +9,7 @@ export const CustomMessageContextMenu = ({
   closeModal,
   openEmojiPicker,
   hasTextForClipboard,
+  TextForClipboard,
   EditSelectCB,
   showEditButton,
   removeCB,
@@ -36,7 +37,7 @@ export const CustomMessageContextMenu = ({
   const copyTextHandler = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    await copyToClipboard("test");
+    await copyToClipboard(TextForClipboard);
     setIsCopied(true);
 
     setTimeout(() => {

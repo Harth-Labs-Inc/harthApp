@@ -7,51 +7,53 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [Comms, setComms] = useState([]);
+  const [Conversations, setConversations] = useState([]);
   const [CREATOR, setCREATOR] = useState(null);
   const [SELECTEDCOMM, setSELECTEDCOMM] = useState(null);
   const [TOPICS, setTOPICS] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [inviteTKN, setInviteTKN] = useState(null);
 
   const router = useRouter();
   let { invite, tkn } = router.query;
 
-  useEffect(() => {
-    if (router.pathname == "/_error") {
-      router.push("/");
-    }
-    async function fetchUserFromToken() {
-      const token = localStorage.getItem("token");
-      const prevID = localStorage.getItem("selectedHarthID");
-      if (token) {
-        const data = await getUserDataFromToken(token, prevID);
-        const { ok, user, comms, creator, selectedComm, topics } = data;
-        if (ok) {
-          setUser(user);
-          setLoading(false);
-          setComms(comms);
-          setCREATOR(creator || {});
-          setSELECTEDCOMM(selectedComm || {});
-          setTOPICS(topics || []);
-        } else {
-          if (
-            !["/auth/createAccount", "/auth/login"].includes(router.pathname)
-          ) {
-            router.push("/auth/createAccount");
-          }
-
-          setLoading(false);
-        }
+  const fetchUserFromToken = async (token) => {
+    const prevID = localStorage.getItem("selectedHarthID");
+    const selectedPage = localStorage.getItem("selectedPage");
+    if (token) {
+      const data = await getUserDataFromToken(token, prevID, selectedPage);
+      const { ok, user, comms, creator, selectedComm, topics, conversations } =
+        data;
+      if (ok) {
+        setUser(user);
+        setLoading(false);
+        setComms(comms);
+        setCREATOR(creator || {});
+        setSELECTEDCOMM(selectedComm || {});
+        setTOPICS(topics || []);
+        setConversations(conversations || []);
+        router.push("/");
       } else {
         if (!["/auth/createAccount", "/auth/login"].includes(router.pathname)) {
           router.push("/auth/createAccount");
         }
+
         setLoading(false);
       }
+    } else {
+      if (!["/auth/createAccount", "/auth/login"].includes(router.pathname)) {
+        router.push("/auth/createAccount");
+      }
+      setLoading(false);
     }
+  };
 
-    fetchUserFromToken();
+  useEffect(() => {
+    if (router.pathname == "/_error") {
+      router.push("/");
+    }
+    const token = localStorage.getItem("token");
+    fetchUserFromToken(token);
   }, []);
   useEffect(() => {
     if (invite && tkn) {
@@ -63,36 +65,7 @@ export const AuthProvider = ({ children }) => {
     setUser(user);
   };
   const getInitialData = (token) => {
-    async function fetchUserFromToken() {
-      const prevID = localStorage.getItem("selectedHarthID");
-      if (token) {
-        const data = await getUserDataFromToken(token, prevID);
-        const { ok, user, comms, creator, selectedComm, topics } = data;
-        if (ok) {
-          setUser(user);
-          setLoading(false);
-          setComms(comms);
-          setCREATOR(creator || {});
-          setSELECTEDCOMM(selectedComm || {});
-          setTOPICS(topics || []);
-          router.push("/");
-        } else {
-          if (
-            !["/auth/createAccount", "/auth/login"].includes(router.pathname)
-          ) {
-            router.push("/auth/createAccount");
-          }
-
-          setLoading(false);
-        }
-      } else {
-        if (!["/auth/createAccount", "/auth/login"].includes(router.pathname)) {
-          router.push("/auth/createAccount");
-        }
-        setLoading(false);
-      }
-    }
-    fetchUserFromToken();
+    fetchUserFromToken(token);
   };
 
   return (
@@ -109,6 +82,7 @@ export const AuthProvider = ({ children }) => {
         SELECTEDCOMM,
         TOPICS,
         getInitialData,
+        Conversations,
       }}
     >
       {children}

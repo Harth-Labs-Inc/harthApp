@@ -22,6 +22,7 @@ export const CommsProvider = ({
   SELECTEDCOMM,
   TOPICS,
   currentPage,
+  ConversationsArray,
 }) => {
   const [comms, setComms] = useState(CommsArr);
   const [selectedcomm, setSelectedcomm] = useState(SELECTEDCOMM);
@@ -31,7 +32,7 @@ export const CommsProvider = ({
   const [topicChange, setTopicChange] = useState(0);
   const [profile, setProfile] = useState(CREATOR);
   const [forceHarthCreation, setForceHarthCreation] = useState(false);
-  const [conversations, setConversations] = useState(null);
+  const [conversations, setConversations] = useState(ConversationsArray);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [conversationMessages, setConversationMessages] = useState({});
   const [incomingConversationMsg, setIncomingConversationMsg] = useState({});
