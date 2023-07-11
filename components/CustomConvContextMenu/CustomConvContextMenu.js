@@ -1,47 +1,13 @@
 import { useRef } from "react";
-import { useComms } from "../../contexts/comms";
 import { useContext } from "react";
 import { MobileContext } from "contexts/mobile";
 import { IconDeleteNoFill } from "../../resources/icons/IconDeleteNoFill";
 import OutsideClickHandler from "../Common/Modals/OutsideClick";
 import styles from "./CustomContextMenu.module.scss";
 
-export const CustomConvContextMenu = ({
-  user,
-  topic,
-  pos,
-  closeModal,
-  onDeleteHandler,
-}) => {
+export const CustomConvContextMenu = ({ pos, closeModal, onDeleteHandler }) => {
   const contextRef = useRef(null);
-  const { selectedcomm } = useComms();
   const { isMobile } = useContext(MobileContext);
-  let userIndex = topic.users.findIndex(({ userId }) => {
-    return userId == user._id;
-  });
-
-  let profile;
-  let isMuted;
-  let isHidden;
-  let isAdmin;
-
-  if (userIndex >= 0) {
-    profile = topic.users[userIndex];
-    isHidden = profile?.hidden;
-    isMuted = profile?.muted;
-    isAdmin = profile?.admin;
-  }
-
-  if (selectedcomm && user) {
-    const findAdmin = selectedcomm.users.findIndex((usr) => {
-      return usr.userId == user._id;
-    });
-
-    if (findAdmin >= 0) {
-      const admin = selectedcomm.users[findAdmin].admin;
-      isAdmin = admin;
-    }
-  }
 
   /* eslint-disable */
 
