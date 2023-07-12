@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
   let { invite, tkn } = router.query;
 
-  const fetchUserFromToken = async (token) => {
+  const fetchUserFromToken = async (token, reroute) => {
     const prevID = localStorage.getItem("selectedHarthID");
     const selectedPage = localStorage.getItem("selectedPage");
     if (token) {
@@ -32,7 +32,9 @@ export const AuthProvider = ({ children }) => {
         setSELECTEDCOMM(selectedComm || {});
         setTOPICS(topics || []);
         setConversations(conversations || []);
-        router.push("/");
+        if (reroute) {
+          router.push("/");
+        }
       } else {
         if (!["/auth/createAccount", "/auth/login"].includes(router.pathname)) {
           router.push("/auth/createAccount");
@@ -65,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     setUser(user);
   };
   const getInitialData = (token) => {
-    fetchUserFromToken(token);
+    fetchUserFromToken(token, reroute);
   };
 
   return (
