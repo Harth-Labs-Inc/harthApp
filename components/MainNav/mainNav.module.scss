@@ -58,21 +58,20 @@
         display: flex;
         width: fit-content;
         align-items: center;
-        //gap: 4px;
-        padding-top: 6px;
+        gap: 4px;
 
         .Desktop & {
             position: absolute;
             top: 0px;
             left: 0px;
             display: flex;
-            width: 248px;
+            width: fit-content;
             height: 56px;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 0px 28px 0px 28px;
+            padding: 8px 28px 0px 20px;
             gap: 16px;
-            //background-color: aqua;
+            background-color: $ash_heavy;
 
             &::after {
                 position: absolute;
@@ -82,8 +81,11 @@
                 height: 10px;
                 width: 100%;
                 background-color: $ash_heavy;
-                border-bottom: 1px solid $black;
                 border-bottom-right-radius: 10px;
+                border-bottom: 1px solid $black;
+                border-right: 1px solid $black;
+
+                
             }
         }
         &Mobile {
@@ -107,12 +109,11 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        color: transparent;
         background-color: transparent;
         border: 0;
         user-select: none;
         z-index: 1;
-        //border: 1px solid $ash_heavy;
-
         .iconHolder {
             position: relative;
             height: 28px;
@@ -129,7 +130,7 @@
                     content: "";
                     background-color: $hot_salmon;
                     border-radius: 9999px;
-                    border: 1px solid $ash;
+                    border: 1px solid $ash_heavy;
                 }
 
             }
@@ -141,7 +142,7 @@
             width: 100%;
             text-align: center;
             user-select: none;
-            color: $ash_light;
+            color: $font_medium;
         }
 
 
@@ -164,21 +165,25 @@
                 @include titleNavMobile;
             }
             &:active {
-                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
-                border-color: $silver-light;
+                background: $black;
+                border-color: $black;
             }
 
         }
         
         .Desktop & {
-            padding: 6px 12px;
-            width: 56px;
+            width: 58px;
+            height: 50px;
+            border: 1px solid transparent;
             border-radius: 6px;
             cursor: pointer;
-            gap: 2px;
+            gap: 3px;
             
+
+
             &:hover {
                 background: $black;
+                //border-color: $silver-light;
             }
 
         }
@@ -188,6 +193,7 @@
             .Desktop & {
                 background: $black;
                 border-color: $black;
+                //padding-bottom: 3px;
                 .title {
                     color: $font_light;
                     font-weight: 500;
@@ -196,11 +202,11 @@
             }
 
             .Mobile & {
-                background: radial-gradient(circle, $silver-xxlight 40%, $white 80%);
-                border-color: $silver-light;
+                background: $black;
+                border-color: $black;
 
                 .title {
-                    color: $fuel;
+                    color: $font_light;
                     font-weight: 500;
                 }
 
@@ -215,8 +221,8 @@
         height: 76px;
         align-items: flex-start;
         padding: 0px;
-        border-top: 1px solid $silver-med;
-        background-color: $silver-xlight;
+        border-top: 1px solid $black;
+        background-color: $ash_heavy;
 
 
     }

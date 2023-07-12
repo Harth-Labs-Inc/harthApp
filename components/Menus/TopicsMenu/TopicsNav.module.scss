@@ -5,7 +5,7 @@
     position: relative;
     width: 250px;
     min-width: 250px;
-    padding: 12px 8px 0px 8px;
+    padding: 12px 8px 0px 12px;
     background-color: $black;
     height: 100%;
     overflow-y: scroll;
@@ -42,12 +42,11 @@
         //background-color: $white;
         width: fit-content;
         text-transform: uppercase;
-        color: $fuel;
+        color: $font_light;
         //margin-bottom: 8px;
         user-select: none ;
-        margin-top: 8px;
+        margin-top: 0px;
         margin-bottom: 12px;
-        text-shadow: 1px 1px 2px $silver-med;
 
     }
 
@@ -174,19 +173,19 @@
         position: relative;
         display: block;
         cursor: pointer;
-        height: 36px;
-        width: 36px;
+        height: 32px;
+        width: 32px;
         border-radius: 99px;
-        border: 0;
+        border: 1px solid $ash_medium;
         padding: 7px;
-        margin-left: 23px;
+        margin-left: 16px;
         margin-top: 20px;
         margin-bottom: 36px;
         transition: opacity;
-        background-color: $silver-xlight;
+        background-color: transparent;
         
         path {
-            fill: $silver-dark;
+            fill: $ash_medium;
         }
         
         &:active{

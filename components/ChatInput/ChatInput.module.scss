@@ -9,10 +9,11 @@
     flex-direction: column;
     row-gap: 2px;
     margin: 0px 0px 8px 0px;
-    background-color: $silver-xxlight;
-    border-radius: 12px;
-    padding: 8px 8px 8px 8px;
-    border: 1px solid $silver-med;
+    background-color: black;
+    //border-radius: 12px;
+    //padding: 8px 8px 8px 8px;
+    border: 1px solid $black;
+    border-bottom: none;
 
     &Text {
         resize: none;

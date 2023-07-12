@@ -126,7 +126,7 @@
     }
 
     &Mobile {
-        padding: 4px 4px;
+        padding: 6px 4px;
         margin-bottom: 4px;
         border-radius: 8px;
 
@@ -138,17 +138,16 @@
             display: none;
         }
         .emojiHolder {
-            padding-right: 12px;
+            padding-right: 4px;
             width: fit-content;
             height: fit-content;
-            border-right: 1px solid $silver-med;
             line-height: 100%;
-            font-size: 36px;
+            font-size: 32px;
 
         }
         .label {
             @include topicTitleMobile;
-            padding: 8px 8px 8px 12px;
+            padding: 0px 8px 0px 12px;
             gap: 16px;
             span {
                 padding: 10px 0px;
@@ -156,7 +155,7 @@
         }
 
         &:active {
-            background-color: $silver-light;
+            background-color: $fuel;
             // .label {
             //     color: $white;
             // }
