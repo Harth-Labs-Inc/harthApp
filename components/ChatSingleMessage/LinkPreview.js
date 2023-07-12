@@ -133,22 +133,7 @@ export const LinkPreview = ({ message }) => {
   ) {
     if (getHostName(rawURL) === "amazon") {
       return (
-        <>
-          <br />
-          <a href={rawURL} target="_blank" rel="noopener noreferrer">
-            <article
-              id="ogCard"
-              className={styles.linkCard}
-              onTouchStart={(event) => event.stopPropagation()}
-              onTouchEnd={(event) => event.stopPropagation()}
-            >
-              <img src="/images/amazon_logo.png" className={styles.urlLogo} />
-              <div className={styles.icon}>
-                <IconLink />
-              </div>
-            </article>
-          </a>
-        </>
+          null
       );
     } else {
       return (
@@ -266,22 +251,7 @@ export const LinkPreview = ({ message }) => {
   if (rawURL) {
     if (getHostName(rawURL) === "twitter") {
       return (
-        <>
-          <br />
-          <a href={rawURL} target="_blank" rel="noopener noreferrer">
-            <article
-              id="ogCard"
-              className={styles.linkCard}
-              onTouchStart={(event) => event.stopPropagation()}
-              onTouchEnd={(event) => event.stopPropagation()}
-            >
-              <img src="/images/twitter_logo.png" className={styles.urlLogo} />
-              <div className={styles.icon}>
-                <IconLink />
-              </div>
-            </article>
-          </a>
-        </>
+        null
       );
     } else {
       return (

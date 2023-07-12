@@ -8,12 +8,10 @@
     display: flex;
     flex-direction: column;
     row-gap: 2px;
-    margin: 0px 0px 8px 0px;
-    background-color: black;
-    //border-radius: 12px;
-    //padding: 8px 8px 8px 8px;
-    border: 1px solid $black;
+    background: linear-gradient(90deg, $black, $fuel 80%);   
+    padding: 0px 8px 8px 8px;
     border-bottom: none;
+    overflow: hidden;
 
     &Text {
         resize: none;
@@ -25,8 +23,9 @@
         margin: 0;
         padding: 8px 12px;
         @include chatText;
-        color: $fuel;
-        background: #f8f8ff;
+        caret-color: $hot_pink;
+        color: $font_light;
+        background: $ash;
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
@@ -37,7 +36,7 @@
     }
 
     .entryBox {
-        border: 1px solid $silver_med;
+        //border: 1px solid $silver_med;
         border-radius: 12px;
         padding: 0;
         overflow: hidden;
@@ -67,7 +66,7 @@
                 cursor: pointer;
 
                 path {
-                    fill: $silver_heavy;
+                    fill: $ash_medium;
                 }
 
                 &Mobile {
@@ -75,29 +74,41 @@
                     width: 40px;
                     padding: 8px;
                 }
-
-                &:hover {
-                    background-color: $silver_xlight;
-                    path {
-                        fill: $silver_dark;
+                &:hover { 
+                        background-color: $white_10;
+                        path {
+                            fill: $ash_light;
+                        }
+                }
+                
+                @media (hover: none), (pointer: coarse) {
+                    &:hover {
+                      /* Reset any hover styles for touch devices */
                     }
                 }
+
 
                 &.EditCancel {
                     width: auto;
                     height: fit-content;
-                    background-color: $silver_dark;
+                    background-color: $ash_medium;
                     border: 0;
                     @include worksans;
                     font-size: 12px;
                     font-weight: 500;
                     border-radius: 24px;
-                    color: $white;
+                    color: $font_light;
                     padding: 8px 12px;
                     margin: auto;
 
-                    &:hover {
-                        background-color: $fuel;
+                    &:hover { 
+                        background-color: $black;
+                    }
+                    
+                    @media (hover: none), (pointer: coarse) {
+                        &:hover {
+                          /* Reset any hover styles for touch devices */
+                        }
                     }
                 }
 
@@ -193,9 +204,9 @@
     row-gap: 8px;
     justify-content: flex-start;
     width: auto;
-    background: $silver_xxlight;
+    background: $ash;
     padding: 8px;
-    border-bottom: 1px solid $silver-med;
+    border-bottom: 1px solid $black;
 
     .imageContainer {
         position: relative;
@@ -222,11 +233,11 @@
             border-bottom-right-radius: 0px;
             border-bottom-left-radius: 8px;
             border: 0;
-            background-color: $fuel;
+            background-color: $ash_heavy;
             cursor: pointer;
 
             path {
-                fill: $white;
+                fill: $ash_light;
             }
         }
     }

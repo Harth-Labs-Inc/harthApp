@@ -16,7 +16,7 @@
   border-radius: 8px;
 
   &.Editing {
-    background-color: lighten($hot_pink, 30%);
+    background-color: $hot_pink;
   }
 
   .EmojiMobile {
@@ -33,11 +33,16 @@
   width: 100%;
   padding: 8px 6px 20px 6px;
   column-gap: 10px;
-  border-top: 1px solid transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  
 
   &Desktop {
     &:hover {
-      border-image: linear-gradient(to right, $silver-med, $white) 1;
+      border-color: $black;
+      background: $white_5;
+      //border-image: linear-gradient(to right, $silver-med, $white) 1;
       .Body {
         .Info {
           .Timestamp {
@@ -63,8 +68,8 @@
   // }
 
   .UserIcon {
-    box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-      0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075);
+    // box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+    //   0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075);
     height: fit-content;
     width: fit-content;
     border-radius: 50%;
@@ -109,10 +114,10 @@
     max-width: 36px;
     min-width: 36px;
     max-width: 36px;
-    background-color: $warm_blue;
+    background-color: $hot_blue;
     border-radius: 9999px;
     @include topicTitleMobile;
-    color: $oxygen;
+    color: $font_dark;
   }
 
   .Body {
@@ -126,12 +131,12 @@
       padding: 0px 0px 0px 0px;
       .Creator {
         @include chatProfile;
-        color: $fuel;
+        color: $font_light;
         user-select: none;
       }
       .Timestamp {
         visibility: hidden;
-        color: $silver-dark;
+        color: $font_medium;
         @include timeStamp;
         user-select: none;
       }
@@ -141,15 +146,15 @@
       position: relative;
       width: fit-content;
       max-width: 100%;
-      color: $black;
+      color: $font_light;
       @include chatText;
       border: 0;
-      padding: 8px 12px;
+      //padding: 8px 12px;
       border: 0;
       white-space: pre-wrap;
-      border-radius: 18px;
-      border-top-left-radius: 0;
-      background-color: $white;
+      //border-radius: 18px;
+      //border-top-left-radius: 0;
+      //background-color: $white;
       overflow-wrap: anywhere;
 
       .message-text {
@@ -165,13 +170,14 @@
         //overflow-wrap: anywhere;
         @include url;
         word-break: break-all;
+        color: $hot_blue;
       }
 
       > img {
         width: 400px;
         max-width: 100%;
         height: auto;
-        border-radius: 8px;
+        border-radius: 12px;
         border: 3px solid transparent;
         margin-top: 4px;
         margin-bottom: 4px;
@@ -186,9 +192,13 @@
       position: relative;
       display: flex;
       align-items: center;
-      margin-left: 16px;
+      margin-left: 8px;
       width: max-content;
       gap: 8px;
+      background: $black_60;
+      //border: 1px solid $black;
+      padding: 4px 8px;
+      border-radius: 999px;
 
       > * {
         margin-right: $gutter;
@@ -196,23 +206,19 @@
 
       &Emoji {
         position: relative;
+        height: 40px;
+        width: 48px;
         font-size: 28px;
         line-height: 28px;
-        background-color: $white;
-        padding: 7px 6px;
+        background-color: $black_20;
         border-radius: 99px;
         z-index: 1;
         margin: 0;
-        margin-top: -6px;
-        border: 1px solid transparent;
-        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.05),
-          0 2px 2px hsl(0deg 0% 0% / 0.05);
+        border: 1px solid $ash;
         user-select: none;
 
         &Owner {
-          box-shadow: 0 1px 1px hsl(326deg 58% 64% / 0.2),
-            0 2px 2px hsl(326deg 58% 64% / 0.2),
-            0 4px 4px hsl(326deg 58% 64% / 0.2);
+          border-color: $hot_pink;
         }
         &Data {
           position: absolute;
@@ -229,48 +235,48 @@
 
         &Desktop {
           &:hover {
-            scale: 1.2;
+            scale: 1.1;
           }
         }
 
         &Mobile {
           &:active {
-            scale: 1.2;
+            scale: 1.1;
           }
         }
       }
 
       &AddReaction {
-        //width: 40px;
-        background-color: $white;
+        height: 36px;
+        width: 44px;
+        background-color: transparent;
         padding: 0;
-        padding: 7px 8px 5px 8px;
+        padding: 2px 0px 0px 0px;
         border-radius: 99px;
         z-index: 1;
         margin: 0;
-        margin-top: -6px;
-        border: 1px solid $silver-xxlight;
-        border: 0;
-        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.05),
-          0 2px 2px hsl(0deg 0% 0% / 0.05);
+        border: 1px solid $ash;
         user-select: none;
+        background-color: $black_20;
         svg {
           width: 24px;
           height: 24px;
         }
         path {
-          fill: $silver-heavy;
+          fill: $ash_medium;
         }
 
         &Desktop {
           &:hover {
-            scale: 1.2;
+            //scale: 1.1;
+            background-color: black;
           }
         }
 
         &Mobile {
           &:active {
-            scale: 1.2;
+            scale: 1.1;
+            background-color: black;
           }
         }
       }
@@ -285,12 +291,12 @@
     gap: 4px;
     top: -8px;
     right: 16px;
-    background-color: $silver-xlight;
+    background-color: $ash_medium;
     backdrop-filter: blur(24px);
     border-radius: 8px;
     padding: 2px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
-    border: 1px solid $silver-med;
+    //box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 12px;
+    border: 1px solid $black;
 
     > button {
       position: relative;
@@ -307,11 +313,14 @@
       overflow: hidden;
 
       path {
-        fill: $silver-dark;
+        fill: $black;
       }
 
       &:hover {
         scale: 1.2;
+        path {
+          fill: $font_light;
+        }
       }
     }
   }
@@ -328,10 +337,10 @@
 }
 
 .ogCard {
-  padding: 16px;
-  margin-top: 10px;
+  padding: 12px;
+  margin-top: 4px;
   background-color: $white;
-  border: 1px solid $silver-med;
+  //border: 1px solid $silver-med;
   border-radius: 12px;
   @include montserrat;
   font-size: 13px;

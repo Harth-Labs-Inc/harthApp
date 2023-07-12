@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     setUser(user);
   };
   const getInitialData = (token) => {
-    fetchUserFromToken(token, reroute);
+    fetchUserFromToken(token, true);
   };
 
   return (

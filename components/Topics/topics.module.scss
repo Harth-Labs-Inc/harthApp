@@ -46,29 +46,25 @@
     .alertProfiles {
         display: flex;
         flex-direction: row;
+        width: 100%;
         gap: 2px;
         flex-wrap: wrap;
-        padding: 0px 8px 4px 56px;
-        margin-top: -4px;
-        //margin-left: 38px;
+        padding: 0px 8px 4px 44px;
+        margin-top: -2px;
         z-index: 1;
-        //background-color: aqua;
-
         img {
-            width: 32px;
-            height: 32px;
-            //object-fit: cover;
+            width: 28px;
+            height: 28px;
             border-radius: 999px;
-            //border: 1px solid $silver-med;
         }
 
         &Mobile {
-            margin-top: -12px;
-            padding: 0px 8px 8px 64px;
+            margin-top: -4px;
+            padding: 0px 8px 4px 64px;
+
             img {
-                width: 40px;
-                height: 40px;
-                //object-fit: cover;
+                width: 36px;
+                height: 36px;
                 border-radius: 999px;
             }
         }
@@ -130,9 +126,6 @@
         margin-bottom: 4px;
         border-radius: 8px;
 
-        .alertProfiles {
-            padding: 0px 8px 4px 88px;
-        }
 
         .moreMenu {
             display: none;
@@ -150,7 +143,7 @@
             padding: 0px 8px 0px 12px;
             gap: 16px;
             span {
-                padding: 10px 0px;
+                padding: 8px 0px;
             }
         }
 
@@ -165,7 +158,8 @@
     &Alert {
         .label {
             //@include topicTitleActive;
-            font-weight: 800;
+            //font-weight: 800;
+            color: $font_light;
         }
     }
 }
