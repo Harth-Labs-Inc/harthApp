@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getURLMetaData } from "../../requests/urls";
-import { IconLink } from "resources/icons/IconLink";
-
 import styles from "./ChatSingleMessage.module.scss";
 
 export const LinkPreview = ({ message }) => {
