@@ -216,7 +216,11 @@ export const SocketProvider = ({ children }) => {
             break;
           case "new conversation message":
             if (incomingUpdate?.creator_type == "Admin") {
-              fetchConversations();
+              fetchConversations(
+                incomingUpdate?.harthId ||
+                  incomingUpdate?.comm_id ||
+                  selectedHarthRef.current._id
+              );
             }
             setUnreadConversationMessagesHandler(incomingUpdate);
             setNewAlerts(incomingUpdate, "message");

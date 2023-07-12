@@ -101,7 +101,7 @@ const DashboardLayout = (props) => {
   const changePageHandler = (pg) => {
     if (pg === "message") {
       resetTopics();
-      fetchConversations();
+      fetchConversations(selectedcomm._id);
     }
     if (pg === "chat") {
       grabTopics(selectedcomm._id);

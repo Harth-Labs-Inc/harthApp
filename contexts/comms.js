@@ -247,6 +247,15 @@ export const CommsProvider = ({
       run();
     });
   };
+  const fetchConversations = async (comid) => {
+    let result = await getConversations(comid, user._id);
+    const { ok, conversations } = result;
+    if (ok) {
+      setConversations(conversations);
+      setSelectedConversation(conversations[0] || {});
+    }
+    return;
+  };
   const grabTopics = async (comid) => {
     let result = await getTopics(comid, user._id);
     const { ok, topics } = result;
@@ -388,15 +397,7 @@ export const CommsProvider = ({
       }
     }
   };
-  const fetchConversations = async () => {
-    let result = await getConversations(selectedcomm._id, user._id);
-    const { ok, conversations } = result;
-    if (ok) {
-      setConversations(conversations);
-      setSelectedConversation(conversations[0] || {});
-    }
-    return;
-  };
+
   const setUnreadConversationMessagesHandler = (incomingMsg) => {
     if (incomingMsg.userIDS?.includes(user?._id || "")) {
       setIncomingConversationMsg(incomingMsg);
@@ -414,8 +415,8 @@ export const CommsProvider = ({
   };
   const changeSelectedCommFromChild = (com) => {
     if (currentPage === "message") {
+      fetchConversations(com._id);
       resetTopics();
-      fetchConversations();
     }
     if (currentPage === "chat") {
       grabTopics(com._id);
