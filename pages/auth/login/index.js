@@ -46,7 +46,7 @@ const Login = () => {
                 <HarthLogoDark />
             </div>
 
-            <div className={styles.greeting}>A place for friends</div>
+            <div className={styles.greeting}>Where friends gather</div>
             <form onSubmit={handleSubmit(submitHandler)}>
                 <input
                     {...register("email", { required: true })}

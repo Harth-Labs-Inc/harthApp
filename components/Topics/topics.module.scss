@@ -9,20 +9,19 @@
     height: fit-content;
     width: fit-content;
     width: 100%;
-    padding: 4px 2px;
+    padding: 6px 2px;
     border: 0;
     border-radius: 8px;
     background-color: transparent;
-    margin-bottom: 1px;
+    margin-bottom: 4px;
     cursor: pointer;
 
     .emojiHolder {
         padding-right: 4px;
         width: fit-content;
         height: fit-content;
-        border-right: 1px solid $silver-med;
         line-height: 100%;
-        font-size: 26px;
+        font-size: 24px;
     }
 
     .label {
@@ -32,9 +31,9 @@
         align-items: center;
         justify-content: flex-start;
         width: fit-content;
-        color: $fuel;
+        color: $font_medium;
         @include topicTitle;
-        padding: 4px 28px 5px 8px;
+        padding: 0px 28px 0px 8px;
         gap: 8px;
         user-select: none;
         width: 100%;
@@ -47,29 +46,25 @@
     .alertProfiles {
         display: flex;
         flex-direction: row;
+        width: 100%;
         gap: 2px;
         flex-wrap: wrap;
-        padding: 0px 8px 4px 56px;
-        margin-top: -4px;
-        //margin-left: 38px;
+        padding: 0px 8px 4px 44px;
+        margin-top: -2px;
         z-index: 1;
-        //background-color: aqua;
-
         img {
-            width: 32px;
-            height: 32px;
-            //object-fit: cover;
+            width: 28px;
+            height: 28px;
             border-radius: 999px;
-            border: 1px solid $silver-med;
         }
 
         &Mobile {
-            margin-top: -12px;
-            padding: 0px 8px 8px 64px;
+            margin-top: -4px;
+            padding: 0px 8px 4px 64px;
+
             img {
-                width: 40px;
-                height: 40px;
-                //object-fit: cover;
+                width: 36px;
+                height: 36px;
                 border-radius: 999px;
             }
         }
@@ -93,20 +88,18 @@
             border: 1px solid transparent;
             cursor: pointer;
             path {
-                fill: $silver-heavy;
+                fill: $ash_light;
             }
 
             &:hover {
-                background-color: $silver-med;
-                path {
-                    fill: $silver-dark;
-                }
+                background-color: $black;
+
             }
 
         }
         
         &:hover {
-            background-color: $silver-xlight;
+            background-color: $ash_heavy;
 
             .moreMenu {
                 visibility: visible;
@@ -116,49 +109,46 @@
     }
 
     &Active {
-        background-color: $silver-light;
+        background-color: $fuel;
 
         .label {
-            font-weight: 800;
+            //font-weight: 800;
+            color: $font_light;
         }
         &:hover {
-            background-color: $silver-light;
+            background-color: $fuel;
 
         }
     }
 
     &Mobile {
-        padding: 4px 4px;
+        padding: 6px 4px;
         margin-bottom: 4px;
         border-radius: 8px;
 
-        .alertProfiles {
-            padding: 0px 8px 4px 88px;
-        }
 
         .moreMenu {
             display: none;
         }
         .emojiHolder {
-            padding-right: 12px;
+            padding-right: 4px;
             width: fit-content;
             height: fit-content;
-            border-right: 1px solid $silver-med;
             line-height: 100%;
-            font-size: 36px;
+            font-size: 32px;
 
         }
         .label {
             @include topicTitleMobile;
-            padding: 8px 8px 8px 12px;
+            padding: 0px 8px 0px 12px;
             gap: 16px;
             span {
-                padding: 10px 0px;
+                padding: 8px 0px;
             }
         }
 
         &:active {
-            background-color: $silver-light;
+            background-color: $fuel;
             // .label {
             //     color: $white;
             // }
@@ -168,7 +158,8 @@
     &Alert {
         .label {
             //@include topicTitleActive;
-            font-weight: 800;
+            //font-weight: 800;
+            color: $font_light;
         }
     }
 }

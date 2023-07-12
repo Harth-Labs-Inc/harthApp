@@ -11,15 +11,12 @@
     justify-content: space-between;
     width: 100%;
     padding: 0px 8px;
-    height: 52px;
-    min-height: 52px;
-    max-height: 52px;
-    background-color: $silver-xlight;
-    color: $fuel;
-    font-size: 14px;
-    font-weight: 600;
-    //backdrop-filter: blur(12px);
-    border-bottom: 1px solid $silver-med;
+    height: 56px;
+    min-height: 56px;
+    max-height: 56px;
+    background-color: $ash_heavy;
+    color: $font_light;
+    border-bottom: 1px solid $black;
     @include topicTitle;
 
     button {
@@ -34,11 +31,11 @@
 
 
         path {
-            fill: $fuel;
+            fill: $ash_medium;
         }
 
-        &:hover {
-            background-color: $silver-med;
+        &:active {
+            background-color: $black;
         }
 
     }

@@ -12,10 +12,8 @@
     width: 100%;
     padding-right: 12px;
     //padding-left: 16px;
-    border-bottom: 1px solid $silver-med;
-    border-top: 1px solid $silver-med;
-    background-color: $silver-xlight;
-    
+    border-bottom: 1px solid $black;
+    background-color: $ash_heavy;
     z-index: 10;
 
 
@@ -27,11 +25,14 @@
 
     .avatarMobile {
         margin: 0;
+        
+        img {
+            width: 36px;
+            height: 36px;
+        }
+        
     }
 
-    img {
-        border: 1px solid $silver-med;
-    }
 
     .HarthButton {
         position: relative;
@@ -40,52 +41,52 @@
         background-color: transparent;
         border-radius: 16px;
         border: 0;
-        background-color: $silver-xlight;
+        background-color: transparent;
         padding: 0px;
         padding-left: 10px;
         padding-right: 8px;
         //border: 1px solid $silver-med;
         user-select: none;
 
-        &::after {
-            content: "";
-            position: absolute;
-            bottom: -12px;
-            left: 0;
-            height: 16px;
-            width: 100%;
-            border-bottom-right-radius: 8px;
-            background-color: $silver-xlight;
-            border-bottom: 1px solid $silver-med;
-            border-right: 1px solid $silver-med;
-            //z-index: 1;
-        }
+        // &::after {
+        //     content: "";
+        //     position: absolute;
+        //     bottom: -12px;
+        //     left: 0;
+        //     height: 16px;
+        //     width: 100%;
+        //     border-bottom-right-radius: 8px;
+        //     background-color: $silver-xlight;
+        //     border-bottom: 1px solid $black;
+        //     border-right: 1px solid $black;
+        //     //z-index: 1;
+        // }
 
         img {
             position: relative;
-            height: 60px;
-            min-height: 60px;
-            width: 60px;
-            min-width: 60px;
+            height: 40px;
+            min-height: 40px;
+            width: 40px;
+            min-width: 40px;
             border-radius: 8px;
             z-index: 1;
-            margin-top: 6px;
+            margin-top: 0px;
         }
 
         .menuIcon {
             position: absolute;
-            bottom: -10px;
-            left: 2px;
-            height: 24px;
-            width: 24px;
+            bottom: 3px;
+            left: 3px;
+            height: 18px;
+            width: 18px;
             z-index: 1;
             padding: 3px;
-            background-color: $silver-heavy;
+            background-color: $ash_heavy;
             border-radius: 999px;
-            border: 2px solid $silver-xlight;
+            //border: 2px solid $silver-xlight;
 
             path {
-                fill: $fuel;
+                fill: $ash_light;
             }
         }
 
@@ -121,16 +122,16 @@
         position: fixed;
         top: 0;
         border-top: 1px solid transparent;
-        height: 52px;
-        min-height: 52px;
-        max-height: 52px;
+        height: 56px;
+        min-height: 56px;
+        max-height: 56px;
         padding-left: 0px;
     }
 }
 
 .TopBarName {
     @include harthTitle2;
-    color: $fuel;
+    color: $font_light;
 }
 
 
