@@ -68,7 +68,7 @@ const Message = () => {
           newMessage._id = id;
         }
 
-        fetchConversations();
+        fetchConversations(selectedcomm?._id);
         broadcastMessage(newMessage);
         setOpenEditConversationMenu(false);
       }
@@ -77,7 +77,7 @@ const Message = () => {
         conversation: conversation,
       });
 
-      fetchConversations();
+      fetchConversations(selectedcomm?._id);
       setOpenEditConversationMenu(false);
     }
   };
