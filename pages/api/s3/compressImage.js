@@ -32,8 +32,8 @@ export default async (req, res) => {
   };
   let compress = (
     buffer,
-    desiredHeight = 180,
-    desiredWidth,
+    desiredHeight,
+    desiredWidth = 300,
     format = "jpeg",
     quality = 80
   ) => {
@@ -56,9 +56,9 @@ export default async (req, res) => {
           .toFormat(format, { quality })
           .toBuffer();
 
-        resolve(compressedBuffer);
+        resolve({ compressedBuffer, desiredHeight, desiredWidth });
       } catch (error) {
-        resolve(false);
+        resolve({ compressedBuffer: false });
       }
     });
   };
@@ -140,7 +140,11 @@ export default async (req, res) => {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
 
-  let compressedBuffer = await compress(file.Body, obj.height, obj.width);
+  let { compressedBuffer, desiredHeight, desiredWidth } = await compress(
+    file.Body,
+    obj.height,
+    obj.width
+  );
   if (!compressedBuffer) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
@@ -154,5 +158,5 @@ export default async (req, res) => {
   if (!saveResult) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
-  return res.json({ ok: 1, msg: "sUCCESS" });
+  return res.json({ ok: 1, msg: "sUCCESS", desiredHeight, desiredWidth });
 };

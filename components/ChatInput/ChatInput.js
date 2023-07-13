@@ -190,12 +190,7 @@ const ChatInput = (props) => {
         };
 
         const data = await saveMessage(newMessage);
-        try {
-          console.log("sending push...");
-          sendPushNotification({ ...newMessage, env: process.env.NODE_ENV });
-        } catch (error) {
-          console.log(error);
-        }
+
         let { id, ok } = data;
         if (ok) {
           if (id) {
@@ -207,6 +202,11 @@ const ChatInput = (props) => {
             broadcastMessage(newMessage);
             resetHeight();
           }
+        }
+        try {
+          sendPushNotification({ ...newMessage, env: process.env.NODE_ENV });
+        } catch (error) {
+          console.log(error);
         }
       }
     }
@@ -279,9 +279,25 @@ const ChatInput = (props) => {
               let result = await putImageInBucket(uploadURL, reader, file.type);
               let { status } = result;
               if (status == 200) {
-                await compressImage(name, thumbnail, bucket, file.type);
-                await addKeyToDB(id, thumbnail, file.type);
-                res({ name: thumbnail, fileType: file.type });
+                let { desiredHeight, desiredWidth } = await compressImage(
+                  name,
+                  thumbnail,
+                  bucket,
+                  file.type
+                );
+                await addKeyToDB(
+                  id,
+                  thumbnail,
+                  file.type,
+                  desiredHeight,
+                  desiredWidth
+                );
+                res({
+                  name: thumbnail,
+                  fileType: file.type,
+                  desiredHeight,
+                  desiredWidth,
+                });
               }
             });
             reader.readAsArrayBuffer(file);

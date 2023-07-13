@@ -421,29 +421,38 @@ const ChatSingleMessage = (props) => {
               <p className={styles.Timestamp}>{timeStamp}</p>
             </span>
             <div className={styles.Content}>
-              {(urls || []).map((url, idx) => (
-                <Image
-                  key={url}
-                  className="active-image"
-                  src={url}
-                  width={280}
-                  height={280 / ratio}
-                  placeholder="blur"
-                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(280, 280 / ratio)
-                  )}`}
-                  alt="message image"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openImageSlideShow(idx, attachments);
-                  }}
-                  onLoadingComplete={({ naturalWidth, naturalHeight }) =>
-                    setRatio(naturalHeight / naturalWidth)
-                  }
-                  onTouchStart={(event) => event.stopPropagation()}
-                  onTouchEnd={(event) => event.stopPropagation()}
-                />
-              ))}
+              {(attachments || []).map(
+                ({ desiredWidth, desiredHeight }, idx) => {
+                  return urls[idx] ? (
+                    <Image
+                      key={idx}
+                      className="active-image"
+                      src={urls[idx]}
+                      width={desiredWidth || 280}
+                      height={desiredHeight || 280}
+                      placeholder="blur"
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                        shimmer(desiredWidth || 280, desiredHeight || 280)
+                      )}`}
+                      alt="message image"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openImageSlideShow(idx, attachments);
+                      }}
+                      onTouchStart={(event) => event.stopPropagation()}
+                      onTouchEnd={(event) => event.stopPropagation()}
+                    />
+                  ) : (
+                    <div
+                      key={idx}
+                      style={{
+                        height: desiredHeight || "300px",
+                        width: desiredWidth || "133px",
+                      }}
+                    />
+                  );
+                }
+              )}
 
               <div id={`message-content${messageID}`}>
                 {formatMessage(message)}
@@ -559,25 +568,36 @@ const ChatSingleMessage = (props) => {
             <p className={styles.Timestamp}>{timeStamp}</p>
           </span>
           <div className={styles.Content}>
-            {(urls || []).map((url, idx) => (
-              <Image
-                key={url}
-                className="active-image"
-                src={url}
-                width={280}
-                height={280 / ratio}
-                placeholder="blur"
-                blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                  shimmer(280, 280 / ratio)
-                )}`}
-                alt="message image"
-                onClick={() => openImageSlideShow(idx, attachments)}
-                onLoadingComplete={({ naturalWidth, naturalHeight }) =>
-                  setRatio(naturalHeight / naturalWidth)
-                }
-              />
-            ))}
-
+            {(attachments || []).map(({ desiredWidth, desiredHeight }, idx) => {
+              return urls[idx] ? (
+                <Image
+                  key={idx}
+                  className="active-image"
+                  src={urls[idx]}
+                  width={desiredWidth || 280}
+                  height={desiredHeight || 280}
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                    shimmer(desiredWidth || 280, desiredHeight || 280)
+                  )}`}
+                  alt="message image"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openImageSlideShow(idx, attachments);
+                  }}
+                  onTouchStart={(event) => event.stopPropagation()}
+                  onTouchEnd={(event) => event.stopPropagation()}
+                />
+              ) : (
+                <div
+                  key={idx}
+                  style={{
+                    height: desiredHeight || "300px",
+                    width: desiredWidth || "133px",
+                  }}
+                />
+              );
+            })}
             <div id={`message-content${messageID}`}>
               {formatMessage(message)}
               <LinkPreview message={message} messageID={messageID} />
