@@ -19,18 +19,30 @@ import { generateID } from "services/helper";
 import { CustomMessageContextMenu } from "components/CustomMessageContextMenu/CustomMessageContextMenu";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 
+// const shimmer = (w, h) => `
+// <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+//   <defs>
+//     <linearGradient id="g">
+//       <stop stop-color="#2f1d2a" offset="20%" />
+//       <stop stop-color="#282828" offset="50%" />
+//       <stop stop-color="#2f1d2a" offset="70%" />
+//     </linearGradient>
+//   </defs>
+//   <rect width="${w}" height="${h}" fill="#333" />
+//   <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+//   <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+// </svg>`;
+
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <linearGradient id="g">
-      <stop stop-color="#2f1d2a" offset="20%" />
-      <stop stop-color="#282828" offset="50%" />
-      <stop stop-color="#2f1d2a" offset="70%" />
+    <linearGradient id="g" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.2); stop-opacity:.5" />
+      <stop offset="50%" style="stop-color:rgba(255,255,255,0.1); stop-opacity:.3" />
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0.2); stop-opacity:.5" />
     </linearGradient>
   </defs>
-  <rect width="${w}" height="${h}" fill="#333" />
-  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
-  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+  <rect width="${w}" height="${h}" fill="url(#g)" />
 </svg>`;
 
 const toBase64 = (str) =>
