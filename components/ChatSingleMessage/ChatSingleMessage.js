@@ -443,12 +443,20 @@ const ChatSingleMessage = (props) => {
                       onTouchEnd={(event) => event.stopPropagation()}
                     />
                   ) : (
-                    <div
+                    <Image
                       key={idx}
-                      style={{
-                        height: desiredHeight || "300px",
-                        width: desiredWidth || "133px",
+                      className="active-image"
+                      src={`data:image/svg+xml;base64,${toBase64(
+                        shimmer(desiredWidth || 280, desiredHeight || 280)
+                      )}`}
+                      width={desiredWidth || 280}
+                      height={desiredHeight || 280}
+                      alt="message image"
+                      onClick={(e) => {
+                        e.stopPropagation();
                       }}
+                      onTouchStart={(event) => event.stopPropagation()}
+                      onTouchEnd={(event) => event.stopPropagation()}
                     />
                   );
                 }
@@ -589,12 +597,20 @@ const ChatSingleMessage = (props) => {
                   onTouchEnd={(event) => event.stopPropagation()}
                 />
               ) : (
-                <div
+                <Image
                   key={idx}
-                  style={{
-                    height: desiredHeight || "300px",
-                    width: desiredWidth || "133px",
+                  className="active-image"
+                  src={`data:image/svg+xml;base64,${toBase64(
+                    shimmer(desiredWidth || 280, desiredHeight || 280)
+                  )}`}
+                  width={desiredWidth || 280}
+                  height={desiredHeight || 280}
+                  alt="message image"
+                  onClick={(e) => {
+                    e.stopPropagation();
                   }}
+                  onTouchStart={(event) => event.stopPropagation()}
+                  onTouchEnd={(event) => event.stopPropagation()}
                 />
               );
             })}
