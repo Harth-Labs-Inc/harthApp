@@ -430,10 +430,6 @@ const ChatSingleMessage = (props) => {
                       src={urls[idx]}
                       width={desiredWidth || 280}
                       height={desiredHeight || 280}
-                      placeholder="blur"
-                      blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                        shimmer(desiredWidth || 280, desiredHeight || 280)
-                      )}`}
                       alt="message image"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -576,10 +572,6 @@ const ChatSingleMessage = (props) => {
                   src={urls[idx]}
                   width={desiredWidth || 280}
                   height={desiredHeight || 280}
-                  placeholder="blur"
-                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(desiredWidth || 280, desiredHeight || 280)
-                  )}`}
                   alt="message image"
                   onClick={(e) => {
                     e.stopPropagation();
