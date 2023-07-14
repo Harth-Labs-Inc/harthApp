@@ -1,80 +1,65 @@
 import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
+import aws from "aws-sdk";
+import { ObjectId } from "mongodb";
+
+aws.config = {
+  accessKeyId: process.env.AWS_ACCESS,
+  secretAccessKey: process.env.AWS_SECRET,
+  region: "us-east-2",
+};
+
+const findUser = async (db, id) => {
+  let o_id = ObjectId(id);
+  const results = await db.collection("users").find({ _id: o_id }).toArray();
+  return results[0];
+};
 
 /* eslint-disable */
 
 export default async (req, res) => {
-    let obj;
-    try {
-        obj = JSON.parse(req.body);
-    } catch (e) {
-        obj = req.body;
-    }
-    const aws = require("aws-sdk");
+  const client = await clientPromise;
+  const db = client.db("blarg");
 
-    let s3Params = {
-        Bucket: obj.bucket,
-        Key: obj.name,
-        ContentType: obj.type,
-    };
-    aws.config = {
-        accessKeyId: process.env.AWS_ACCESS,
-        secretAccessKey: process.env.AWS_SECRET,
-        region: "us-east-2",
-    };
-    const client = await clientPromise;
-    const db = client.db("blarg");
+  let obj;
+  try {
+    obj = JSON.parse(req.body);
+  } catch (e) {
+    obj = req.body;
+  }
 
-    // authentication ---------------------------------
-    const findUser = (db, id) => {
-        return new Promise((resolve, reject) => {
-            let mongo = require("mongodb");
-            let o_id = new mongo.ObjectID(id);
-            db.collection("users")
-                .find({ _id: o_id })
-                .toArray(function (err, results) {
-                    if (err) {
-                        resolve(false);
-                    }
-                    resolve(results[0]);
-                });
-        });
-    };
-    const decode = (tokn) => {
-        return new Promise((resolve, reject) => {
-            resolve(jwt.verify(tokn, process.env.SECRET));
-        });
-    };
-    let authToken = req.headers["x-auth-token"];
-    if (!authToken) {
-        return res.json({ msg: "No token Found", ok: 0, lockDown: true });
-    }
-    let decodedToken = await decode(authToken);
-    if (!decodedToken) {
-        return res.json({ msg: "bad token", ok: 0, lockDown: true });
-    }
-    let { userId } = decodedToken;
-    if (!userId) {
-        return res.json({ msg: "Invalid Token", ok: 0, lockDown: true });
-    }
-    let user = await findUser(db, userId);
-    if (!user || !user.token || user == "undefined") {
-        return res.json({ msg: "No User Found", ok: 0, lockDown: true });
-    }
-    if (user.token != authToken) {
-        return res.json({ msg: "bad token", ok: 0, lockDown: true });
-    }
-    if (new Date() > new Date(user.token_expiration)) {
-        return res.json({ msg: "expired token", ok: 0, lockDown: true });
-    }
-    // passed authentication ------------------------------------------
+  const s3Params = {
+    Bucket: obj.bucket,
+    Key: obj.name,
+    ContentType: obj.type,
+  };
 
-    const s3 = new aws.S3();
-    let downloadURL = s3.getSignedUrl("getObject", s3Params);
+  const authToken = req.headers["x-auth-token"];
+  if (!authToken) {
+    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
+  }
 
-    if (!downloadURL) {
-        return res.json({ ok: 0, msg: "something went wrong" });
-    } else {
-        return res.json({ ok: 1, msg: "url created", downloadURL });
+  try {
+    const { userId } = jwt.verify(authToken, process.env.SECRET);
+    const user = await findUser(db, userId);
+
+    if (
+      !user ||
+      user.token != authToken ||
+      new Date() > new Date(user.token_expiration)
+    ) {
+      throw new Error();
     }
+  } catch (err) {
+    return res.json({ msg: "bad token", ok: 0, lockDown: true });
+  }
+
+  const s3 = new aws.S3();
+  const downloadURL = s3.getSignedUrl("getObject", s3Params);
+
+  if (!downloadURL) {
+    return res.json({ ok: 0, msg: "something went wrong" });
+  } else {
+    return res.json({ ok: 1, msg: "url created", downloadURL });
+  }
 };
