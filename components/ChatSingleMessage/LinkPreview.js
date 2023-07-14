@@ -130,9 +130,7 @@ export const LinkPreview = ({ message }) => {
       linkPreview.favicon)
   ) {
     if (getHostName(rawURL) === "amazon") {
-      return (
-          null
-      );
+      return null;
     } else {
       return (
         <>
@@ -169,16 +167,20 @@ export const LinkPreview = ({ message }) => {
                 </>
               )}
             </div>
-            <a
-              href={rawURL}
-              target="_blank"
+            <div
               rel="noopener noreferrer"
-              style={{ textDecoration: "none" }}
+              onClick={() => window.open(rawURL, "_blank")}
+              style={{
+                textDecoration: "none",
+                border: "none",
+                background: "none",
+                cursor: "pointer",
+              }}
             >
               <div className={styles.title}>
                 {linkPreview?.title || linkPreview?.site_name}
               </div>
-            </a>
+            </div>
             <div className={styles.description}>{linkPreview?.description}</div>
             {linkPreview?.video ? (
               <iframe
@@ -211,11 +213,15 @@ export const LinkPreview = ({ message }) => {
     return (
       <>
         <br />
-        <a
-          href={rawURL}
-          target="_blank"
+        <div
           rel="noopener noreferrer"
-          style={{ textDecoration: "none" }}
+          onClick={() => window.open(rawURL, "_blank")}
+          style={{
+            textDecoration: "none",
+            border: "none",
+            background: "none",
+            cursor: "pointer",
+          }}
         >
           <article
             id="ogCard"
@@ -241,16 +247,14 @@ export const LinkPreview = ({ message }) => {
               loading="lazy"
             />
           </article>
-        </a>
+        </div>
       </>
     );
   }
 
   if (rawURL) {
     if (getHostName(rawURL) === "twitter") {
-      return (
-        null
-      );
+      return null;
     } else {
       return (
         <>
@@ -260,9 +264,18 @@ export const LinkPreview = ({ message }) => {
             onTouchStart={(event) => event.stopPropagation()}
             onTouchEnd={(event) => event.stopPropagation()}
           >
-            <a href={rawURL} target="_blank" rel="noopener noreferrer">
+            <div
+              rel="noopener noreferrer"
+              onClick={() => window.open(rawURL, "_blank")}
+              style={{
+                textDecoration: "none",
+                border: "none",
+                background: "none",
+                cursor: "pointer",
+              }}
+            >
               {alteredURL}
-            </a>
+            </div>
           </article>
         </>
       );

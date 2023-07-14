@@ -101,14 +101,19 @@ const ChatSingleMessage = (props) => {
 
         // Wrap the URL in an <a> tag
         return (
-          <a
+          <div
             key={`url_${urlIndex}`}
-            href={properURL}
-            target="_blank"
             rel="noopener noreferrer"
+            onClick={() => window.open(properURL, "_blank")}
+            style={{
+              textDecoration: "none",
+              border: "none",
+              background: "none",
+              cursor: "pointer",
+            }}
           >
             {urlPart}
-          </a>
+          </div>
         );
       } else {
         // Split each URL part into parts containing emojis and non-emojis
