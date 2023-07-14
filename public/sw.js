@@ -81,20 +81,6 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   ({ request }) =>
     request.destination === "image" &&
-    request.url.includes("topic-message-attachments"),
-  new workbox.strategies.CacheFirst({
-    cacheName: "aws-message-image-cache",
-    plugins: [
-      new workbox.expiration.ExpirationPlugin({
-        maxEntries: 60,
-        maxAgeSeconds: 24 * 60 * 60, // 1 day
-      }),
-    ],
-  })
-);
-workbox.routing.registerRoute(
-  ({ request }) =>
-    request.destination === "image" &&
     request.url.includes("community-profile-images"),
   new workbox.strategies.CacheFirst({
     cacheName: "aws-profile-icon-cache",
