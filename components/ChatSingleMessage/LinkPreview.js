@@ -135,12 +135,7 @@ export const LinkPreview = ({ message }) => {
       return (
         <>
           <br />
-          <article
-            id="ogCard"
-            className={styles.ogCard}
-            onTouchStart={(event) => event.stopPropagation()}
-            onTouchEnd={(event) => event.stopPropagation()}
-          >
+          <article id="ogCard" className={styles.ogCard}>
             <div className={styles.attribution}>
               {getHostName(rawURL) === "tiktok" ? (
                 <>
@@ -169,7 +164,10 @@ export const LinkPreview = ({ message }) => {
             </div>
             <div
               rel="noopener noreferrer"
-              onClick={() => window.open(rawURL, "_blank")}
+              onClick={(event) => {
+                event.stopPropagation();
+                window.open(rawURL, "_blank");
+              }}
               style={{
                 textDecoration: "none",
                 border: "none",
@@ -223,12 +221,7 @@ export const LinkPreview = ({ message }) => {
             cursor: "pointer",
           }}
         >
-          <article
-            id="ogCard"
-            className={styles.ogCard}
-            onTouchStart={(event) => event.stopPropagation()}
-            onTouchEnd={(event) => event.stopPropagation()}
-          >
+          <article id="ogCard" className={styles.ogCard}>
             <div className={styles.attribution}>
               <img
                 src={ogData?.result?.favicon}
@@ -258,12 +251,7 @@ export const LinkPreview = ({ message }) => {
     } else {
       return (
         <>
-          <article
-            id="ogCard"
-            className={styles.ogCard}
-            onTouchStart={(event) => event.stopPropagation()}
-            onTouchEnd={(event) => event.stopPropagation()}
-          >
+          <article id="ogCard" className={styles.ogCard}>
             <div
               rel="noopener noreferrer"
               onClick={() => window.open(rawURL, "_blank")}
