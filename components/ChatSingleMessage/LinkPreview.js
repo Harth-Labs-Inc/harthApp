@@ -181,13 +181,16 @@ export const LinkPreview = ({ message }) => {
             </div>
             <div className={styles.description}>{linkPreview?.description}</div>
             {linkPreview?.video ? (
-              <iframe
-                width="100%"
-                height="315"
-                src={linkPreview?.video}
-                title={linkPreview?.title}
-                allowFullScreen
-              />
+              <div>
+                <iframe
+                  width="100%"
+                  height="315"
+                  src={linkPreview?.video}
+                  title={linkPreview?.title}
+                  allowFullScreen
+                  loading="lazy"
+                />
+              </div>
             ) : linkPreview?.image ||
               linkPreview?.imageSecureUrl ||
               linkPreview?.favicon ? (
