@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Analytics } from "@vercel/analytics/react";
+// import { Analytics } from "@vercel/analytics/react";
 import {
   Righteous,
   Arvo,
@@ -118,7 +118,7 @@ function MyApp({ Component, pageProps }) {
           </Layout>
         </AuthProvider>
       </ResponsiveProvider>
-      <Analytics />
+      {/* <Analytics /> */}
     </main>
   );
 }

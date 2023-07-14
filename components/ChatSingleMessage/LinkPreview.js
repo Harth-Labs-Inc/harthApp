@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./ChatSingleMessage.module.scss";
+import Placeholder from "components/Common/placeholder/placeholder";
 
 export const LinkPreview = ({ message }) => {
   const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
@@ -40,11 +41,7 @@ export const LinkPreview = ({ message }) => {
   }, [message]);
 
   const renderPlaceholder = () => {
-    return (
-      <div
-        style={{ width: "100%", height: "550px", background: "transparent" }}
-      ></div>
-    );
+    return <Placeholder />;
   };
 
   const renderLinkPreview = () => {
