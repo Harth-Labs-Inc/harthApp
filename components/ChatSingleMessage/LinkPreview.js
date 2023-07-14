@@ -134,7 +134,6 @@ export const LinkPreview = ({ message }) => {
     } else {
       return (
         <>
-          <br />
           <article id="ogCard" className={styles.ogCard}>
             <div className={styles.attribution}>
               {getHostName(rawURL) === "tiktok" ? (
@@ -182,14 +181,14 @@ export const LinkPreview = ({ message }) => {
             <div className={styles.description}>{linkPreview?.description}</div>
             {linkPreview?.video ? (
               <div>
-                {/* <iframe
+                <iframe
                   width="100%"
                   height="315"
                   src={linkPreview?.video}
                   title={linkPreview?.title}
                   allowFullScreen
                   loading="lazy"
-                /> */}
+                />
               </div>
             ) : linkPreview?.image ||
               linkPreview?.imageSecureUrl ||
@@ -213,7 +212,6 @@ export const LinkPreview = ({ message }) => {
   if (ogData) {
     return (
       <>
-        <br />
         <div
           rel="noopener noreferrer"
           onClick={() => window.open(rawURL, "_blank")}
