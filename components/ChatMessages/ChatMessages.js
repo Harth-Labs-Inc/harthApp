@@ -317,18 +317,7 @@ const MessageWrapper = () => {
           <ScrollButton />
         </div>
 
-        {isMobile ? (
-          <div className={styles.InputMobile}>
-            <ChatInput
-              selectedEdit={editMessageObj}
-              isReply={false}
-              topicInputs={topicInputs}
-              setTopicInputs={setTopicInputs}
-              resetEdit={resetEdit}
-              toggleEditing={toggleEditing}
-            ></ChatInput>
-          </div>
-        ) : (
+        {!isMobile ? (
           <div className={styles.InputDesktop}>
             <ChatInput
               selectedEdit={editMessageObj}
@@ -339,8 +328,20 @@ const MessageWrapper = () => {
               toggleEditing={toggleEditing}
             ></ChatInput>
           </div>
-        )}
+        ) : null}
       </div>
+      {isMobile ? (
+        <div className={styles.InputMobile}>
+          <ChatInput
+            selectedEdit={editMessageObj}
+            isReply={false}
+            topicInputs={topicInputs}
+            setTopicInputs={setTopicInputs}
+            resetEdit={resetEdit}
+            toggleEditing={toggleEditing}
+          ></ChatInput>
+        </div>
+      ) : null}
     </>
   );
 };
