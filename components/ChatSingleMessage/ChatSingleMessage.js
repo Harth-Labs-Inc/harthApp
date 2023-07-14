@@ -13,7 +13,7 @@ import { useComms } from "../../contexts/comms";
 import UserIcon from "../UserIcon/userIcon";
 import EditBar from "./EditBar";
 import styles from "./ChatSingleMessage.module.scss";
-import { LinkPreview } from "./LinkPreview";
+// import { LinkPreview } from "./LinkPreview";
 import { IconAddReactionNoFill } from "resources/icons/IconAddReactionNoFill";
 import { generateID } from "services/helper";
 import { CustomMessageContextMenu } from "components/CustomMessageContextMenu/CustomMessageContextMenu";
@@ -101,19 +101,14 @@ const ChatSingleMessage = (props) => {
 
         // Wrap the URL in an <a> tag
         return (
-          <div
+          <a
             key={`url_${urlIndex}`}
+            href={properURL}
+            target="_blank"
             rel="noopener noreferrer"
-            onClick={() => window.open(properURL, "_blank")}
-            style={{
-              textDecoration: "none",
-              border: "none",
-              background: "none",
-              cursor: "pointer",
-            }}
           >
             {urlPart}
-          </div>
+          </a>
         );
       } else {
         // Split each URL part into parts containing emojis and non-emojis
@@ -468,12 +463,12 @@ const ChatSingleMessage = (props) => {
 
               <div id={`message-content${messageID}`}>
                 {formatMessage(message)}
-                <LinkPreview
+                {/* <LinkPreview
                   message={message}
                   messageID={messageID}
                   onTouchStart={(event) => event.stopPropagation()}
                   onTouchEnd={(event) => event.stopPropagation()}
-                />
+                /> */}
               </div>
             </div>
             {reactionsData && reactionsData.length > 0 ? (
@@ -620,7 +615,7 @@ const ChatSingleMessage = (props) => {
             })}
             <div id={`message-content${messageID}`}>
               {formatMessage(message)}
-              <LinkPreview message={message} messageID={messageID} />
+              {/* <LinkPreview message={message} messageID={messageID} /> */}
             </div>
           </div>
           {reactionsData && reactionsData.length > 0 ? (

@@ -134,7 +134,13 @@ export const LinkPreview = ({ message }) => {
     } else {
       return (
         <>
-          <article id="ogCard" className={styles.ogCard}>
+          <br />
+          <article
+            id="ogCard"
+            className={styles.ogCard}
+            onTouchStart={(event) => event.stopPropagation()}
+            onTouchEnd={(event) => event.stopPropagation()}
+          >
             <div className={styles.attribution}>
               {getHostName(rawURL) === "tiktok" ? (
                 <>
@@ -161,35 +167,26 @@ export const LinkPreview = ({ message }) => {
                 </>
               )}
             </div>
-            <div
+            <a
+              href={rawURL}
+              target="_blank"
               rel="noopener noreferrer"
-              onClick={(event) => {
-                event.stopPropagation();
-                window.open(rawURL, "_blank");
-              }}
-              style={{
-                textDecoration: "none",
-                border: "none",
-                background: "none",
-                cursor: "pointer",
-              }}
+              style={{ textDecoration: "none" }}
             >
               <div className={styles.title}>
                 {linkPreview?.title || linkPreview?.site_name}
               </div>
-            </div>
+            </a>
             <div className={styles.description}>{linkPreview?.description}</div>
             {linkPreview?.video ? (
-              <div>
-                <iframe
-                  width="100%"
-                  height="315"
-                  src={linkPreview?.video}
-                  title={linkPreview?.title}
-                  allowFullScreen
-                  loading="lazy"
-                />
-              </div>
+              <iframe
+                width="100%"
+                height="315"
+                src={linkPreview?.video}
+                title={linkPreview?.title}
+                allowFullScreen
+                loading="lazy"
+              />
             ) : linkPreview?.image ||
               linkPreview?.imageSecureUrl ||
               linkPreview?.favicon ? (
@@ -212,17 +209,19 @@ export const LinkPreview = ({ message }) => {
   if (ogData) {
     return (
       <>
-        <div
+        <br />
+        <a
+          href={rawURL}
+          target="_blank"
           rel="noopener noreferrer"
-          onClick={() => window.open(rawURL, "_blank")}
-          style={{
-            textDecoration: "none",
-            border: "none",
-            background: "none",
-            cursor: "pointer",
-          }}
+          style={{ textDecoration: "none" }}
         >
-          <article id="ogCard" className={styles.ogCard}>
+          <article
+            id="ogCard"
+            className={styles.ogCard}
+            onTouchStart={(event) => event.stopPropagation()}
+            onTouchEnd={(event) => event.stopPropagation()}
+          >
             <div className={styles.attribution}>
               <img
                 src={ogData?.result?.favicon}
@@ -241,7 +240,7 @@ export const LinkPreview = ({ message }) => {
               loading="lazy"
             />
           </article>
-        </div>
+        </a>
       </>
     );
   }
@@ -252,19 +251,15 @@ export const LinkPreview = ({ message }) => {
     } else {
       return (
         <>
-          <article id="ogCard" className={styles.ogCard}>
-            <div
-              rel="noopener noreferrer"
-              onClick={() => window.open(rawURL, "_blank")}
-              style={{
-                textDecoration: "none",
-                border: "none",
-                background: "none",
-                cursor: "pointer",
-              }}
-            >
+          <article
+            id="ogCard"
+            className={styles.ogCard}
+            onTouchStart={(event) => event.stopPropagation()}
+            onTouchEnd={(event) => event.stopPropagation()}
+          >
+            <a href={rawURL} target="_blank" rel="noopener noreferrer">
               {alteredURL}
-            </div>
+            </a>
           </article>
         </>
       );
