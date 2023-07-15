@@ -106,6 +106,12 @@ const ChatSingleMessage = (props) => {
             href={properURL}
             target="_blank"
             rel="noopener noreferrer"
+            style={{
+              display: "inline-block",
+              height: "20px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
           >
             {urlPart}
           </a>
@@ -118,7 +124,15 @@ const ChatSingleMessage = (props) => {
         const modifiedUrlPart = emojiParts.map((emojiPart, emojiIndex) => {
           if (emojiRegex.test(emojiPart)) {
             return (
-              <span key={`emoji_${emojiIndex}`} className={styles.MessageEmoji}>
+              <span
+                key={`emoji_${emojiIndex}`}
+                className={styles.MessageEmoji}
+                style={{
+                  display: "inline-block",
+                  width: "20px",
+                  height: "20px",
+                }}
+              >
                 {emojiPart}
               </span>
             );
@@ -128,7 +142,11 @@ const ChatSingleMessage = (props) => {
           }
         });
 
-        return <div key={urlIndex}>{modifiedUrlPart}</div>;
+        return (
+          <div key={urlIndex} style={{ display: "block", width: "100%" }}>
+            {modifiedUrlPart}
+          </div>
+        );
       }
     });
 

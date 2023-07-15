@@ -49,7 +49,6 @@ export const LinkPreview = ({ message }) => {
 
     return (
       <>
-        <br />
         <article
           id="ogCard"
           className={styles.ogCard}
