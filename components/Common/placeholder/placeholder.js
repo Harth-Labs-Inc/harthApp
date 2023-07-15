@@ -25,7 +25,7 @@ const Placeholder = () => {
       className="active-image"
       src={`data:image/svg+xml;base64,${toBase64(shimmer(300, 550))}`}
       width={300}
-      height={550}
+      height={500}
       alt="message image"
       onClick={(e) => {
         e.stopPropagation();

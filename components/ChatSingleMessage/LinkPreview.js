@@ -57,43 +57,61 @@ export const LinkPreview = ({ message }) => {
           onTouchEnd={(event) => event.stopPropagation()}
         >
           <div className={styles.attribution}>
-            {site_name === "tiktok" ? (
-              <>
-                <img
-                  src="/images/tiktok_logo.png"
-                  alt="TikTok Post"
-                  loading="lazy"
-                />
-                <p>TikTok</p>
-              </>
-            ) : (
-              <>
-                <img src={favicon || image} alt={title} loading="lazy" />
-                <p>{site_name === "youtube" ? "YouTube" : site_name}</p>
-              </>
-            )}
+            <div>
+              {site_name === "tiktok" ? (
+                <>
+                  <img
+                    src="/images/tiktok_logo.png"
+                    alt="TikTok Post"
+                    loading="lazy"
+                  />
+                </>
+              ) : (
+                <>
+                  <img src={favicon || image} alt={title} loading="lazy" />
+                </>
+              )}
+            </div>
           </div>
-          <a
-            href={linkData.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none" }}
-          >
-            <div className={styles.title}>{title || site_name}</div>
-          </a>
+          <div className={styles.titlewrapper}>
+            <a
+              href={linkData.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none" }}
+            >
+              <div className={styles.title}>
+                {title
+                  ? title
+                  : site_name === "tiktok"
+                  ? "TikTok"
+                  : site_name === "youtube"
+                  ? "YouTube"
+                  : site_name}
+              </div>
+            </a>
+          </div>
           <div className={styles.description}>{description}</div>
-          {video ? (
-            <iframe
-              width="100%"
-              height="315"
-              src={video}
-              title={title}
-              allowFullScreen
-              loading="lazy"
-            />
-          ) : image || favicon ? (
-            <img src={image || favicon} alt={title} loading="lazy" />
-          ) : null}
+          <div className={styles.imageholder}>
+            {video ? (
+              <iframe
+                width="100%"
+                height="100%"
+                src={video}
+                title={title}
+                allowFullScreen
+                loading="lazy"
+              />
+            ) : image || favicon ? (
+              <img
+                width="100%"
+                height="100%"
+                src={image || favicon}
+                alt={title}
+                loading="lazy"
+              />
+            ) : null}
+          </div>
         </article>
       </>
     );
