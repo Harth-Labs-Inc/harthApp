@@ -3,21 +3,23 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 export const SizeContext = createContext({});
 export const MobileContext = createContext(false);
 
+function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+        width,
+        height,
+    };
+}
+
 export const ResponsiveProvider = (props) => {
     const [dimensions, setDimensions] = useState({
         width: 0,
         height: 0,
     });
     useEffect(() => {
-        setDimensions({
-            width: window.innerWidth,
-            height: window.innerHeight,
-        });
+        setDimensions(getWindowDimensions());
         const onResize = () => {
-            setDimensions({
-                width: window.innerWidth,
-                height: window.innerHeight,
-            });
+            setDimensions(getWindowDimensions());
         };
         window.addEventListener("load", onResize);
         window.addEventListener("resize", onResize);

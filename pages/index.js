@@ -76,8 +76,10 @@ const dashboard = () => {
     // try windows resize
 
     useEffect(() => {
-        const vh = dimensions.height * 0.01;
-        document.documentElement.style.setProperty("--vh", `${vh}px`);
+        setTimeout(() => {
+            const vh = dimensions.height * 0.01;
+            document.documentElement.style.setProperty("--vh", `${vh}px`);
+        }, 100);
     }, []);
     // end try windows resize
 
