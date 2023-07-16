@@ -5,14 +5,14 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 56px);
+    height: calc(var(--vh, 1vh) * 100 - 56px);
     width: 100%;
     background-color: $white;
     background: linear-gradient(100deg, lighten($warm_blue, 50%), lighten($hot_pink, 32%));   
 
 
     @media screen and (max-width: 640px) {
-        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
         padding: 8px;
     }
 }

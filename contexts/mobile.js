@@ -23,19 +23,19 @@ export const ResponsiveProvider = (props) => {
   const sizeContext = useMemo(() => ({ width }), [width]);
   const mobileContext = useMemo(() => ({ isMobile }), [isMobile]);
 
-  useEffect(() => {
-    const disableContextMenu = (event) => {
-      if (isMobile) {
-        event.preventDefault();
-      }
-    };
+  // useEffect(() => {
+  //   const disableContextMenu = (event) => {
+  //     if (isMobile) {
+  //       event.preventDefault();
+  //     }
+  //   };
 
-    document.addEventListener("contextmenu", disableContextMenu);
+  //   document.addEventListener("contextmenu", disableContextMenu);
 
-    return () => {
-      document.removeEventListener("contextmenu", disableContextMenu);
-    };
-  }, [isMobile]);
+  //   return () => {
+  //     document.removeEventListener("contextmenu", disableContextMenu);
+  //   };
+  // }, [isMobile]);
 
   return (
     <SizeContext.Provider value={sizeContext}>
