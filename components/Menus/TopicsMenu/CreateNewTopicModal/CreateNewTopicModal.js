@@ -93,7 +93,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
       return (
         <div
           className={styles.EmojiPicker}
-          style={{ height: "calc(var(--vh, 1vh) * 100)", width: "100vw" }}
+          style={{ height: "100vh", width: "100vw" }}
         >
           <EmojiWrapper
             addEmoji={addEmoji}
