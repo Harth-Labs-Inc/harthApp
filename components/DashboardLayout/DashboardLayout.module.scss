@@ -1,7 +1,6 @@
 .Dashboard {
     display: flex;
-    max-height: 100vh;
-    min-height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     width: 100vw;
 
     &Content {
