@@ -82,75 +82,53 @@ const ChatSingleMessage = (props) => {
       return "";
     }
 
-    // Regular expression to match URLs
     const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
-
-    // Regex to match emojis
     const emojiRegex = /([\uD800-\uDBFF][\uDC00-\uDFFF])/g;
+    const parts = text.split(
+      /(https?:\/\/[^\s]+|www\.[^\s]+|[\uD800-\uDBFF][\uDC00-\uDFFF])/
+    );
 
-    // Split the text into parts containing URLs and non-URLs
-    const urlParts = text.split(urlRegex);
+    const wrappedText = parts.map((part, index) => {
+      if (urlRegex.test(part)) {
+        const properURL = part.startsWith("www") ? "http://" + part : part;
 
-    // Map over the URL parts and wrap URLs with <a> tags
-    const wrappedText = urlParts.map((urlPart, urlIndex) => {
-      if (urlPart.match(urlRegex)) {
-        // Construct proper URL
-        const properURL = urlPart.startsWith("www")
-          ? "http://" + urlPart
-          : urlPart;
-
-        // Wrap the URL in an <a> tag
         return (
-          <a
-            key={`url_${urlIndex}`}
-            href={properURL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <span
+            key={`url_${index}`}
+            onClick={() => window.open(properURL, "_blank")}
             style={{
               display: "inline-block",
               height: "20px",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              cursor: "pointer",
+              color: "blue",
+              textDecoration: "underline",
             }}
           >
-            {urlPart}
-          </a>
+            {part}
+          </span>
+        );
+      } else if (emojiRegex.test(part)) {
+        return (
+          <span
+            key={`emoji_${index}`}
+            className={styles.MessageEmoji}
+            style={{
+              display: "inline-block",
+              width: "20px",
+              height: "20px",
+            }}
+          >
+            {part}
+          </span>
         );
       } else {
-        // Split each URL part into parts containing emojis and non-emojis
-        const emojiParts = urlPart.split(emojiRegex);
-
-        // Map over the emoji parts and wrap emojis with <span> tags
-        const modifiedUrlPart = emojiParts.map((emojiPart, emojiIndex) => {
-          if (emojiRegex.test(emojiPart)) {
-            return (
-              <span
-                key={`emoji_${emojiIndex}`}
-                className={styles.MessageEmoji}
-                style={{
-                  display: "inline-block",
-                  width: "20px",
-                  height: "20px",
-                }}
-              >
-                {emojiPart}
-              </span>
-            );
-          } else {
-            // Return non-emoji parts as they are
-            return emojiPart;
-          }
-        });
-
-        return (
-          <div key={urlIndex} style={{ display: "block", width: "100%" }}>
-            {modifiedUrlPart}
-          </div>
-        );
+        return part;
       }
     });
 
-    return wrappedText;
+    return <div style={{ display: "block", width: "100%" }}>{wrappedText}</div>;
   };
 
   useEffect(() => {
