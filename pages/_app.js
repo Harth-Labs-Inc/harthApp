@@ -19,7 +19,6 @@ import { ResponsiveProvider } from "../contexts/mobile";
 import { CreateGatheringFormProvider as GatheringFormProvider } from "../pages/dashboard/video/GatherForm/GatheringFormContext";
 import { CreateGatheringFormProvider as GatheringEditFormProvider } from "../pages/dashboard/video/GatherEditForm/GatheringFormContext";
 import TransitionLayout from "../components/Transitions";
-import { useEffect } from "react";
 
 const fontClassNames = [];
 // google fonts
@@ -100,26 +99,6 @@ fontClassNames.push(opensans.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-
-  useEffect(() => {
-    const setVhVariable = () => {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-      var viewport = document.querySelector("meta[name=viewport]");
-      if (viewport) {
-        viewport.setAttribute(
-          "content",
-          `width=device-width, initial-scale=1, maximum-scale=1, height=${vh}`
-        );
-      }
-    };
-
-    setVhVariable();
-
-    window.addEventListener("resize", setVhVariable);
-
-    return () => window.removeEventListener("resize", setVhVariable);
-  }, []);
 
   return (
     <main className={`${fontClassNames.join(" ")}`}>
