@@ -1,61 +1,62 @@
 {
-  "short_name": "Härth",
-  "name": "Härth",
-  "orientation": "portrait",
-  "description": "Härth is the place where friends gather. Create your own härth, invite your friends, and have a space all your own. Härth is the one destination that provides everything a group of friends needs to stay connected. Chat, share, stream, or just hangout in your own private space. No feeds. No followers. Just a place for you and your friends.",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "/icons/icon_16x16.png",
-      "sizes": "16x16",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon_32x32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon_64x64.png",
-      "sizes": "64x64",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon_128x128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon_256x256.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon_512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon_1024x1024.png",
-      "sizes": "1024x1024",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon_2048x2048.png",
-      "sizes": "2048x2048",
-      "type": "image/png"
-    }
-  ],
-  "start_url": "https://www.harth.social/",
-  "display": "fullscreen",
-  "scope": "/",
-  "background_color": "#1a1a1f",
-  "theme_color": "#1a1a1f",
-  "dir": "ltr",
-  "lang": "en",
-  "categories": ["social"]
+    "short_name": "Härth",
+    "name": "Härth",
+    "fullscreen": "yes",
+    "orientation": "portrait",
+    "description": "Härth is the place where friends gather. Create your own härth, invite your friends, and have a space all your own. Härth is the one destination that provides everything a group of friends needs to stay connected. Chat, share, stream, or just hangout in your own private space. No feeds. No followers. Just a place for you and your friends.",
+    "icons": [
+        {
+            "src": "favicon.ico",
+            "sizes": "16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "/icons/icon_16x16.png",
+            "sizes": "16x16",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon_32x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon_64x64.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon_128x128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon_256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon_512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon_1024x1024.png",
+            "sizes": "1024x1024",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/icon_2048x2048.png",
+            "sizes": "2048x2048",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "https://www.harth.social/",
+    "display": "fullscreen",
+    "scope": "/",
+    "background_color": "#1a1a1f",
+    "theme_color": "#1a1a1f",
+    "dir": "ltr",
+    "lang": "en",
+    "categories": ["social"]
 }
