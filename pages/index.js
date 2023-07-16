@@ -72,8 +72,8 @@ const dashboard = () => {
 
     // try windows resize
     const [dimensions, setDimensions] = useState({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: 0,
+        height: 0,
     });
 
     const handleResize = () => {
