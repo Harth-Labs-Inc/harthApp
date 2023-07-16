@@ -42,6 +42,19 @@ const DashboardLayout = (props) => {
   const backgroundColorClass = useRef("defaultTransitionBackground");
 
   useEffect(() => {
+    const setVhVariable = () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    setVhVariable();
+
+    window.addEventListener("resize", setVhVariable);
+
+    return () => window.removeEventListener("resize", setVhVariable);
+  }, []);
+
+  useEffect(() => {
     prePageRef.current = currentPage;
   }, [currentPage]);
 
@@ -144,7 +157,7 @@ const DashboardLayout = (props) => {
     }
 
     return (
-      <main className={styles.Dashboard}>
+      <main className={styles.Dashboardmobile}>
         <MobileSideNav
           mobileMenuOpen={mobileMenuOpen}
           onToggleMenu={toggleMenu}
