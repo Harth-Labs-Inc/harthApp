@@ -8,6 +8,7 @@ import { VideoProvider } from "contexts/video";
 import { CommsProvider } from "contexts/comms";
 import { SocketProvider } from "contexts/socket";
 import { useAuth } from "contexts/auth";
+import { useSize } from "contexts/mobile";
 import { urlBase64ToUint8Array } from "services/helper";
 import { saveUserSubscription } from "requests/subscriptions";
 
@@ -51,6 +52,8 @@ const dashboard = () => {
     const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
     const [inviteTKN, setInviteTKN] = useState(false);
 
+    const { dimensions } = useSize();
+
     const {
         user,
         loading,
@@ -71,25 +74,11 @@ const dashboard = () => {
     );
 
     // try windows resize
-    const [dimensions, setDimensions] = useState({
-        width: 0,
-        height: 0,
-    });
-
-    const handleResize = () => {
-        setDimensions({
-            width: window.innerWidth,
-            height: window.innerHeight,
-        });
-    };
-    useEffect(() => {
-        window.addEventListener("resize", handleResize, false);
-    }, []);
 
     useEffect(() => {
         const vh = dimensions.height * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
-    }, [dimensions]);
+    }, [dimensions.height]);
     // end try windows resize
 
     useEffect(() => {
