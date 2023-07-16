@@ -37,7 +37,7 @@
     top: 0;
     left: 0;
     z-index: 300;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     width: 100vw;
 
     animation-name: blur-in;
@@ -74,7 +74,7 @@
     &Left {
         position: absolute;
         top: 0;
-        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
         width: 356px;
         background-color: $silver-light;
         overflow: hidden;

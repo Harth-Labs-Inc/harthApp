@@ -86,7 +86,7 @@
         }
 
         .mapContainer {
-            height: 80vh;
+            height: calc(var(--vh, 1vh) * 80);
             width: 100%;
             border: 0;
         }
