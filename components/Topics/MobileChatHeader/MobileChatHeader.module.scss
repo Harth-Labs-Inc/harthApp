@@ -19,6 +19,14 @@
     border-bottom: 1px solid $black;
     @include topicTitle;
 
+    .emojiHolder {
+        padding-right: 8px;
+        width: fit-content;
+        height: fit-content;
+        line-height: 100%;
+        font-size: 20px;
+    }
+
     button {
         height: 44px;
         width: 44px;

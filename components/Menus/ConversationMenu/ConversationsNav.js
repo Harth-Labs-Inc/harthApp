@@ -78,7 +78,7 @@ const ConversationsNav = ({
                             : styles.ConversationsNavTitle
                     }
                 >
-                    Conversations
+                    Messages
                 </p>
                 <div className={styles.ConversationsNavContainer}>
                     {conversations &&
