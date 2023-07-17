@@ -5,12 +5,12 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 56px);
+    height: calc(var(--vh) - 56px);
     width: 100%;
     background: linear-gradient(90deg, $black, $fuel 50%);   
 
     @media screen and (max-width: 640px) {
-        height: 100vh;
+        height: var(--vh);
         padding: 8px;
     }
 }
