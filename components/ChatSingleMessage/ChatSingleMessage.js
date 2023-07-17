@@ -15,7 +15,13 @@ import EditBar from "./EditBar";
 import styles from "./ChatSingleMessage.module.scss";
 import { LinkPreview } from "./LinkPreview";
 import { IconAddReactionNoFill } from "resources/icons/IconAddReactionNoFill";
-import { generateID } from "services/helper";
+import {
+  fetchImage,
+  generateID,
+  getAttachment,
+  openDB,
+  saveAttachment,
+} from "services/helper";
 import { CustomMessageContextMenu } from "components/CustomMessageContextMenu/CustomMessageContextMenu";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 
@@ -131,12 +137,58 @@ const ChatSingleMessage = (props) => {
     return <div style={{ display: "block", width: "100%" }}>{wrappedText}</div>;
   };
 
+  // useEffect(() => {
+  //   const FetchDownloadURL = async () => {
+  //     if (attachments.length > 0) {
+  //       const data = await Promise.all(
+  //         attachments.map(async (att) => {
+  //           return await getDownloadURL(att.name, att.fileType, bucket);
+  //         })
+  //       );
+
+  //       const outputs = data
+  //         .filter((item) => item && item.ok)
+  //         .map((item) => item.downloadURL);
+
+  //       setUrls(outputs);
+  //     }
+  //   };
+
+  //   FetchDownloadURL();
+  //   console.log(attachments, "attachments");
+  //   return () => {
+  //     setUrls([]);
+  //   };
+  // }, [attachments]);
+
   useEffect(() => {
+    const dbName = "Attachments";
+    const storeName = "chat";
     const FetchDownloadURL = async () => {
       if (attachments.length > 0) {
+        const db = await openDB(dbName, storeName);
         const data = await Promise.all(
           attachments.map(async (att) => {
-            return await getDownloadURL(att.name, att.fileType, bucket);
+            const cachedData = await getAttachment(
+              db,
+              storeName,
+              att.name
+            ).catch(() => null);
+            if (cachedData) {
+              const url = URL.createObjectURL(cachedData);
+              return { ok: 1, downloadURL: url };
+            } else {
+              const fetchedData = await getDownloadURL(
+                att.name,
+                att.fileType,
+                bucket
+              );
+              if (fetchedData && fetchedData.ok) {
+                const imageBlob = await fetchImage(fetchedData.downloadURL);
+                saveAttachment(db, storeName, att.name, imageBlob);
+                return fetchedData;
+              }
+            }
           })
         );
 
@@ -149,7 +201,6 @@ const ChatSingleMessage = (props) => {
     };
 
     FetchDownloadURL();
-
     return () => {
       setUrls([]);
     };

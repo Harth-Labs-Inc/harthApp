@@ -1,6 +1,43 @@
 import { v4 as uuidv4 } from "uuid";
 import { getUploadURL, putImageInBucket } from "../requests/s3";
 
+export const fetchImage = async (url) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const blob = await response.blob();
+  return blob;
+};
+
+export const openDB = (dbName, storeName) => {
+  return new Promise((resolve, reject) => {
+    const open = indexedDB.open(dbName);
+    open.onupgradeneeded = () => {
+      const db = open.result;
+      db.createObjectStore(storeName);
+    };
+    open.onsuccess = () => resolve(open.result);
+    open.onerror = () => reject(open.error);
+  });
+};
+
+export const getAttachment = (db, storeName, attachmentName) => {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readonly");
+    const store = transaction.objectStore(storeName);
+    const getRequest = store.get(attachmentName);
+    getRequest.onsuccess = () => resolve(getRequest.result);
+    getRequest.onerror = () => reject(getRequest.error);
+  });
+};
+
+export const saveAttachment = (db, storeName, attachmentName, data) => {
+  const transaction = db.transaction(storeName, "readwrite");
+  const store = transaction.objectStore(storeName);
+  store.put(data, attachmentName);
+};
+
 export const copyToClipboard = (text) => {
   return new Promise((resolve) => {
     if (!navigator || !navigator.clipboard) {
