@@ -10,6 +10,27 @@ export const fetchImage = async (url) => {
   return blob;
 };
 
+export const cleanupDB = async (db, storeName) => {
+  const transaction = db.transaction(storeName, "readwrite");
+  const store = transaction.objectStore(storeName);
+  const TTL_VALUE = 5 * 24 * 60 * 60 * 1000; // 5 days in milliseconds
+  const getAllKeysRequest = store.getAllKeys();
+  await new Promise((resolve, reject) => {
+    getAllKeysRequest.onsuccess = resolve;
+    getAllKeysRequest.onerror = reject;
+  });
+
+  getAllKeysRequest.result.forEach((key) => {
+    const getRequest = store.get(key);
+    getRequest.onsuccess = () => {
+      const record = getRequest.result;
+      if (Date.now() - record.timestamp >= TTL_VALUE) {
+        store.delete(key);
+      }
+    };
+  });
+};
+
 export const openDB = (dbName, storeName) => {
   return new Promise((resolve, reject) => {
     const open = indexedDB.open(dbName);
@@ -17,7 +38,11 @@ export const openDB = (dbName, storeName) => {
       const db = open.result;
       db.createObjectStore(storeName);
     };
-    open.onsuccess = () => resolve(open.result);
+    open.onsuccess = async () => {
+      const db = open.result;
+      await cleanupDB(db, storeName);
+      resolve(db);
+    };
     open.onerror = () => reject(open.error);
   });
 };
@@ -35,7 +60,8 @@ export const getAttachment = (db, storeName, attachmentName) => {
 export const saveAttachment = (db, storeName, attachmentName, data) => {
   const transaction = db.transaction(storeName, "readwrite");
   const store = transaction.objectStore(storeName);
-  store.put(data, attachmentName);
+  const record = { data, timestamp: Date.now() };
+  store.put(record, attachmentName);
 };
 
 export const copyToClipboard = (text) => {
