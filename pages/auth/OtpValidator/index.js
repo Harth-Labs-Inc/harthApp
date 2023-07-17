@@ -103,7 +103,7 @@ const OtpValidator = (props) => {
   }
 
   return (
-    <div className={styles.OtpModule}>
+    <div className={`${styles.OtpModule} ${styles.fadeIn}`}>
       <div className={styles.OtpModuleLogo}>
         <HarthLogoDark />
       </div>

@@ -56,3 +56,36 @@
         margin-right: auto;
     }
 }
+.fadeIn {
+    animation: fadeInAnimation ease 300ms;
+    -webkit-animation: fadeInAnimation ease 300ms;
+    -moz-animation: fadeInAnimation ease 300ms;
+    -o-animation: fadeInAnimation ease 300ms;
+    -ms-animation: fadeInAnimation ease 300ms;
+  }
+  
+  @keyframes fadeInAnimation {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeInAnimation {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+  @-moz-keyframes fadeInAnimation {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+  @-o-keyframes fadeInAnimation {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+  @-ms-keyframes fadeInAnimation {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+
