@@ -185,11 +185,10 @@ const ChatSingleMessage = (props) => {
               );
               if (fetchedData && fetchedData.ok) {
                 const imageBlob = await fetchImage(fetchedData.downloadURL);
-                alert("made it");
                 try {
                   saveAttachment(db, storeName, att.name, imageBlob);
                 } catch (error) {
-                  alert("Failed to save attachment:", error);
+                  console.log("Failed to save attachment:", error);
                 }
                 return fetchedData;
               }
