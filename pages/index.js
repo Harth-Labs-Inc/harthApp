@@ -100,7 +100,7 @@ const dashboard = () => {
     }, []);
 
     useEffect(() => {
-        document.body.style.maxHeight = `${height}px`;
+        document.html.style.maxHeight = `${height}px`;
     }, [height]);
 
     useEffect(() => {
