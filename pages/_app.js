@@ -15,7 +15,7 @@ import localFont from "next/font/local";
 import Head from "next/head";
 import "../styles/Styles.modules.scss";
 import { AuthProvider } from "../contexts/auth";
-import { ResponsiveProvider } from "../contexts/mobile";
+import { useSize, ResponsiveProvider } from "../contexts/mobile";
 import { CreateGatheringFormProvider as GatheringFormProvider } from "../pages/dashboard/video/GatherForm/GatheringFormContext";
 import { CreateGatheringFormProvider as GatheringEditFormProvider } from "../pages/dashboard/video/GatherEditForm/GatheringFormContext";
 import TransitionLayout from "../components/Transitions";
@@ -100,15 +100,16 @@ fontClassNames.push(opensans.variable);
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
+    const { width } = useSize();
 
     useEffect(() => {
         const setVhVariable = () => {
-            let vh = window.innerHeight * 0.01;
+            let vh = window.innerHeight;
             document.documentElement.style.setProperty("--vh", `${vh}px`);
         };
 
         setVhVariable();
-    }, []);
+    }, [width]);
     return (
         <main className={`${fontClassNames.join(" ")}`}>
             <Head>
