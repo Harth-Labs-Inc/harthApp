@@ -8,7 +8,6 @@ import { VideoProvider } from "contexts/video";
 import { CommsProvider } from "contexts/comms";
 import { SocketProvider } from "contexts/socket";
 import { useAuth } from "contexts/auth";
-import { useSize } from "contexts/mobile";
 import { urlBase64ToUint8Array } from "services/helper";
 import { saveUserSubscription } from "requests/subscriptions";
 
@@ -51,8 +50,7 @@ const dashboard = () => {
     const [showInviteAcceptModal, setShowInviteAcceptModal] = useState(false);
     const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
     const [inviteTKN, setInviteTKN] = useState(false);
-
-    const { dimensions } = useSize();
+    const [height, setHeight] = useState(0);
 
     const {
         user,
@@ -74,6 +72,7 @@ const dashboard = () => {
     );
 
     useEffect(() => {
+        setHeight(document.body.scrollHeight);
         if (navigator && "serviceWorker" in navigator) {
             navigator.serviceWorker
                 .register("/sw.js")
@@ -99,6 +98,10 @@ const dashboard = () => {
             setSwReg(null);
         };
     }, []);
+
+    useEffect(() => {
+        document.body.style.maxHeight = `${height}px`;
+    }, [height]);
 
     useEffect(() => {
         const queryString = window.location.search;
