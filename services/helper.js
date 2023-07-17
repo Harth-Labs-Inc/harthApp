@@ -3,9 +3,8 @@ import { getUploadURL, putImageInBucket } from "../requests/s3";
 
 export const fetchImage = async (url) => {
   const response = await fetch(url);
-  alert(response);
   if (!response.ok) {
-    alert(`HTTP error! status: ${response.status}`);
+    throw new Error(`HTTP error! status: ${response.status}`);
   }
   const blob = await response.blob();
   return blob;
