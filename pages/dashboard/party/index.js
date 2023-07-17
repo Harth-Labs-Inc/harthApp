@@ -62,7 +62,7 @@ const Party = () => {
 
     const { user, loading } = useAuth();
     const { comms } = useComms();
-    const { dimensions } = useSize();
+    const { width } = useSize();
     const { isMobile } = useContext(MobileContext);
 
     useEffect(() => {
@@ -70,13 +70,7 @@ const Party = () => {
         if (container) {
             resize(container);
         }
-    }, [
-        dimensions,
-        showChatPannel,
-        chats,
-        screenShareActive,
-        isActiveScreenShare,
-    ]);
+    }, [width, showChatPannel, chats, screenShareActive, isActiveScreenShare]);
 
     useEffect(() => {
         if (!loading && user) {

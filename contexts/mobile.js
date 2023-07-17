@@ -3,23 +3,12 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 export const SizeContext = createContext({});
 export const MobileContext = createContext(false);
 
-function getWindowDimensions() {
-    const { innerWidth: width, innerHeight: height } = window;
-    return {
-        width,
-        height,
-    };
-}
-
 export const ResponsiveProvider = (props) => {
-    const [dimensions, setDimensions] = useState({
-        width: 0,
-        height: 0,
-    });
+    const [width, setWidth] = useState(0);
     useEffect(() => {
-        setDimensions(getWindowDimensions());
+        setWidth(window.innerWidth);
         const onResize = () => {
-            setDimensions(getWindowDimensions());
+            setWidth(window.innerWidth);
         };
         window.addEventListener("load", onResize);
         window.addEventListener("resize", onResize);
@@ -29,9 +18,9 @@ export const ResponsiveProvider = (props) => {
             window.removeEventListener("resize", onResize);
         };
     }, []);
-    const isMobile = dimensions.width <= 640;
+    const isMobile = width <= 640;
 
-    const sizeContext = useMemo(() => ({ dimensions }), [dimensions]);
+    const sizeContext = useMemo(() => ({ width }), [width]);
     const mobileContext = useMemo(() => ({ isMobile }), [isMobile]);
 
     useEffect(() => {
