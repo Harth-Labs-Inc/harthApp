@@ -71,13 +71,6 @@ const dashboard = () => {
     );
 
     useEffect(() => {
-        const messageWrapper = document.getElementById("content_wrapper");
-
-        if (messageWrapper) {
-            const initialHeight = messageWrapper?.offsetHeight;
-            messageWrapper.style.maxHeight = `${initialHeight}px`;
-        }
-
         if (navigator && "serviceWorker" in navigator) {
             navigator.serviceWorker
                 .register("/sw.js")
