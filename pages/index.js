@@ -77,7 +77,9 @@ const dashboard = () => {
 
     useEffect(() => {
         const vh = dimensions.height * 0.01;
-        window.innerHeight("--vh", `${vh}px`);
+        document
+            .getElementsByTagName("body")
+            .style.setProperty("--vh", `${vh}px`);
     }, []);
     // end try windows resize
 
