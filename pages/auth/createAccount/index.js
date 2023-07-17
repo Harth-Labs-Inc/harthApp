@@ -89,7 +89,7 @@ const CreateAccount = () => {
     "Welcome to the early release of Härth. Enter your details below to create an account.";
 
   return (
-    <div className={styles.CreateModule}>
+    <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
       <div className={styles.CreateModuleContent}>
         <div className={styles.CreateModuleLogo}>
           <HarthLogoDark />
@@ -144,15 +144,15 @@ const CreateAccount = () => {
           />
         </form>
         <p className={styles.CreateModuleDisclaimer}>
-          By continuing, you are agreeing to our Customer{" "}
+          By continuing, you are agreeing to our Customer
           <a
             href="https://harthsocial.com/terms"
             target="_blank"
             rel="noreferrer"
           >
             Terms of Service
-          </a>{" "}
-          and{" "}
+          </a>
+          and
           <a
             href="https://harthsocial.com/privacy"
             target="_blank"
