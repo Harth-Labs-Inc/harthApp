@@ -100,7 +100,9 @@ const dashboard = () => {
     }, []);
 
     useEffect(() => {
-        document.html.style.maxHeight = `${height}px`;
+        document.getElementsByTagName(
+            "html"
+        )[0].style.maxHeight = `${height}px`;
     }, [height]);
 
     useEffect(() => {
