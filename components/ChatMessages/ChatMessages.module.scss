@@ -8,13 +8,12 @@
     flex-direction: column;
     height: calc(100vh - 56px);
     width: 100%;
-    background: linear-gradient(90deg, $black, $fuel 50%);   
+    background: linear-gradient(90deg, $black, $fuel 50%);
     //padding-left: 8px;
 
     @media screen and (max-width: 640px) {
-        height: calc(100vh - 24px);
+        height: calc(var(--vh) - 336px);
         padding: 8px;
-        margin-top: 36px;
     }
 }
 
@@ -24,12 +23,10 @@
     flex-direction: column-reverse;
     position: relative;
     background-color: transparent;
-    // min-height: calc(100% - 98px);
     width: 100%;
     padding: 24px 8px;
     overflow-y: scroll;
     -ms-overflow-style: none;
-    //scrollbar-width: 0px;
     color: $fuel;
 
     &::-webkit-scrollbar {
@@ -125,8 +122,6 @@
         padding: 0;
         margin: 0;
     }
-
-
 }
 
 .SelfMessage {
@@ -161,7 +156,6 @@
         margin-right: 12px;
         border-top-left-radius: 0px;
         color: $silver-light;
-        
     }
     .TimeStamp {
         display: flex;
@@ -178,7 +172,8 @@
             margin-right: 8px;
             border-radius: 50%;
             box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-            0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075);
+                0 2px 2px hsl(0deg 0% 0% / 0.075),
+                0 4px 4px hsl(0deg 0% 0% / 0.075);
             border: 0;
             &hover {
                 border-color: initial;
