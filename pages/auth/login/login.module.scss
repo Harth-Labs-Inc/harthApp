@@ -22,6 +22,8 @@
         max-width: 216px;
         margin-top: 16px;
         margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
     }
     .greeting {
         @include interfaceR2;
