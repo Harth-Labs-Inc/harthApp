@@ -73,14 +73,6 @@ const dashboard = () => {
         gather_window ? room_type : null
     );
 
-    // try windows resize
-
-    useEffect(() => {
-        const vh = dimensions.height * 0.01;
-        document.getElementsByTagName("body")[0].style = `--vh: ${vh}px`;
-    }, []);
-    // end try windows resize
-
     useEffect(() => {
         if (navigator && "serviceWorker" in navigator) {
             navigator.serviceWorker
