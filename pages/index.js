@@ -72,7 +72,7 @@ const dashboard = () => {
     );
 
     useEffect(() => {
-        setHeight(document.body.scrollHeight);
+        setHeight(document.getElementById("content_wrapper").clientHeight);
         if (navigator && "serviceWorker" in navigator) {
             navigator.serviceWorker
                 .register("/sw.js")
@@ -100,9 +100,9 @@ const dashboard = () => {
     }, []);
 
     useEffect(() => {
-        document.getElementsByTagName(
-            "html"
-        )[0].style.maxHeight = `${height}px`;
+        document.getElementById(
+            "content_wrapper"
+        ).style.maxHeight = `${height}px`;
     }, [height]);
 
     useEffect(() => {
