@@ -6,7 +6,7 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    height: calc(100vh - 56px);
+    height: calc(var(--vh) - 56px);
     width: 100%;
     background: linear-gradient(90deg, $black, $fuel 50%);
     //padding-left: 8px;

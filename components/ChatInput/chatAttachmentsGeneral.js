@@ -129,7 +129,7 @@ export default function ChatAttachment({
               onClose={resetImageSLideshow}
               backgroundStyle={{
                 backgroundColor: "rgba(0,0,0,0.92)",
-                height: "100vh",
+                height: "var(--vh)",
                 width: "100vw",
               }}
             />
