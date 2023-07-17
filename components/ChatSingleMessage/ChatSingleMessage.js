@@ -185,6 +185,7 @@ const ChatSingleMessage = (props) => {
               );
               if (fetchedData && fetchedData.ok) {
                 const imageBlob = await fetchImage(fetchedData.downloadURL);
+                alert("made it");
                 saveAttachment(db, storeName, att.name, imageBlob);
                 return fetchedData;
               }
