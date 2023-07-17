@@ -174,8 +174,8 @@ const ChatSingleMessage = (props) => {
               storeName,
               att.name
             ).catch(() => null);
-            if (cachedData) {
-              const url = URL.createObjectURL(cachedData);
+            if (cachedData && cachedData.data) {
+              const url = URL.createObjectURL(cachedData.data);
               return { ok: 1, downloadURL: url };
             } else {
               const fetchedData = await getDownloadURL(
