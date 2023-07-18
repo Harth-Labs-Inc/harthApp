@@ -116,7 +116,7 @@ const HarthList = ({
                     <span className={styles.ItemName}>{com.name}</span>
                   ) : null}
                 </button>
-                {isMobile ? (
+                {isMobile && selectedcomm._id == com?._id ? (
                   <button
                     className={styles.ItemSettingsButton}
                     onClick={handleHarthMenu}
