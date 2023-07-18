@@ -28,9 +28,10 @@ export default async (req, res) => {
   const client = await clientPromise;
   const db = client.db("blarg");
 
-  const user = await db
-    .collection("users")
-    .findOne({ _id: new ObjectId(userId) });
+  const [user, subscriptions] = await Promise.all([
+    db.collection("users").findOne({ _id: new ObjectId(userId) }),
+    db.collection("subscriptions").findOne({ userId: userId }),
+  ]);
 
   if (!user) return res.json({ msg: "No User Found", ok: 0 });
   if (user.token !== token) return res.json({ msg: "bad token", ok: 0 });
@@ -108,5 +109,6 @@ export default async (req, res) => {
     creator,
     topics: filteredTopics,
     conversations,
+    subscriptions,
   });
 };

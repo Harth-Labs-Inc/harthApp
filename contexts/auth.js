@@ -10,6 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [Conversations, setConversations] = useState([]);
   const [CREATOR, setCREATOR] = useState(null);
   const [SELECTEDCOMM, setSELECTEDCOMM] = useState(null);
+  const [SUBSCRIPTION, setSUBSCRIPTION] = useState(null);
+
   const [TOPICS, setTOPICS] = useState([]);
   const [loading, setLoading] = useState(true);
   const [inviteTKN, setInviteTKN] = useState(null);
@@ -22,8 +24,16 @@ export const AuthProvider = ({ children }) => {
     const selectedPage = localStorage.getItem("selectedPage");
     if (token) {
       const data = await getUserDataFromToken(token, prevID, selectedPage);
-      const { ok, user, comms, creator, selectedComm, topics, conversations } =
-        data;
+      const {
+        ok,
+        user,
+        comms,
+        creator,
+        selectedComm,
+        topics,
+        conversations,
+        subscriptions,
+      } = data;
       if (ok) {
         setUser(user);
         setLoading(false);
@@ -32,6 +42,7 @@ export const AuthProvider = ({ children }) => {
         setSELECTEDCOMM(selectedComm || {});
         setTOPICS(topics || []);
         setConversations(conversations || []);
+        setSUBSCRIPTION(subscriptions || null);
         if (reroute) {
           router.push("/");
         }
@@ -85,6 +96,7 @@ export const AuthProvider = ({ children }) => {
         TOPICS,
         getInitialData,
         Conversations,
+        SUBSCRIPTION,
       }}
     >
       {children}
