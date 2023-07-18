@@ -94,11 +94,12 @@
 }
 
 @mixin chatText {
-  font-family: var(--Open_Sans-font);
+  //font-family: var(--Open_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
   text-rendering: optimizeLegibility;
 }
 
@@ -109,6 +110,13 @@
   letter-spacing: 0.02em;
   line-height: 12px;
   //text-rendering: optimizeLegibility;
+}
+
+@mixin reactionLabel {
+  font-family: var(--Rubik-font);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.02em;
 }
 
 @mixin timeStamp {

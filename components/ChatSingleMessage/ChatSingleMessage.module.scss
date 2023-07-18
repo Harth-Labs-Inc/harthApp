@@ -30,7 +30,7 @@
   position: relative;
   background-color: transparent;
   width: 100%;
-  padding: 8px 6px 20px 6px;
+  padding: 8px 6px 12px 6px;
   column-gap: 10px;
   border: 1px solid transparent;
   border-radius: 8px;
@@ -167,30 +167,43 @@
       position: relative;
       display: flex;
       align-items: center;
-      margin-left: 8px;
-      width: max-content;
-      gap: 8px;
-      background: $black_60;
-      padding: 4px 8px;
+      flex-wrap: wrap;
+      margin-left: 0px;
+      margin-top: 4px;
+      width: 100%;
+      column-gap: 4px;
+      row-gap: 4px;
+      //background: $black_60;
+      //padding: 4px 8px;
       border-radius: 999px;
+      border: 0;
 
       > * {
         margin-right: $gutter;
       }
 
       &Emoji {
+        display: flex;
+        align-items: center;
+        gap: 6px;
         position: relative;
-        height: 40px;
-        width: 48px;
-        font-size: 28px;
-        line-height: 28px;
-        background-color: $black_20;
+        height: 36px;
+        //width: 48px;
+        font-size: 26px;
+        text-align: center;
+        background-color: $black;
         border-radius: 99px;
         z-index: 1;
         margin: 0;
-        border: 1px solid $ash;
+        border: 1px solid $ash_heavy;
         user-select: none;
+        padding: 0px 8px;
 
+        .label {
+          color: $font_medium;
+          @include reactionLabel;
+          
+        }
         &Owner {
           border-color: $hot_pink;
         }
@@ -209,13 +222,13 @@
 
         &Desktop {
           &:hover {
-            scale: 1.1;
+            border-color: $ash;
           }
         }
 
         &Mobile {
           &:active {
-            scale: 1.1;
+            border-color: $ash;
           }
         }
       }
@@ -229,9 +242,9 @@
         border-radius: 99px;
         z-index: 1;
         margin: 0;
-        border: 1px solid $ash;
+        border: 1px solid $ash_heavy;
         user-select: none;
-        background-color: $black_20;
+        background-color: $black;
         svg {
           width: 24px;
           height: 24px;
@@ -242,14 +255,13 @@
 
         &Desktop {
           &:hover {
-            background-color: black;
+            border-color: $ash;
           }
         }
 
         &Mobile {
           &:active {
-            scale: 1.1;
-            background-color: black;
+            border-color: $ash;
           }
         }
       }
