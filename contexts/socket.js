@@ -124,7 +124,7 @@ export const SocketProvider = ({ children }) => {
               user._id
             );
             if (newTopicResult.topics) {
-              let filteredTopics = newTopicResult.topics.sort((a, b) => {
+              let filteredTopics = newTopicResult.sort((a, b) => {
                 const removeEmoji = (str) => {
                   return str
                     .replace(
@@ -137,10 +137,10 @@ export const SocketProvider = ({ children }) => {
                 const nameA = removeEmoji(a.title);
                 const nameB = removeEmoji(b.title);
 
-                if (nameA < nameB) {
+                if (nameA.toLowerCase() < nameB.toLowerCase()) {
                   return -1;
                 }
-                if (nameA > nameB) {
+                if (nameA.toLowerCase() > nameB.toLowerCase()) {
                   return 1;
                 }
 

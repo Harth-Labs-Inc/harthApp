@@ -74,19 +74,27 @@ export default async (req, res) => {
         .sort({ title: 1 })
         .toArray();
 
-      const removeEmoji = (str) =>
-        str
-          .replace(
-            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-            ""
-          )
-          .replace(/\s+/g, " ")
-          .trim();
-
       filteredTopics = topics.sort((a, b) => {
+        const removeEmoji = (str) => {
+          return str
+            .replace(
+              /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+              ""
+            )
+            .replace(/\s+/g, " ")
+            .trim();
+        };
         const nameA = removeEmoji(a.title);
         const nameB = removeEmoji(b.title);
-        return nameA.localeCompare(nameB);
+
+        if (nameA.toLowerCase() < nameB.toLowerCase()) {
+          return -1;
+        }
+        if (nameA.toLowerCase() > nameB.toLowerCase()) {
+          return 1;
+        }
+
+        return 0;
       });
     }
     if (selectedPage == "message") {

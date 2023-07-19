@@ -110,19 +110,21 @@ export const CommsProvider = ({
         }
       }
     }
-
-    let storedTopic = localStorage.getItem("selected_topic");
-    if (storedTopic) {
+    let storedHarthData = localStorage.getItem("harthData");
+    if (storedHarthData) {
       try {
-        let parsedStoredTopic = JSON.parse(storedTopic);
-        let matchingTopic = tpcs.find(
-          (topic) => topic._id == parsedStoredTopic._id
-        );
-        if (matchingTopic) {
-          for (let member of matchingTopic.members) {
-            if (member.user_id == user._id) {
-              if (!member.hidden) {
-                startingTopic = matchingTopic;
+        const parsedStoredHarthData = JSON.parse(storedHarthData);
+        const matchingHarth =
+          parsedStoredHarthData[selectedCommRef.current?._id] || {};
+
+        if (matchingHarth.selected_topic) {
+          const matchingTopic = matchingHarth.selected_topic;
+          if (matchingTopic) {
+            for (let member of matchingTopic.members) {
+              if (member.user_id == user._id) {
+                if (!member.hidden) {
+                  startingTopic = matchingTopic;
+                }
               }
             }
           }
@@ -131,6 +133,7 @@ export const CommsProvider = ({
         console.log();
       }
     }
+
     setSelectedTopic(startingTopic);
   };
   const grabConversationMessages = async () => {
@@ -185,7 +188,24 @@ export const CommsProvider = ({
           tmpTopics[matchingTopicIndex] = newTopic;
           setTopics(tmpTopics);
           if (selectedTopic._id == newTopic._id) {
-            localStorage.setItem("selected_topic", JSON.stringify(newTopic));
+            if (selectedTopic) {
+              let storedData = localStorage.getItem("harthData");
+
+              try {
+                storedData = JSON.parse(storedData);
+              } catch (error) {
+                console.log(error);
+                storedData = {};
+              }
+              if (!storedData) {
+                storedData = {};
+              }
+              storedData[selectedCommRef.current?._id] = {
+                ...(storedData[selectedCommRef.current?._id] || {}),
+                selected_topic: selectedTopic,
+              };
+              localStorage.setItem("harthData", JSON.stringify(storedData));
+            }
             setSelectedTopic(newTopic);
           }
           await updatedTopic({
@@ -261,30 +281,8 @@ export const CommsProvider = ({
     const { ok, topics } = result;
     if (ok) {
       let startingTopic;
-      let filteredTopics = topics.sort((a, b) => {
-        const removeEmoji = (str) => {
-          return str
-            .replace(
-              /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-              ""
-            )
-            .replace(/\s+/g, " ")
-            .trim();
-        };
-        const nameA = removeEmoji(a.title);
-        const nameB = removeEmoji(b.title);
 
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-
-        return 0;
-      });
-
-      for (let topic of filteredTopics) {
+      for (let topic of topics) {
         for (let member of topic.members) {
           if (member.user_id == user._id) {
             if (!member.hidden && !startingTopic) {
@@ -294,18 +292,20 @@ export const CommsProvider = ({
         }
       }
 
-      let storedTopic = localStorage.getItem("selected_topic");
-      if (storedTopic) {
+      let storedHarthData = localStorage.getItem("harthData");
+      if (storedHarthData) {
         try {
-          let parsedStoredTopic = JSON.parse(storedTopic);
-          let matchingTopic = filteredTopics.find(
-            (topic) => topic._id == parsedStoredTopic._id
-          );
-          if (matchingTopic) {
-            for (let member of matchingTopic.members) {
-              if (member.user_id == user._id) {
-                if (!member.hidden) {
-                  startingTopic = matchingTopic;
+          const parsedStoredHarthData = JSON.parse(storedHarthData);
+          const matchingHarth = parsedStoredHarthData[comid] || {};
+
+          if (matchingHarth.selected_topic) {
+            const matchingTopic = matchingHarth.selected_topic;
+            if (matchingTopic) {
+              for (let member of matchingTopic.members) {
+                if (member.user_id == user._id) {
+                  if (!member.hidden) {
+                    startingTopic = matchingTopic;
+                  }
                 }
               }
             }
@@ -314,8 +314,7 @@ export const CommsProvider = ({
           console.log();
         }
       }
-      localStorage.setItem("selected_topic", JSON.stringify(startingTopic));
-      setTopics(filteredTopics);
+      setTopics(topics);
       setSelectedTopic(startingTopic);
     }
     return;
@@ -341,7 +340,26 @@ export const CommsProvider = ({
   };
   const setTopic = async (topic) => {
     setTopicChange((prevState) => (prevState += 1));
-    localStorage.setItem("selected_topic", JSON.stringify(topic));
+    if (topic && topic._id) {
+      let storedData = localStorage.getItem("harthData");
+
+      try {
+        storedData = JSON.parse(storedData);
+      } catch (error) {
+        console.log(error);
+        storedData = {};
+      }
+      if (!storedData) {
+        storedData = {};
+      }
+      storedData[selectedCommRef.current?._id] = {
+        ...(storedData[selectedCommRef.current?._id] || {}),
+        selected_topic: topic,
+      };
+
+      localStorage.setItem("harthData", JSON.stringify(storedData));
+    }
+
     setSelectedTopic(topic);
   };
   const addNewTopic = (newTopic) => {
