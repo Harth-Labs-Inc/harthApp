@@ -12,6 +12,7 @@ import {
 import { getRooms } from "../requests/rooms";
 import { useAuth } from "./auth";
 import { useRouter } from "next/router";
+import { MobileContext } from "../contexts/mobile";
 
 const CommsContext = createContext({});
 
@@ -48,16 +49,18 @@ export const CommsProvider = ({
   const profileRef = useRef(CREATOR);
   const selectedTopicRef = useRef({});
 
+  const { isMobile } = useContext(MobileContext);
+
   const router = useRouter();
   const {
     query: { gather_window },
   } = router;
 
   useEffect(() => {
-    if (TOPICS) {
+    if (TOPICS && !isMobile) {
       setStartingTopic(TOPICS);
     }
-  }, [TOPICS]);
+  }, [TOPICS, isMobile]);
 
   useEffect(() => {
     if (selectedcomm) {
@@ -76,13 +79,14 @@ export const CommsProvider = ({
 
   useEffect(() => {
     if (
+      !isMobile &&
       conversations?.length &&
       (selectedConversation == null ||
         !Object.keys(selectedConversation || {}).length)
     ) {
       setSelectedConversation(conversations[0]);
     }
-  }, [conversations]);
+  }, [conversations, isMobile]);
 
   useEffect(() => {
     if (selectedConversation) {
@@ -272,7 +276,9 @@ export const CommsProvider = ({
     const { ok, conversations } = result;
     if (ok) {
       setConversations(conversations);
-      setSelectedConversation(conversations[0] || {});
+      if (!isMobile) {
+        setSelectedConversation(conversations[0] || {});
+      }
     }
     return;
   };
@@ -280,42 +286,45 @@ export const CommsProvider = ({
     let result = await getTopics(comid, user._id);
     const { ok, topics } = result;
     if (ok) {
-      let startingTopic;
+      if (!isMobile) {
+        let startingTopic;
 
-      for (let topic of topics) {
-        for (let member of topic.members) {
-          if (member.user_id == user._id) {
-            if (!member.hidden && !startingTopic) {
-              startingTopic = topic;
+        for (let topic of topics) {
+          for (let member of topic.members) {
+            if (member.user_id == user._id) {
+              if (!member.hidden && !startingTopic) {
+                startingTopic = topic;
+              }
             }
           }
         }
-      }
 
-      let storedHarthData = localStorage.getItem("harthData");
-      if (storedHarthData) {
-        try {
-          const parsedStoredHarthData = JSON.parse(storedHarthData);
-          const matchingHarth = parsedStoredHarthData[comid] || {};
+        let storedHarthData = localStorage.getItem("harthData");
+        if (storedHarthData) {
+          try {
+            const parsedStoredHarthData = JSON.parse(storedHarthData);
+            const matchingHarth = parsedStoredHarthData[comid] || {};
 
-          if (matchingHarth.selected_topic) {
-            const matchingTopic = matchingHarth.selected_topic;
-            if (matchingTopic) {
-              for (let member of matchingTopic.members) {
-                if (member.user_id == user._id) {
-                  if (!member.hidden) {
-                    startingTopic = matchingTopic;
+            if (matchingHarth.selected_topic) {
+              const matchingTopic = matchingHarth.selected_topic;
+              if (matchingTopic) {
+                for (let member of matchingTopic.members) {
+                  if (member.user_id == user._id) {
+                    if (!member.hidden) {
+                      startingTopic = matchingTopic;
+                    }
                   }
                 }
               }
             }
+          } catch (error) {
+            console.log();
           }
-        } catch (error) {
-          console.log();
         }
+        setSelectedTopic(startingTopic);
       }
+
       setTopics(topics);
-      setSelectedTopic(startingTopic);
     }
     return;
   };

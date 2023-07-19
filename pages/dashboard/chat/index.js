@@ -9,10 +9,13 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const Chat = () => {
   const { isMobile } = useContext(MobileContext);
-  const { selectedTopic } = useComms();
+  const { selectedTopic, setSelectedTopic } = useComms();
   const [chatVisible, setChatVisible] = useState(false);
 
   function handleMobileChat(newValue) {
+    if (chatVisible && isMobile) {
+      setSelectedTopic(null);
+    }
     setChatVisible(newValue);
   }
 
