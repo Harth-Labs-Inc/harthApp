@@ -319,19 +319,19 @@ $gutter: 8px;
   }
   
   .slideRight-exit-active, .slideLeft-exit-active {
-    background-color: purple
+    background-color: $black
   }
   .gatherTransitionBackground {
-    background: linear-gradient(100deg, lighten($warm_blue, 50%), lighten($hot_pink, 32%));
+    background: linear-gradient(90deg, #000, #271623 80%);
   }
   .messageTransitionBackground {
-    background: $silver-xxlight
+    background: $black
   }
   .chatTransitionBackground{
-    background: $silver-xxlight
+    background: $black
   }
   .defaultTransitionBackground {
-    background: $silver-xxlight
+    background: $black
   }
   #ReactSimpleImageViewer {
     z-index: 9999 !important;
