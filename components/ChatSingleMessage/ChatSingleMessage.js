@@ -102,15 +102,16 @@ const ChatSingleMessage = (props) => {
           <span
             key={`url_${index}`}
             onClick={() => window.open(properURL, "_blank")}
-            style={{
-              display: "inline-block",
-              height: "20px",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              cursor: "pointer",
-              color: "blue",
-              textDecoration: "underline",
-            }}
+            // style={{
+            //   display: "inline-block",
+            //   height: "20px",
+            //   overflow: "hidden",
+            //   textOverflow: "ellipsis",
+            //   cursor: "pointer",
+            //   color: "pink",
+            //   textDecoration: "underline",
+            // }}
+            className={styles.urlLink}
           >
             {part}
           </span>
