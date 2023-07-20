@@ -131,7 +131,7 @@ const MainNav = (props) => {
                         >
                             {currentPage == "chat" ? <IconChat /> : <IconChatMuted />}
                         </div>
-                        <div className={styles.title}>Chat</div>
+                        <div className={styles.title}>Chats</div>
                     </button>
 
                     <button
@@ -197,7 +197,7 @@ const MainNav = (props) => {
                         >
                             {currentPage == "message" ? <IconMessage /> : <IconMessageMuted />}
                         </div>
-                        <div className={styles.title}>Message</div>
+                        <div className={styles.title}>DMs</div>
                     </button>
                 </div>
                 {isMobile ? (

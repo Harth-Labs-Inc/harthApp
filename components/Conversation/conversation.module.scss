@@ -19,7 +19,7 @@
         align-items: center;
         text-align: left;
         @include topicTitle;
-        color: $fuel;
+        color: $font_medium;
         height: 32px;
         margin-left: 10px;
         width: fit-content;
@@ -39,16 +39,16 @@
         border:0;
 
         .avatar {
-            height: 40px;
-            width: 40px;
+            height: 36px;
+            width: 36px;
             border-radius: 9999px;
             border:0;
-            border: 1px solid $silver-med;
+            //border: 1px solid $silver-med;
             user-select: none;
 
             &Mobile {
-                height: 48px;
-                width: 48px;
+                height: 40px;
+                width: 40px;
             }
         }
     }
@@ -68,7 +68,7 @@
         }
 
         &:active {
-            background-color: $silver-light;
+            background-color: $fuel;
 
         }
         
@@ -80,8 +80,7 @@
             position: absolute;
             visibility: hidden;
             right: 4px;
-            top: 14px;
-            //transform: translateY(-50%);
+            top: 12px;
             border: 0;
             width: 24px;
             min-width: 24px;
@@ -94,20 +93,18 @@
             border: 1px solid transparent;
             cursor: pointer;
             path {
-                fill: $silver-heavy;
+                fill: $ash_light;
             }
 
             &:hover {
-                background-color: $silver-med;
-                path {
-                    fill: $silver-dark;
-                }
+                background-color: $black;
+
             }
 
         }
         
         &:hover {
-            background-color: $silver-xlight;
+            background-color: $ash_heavy;
 
             .moreMenu {
                 visibility: visible;
@@ -117,13 +114,13 @@
 
     }
     &Active {
-        background-color: $silver-light;
+        background-color: $fuel;
 
         .label {
-            font-weight: 800;
+            color: $font_light;
         }
         &:hover {
-            background-color: $silver-light;
+            background-color: $fuel;
 
         }
 

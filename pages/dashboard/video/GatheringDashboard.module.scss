@@ -18,17 +18,11 @@
     height:100%;
     width: 100%;
     overflow-y: scroll;
-    padding: 75px 24px 96px 24px;
-    //background-image: url("../../../public/images/background_gather_dark.png");
-    //background-repeat: repeat;
-    //background-size: 32px;
-    //background-position: 16px 16px;
-    //background: linear-gradient(100deg, lighten($hot_pink, 30%) 10%, $oxygen 100%);  
-    background: linear-gradient(100deg, lighten($warm_blue, 50%), lighten($hot_pink, 32%));  
-
+    padding: 12px 8px 0px 12px;
+    background: linear-gradient(90deg, $black, $fuel 80%); 
 
     &Mobile {
-        //background-size: 40px;
+        padding: 75px 16px 24px 16px;
     }
 
     .roomContainer {
@@ -58,33 +52,27 @@
     .gatheringSection {
         position: relative;
         @include smallTitle;
-        padding: 1px 2px;
-        border-radius: 2px;
-        //background-color: $white;
         text-transform: uppercase;
-        color: $fuel;
-         width: fit-content;
-        //margin-bottom: 8px;
+        color: $font_light;
+        width: fit-content;
         user-select: none ;
-        margin-bottom: 6px;
-        text-shadow: 1px 1px 2px $silver-med;
+        margin-left: 8px;
+        margin-top: 12px;
+        margin-bottom: 8px;
 
     }
 
     .gatheringSectionMobile {
         position: relative;
         @include smallTitleMobile;
-        padding: 1px 2px;
         border-radius: 4px;
-        //background-color: $white;
+        padding: 1px 2px;
         width: fit-content;
         text-transform: uppercase;
-        color: $fuel;
-        //margin-bottom: 8px;
+        color: $font_light;
         user-select: none ;
-        margin-top: 4px;
+        margin-top: 0px;
         margin-bottom: 12px;
-        text-shadow: 1px 1px 2px $silver-med;
     }
 
 

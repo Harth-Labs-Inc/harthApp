@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "../../../contexts/mobile";
-//import { IconBroadcasting } from "resources/icons/IconBroadcasting";
+import { IconBroadcasting } from "resources/icons/IconBroadcasting";
 import { IconMenu } from "resources/icons/IconMenu";
 import styles from "./TopBar.module.scss";
 import HarthProfileEditModal from "../../HarthProfileEditModal";
@@ -67,14 +67,11 @@ const TopBar = (props) => {
         {children}
 
         <div className={styles.holder}>
-        {/* This is the broadcasting icon. If you are in a room 
-                    and the room is minimized, it should be present. 
-          {isMobile && isStreaming ? (
+          {isMobile ? (
             <button className={styles.TopBarStreaming}>
               <IconBroadcasting />
             </button>
-          ) : null}
-        */}
+          ) : null }
 
           <div
             className={isMobile ? styles.avatarMobile : styles.avatarDesktop}

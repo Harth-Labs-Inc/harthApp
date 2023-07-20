@@ -17,7 +17,6 @@
     cursor: pointer;
 
     .emojiHolder {
-        padding-right: 4px;
         width: fit-content;
         height: fit-content;
         line-height: 100%;
@@ -34,7 +33,7 @@
         color: $font_medium;
         @include topicTitle;
         padding: 0px 28px 0px 8px;
-        gap: 8px;
+        gap: 6px;
         user-select: none;
         width: 100%;
 
@@ -131,7 +130,6 @@
             display: none;
         }
         .emojiHolder {
-            padding-right: 4px;
             width: fit-content;
             height: fit-content;
             line-height: 100%;
@@ -141,7 +139,7 @@
         .label {
             @include topicTitleMobile;
             padding: 0px 8px 0px 12px;
-            gap: 16px;
+            gap: 10px;
             span {
                 padding: 8px 0px;
             }

@@ -13,11 +13,11 @@
 @keyframes blur-in {
     from {
         background-color: transparent;
-        backdrop-filter: blur(0px) grayscale(0%);
+        //backdrop-filter: blur(0px) grayscale(0%);
     }
     to {
         background-color: $black_20;
-        backdrop-filter: blur(2px) grayscale(60%);
+        //backdrop-filter: blur(2px) grayscale(60%);
     }
 }
 
@@ -76,8 +76,9 @@
         top: 0;
         height: var(--vh);
         width: 356px;
-        background-color: $silver-xxlight;
+        background-color: $silver-light;
         overflow: hidden;
         padding-bottom: 28px;
+        border-radius: 0 0px 0px 0;
     }
 }

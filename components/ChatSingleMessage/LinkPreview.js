@@ -55,39 +55,19 @@ export const LinkPreview = ({ message }) => {
           onTouchStart={(event) => event.stopPropagation()}
           onTouchEnd={(event) => event.stopPropagation()}
         >
-          <div className={styles.attribution}>
-            <div>
-              {site_name === "tiktok" ? (
-                <>
-                  <img
-                    src="/images/tiktok_logo.png"
-                    alt="TikTok Post"
-                    loading="lazy"
-                  />
-                </>
-              ) : (
-                <>
-                  <img src={favicon || image} alt={title} loading="lazy" />
-                </>
-              )}
-            </div>
+          <div className={styles.attribution}> 
+            <img src={favicon || image} alt={title} loading="lazy" />
+            <span className={styles.siteTitle}>{site_name}</span>
           </div>
-          <div className={styles.titlewrapper}>
+
+          <div className={styles.titleWrapper}>
             <a
               href={linkData.url}
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: "none" }}
-            >
-              <div className={styles.title}>
-                {title
-                  ? title
-                  : site_name === "tiktok"
-                  ? "TikTok"
-                  : site_name === "youtube"
-                  ? "YouTube"
-                  : site_name}
-              </div>
+            > 
+              <p>{title}</p>
             </a>
           </div>
           <div className={styles.description}>{description}</div>

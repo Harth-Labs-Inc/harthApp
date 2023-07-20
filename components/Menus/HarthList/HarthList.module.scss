@@ -10,6 +10,7 @@
     height: 100%;
     list-style-type: none;
     overflow-y: scroll;
+    
 
     .Item {
         position: relative;
@@ -20,6 +21,7 @@
         align-items: center;
 
         &Button {
+            opacity: .8;
             position: relative;
             height: 44px;
             width: 44px;
@@ -32,6 +34,7 @@
             transition: all 0.1s ease-in-out;
             &:hover {
                 padding: 2px;
+                opacity: 1;
                 //border-color: $silver_med;
             }
 
@@ -56,6 +59,7 @@
         &Active {
 
             button {
+                opacity: 1;
                 border-color: $hot_salmon;
                 padding: 2px;
             }

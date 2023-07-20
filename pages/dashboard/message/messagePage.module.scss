@@ -41,15 +41,15 @@
     justify-content: space-between;
     width: 100%;
     padding: 0px 8px;
-    height: 52px;
-    min-height: 52px;
-    max-height: 52px;
-    background-color: $silver-xlight;
+    height: 56px;
+    min-height: 56px;
+    max-height: 56px;
+    background-color: $ash_heavy;
     color: $fuel;
     font-size: 14px;
     font-weight: 600;
     //backdrop-filter: blur(12px);
-    border-bottom: 1px solid $silver-med;
+    border-bottom: 1px solid $black;
     @include topicTitleActive;
 
     .people {
@@ -68,11 +68,11 @@
         outline: 0;
 
         path {
-            fill: $fuel;
+            fill: $ash_medium;
         }
 
-        &:hover {
-            background-color: $silver-med;
+        &:active {
+            background-color: $black;
         }
     }
 }
@@ -95,12 +95,12 @@
     width: 36px;
     border-radius: 9999px;
     border: 0;
-    border: 1px solid $silver-light;
+    //border: 1px solid $silver-light;
     user-select: none;
 
     //background-color: aqua;
     &Mobile {
-        height: 44px;
-        width: 44px;
+        height: 40px;
+        width: 40px;
     }
 }

@@ -30,7 +30,7 @@
   position: relative;
   background-color: transparent;
   width: 100%;
-  padding: 8px 6px 20px 6px;
+  padding: 8px 6px 12px 6px;
   column-gap: 10px;
   border: 1px solid transparent;
   border-radius: 8px;
@@ -125,6 +125,7 @@
       }
     }
 
+
     .Content {
       position: relative;
       width: fit-content;
@@ -142,15 +143,6 @@
         overflow-wrap: anywhere;
       }
 
-      a {
-        display: inline-block;
-        font-size: inherit;
-        white-space: pre-wrap;
-        @include url;
-        word-break: break-all;
-        color: $hot_blue;
-      }
-
       > img {
         border-radius: 12px;
         border: 3px solid transparent;
@@ -163,34 +155,56 @@
       }
     }
 
+    .urlLink {
+      display: inline-block;
+      font-size: inherit;
+      white-space: pre-wrap;
+      @include url;
+      word-break: break-all;
+      color: lighten($hot_blue, 10%);
+    }
+
     &Reactions {
       position: relative;
       display: flex;
       align-items: center;
-      margin-left: 8px;
-      width: max-content;
-      gap: 8px;
-      background: $black_60;
-      padding: 4px 8px;
+      flex-wrap: wrap;
+      margin-left: 0px;
+      margin-top: 4px;
+      width: 100%;
+      column-gap: 4px;
+      row-gap: 4px;
+      //background: $black_60;
+      //padding: 4px 8px;
       border-radius: 999px;
+      border: 0;
 
       > * {
         margin-right: $gutter;
       }
 
       &Emoji {
+        display: flex;
+        align-items: center;
+        gap: 6px;
         position: relative;
-        height: 40px;
-        width: 48px;
-        font-size: 28px;
-        line-height: 28px;
-        background-color: $black_20;
+        height: 36px;
+        //width: 48px;
+        font-size: 26px;
+        text-align: center;
+        background-color: $black;
         border-radius: 99px;
         z-index: 1;
         margin: 0;
-        border: 1px solid $ash;
+        border: 1px solid $ash_heavy;
         user-select: none;
+        padding: 0px 8px;
 
+        .label {
+          color: $font_medium;
+          @include reactionLabel;
+          
+        }
         &Owner {
           border-color: $hot_pink;
         }
@@ -209,13 +223,13 @@
 
         &Desktop {
           &:hover {
-            scale: 1.1;
+            border-color: $ash;
           }
         }
 
         &Mobile {
           &:active {
-            scale: 1.1;
+            border-color: $ash;
           }
         }
       }
@@ -229,9 +243,9 @@
         border-radius: 99px;
         z-index: 1;
         margin: 0;
-        border: 1px solid $ash;
+        border: 1px solid $ash_heavy;
         user-select: none;
-        background-color: $black_20;
+        background-color: $black;
         svg {
           width: 24px;
           height: 24px;
@@ -242,14 +256,13 @@
 
         &Desktop {
           &:hover {
-            background-color: black;
+            border-color: $ash;
           }
         }
 
         &Mobile {
           &:active {
-            scale: 1.1;
-            background-color: black;
+            border-color: $ash;
           }
         }
       }
@@ -313,86 +326,100 @@
 }
 
 .ogCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 12px;
-  background-color: $white;
+  padding-bottom: 6px;
+  background-color: $silver_light;
   border-radius: 12px;
-  @include montserrat;
-  font-size: 13px;
-  font-weight: 500;
-  color: $silver-dark;
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
   user-select: none;
-  height: 500px;
+  height: 300px;
   overflow: hidden;
 
   .attribution {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
     width: 100%;
+    height: 16px;
     padding: 0px;
-    height: 5%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-decoration: none;
+    margin-bottom: 6px;
+
     img {
       margin: 0;
-      width: 20px;
-      height: 20px;
-      overflow: hidden;
+      width: 14px;
+      height: 14px;
+      border-radius: 0;
+      background-color: transparent;
+      //overflow: hidden;
       object-fit: contain;
+
     }
 
-    p {
-      margin-left: 4px;
+    .siteTitle {
+      margin-left: 6px;
       @include worksans;
-      font-size: 14px;
+      white-space: nowrap;     
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+      display: inline-block;
+      font-size: 12px;
       line-height: 100%;
       font-weight: 800;
-      color: $fuel;
+      color: $ash_medium;
     }
   }
 
-  .titlewrapper {
-    height: 12%;
+  .titleWrapper {
+    max-height: 40px;
     overflow: hidden;
-    text-overflow: ellipsis;
     text-decoration: none;
-  }
+    cursor: pointer;
 
-  .title {
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 125%;
-    color: $fuel;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
+    p {
+      color: $font_dark;
+      @include worksans;
+      font-weight: 700;
+      letter-spacing: 0em;
+      line-height: 125%;
+      font-size: 14px;
+      word-wrap: normal;
+      word-break: keep-all;
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+      display: inline-block;
     }
+
   }
 
-  img {
+  .imageholder {
+    width: fit-content;
     max-width: 100%;
     display: block;
     object-fit: contain;
+    padding: 0;
+    margin: 4px 0px;
+    border-radius: 8px;
   }
 
   .description {
-    height: 20%;
+    flex: 1;
     width: 100%;
-    @include montserrat;
-    line-height: 135%;
+    @include worksans;
+    line-height: 120%;
     font-weight: 500;
     font-size: 13px;
-    margin-bottom: 8px;
-    display: block;
-    color: $silver-dark;
-    max-height: 90px;
+    letter-spacing: 0em;
+    margin-bottom: 4px;
+    color: $font_medium;
+    //max-height: 90px;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-decoration: none;
+   // display: inline-block;
   }
 }
 

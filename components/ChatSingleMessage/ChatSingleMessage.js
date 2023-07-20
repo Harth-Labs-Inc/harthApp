@@ -102,15 +102,16 @@ const ChatSingleMessage = (props) => {
           <span
             key={`url_${index}`}
             onClick={() => window.open(properURL, "_blank")}
-            style={{
-              display: "inline-block",
-              height: "20px",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              cursor: "pointer",
-              color: "blue",
-              textDecoration: "underline",
-            }}
+            // style={{
+            //   display: "inline-block",
+            //   height: "20px",
+            //   overflow: "hidden",
+            //   textOverflow: "ellipsis",
+            //   cursor: "pointer",
+            //   color: "pink",
+            //   textDecoration: "underline",
+            // }}
+            className={styles.urlLink}
           >
             {part}
           </span>
@@ -672,7 +673,7 @@ const ChatSingleMessage = (props) => {
           {reactionsData && reactionsData.length > 0 ? (
             <div className={styles.BodyReactions}>
               {[...(reactionsData || [])].map((data, index) => {
-                const { reaction, userId, id } = data;
+                const { reaction, userId, id, name } = data;
                 let isReactionOwner = false;
                 if (userId == user._id) {
                   isReactionOwner = true;
@@ -707,7 +708,7 @@ const ChatSingleMessage = (props) => {
                         {hoveredEmojiData?.name}
                       </span>
                     ) : null}
-                    {reaction}
+                    {reaction} <span className={styles.label}>{name}</span>
                   </button>
                 );
               })}
