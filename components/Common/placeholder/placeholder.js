@@ -25,13 +25,14 @@ const Placeholder = () => {
       className="active-image"
       src={`data:image/svg+xml;base64,${toBase64(shimmer(300, 550))}`}
       width={300}
-      height={500}
+      height={300}
       alt="message image"
       onClick={(e) => {
         e.stopPropagation();
       }}
       onTouchStart={(event) => event.stopPropagation()}
       onTouchEnd={(event) => event.stopPropagation()}
+      style={{borderRadius: 12}}
     />
   );
 };

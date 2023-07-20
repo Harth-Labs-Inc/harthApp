@@ -64,7 +64,7 @@
 
 @mixin topicTitle {
   //font-family: "Work Sans", sans-serif;
-  font-family: var(--Montserrat-font);
+  font-family: var(--Rubik-font);
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.03em;
@@ -75,7 +75,7 @@
 
 @mixin topicTitleActive {
   //font-family: "Work Sans", sans-serif;
-  font-family: var(--Montserrat-font);
+  font-family: var(--Rubik-font);
   font-weight: 800;
   font-size: 13px;
   letter-spacing: 0.01em;
@@ -85,7 +85,7 @@
 
 @mixin topicTitleMobile {
   //font-family: "Work Sans", sans-serif;
-  font-family: var(--Montserrat-font);
+  font-family: var(--Rubik-font);
   font-weight: 600;
   font-size: 16px;
   letter-spacing: 0.03em;
