@@ -333,3 +333,6 @@ $gutter: 8px;
   .defaultTransitionBackground {
     background: $silver-xxlight
   }
+  #ReactSimpleImageViewer {
+    z-index: 9999 !important;
+  }

@@ -59,6 +59,7 @@ const dashboard = () => {
         SELECTEDCOMM,
         TOPICS,
         Conversations,
+        SUBSCRIPTION,
     } = useAuth();
 
     const router = useRouter();
@@ -176,11 +177,10 @@ const dashboard = () => {
     }, [loading]);
 
     useEffect(() => {
-        if (swReg && "pushManager" in swReg) {
+        if (swReg && "pushManager" in swReg && user) {
             async function subscribePushServer() {
                 try {
-                    const sub = await swReg.pushManager.getSubscription();
-                    if (sub === null) {
+                    if (!SUBSCRIPTION) {
                         const permission =
                             await Notification.requestPermission();
                         if (permission === "granted") {
@@ -205,7 +205,7 @@ const dashboard = () => {
 
             subscribePushServer();
         }
-    }, [swReg]);
+    }, [swReg, user, SUBSCRIPTION]);
 
     const changePageHandler = (pg) => {
         if (["gather", "chat", "message"].includes(pg)) {

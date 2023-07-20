@@ -25,7 +25,6 @@ self.addEventListener("message", function (event) {
   }
 });
 self.addEventListener("push", function (event) {
-  console.log("sw push event fired event: ", event);
   var data = {
     title: "New!",
     content: "Something new happened!",
@@ -54,7 +53,9 @@ self.addEventListener("push", function (event) {
     },
   };
 
-  event.waitUntil(self.registration.showNotification(data.title, options));
+  if (data.title !== "admin-rewake") {
+    event.waitUntil(self.registration.showNotification(data.title, options));
+  }
 });
 
 const { precaching, routing, strategies } = workbox;

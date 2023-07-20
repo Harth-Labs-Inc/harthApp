@@ -20,7 +20,8 @@ import { CustomConvContextMenu } from "components/CustomConvContextMenu/CustomCo
 const Message = () => {
   const { isMobile } = useContext(MobileContext);
   const { emitUpdate } = useSocket();
-  const { selectedcomm, fetchConversations } = useComms();
+  const { selectedcomm, fetchConversations, setSelectedConversation } =
+    useComms();
   const { user } = useAuth();
   const [openEditConversationMenu, setOpenEditConversationMenu] =
     useState(false);
@@ -93,6 +94,9 @@ const Message = () => {
     setChatVisible(newValue);
   }
   const handleBackToNav = () => {
+    if (isMobile) {
+      setSelectedConversation(null);
+    }
     handleMobileChat(false);
   };
   const handleMobileEditConvMenu = () => {

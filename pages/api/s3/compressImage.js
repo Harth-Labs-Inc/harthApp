@@ -35,7 +35,7 @@ export default async (req, res) => {
     desiredHeight,
     desiredWidth = 300,
     format = "jpeg",
-    quality = 80
+    quality = 90
   ) => {
     return new Promise(async (resolve) => {
       const sharp = require("sharp");

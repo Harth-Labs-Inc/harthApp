@@ -28,9 +28,10 @@ export default async (req, res) => {
   const client = await clientPromise;
   const db = client.db("blarg");
 
-  const user = await db
-    .collection("users")
-    .findOne({ _id: new ObjectId(userId) });
+  const [user, subscriptions] = await Promise.all([
+    db.collection("users").findOne({ _id: new ObjectId(userId) }),
+    db.collection("subscriptions").findOne({ userId: userId }),
+  ]);
 
   if (!user) return res.json({ msg: "No User Found", ok: 0 });
   if (user.token !== token) return res.json({ msg: "bad token", ok: 0 });
@@ -73,19 +74,27 @@ export default async (req, res) => {
         .sort({ title: 1 })
         .toArray();
 
-      const removeEmoji = (str) =>
-        str
-          .replace(
-            /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
-            ""
-          )
-          .replace(/\s+/g, " ")
-          .trim();
-
       filteredTopics = topics.sort((a, b) => {
+        const removeEmoji = (str) => {
+          return str
+            .replace(
+              /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
+              ""
+            )
+            .replace(/\s+/g, " ")
+            .trim();
+        };
         const nameA = removeEmoji(a.title);
         const nameB = removeEmoji(b.title);
-        return nameA.localeCompare(nameB);
+
+        if (nameA.toLowerCase() < nameB.toLowerCase()) {
+          return -1;
+        }
+        if (nameA.toLowerCase() > nameB.toLowerCase()) {
+          return 1;
+        }
+
+        return 0;
       });
     }
     if (selectedPage == "message") {
@@ -108,5 +117,6 @@ export default async (req, res) => {
     creator,
     topics: filteredTopics,
     conversations,
+    subscriptions,
   });
 };
