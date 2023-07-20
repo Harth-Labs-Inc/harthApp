@@ -1,15 +1,8 @@
 import { useRouter } from "next/router";
 // import { Analytics } from "@vercel/analytics/react";
 import {
-  Righteous,
-  Arvo,
-  Ubuntu,
   Work_Sans,
-  Asap,
-  Asap_Condensed,
   Rubik,
-  Montserrat,
-  Open_Sans,
 } from "next/font/google";
 import localFont from "next/font/local";
 import Head from "next/head";
@@ -22,60 +15,17 @@ import { useEffect } from "react";
 
 const fontClassNames = [];
 // google fonts
-const righteous = Righteous({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--righteous-font",
-  preload: false,
-});
-const arvo = Arvo({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--Arvo-font",
-  preload: false,
-});
-const ubuntu = Ubuntu({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--Ubuntu-font",
-  preload: false,
-});
+
 const work_Sans = Work_Sans({
-  //weight: "400",
   subsets: ["latin"],
   variable: "--Work_Sans-font",
   preload: false,
 });
-const asap = Asap({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--Asap-font",
-  preload: false,
-});
-const asap_Condensed = Asap_Condensed({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--Asap_Condensed-font",
-  preload: false,
-});
+
+
 const rubik = Rubik({
-  //weight: "400",
   subsets: ["latin"],
   variable: "--Rubik-font",
-  preload: false,
-});
-
-const montserrat = Montserrat({
-  //weight: "400",
-  subsets: ["latin"],
-  variable: "--Montserrat-font",
-  preload: false,
-});
-
-const opensans = Open_Sans({
-  //weight: "400",
-  subsets: ["latin"],
-  variable: "--Open_Sans-font",
   preload: false,
 });
 
@@ -87,15 +37,8 @@ const coopbl = localFont({
 });
 
 fontClassNames.push(coopbl.className);
-fontClassNames.push(righteous.variable);
-fontClassNames.push(arvo.variable);
-fontClassNames.push(ubuntu.variable);
 fontClassNames.push(work_Sans.variable);
-fontClassNames.push(asap.variable);
-fontClassNames.push(asap_Condensed.variable);
 fontClassNames.push(rubik.variable);
-fontClassNames.push(montserrat.variable);
-fontClassNames.push(opensans.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

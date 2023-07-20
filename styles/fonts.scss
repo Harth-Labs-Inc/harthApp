@@ -1,6 +1,8 @@
 
 @mixin harthTitle1 {
   font-family: var(--COOPBL-font);
+  //font-family: var(--Rubik-font);
+  //font-weight: 800;
   font-size: 26px;
   letter-spacing: 0.05em;
   line-height: 26px;
@@ -8,6 +10,8 @@
 
 @mixin harthTitle2 {
   font-family: var(--COOPBL-font);
+  //font-family: var(--Rubik-font);
+  //font-weight: 800;
   font-size: 22px;
   letter-spacing: 0.05em;
   line-height: 24px;
@@ -45,7 +49,6 @@
 @mixin smallTitle {
   //font-family: "Work Sans", sans-serif;
   font-family: var(--Rubik-font);
-  //font-family: var(--Montserrat-font);
   font-weight: 700;
   font-size: 10px;
   letter-spacing: 0.1em;
@@ -226,15 +229,8 @@
   //text-rendering: optimizeLegibility;
 }
 
-@mixin montserrat {
-  font-family: var(--Montserrat-font);
-  font-weight: 400;
-  font-size: 12px;
-  //text-rendering: optimizeLegibility;
-}
-
 @mixin url {
-  font-family: var(--Montserrat-font);
+  font-family: var(--Work_Sans-font);
   font-weight: 500;
   font-size: 12px;
   color: rgb(61, 87, 134);
@@ -326,7 +322,7 @@
 }
 
 @mixin contentH1 {
-  font-family: var(--Montserrat-font);
+  font-family: var(--Work_Sans-font);
   font-weight: 900;
   font-size: 24px;
   letter-spacing: -0.02em;
