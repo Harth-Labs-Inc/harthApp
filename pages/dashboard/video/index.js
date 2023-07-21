@@ -141,23 +141,21 @@ const Video = () => {
               owner = true;
             }
             return (
-              <>
-                <div
-                  key={idx}
-                  className={`${room.gatheringType} ${
-                    isMobile && styles.roomHolderMobile
-                  }`}
-                >
-                  <GatheringTile
-                    room={room}
-                    joinHandler={() => joinRoom(room)}
-                    peers={room.peers}
-                    acceptedPeers={room.acceptedPeers}
-                    owner={owner}
-                    user={creator}
-                  />
-                </div>
-              </>
+              <div
+                key={idx}
+                className={`${room.gatheringType} ${
+                  isMobile && styles.roomHolderMobile
+                }`}
+              >
+                <GatheringTile
+                  room={room}
+                  joinHandler={() => joinRoom(room)}
+                  peers={room.peers}
+                  acceptedPeers={room.acceptedPeers}
+                  owner={owner}
+                  user={creator}
+                />
+              </div>
             );
           })}
         </div>
