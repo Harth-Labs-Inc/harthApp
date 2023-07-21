@@ -310,7 +310,7 @@ const Stream = () => {
   useEffect(() => {
     if (socketID && !audioSharePeer.current) {
       if (userName && roomId && typeof window !== "undefined") {
-        createAudioSharePeer({ userName, userIcon, roomId });
+        createPeerObjects({ userName, userIcon, roomId });
       }
     }
   }, [socketID]);
@@ -557,7 +557,7 @@ const Stream = () => {
       });
     });
   };
-  const createAudioSharePeer = async () => {
+  const createPeerObjects = async () => {
     const [authPeer, ScreenPeer] = await Promise.all([
       createPeerConnection({
         iceServers: [...TurnServers],
@@ -632,8 +632,12 @@ const Stream = () => {
     let audioStream = await getLocalAudioStream();
     if (audioStream) {
       localAudioStream.current = audioStream;
-      peers.forEach((peer) => {
-        if (peer.peerId !== audioSharePeer.current.id) {
+      let eligiblePeers = peers.filter(
+        (peer) => peer.peerId !== audioSharePeer.current.id
+      );
+
+      if (eligiblePeers.length > 0) {
+        let callPromises = eligiblePeers.map((peer) => {
           let options = {
             metadata: {
               streamID: audioStream.id,
@@ -645,9 +649,12 @@ const Stream = () => {
             prioritize: ["audio", "video"],
           };
 
-          audioSharePeer.current.call(peer.peerId, audioStream, options);
-        }
-      });
+          return audioSharePeer.current.call(peer.peerId, audioStream, options);
+        });
+
+        await Promise.all(callPromises);
+      }
+
       let newMsg = {
         value: `${userName} enabled audio`,
         code: 3,
@@ -668,8 +675,12 @@ const Stream = () => {
     let audioStream = await getLocalAudioStream();
     if (audioStream) {
       localAudioStream.current = audioStream;
-      PEERS.current.forEach((peer) => {
-        if (peer.peerId !== audioSharePeer.current.id) {
+      let eligiblePeers = PEERS.current.filter(
+        (peer) => peer.peerId !== audioSharePeer.current.id
+      );
+
+      if (eligiblePeers.length > 0) {
+        let callPromises = eligiblePeers.map((peer) => {
           let options = {
             metadata: {
               streamID: audioStream.id,
@@ -681,9 +692,11 @@ const Stream = () => {
             prioritize: ["audio", "video"],
           };
 
-          audioSharePeer.current.call(peer.peerId, audioStream, options);
-        }
-      });
+          return audioSharePeer.current.call(peer.peerId, audioStream, options);
+        });
+
+        await Promise.all(callPromises);
+      }
       let newMsg = {
         value: `${userName} enabled audio`,
         code: 3,
@@ -704,17 +717,6 @@ const Stream = () => {
     if (captureStream) {
       localCaptureStream.current = captureStream;
       createCapture(captureStream, ownerData.current, true);
-      //   PEERS.current.forEach((peer) => {
-      //     if (peer.capturePeer !== ScreenSharePeer.current.id) {
-      //       let options = { metadata: { streamID: captureStream.id } };
-
-      //       ScreenSharePeer.current.call(
-      //         peer.capturePeer,
-      //         captureStream,
-      //         options
-      //       );
-      //     }
-      //   });
       let newMsg = {
         value: `${userName} enabled screen share`,
         code: 1,

@@ -22,16 +22,18 @@ import { SpinningLoader } from "../../../components/Common/SpinningLoader/Spinni
 
 /* eslint-disable */
 
-const Stream = () => {
+const Voice = () => {
   const { isMobile } = useContext(MobileContext);
 
   const [socket, setSocket] = useState(null);
   const [socketID, setSocketID] = useState(null);
   const [chats, setChats] = useState([]);
   const [update, triggerUpdate] = useState(0);
+  // const [mapUpdate, triggerMapUpdate] = useState(0);
   const [uploadingAttachments, setUploadingAttachments] = useState([]);
-
   const [selectedHarth, setSelectedHarth] = useState(null);
+  const [screenShareActive, setScreenShareActive] = useState(false);
+  const [showChatPannel, setShowChatPannel] = useState(false);
   const [unreadMsg, setUnreadMsg] = useState(false);
   const [activeCallRoom, setActiveCallRoom] = useState({});
   const [callRooms, setCallRooms] = useState([]);
@@ -41,9 +43,8 @@ const Stream = () => {
   const [harthId, setHarthId] = useState("");
   const [isActiveScreenShare, setIsActiveScreenShare] = useState(false);
   const [TurnServers, setTurnServers] = useState([]);
+  // const [diceAlerts, setDiceAlerts] = useState([]);
   const [playingStreams, setPlayingStreams] = useState({});
-  const [showChatPannel, setShowChatPannel] = useState(isMobile ? false : true);
-  const [wakeLockActive, setWakeLockActive] = useState(false);
   const [userID, setUserID] = useState("");
   const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
 
@@ -55,104 +56,14 @@ const Stream = () => {
   const chatPannel = useRef(false);
 
   const localAudioStream = useRef();
-  const localCaptureStream = useRef();
-  const userInfo = useRef();
   const localStreamSource = useRef();
   const localStreamAnalyser = useRef();
   const detectSpeakingIntervalId = useRef(null);
+  const localCaptureStream = useRef();
+  const userInfo = useRef();
 
   const { user, loading } = useAuth();
   const { comms } = useComms();
-
-  useEffect(() => {
-    const { wakeLock } = navigator;
-    const URLS = videoSocketUrls;
-    axios
-      .get(`${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`)
-      .then((responseData) => {
-        setTurnServers(responseData.data.token.iceServers);
-
-        setSocket(
-          io.connect(URLS[process.env.NODE_ENV], {
-            transports: ["websocket"],
-          })
-        );
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const USRNM = urlParams.get("user_name");
-    const USRIMG = urlParams.get("user_img");
-    const ROOMID = urlParams.get("room_id");
-    const HARTHID = urlParams.get("harth_id");
-    if (USRIMG) {
-      setUserIcon(USRIMG);
-    }
-    if (USRNM) {
-      setUserName(USRNM);
-    }
-    if (ROOMID) {
-      setRoomId(ROOMID);
-    }
-    if (HARTHID) {
-      setHarthId(HARTHID);
-    }
-
-    // const handleVisibilityChange = () => {
-    //     if (document.visibilityState === "visible") {
-    //         if (wakeLock) {
-    //             wakeLock
-    //                 .request("screen")
-    //                 .then(() => {
-    //                     setWakeLockActive(true);
-    //                 })
-    //                 .catch((err) => {
-    //                     setWakeLockActive(false);
-    //                 });
-    //         } else {
-    //             setWakeLockActive(false);
-    //         }
-    //     } else {
-    //         if (wakeLockActive) {
-    //             wakeLock.release().then(() => {
-    //                 setWakeLockActive(false);
-    //             });
-    //         }
-    //     }
-    // };
-
-    // if (document.visibilityState === "visible") {
-    //     if (wakeLock) {
-    //         wakeLock
-    //             .request("screen")
-    //             .then(() => {
-    //                 setWakeLockActive(true);
-    //             })
-    //             .catch(() => {
-    //                 setWakeLockActive(false);
-    //             });
-    //     }
-    // }
-
-    // document.addEventListener("visibilitychange", handleVisibilityChange);
-    // return () => {
-    //     document.removeEventListener(
-    //         "visibilitychange",
-    //         handleVisibilityChange
-    //     );
-
-    //     if (wakeLockActive) {
-    //         if (wakeLock) {
-    //             wakeLock.release().then(() => {
-    //                 setWakeLockActive(false);
-    //             });
-    //         }
-    //     }
-    // };
-  }, []);
 
   useEffect(() => {
     if (!loading && user) {
@@ -347,6 +258,12 @@ const Stream = () => {
           setChats((prevChats) => [newMsg, ...(prevChats || [])]);
         }
       });
+      // socket.on("party-event", (data) => {
+      //     setDiceAlerts((alerts) => [...alerts, data]);
+      // });
+      // socket.on("map-change", (data) => {
+      //     triggerMapUpdate((prevValue) => (prevValue += 1));
+      // });
       socket.on("userInfo-update", (info) => {
         if (info && ownerData.current) {
           userInfo.current = info;
@@ -390,7 +307,7 @@ const Stream = () => {
   useEffect(() => {
     if (socketID && !audioSharePeer.current) {
       if (userName && roomId && typeof window !== "undefined") {
-        createAudioSharePeer({ userName, userIcon, roomId });
+        createPeerObjects({ userName, userIcon, roomId });
       }
     }
   }, [socketID]);
@@ -414,7 +331,7 @@ const Stream = () => {
 
   useEffect(() => {
     const element = document.getElementById("chatContainer");
-    if (element) {
+    if (element && showChatPannel) {
       element.classList.add(styles.rendering);
       setTimeout(() => {
         element.classList.remove(styles.rendering);
@@ -581,7 +498,46 @@ const Stream = () => {
       }
     }, interval);
   };
+  const getLocalCaptureStream = async (
+    constraints = {
+      video: {
+        cursor: "always",
+        width: { ideal: 1280, max: 1280 },
+        height: { ideal: 720, max: 720 },
+        frameRate: { ideal: 20, max: 30 },
 
+        logicalSurface: true,
+      },
+      audio: false,
+    }
+  ) => {
+    return new Promise((resolve) => {
+      async function run() {
+        try {
+          let capture = await navigator.mediaDevices.getDisplayMedia(
+            constraints
+          );
+
+          if (capture) {
+            capture.getTracks().forEach((track) => {
+              if (track) {
+                track.onended = () => {
+                  disconnectCaptures();
+                };
+              }
+            });
+
+            resolve(capture);
+          } else {
+            resolve(false);
+          }
+        } catch (error) {
+          resolve(false);
+        }
+      }
+      run();
+    });
+  };
   const createPeerConnection = (conf) => {
     return new Promise((resolve, reject) => {
       const peer = new window.Peer(undefined, {
@@ -598,13 +554,12 @@ const Stream = () => {
       });
     });
   };
-  const createAudioSharePeer = async () => {
+  const createPeerObjects = async () => {
     const [authPeer, ScreenPeer] = await Promise.all([
       createPeerConnection({
         iceServers: [...TurnServers],
         audioBitrate: 128,
       }),
-
       createPeerConnection({
         iceServers: [...TurnServers],
         videoBitrate: 256,
@@ -674,8 +629,12 @@ const Stream = () => {
     let audioStream = await getLocalAudioStream();
     if (audioStream) {
       localAudioStream.current = audioStream;
-      peers.forEach((peer) => {
-        if (peer.peerId !== audioSharePeer.current.id) {
+      let eligiblePeers = peers.filter(
+        (peer) => peer.peerId !== audioSharePeer.current.id
+      );
+
+      if (eligiblePeers.length > 0) {
+        let callPromises = eligiblePeers.map((peer) => {
           let options = {
             metadata: {
               streamID: audioStream.id,
@@ -687,9 +646,12 @@ const Stream = () => {
             prioritize: ["audio", "video"],
           };
 
-          audioSharePeer.current.call(peer.peerId, audioStream, options);
-        }
-      });
+          return audioSharePeer.current.call(peer.peerId, audioStream, options);
+        });
+
+        await Promise.all(callPromises);
+      }
+
       let newMsg = {
         value: `${userName} enabled audio`,
         code: 3,
@@ -710,8 +672,12 @@ const Stream = () => {
     let audioStream = await getLocalAudioStream();
     if (audioStream) {
       localAudioStream.current = audioStream;
-      PEERS.current.forEach((peer) => {
-        if (peer.peerId !== audioSharePeer.current.id) {
+      let eligiblePeers = PEERS.current.filter(
+        (peer) => peer.peerId !== audioSharePeer.current.id
+      );
+
+      if (eligiblePeers.length > 0) {
+        let callPromises = eligiblePeers.map((peer) => {
           let options = {
             metadata: {
               streamID: audioStream.id,
@@ -723,9 +689,11 @@ const Stream = () => {
             prioritize: ["audio", "video"],
           };
 
-          audioSharePeer.current.call(peer.peerId, audioStream, options);
-        }
-      });
+          return audioSharePeer.current.call(peer.peerId, audioStream, options);
+        });
+
+        await Promise.all(callPromises);
+      }
       let newMsg = {
         value: `${userName} enabled audio`,
         code: 3,
@@ -741,7 +709,26 @@ const Stream = () => {
       sendNewChatMessage(newMsg);
     }
   };
-
+  const sendAcceptInvites = async () => {
+    let captureStream = await getLocalCaptureStream();
+    if (captureStream) {
+      localCaptureStream.current = captureStream;
+      createCapture(captureStream, ownerData.current, true);
+      let newMsg = {
+        value: `${userName} enabled screen share`,
+        code: 1,
+        userName: userName,
+        roomId: roomId,
+        date: new Date(),
+        creator_name: "Admin",
+        flames: [],
+        reactions: [],
+        attachments: [],
+        ...ownerData.current,
+      };
+      sendNewChatMessage(newMsg);
+    }
+  };
   const remoteUserLeft = (data) => {
     if (audioSharePeer.current) {
       for (let conns in audioSharePeer.current.connections) {
@@ -878,7 +865,15 @@ const Stream = () => {
       connectAudioToUsers();
     }
   };
-
+  const toggleCapture = async () => {
+    if (localCaptureStream.current) {
+      setScreenShareActive(false);
+      disconnectCaptures();
+    } else {
+      setScreenShareActive(true);
+      sendAcceptInvites();
+    }
+  };
   const sendNewChatMessage = (message) => {
     socket &&
       socket.emit("send-chat-message", message, () => {
@@ -924,7 +919,7 @@ const Stream = () => {
     }
   };
   const createCapture = (incomingStream, peer, isPaused) => {
-    const parentContainer = document.getElementById("peerContainer");
+    const parentContainer = document.getElementById("stream-window-container");
     const videoContainer = document.createElement("div");
     const video = document.createElement("video");
     videoContainer.className = styles.videoContainer;
@@ -1020,7 +1015,6 @@ const Stream = () => {
     }
   };
   const setPeerContainers = (owner) => {
-    console.log(owner, "v");
     PEERS.current?.forEach((peer) => {
       if (socketID && peer) {
         let parentContainer = document.getElementById(peer?.socketID);
@@ -1057,7 +1051,33 @@ const Stream = () => {
       }
     });
   };
+  const toggleChat = () => {
+    if (showChatPannel) {
+      const element = document.getElementById("chatContainer");
+      element.classList.add(styles.rendering);
+      element.classList.remove(styles.entered);
 
+      setTimeout(() => {
+        setShowChatPannel((prevState) => {
+          let newvalue = !prevState;
+          if (newvalue === true) {
+            setUnreadMsg(false);
+          }
+          chatPannel.current = newvalue;
+          return newvalue;
+        });
+      }, 400);
+    } else {
+      setShowChatPannel((prevState) => {
+        let newvalue = !prevState;
+        if (newvalue === true) {
+          setUnreadMsg(false);
+        }
+        chatPannel.current = newvalue;
+        return newvalue;
+      });
+    }
+  };
   const chatSubmitHandler = async (msg) => {
     let message = {
       ...msg,
@@ -1094,7 +1114,10 @@ const Stream = () => {
                 let { status } = result;
                 if (status == 200) {
                   await compressImage(name, thumbnail, bucket, file.type);
-                  res({ name: thumbnail, fileType: file.type });
+                  res({
+                    name: thumbnail,
+                    fileType: file.type,
+                  });
                 }
               });
               reader.readAsArrayBuffer(file);
@@ -1123,7 +1146,7 @@ const Stream = () => {
             try {
               window.close();
             } catch (error) {}
-            let URLS = envUrls;
+            const URLS = envUrls;
 
             window.location.replace(URLS[process.env.NODE_ENV]);
           }
@@ -1140,8 +1163,10 @@ const Stream = () => {
         });
     });
   };
-
   const changeAudioDevice = async (device) => {
+    if (device && device.deviceId) {
+      localStorage.setItem("lastUsedAudioDeviceID", device.deviceId);
+    }
     const tracks = localAudioStream.current?.getTracks();
     if (tracks && tracks.length) {
       tracks.forEach((track) => {
@@ -1195,7 +1220,6 @@ const Stream = () => {
   //     setNotHDCapable(true);
   //   }
   // };
-
   // volume controls for users
   const volumeSliderHandler = (e, peer) => {
     const { value } = e.target;
@@ -1209,46 +1233,46 @@ const Stream = () => {
     }
   };
   // const createUnMuteButton = (peer) => {
-  //     removeElement(`${peer?.socketID}_mute-button`);
-  //     const parentContainer = document.getElementById(
-  //         `${peer?.socketID}_slider-container`
-  //     );
-  //     if (parentContainer) {
-  //         const button = document.createElement("button");
-  //         button.id = `${peer?.socketID}_mute-button`;
-  //         button.className = styles.unMuteButton;
-  //         button.setAttribute("aria-label", `unmute ${peer?.name}`);
-  //         button.setAttribute("data-title", `unmute ${peer?.name}`);
-  //         button.onclick = function () {
-  //             const audio = document.getElementById(`${peer?.peerId}_audio`);
-  //             if (audio) {
-  //                 audio.play();
-  //                 // createMuteButton(peer);
-  //             }
-  //         };
-  //         parentContainer.appendChild(button);
-  //     }
+  //   removeElement(`${peer?.socketID}_mute-button`);
+  //   const parentContainer = document.getElementById(
+  //     `${peer?.socketID}_slider-container`
+  //   );
+  //   if (parentContainer) {
+  //     const button = document.createElement("button");
+  //     button.id = `${peer?.socketID}_mute-button`;
+  //     button.className = styles.unMuteButton;
+  //     button.setAttribute("aria-label", `unmute ${peer?.name}`);
+  //     button.setAttribute("data-title", `unmute ${peer?.name}`);
+  //     button.onclick = function () {
+  //       const audio = document.getElementById(`${peer?.peerId}_audio`);
+  //       if (audio) {
+  //         audio.play();
+  //         // createMuteButton(peer);
+  //       }
+  //     };
+  //     parentContainer.appendChild(button);
+  //   }
   // };
   // const createMuteButton = (peer) => {
-  //     removeElement(`${peer?.socketID}_mute-button`);
-  //     const parentContainer = document.getElementById(
-  //         `${peer?.socketID}_slider-container`
-  //     );
-  //     if (parentContainer) {
-  //         const button = document.createElement("button");
-  //         button.id = `${peer?.socketID}_mute-button`;
-  //         button.className = styles.muteButton;
-  //         button.setAttribute("aria-label", `mute ${peer?.name}`);
-  //         button.setAttribute("data-title", `mute ${peer?.name}`);
-  //         button.onclick = function () {
-  //             const audio = document.getElementById(`${peer?.peerId}_audio`);
-  //             if (audio) {
-  //                 audio.pause();
-  //                 // createUnMuteButton(peer);
-  //             }
-  //         };
-  //         parentContainer.appendChild(button);
-  //     }
+  //   removeElement(`${peer?.socketID}_mute-button`);
+  //   const parentContainer = document.getElementById(
+  //     `${peer?.socketID}_slider-container`
+  //   );
+  //   if (parentContainer) {
+  //     const button = document.createElement("button");
+  //     button.id = `${peer?.socketID}_mute-button`;
+  //     button.className = styles.muteButton;
+  //     button.setAttribute("aria-label", `mute ${peer?.name}`);
+  //     button.setAttribute("data-title", `mute ${peer?.name}`);
+  //     button.onclick = function () {
+  //       const audio = document.getElementById(`${peer?.peerId}_audio`);
+  //       if (audio) {
+  //         audio.pause();
+  //         createUnMuteButton(peer);
+  //       }
+  //     };
+  //     parentContainer.appendChild(button);
+  //   }
   // };
   const createVolumeSlider = (peer) => {
     const parentContainer = document.getElementById(peer?.socketID);
@@ -1263,6 +1287,9 @@ const Stream = () => {
       input.min = 0;
       input.max = 100;
       input.onchange = function (e) {
+        volumeSliderHandler(e, peer);
+      };
+      input.oninput = function (e) {
         volumeSliderHandler(e, peer);
       };
       sliderContainer.appendChild(input);
@@ -1313,34 +1340,6 @@ const Stream = () => {
           triggerUpdate();
         }
       }
-    }
-  };
-
-  const toggleChat = () => {
-    if (showChatPannel) {
-      const element = document.getElementById("chatContainer");
-      element.classList.add(styles.rendering);
-      element.classList.remove(styles.entered);
-
-      setTimeout(() => {
-        setShowChatPannel((prevState) => {
-          let newvalue = !prevState;
-          if (newvalue === true) {
-            setUnreadMsg(false);
-          }
-          chatPannel.current = newvalue;
-          return newvalue;
-        });
-      }, 400);
-    } else {
-      setShowChatPannel((prevState) => {
-        let newvalue = !prevState;
-        if (newvalue === true) {
-          setUnreadMsg(false);
-        }
-        chatPannel.current = newvalue;
-        return newvalue;
-      });
     }
   };
 
@@ -1399,4 +1398,4 @@ const Stream = () => {
   );
 };
 
-export default Stream;
+export default Voice;
