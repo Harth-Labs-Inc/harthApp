@@ -62,7 +62,7 @@ const DashboardLayout = (props) => {
 
   useEffect(() => {
     if (selectedcomm) {
-      if (callRooms?.length > 0 && currentPage !== "gather") {
+      if (callRooms?.length > 0) {
         let alerts = mainAlertsRef[selectedcomm?._id] || {};
         if (!alerts.gather || !alerts.gather.hasLive) {
           alerts.gather = { ...(alerts.gather || {}), hasLive: true };
@@ -72,7 +72,7 @@ const DashboardLayout = (props) => {
           });
         }
       }
-      if (callRooms?.length == 0 && currentPage !== "gather") {
+      if (callRooms?.length == 0) {
         let alerts = mainAlertsRef[selectedcomm?._id] || {};
         if (alerts?.gather?.hasLive) {
           alerts.gather = { ...alerts?.gather, hasLive: false };
