@@ -5,7 +5,6 @@ import Script from "next/script";
 import { generateID } from "../../../services/helper";
 import { useSize, MobileContext } from "../../../contexts/mobile";
 import { resize } from "../../../util/resize";
-import { useComms } from "../../../contexts/comms";
 
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
@@ -60,8 +59,7 @@ const Party = () => {
   const localCaptureStream = useRef();
   const userInfo = useRef();
 
-  const { user, loading } = useAuth();
-  const { comms } = useComms();
+  const { user, loading, Comms } = useAuth();
   const { width } = useSize();
   const { isMobile } = useContext(MobileContext);
 
@@ -320,11 +318,11 @@ const Party = () => {
   }, [callRooms]);
 
   useEffect(() => {
-    if (harthId && comms && comms.length) {
-      let harth = comms.find((harthObj) => harthObj._id == harthId);
+    if (harthId && Comms && Comms.length) {
+      let harth = Comms.find((harthObj) => harthObj._id == harthId);
       setSelectedHarth(harth);
     }
-  }, [harthId, comms]);
+  }, [harthId, Comms]);
 
   useEffect(() => {
     const element = document.getElementById("chatContainer");
@@ -346,42 +344,46 @@ const Party = () => {
 
   const triggerLocalPositionCheck = (peerlist = []) => {
     let peerLength = peerlist.length;
-    if (peerLength <= 1) {
-      let localParentContainer = document.getElementById("localContainer");
-      let parentContainer = document.getElementById(peerlist[0].socketID);
-      if (localParentContainer) {
-        removeElement("localContainer");
-      }
-      if (!parentContainer) {
+    try {
+      if (peerLength <= 1) {
+        let localParentContainer = document.getElementById("localContainer");
+        let parentContainer = document.getElementById(peerlist[0].socketID);
+        if (localParentContainer) {
+          removeElement("localContainer");
+        }
+        if (!parentContainer) {
+          if (localVideoStream.current) {
+            createVideo(localVideoStream.current, peerlist[0]);
+          } else {
+            parentContainer = document.createElement("div");
+            parentContainer.id = peerlist[0]?.socketID;
+            parentContainer.className = styles.videoContainer;
+            const profileImage = document.createElement("img");
+            profileImage.src = peerlist[0]?.img;
+            profileImage.className = styles.peerImage;
+            parentContainer.append(profileImage);
+            const nameContainer = document.createElement("p");
+            const nameText = document.createTextNode(peerlist[0]?.name);
+            nameContainer.className = styles.peerName;
+            nameContainer.appendChild(nameText);
+            parentContainer.append(nameContainer);
+            const roomContainer = document.getElementById("peerContainer");
+            roomContainer?.append(parentContainer);
+          }
+        }
+      } else {
+        let parentContainer = document.getElementById(
+          ownerData.current?.socketID
+        );
+        if (parentContainer) {
+          removeElement(ownerData.current?.socketID);
+        }
         if (localVideoStream.current) {
-          createVideo(localVideoStream.current, peerlist[0]);
-        } else {
-          parentContainer = document.createElement("div");
-          parentContainer.id = peerlist[0]?.socketID;
-          parentContainer.className = styles.videoContainer;
-          const profileImage = document.createElement("img");
-          profileImage.src = peerlist[0]?.img;
-          profileImage.className = styles.peerImage;
-          parentContainer.append(profileImage);
-          const nameContainer = document.createElement("p");
-          const nameText = document.createTextNode(peerlist[0]?.name);
-          nameContainer.className = styles.peerName;
-          nameContainer.appendChild(nameText);
-          parentContainer.append(nameContainer);
-          const roomContainer = document.getElementById("peerContainer");
-          roomContainer?.append(parentContainer);
+          createLocalVideo(localVideoStream.current);
         }
       }
-    } else {
-      let parentContainer = document.getElementById(
-        ownerData.current?.socketID
-      );
-      if (parentContainer) {
-        removeElement(ownerData.current?.socketID);
-      }
-      if (localVideoStream.current) {
-        createLocalVideo(localVideoStream.current);
-      }
+    } catch (error) {
+      console.log(error);
     }
   };
   const getLocalAudioStream = async (

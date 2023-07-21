@@ -3,7 +3,6 @@ import io from "socket.io-client";
 import axios from "axios";
 import Script from "next/script";
 import { generateID } from "services/helper";
-import { useComms } from "contexts/comms";
 import { useAuth } from "contexts/auth";
 import { MobileContext } from "contexts/mobile";
 
@@ -65,8 +64,7 @@ const Stream = () => {
   const localCaptureStream = useRef();
   const userInfo = useRef();
 
-  const { user, loading } = useAuth();
-  const { comms } = useComms();
+  const { user, loading, Comms } = useAuth();
 
   useEffect(() => {
     if (!loading && user) {
@@ -326,11 +324,11 @@ const Stream = () => {
   }, [callRooms]);
 
   useEffect(() => {
-    if (harthId && comms && comms.length) {
-      let harth = comms.find((harthObj) => harthObj._id == harthId);
+    if (harthId && Comms && Comms.length) {
+      let harth = Comms.find((harthObj) => harthObj._id == harthId);
       setSelectedHarth(harth);
     }
-  }, [harthId, comms]);
+  }, [harthId, Comms]);
 
   useEffect(() => {
     const element = document.getElementById("chatContainer");

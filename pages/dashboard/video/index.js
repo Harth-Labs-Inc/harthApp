@@ -13,6 +13,7 @@ import { GatheringTile } from "../../../components/Gathering/GatheringTile/Gathe
 import { GatherLoading } from "../../../components/Gathering/GatherLoading/GatherLoading";
 
 import styles from "./GatheringDashboard.module.scss";
+import { useRouter } from "next/router";
 
 const Video = () => {
   const [socketData, setSocketData] = useState({});
@@ -33,6 +34,8 @@ const Video = () => {
   } = useVideo();
   const { user } = useAuth();
 
+  const router = useRouter();
+
   useEffect(() => {
     if (socketID && selectedcomm) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
@@ -48,20 +51,35 @@ const Video = () => {
   }, [socketID, selectedcomm]);
 
   const joinRoom = (data) => {
-    const windowFeatures = "location=no,scrollbars=no,resizable=yes";
     const urls = envUrls;
-    window.open(
-      /* eslint-disable-next-line */
-      `${urls[process.env.NODE_ENV]}/dashboard/${
-        data.gatheringType
-      }?gather_window=true&room_type=${data.gatheringType}&user_name=${
-        socketData.name
-      }&user_img=${socketData.icon}&room_id=${data.roomId}&harth_id=${
-        selectedcomm._id
-      }&room_name=${data.roomName}&harth_icon=${selectedcomm.iconKey}`,
-      "_blank",
-      windowFeatures //"new-window"
-    );
+    if (isMobile) {
+      router.push(
+        `${urls[process.env.NODE_ENV]}/dashboard/${
+          data.gatheringType
+        }?gather_window=true&room_type=${data.gatheringType}&user_name=${
+          socketData.name
+        }&user_img=${socketData.icon}&room_id=${data.roomId}&harth_id=${
+          selectedcomm._id
+        }&room_name=${data.roomName}&harth_icon=${selectedcomm.iconKey}`,
+        undefined,
+        { shallow: true }
+      );
+    } else {
+      const windowFeatures = "location=no,scrollbars=no,resizable=yes";
+
+      window.open(
+        /* eslint-disable-next-line */
+        `${urls[process.env.NODE_ENV]}/dashboard/${
+          data.gatheringType
+        }?gather_window=true&room_type=${data.gatheringType}&user_name=${
+          socketData.name
+        }&user_img=${socketData.icon}&room_id=${data.roomId}&harth_id=${
+          selectedcomm._id
+        }&room_name=${data.roomName}&harth_icon=${selectedcomm.iconKey}`,
+        "_blank",
+        windowFeatures //"new-window"
+      );
+    }
   };
   const createRoom = (room) => {
     createEmptyRoom({ ...socketData, ...room }, (data) => {
