@@ -9,7 +9,7 @@ import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScree
 import styles from "./gatherHeader.module.scss";
 
 const GatherHeader = (props) => {
-    const { gatheringName, selectedHarthIcon, leaveMethod } =
+    const { gatheringName, leaveMethod } =
         props;
     const [modal, setModal] = useState();
     const { isMobile } = useContext(MobileContext);

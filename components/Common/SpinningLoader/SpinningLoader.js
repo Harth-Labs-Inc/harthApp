@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import styles from "./Modal.module.scss";
 import { HarthLogoLight } from "public/images/harth-logo-light";
-import Image from "next/image";
 import { memo } from "react";
 
 export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
