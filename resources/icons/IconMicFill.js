@@ -7,8 +7,8 @@ export const IconMicFill = ({ fill = "#2F1D2A", hasGradient = true }) => (
     >
         <defs>
             <linearGradient id="gradient">
-                <stop offset="30%" stopColor="#BB7EC4" />
-                <stop offset="90%" stopColor="#0DA1B5" />
+                <stop offset="30%" stopColor="#d96fab" />
+                <stop offset="90%" stopColor="#0d75ca" />
             </linearGradient>
         </defs>
 

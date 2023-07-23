@@ -14,8 +14,7 @@
     flex-direction: column;
     row-gap: 2px;
     margin: 0px 0px 8px 0px;
-    border: 1px solid rgba(256,256,256,0.05);
-    background: rgba(256,256,256,0.05);
+    background: $ash_heavy;
     border-radius: 12px;
     padding: 8px 8px 8px 8px;
 
@@ -30,8 +29,8 @@
         margin: 0;
         padding: 8px 12px;
         @include chatText;
-        color: $silver-light;
-        background: rgba(0,0,0,0.2);
+        color: $font_light;
+        background: $ash;
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
@@ -67,13 +66,13 @@
                 height: 36px;
                 width: 36px;
                 padding: 6px;
-                background-color: rgba(0,0,0,0.2);
+                background-color: transparent;
                 border-radius: 8px;
                 border: 0px;
                 cursor: pointer;
 
                 path {
-                    fill: $silver_dark;
+                    fill: $ash_medium;
                 }
 
                 &Mobile {
@@ -83,10 +82,7 @@
                 }
 
                 &:hover {
-                    background-color: rgba(0,0,0,0.4);
-                    path {
-                        fill: $silver_dark;
-                    }
+                    background-color: $black;
                 }
 
                 &.EditCancel {

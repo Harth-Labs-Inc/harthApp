@@ -555,6 +555,7 @@ const ChatSingleMessage = (props) => {
                       key={index}
                     >
                       {reaction}
+                      <span className={styles.label}>user name</span>
                     </button>
                   );
                 })}

@@ -88,9 +88,8 @@
     position: relative;
     border-radius: 10px;
     cursor: pointer;
-    border: solid 1px transparent;
-    background-color: $black_80;
-    backdrop-filter: blur(8px);
+    border: solid 1px $black;
+    background-color: $ash_heavy;
 
     &Large {
         padding: 10px;
@@ -99,7 +98,7 @@
 
         &:active {
             //border: solid 1px $white_80;
-            background-color: $ash;
+            background-color: $black;
         }
     }
 
@@ -110,7 +109,7 @@
 
         &:hover {
             //border: solid 1px $white_80;
-            background-color: $ash;
+            background-color: $black;
         }
     }
 
@@ -165,6 +164,12 @@
         path {
             fill: $alert_red;
         }
+
+        &Camera {
+            path {
+                fill: $ash_light;
+            }
+        }
         // &:hover {
         //     //border: solid 1px $white_80;
         //     background-color: $ash;
@@ -211,7 +216,7 @@
             letter-spacing: 0.05em;
             font-size: 12px;
             font-weight: 300;
-            color: $white_80;
+            color: $font_light;
             z-index: 10;
         }
 
@@ -260,15 +265,15 @@
     right: -4px;
     border-radius: 6px;
     cursor: pointer;
-    border: solid 1px $ash;
-    background-color: $ash_dark;
+    border: solid 1px $black;
+    background-color: $ash_heavy;
     transform: rotate(90deg);
     padding: 0px;
     height: 18px;
     width: 18px;
 
     path {
-        fill: $white_50;
+        fill: $ash_medium;
     }
 
     &:hover {
