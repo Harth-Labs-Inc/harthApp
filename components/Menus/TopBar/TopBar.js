@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "../../../contexts/mobile";
 import { IconBroadcasting } from "resources/icons/IconBroadcasting";

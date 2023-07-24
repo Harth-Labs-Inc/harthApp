@@ -1,19 +1,14 @@
 import { useEffect, useState, useContext } from "react";
-
 import { useComms } from "../../../contexts/comms";
 import { useVideo } from "../../../contexts/video";
 import { useAuth } from "../../../contexts/auth";
 import { MobileContext } from "../../../contexts/mobile";
-
 import { envUrls } from "../../../constants/urls";
-
 import GatheringSchedule from "../../../components/Gathering/GatheringSchedule/GatheringSchedule";
 import GatheringCreate from "../../../components/Gathering/GatheringCreate/GatheringCreate";
 import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
 import { GatherLoading } from "../../../components/Gathering/GatherLoading/GatherLoading";
-
 import styles from "./GatheringDashboard.module.scss";
-import { useRouter } from "next/router";
 
 const Video = () => {
   const [socketData, setSocketData] = useState({});
@@ -33,8 +28,6 @@ const Video = () => {
     scheduledcallRooms,
   } = useVideo();
   const { user } = useAuth();
-
-  const router = useRouter();
 
   useEffect(() => {
     if (socketID && selectedcomm) {
