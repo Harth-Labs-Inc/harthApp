@@ -232,8 +232,10 @@
 @mixin url {
   font-family: var(--Work_Sans-font);
   font-weight: 500;
-  font-size: 12px;
+  font-size: 14px;
+  letter-spacing: -.05em;
   color: rgb(61, 87, 134);
+  cursor: pointer;
 }
 
 @mixin worksans {

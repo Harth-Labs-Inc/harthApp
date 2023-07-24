@@ -5,11 +5,11 @@ import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
 
 
 import { IconPower } from "../../../resources/icons/IconPower";
-//import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScreen";
+import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScreen";
 import styles from "./gatherHeader.module.scss";
 
 const GatherHeader = (props) => {
-    const { gatheringName, selectedHarthIcon, leaveMethod } =
+    const { gatheringName, leaveMethod } =
         props;
     const [modal, setModal] = useState();
     const { isMobile } = useContext(MobileContext);
@@ -31,13 +31,13 @@ const GatherHeader = (props) => {
                     isDark={true}
                 >
                     <div className={styles.leaveMenu}>
-                        {/* <button
+                        <button
                             className={styles.menuItem}
                             onClick={leaveMethod}
                         >
                             <IconCloseFullScreen />
                             <p>Minimize Gathering</p>
-                        </button> */}
+                        </button>
                         <button
                             className={styles.menuItem}
                             onClick={leaveMethod}
@@ -52,7 +52,7 @@ const GatherHeader = (props) => {
             )}
 
             <div className={isMobile ? styles.mobile : styles.desktop}>
-                {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : <img className={styles.harthImage} src={selectedHarthIcon} loading="lazy" />}
+                {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : null}
                 
                 <div className={styles.labelHolder}>
                     {gatheringName}

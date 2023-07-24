@@ -50,7 +50,7 @@ export const CameraButton = (props) => {
         className={`
                 ${styles.basicButton} 
                 ${isMobile ? styles.basicButtonLarge : styles.basicButtonSmall} 
-                ${isOn ? styles.basicButtonActive : styles.basicButtonMuted}
+                ${isOn ? styles.basicButtonActive : styles.basicButtonMutedCamera}
             `}
         aria-label="Webcam"
         onClick={onPress}

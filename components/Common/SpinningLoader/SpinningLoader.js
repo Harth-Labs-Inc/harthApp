@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import styles from "./Modal.module.scss";
 import { HarthLogoLight } from "public/images/harth-logo-light";
-import Image from "next/image";
 import { memo } from "react";
 
 export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
@@ -19,37 +18,7 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
     return (
       <div className={`${styles.Maincontainer} ${styles.MaincontainerDark}`}>
         <div className={`${styles.content}`}>
-          <div
-            style={{
-              position: "relative",
-              width: "70px",
-              height: "70px",
-              overflow: "hidden",
-            }}
-          >
-            {query.harth_icon ? (
-              <Image
-                key={query.harth_icon}
-                className="active-image"
-                src={query.harth_icon}
-                width={70}
-                height={70}
-                alt="message image"
-              />
-            ) : (
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "transparent",
-                }}
-              />
-            )}
-          </div>
-          <p style={{ color: "white", textAlign: "center" }}>
+          <p className={`${styles.roomName}`}>
             {query?.room_name}
           </p>
           <Spinner />

@@ -40,7 +40,22 @@
   &Desktop {
     &:hover {
       border-color: $black;
-      background: $white_5;
+      background: $white_2;
+      //border-image: linear-gradient(to right, $silver-med, $white) 1;
+      .Body {
+        .Info {
+          .Timestamp {
+            visibility: visible;
+          }
+        }
+      }
+    }
+  }
+
+  &Mobile {
+    &:active {
+      border-color: $black;
+      background: $white_2;
       //border-image: linear-gradient(to right, $silver-med, $white) 1;
       .Body {
         .Info {
@@ -188,9 +203,9 @@
         align-items: center;
         gap: 6px;
         position: relative;
-        height: 36px;
+        height: 32px;
         //width: 48px;
-        font-size: 26px;
+        font-size: 24px;
         text-align: center;
         background-color: $black;
         border-radius: 99px;
@@ -235,7 +250,7 @@
       }
 
       &AddReaction {
-        height: 36px;
+        height: 32px;
         width: 44px;
         background-color: transparent;
         padding: 0;
@@ -247,8 +262,8 @@
         user-select: none;
         background-color: $black;
         svg {
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
         }
         path {
           fill: $ash_medium;
@@ -334,7 +349,7 @@
   background-color: $silver_light;
   border-radius: 12px;
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
   user-select: none;
   height: 300px;
   overflow: hidden;
