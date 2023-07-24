@@ -24,7 +24,7 @@ const Video = () => {
   });
   const [newEditRoomData, setEditRoomData] = useState();
   const { isMobile } = useContext(MobileContext);
-  const { selectedcomm } = useComms();
+  const { selectedcomm, openMobileRoom, handleOpenMInimizedRoom } = useComms();
   const {
     getInitialCallRooms,
     socketID,
@@ -53,17 +53,22 @@ const Video = () => {
   const joinRoom = (data) => {
     const urls = envUrls;
     if (isMobile) {
-      router.push(
-        `${urls[process.env.NODE_ENV]}/dashboard/${
-          data.gatheringType
-        }?gather_window=true&room_type=${data.gatheringType}&user_name=${
-          socketData.name
-        }&user_img=${socketData.icon}&room_id=${data.roomId}&harth_id=${
-          selectedcomm._id
-        }&room_name=${data.roomName}&harth_icon=${selectedcomm.iconKey}`,
-        undefined,
-        { shallow: true }
-      );
+      const storedActiveRoom = sessionStorage.getItem("active_room");
+      const parsedRoom = JSON.parse(storedActiveRoom);
+      if (parsedRoom?.room_id === data.roomId) {
+        handleOpenMInimizedRoom();
+      } else {
+        openMobileRoom({
+          gather_window: true,
+          room_type: data.gatheringType,
+          user_name: socketData.name,
+          user_img: socketData.icon,
+          room_id: data.roomId,
+          harth_id: selectedcomm._id,
+          room_name: data.roomName,
+          harth_icon: selectedcomm.iconKey,
+        });
+      }
     } else {
       const windowFeatures = "location=no,scrollbars=no,resizable=yes";
 
@@ -225,7 +230,6 @@ const Video = () => {
           room={newRoomData}
         />
       )}
-      {/* <p className={styles.gatheringSection}>NOW</p> */}
       <div className={styles.roomContainer}>
         <GatheringCreate
           createRoomFormSubmit={createRoomFormSubmit}
@@ -234,10 +238,6 @@ const Video = () => {
       </div>
       <p className={styles.gatheringSection}>UPCOMING</p>
       <div className={styles.roomContainer}>
-        <GatherLoading />
-        <GatherLoading />
-        <GatherLoading />
-        <GatherLoading />
         <GatherLoading />
         <GatherLoading />
       </div>

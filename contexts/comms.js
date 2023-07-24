@@ -39,9 +39,11 @@ export const CommsProvider = ({
   const [incomingConversationMsg, setIncomingConversationMsg] = useState({});
   const [incomingConversationMsgUpdate, setIncomingConversationMsgUpdate] =
     useState({});
-
   const [unreadConversationMsg, setUnreadConversationMsg] = useState({});
   const [unreadConversationMsgs, setUnreadConversationMsgs] = useState([]);
+  const [hasRoomMinimized, setHasRoomMinimized] = useState(false);
+  const [openMinimizedRoom, setOpenMinimizedRoom] = useState(false);
+  const [activeRoom, setActiveRoom] = useState(null);
 
   const { user } = useAuth();
 
@@ -55,6 +57,21 @@ export const CommsProvider = ({
   const {
     query: { gather_window },
   } = router;
+
+  useEffect(() => {
+    try {
+      const storedActiveRoom = sessionStorage.getItem("active_room");
+      const parsedRoom = JSON.parse(storedActiveRoom);
+      if (parsedRoom) {
+        setActiveRoom(parsedRoom);
+        if (parsedRoom.isMinimized) {
+          setHasRoomMinimized(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
     if (TOPICS && !isMobile) {
@@ -424,7 +441,6 @@ export const CommsProvider = ({
       }
     }
   };
-
   const setUnreadConversationMessagesHandler = (incomingMsg) => {
     if (incomingMsg.userIDS?.includes(user?._id || "")) {
       setIncomingConversationMsg(incomingMsg);
@@ -456,6 +472,49 @@ export const CommsProvider = ({
     setComm(com);
     setTopic({});
     grabRooms();
+  };
+  const openMobileRoom = (data) => {
+    let closeExisting = document.getElementById("mobile_minimized_closer");
+    if (closeExisting) {
+      closeExisting.click();
+    }
+
+    setTimeout(() => {
+      sessionStorage.setItem("active_room", JSON.stringify(data));
+      setHasRoomMinimized(false);
+      setActiveRoom(data);
+    }, 100);
+  };
+  const handleOpenMInimizedRoom = () => {
+    clearMinimized();
+    setOpenMinimizedRoom(true);
+  };
+  const clearMinimized = () => {
+    const storedActiveRoom = sessionStorage.getItem("active_room");
+    try {
+      const parsedRoom = JSON.parse(storedActiveRoom);
+      parsedRoom.isMinimized = false;
+      sessionStorage.setItem("active_room", JSON.stringify(parsedRoom));
+    } catch (error) {
+      console.log(error);
+    }
+    setHasRoomMinimized(false);
+  };
+  const closeActiveRoomFromMobile = () => {
+    sessionStorage.removeItem("active_room");
+    setActiveRoom(null);
+    setHasRoomMinimized(false);
+  };
+  const minimizeHandler = () => {
+    const storedActiveRoom = sessionStorage.getItem("active_room");
+    try {
+      const parsedRoom = JSON.parse(storedActiveRoom);
+      parsedRoom.isMinimized = true;
+      sessionStorage.setItem("active_room", JSON.stringify(parsedRoom));
+    } catch (error) {
+      console.log(error);
+    }
+    setHasRoomMinimized(true);
   };
 
   return (
@@ -505,6 +564,15 @@ export const CommsProvider = ({
         resetTopics,
         forceHarthCreation,
         selectedTopicRef,
+        setHasRoomMinimized,
+        hasRoomMinimized,
+        handleOpenMInimizedRoom,
+        openMinimizedRoom,
+        clearMinimized,
+        openMobileRoom,
+        closeActiveRoomFromMobile,
+        minimizeHandler,
+        activeRoom,
       }}
     >
       {children}

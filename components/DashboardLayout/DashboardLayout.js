@@ -4,14 +4,29 @@ import SideNav from "../Menus/SideMenu/SideMenu";
 import TopBar from "../Menus/TopBar/TopBar";
 import MainNav from "../MainNav/MainNav";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-
 import MobileSideNav from "../Menus/SideMenu/MobileSideMenu";
-
+import dynamic from "next/dynamic";
 import styles from "./DashboardLayout.module.scss";
 import { useVideo } from "contexts/video";
 import { useAuth } from "contexts/auth";
 import { useComms } from "contexts/comms";
 import { useSocket } from "contexts/socket";
+
+const Party = dynamic(() => import("../../pages/dashboard/party/index"), {
+  loading: () => null,
+});
+const Stream = dynamic(() => import("../../pages/dashboard/stream/index"), {
+  loading: () => null,
+});
+const Voice = dynamic(() => import("../../pages/dashboard/voice/index"), {
+  loading: () => null,
+});
+
+const dynamicRoom = {
+  stream: Stream,
+  voice: Voice,
+  party: Party,
+};
 
 const DashboardLayout = (props) => {
   const [menuActive, setmenuActive] = useState(false);
@@ -33,6 +48,10 @@ const DashboardLayout = (props) => {
     fetchConversations,
     resetTopics,
     forceHarthCreation,
+    activeRoom,
+    closeActiveRoomFromMobile,
+    minimizeHandler,
+    hasRoomMinimized,
   } = useComms();
   const { getInitialCallRooms, socketID, callRooms } = useVideo();
   const { user } = useAuth();
@@ -143,46 +162,66 @@ const DashboardLayout = (props) => {
       }
     }
 
+    const ComponentToRender = activeRoom
+      ? dynamicRoom[activeRoom.room_type]
+      : null;
+
     return (
-      <main className={styles.Dashboard}>
-        <MobileSideNav
-          mobileMenuOpen={mobileMenuOpen}
-          onToggleMenu={toggleMenu}
-          setShowCreateHarthNameModal={setShowCreateHarthNameModal}
-          changePage={changePageHandler}
-          toggleNoHarthDetected={toggleNoHarthDetected}
-        />
-
-        <div className={styles.DashboardContent}>
-          <TopBar
-            currentPage={currentPage}
-            changePage={changePageHandler}
-            onToggleMenu={toggleMenu}
-          ></TopBar>
-          <div className={backgroundColorClass.current}>
-            <TransitionGroup>
-              <CSSTransition
-                key={currentPage}
-                classNames={direction == "right" ? "slideRight" : "slideLeft"}
-                timeout={200}
-              >
-                <section
-                  className={`${styles.DashboardContentWrapper} ${styles.Mobile}`}
-                  id="content_wrapper"
-                >
-                  {children}
-                </section>
-              </CSSTransition>
-            </TransitionGroup>
+      <>
+        {activeRoom && (
+          <div
+            key={activeRoom.room_id}
+            className={`${styles.mobileRoomContainer} ${
+              hasRoomMinimized ? styles.minimized : ""
+            }`}
+          >
+            <ComponentToRender
+              closeActiveRoomFromMobile={closeActiveRoomFromMobile}
+              minimizeHandler={minimizeHandler}
+              activeRoom={activeRoom}
+            />
           </div>
-
-          <MainNav
+        )}
+        <main className={styles.Dashboard}>
+          <MobileSideNav
+            mobileMenuOpen={mobileMenuOpen}
             onToggleMenu={toggleMenu}
+            setShowCreateHarthNameModal={setShowCreateHarthNameModal}
             changePage={changePageHandler}
-            currentPage={currentPage}
+            toggleNoHarthDetected={toggleNoHarthDetected}
           />
-        </div>
-      </main>
+
+          <div className={styles.DashboardContent}>
+            <TopBar
+              currentPage={currentPage}
+              changePage={changePageHandler}
+              onToggleMenu={toggleMenu}
+            ></TopBar>
+            <div className={backgroundColorClass.current}>
+              <TransitionGroup>
+                <CSSTransition
+                  key={currentPage}
+                  classNames={direction == "right" ? "slideRight" : "slideLeft"}
+                  timeout={200}
+                >
+                  <section
+                    className={`${styles.DashboardContentWrapper} ${styles.Mobile}`}
+                    id="content_wrapper"
+                  >
+                    {children}
+                  </section>
+                </CSSTransition>
+              </TransitionGroup>
+            </div>
+
+            <MainNav
+              onToggleMenu={toggleMenu}
+              changePage={changePageHandler}
+              currentPage={currentPage}
+            />
+          </div>
+        </main>
+      </>
     );
   }
 

@@ -46,6 +46,7 @@
 
         @media (max-width: 640px) {
             height: var(--vh);
+            z-index: 500;
         }
 
     .ContentContainer {

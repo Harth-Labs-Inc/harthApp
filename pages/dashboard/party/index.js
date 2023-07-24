@@ -21,7 +21,7 @@ import { SpinningLoader } from "../../../components/Common/SpinningLoader/Spinni
 
 /* eslint-disable */
 
-const Party = () => {
+const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const [socket, setSocket] = useState(null);
   const [socketID, setSocketID] = useState(null);
   const [chats, setChats] = useState([]);
@@ -72,10 +72,26 @@ const Party = () => {
 
   useEffect(() => {
     if (!loading && user) {
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const ROOMID = urlParams.get("room_id");
-      const HARTHID = urlParams.get("harth_id");
+      let ROOMID;
+      let HARTHID;
+      if (isMobile) {
+        const storedActiveRoom = sessionStorage.getItem("active_room");
+        try {
+          const parsedRoom = JSON.parse(storedActiveRoom);
+          ROOMID = parsedRoom.room_id;
+          HARTHID = parsedRoom.harth_id;
+        } catch (error) {
+          console.log(error);
+          ROOMID = null;
+          HARTHID = null;
+        }
+      } else {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        ROOMID = urlParams.get("room_id");
+        HARTHID = urlParams.get("harth_id");
+      }
+
       async function getHarth(id) {
         const results = await getHarthByID(id);
         if (results.ok) {
@@ -117,7 +133,7 @@ const Party = () => {
         getHarth(HARTHID);
       }
     }
-  }, [loading, user]);
+  }, [loading, user, isMobile]);
 
   useEffect(() => {
     if (socket) {
@@ -344,26 +360,27 @@ const Party = () => {
 
   const triggerLocalPositionCheck = (peerlist = []) => {
     let peerLength = peerlist.length;
+    let firstPeer = peerlist[0];
     try {
-      if (peerLength <= 1) {
+      if (peerLength <= 1 && firstPeer?.socketID) {
         let localParentContainer = document.getElementById("localContainer");
-        let parentContainer = document.getElementById(peerlist[0].socketID);
+        let parentContainer = document.getElementById(firstPeer.socketID);
         if (localParentContainer) {
           removeElement("localContainer");
         }
         if (!parentContainer) {
           if (localVideoStream.current) {
-            createVideo(localVideoStream.current, peerlist[0]);
+            createVideo(localVideoStream.current, firstPeer);
           } else {
             parentContainer = document.createElement("div");
-            parentContainer.id = peerlist[0]?.socketID;
+            parentContainer.id = firstPeer.socketID;
             parentContainer.className = styles.videoContainer;
             const profileImage = document.createElement("img");
-            profileImage.src = peerlist[0]?.img;
+            profileImage.src = firstPeer?.img;
             profileImage.className = styles.peerImage;
             parentContainer.append(profileImage);
             const nameContainer = document.createElement("p");
-            const nameText = document.createTextNode(peerlist[0]?.name);
+            const nameText = document.createTextNode(firstPeer?.name);
             nameContainer.className = styles.peerName;
             nameContainer.appendChild(nameText);
             parentContainer.append(nameContainer);
@@ -486,9 +503,9 @@ const Party = () => {
 
     const interval = 100;
     detectSpeakingIntervalId.current = setInterval(() => {
-      const bufferLength = localStreamAnalyser.current.frequencyBinCount;
+      const bufferLength = localStreamAnalyser.current?.frequencyBinCount;
       const dataArray = new Uint8Array(bufferLength);
-      localStreamAnalyser.current.getByteFrequencyData(dataArray);
+      localStreamAnalyser.current?.getByteFrequencyData(dataArray);
       const average = dataArray.reduce((acc, val) => acc + val) / bufferLength;
 
       if (average > 10) {
@@ -1311,32 +1328,54 @@ const Party = () => {
     sendNewChatMessage(message);
   };
   const leaveRoom = () => {
+    if (localAudioStream.current) {
+      localAudioStream.current.getTracks().forEach((track) => track.stop());
+    }
+
+    if (localVideoStream.current) {
+      localVideoStream.current.getTracks().forEach((track) => track.stop());
+    }
+
+    if (localCaptureStream.current) {
+      localCaptureStream.current.getTracks().forEach((track) => track.stop());
+    }
+
     leaveGroupCall({ roomId, userName, socketID }, () => {
-      window.close();
+      if (isMobile) {
+        closeActiveRoomFromMobile({ roomId, userName, socketID });
+      } else {
+        window.close();
+      }
     });
   };
+
   const leaveGroupCall = (data) => {
+    if (audioSharePeer.current) {
+      audioSharePeer.current?.destroy();
+    }
+    if (videoSharePeer.current) {
+      videoSharePeer.current?.destroy();
+    }
+    if (ScreenSharePeer.current) {
+      ScreenSharePeer.current?.destroy();
+    }
     return new Promise((res, rej) => {
       socket &&
         socket.emit("group-call-user-left", data, (response) => {
           if (response.ok) {
             res(true);
             try {
-              window.close();
-            } catch (error) {}
-            const URLS = envUrls;
-
-            window.location.replace(URLS[process.env.NODE_ENV]);
-          }
-
-          if (audioSharePeer.current) {
-            audioSharePeer.current?.destroy();
-          }
-          if (videoSharePeer.current) {
-            videoSharePeer.current?.destroy();
-          }
-          if (ScreenSharePeer.current) {
-            ScreenSharePeer.current?.destroy();
+              if (isMobile) {
+                closeActiveRoomFromMobile({ roomId, userName, socketID });
+              } else {
+                window.close();
+                const URLS = envUrls;
+                window.location.replace(URLS[process.env.NODE_ENV]);
+              }
+            } catch (error) {
+              const URLS = envUrls;
+              window.location.replace(URLS[process.env.NODE_ENV]);
+            }
           }
         });
     });
@@ -1471,11 +1510,17 @@ const Party = () => {
       <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
       {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
       <main id="PartyWindow" className={styles.PartyWindow}>
+        <button
+          id="mobile_minimized_closer"
+          onClick={leaveRoom}
+          style={{ display: "none" }}
+        />
         <GatherHeader
           gatheringName={activeCallRoom?.roomName}
           selectedHarthIcon={selectedHarth?.iconKey}
           toggleHDSwitch={toggleHDSwitch}
           leaveMethod={leaveRoom}
+          minimizeHandler={minimizeHandler}
         />
 
         <section

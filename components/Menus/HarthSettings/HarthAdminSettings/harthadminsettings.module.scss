@@ -55,7 +55,10 @@
         color: $oxygen;
         @include buttonLarge;
         border: 0;
-        outline: 0;
+        outline: none;
+        outline-style: none;
+        -moz-outline-style: none; 
+        -webkit-tap-highlight-color: transparent; 
         cursor: pointer;
     }
 }

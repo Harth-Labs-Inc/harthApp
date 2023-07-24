@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useComms } from "../../../contexts/comms";
 import { MobileContext } from "../../../contexts/mobile";
 import { IconBroadcasting } from "resources/icons/IconBroadcasting";
@@ -11,11 +11,9 @@ const TopBar = (props) => {
   const { children, onToggleMenu } = props;
   const [showEditUserModal, setShowEditUserModal] = useState(false);
 
-  const { selectedcomm, profile } = useComms();
+  const { selectedcomm, profile, hasRoomMinimized, handleOpenMInimizedRoom } =
+    useComms();
   const { isMobile } = useContext(MobileContext);
-
-  // In room indicator.
-  //const isStreaming = false;
 
   const editUserModalHandler = () => {
     setShowEditUserModal((prevState) => !prevState);
@@ -46,32 +44,32 @@ const TopBar = (props) => {
         {isMobile ? (
           <div className={styles.MobileNavTitle}>
             <button
-                className={`
+              className={`
                 ${styles.HarthButton}
                 `}
-                onClick={onToggleMenu}
-                aria-label="Current Harth"
+              onClick={onToggleMenu}
+              aria-label="Current Harth"
             >
-                <img
-                    src={selectedcomm?.iconKey}
-                    loading="lazy"
-                />
-                <div className={styles.menuIcon}><IconMenu /></div>
+              <img src={selectedcomm?.iconKey} loading="lazy" />
+              <div className={styles.menuIcon}>
+                <IconMenu />
+              </div>
             </button>
 
-            <div className={styles.TopBarName}>
-              {selectedcomm?.name}
-            </div>
+            <div className={styles.TopBarName}>{selectedcomm?.name}</div>
           </div>
         ) : null}
         {children}
 
         <div className={styles.holder}>
-          {isMobile ? (
-            <button className={styles.TopBarStreaming}>
+          {isMobile && hasRoomMinimized ? (
+            <button
+              className={styles.TopBarStreaming}
+              onClick={handleOpenMInimizedRoom}
+            >
               <IconBroadcasting />
             </button>
-          ) : null }
+          ) : null}
 
           <div
             className={isMobile ? styles.avatarMobile : styles.avatarDesktop}
@@ -83,7 +81,6 @@ const TopBar = (props) => {
               isPressable
               pressHandler={editUserModalHandler}
             />
-            
           </div>
         </div>
       </div>
