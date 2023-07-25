@@ -67,6 +67,10 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const { user, loading, Comms } = useAuth();
 
   useEffect(() => {
+    return stopDetectSpeaking;
+  }, []);
+
+  useEffect(() => {
     if (!loading && user) {
       let ROOMID;
       let HARTHID;
@@ -459,7 +463,8 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const startDetectSpeaking = () => {
     if (detectSpeakingIntervalId.current !== null) {
-      return;
+      clearInterval(detectSpeakingIntervalId.current);
+      detectSpeakingIntervalId.current = null;
     }
 
     const interval = 100;
@@ -510,6 +515,12 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         }
       }
     }, interval);
+  };
+  const stopDetectSpeaking = () => {
+    if (detectSpeakingIntervalId.current !== null) {
+      clearInterval(detectSpeakingIntervalId.current);
+      detectSpeakingIntervalId.current = null;
+    }
   };
   const getLocalCaptureStream = async (
     constraints = {
@@ -1145,7 +1156,8 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     setUploadingAttachments([]);
     sendNewChatMessage(message);
   };
-  const leaveRoom = () => {
+  const reset = () => {
+    stopDetectSpeaking();
     if (localAudioStream.current) {
       localAudioStream.current.getTracks().forEach((track) => track.stop());
     }
@@ -1153,6 +1165,43 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     if (localCaptureStream.current) {
       localCaptureStream.current.getTracks().forEach((track) => track.stop());
     }
+
+    setSocket(null);
+    setSocketID(null);
+    setChats([]);
+    triggerUpdate(0);
+    setUploadingAttachments([]);
+    setSelectedHarth(null);
+    setScreenShareActive(false);
+    setShowChatPannel(false);
+    setUnreadMsg(false);
+    setActiveCallRoom({});
+    setCallRooms([]);
+    setUserName("");
+    setUserIcon("");
+    setRoomId("");
+    setHarthId("");
+    setIsActiveScreenShare(false);
+    setTurnServers([]);
+    setDiceAlerts([]);
+    setUserID("");
+    setIsFinishedInitialSetup(false);
+
+    ownerData.current = {};
+    PEERS.current = [];
+    audioSharePeer.current = null;
+    videoSharePeer.current = null;
+    ScreenSharePeer.current = null;
+    chatPannel.current = false;
+    localAudioStream.current = null;
+    localStreamSource.current = null;
+    localStreamAnalyser.current = null;
+    detectSpeakingIntervalId.current = null;
+    localCaptureStream.current = null;
+    userInfo.current = null;
+  };
+  const leaveRoom = () => {
+    reset();
 
     leaveGroupCall({ roomId, userName, socketID }, () => {
       if (isMobile) {
@@ -1162,17 +1211,8 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }
     });
   };
-
   const leaveGroupCall = (data) => {
-    if (audioSharePeer.current) {
-      audioSharePeer.current?.destroy();
-    }
-    if (videoSharePeer.current) {
-      videoSharePeer.current?.destroy();
-    }
-    if (ScreenSharePeer.current) {
-      ScreenSharePeer.current?.destroy();
-    }
+    reset();
     return new Promise((res, rej) => {
       socket &&
         socket.emit("group-call-user-left", data, (response) => {

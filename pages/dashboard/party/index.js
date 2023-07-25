@@ -64,6 +64,10 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const { isMobile } = useContext(MobileContext);
 
   useEffect(() => {
+    return stopDetectSpeaking;
+  }, []);
+
+  useEffect(() => {
     const container = document.getElementById("peerContainer");
     if (container) {
       resize(container);
@@ -498,7 +502,8 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const startDetectSpeaking = () => {
     if (detectSpeakingIntervalId.current !== null) {
-      return;
+      clearInterval(detectSpeakingIntervalId.current);
+      detectSpeakingIntervalId.current = null;
     }
 
     const interval = 100;
@@ -548,6 +553,12 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         }
       }
     }, interval);
+  };
+  const stopDetectSpeaking = () => {
+    if (detectSpeakingIntervalId.current !== null) {
+      clearInterval(detectSpeakingIntervalId.current);
+      detectSpeakingIntervalId.current = null;
+    }
   };
   const getLocalVideoStream = async (
     constraints = {
@@ -1327,7 +1338,8 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     setUploadingAttachments([]);
     sendNewChatMessage(message);
   };
-  const leaveRoom = () => {
+  const reset = () => {
+    stopDetectSpeaking();
     if (localAudioStream.current) {
       localAudioStream.current.getTracks().forEach((track) => track.stop());
     }
@@ -1340,6 +1352,45 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       localCaptureStream.current.getTracks().forEach((track) => track.stop());
     }
 
+    setSocket(null);
+    setSocketID(null);
+    setChats([]);
+    triggerUpdate(0);
+    triggerMapUpdate(0);
+    setUploadingAttachments([]);
+    setSelectedHarth(null);
+    setScreenShareActive(false);
+    setShowChatPannel(false);
+    setUnreadMsg(false);
+    setActiveCallRoom({});
+    setCallRooms([]);
+    setUserName("");
+    setUserIcon("");
+    setRoomId("");
+    setHarthId("");
+    setIsActiveScreenShare(false);
+    setTurnServers([]);
+    setDiceAlerts([]);
+    setUserID("");
+    setIsFinishedInitialSetup(false);
+
+    ownerData.current = {};
+    PEERS.current = [];
+    audioSharePeer.current = null;
+    videoSharePeer.current = null;
+    ScreenSharePeer.current = null;
+    chatPannel.current = false;
+    localAudioStream.current = null;
+    localStreamSource.current = null;
+    localStreamAnalyser.current = null;
+    detectSpeakingIntervalId.current = null;
+    localVideoStream.current = null;
+    localCaptureStream.current = null;
+    userInfo.current = null;
+  };
+  const leaveRoom = () => {
+    reset();
+
     leaveGroupCall({ roomId, userName, socketID }, () => {
       if (isMobile) {
         closeActiveRoomFromMobile({ roomId, userName, socketID });
@@ -1348,17 +1399,8 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }
     });
   };
-
   const leaveGroupCall = (data) => {
-    if (audioSharePeer.current) {
-      audioSharePeer.current?.destroy();
-    }
-    if (videoSharePeer.current) {
-      videoSharePeer.current?.destroy();
-    }
-    if (ScreenSharePeer.current) {
-      ScreenSharePeer.current?.destroy();
-    }
+    reset();
     return new Promise((res, rej) => {
       socket &&
         socket.emit("group-call-user-left", data, (response) => {
