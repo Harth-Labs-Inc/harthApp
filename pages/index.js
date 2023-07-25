@@ -95,6 +95,36 @@ const dashboard = () => {
   }, []);
 
   useEffect(() => {
+    if (swReg && "pushManager" in swReg && user) {
+      async function subscribePushServer() {
+        try {
+          if (!SUBSCRIPTION) {
+            const permission = await Notification.requestPermission();
+            if (permission === "granted") {
+              const vapidPublicKey =
+                "BNxESwOfseEuMPBHwc_vwFox8oJ_SjmrFZ_hkcCX9wx9iS7hc120NxGS4twGAhBXvxqbUFUuigykVWFHiYOP8Mg";
+              const convertedVapidPublicKey =
+                urlBase64ToUint8Array(vapidPublicKey);
+              const newSub = await swReg.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: convertedVapidPublicKey,
+              });
+              saveUserSubscription({
+                sub: newSub,
+                userId: user._id,
+              });
+            }
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      subscribePushServer();
+    }
+  }, [swReg, user, SUBSCRIPTION]);
+
+  useEffect(() => {
     let storedinviteTKN = localStorage.getItem("inviteToken");
     if (storedinviteTKN) {
       setInviteTKN(storedinviteTKN);
@@ -157,36 +187,6 @@ const dashboard = () => {
       setInviteTKN(null);
     };
   }, [loading]);
-
-  useEffect(() => {
-    if (swReg && "pushManager" in swReg && user) {
-      async function subscribePushServer() {
-        try {
-          if (!SUBSCRIPTION) {
-            const permission = await Notification.requestPermission();
-            if (permission === "granted") {
-              const vapidPublicKey =
-                "BLmVZKPUxgCfITiXnsBehXwxHGXXOhDoTSBsQYgEu21Gn6kTicS0viMLkjpyAiP5ewX9xS-jQ3GreXB3-eO0tMA";
-              const convertedVapidPublicKey =
-                urlBase64ToUint8Array(vapidPublicKey);
-              const newSub = await swReg.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: convertedVapidPublicKey,
-              });
-              saveUserSubscription({
-                sub: newSub,
-                userId: user._id,
-              });
-            }
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-
-      subscribePushServer();
-    }
-  }, [swReg, user, SUBSCRIPTION]);
 
   const changePageHandler = (pg) => {
     if (["gather", "chat", "message"].includes(pg)) {
