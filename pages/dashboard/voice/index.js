@@ -1180,7 +1180,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     setHarthId("");
     setIsActiveScreenShare(false);
     setTurnServers([]);
-    setDiceAlerts([]);
     setUserID("");
     setIsFinishedInitialSetup(false);
 

@@ -1183,7 +1183,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     setHarthId("");
     setIsActiveScreenShare(false);
     setTurnServers([]);
-    setDiceAlerts([]);
     setUserID("");
     setIsFinishedInitialSetup(false);
 
