@@ -97,7 +97,6 @@ const dashboard = () => {
   }, []);
 
   useEffect(() => {
-    console.log(swReg);
     if (swReg && "pushManager" in swReg && user) {
       setShowNotButton(true);
       return () => {
@@ -186,7 +185,6 @@ const dashboard = () => {
       userVisibleOnly: true,
       applicationServerKey: convertedVapidPublicKey,
     });
-    alert("new sub complete");
     console.log("newSub", newSub);
 
     saveUserSubscription({
@@ -248,6 +246,8 @@ const dashboard = () => {
       setShowCreateHarthNameModal(true);
     }
   };
+
+  console.log(swReg, "swReg");
   if (loading) {
     return <SpinningLoader />;
   }
