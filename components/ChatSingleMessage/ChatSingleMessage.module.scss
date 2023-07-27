@@ -1,6 +1,18 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
+.mobileInfo {
+  border-color: $black !important;
+  background: $white_2 !important;
+  .Body {
+    .Info {
+      .Timestamp {
+        visibility: visible !important;
+      }
+    }
+  }
+}
+
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -52,20 +64,8 @@
     }
   }
 
-  &Mobile {
-    &:active {
-      border-color: $black;
-      background: $white_2;
-      //border-image: linear-gradient(to right, $silver-med, $white) 1;
-      .Body {
-        .Info {
-          .Timestamp {
-            visibility: visible;
-          }
-        }
-      }
-    }
-  }
+
+  
 
   .UserIcon {
     height: fit-content;
@@ -186,7 +186,7 @@
       flex-wrap: wrap;
       margin-left: 0px;
       margin-top: 4px;
-      width: 100%;
+      width: max-content;
       column-gap: 4px;
       row-gap: 4px;
       //background: $black_60;
@@ -238,7 +238,8 @@
 
         &Desktop {
           &:hover {
-            border-color: $ash;
+            cursor: pointer;
+            scale: 1.02;
           }
         }
 
@@ -272,6 +273,8 @@
         &Desktop {
           &:hover {
             border-color: $ash;
+            cursor: pointer;
+            scale: 1.02;
           }
         }
 

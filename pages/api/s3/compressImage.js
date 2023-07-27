@@ -35,7 +35,7 @@ export default async (req, res) => {
     desiredHeight,
     desiredWidth = 300,
     format = "jpeg",
-    quality = 90
+    quality = 95
   ) => {
     return new Promise(async (resolve) => {
       const sharp = require("sharp");
@@ -50,6 +50,7 @@ export default async (req, res) => {
         }
 
         const compressedBuffer = await sharp(buffer)
+          .rotate()
           .resize(desiredWidth || null, desiredHeight || null, {
             fit: "contain",
           })

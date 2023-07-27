@@ -49,15 +49,18 @@ const ChatSingleMessage = (props) => {
   const [emojiPickerState, setEmojiPicker] = useState(false);
   const [urls, setUrls] = useState([]);
   const [showEditBar, setShowEditBar] = useState("");
-  const [ratio, setRatio] = useState(16 / 9);
   const { isMobile } = useContext(MobileContext);
-  const [hoveredEmojiData, setHoveredEmojiData] = useState(null);
-
   const [isPressing, setIsPressing] = useState(false);
   const [showLongPressMenu, setShowLongPressMenu] = useState(false);
+  const [showMessageInfoMobile, setShowMessageInfoMobile] = useState(false);
+
   const touchEndTimestamp = useRef(0);
   const touchThreshold = 100;
   const longPressTimeOut = useRef();
+  const messageInfoRef = useRef();
+  const pressStartTimestamp = useRef();
+
+  const LONG_PRESS_DURATION = 300;
 
   let {
     _id,
@@ -138,30 +141,6 @@ const ChatSingleMessage = (props) => {
     return <div style={{ display: "block", width: "100%" }}>{wrappedText}</div>;
   };
 
-  // useEffect(() => {
-  //   const FetchDownloadURL = async () => {
-  //     if (attachments.length > 0) {
-  //       const data = await Promise.all(
-  //         attachments.map(async (att) => {
-  //           return await getDownloadURL(att.name, att.fileType, bucket);
-  //         })
-  //       );
-
-  //       const outputs = data
-  //         .filter((item) => item && item.ok)
-  //         .map((item) => item.downloadURL);
-
-  //       setUrls(outputs);
-  //     }
-  //   };
-
-  //   FetchDownloadURL();
-  //   console.log(attachments, "attachments");
-  //   return () => {
-  //     setUrls([]);
-  //   };
-  // }, [attachments]);
-
   useEffect(() => {
     const dbName = "Attachments";
     const storeName = "chat";
@@ -219,21 +198,71 @@ const ChatSingleMessage = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleTouchMove = () => {
+      if (showMessageInfoMobile) {
+        setShowMessageInfoMobile(false);
+      }
+      if (longPressTimeOut.current) {
+        clearTimeout(longPressTimeOut.current);
+      }
+    };
+
+    document.addEventListener("touchmove", handleTouchMove);
+
+    return () => {
+      document.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [showMessageInfoMobile]);
+
+  useEffect(() => {
+    const clickOutside = (e) => {
+      if (
+        showMessageInfoMobile &&
+        messageInfoRef.current &&
+        !messageInfoRef.current.contains(e.target)
+      ) {
+        setShowMessageInfoMobile(false);
+      }
+    };
+
+    if (showMessageInfoMobile) {
+      document.addEventListener("click", clickOutside);
+    } else {
+      document.removeEventListener("click", clickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", clickOutside);
+    };
+  }, [showMessageInfoMobile]);
+
   const handleTouchStart = () => {
     if (!showLongPressMenu) {
+      pressStartTimestamp.current = Date.now();
       longPressTimeOut.current = setTimeout(() => {
         setShowLongPressMenu(true);
-      }, 300);
+      }, LONG_PRESS_DURATION);
+    } else {
+      setShowMessageInfoMobile(false);
     }
+
     setIsPressing(true);
   };
+
   const handleTouchEnd = () => {
     if (!showLongPressMenu) {
       clearTimeout(longPressTimeOut.current);
+      let pressDuration = Date.now() - pressStartTimestamp.current;
+      if (pressDuration < LONG_PRESS_DURATION) {
+        setShowMessageInfoMobile(!showMessageInfoMobile);
+      }
     }
+
     touchEndTimestamp.current = Date.now();
     setIsPressing(false);
   };
+
   const move = () => {
     if (longPressTimeOut.current) {
       clearTimeout(longPressTimeOut.current);
@@ -255,9 +284,6 @@ const ChatSingleMessage = (props) => {
         if (err) {
           console.error(err);
         }
-        // let { ok } = status;
-        // if (ok) {
-        // }
       });
     }
   };
@@ -398,14 +424,6 @@ const ChatSingleMessage = (props) => {
     }
     updateMsg();
   };
-  const displayEmojiData = (data, e) => {
-    e.stopPropagation();
-    setHoveredEmojiData(data);
-  };
-  const removeEmojiData = (e) => {
-    e.stopPropagation();
-    setHoveredEmojiData(null);
-  };
   const closeLongPressMenu = (e, isDisabled) => {
     if (
       Date.now() - touchEndTimestamp.current > touchThreshold ||
@@ -423,6 +441,7 @@ const ChatSingleMessage = (props) => {
   if (isMobile) {
     return (
       <div
+        ref={messageInfoRef}
         className={`${styles.ChatParentContainer} ${
           isEditing ? styles.Editing : null
         } ${styles.noselect}`}
@@ -446,7 +465,9 @@ const ChatSingleMessage = (props) => {
         <div
           className={` 
                       ${styles.SingleMessage}
-                      ${styles.SingleMessageMobile}
+                      ${styles.SingleMessageMobile} ${
+            showMessageInfoMobile ? styles.mobileInfo : ""
+          }
                   `}
         >
           <span className={styles.UserIcon}>
@@ -530,7 +551,7 @@ const ChatSingleMessage = (props) => {
                 onTouchEnd={(event) => event.stopPropagation()}
               >
                 {[...(reactionsData || [])].map((data, index) => {
-                  const { reaction, userId } = data;
+                  const { reaction, userId, name } = data;
                   let isReactionOwner = false;
                   if (userId == user._id) {
                     isReactionOwner = true;
@@ -555,7 +576,7 @@ const ChatSingleMessage = (props) => {
                       key={index}
                     >
                       {reaction}
-                      <span className={styles.label}>user name</span>
+                      <span className={styles.label}>{name}</span>
                     </button>
                   );
                 })}
@@ -682,13 +703,6 @@ const ChatSingleMessage = (props) => {
 
                 return (
                   <button
-                    onMouseEnter={(e) =>
-                      displayEmojiData({ ...data, index }, e)
-                    }
-                    onMouseLeave={(e) => {
-                      handleTouchEnd(e);
-                      removeEmojiData(e);
-                    }}
                     onClick={(e) =>
                       ExistingReactionClickHandler(data, isReactionOwner, e)
                     }
@@ -703,12 +717,6 @@ const ChatSingleMessage = (props) => {
                                         `}
                     key={id}
                   >
-                    {hoveredEmojiData && hoveredEmojiData?.id == id ? (
-                      <span className={styles.BodyReactionsEmojiData}>
-                        <span>{hoveredEmojiData?.reaction}</span>{" "}
-                        {hoveredEmojiData?.name}
-                      </span>
-                    ) : null}
                     {reaction} <span className={styles.label}>{name}</span>
                   </button>
                 );
