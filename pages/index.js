@@ -49,6 +49,7 @@ const dashboard = () => {
   const [showInviteAcceptModal, setShowInviteAcceptModal] = useState(false);
   const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
   const [inviteTKN, setInviteTKN] = useState(false);
+  const [showNotButton, setShowNotButton] = useState(false);
 
   const {
     user,
@@ -87,6 +88,7 @@ const dashboard = () => {
     }
     window.addEventListener("online", handleNetworkChange);
     window.addEventListener("offline", handleNetworkChange);
+    console.log("tesssssssssssst");
     return () => {
       window.removeEventListener("online", handleNetworkChange);
       window.removeEventListener("offline", handleNetworkChange);
@@ -96,19 +98,10 @@ const dashboard = () => {
 
   useEffect(() => {
     if (swReg && "pushManager" in swReg && user) {
-      async function subscribePushServer() {
-        try {
-          if (!SUBSCRIPTION) {
-            // const permission = await Notification.requestPermission();
-            // if (permission === "granted") {
-            // }
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-
-      subscribePushServer();
+      setShowNotButton(true);
+      return () => {
+        setShowNotButton(false);
+      };
     }
   }, [swReg, user, SUBSCRIPTION]);
 
@@ -192,6 +185,7 @@ const dashboard = () => {
       userVisibleOnly: true,
       applicationServerKey: convertedVapidPublicKey,
     });
+    alert("new sub complete");
     console.log("newSub", newSub);
 
     saveUserSubscription({
@@ -291,12 +285,15 @@ const dashboard = () => {
         currentPage={currentPage}
         ConversationsArray={Conversations}
       >
-        <button
-          style={{ position: "fixed", zIndex: 100 }}
-          onClick={requestNotificationPermisson}
-        >
-          turn on notifications
-        </button>
+        {showNotButton ? (
+          <button
+            style={{ position: "fixed", zIndex: 100 }}
+            onClick={requestNotificationPermisson}
+          >
+            turn on notifications
+          </button>
+        ) : null}
+
         <SocketProvider swReg={swReg}>
           <VideoProvider>
             {showCreateHarthNameModal ? (
