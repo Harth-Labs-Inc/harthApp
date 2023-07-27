@@ -99,21 +99,9 @@ const dashboard = () => {
       async function subscribePushServer() {
         try {
           if (!SUBSCRIPTION) {
-            const permission = await Notification.requestPermission();
-            if (permission === "granted") {
-              const vapidPublicKey =
-                "BNxESwOfseEuMPBHwc_vwFox8oJ_SjmrFZ_hkcCX9wx9iS7hc120NxGS4twGAhBXvxqbUFUuigykVWFHiYOP8Mg";
-              const convertedVapidPublicKey =
-                urlBase64ToUint8Array(vapidPublicKey);
-              const newSub = await swReg.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: convertedVapidPublicKey,
-              });
-              saveUserSubscription({
-                sub: newSub,
-                userId: user._id,
-              });
-            }
+            // const permission = await Notification.requestPermission();
+            // if (permission === "granted") {
+            // }
           }
         } catch (error) {
           console.error(error);
@@ -187,6 +175,36 @@ const dashboard = () => {
       setInviteTKN(null);
     };
   }, [loading]);
+
+  const subcribeToPushService = async () => {
+    const vapidPublicKey =
+      "BNxESwOfseEuMPBHwc_vwFox8oJ_SjmrFZ_hkcCX9wx9iS7hc120NxGS4twGAhBXvxqbUFUuigykVWFHiYOP8Mg";
+    const convertedVapidPublicKey = urlBase64ToUint8Array(vapidPublicKey);
+    console.log("getting sub");
+    const newSub = await swReg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: convertedVapidPublicKey,
+    });
+    console.log("newSub", newSub);
+
+    saveUserSubscription({
+      sub: newSub,
+      userId: user._id,
+    });
+  };
+  const requestNotificationPermisson = async () => {
+    try {
+      console.log("requesting");
+      const permission = await Notification.requestPermission();
+      console.log(permission);
+
+      if (permission === "granted") {
+        subcribeToPushService();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const changePageHandler = (pg) => {
     if (["gather", "chat", "message"].includes(pg)) {
@@ -266,6 +284,12 @@ const dashboard = () => {
         currentPage={currentPage}
         ConversationsArray={Conversations}
       >
+        <button
+          style={{ position: "fixed", zIndex: 100 }}
+          onClick={requestNotificationPermisson}
+        >
+          turn on notifications
+        </button>
         <SocketProvider swReg={swReg}>
           <VideoProvider>
             {showCreateHarthNameModal ? (
