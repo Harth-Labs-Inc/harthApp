@@ -97,6 +97,7 @@ const dashboard = () => {
   }, []);
 
   useEffect(() => {
+    console.log(swReg);
     if (swReg && "pushManager" in swReg && user) {
       setShowNotButton(true);
       return () => {
