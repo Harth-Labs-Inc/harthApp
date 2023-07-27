@@ -8,7 +8,7 @@ import { VideoProvider } from "contexts/video";
 import { CommsProvider } from "contexts/comms";
 import { SocketProvider } from "contexts/socket";
 import { useAuth } from "contexts/auth";
-import { urlBase64ToUint8Array } from "services/helper";
+import { generateID, urlBase64ToUint8Array } from "services/helper";
 import { saveUserSubscription } from "requests/subscriptions";
 
 /* eslint-disable */
@@ -88,7 +88,6 @@ const dashboard = () => {
     }
     window.addEventListener("online", handleNetworkChange);
     window.addEventListener("offline", handleNetworkChange);
-    console.log("tesssssssssssst");
     return () => {
       window.removeEventListener("online", handleNetworkChange);
       window.removeEventListener("offline", handleNetworkChange);
@@ -97,7 +96,7 @@ const dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (swReg && "pushManager" in swReg && user) {
+    if (swReg && "pushManager" in swReg && user && !SUBSCRIPTION) {
       setShowNotButton(true);
       return () => {
         setShowNotButton(false);
@@ -174,29 +173,27 @@ const dashboard = () => {
 
     if (existingSubscription) {
       await existingSubscription.unsubscribe();
-      console.log("Unsubscribed from the existing subscription.");
     }
 
     const vapidPublicKey =
       "BNxESwOfseEuMPBHwc_vwFox8oJ_SjmrFZ_hkcCX9wx9iS7hc120NxGS4twGAhBXvxqbUFUuigykVWFHiYOP8Mg";
     const convertedVapidPublicKey = urlBase64ToUint8Array(vapidPublicKey);
-    console.log("getting sub");
     const newSub = await swReg.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: convertedVapidPublicKey,
     });
-    console.log("newSub", newSub);
-
+    let deviceKey = generateID();
+    localStorage.setItem("deviceKey", deviceKey);
     saveUserSubscription({
       sub: newSub,
       userId: user._id,
+      deviceKey,
     });
+    setShowNotButton(false);
   };
   const requestNotificationPermisson = async () => {
     try {
-      console.log("requesting");
       const permission = await Notification.requestPermission();
-      console.log(permission);
 
       if (permission === "granted") {
         subcribeToPushService();
@@ -247,7 +244,6 @@ const dashboard = () => {
     }
   };
 
-  console.log(swReg, "swReg");
   if (loading) {
     return <SpinningLoader />;
   }

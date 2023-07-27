@@ -13,7 +13,7 @@ export default async (req, res) => {
   const saveSubscription = (db, data) => {
     return new Promise((resolve, reject) => {
       db.collection("subscriptions").updateOne(
-        { userId: data.userId },
+        { userId: data.userId, deviceKey: data.deviceKey },
         { $set: { ...data } },
         { upsert: true },
         function (err, roomCreated) {

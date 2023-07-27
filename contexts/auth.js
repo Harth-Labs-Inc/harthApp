@@ -22,8 +22,15 @@ export const AuthProvider = ({ children }) => {
   const fetchUserFromToken = async (token, reroute) => {
     const prevID = localStorage.getItem("selectedHarthID");
     const selectedPage = localStorage.getItem("selectedPage");
+    const deviceKey = localStorage.getItem("deviceKey");
+
     if (token) {
-      const data = await getUserDataFromToken(token, prevID, selectedPage);
+      const data = await getUserDataFromToken(
+        token,
+        prevID,
+        selectedPage,
+        deviceKey
+      );
       const {
         ok,
         user,

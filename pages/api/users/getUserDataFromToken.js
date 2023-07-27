@@ -10,7 +10,7 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  const { token, selectedHarthID, selectedPage } = obj;
+  const { token, selectedHarthID, selectedPage, deviceKey } = obj;
 
   if (!token) {
     return res.json({
@@ -30,7 +30,7 @@ export default async (req, res) => {
 
   const [user, subscriptions] = await Promise.all([
     db.collection("users").findOne({ _id: new ObjectId(userId) }),
-    db.collection("subscriptions").findOne({ userId: userId }),
+    db.collection("subscriptions").findOne({ userId: userId, deviceKey }),
   ]);
 
   if (!user) return res.json({ msg: "No User Found", ok: 0 });

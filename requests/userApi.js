@@ -61,13 +61,15 @@ export const addUser = async (formData) => {
 export const getUserDataFromToken = async (
   token,
   selectedHarthID,
-  selectedPage
+  selectedPage,
+  deviceKey
 ) => {
   try {
     const res = await api.post("/api/users/getUserDataFromToken", {
       token,
       selectedHarthID,
       selectedPage,
+      deviceKey,
     });
     return res.data;
   } catch (error) {
