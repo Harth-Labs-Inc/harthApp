@@ -177,6 +177,13 @@ const dashboard = () => {
   }, [loading]);
 
   const subcribeToPushService = async () => {
+    const existingSubscription = await swReg.pushManager.getSubscription();
+
+    if (existingSubscription) {
+      await existingSubscription.unsubscribe();
+      console.log("Unsubscribed from the existing subscription.");
+    }
+
     const vapidPublicKey =
       "BNxESwOfseEuMPBHwc_vwFox8oJ_SjmrFZ_hkcCX9wx9iS7hc120NxGS4twGAhBXvxqbUFUuigykVWFHiYOP8Mg";
     const convertedVapidPublicKey = urlBase64ToUint8Array(vapidPublicKey);
