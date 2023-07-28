@@ -31,6 +31,10 @@
         background-color: $hot_pink;
     }
 
+    &.EmojiActive {
+        transform: none;
+    }
+
     .EmojiMobile {
         position: fixed;
         z-index: 100;
@@ -47,7 +51,6 @@
     column-gap: 10px;
     border: 1px solid transparent;
     border-radius: 8px;
-    transform: translateZ(0);
 
     &Desktop {
         &:hover {

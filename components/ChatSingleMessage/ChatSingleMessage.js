@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext, useRef, Fragment } from "react";
 import Image from "next/image";
 import { MobileContext } from "contexts/mobile";
 import { getDownloadURL } from "../../requests/s3";
@@ -362,6 +362,7 @@ const ChatSingleMessage = (props) => {
     }
   };
   const triggerPicker = (e) => {
+    console.log(messageInfoRef.current);
     e.preventDefault();
     e.stopPropagation();
     setEmojiPicker(!emojiPickerState);
@@ -440,15 +441,7 @@ const ChatSingleMessage = (props) => {
   }
   if (isMobile) {
     return (
-      <div
-        ref={messageInfoRef}
-        className={`${styles.ChatParentContainer} ${
-          isEditing ? styles.Editing : null
-        } ${styles.noselect}`}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onTouchMove={move}
-      >
+      <Fragment>
         {showLongPressMenu ? (
           <CustomMessageContextMenu
             closeModal={closeLongPressMenu}
@@ -463,106 +456,117 @@ const ChatSingleMessage = (props) => {
         ) : null}
         <EmojiPicker />
         <div
-          className={` 
+          ref={messageInfoRef}
+          className={`
+            ${styles.ChatParentContainer}
+            ${isEditing && styles.Editing}
+            ${styles.noselect}
+          `}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onTouchMove={move}
+        >
+          <div
+            className={` 
                       ${styles.SingleMessage}
                       ${styles.SingleMessageMobile} ${
-            showMessageInfoMobile ? styles.mobileInfo : ""
-          }
+              showMessageInfoMobile ? styles.mobileInfo : ""
+            }
                   `}
-        >
-          <span className={styles.UserIcon}>
-            <UserIcon
-              img={creator_image}
-              showName={false}
-              size="regular"
-              iconClass={`${selectedcomm._id}_${creator_id}`}
-              shouldIgnoreUserId={true}
-            />
-          </span>
-
-          <div className={styles.Body}>
-            <span className={styles.Info}>
-              <p
-                className={[
-                  styles.Creator,
-                  `${selectedcomm._id}_${creator_id}_name`,
-                ].join(" ")}
-              >
-                {creator_name}
-              </p>
-              <p className={styles.Timestamp}>{timeStamp}</p>
+          >
+            <span className={styles.UserIcon}>
+              <UserIcon
+                img={creator_image}
+                showName={false}
+                size="regular"
+                iconClass={`${selectedcomm._id}_${creator_id}`}
+                shouldIgnoreUserId={true}
+              />
             </span>
-            <div className={styles.Content}>
-              {(attachments || []).map(
-                ({ desiredWidth, desiredHeight }, idx) => {
-                  return urls[idx] ? (
-                    <Image
-                      key={idx}
-                      className="active-image"
-                      src={urls[idx]}
-                      width={desiredWidth || 280}
-                      height={desiredHeight || 280}
-                      placeholder="blur"
-                      blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                        shimmer(desiredWidth || 280, desiredHeight || 280)
-                      )}`}
-                      alt="message image"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openImageSlideShow(idx, attachments);
-                      }}
-                      onTouchStart={(event) => event.stopPropagation()}
-                      onTouchEnd={(event) => event.stopPropagation()}
-                    />
-                  ) : (
-                    <Image
-                      key={idx}
-                      className="active-image"
-                      src={`data:image/svg+xml;base64,${toBase64(
-                        shimmer(desiredWidth || 280, desiredHeight || 280)
-                      )}`}
-                      width={desiredWidth || 280}
-                      height={desiredHeight || 280}
-                      alt="message image"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      onTouchStart={(event) => event.stopPropagation()}
-                      onTouchEnd={(event) => event.stopPropagation()}
-                    />
-                  );
-                }
-              )}
 
-              <div id={`message-content${messageID}`}>
-                {formatMessage(message)}
-                <LinkPreview
-                  message={message}
-                  messageID={messageID}
+            <div className={styles.Body}>
+              <span className={styles.Info}>
+                <p
+                  className={[
+                    styles.Creator,
+                    `${selectedcomm._id}_${creator_id}_name`,
+                  ].join(" ")}
+                >
+                  {creator_name}
+                </p>
+                <p className={styles.Timestamp}>{timeStamp}</p>
+              </span>
+              <div className={styles.Content}>
+                {(attachments || []).map(
+                  ({ desiredWidth, desiredHeight }, idx) => {
+                    return urls[idx] ? (
+                      <Image
+                        key={idx}
+                        className="active-image"
+                        src={urls[idx]}
+                        width={desiredWidth || 280}
+                        height={desiredHeight || 280}
+                        placeholder="blur"
+                        blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                          shimmer(desiredWidth || 280, desiredHeight || 280)
+                        )}`}
+                        alt="message image"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openImageSlideShow(idx, attachments);
+                        }}
+                        onTouchStart={(event) => event.stopPropagation()}
+                        onTouchEnd={(event) => event.stopPropagation()}
+                      />
+                    ) : (
+                      <Image
+                        key={idx}
+                        className="active-image"
+                        src={`data:image/svg+xml;base64,${toBase64(
+                          shimmer(desiredWidth || 280, desiredHeight || 280)
+                        )}`}
+                        width={desiredWidth || 280}
+                        height={desiredHeight || 280}
+                        alt="message image"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onTouchStart={(event) => event.stopPropagation()}
+                        onTouchEnd={(event) => event.stopPropagation()}
+                      />
+                    );
+                  }
+                )}
+
+                <div id={`message-content${messageID}`}>
+                  {formatMessage(message)}
+                  <LinkPreview
+                    message={message}
+                    messageID={messageID}
+                    onTouchStart={(event) => event.stopPropagation()}
+                    onTouchEnd={(event) => event.stopPropagation()}
+                  />
+                </div>
+              </div>
+              {reactionsData && reactionsData.length > 0 ? (
+                <div
+                  className={styles.BodyReactions}
                   onTouchStart={(event) => event.stopPropagation()}
                   onTouchEnd={(event) => event.stopPropagation()}
-                />
-              </div>
-            </div>
-            {reactionsData && reactionsData.length > 0 ? (
-              <div
-                className={styles.BodyReactions}
-                onTouchStart={(event) => event.stopPropagation()}
-                onTouchEnd={(event) => event.stopPropagation()}
-              >
-                {[...(reactionsData || [])].map((data, index) => {
-                  const { reaction, userId, name } = data;
-                  let isReactionOwner = false;
-                  if (userId == user._id) {
-                    isReactionOwner = true;
-                  }
+                >
+                  {[...(reactionsData || [])].map((data, index) => {
+                    const { reaction, userId, name } = data;
+                    let isReactionOwner = false;
+                    if (userId == user._id) {
+                      isReactionOwner = true;
+                    }
 
-                  return (
-                    <button
-                      onClick={(e) =>
-                        ExistingReactionClickHandler(data, isReactionOwner, e)
-                      }
-                      className={` 
+                    return (
+                      <button
+                        onClick={(e) =>
+                          ExistingReactionClickHandler(data, isReactionOwner, e)
+                        }
+                        className={` 
                                                 ${styles.BodyReactionsEmoji}
                                                 ${
                                                   styles.BodyReactionsEmojiMobile
@@ -573,35 +577,38 @@ const ChatSingleMessage = (props) => {
                                                     : null
                                                 }
                                             `}
-                      key={index}
-                    >
-                      {reaction}
-                      <span className={styles.label}>{name}</span>
-                    </button>
-                  );
-                })}
+                        key={index}
+                      >
+                        {reaction}
+                        <span className={styles.label}>{name}</span>
+                      </button>
+                    );
+                  })}
 
-                <button
-                  className={` 
+                  <button
+                    className={` 
                                       ${styles.BodyReactionsAddReaction}
                                       ${styles.BodyReactionsAddReactionMobile}
                                   `}
-                  onClick={triggerPicker}
-                >
-                  <IconAddReactionNoFill />
-                </button>
-              </div>
-            ) : null}
+                    onClick={triggerPicker}
+                  >
+                    <IconAddReactionNoFill />
+                  </button>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
-      </div>
+      </Fragment>
     );
   }
   return (
     <div
-      className={`${styles.ChatParentContainer} ${
-        isEditing ? styles.Editing : null
-      }`}
+      className={`
+      ${styles.ChatParentContainer}
+      ${isEditing && styles.Editing}
+      ${emojiPickerState && styles.EmojiActive}  
+    `}
     >
       <div
         className={` 

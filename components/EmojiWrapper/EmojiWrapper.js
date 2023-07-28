@@ -60,6 +60,11 @@ export const EmojiWrapper = (props) => {
         onClickOutside={closeWrapper}
         onFocusOutside={closeWrapper}
       >
+        <style jsx global>{`
+          em-emoji-picker {
+            z-index: 301;
+          }
+        `}</style>
         <Picker
           data={data}
           className="attach-emoji"
