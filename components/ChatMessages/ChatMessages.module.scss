@@ -9,8 +9,6 @@
     height: calc(var(--vh) - 56px);
     width: 100%;
     background: linear-gradient(90deg, $black, $fuel 50%);
-    //padding-left: 8px;
-
     @media screen and (max-width: 640px) {
         height: var(--vh);
         padding: 8px;
@@ -25,7 +23,7 @@
     background-color: transparent;
     width: 100%;
     padding: 24px 8px;
-    overflow-y: scroll;
+    overflow-y: auto;
     -ms-overflow-style: none;
     color: $fuel;
 
@@ -34,9 +32,9 @@
     }
 
     @media screen and (max-width: 640px) {
-        // min-height: calc(100% - 80px);
+        max-height: 90%;
         padding-top: 0;
-        padding-bottom: 85px;
+        padding-bottom: 0
     }
 }
 
