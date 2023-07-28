@@ -1,5 +1,6 @@
 import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
+import Sharp from "sharp";
 
 /* eslint-disable */
 
@@ -30,39 +31,37 @@ export default async (req, res) => {
       });
     });
   };
-  let compress = (
-    buffer,
-    desiredHeight,
-    desiredWidth = 300,
-    format = "jpeg",
-    quality = 95
-  ) => {
+  let compress = (buffer, format = "jpeg", quality = 95) => {
     return new Promise(async (resolve) => {
-      const sharp = require("sharp");
       try {
-        const { width, height } = await sharp(buffer).metadata();
-        const aspectRatio = width / height;
+        const { width } = await Sharp(buffer).metadata();
+        let desiredWidth = null;
 
-        if (desiredHeight && !desiredWidth) {
-          desiredWidth = Math.round(desiredHeight * aspectRatio);
-        } else if (desiredWidth && !desiredHeight) {
-          desiredHeight = Math.round(desiredWidth / aspectRatio);
+        if (width > 300) {
+          desiredWidth = 300;
         }
 
-        const compressedBuffer = await sharp(buffer)
+        const compressedBuffer = await Sharp(buffer)
           .rotate()
-          .resize(desiredWidth || null, desiredHeight || null, {
-            fit: "contain",
-          })
+          .resize(desiredWidth, null)
           .toFormat(format, { quality })
           .toBuffer();
 
-        resolve({ compressedBuffer, desiredHeight, desiredWidth });
+        const { width: finalWidth, height: finalHeight } = await Sharp(
+          compressedBuffer
+        ).metadata();
+
+        resolve({
+          compressedBuffer,
+          desiredHeight: finalHeight,
+          desiredWidth: finalWidth,
+        });
       } catch (error) {
         resolve({ compressedBuffer: false });
       }
     });
   };
+
   let pushConvertedFileToS3 = (buffer, key, bucket, type) => {
     return new Promise((resolve, reject) => {
       s3.putObject(
