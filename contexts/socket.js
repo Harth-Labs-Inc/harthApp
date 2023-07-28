@@ -124,7 +124,7 @@ export const SocketProvider = ({ children }) => {
               user._id
             );
             if (newTopicResult.topics) {
-              let filteredTopics = newTopicResult.sort((a, b) => {
+              let filteredTopics = newTopicResult.topics.sort((a, b) => {
                 const removeEmoji = (str) => {
                   return str
                     .replace(

@@ -133,6 +133,9 @@ const MessageWrapper = () => {
     if (incomingMsg && Object.keys(incomingMsg).length) {
       if (selectedTopic && incomingMsg.topic_id === selectedTopic._id) {
         setCurrentMessages((prevState) => [incomingMsg, ...prevState]);
+        if (inview) {
+          scrollToBottom();
+        }
         removeUnsavedMessages(selectedTopic._id, user._id);
         let message = {};
         message.updateType = "reload unreads";
