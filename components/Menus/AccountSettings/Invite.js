@@ -77,9 +77,6 @@ const InviteComp = (props) => {
             <div className={styles.SettingsContainerText}>
                 Create an invite and send the link<br />to your friends
             </div>
-            <div className={styles.SettingsContainerTitle}>
-                Your h&auml;rths
-            </div>
             
             <div className={styles.InviteList}>
                 {COMMS.map((comm) => {

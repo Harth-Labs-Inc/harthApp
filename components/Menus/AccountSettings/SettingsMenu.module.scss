@@ -28,26 +28,27 @@
             width: 100%;
             @include menuTitle;
             text-align: center;
+            color: $font_light;
         }
 
         path {
-            fill: $fuel;
+            fill: $ash_light;
         }
     }
 
     &Title {
         @include menuSubTitle;
-        color: $fuel;
+        color: $ash_light;
         width: calc(100% - 16px);
         margin-top: 24px;
         padding: 4px 0px;
-        border-bottom: 1px solid $fuel;
+        border-bottom: 1px solid $ash_light;
         text-transform: capitalize;
     }
 
     &Text {
         @include worksans;
-        color: $fuel;
+        color: $font_light;
         width: 80%;
         margin-top: 12px;
         text-align: center;
@@ -63,15 +64,16 @@
     padding: 8px 12px;
     overflow-y: auto;
     background-color: transparent;
+    margin-top: 12px;
 
     &Item {
         display: flex;
         flex-direction: column;
         row-gap: 8px;
         padding: 20px;
-        background-color: $silver_light;
+        background-color: $black;
         border-radius: 12px;
-        border: 0;
+        border: 1px solid $ash_medium;
         box-shadow:
             0 1px 1px hsl(0deg 0% 0% / 0.075),
             0 2px 2px hsl(0deg 0% 0% / 0.075);
@@ -92,7 +94,7 @@
 
             &Name {
                 @include harthTitle2;
-                color: $fuel;
+                color: $font_light;
             }
         }
 
@@ -108,18 +110,18 @@
                 width: 100%;
                 padding: 0px 8px;
                 text-overflow: ellipsis;
-                background-color: $fuel_50;
+                background-color: $black;
                 border-radius: 99px 0 0 99px;
                 overflow: hidden;
                 white-space: nowrap;
                 @include worksans;
                 font-size: 13px;
-                color: $white;
+                color: $font_medium;
             }
             &Copy {
                 padding: 8px 16px;
-                color: $white;
-                background-color: $hot_pink;
+                color: $font_light;
+                background-color: $hot_salmon;
                 border: 0;
                 border-radius: 0 99px 99px 0;
                 //transition: .3s;
@@ -127,7 +129,7 @@
                 @include buttonLarge;
 
                 &:active {
-                    background-color: $fuel;
+                    background-color: $ash;
 
                 }
             }
@@ -171,10 +173,11 @@
 
     background-color: transparent;
     @include menuText;
-    color: $fuel;
+    color: $font_light;
 
     &Invites {
         color: $hot_pink;
+        font-weight: 600;
 
     }
     &:hover {
@@ -185,7 +188,7 @@
         height: 24px;
         width: 24px;
         path {
-            fill: $fuel;
+            fill: $ash_light;
         }
     }
 }
@@ -224,10 +227,26 @@
     padding: 4px 12px;
     //background-color: aquamarine;
     @include chatText;
-    color: $fuel;
+    color: $font_light;
 
     path {
-        fill: $fuel_50;
+        fill: $ash_medium;
+    }
+
+    button {
+        &:hover {
+            background-color: $black;
+            path {
+                fill: $ash_light;
+            }
+        }
+
+        &:active {
+            background-color: $black;
+            path {
+                fill: $ash_light;
+            }
+        }
     }
 
 }
@@ -235,7 +254,7 @@
 .EditContainer {
     display: flex;
     flex-direction: column;
-    row-gap: 24px;
+    row-gap: 12px;
     justify-content:space-between;
     align-items: center;
     width: 100%;
@@ -245,12 +264,17 @@
     color: $fuel;
 
     .inputEdit {
-        width: 100%;
+        border-radius: 4px;
+        background-color: black;
+        border: 1px solid $ash_medium;
+        height: 40px;
+        color: $font_light;
+        caret-color: $hot_salmon;
         margin: 0;
-        padding: 4px 4px;
-       // background-color: aqua;
-        color: $fuel;
-        border-color: $fuel;
+        &::placeholder {
+            color: $font_medium;
+
+        }
     
     }
 
@@ -263,8 +287,8 @@
     }
     .cancelButton {
         background-color: transparent;
-        color: $fuel;
-        border-color: $fuel;
+        color: $font_medium;
+        border: 1px solid $ash_medium;
         
     
     }

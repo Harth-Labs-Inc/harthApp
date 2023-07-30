@@ -32,6 +32,9 @@
         font-size: 24px;
         text-align: center;
         margin-top: 24px;
+        border-color: $ash_light;
+        caret-color: $hot_salmon;
+        color: $font_light;
     }
 
     .form {
@@ -43,15 +46,13 @@
     .helpText {
         position: relative;
         text-align: center;     
-        width: 90%;
+        width: 85%;
         margin: 4px auto;
         
-        color: $silver-dark;
-        @include interfaceR3;
+        color: $font_medium;
+        @include worksans;
         overflow-wrap: anywhere;
-        p{
-            font-weight: 700;
-        }
+
     }
     
 

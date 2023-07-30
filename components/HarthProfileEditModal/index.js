@@ -183,7 +183,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
           />
           <div
             className={styles.helpText}
-          >{`Tip: This is your avatar for ${harth.name} only. Switch härths to personalize all your different avatars.`}</div>
+          >{`Tip: This is your avatar for ${harth.name} only. Switch härths to customize all your different avatars.`}</div>
           <div className={styles.buttonBar}>
             <Button
               text="Cancel"

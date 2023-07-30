@@ -13,6 +13,7 @@
         text-align: left;
         margin-top: 8px;
         margin-bottom: 40px;
+        color: $font_light;
     }
     .EmojiPicker {
         position: fixed;
@@ -43,17 +44,17 @@
 
         button {
             position: relative;
-            padding: 6px 6px;
-            width: fit-content;
-            height: fit-content;
-            border-radius: 8px;
-            border: 1px solid $fuel_10;
-            background-color: transparent;
+            padding: 0;
+            //padding-bottom: 2px;
+            min-width: 48px;
+            width: 48px;
+            min-height: 48px;
+            height: 48px;
 
-            img {
-                width: 28px;
-                height: 28px;
-            }
+            border-radius: 8px;
+            border: 0;
+            border: 1px solid $ash_medium;
+            background-color: $ash;
 
             &:hover {
                 background-color: $fuel_10;
@@ -88,6 +89,12 @@
 
         input {
             @include topicTitleActive;
+            color: $font_light;
+            border-color: $ash_medium;
+            caret-color: $hot_salmon;
+            &::placeholder {
+                color: $font_medium;
+            }
         }
     }
 

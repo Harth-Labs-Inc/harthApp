@@ -51,9 +51,9 @@ const TopBar = (props) => {
               aria-label="Current Harth"
             >
               <img src={selectedcomm?.iconKey} loading="lazy" />
-              <div className={styles.menuIcon}>
+              {/* <div className={styles.menuIcon}>
                 <IconMenu />
-              </div>
+              </div> */}
             </button>
 
             <div className={styles.TopBarName}>{selectedcomm?.name}</div>

@@ -8,7 +8,7 @@
     justify-content: center;
     min-width: 300px;
     row-gap: 16px;
-    @include rubik;
+    @include worksans;
     font-size: 14px;
 
     .title {
@@ -24,7 +24,6 @@
         height: 56px;
         width: 56px;
         border-radius: 8px;
-        border: 1px solid $fuel_50;
         margin-top: 12px;
     }
     .harthName {
@@ -32,12 +31,13 @@
         margin-bottom: 12px;
         font-weight: 500;
         @include harthTitleSmall;
+        color: $font_light;
     }
 
     .text {
         width: 90%;
         text-align: center;
-        color: $fuel_50;
+        color: $font_medium;
         font-size: 12px;;
     }
 

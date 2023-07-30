@@ -14,11 +14,11 @@
         column-gap: 12px;
         justify-content:space-between;
         align-items: center;
-        background-color: $silver-light;
+        background-color: $black;
         width: 100%;
         height: 52px;
         padding: 0px 8px 0px 8px;
-        border: 2px solid $silver-light;
+        border: 1px solid $ash_medium;
         border-radius: 12px;
         margin-top:8px;
 
@@ -33,9 +33,13 @@
             flex-direction: column;
 
             @include chatProfile;
+            font-size: 14px;
+            color: $font_light;
             width: 100%;
+            padding-top: 10px;
             p{
-                @include interfaceR4;
+                font-size: 9px;
+                margin-top: 2px;
             }
 
         }
@@ -62,23 +66,23 @@
             padding: 6px;
 
             path {
-                fill: $silver-heavy;
+                fill: $ash_medium;
             }
 
             &Desktop {
                 &:hover {
-                    background: $silver-med;
+                    background: $ash_heavy;
                     path {
-                        fill: $silver-heavy;
+                        fill: $ash_light;
                     }
                 }
             }
 
             &Mobile {
                 &:active {
-                    background: $silver-med;
+                    background: $ash_heavy;
                     path {
-                        fill: $silver-heavy;
+                        fill: $ash_light;
                     }
                 }
             }
@@ -95,16 +99,16 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $silver-xxlight;
+        background-color: $black;
         padding: 0px 20px;
         border-top-left-radius: 0px;
         border-top-right-radius: 0px;
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
         border: 0px;
-        border-left: 2px solid $silver-light;
-        border-right: 2px solid $silver-light;
-        border-bottom: 2px solid $silver-light;
+        border-left: 1px solid $ash_medium;
+        border-right: 1px solid $ash_medium;
+        border-bottom: 1px solid $ash_medium;
         .makeAdmin {
             display: flex;
             flex-direction: row;
@@ -113,7 +117,9 @@
             column-gap: 6px;
     
             p {
-                @include interfaceR2;
+                @include worksans;
+                color: $font_light;
+
             }
     
     
@@ -134,10 +140,10 @@
         border-radius: 12px;
         padding: 0px 8px 0px 8px;
         background-color: transparent;
-        border: 2px dashed $silver-light;
+        border: 1px dashed $ash_medium;
         margin-top: 8px;
         @include chatProfile;
-        color: $silver-heavy;
+        color: $font_medium;
 
         .numberHolder {
             display: flex;
@@ -150,8 +156,8 @@
             border-radius: 9999px;
             align-items: center;
             justify-content: center;
-            background-color: $silver-light;
-            color: $silver-heavy;
+            background-color: $black;
+            color: $ash_medium;
             @include worksans;
             font-size: 20px;
             font-weight: 700;

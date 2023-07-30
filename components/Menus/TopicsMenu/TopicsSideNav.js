@@ -340,7 +340,7 @@ const TopicsNav = (props) => {
                 />
               );
             })}
-          {(topicsArr.map.length == 1)  ? <div className={styles.notopic}>Select below to add a topic</div> : null}
+          {(topicsArr.length < 1)  ? <div className={styles.notopic}>Select below to add a topic</div> : null}
           <button
             id="create_topic"
             className={isMobile ? styles.CreateTopicMobile : styles.CreateTopic}

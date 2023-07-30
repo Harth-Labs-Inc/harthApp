@@ -160,7 +160,7 @@
             padding: 0px 8px;
             border: 0;
             background: transparent;
-            @include harthTitle2;
+            
         }
 
         &Icon {
@@ -169,7 +169,7 @@
             height: 48px;
             padding: 6px;
             border-radius: 8px;
-            background-color: $silver_heavy;
+            background-color: $ash;
         }
 
         &Image {
@@ -178,24 +178,25 @@
                 width: 48px;
                 min-width: 48px;
                 border-radius: 8px;
-                border: 1px solid $fuel;
+                border: 0;
             }
         }
 
         &Active {
-            border: 3px solid $hot_blue;
+            border: 3px solid $hot_salmon;
         }
 
         &Name {
             width: 100%;
-            color: $fuel;
+            @include harthTitle2;
+            color: $font_light;
             margin-left: 4px;
             text-align: left;
             vertical-align: top;
         }
 
         &:active {
-            background-color: $silver_med;
+            background-color: $black;
         }
 
         &SettingsButton {
@@ -213,7 +214,7 @@
             margin-right: 8px;
 
             path {
-                fill: $silver-heavy;
+                fill: $ash_medium;
             }
         }
 
@@ -241,7 +242,7 @@
         align-items: center;
         justify-content: center;
         margin-top: 16px;
-        margin-left: 14px;
+        margin-left: 16px;
         margin-bottom: 12px;
 
         button {
@@ -250,17 +251,17 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            border: 1px solid $silver_heavy;
+            border: 1px solid $ash_medium;
             border-radius: 8px;
             background: transparent;
             padding: 6px;
 
             path {
-                fill: $silver_heavy;
+                fill: $ash_medium;
             }
 
             &:active {
-                background-color: $silver_med;
+                background-color: $black;
             }
         }
     }
