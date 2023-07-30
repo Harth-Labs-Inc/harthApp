@@ -11,26 +11,42 @@
     margin: 0 auto;
     padding: 24px 24px;
     overflow: auto;
-background-color: white;
+
+
     input {
-        border-radius: 0;
+        border-radius: 4px;
+        background-color: black;
+        border: 1px solid $ash_medium;
+        height: 40px;
+        color: $font_light;
+        caret-color: $hot_salmon;
+        &::placeholder {
+            color: $font_medium;
+
+        }
+
     }
 
 
     .logoHolder {
-        width: 216px;
-        max-width: 216px;
+        width: 256px;
+        max-width: 256px;
+        height: 56px;
         margin-top: 16px;
-        margin-bottom: 16px;
         display: flex;
         justify-content: center;
+        svg {
+            margin: auto;
+            height: 48px;
+        }
     }
     .greeting {
-        @include interfaceR2;
+        @include worksans;
+        font-size: 12px;
         text-align: center;
         margin-bottom: 64px;
         margin-top: 4px;
-        color: $fuel;
+        color: $font_light;
     }
 
     .formBottom {
@@ -39,20 +55,24 @@ background-color: white;
     }
 
     &Disclaimer {
-        @include interfaceR3;
+        @include worksans;
         text-align: center;
         width: 280px;
         margin: 8px auto 28px;
-        color: $fuel_50;
+        color: $font_medium;
     }
 
     &SignUpLink {
         display: block;
         margin: 0 auto 56px;
+        button {
+            border-color: $ash;
+            border: 1px solid aquamarine;
+        }
     }
 
     .loginButton {
-        margin-top:16px;
+        margin-top:0px;
     }
 
     .accountCreateAlert {
@@ -71,7 +91,7 @@ background-color: white;
         border-radius: 16px;
         padding: 8px 12px;
 
-        button {
+        .button {
             display: block;
             margin: 4px auto;
             background-color: transparent;

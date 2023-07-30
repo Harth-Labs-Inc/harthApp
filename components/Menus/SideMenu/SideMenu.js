@@ -204,7 +204,7 @@ const SideNav = (props) => {
     <>
       {showCreateHarthNameModal ? (
         <CreateHarthName
-          talkingHeadMsg="Time to make a sweet new härth for you and your crew."
+          talkingHeadMsg="Let's make a härth for you and your friends."
           footer="Tip: You can change your härth name and image at any time"
           placeholder="härth name"
           submitText="Create"

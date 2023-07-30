@@ -9,12 +9,12 @@
 }
 
 .CodeInputCharacter {
-    color: $fuel;
+    color: $font_light;
     font-family: "Rubik", sans-serif;
     font-size: 36px;
     font-weight: 500;
     line-height: 40px;
-    background-color: $white;
+    background-color: $black;
     border: 4px solid;
     border-radius: 8px;
 
@@ -23,6 +23,6 @@
     justify-content: center;
     
     &Inactive {
-        border-color: $fuel;
+        border-color: $ash_light;
     }
 }

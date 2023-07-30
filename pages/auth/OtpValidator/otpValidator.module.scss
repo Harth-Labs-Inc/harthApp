@@ -11,16 +11,18 @@
     margin: 0 auto;
     padding: 24px 24px 56px 24px;
     overflow: auto;
-    background-color: white;
     &Text {
-        @include interfaceR2;
+        @include worksans;
+        font-size: 14px;
+        color: $font_light;
         margin: 12px 0 16px;
         text-align: center;
     }
     &SubText {
-        @include interfaceR3;
+        @include worksans;
+        font-size: 12px;
         margin-top: 4px;
-        color: $silver-dark;
+        color: $font_medium;
         text-align: center;
     }
 

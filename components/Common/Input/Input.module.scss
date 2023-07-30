@@ -11,8 +11,8 @@
         border: 0;
         border-bottom: 1px solid $fuel;
 
-        &:placeholder {
-            color: $fuel_50;
+        &::placeholder {
+            color: $font_medium;
         }
     }
 
@@ -44,7 +44,7 @@
 
 
         &::placeholder {
-            color: $ash_40;
+            color: $font_medium;
         }
     }
 

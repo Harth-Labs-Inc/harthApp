@@ -84,10 +84,15 @@
     }
 
     &Primary {
-        color: $white;
-        background-color: $hot_pink;
-        border-color: $hot_pink;
+        color: $font_light;
+        background-color: $ash_medium;
+        border: 0;
         &:hover {
+            background-color: $hot_salmon;
+            border-color: $fuel;
+        }
+
+        &:active {
             color: $white;
             background-color: $fuel;
             border-color: $fuel;
@@ -96,17 +101,21 @@
     }
     
     &Secondary {
-        color: $fuel;
+        color: $font_medium;
         background: transparent;
-        border-color: $fuel;
+        border-color: $ash;
         &:hover {
-            color: $white;
+            color: $font_light;
+            background-color: $fuel;
+        }
+        &:active {
+            color: $font_light;
             background-color: $fuel;
         }
     }
 
     &Large {
-        padding: 10px 20px;
+        padding: 14px 20px;
         @include buttonLarge;
     }
     &Small {
@@ -121,9 +130,7 @@
     }
 
     &Loading {
-        color: $white;
-        background: $fuel;
-        border-color: $fuel;
+
         pointer-events: none;
 
         &::after {
@@ -138,7 +145,7 @@
             margin: auto;
             background-color: transparent;
             border: 4px solid transparent;
-            border-top-color: $white;
+            border-top-color: $hot_salmon;
             border-radius: 50%;
             animation: spinner 1s ease infinite;
         }

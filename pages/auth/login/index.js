@@ -6,7 +6,7 @@ import { sendOtpEmailToUser, loginAttempt } from "../../../requests/userApi";
 
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import { Button } from "Common";
-import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
+import { HarthLogoLight } from "../../../public/images/harth-logo-light";
 
 import styles from "./login.module.scss";
 
@@ -43,7 +43,7 @@ const Login = () => {
   return (
     <div className={`${styles.loginModule} ${styles.fadeIn}`}>
       <div className={styles.logoHolder}>
-        <HarthLogoDark />
+        <HarthLogoLight />
       </div>
 
       <div className={styles.greeting}>Where friends gather</div>
@@ -86,15 +86,15 @@ const Login = () => {
 
       <div className={styles.formBottom}>
         <p className={styles.loginModuleDisclaimer}>
-          By continuing, you are agreeing to our Customer
+          By continuing, you are agreeing to our Customer&nbsp;
           <a
             href="https://harthsocial.com/terms"
             target="_blank"
             rel="noreferrer"
           >
-            Terms of Service
+            Terms of Service 
           </a>
-          and
+          &nbsp;and&nbsp;
           <a
             href="https://harthsocial.com/privacy"
             target="_blank"
