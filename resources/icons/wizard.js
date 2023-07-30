@@ -4,6 +4,7 @@ export const Wizard = (props) => (
     viewBox="0 0 244.86 391.64"
     {...props}
     height={150}
+    width={"100%"}
   >
     <g>
       <g>
