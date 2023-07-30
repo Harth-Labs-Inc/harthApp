@@ -21,7 +21,7 @@ export const DiceAlert = (props) => {
     const onClick = () => removeDiceALert(roll.id);
 
     useEffect(() => {
-        setTimeout(onClick, 3000);
+        setTimeout(onClick, 7000);
     }, [roll.id]);
 
     return (

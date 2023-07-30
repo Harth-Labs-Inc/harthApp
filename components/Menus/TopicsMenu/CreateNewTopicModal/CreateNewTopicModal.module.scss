@@ -88,7 +88,6 @@
                     background-color: $ash_medium;
                     content: "Pick an Emoji";
                     @include mouseover;
-                    z-index: 10;
                 }
 
                 &::after {
@@ -102,7 +101,6 @@
                     border-left: 8px solid transparent;
                     border-right: 8px solid transparent;
                     border-top: 10px solid $ash_medium;
-                    z-index: 9;
                 }
             }
         }

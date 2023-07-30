@@ -1,7 +1,25 @@
 @import "../../../styles/globals.scss";
 @import "../../../styles/fonts.scss";
 
+.Mobile {
+    position: relative;
+    width: 26%;
+    aspect-ratio: 1/1;
+}
+
+.Desktop {
+    position: relative;
+    height: 56px;
+    width: 56px;
+
+}
+
+
+
+
 .diceButton {
+    width: 100%;
+    height: 100%;
     position: relative;
     //border-radius: 9999px;
     cursor: pointer;
@@ -12,19 +30,17 @@
     align-items: center;
     justify-content: center;
     background: transparent;
+    //border: 1px solid red;
 
-
-    &Large {
+    .Mobile & {
         .icon {
             position: relative;
-            top: 0px;
-            left: 3px;
-            width: 72px;
-            height: 72px;
-            //background-color: aqua;
+            width: 100%;
         }
 
         .rollResult {
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -35,13 +51,9 @@
     }
 
 
-
-    &Small {
-        height: 56px;
-        width: 56px;
+    .Desktop & {
+        width: 100%;
         padding: 0;
-        //background-color: $ash;
-        border-radius: 8px;
 
         .icon {
             width: 44px;
@@ -49,6 +61,8 @@
         }
 
         .rollResult {
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -57,24 +71,25 @@
             font-weight: 500;
             color: $white;
         }
+
     }
 
     &Inactive {
         //box-shadow: 4px 9999px 1px $ash inset; //interior color
 
         path {
-            fill: $white_80;
+            fill: $ash_light;
         }
         &:hover {
             // border: solid 3px $white_90;
             //background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
-            border: solid 2px transparent;
-            box-shadow: 4px 9999px 1px $black inset; //interior color
-            background-image: linear-gradient(
-                    rgba(255, 255, 255, 0),
-                    rgba(255, 255, 255, 0)
-                ),
-                linear-gradient(35deg, $hot_blue, $hot_pink);
+            // border: solid 2px transparent;
+            // box-shadow: 4px 9999px 1px $black inset; //interior color
+            // background-image: linear-gradient(
+            //         rgba(255, 255, 255, 0),
+            //         rgba(255, 255, 255, 0)
+            //     ),
+            //     linear-gradient(35deg, $hot_blue, $hot_pink);
 
             path {
                 fill: $white;
@@ -97,11 +112,56 @@
         }
     }
 
-    &Mobile {
-        //width: calc(100% / 3);
-        width: 26%;
-        border-radius: 12px;
-        height: 110px;
+
+
+
+    
+}
+
+.multiplier {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding: 0;
+    text-align: center;
+    @include worksans;
+    color: $font_medium;
+    background: transparent;
+   cursor: pointer;
+    border: 0;
+
+    
+
+
+    .Mobile & {
+        height: 32px;
+        width: 32px;
+        padding-left: 2px;
+        font-size: 16px;
+        .x {
+            font-size: 12px;
+            //margin-right: 1px;
+        }
+
+
+        &:active{
+            color: $font_light;
+        }
+
+    }
+
+    .Desktop & {
+        height: 20px;
+        width: 20px;
+        padding-left: 2px;
+        font-size: 12px;
+        .x {
+            font-size: 9px;
+            //margin-right: 1px;
+        }
+        &:hover {
+            color: $font_light;
+        }
     }
 }
 
