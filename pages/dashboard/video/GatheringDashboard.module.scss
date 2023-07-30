@@ -12,8 +12,6 @@
 }
 
 .gatheringPage {
-    //position: relative;
-    
     background-color: $white;
     height:100%;
     width: 100%;
@@ -23,6 +21,8 @@
 
     &Mobile {
         padding: 75px 16px 24px 16px;
+    background: black
+
     }
 
     .roomContainer {
