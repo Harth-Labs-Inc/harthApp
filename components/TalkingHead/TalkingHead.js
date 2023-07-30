@@ -1,4 +1,3 @@
-import { Wizard } from "../../resources/icons/wizard";
 import styles from "./TalkingHead.module.scss";
 
 const TalkingHead = ({ text, textArray, isSmall }) => {
