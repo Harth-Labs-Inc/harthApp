@@ -66,37 +66,31 @@ export const DiceBar = (props) => {
               <Dice
                 diceRollHandler={diceRollHandler}
                 number={4}
-                size={isMobile ? "large" : "small"}
                 ariaLabel="D 4"
               />
               <Dice
                 diceRollHandler={diceRollHandler}
                 number={6}
-                size={isMobile ? "large" : "small"}
                 ariaLabel="D 6"
               />
               <Dice
                 diceRollHandler={diceRollHandler}
                 number={8}
-                size={isMobile ? "large" : "small"}
                 ariaLabel="D 8"
               />
               <Dice
                 diceRollHandler={diceRollHandler}
                 number={10}
-                size={isMobile ? "large" : "small"}
                 ariaLabel="D 10"
               />
               <Dice
                 diceRollHandler={diceRollHandler}
                 number={12}
-                size={isMobile ? "large" : "small"}
                 ariaLabel="D 12"
               />
               <Dice
                 diceRollHandler={diceRollHandler}
                 number={20}
-                size={isMobile ? "large" : "small"}
                 ariaLabel="D 20"
               />
             </div>
@@ -134,37 +128,31 @@ export const DiceBar = (props) => {
             <Dice
               diceRollHandler={diceRollHandler}
               number={4}
-              size={isMobile ? "large" : "small"}
               ariaLabel="D 4"
             />
             <Dice
               diceRollHandler={diceRollHandler}
               number={6}
-              size={isMobile ? "large" : "small"}
               ariaLabel="D 6"
             />
             <Dice
               diceRollHandler={diceRollHandler}
               number={8}
-              size={isMobile ? "large" : "small"}
               ariaLabel="D 8"
             />
             <Dice
               diceRollHandler={diceRollHandler}
               number={10}
-              size={isMobile ? "large" : "small"}
               ariaLabel="D 10"
             />
             <Dice
               diceRollHandler={diceRollHandler}
               number={12}
-              size={isMobile ? "large" : "small"}
               ariaLabel="D 12"
             />
             <Dice
               diceRollHandler={diceRollHandler}
               number={20}
-              size={isMobile ? "large" : "small"}
               ariaLabel="D 20"
             />
           </div>

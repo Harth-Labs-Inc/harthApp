@@ -12,49 +12,58 @@ import { MobileContext } from "../../../contexts/mobile";
 import styles from "./dice.module.scss";
 
 export const Dice = (props) => {
-    const { size = "large", number = 20, diceRollHandler } = props;
+    const { number = 20, diceRollHandler } = props;
 
     const { isMobile } = useContext(MobileContext);
 
     const [isDisabled, setIsDisabled] = useState(false);
     const [rollResult, setRollResult] = useState();
     const [showRoll, setShowRoll] = useState(false);
+    const [multiplier, setMultiplier] = useState(1);
 
     const rollAnimation = () => {
         setIsDisabled(true);
         //timeout for animation roll
-        setTimeout(() => rollDice(), 1300);
+        setTimeout(() => rollDice(), 2000);
     };
 
     const rollDice = () => {
-        let result = (Math.floor(Math.random() * number) + 1).toString();
-        setRollResult(result);
         setShowRoll(true);
-        diceRollHandler({ sides: number, number: result });
+        for (let i = 0; i < multiplier; i++) {
+            let result = (Math.floor(Math.random() * number) + 1).toString();
+            setRollResult(result);
+            diceRollHandler({ sides: number, number: result });
+          }
         setTimeout(() => {
             setShowRoll(false);
             setIsDisabled(false);
         }, 2000);
     };
 
+    const incrementMultiplier = () => {
+        if (multiplier >= 4) {
+            setMultiplier(1);
+        } else {
+            setMultiplier(multiplier + 1);
+        }
+    }
+
     /* eslint-disable */
 
     return (
         <>
+        <div className={`
+            ${isMobile ? styles.Mobile : styles.Desktop}
+        `}>
             <button
                 className={`
                 ${styles.diceButton} 
-                ${
-                    size == "large"
-                        ? styles.diceButtonLarge
-                        : styles.diceButtonSmall
-                } 
                 ${
                     isDisabled == true
                         ? styles.diceButtonAnimated
                         : styles.diceButtonInactive
                 }
-                ${isMobile && styles.diceButtonMobile}
+                
             `}
                 aria-label="dice"
                 onClick={rollAnimation}
@@ -99,7 +108,15 @@ export const Dice = (props) => {
                         <IconDiceD4 hasGradient="true" />
                     </div>
                 )}
+
             </button>
+            <button 
+                    className={styles.multiplier}
+                    onClick={incrementMultiplier}
+            >
+                <span className={styles.x}>x</span>{multiplier}
+            </button>
+        </div>
         </>
     );
 };

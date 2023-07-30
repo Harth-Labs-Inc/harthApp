@@ -14,7 +14,7 @@ const TopicDeleteModal = ({ setHidden, submitTopicChange, topic }) => {
     return (
         <div className={styles.mainContainer}>
             <div className={styles.title}>Confirm Delete</div>
-            <p className={styles.text}>you are about to delete the topic:</p>
+            <p className={styles.text}>you are about to delete</p>
             <div className={styles.topic}>{topic?.title}</div>
             <p className={styles.subtext}>
                 The topic will be deleted and all content will be erased. This

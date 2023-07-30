@@ -18,7 +18,7 @@
         margin: auto;
         padding-bottom: 80px;
         p {
-            color: $fuel_light;
+            color: $font_medium;
             @include worksans;
             font-size: 13px;
         }
@@ -53,7 +53,7 @@
 
         .title {
             @include harthTitle1;
-            color: $fuel;
+            color: $font_light;
             width: 100%;
             text-align: center;
             padding: 0px 0px 0px 8px;
@@ -80,7 +80,7 @@
         column-gap: 8px;
         border:0;
         padding: 0px 12px;
-        border-bottom: 1px solid $silver-med;
+        border-bottom: 1px solid $ash_medium;
     
         .tabButton {
             position: relative;
@@ -91,7 +91,7 @@
             gap: 4px;
             @include worksans;
             font-size: 12px;
-            color: $silver-dark;
+            color: $font_medium;
             font-weight: 500;
             letter-spacing: 0.02em;
             width: 100%;
@@ -101,21 +101,21 @@
             background-color: transparent;
             cursor: pointer;
             border: 0;
-            border-bottom: 2px solid transparent;
+            border-bottom: 1px solid transparent;
 
             svg {
                 height: 20px;
                 width: 20px;
             }
             path {
-                fill: $silver-dark;
+                fill: $ash_medium;
             }
 
             &Active {
-                border-color: $fuel;
-                color: $fuel;
+                border-color: $white;
+                color: $font_light;
                 path {
-                    fill: $fuel;
+                    fill: $white;
                 }
             }
             

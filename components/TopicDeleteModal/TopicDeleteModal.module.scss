@@ -4,10 +4,11 @@
 .mainContainer {
     display: flex;
     flex-direction: column;
-    min-width: 300px;
+    width: 300px;
+    max-width: 100%;
     row-gap: 24px;
 
-    @include rubik;
+    @include worksans;
     font-size: 14px;
     text-align: center;
     align-items: center;
@@ -15,26 +16,28 @@
     .text {
         font-weight: 500;
         text-transform: uppercase;
-        color: $fuel;
+        color: $font_light;
     }
 
     .topic {
         @include topicTitle;
         font-size: 18px;
-        background-color: $warm_blue;
+        background-color: $black;
         width: fit-content;
         padding: 12px 16px;
-        color: $oxygen;
-        border-radius: 999px;
+        color: $font_light;
+        border: 1px solid $ash_medium;
+        border-radius: 8px;
     }
 
     .subtext {
         font-size: 12px;
         padding: 0px 24px;
-        color: $fuel_50;
+        color: $font_medium;
     }
     .title {
         @include overlayMenuTitle;
+        color: $font_light;
         width: 100%;
         text-align: left;
         margin-top: 8px;

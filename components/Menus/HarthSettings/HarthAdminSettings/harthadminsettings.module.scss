@@ -14,12 +14,12 @@
         margin-left: auto;
         margin-right: auto;
         border-radius: 12px;
-        border: 1px solid $fuel_10;
     }   
 }
 
 .justTitle {
     @include harthTitle2;
+    color: $font_light;
     text-align: center;
     margin-top: 16px;
     margin-bottom: 16px;
@@ -42,24 +42,33 @@
         margin: 0;
         width: 220px;
         padding: 8.5px 20px;
-        background-color: $silver-light;
-        border: 0;
-        border-radius: 99px 0 0 99px;
+        background-color: $black;
+        border: 1px solid $ash_medium;
+        border-radius: 8px 0 0 8px;
         @include harthTitleSmall;
+        color: $font_light;
     }
     .formSubmit {
         width: 96px;;
         padding: 8px ;
-        background-color: $hot_pink;
-        border-radius: 0 99px 99px 0;
-        color: $oxygen;
+        background-color: $ash_heavy;
+        border-radius: 0 8px 8px 0;
+        color: $hot_salmon;
         @include buttonLarge;
-        border: 0;
+        border: 1px solid $ash_medium;
         outline: none;
         outline-style: none;
         -moz-outline-style: none; 
         -webkit-tap-highlight-color: transparent; 
         cursor: pointer;
+
+        &:hover {
+            background-color: $black;
+        }
+
+        &:active {
+            background-color: $black;
+        }
     }
 }
 

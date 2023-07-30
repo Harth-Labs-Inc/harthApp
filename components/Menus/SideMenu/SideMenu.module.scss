@@ -45,16 +45,16 @@
     
     
             path {
-                fill: $ash_light;
+                fill: $ash_medium;
             }
     
     
             &:hover {
                 //border: 1px solid $fuel_10;
-                background-color: $ash_light;
+                background-color: $black;
     
                 path {
-                    fill: $ash;
+                    fill: $ash_light;
                 }
             }
     
@@ -63,7 +63,9 @@
                     fill: $hot_pink;
                 }
                 &:hover {
-
+                    path{
+                        fill: $hot_pink;
+                    }
                     &::before {
                         position: absolute;
                         display: flex;
@@ -121,10 +123,10 @@
         text-align: left;
         padding: 4px 20px;
         border: 0;
-        border-bottom: solid 1px $silver-med;
+        border-bottom: solid 1px $ash_medium;
         margin: 0;
         @include menuSubTitle;
-        color: $fuel;
+        color: $font_medium;
 
     }
 
@@ -149,7 +151,7 @@
     .settings {
         position: relative;
         bottom: 0;
-        border-top: 1px solid $silver-med;
+        border-top: 1px solid $ash_medium;
     }
 
 

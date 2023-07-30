@@ -29,7 +29,7 @@
         &Text {
             @include talkingHead;
         }
-        &Image {
+        .WizardBackground {
             width: 88px;
             min-width: 88px;
             max-width: 88px;
@@ -37,6 +37,10 @@
             //height: 154px;
             margin-top: auto;
             margin-left: 8px;
+
+            .Wizard {
+                width: 88px;
+            }
         }
     }
 }
@@ -72,14 +76,19 @@
             font-size: 14px;
             color: $fuel;
         }
-        &Image {
-            width: 68px;
-            min-width: 68px;
-            max-width: 68px;
-            height: auto;
+
+        .WizardBackground {
+            width: 88px;
+            min-width: 88px;
+            max-width: 88px;
+            //height: auto;
             //height: 154px;
             margin-top: auto;
-            margin-left: 2px;
+            margin-left: 8px;
+
+            .Wizard {
+                width: 88px;
+            }
         }
     }
 }

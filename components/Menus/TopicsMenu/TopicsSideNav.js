@@ -288,7 +288,7 @@ const TopicsNav = (props) => {
             isMobile ? styles.TopicsNavTitleMobile : styles.TopicsNavTitle
           }
         >
-          Topics
+          Chats
         </p>
         <div className={styles.TopicsNavContainer}>
           {selectedcomm &&
@@ -340,7 +340,7 @@ const TopicsNav = (props) => {
                 />
               );
             })}
-
+          {(topicsArr.length < 1)  ? <div className={styles.notopic}>Select below to add a topic</div> : null}
           <button
             id="create_topic"
             className={isMobile ? styles.CreateTopicMobile : styles.CreateTopic}

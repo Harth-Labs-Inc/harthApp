@@ -1,4 +1,3 @@
-import { Wizard } from "../../resources/icons/wizard";
 import styles from "./TalkingHead.module.scss";
 
 const TalkingHead = ({ text, textArray, isSmall }) => {
@@ -10,12 +9,12 @@ const TalkingHead = ({ text, textArray, isSmall }) => {
                         textArray.map((entry, idx) => <p key={idx}>{entry}</p>)
                     ) : (
                         <p className={styles.HelperContainerText}>
-                            {text}
+                            {text} 
                         </p>
                     )}
                 </div>
-                <div className={styles.HelperContainerImage}>
-                    <Wizard />
+                <div className={styles.WizardBackground}>
+                <img className={styles.Wizard} src="/images/wizard.png" />
                 </div>
             </div>
         </div>

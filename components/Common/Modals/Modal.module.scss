@@ -59,9 +59,9 @@
         left: 50%;
         transform: translate3d(-50%, -50%, 0);
         padding: 0px;
-        background-color: $silver-xxlight;
+        background-color: $ash_heavy;
         border-radius: 12px;
-
+        border: 1px solid $ash_medium;
         &Dark {
             background-color: $ash;
         }
@@ -76,7 +76,7 @@
         top: 0;
         height: var(--vh);
         width: 356px;
-        background-color: $silver-light;
+        background-color: $ash_heavy;
         overflow: hidden;
         padding-bottom: 28px;
         border-radius: 0 0px 0px 0;

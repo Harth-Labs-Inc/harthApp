@@ -124,7 +124,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
                 {Emoji ? (
                   <p className={styles.TopicEmoji}>{Emoji}</p>
                 ) : (
-                  <p style={{ fontSize: "28px" }}>&#x1F600;</p>
+                  <p className={styles.TopicEmoji}>&#x1F600;</p>
                 )}
               </button>
 

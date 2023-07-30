@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
-import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
+import { HarthLogoLight } from "../../../public/images/harth-logo-light";
 import { addUser, sendOtpEmailToUser } from "../../../requests/userApi";
 import { Button } from "../../../components/Common";
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
@@ -92,7 +92,7 @@ const CreateAccount = () => {
     <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
       <div className={styles.CreateModuleContent}>
         <div className={styles.CreateModuleLogo}>
-          <HarthLogoDark />
+          <HarthLogoLight />
         </div>
         <TalkingHead text={bubbleText} />
         <form onSubmit={handleSubmit(submitHandler)}>
@@ -125,6 +125,7 @@ const CreateAccount = () => {
             type="date"
             max={todayMax}
             min={new Date("1/1/1910").toISOString().split("T")[0]}
+            style={{ caretColor: '#ff0000', '::placeholder': { color: '#999' } }}
           />
           <div className={styles.small}>
             Enter your birthday for verification. Your birthday will not be

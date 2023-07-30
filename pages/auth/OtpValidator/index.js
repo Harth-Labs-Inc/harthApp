@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import { HarthLogoDark } from "../../../public/images/harth-logo-dark";
+import { HarthLogoLight } from "../../../public/images/harth-logo-light";
 
 import { useAuth } from "../../../contexts/auth";
 import {
@@ -46,7 +46,7 @@ const OtpValidator = (props) => {
 
   const [inviteCode, setInviteCode] = useState();
   const [helpText, setHelpText] = useState([
-    "Go ahead and enter the secret code I just sent you.",
+    "Enter the secret code I just sent you.",
   ]);
   const inputChangeHandler = (text) => {
     setInviteCode(text);
@@ -105,7 +105,7 @@ const OtpValidator = (props) => {
   return (
     <div className={`${styles.OtpModule} ${styles.fadeIn}`}>
       <div className={styles.OtpModuleLogo}>
-        <HarthLogoDark />
+        <HarthLogoLight />
       </div>
       <TalkingHead textArray={helpText} />
       <p className={styles.OtpModuleText}>

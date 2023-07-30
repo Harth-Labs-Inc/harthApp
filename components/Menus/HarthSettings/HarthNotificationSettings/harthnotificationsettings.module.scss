@@ -14,15 +14,17 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $silver-light;
+        background-color: $black;
         width: 100%;
         height: 48px;
-        @include titleNav;
+        @include worksans;
+        font-size: 14px;
+        font-weight: 500;
         letter-spacing: 0.03em;
         padding: 0px 8px 0px 12px;
         border-radius: 8px;
-        border: 1px solid $silver-med;
-        color: $fuel;
+        border: 1px solid $ash_medium;
+        color: $font_light;
 
     }
     
