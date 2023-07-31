@@ -183,7 +183,7 @@ export const CommsProvider = ({
             setComm(comms[0]);
           }
           if (setNew) {
-            setComm(comms[0]);
+            changeSelectedCommFromChild(newCom);
           }
           if (!comms.length) {
             setForceHarthCreation(true);

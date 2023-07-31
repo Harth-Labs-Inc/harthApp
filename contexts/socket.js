@@ -46,13 +46,17 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       const URLS = socketUrls;
-      setSocket(
-        io.connect(URLS[process.env.NODE_ENV], {
-          transports: ["websocket"],
-        })
-      );
+      const tempSocket = io.connect(URLS[process.env.NODE_ENV], {
+        transports: ["websocket"],
+      });
+      tempSocket.on("connect", () => {
+        setSocket(tempSocket);
+      });
 
       return () => {
+        if (tempSocket) {
+          tempSocket.disconnect();
+        }
         setSocket(null);
       };
     }
@@ -65,9 +69,9 @@ export const SocketProvider = ({ children }) => {
   }, [selectedcomm]);
 
   useEffect(() => {
-    if (socket && user && comms) {
+    if (socket && user) {
       socketRef.current = socket;
-      join([...(comms || [])]);
+
       getUnreadMessages(user);
 
       socket.on("new update", async ({ updateType, ...incomingUpdate }) => {
@@ -257,7 +261,13 @@ export const SocketProvider = ({ children }) => {
         socket.disconnect();
       };
     }
-  }, [socket, comms, user]);
+  }, [socket, user]);
+
+  useEffect(() => {
+    if (socket?.connected) {
+      join([...(comms || [])]);
+    }
+  }, [comms, socket?.connected]);
 
   const setNewAlerts = (incomingUpdate, alertType) => {
     let alerts = { ...mainAlertsRef.current };
@@ -298,15 +308,15 @@ export const SocketProvider = ({ children }) => {
       }
     });
   };
-  const join = async (topics) => {
-    let promises = [];
-    for (let { _id } of topics) {
-      promises.push(
+  const join = async (harths) => {
+    const promises = harths.map(
+      ({ _id }) =>
         new Promise((resolve) => {
-          socket.emit("joinRooms", _id, () => resolve(true));
+          socket.emit("joinRooms", _id, (_, response) => {
+            resolve(true);
+          });
         })
-      );
-    }
+    );
     await Promise.all(promises);
     return;
   };
