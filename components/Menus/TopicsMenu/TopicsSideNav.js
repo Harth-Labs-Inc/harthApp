@@ -310,7 +310,18 @@ const TopicsNav = (props) => {
                   let owner = topic?.members.find(
                     (member) => member?.user_id === user._id
                   );
-                  if (!owner || !owner.muted) {
+                  let isHarthMuted = false;
+                  if (selectedcomm && user) {
+                    let userIndex = selectedcomm.users.findIndex((usr) => {
+                      return usr.userId == user._id;
+                    });
+
+                    if (userIndex >= 0) {
+                      let profile = selectedcomm.users[userIndex];
+                      isHarthMuted = profile?.muted;
+                    }
+                  }
+                  if (!isHarthMuted && (!owner || !owner.muted)) {
                     hasAlert = true;
                     let match = alertProfiles.find(
                       (prof) => prof.creator_id == msg.creator_id
@@ -340,7 +351,9 @@ const TopicsNav = (props) => {
                 />
               );
             })}
-          {(topicsArr.length < 1)  ? <div className={styles.notopic}>Select below to add a topic</div> : null}
+          {topicsArr.length < 1 ? (
+            <div className={styles.notopic}>Select below to add a topic</div>
+          ) : null}
           <button
             id="create_topic"
             className={isMobile ? styles.CreateTopicMobile : styles.CreateTopic}
