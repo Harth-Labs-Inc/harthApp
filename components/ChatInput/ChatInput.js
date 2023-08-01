@@ -204,7 +204,13 @@ const ChatInput = (props) => {
           }
         }
         try {
-          sendPushNotification({ ...newMessage, env: process.env.NODE_ENV });
+          sendPushNotification({
+            ...newMessage,
+            pushTitle: `New message from ${newMessage.creator_name}`,
+            env: process.env.NODE_ENV,
+            ignoreSelf: true,
+            type: "chat",
+          });
         } catch (error) {
           console.log(error);
         }
