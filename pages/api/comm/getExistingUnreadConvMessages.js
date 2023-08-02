@@ -10,44 +10,21 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  const getMsgs = (db, id) => {
+
+  const getData = (db, id) => {
     return new Promise((resolve, reject) => {
-      db.collection("conversation_messages")
-        .find({ conversation_id: id })
+      db.collection("unread_conv_messages")
+        .find({ user_id: id })
         .toArray(function (err, results) {
           if (err) {
-            resolve(false);
+            resolve([]);
           }
-          resolve(results);
+          if (results) {
+            resolve(results);
+          } else {
+            resolve([]);
+          }
         });
-    });
-  };
-  const decrypt = (data) => {
-    return new Promise((resolve) => {
-      const { encryptedMessage } = data;
-      if (encryptedMessage) {
-        const crypto = require("crypto");
-        const algorithm = "aes-256-cbc";
-        const encryptionKey = Buffer.from(
-          process.env.MESSAGE_ENCRYPTION_KEY,
-          "hex"
-        );
-        const key = crypto.scryptSync(encryptionKey, "salt", 32);
-        const iv = Buffer.alloc(16, 0);
-        const decipher = crypto.createDecipheriv(algorithm, key, iv);
-        let decrypted = decipher.update(encryptedMessage, "hex", "utf8");
-        decrypted += decipher.final("utf8");
-        data.message = decrypted;
-      }
-      resolve(data);
-    });
-  };
-
-  const decryptMessages = (msgs) => {
-    return new Promise(async (resolve) => {
-      const decryptionPromises = msgs.map((message) => decrypt(message));
-      const decryptedMessages = await Promise.all(decryptionPromises);
-      resolve(decryptedMessages);
     });
   };
 
@@ -97,15 +74,9 @@ export default async (req, res) => {
     return res.json({ msg: "expired token", ok: 0, lockDown: true });
   }
   // passed authentication ------------------------------------------
-
-  let fetchResults = await getMsgs(db, obj.id._id);
+  let fetchResults = await getData(db, obj.id);
   if (!fetchResults) {
     return res.json({ msg: "Something Went Wrong", ok: 0 });
   }
-  let decryptedMessages = await decryptMessages(fetchResults);
-  return res.json({
-    msg: "successful",
-    ok: 1,
-    fetchResults: decryptedMessages,
-  });
+  return res.json({ msg: "successful", ok: 1, data: fetchResults });
 };

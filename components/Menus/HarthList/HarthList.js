@@ -14,6 +14,7 @@ const HarthList = ({
   comms,
   selectedcomm,
   unreadMsgs,
+  unreadConvMsgs,
   toggleCreateComm,
   changeSelectedCom,
   toggleHarthEditModal,
@@ -59,6 +60,17 @@ const HarthList = ({
           } else {
             let owner = com?.users.find((usr) => usr?.userId === user._id);
             unreadMsgs.forEach((msg) => {
+              if (
+                msg.comm_id === com._id &&
+                msg.creator_id !== user._id &&
+                owner &&
+                !owner.muted
+              ) {
+                newMessage = true;
+              }
+            });
+
+            unreadConvMsgs.forEach((msg) => {
               if (
                 msg.comm_id === com._id &&
                 msg.creator_id !== user._id &&
