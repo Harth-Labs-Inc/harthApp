@@ -24,12 +24,12 @@ export const removeUnsavedMessages = async (topicid, userid) => {
   }
 };
 
-export const saveUnreadMessage = async (msg) => {
+export const sendUnreadMessages = async (msg) => {
   try {
     const token = localStorage.getItem("token");
 
     const res = await api.post(
-      `/api/chat/saveUnreadMessage`,
+      `/api/chat/sendUnreadMessages`,
       {
         msg,
       },
@@ -44,7 +44,6 @@ export const saveUnreadMessage = async (msg) => {
     console.error(error);
   }
 };
-
 export const saveMessage = async (msg) => {
   try {
     const token = localStorage.getItem("token");

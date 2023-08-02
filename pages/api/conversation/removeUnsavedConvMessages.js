@@ -5,36 +5,22 @@ import jwt from "jsonwebtoken";
 
 export default async (req, res) => {
   let obj;
+
   try {
     obj = JSON.parse(req.body);
   } catch (e) {
     obj = req.body;
   }
-  let { id, name, fileType, desiredHeight, desiredWidth } = obj;
 
-  const pushToMessage = (
-    db,
-    id,
-    name,
-    fileType,
-    desiredHeight,
-    desiredWidth
-  ) => {
-    return new Promise((resolve, reject) => {
-      let mongo = require("mongodb");
-      let o_id = new mongo.ObjectID(id);
-      db.collection("conversation_messages").updateMany(
-        { _id: o_id },
-        {
-          $push: {
-            attachments: { name, fileType, desiredHeight, desiredWidth },
-          },
-        },
-        function (err, attchAdded) {
+  const deleteMessage = (db, convId, userid) => {
+    return new Promise((resolve) => {
+      db.collection("unread_conv_messages").deleteMany(
+        { user_id: userid, conversation_id: convId },
+        function (err, msgCreated) {
           if (err) {
             resolve(false);
           }
-          resolve(attchAdded);
+          resolve(msgCreated);
         }
       );
     });
@@ -45,9 +31,9 @@ export default async (req, res) => {
 
   // authentication ---------------------------------
   const findUser = (db, id) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       let mongo = require("mongodb");
-      let o_id = new mongo.ObjectID(id);
+      let o_id = new mongo.ObjectId(id);
       db.collection("users")
         .find({ _id: o_id })
         .toArray(function (err, results) {
@@ -59,7 +45,7 @@ export default async (req, res) => {
     });
   };
   const decode = (tokn) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(jwt.verify(tokn, process.env.SECRET));
     });
   };
@@ -86,20 +72,10 @@ export default async (req, res) => {
     return res.json({ msg: "expired token", ok: 0, lockDown: true });
   }
   // passed authentication ------------------------------------------
+  let deleteResult = await deleteMessage(db, obj.convId, obj.userid);
+  if (!deleteResult) {
+    return res.json({ ok: 0, msg: "something went wrong" });
+  }
 
-  let getResult = await pushToMessage(
-    db,
-    id,
-    name,
-    fileType,
-    desiredHeight,
-    desiredWidth
-  );
-  if (!getResult) {
-    return res.json({ ok: 0, msg: "something went wrong" });
-  }
-  if (!getResult.modifiedCount) {
-    return res.json({ ok: 0, msg: "something went wrong" });
-  }
   return res.json({ ok: 1, msg: "success" });
 };

@@ -23,7 +23,7 @@ const MobileSideNav = (props) => {
   const [currentTab, setCurrentTab] = useState("");
 
   const { comms, selectedcomm, changeSelectedCommFromChild } = useComms();
-  const { unreadMessagesRef } = useSocket();
+  const { unreadMessagesRef, unreadConvMessagesRef } = useSocket();
 
   const changeSelectedCom = (com) => {
     localStorage.setItem("selectedHarthID", com._id);
@@ -80,6 +80,7 @@ const MobileSideNav = (props) => {
             comms={comms}
             selectedcomm={selectedcomm}
             unreadMsgs={unreadMessagesRef}
+            unreadConvMsgs={unreadConvMessagesRef}
             toggleCreateComm={toggleCreateComm}
             changeSelectedCom={changeSelectedCom}
             changePage={changePage}

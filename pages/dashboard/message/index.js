@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import { IconChevronLeft } from "../../../resources/icons/IconChevronLeft";
 import { IconMoreDots } from "../../../resources/icons/IconMoreDots";
 import { CustomConversationContextMenu } from "components/CustomConversationContextMenu/CustomConversationContextMenu";
@@ -127,7 +127,10 @@ const Message = () => {
             style={{ width: "100%", position: "relative" }}
           >
             <div className={styles.topicHolderMobile}>
-              <ConversationsNav handleMobileChat={handleMobileChat} />
+              <ConversationsNav
+                handleMobileChat={handleMobileChat}
+                user={user}
+              />
             </div>
           </div>
           <TransitionGroup>
@@ -145,10 +148,10 @@ const Message = () => {
                     <div className={styles.people}>
                       {chatVisible?.OriginalUsers && (
                         <>
-                          {chatVisible?.OriginalUsers.map((e) => {
+                          {chatVisible?.OriginalUsers.map((e, idx) => {
                             if (e.userId !== user._id) {
                               return (
-                                <>
+                                <Fragment key={`${e.userId}${idx}`}>
                                   <img
                                     key={e.userId}
                                     className={`
@@ -159,7 +162,7 @@ const Message = () => {
                                     src={e.iconKey}
                                     loading="lazy"
                                   />
-                                </>
+                                </Fragment>
                               );
                             }
                             return null;
@@ -193,6 +196,7 @@ const Message = () => {
             />
           ) : null}
           <ConversationsNav
+            user={user}
             toggleConversationEditModal={toggleConversationEditModal}
           />
           <ConversationMessages />

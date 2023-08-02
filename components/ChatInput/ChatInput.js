@@ -5,7 +5,7 @@ import { IconImage } from "../../resources/icons/IconImage";
 
 import {
   saveMessage,
-  saveUnreadMessage,
+  sendUnreadMessages,
   updateMessage,
 } from "../../requests/chat";
 import { useComms } from "../../contexts/comms";
@@ -204,7 +204,13 @@ const ChatInput = (props) => {
           }
         }
         try {
-          sendPushNotification({ ...newMessage, env: process.env.NODE_ENV });
+          sendPushNotification({
+            ...newMessage,
+            pushTitle: `New message from ${newMessage.creator_name}`,
+            env: process.env.NODE_ENV,
+            ignoreSelf: true,
+            type: "chat",
+          });
         } catch (error) {
           console.log(error);
         }
@@ -221,29 +227,8 @@ const ChatInput = (props) => {
     setIncomingMsg(message);
     setNewAlerts(message, "chat");
     setIsSubmitting(false);
-    const users = selectedCommRef.current?.users?.filter(
-      (usr) => usr.userId !== user._id
-    );
-    if (users) {
-      const promises = [];
-      users.forEach((usr) => {
-        promises.push(
-          new Promise(async (res) => {
-            let data = {
-              topic_id: message.topic_id,
-              creator_id: message.creator_id,
-              user_id: usr.userId,
-              creator_name: message.creator_name,
-              creator_image: message.creator_image,
-              comm_id: message.comm_id,
-              date: message.date,
-            };
-            await saveUnreadMessage(data);
-            res(true);
-          })
-        );
-      });
-      await Promise.all(promises);
+    let { ok } = await sendUnreadMessages(message);
+    if (ok) {
       let unreadmessage = {};
       unreadmessage.updateType = "reload unreads";
       unreadmessage.topic_id = selectedTopic._id;

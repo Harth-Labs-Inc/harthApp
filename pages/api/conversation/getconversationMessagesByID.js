@@ -1,6 +1,6 @@
 import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
-
+import crypto from "crypto";
 /* eslint-disable */
 
 export default async (req, res) => {
@@ -10,34 +10,40 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  let { id, name, fileType, desiredHeight, desiredWidth } = obj;
+  const authToken = req.headers["x-auth-token"];
+  if (!authToken) {
+    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
+  }
 
-  const pushToMessage = (
-    db,
-    id,
-    name,
-    fileType,
-    desiredHeight,
-    desiredWidth
-  ) => {
-    return new Promise((resolve, reject) => {
-      let mongo = require("mongodb");
-      let o_id = new mongo.ObjectID(id);
-      db.collection("conversation_messages").updateMany(
-        { _id: o_id },
-        {
-          $push: {
-            attachments: { name, fileType, desiredHeight, desiredWidth },
-          },
-        },
-        function (err, attchAdded) {
-          if (err) {
-            resolve(false);
-          }
-          resolve(attchAdded);
-        }
-      );
-    });
+  const algorithm = "aes-256-cbc";
+  const encryptionKey = Buffer.from(process.env.MESSAGE_ENCRYPTION_KEY, "hex");
+  const key = crypto.scryptSync(encryptionKey, "salt", 32);
+  const iv = Buffer.alloc(16, 0);
+
+  const getMsgs = async (db, id, page = 1, limit = 13) => {
+    const skip = (page - 1) * limit;
+    return await db
+      .collection("conversation_messages")
+      .find({ conversation_id: id })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+  };
+
+  const decrypt = async (data) => {
+    const { encryptedMessage } = data;
+    if (encryptedMessage) {
+      const decipher = crypto.createDecipheriv(algorithm, key, iv);
+      let decrypted = decipher.update(encryptedMessage, "hex", "utf8");
+      decrypted += decipher.final("utf8");
+      data.message = decrypted;
+    }
+    return data;
+  };
+
+  const decryptMessages = async (msgs) => {
+    return await Promise.all(msgs.map((message) => decrypt(message)));
   };
 
   const client = await clientPromise;
@@ -45,7 +51,7 @@ export default async (req, res) => {
 
   // authentication ---------------------------------
   const findUser = (db, id) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       let mongo = require("mongodb");
       let o_id = new mongo.ObjectID(id);
       db.collection("users")
@@ -59,14 +65,10 @@ export default async (req, res) => {
     });
   };
   const decode = (tokn) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(jwt.verify(tokn, process.env.SECRET));
     });
   };
-  let authToken = req.headers["x-auth-token"];
-  if (!authToken) {
-    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
-  }
   let decodedToken = await decode(authToken);
   if (!decodedToken) {
     return res.json({ msg: "bad token", ok: 0, lockDown: true });
@@ -87,19 +89,14 @@ export default async (req, res) => {
   }
   // passed authentication ------------------------------------------
 
-  let getResult = await pushToMessage(
-    db,
-    id,
-    name,
-    fileType,
-    desiredHeight,
-    desiredWidth
-  );
-  if (!getResult) {
-    return res.json({ ok: 0, msg: "something went wrong" });
+  let fetchResults = await getMsgs(db, obj.id, obj.page, obj.limit);
+  if (!fetchResults) {
+    return res.json({ msg: "Something Went Wrong", ok: 0 });
   }
-  if (!getResult.modifiedCount) {
-    return res.json({ ok: 0, msg: "something went wrong" });
-  }
-  return res.json({ ok: 1, msg: "success" });
+  let decryptedMessages = await decryptMessages(fetchResults);
+  return res.json({
+    msg: "successful",
+    ok: 1,
+    fetchResults: decryptedMessages,
+  });
 };

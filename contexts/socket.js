@@ -2,7 +2,11 @@ import { createContext, useState, useContext, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { useAuth } from "./auth";
 import { useComms } from "./comms";
-import { getTopics, getExistingUnreadMessages } from "../requests/community";
+import {
+  getTopics,
+  getExistingUnreadMessages,
+  getExistingUnreadConvMessages,
+} from "../requests/community";
 import { getConversations } from "../requests/conversations";
 
 import { socketUrls } from "../constants/urls";
@@ -31,7 +35,7 @@ export const SocketProvider = ({ children }) => {
     refetchComms,
     selectedcomm,
     setConversations,
-    setUnreadConversationMessagesHandler,
+    setIncomingConversationMessagesHandler,
     setIncomingConversationMsgUpdate,
     setProfile,
     profileRef,
@@ -41,18 +45,24 @@ export const SocketProvider = ({ children }) => {
   const socketRef = useRef(null);
   const selectedHarthRef = useRef();
   const unreadMessagesRef = useRef([]);
+  const unreadConvMessagesRef = useRef([]);
+
   const mainAlertsRef = useRef({});
 
   useEffect(() => {
     if (user) {
       const URLS = socketUrls;
-      setSocket(
-        io.connect(URLS[process.env.NODE_ENV], {
-          transports: ["websocket"],
-        })
-      );
+      const tempSocket = io.connect(URLS[process.env.NODE_ENV], {
+        transports: ["websocket"],
+      });
+      tempSocket.on("connect", () => {
+        setSocket(tempSocket);
+      });
 
       return () => {
+        if (tempSocket) {
+          tempSocket.disconnect();
+        }
         setSocket(null);
       };
     }
@@ -65,10 +75,11 @@ export const SocketProvider = ({ children }) => {
   }, [selectedcomm]);
 
   useEffect(() => {
-    if (socket && user && comms) {
+    if (socket && user) {
       socketRef.current = socket;
-      join([...(comms || [])]);
+
       getUnreadMessages(user);
+      getUnreadConvMessages(user);
 
       socket.on("new update", async ({ updateType, ...incomingUpdate }) => {
         let activeTopic = JSON.parse(localStorage.getItem("selected_topic"));
@@ -222,8 +233,13 @@ export const SocketProvider = ({ children }) => {
                   selectedHarthRef.current._id
               );
             }
-            setUnreadConversationMessagesHandler(incomingUpdate);
-            setNewAlerts(incomingUpdate, "message");
+            if (
+              incomingUpdate.creator_id !== user._id ||
+              incomingUpdate.socketID !== socket.id
+            ) {
+              setIncomingConversationMessagesHandler(incomingUpdate);
+              setNewAlerts(incomingUpdate, "message");
+            }
 
             break;
           case "conversation message update":
@@ -240,6 +256,8 @@ export const SocketProvider = ({ children }) => {
           case "reload unreads":
             getUnreadMessages(user);
             break;
+          case "reload conv unreads":
+            getUnreadConvMessages(user);
           default:
             break;
         }
@@ -257,7 +275,13 @@ export const SocketProvider = ({ children }) => {
         socket.disconnect();
       };
     }
-  }, [socket, comms, user]);
+  }, [socket, user]);
+
+  useEffect(() => {
+    if (socket?.connected) {
+      join([...(comms || [])]);
+    }
+  }, [comms, socket?.connected]);
 
   const setNewAlerts = (incomingUpdate, alertType) => {
     let alerts = { ...mainAlertsRef.current };
@@ -289,6 +313,15 @@ export const SocketProvider = ({ children }) => {
       mainAlertsRef.current = alerts;
     }
   };
+  const getUnreadConvMessages = (user) => {
+    getExistingUnreadConvMessages(user._id).then((results) => {
+      let { data } = results;
+      if (data) {
+        unreadConvMessagesRef.current = data;
+        triggerUpdate((prevValue) => (prevValue += 1));
+      }
+    });
+  };
   const getUnreadMessages = (user) => {
     getExistingUnreadMessages(user._id).then((results) => {
       let { data } = results;
@@ -298,15 +331,15 @@ export const SocketProvider = ({ children }) => {
       }
     });
   };
-  const join = async (topics) => {
-    let promises = [];
-    for (let { _id } of topics) {
-      promises.push(
+  const join = async (harths) => {
+    const promises = harths.map(
+      ({ _id }) =>
         new Promise((resolve) => {
-          socket.emit("joinRooms", _id, () => resolve(true));
+          socket.emit("joinRooms", _id, (_, response) => {
+            resolve(true);
+          });
         })
-      );
-    }
+    );
     await Promise.all(promises);
     return;
   };
@@ -338,6 +371,7 @@ export const SocketProvider = ({ children }) => {
         join,
         leave,
         unreadMessagesRef: unreadMessagesRef.current,
+        unreadConvMessagesRef: unreadConvMessagesRef.current,
         mainAlerts,
         setMainAlertsFromChild,
         setMainAlerts,
@@ -346,6 +380,7 @@ export const SocketProvider = ({ children }) => {
         setNewAlerts,
         socketID: socket?.id,
         getUnreadMessages,
+        getUnreadConvMessages,
       }}
     >
       {children}

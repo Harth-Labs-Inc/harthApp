@@ -5,10 +5,7 @@ import {
   updatedTopic,
   updateHarthData,
 } from "../requests/community";
-import {
-  getConversations,
-  getConversationMessages,
-} from "../requests/conversations";
+import { getConversations } from "../requests/conversations";
 import { getRooms } from "../requests/rooms";
 import { useAuth } from "./auth";
 import { useRouter } from "next/router";
@@ -35,12 +32,9 @@ export const CommsProvider = ({
   const [forceHarthCreation, setForceHarthCreation] = useState(false);
   const [conversations, setConversations] = useState(ConversationsArray);
   const [selectedConversation, setSelectedConversation] = useState(null);
-  const [conversationMessages, setConversationMessages] = useState({});
   const [incomingConversationMsg, setIncomingConversationMsg] = useState({});
   const [incomingConversationMsgUpdate, setIncomingConversationMsgUpdate] =
     useState({});
-  const [unreadConversationMsg, setUnreadConversationMsg] = useState({});
-  const [unreadConversationMsgs, setUnreadConversationMsgs] = useState([]);
   const [hasRoomMinimized, setHasRoomMinimized] = useState(false);
   const [openMinimizedRoom, setOpenMinimizedRoom] = useState(false);
   const [activeRoom, setActiveRoom] = useState(null);
@@ -106,12 +100,6 @@ export const CommsProvider = ({
   }, [conversations, isMobile]);
 
   useEffect(() => {
-    if (selectedConversation) {
-      grabConversationMessages();
-    }
-  }, [selectedConversation]);
-
-  useEffect(() => {
     profileRef.current = profile;
   }, [profile, setProfile]);
 
@@ -157,19 +145,6 @@ export const CommsProvider = ({
 
     setSelectedTopic(startingTopic);
   };
-  const grabConversationMessages = async () => {
-    const sortMessages = (msgs) => {
-      return msgs.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
-    };
-    let results = await getConversationMessages(selectedConversation);
-    const { ok, fetchResults } = results;
-    if (ok) {
-      setConversationMessages({
-        ...conversationMessages,
-        [selectedConversation._id]: sortMessages(fetchResults),
-      });
-    }
-  };
   const refetchComms = async (newCom, setNew) => {
     return new Promise((resolve) => {
       async function run() {
@@ -183,7 +158,7 @@ export const CommsProvider = ({
             setComm(comms[0]);
           }
           if (setNew) {
-            setComm(comms[0]);
+            changeSelectedCommFromChild(newCom);
           }
           if (!comms.length) {
             setForceHarthCreation(true);
@@ -441,7 +416,7 @@ export const CommsProvider = ({
       }
     }
   };
-  const setUnreadConversationMessagesHandler = (incomingMsg) => {
+  const setIncomingConversationMessagesHandler = (incomingMsg) => {
     if (incomingMsg.userIDS?.includes(user?._id || "")) {
       setIncomingConversationMsg(incomingMsg);
     }
@@ -449,7 +424,6 @@ export const CommsProvider = ({
   const resetConversations = () => {
     setConversations(null);
     setSelectedConversation(null);
-    setConversationMessages(null);
   };
   const resetTopics = () => {
     setTopics(null);
@@ -545,16 +519,10 @@ export const CommsProvider = ({
         conversations,
         selectedConversation,
         setSelectedConversation,
-        setConversationMessages,
-        conversationMessages,
         fetchConversations,
-        setUnreadConversationMsgs,
-        setUnreadConversationMsg,
         setIncomingConversationMsg,
-        unreadConversationMsgs,
-        unreadConversationMsg,
         incomingConversationMsg,
-        setUnreadConversationMessagesHandler,
+        setIncomingConversationMessagesHandler,
         setIncomingConversationMsgUpdate,
         incomingConversationMsgUpdate,
         selectedCommRef,

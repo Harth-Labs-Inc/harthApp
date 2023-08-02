@@ -331,7 +331,7 @@ const dashboard = () => {
                 user={user}
                 closeHandler={async () => {
                   resetNewInviteHarth();
-                  window.history.replaceState(null, null, "dashboard");
+                  window.history.replaceState(null, null, "/");
                   let result = await getComms(user);
                   const { ok, comms } = result;
                   if (!ok || !comms || !comms.length) {
@@ -354,7 +354,7 @@ const dashboard = () => {
                 invite={true}
                 closeHandler={async () => {
                   resetNewInviteHarth();
-                  window.history.replaceState(null, null, "dashboard");
+                  window.history.replaceState(null, null, "/");
                   let result = await getComms(user);
                   const { ok, comms } = result;
                   if (!ok || !comms || !comms.length) {

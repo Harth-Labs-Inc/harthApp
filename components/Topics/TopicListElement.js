@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import styles from "./topics.module.scss";
 import { IconMoreDots } from "resources/icons/IconMoreDots";
 
@@ -67,15 +68,15 @@ const TopicListElement = (props) => {
                         ${isMobile && styles.alertProfilesMobile}
                         `}
         >
-          {alertProfiles.map((e) => {
+          {alertProfiles.map((e, idx) => {
             return (
-              <>
+              <Fragment key={`${e?.creator_id}${idx}`}>
                 <img
                   src={e?.creator_image}
                   className={`${e?.comm_id}_${e?.creator_id}`}
                   loading="lazy"
                 />
-              </>
+              </Fragment>
             );
           })}
         </div>
