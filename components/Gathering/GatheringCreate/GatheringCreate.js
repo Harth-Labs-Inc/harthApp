@@ -1,13 +1,10 @@
 import { useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
-
 import { IconEvent } from "../../../resources/icons/IconEvent";
 import { IconPlayCircle } from "../../../resources/icons/IconPlayCircle";
 import ErrorMessage from "../../Common/Input/ErrorMessage";
-
 import { GatheringButton } from "./GatheringButton";
 import { MobileContext } from "../../../contexts/mobile";
-
 import styles from "./GatheringCreate.module.scss";
 
 const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
@@ -52,41 +49,22 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
     return (
         <div
             className={`
-            ${styles.GatheringCreate}
-            ${isMobile && styles.GatheringCreateMobile}
+            ${isMobile ? styles.Mobile : styles.Desktop}
             `}
         >
             <form
                 onSubmit={handleSubmit(createRoomSubmit)}
                 className={styles.Content}
             >
-                <div className={styles.GatheringCreateInput}>
+                <div className={styles.details}>
                     <input
-                        placeholder="room name"
+                        placeholder="gathering name"
                         autoComplete="off"
-                        // onChange={roomNameHandler}
-                        // isError={isSubmitting ? !roomName.VALID : false}
-                        // error={roomName.ERROR}
-                        // value={roomName.VALUE}
-                        //className={styles.GatheringCreateInput}
-                        // changeHandler={() => {}}
-                        // inputhandler={inputChangeHandler}
                         {...register("roomName", { required: true })}
                         maxLength={64}
-                    />
-                    <ErrorMessage
-                        errorMsg={
-                            errors.roomName
-                                ? "Gathering name is required"
-                                : null
-                        }
-                    />
-                </div>
-                <div className={styles.GatheringCreateLabelHolder}>
-                    <div className={styles.GatheringCreateLabelText}>
-                        Select a type
-                    </div>
-                    <div className={styles.GatheringCreateType}>
+                    />                    
+
+                    <div className={styles.Type}>
                         <GatheringButton
                             type="voice"
                             activeButtonHandler={() => setActiveButton("voice")}
@@ -105,27 +83,33 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                             active={activeButton == "party"}
                         />
                     </div>
-                    {activeButton == "voice" && (
-                        <p className={styles.GatheringCreateSubText}>
-                            Voice and text chat
-                        </p>
-                    )}
-                    {activeButton == "stream" && (
-                        <p className={styles.GatheringCreateSubText}>
-                            Stream games and video
-                        </p>
-                    )}
-                    {activeButton == "party" && (
-                        <p className={styles.GatheringCreateSubText}>
-                            Video chat and tabletop play
-                        </p>
-                    )}
-                </div>
 
-                <div className={styles.GatheringCreateLaunch}>
+                    <div className={styles.LabelHolder}>
+                        {activeButton == "voice" && (
+                            <p>
+                                Voice and text chat
+                            </p>
+                        )}
+                        {activeButton == "stream" && (
+                            <p>
+                                Stream games and video
+                            </p>
+                        )}
+                        {activeButton == "party" && (
+                            <p>
+                                Video chat and tabletop play
+                            </p>
+                        )}
+                    </div>
+                </div>
+                {errors.roomName ?
+                    <ErrorMessage errorMsg={"Gathering name is required"} />
+                    : null 
+                }
+                <div className={styles.Launch}>
                     <button
                         type="button"
-                        className={` ${styles.GatheringCreateSubmit} ${styles.GatheringCreateSubmitSchedule} `}
+                        className={` ${styles.Submit} ${styles.SubmitSchedule} `}
                         onClick={() => {
                             isScheduleRoom.current = true;
                             let butt = document.getElementById("submit_button");
@@ -140,7 +124,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                     <button
                         type="submit"
                         id="submit_button"
-                        className={styles.GatheringCreateSubmit}
+                        className={styles.Submit}
                         // onClick={() =>
                         //     createRoomFormSubmit({
                         //         roomName,

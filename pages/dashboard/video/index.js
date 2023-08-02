@@ -143,7 +143,7 @@ const Video = () => {
             isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
           }
         >
-          HAPPENING NOW
+          GATHERINGS
         </p>
         <div className={styles.roomContainer}>
           <GatheringCreate
@@ -175,39 +175,42 @@ const Video = () => {
             );
           })}
         </div>
-        <p
-          className={
-            isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
-          }
-        >
-          UPCOMING
-        </p>
-        <div className={styles.roomContainer}>
+        
           {(scheduledcallRooms || []).map((room, idx) => {
             let owner = false;
             if (room?.hostName === creator?.name) {
               owner = true;
             }
             return (
-              <div
-                key={idx}
-                className={`${room.gatheringType} ${
-                  isMobile && styles.roomHolderMobile
-                } room-container`}
+              <>
+              <p className={
+                  isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
+                }
               >
-                <GatheringTile
-                  cardType="schedule"
-                  room={room}
-                  user={creator}
-                  peers={room.acceptedPeers}
-                  owner={owner}
-                  joinHandler={() => joinRoom(room)}
-                  editScheduleRoom={triggerNewEditRoom}
-                />
+                UPCOMING
+              </p>
+              <div className={styles.roomContainer}>
+                <div
+                  key={idx}
+                  className={`${room.gatheringType} ${
+                    isMobile && styles.roomHolderMobile
+                  } room-container`}
+                >
+                  <GatheringTile
+                    cardType="schedule"
+                    room={room}
+                    user={creator}
+                    peers={room.acceptedPeers}
+                    owner={owner}
+                    joinHandler={() => joinRoom(room)}
+                    editScheduleRoom={triggerNewEditRoom}
+                  />
+                </div>
               </div>
+              </>
             );
           })}
-        </div>
+        
       </section>
     );
   }

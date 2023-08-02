@@ -10,6 +10,7 @@
 
     .title {
         @include overlayMenuTitle;
+        color: $font_light;
         width: 100%;
         text-align: center;
         margin-top: 8px;
@@ -29,20 +30,21 @@
             width: 72px;
             height: 72px;
             border-radius: 8px;
-            border: 1px solid $fuel_10;
         }
 
         .harthTitle {
             position: relative;
             @include harthTitleSmall;
+            color: $font_light;
         }
     }
 
     .footer {
-        @include rubik;
+        @include worksans;
+        color: $font_medium;
         width: 100%;
         padding: 0px 32px;
-        font-size: 14px;
+        font-size: 12px;
         text-align: center;
         flex-wrap: wrap;
     }
