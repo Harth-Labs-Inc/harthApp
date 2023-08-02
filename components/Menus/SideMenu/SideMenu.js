@@ -53,7 +53,7 @@ const SideNav = (props) => {
     updateSelectedHarth,
     changeSelectedCommFromChild,
   } = useComms();
-  const { emitUpdate, unreadMessagesRef } = useSocket();
+  const { emitUpdate, unreadMessagesRef, unreadConvMessagesRef } = useSocket();
 
   let leftNav = useRef();
 
@@ -277,6 +277,7 @@ const SideNav = (props) => {
           comms={comms}
           selectedcomm={selectedcomm}
           unreadMsgs={unreadMessagesRef}
+          unreadConvMsgs={unreadConvMessagesRef}
           toggleCreateComm={setShowCreateHarthNameModal}
           changeSelectedCom={changeSelectedCom}
           toggleHarthEditModal={toggleHarthEditModal}

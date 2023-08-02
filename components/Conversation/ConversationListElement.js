@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./conversation.module.scss";
 import { useComms } from "contexts/comms";
 import { IconMoreDots } from "resources/icons/IconMoreDots";
-
+/* eslint-disable */
 const ConversationListElement = (props) => {
   const {
     clickHandler,
@@ -17,19 +17,15 @@ const ConversationListElement = (props) => {
 
   const { profile, selectedcomm } = useComms();
   const [buttonState, setButtonState] = useState(isActive);
-  // const [alertState, setAlertState] = useState(hasAlert);
 
   const toggleActive = () => {
     if (!buttonState) {
       setButtonState(true);
-      // setAlertState(false);
     } else {
       setButtonState(false);
     }
     clickHandler(conversation);
   };
-
-  /* eslint-disable */
 
   const toggleEditMenu = (evt, id, conversation) => {
     evt.stopPropagation();
@@ -45,8 +41,6 @@ const ConversationListElement = (props) => {
       });
     }
   };
-
-  /* eslint-disable */
 
   return (
     <>
@@ -78,7 +72,7 @@ const ConversationListElement = (props) => {
                                   ${selectedcomm?._id}_${e.userId}
                                   `}
                       src={e.iconKey}
-                      loading="lazy"
+                      loading="eager"
                     />
                     <div
                       className={[
@@ -106,7 +100,7 @@ const ConversationListElement = (props) => {
                       }
                                             `}
                       src={profile?.iconKey}
-                      loading="lazy"
+                      loading="eager"
                     />
                     <div
                       className={[
@@ -128,7 +122,7 @@ const ConversationListElement = (props) => {
                                 ${selectedcomm?._id}_${e.userId}
                                 `}
                     src={e.iconKey}
-                    loading="lazy"
+                    loading="eager"
                   />
                   <div
                     className={[

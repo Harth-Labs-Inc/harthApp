@@ -2,7 +2,11 @@ import { createContext, useState, useContext, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { useAuth } from "./auth";
 import { useComms } from "./comms";
-import { getTopics, getExistingUnreadMessages } from "../requests/community";
+import {
+  getTopics,
+  getExistingUnreadMessages,
+  getExistingUnreadConvMessages,
+} from "../requests/community";
 import { getConversations } from "../requests/conversations";
 
 import { socketUrls } from "../constants/urls";
@@ -31,7 +35,7 @@ export const SocketProvider = ({ children }) => {
     refetchComms,
     selectedcomm,
     setConversations,
-    setUnreadConversationMessagesHandler,
+    setIncomingConversationMessagesHandler,
     setIncomingConversationMsgUpdate,
     setProfile,
     profileRef,
@@ -41,6 +45,8 @@ export const SocketProvider = ({ children }) => {
   const socketRef = useRef(null);
   const selectedHarthRef = useRef();
   const unreadMessagesRef = useRef([]);
+  const unreadConvMessagesRef = useRef([]);
+
   const mainAlertsRef = useRef({});
 
   useEffect(() => {
@@ -73,6 +79,7 @@ export const SocketProvider = ({ children }) => {
       socketRef.current = socket;
 
       getUnreadMessages(user);
+      getUnreadConvMessages(user);
 
       socket.on("new update", async ({ updateType, ...incomingUpdate }) => {
         let activeTopic = JSON.parse(localStorage.getItem("selected_topic"));
@@ -226,8 +233,13 @@ export const SocketProvider = ({ children }) => {
                   selectedHarthRef.current._id
               );
             }
-            setUnreadConversationMessagesHandler(incomingUpdate);
-            setNewAlerts(incomingUpdate, "message");
+            if (
+              incomingUpdate.creator_id !== user._id ||
+              incomingUpdate.socketID !== socket.id
+            ) {
+              setIncomingConversationMessagesHandler(incomingUpdate);
+              setNewAlerts(incomingUpdate, "message");
+            }
 
             break;
           case "conversation message update":
@@ -244,6 +256,8 @@ export const SocketProvider = ({ children }) => {
           case "reload unreads":
             getUnreadMessages(user);
             break;
+          case "reload conv unreads":
+            getUnreadConvMessages(user);
           default:
             break;
         }
@@ -299,6 +313,15 @@ export const SocketProvider = ({ children }) => {
       mainAlertsRef.current = alerts;
     }
   };
+  const getUnreadConvMessages = (user) => {
+    getExistingUnreadConvMessages(user._id).then((results) => {
+      let { data } = results;
+      if (data) {
+        unreadConvMessagesRef.current = data;
+        triggerUpdate((prevValue) => (prevValue += 1));
+      }
+    });
+  };
   const getUnreadMessages = (user) => {
     getExistingUnreadMessages(user._id).then((results) => {
       let { data } = results;
@@ -348,6 +371,7 @@ export const SocketProvider = ({ children }) => {
         join,
         leave,
         unreadMessagesRef: unreadMessagesRef.current,
+        unreadConvMessagesRef: unreadConvMessagesRef.current,
         mainAlerts,
         setMainAlertsFromChild,
         setMainAlerts,
@@ -356,6 +380,7 @@ export const SocketProvider = ({ children }) => {
         setNewAlerts,
         socketID: socket?.id,
         getUnreadMessages,
+        getUnreadConvMessages,
       }}
     >
       {children}

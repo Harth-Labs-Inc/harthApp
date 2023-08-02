@@ -17,10 +17,6 @@ const MessageWrapper = () => {
   const [currentMessages, setCurrentMessages] = useState([]);
   const [topicInputs, setTopicInputs] = useState({});
   const [editMessageObj, setEditMessageObj] = useState({});
-  const [bottom, setBottom] = useState(null);
-  // eslint-disable-next-line no-unused-vars
-  const [inview, setInview] = useState(null);
-  const [displayScrollButton, setDisplayScrollButton] = useState(false);
   const [msgReload, triggerMsgReload] = useState(0);
   const [showImageSlideShow, setShowImageSlideShow] = useState(false);
   const [imageSlideshowURL, setImageSlideshowURL] = useState();
@@ -30,42 +26,12 @@ const MessageWrapper = () => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
-  const bottomObserver = useRef(null);
   const { selectedTopic } = useComms();
   const { incomingMsg, incomingMsgUpdate, getUnreadMessages } = useSocket();
   const { user } = useAuth();
 
   const messagesEndRef = useRef(null);
   const { isMobile } = useContext(MobileContext);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-
-        if (entry.isIntersecting) {
-          setInview(true);
-          setDisplayScrollButton(false);
-        } else {
-          setInview(false);
-        }
-      },
-      { threshold: 0.25, rootMargin: "50px" }
-    );
-    bottomObserver.current = observer;
-  }, []);
-
-  useEffect(() => {
-    const observer = bottomObserver.current;
-    if (bottom) {
-      observer.observe(bottom);
-    }
-    return () => {
-      if (bottom) {
-        observer.unobserve(bottom);
-      }
-    };
-  }, [bottom]);
 
   useEffect(() => {
     if (selectedTopic && page > 1) {
@@ -169,31 +135,6 @@ const MessageWrapper = () => {
   const editMessage = (msg) => {
     setEditMessageObj(msg);
   };
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-  const ScrollButton = () => {
-    if (displayScrollButton) {
-      // -- remove style from this needs repositioning and styling sometimes shows when you reload over and over
-      return (
-        <button
-          onClick={scrollToBottom}
-          className="scroll-to-bottom hidden"
-          style={{
-            border: "none",
-            background: "none",
-            color: "transparent",
-          }}
-        >
-          New Message
-        </button>
-      );
-    }
-    return null;
-  };
   const openImageSlideShow = async (idx, attachments) => {
     let att = attachments[idx];
     let name = { ...att }?.name || "";
@@ -252,7 +193,6 @@ const MessageWrapper = () => {
       <div className={styles.Holder}>
         <div id={styles.ChatMessages} onScroll={handleScroll}>
           <div ref={messagesEndRef} />
-          <div ref={setBottom} />
           {currentMessages && currentMessages.length > 0 ? (
             currentMessages.map((msg) => (
               <Fragment key={msg?._id}>
@@ -291,7 +231,6 @@ const MessageWrapper = () => {
               />
             </div>
           )}
-          <ScrollButton />
         </div>
 
         {!isMobile ? (

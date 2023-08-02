@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from "react";
+import { useState, useRef, useContext, useEffect, Fragment } from "react";
 import ImageViewer from "react-simple-image-viewer";
 import { useComms } from "../../contexts/comms";
 import styles from "./ConversationMessages.module.scss";
@@ -8,6 +8,9 @@ import DumbChatInput from "../DumbChatInput/DumbChatInput";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
 import {
+  removeUnsavedConvMessages,
+  sendUnreadConvMessages,
+  getconversationMessagesByID,
   saveConversationMessage,
   addKeyToConversationDB,
   updateConversationMessage,
@@ -16,68 +19,148 @@ import {
   getUploadURL,
   putImageInBucket,
   getDownloadURL,
+  compressImage,
 } from "../../requests/s3";
+import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
+import TalkingHead from "components/TalkingHead/TalkingHead";
+import { sendPushNotification } from "requests/subscriptions";
 
 /* eslint-disable */
-
 export const ConversationMessages = () => {
-  const [bottom, setBottom] = useState(null);
-  const [inview, setInview] = useState(null);
-  const [displayScrollButton, setDisplayScrollButton] = useState(false);
-  const [msgReload, triggerMsgReload] = useState(0);
-  const [editMessageObj, setEditMessageObj] = useState({});
-  const [conversationInputs, setConversationInputs] = useState({});
   const [currentMessages, setCurrentMessages] = useState([]);
-  const [disableChat, setDisableChat] = useState(false);
-  const [messageEditing, setMessageEditing] = useState();
-  const [uploadingAttachments, setUploadingAttachments] = useState([]);
+  const [conversationInputs, setConversationInputs] = useState({});
+  const [editMessageObj, setEditMessageObj] = useState({});
+  const [msgReload, triggerMsgReload] = useState(0);
   const [showImageSlideShow, setShowImageSlideShow] = useState(false);
   const [imageSlideshowURL, setImageSlideshowURL] = useState();
+  const [messageEditing, setMessageEditing] = useState();
+
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+
+  const [disableChat, setDisableChat] = useState(false);
+  const [uploadingAttachments, setUploadingAttachments] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     selectedcomm,
     selectedConversation,
-    setConversationMessages,
-    conversationMessages,
-    unreadConversationMsgs,
     incomingConversationMsg,
     incomingConversationMsgUpdate,
+    setIncomingConversationMessagesHandler,
   } = useComms();
   const { user } = useAuth();
-  const { emitUpdate } = useSocket();
+  const { emitUpdate, socketID, setNewAlerts, getUnreadConvMessages } =
+    useSocket();
 
   const uploadingAttchmts = useRef([]);
   const messagesEndRef = useRef(null);
   const { isMobile } = useContext(MobileContext);
 
   useEffect(() => {
-    if (incomingConversationMsg && conversationMessages) {
-      const { conversation_id } = incomingConversationMsg;
-      let tempMsgs = conversationMessages[conversation_id];
-      if (tempMsgs && conversation_id) {
-        let msgs = [incomingConversationMsg, ...tempMsgs];
+    if (selectedConversation && page > 1) {
+      setLoading(true);
+      (async () => {
+        let data = await getconversationMessagesByID(
+          selectedConversation._id,
+          page,
+          13
+        );
+        const { ok, fetchResults } = data;
+        if (ok) {
+          const sortedMessages = sortMessages([...fetchResults]);
+          setCurrentMessages((prevState) => [...prevState, ...sortedMessages]);
+          setHasMore(fetchResults.length > 0);
+          setLoading(false);
+        } else {
+          setCurrentMessages([]);
+          setPage(1);
+          setLoading(false);
+        }
+      })();
+    } else {
+      setPage(1);
+      setCurrentMessages([]);
+      setLoading(false);
+    }
+  }, [page]);
 
-        setConversationMessages({
-          ...conversationMessages,
-          [conversation_id]: msgs,
-        });
+  useEffect(() => {
+    setLoading(true);
+    setPage(1);
+    setCurrentMessages([]);
+    if (selectedConversation && selectedConversation._id) {
+      (async () => {
+        let data = await getconversationMessagesByID(
+          selectedConversation._id,
+          1,
+          13
+        );
+        const { ok, fetchResults } = data;
+        if (ok) {
+          setCurrentMessages(sortMessages([...fetchResults]));
+          setHasMore(fetchResults.length > 0);
+          setLoading(false);
+        } else {
+          setCurrentMessages([]);
+          setPage(1);
+          setLoading(false);
+        }
+        removeUnsavedConvMessages(selectedConversation._id, user._id).then(
+          () => {
+            getUnreadConvMessages(user);
+          }
+        );
+      })();
+    } else {
+      setLoading(false);
+    }
+    if (selectedConversation) {
+      const numberOfUsers = selectedConversation.users?.length;
+
+      if (numberOfUsers <= 1) {
+        setDisableChat(true);
+      }
+    }
+  }, [selectedConversation]);
+
+  useEffect(() => {
+    if (
+      incomingConversationMsg &&
+      Object.keys(incomingConversationMsg).length
+    ) {
+      if (
+        selectedConversation &&
+        incomingConversationMsg.conversation_id === selectedConversation._id
+      ) {
+        setCurrentMessages((prevState) => [
+          incomingConversationMsg,
+          ...prevState,
+        ]);
+        removeUnsavedConvMessages(selectedConversation._id, user._id).then(
+          () => {
+            getUnreadConvMessages(user);
+          }
+        );
       }
     }
   }, [incomingConversationMsg]);
 
   useEffect(() => {
-    if (incomingConversationMsgUpdate && conversationMessages) {
+    if (
+      incomingConversationMsgUpdate &&
+      selectedConversation &&
+      incomingConversationMsgUpdate?.conversation_id ===
+        selectedConversation._id
+    ) {
       const { conversation_id, action, _id } = incomingConversationMsgUpdate;
 
-      let tempMsgs = conversationMessages[conversation_id];
+      let tempMsgs = currentMessages;
       if (tempMsgs && conversation_id) {
         if (action == "delete") {
           let filteredMsgs = tempMsgs.filter((msg) => msg._id !== _id);
-          setConversationMessages({
-            ...conversationMessages,
-            [conversation_id]: filteredMsgs,
-          });
+          setCurrentMessages(filteredMsgs);
         }
         if (action == "update") {
           let index;
@@ -88,13 +171,13 @@ export const ConversationMessages = () => {
             if (tempMsgs[index]) {
               tempMsgs[index].reactions =
                 incomingConversationMsgUpdate.reactions;
+              tempMsgs[index].reactionsData =
+                incomingConversationMsgUpdate.reactionsData;
+
               tempMsgs[index].flames = incomingConversationMsgUpdate.flames;
               tempMsgs[index].message = incomingConversationMsgUpdate.message;
             }
-            setConversationMessages({
-              ...conversationMessages,
-              [conversation_id]: tempMsgs,
-            });
+            setCurrentMessages(tempMsgs);
           });
         }
         triggerMsgReload((prevState) => (prevState += 1));
@@ -102,48 +185,11 @@ export const ConversationMessages = () => {
     }
   }, [incomingConversationMsgUpdate]);
 
-  useEffect(() => {
-    if (conversationMessages && selectedConversation) {
-      let tempMsgs = [
-        ...(conversationMessages[selectedConversation._id] || []),
-      ];
-      if (unreadConversationMsgs.length && tempMsgs && tempMsgs.length) {
-        let readIds = [];
-        unreadConversationMsgs.forEach((msg) => {
-          if (msg.conversation_id == selectedConversation._id) {
-            readIds.push(msg._id);
-          }
-        });
-      }
-      if (inview) {
-        scrollToBottom("smooth");
-      } else {
-        setDisplayScrollButton(true);
-      }
-
-      setCurrentMessages(tempMsgs);
-    }
-  }, [conversationMessages, selectedConversation]);
-
-  useEffect(() => {
-    if (selectedConversation) {
-      const numberOfUsers = selectedConversation.users?.length;
-
-      if (numberOfUsers <= 1) {
-        setDisableChat(true);
-      }
-    }
-  }, [selectedConversation]);
-
+  const sortMessages = (msgs) => {
+    return msgs.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
+  };
   const editMessage = (msg) => {
     setEditMessageObj(msg);
-  };
-
-  const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
   };
   const sumbitMessageHandler = async ({ msg, atts, parentID }) => {
     if (parentID) {
@@ -179,17 +225,39 @@ export const ConversationMessages = () => {
           broadcastMessage(newMessage);
         }
       }
+      try {
+        sendPushNotification({
+          ...newMessage,
+          pushTitle: `New message from ${newMessage.creator_name}`,
+          env: process.env.NODE_ENV,
+          ignoreSelf: true,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-  const broadcastMessage = (message) => {
+  const broadcastMessage = async (message) => {
     uploadingAttchmts.current = [];
     setUploadingAttachments([]);
-    setIsSubmitting(false);
     message.updateType = "new conversation message";
+    message.socketID = socketID;
     setConversationInputs({
       ...conversationInputs,
       [selectedConversation?._id]: "",
     });
+    setIncomingConversationMessagesHandler(message);
+    setNewAlerts(message, "message");
+    setIsSubmitting(false);
+    let { ok } = await sendUnreadConvMessages(message);
+    if (ok) {
+      let unreadmessage = {};
+      unreadmessage.updateType = "reload conv unreads";
+      unreadmessage.conversation_id =
+        message.conversation_id || selectedConversation._id;
+      unreadmessage.user_id = user._id;
+      emitUpdate(selectedcomm?._id, unreadmessage, () => {});
+    }
     emitUpdate(selectedcomm?._id, message, async (err) => {
       if (err) {
         console.error(err);
@@ -204,7 +272,12 @@ export const ConversationMessages = () => {
       promises.push(
         new Promise(async (res) => {
           let extention = file.name.split(".").pop();
-          let name = `${id}_${idx + 1}.${extention}`;
+          let name = `${selectedcomm._id}-${selectedConversation._id}-${id}_${
+            idx + 1
+          }_full.${extention}`;
+          let thumbnail = `${selectedcomm._id}-${
+            selectedConversation._id
+          }-${id}_${idx + 1}_thumbnail.${extention}`;
           let bucket = "gather-message-attachments";
           const data = await getUploadURL(name, file.type, bucket);
           const { ok, uploadURL } = data;
@@ -214,8 +287,25 @@ export const ConversationMessages = () => {
               let result = await putImageInBucket(uploadURL, reader, file.type);
               let { status } = result;
               if (status == 200) {
-                await addKeyToConversationDB(id, name, file.type);
-                res({ name, fileType: file.type });
+                let { desiredHeight, desiredWidth } = await compressImage(
+                  name,
+                  thumbnail,
+                  bucket,
+                  file.type
+                );
+                await addKeyToConversationDB(
+                  id,
+                  thumbnail,
+                  file.type,
+                  desiredHeight,
+                  desiredWidth
+                );
+                res({
+                  name: thumbnail,
+                  fileType: file.type,
+                  desiredHeight,
+                  desiredWidth,
+                });
               }
             });
             reader.readAsArrayBuffer(file);
@@ -278,24 +368,15 @@ export const ConversationMessages = () => {
   const toggleEditing = (msgId) => {
     setMessageEditing(msgId);
   };
+  const handleScroll = (e) => {
+    const bottom =
+      e.target.scrollHeight - Math.abs(e.target.scrollTop) <=
+      e.target.clientHeight + 200;
 
-  // const updateMsg = async () => {
-  //     let msg = selectedEditMsg;
-  //     msg.message = topicInputs[selectedTopic?._id];
-  //     await updateMessage(msg);
-  //     msg.updateType = "message update";
-  //     msg.action = "update";
-  //     emitUpdate(selectedcomm?._id, msg, async (err, status) => {
-  //         if (err) {
-  //             console.log(err);
-  //         }
-  //         let { ok } = status;
-  //         if (ok) {
-  //             cancelEdit();
-  //         }
-  //     });
-  // };
-
+    if (bottom && !loading && hasMore) {
+      setPage((prevState) => prevState + 1);
+    }
+  };
   return (
     <>
       {showImageSlideShow ? (
@@ -313,29 +394,49 @@ export const ConversationMessages = () => {
         </>
       ) : null}
       <div className={styles.Holder}>
-        <div id={styles.ChatMessages}>
+        <div id={styles.ChatMessages} onScroll={handleScroll}>
           <div ref={messagesEndRef} />
-          <div ref={setBottom} />
-          {currentMessages &&
+          {currentMessages && currentMessages.length > 0 ? (
             currentMessages.map((msg) => (
-              <ChatSingleMessage
-                msgReload={msgReload}
-                editMessageText={editMessage}
-                msg={msg}
-                key={msg?._id}
-                messageID={msg?._id}
-                openImageSlideShow={openImageSlideShow}
-                showImageSlideShow={showImageSlideShow}
-                imageSlideshowURL={imageSlideshowURL}
-                resetImageSLideshow={resetImageSLideshow}
-                bucket="gather-message-attachments"
-                chatType="gather"
-                resetEdit={resetEdit}
-                isEditing={messageEditing === msg?._id ? true : false}
-                toggleEditing={toggleEditing}
+              <Fragment key={msg?._id}>
+                <ChatSingleMessage
+                  msgReload={msgReload}
+                  editMessageText={editMessage}
+                  msg={msg}
+                  key={msg?._id}
+                  messageID={msg?._id}
+                  openImageSlideShow={openImageSlideShow}
+                  showImageSlideShow={showImageSlideShow}
+                  imageSlideshowURL={imageSlideshowURL}
+                  resetImageSLideshow={resetImageSLideshow}
+                  bucket="gather-message-attachments"
+                  chatType="gather"
+                  resetEdit={resetEdit}
+                  isEditing={messageEditing === msg?._id ? true : false}
+                  toggleEditing={toggleEditing}
+                />
+              </Fragment>
+            ))
+          ) : loading ? (
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate3d(-50%, -50%, 0)",
+              }}
+            >
+              <SpinningLoader spinnerOnly={true} />
+            </div>
+          ) : (
+            <div className={styles.NoPosts}>
+              <TalkingHead
+                className={styles.wizard}
+                text="Nothing to see here yet. Be the first and share something awesome!"
+                isSmall={true}
               />
-            ))}
-          {/* <ScrollButton /> */}
+            </div>
+          )}
         </div>
 
         {isMobile ? (

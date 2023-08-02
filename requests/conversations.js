@@ -2,6 +2,71 @@ import api from "../services/api";
 
 /* eslint-disable */
 
+export const removeUnsavedConvMessages = async (convId, userid) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(
+      `/api/conversation/removeUnsavedConvMessages`,
+      {
+        convId,
+        userid,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const sendUnreadConvMessages = async (msg) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(
+      `/api/conversation/sendUnreadConvMessages`,
+      {
+        msg,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getconversationMessagesByID = async (id, page, limit) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(
+      `/api/conversation/getconversationMessagesByID`,
+      {
+        id,
+        page,
+        limit,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const deleteConversationFinal = async (data) => {
   const token = localStorage.getItem("token");
 
@@ -100,28 +165,13 @@ export const saveConversationMessage = async (msg) => {
   }
 };
 
-export const getConversationMessages = async (id) => {
-  try {
-    const token = localStorage.getItem("token");
-
-    const res = await api.post(
-      `/api/conversation/getConversationMessages`,
-      {
-        id,
-      },
-      {
-        headers: {
-          "x-auth-token": token,
-        },
-      }
-    );
-    return res.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const addKeyToConversationDB = async (id, name, fileType) => {
+export const addKeyToConversationDB = async (
+  id,
+  name,
+  fileType,
+  desiredHeight,
+  desiredWidth
+) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -131,6 +181,8 @@ export const addKeyToConversationDB = async (id, name, fileType) => {
         id,
         name,
         fileType,
+        desiredHeight,
+        desiredWidth,
       },
       {
         headers: {
