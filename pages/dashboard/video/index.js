@@ -175,7 +175,16 @@ const Video = () => {
             );
           })}
         </div>
-        
+        {scheduledcallRooms ?
+          <p className={
+              isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
+            }
+          >
+            UPCOMING
+          </p>
+          : null }
+
+          <div className={styles.roomContainer}>
           {(scheduledcallRooms || []).map((room, idx) => {
             let owner = false;
             if (room?.hostName === creator?.name) {
@@ -183,13 +192,7 @@ const Video = () => {
             }
             return (
               <>
-              <p className={
-                  isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
-                }
-              >
-                UPCOMING
-              </p>
-              <div className={styles.roomContainer}>
+
                 <div
                   key={idx}
                   className={`${room.gatheringType} ${
@@ -206,11 +209,11 @@ const Video = () => {
                     editScheduleRoom={triggerNewEditRoom}
                   />
                 </div>
-              </div>
               </>
             );
           })}
-        
+          </div>
+
       </section>
     );
   }

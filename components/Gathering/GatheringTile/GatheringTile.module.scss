@@ -1,312 +1,159 @@
 @import "../../../styles/fonts.scss";
 @import "../../../styles/globals.scss";
 
-.GatheringTile {
-  display: flex;
-  gap: 0;
-  background-color: transparent;
-  border-radius: 24px 24px 48px 24px;
-    //overflow: hidden;
+.Desktop {  
+  border-radius: 24px;
   width: 336px;
-  background: $white;
-  border: 0;
-  box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.075),
-        0 2px 2px hsl(0deg 0% 0% / 0.075),
-        0 4px 4px hsl(0deg 0% 0% / 0.075);
-        //0 8px 8px hsl(0deg 0% 0% / 0.075);
+  background: $ash;
+  border: 1px solid $ash_medium;
+  padding: 16px;
 
+}
 
-  &Label {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center ;
-    align-items: center;
-    width: 64px;
-    min-width: 64px;
-    //background-color: $fuel;
-    
-    //padding: 8px 0 0 0;
-    border: 0;
-    outline: none;
-    outline-style: none;
-    -moz-outline-style: none; 
-    -webkit-tap-highlight-color: transparent; 
-    overflow: hidden;
-    border-radius: 24px 0px 0px 24px;
+.Mobile {
+  border-radius: 24px;
+  width: 100%;
+  background: $ash;
+  border: 1px solid $ash_medium;
+  padding: 24px;
 
+}
 
-    &Icon {
-      width: 84px;
-      height: 84px;
-      //background-color: aliceblue;
-      padding: 0px;
-    }
-
-    &Text {
-      position: absolute;
-      top: 72px;
-      width: 100%;
-      transform: rotate(90deg);
-      @include roomType;
-      user-select: none;
-      margin-left: 2px;
-    }
-    .party & {
-      background-color: $silver-light;
-      background-image: url("../../../public/images/gather_card_neutral.png");
-      background-repeat: repeat;
-      background-position: 12px 12px;
-      background-size: 96px;
-
-    }
-    .stream & {
-      background-color: $silver-light;
-      background-image: url("../../../public/images/gather_card_neutral.png");
-      background-repeat: repeat;
-      background-position: 12px 12px;
-      background-size: 96px;
-    }
-    .voice & {
-      background-color: $silver-light;
-      background-image: url("../../../public/images/gather_card_neutral.png");
-      background-repeat: repeat;
-      background-position: 12px 12px;
-      background-size: 96px;
-    }
-
-    .partyActive & {
-      background-color: $hot_purple_light;
-      background-image: url("../../../public/images/gather_card_neutral.png");
-      background-repeat: repeat;
-      background-position: 12px 12px;
-      background-size: 96px;
-    }
-    .streamActive & {
-      background-color: $hot_red_light;
-      background-image: url("../../../public/images/gather_card_neutral.png");
-      background-repeat: repeat;
-      background-position: 12px 12px;
-      background-size: 96px;
-    }
-    .voiceActive & {
-      background-color: $hot_salmon_light;
-      background-image: url("../../../public/images/gather_card_neutral.png");
-      background-repeat: repeat;
-      background-position: 12px 12px;
-      background-size: 96px;
-
-    }
+.Top {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 12px;
+  .iconHolder {
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    padding: 2px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .Info {
+  .name {
     width: 100%;
-    height: 100%;
-    min-height: 240px;
-    padding: 16px 0px 0px 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    border: 0;
-    border-radius: 0px 24px 48px 0px;
-    //z-index: 1;
-
-
-  }
-
-  .TopHolder {
-    width: calc(100% + 56px);
-    padding: 16px 0px 16px 20px;
-    border: 0;
-    border-radius: 36px;
-    z-index: 1;
-    background: $white;
-    margin-left: -64px;
-    margin-bottom: 16px;
-  }
-
-  &Type {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 2px;
-    //margin-top: 4px;
-    //margin-bottom: -14px;
-    //margin-left: -64px;
-    //background-color: $white;
-    padding: 0px;
-    //border-radius: 999px;
-
-    .iconHolder {
-      width: 18px;
-      height: 18px;
-    }
-
-    .roomTitle {
-      @include worksans;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      font-size: 11px;
-      text-align: center;
-      text-transform: capitalize;
-    }
-
-    .party & {
-      color: $hot_purple;
-      path {
-        fill: $hot_purple;
-      }
-    }
-
-    .stream & {
-      color: $hot_red;
-      path {
-        fill: $hot_red;
-      }
-    }
-
-    .voice & {
-      color: $hot_salmon;
-      path {
-        fill: $hot_salmon;
-      }
-    }
-
-    .partyActive & {
-      color: $hot_purple;
-      path {
-        fill: $hot_purple;
-      }
-    }
-
-    .streamActive & {
-      color: $hot_red;
-      path {
-        fill: $hot_red;
-      }
-    }
-
-    .voiceActive & {
-      color: $hot_salmon;
-      path {
-        fill: $hot_salmon;
-      }
-    }
-
-  }
-
-  &Name {
     @include roomTitle;
-    //display: -webkit-box;
-    //-webkit-line-clamp: 3;
-    //-webkit-box-orient: vertical;
-    //min-height: 60px;
-    padding: 8px 0px 0px 0px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    user-select: none;
-    //width: fit-content;
-    //background-color: $white;
-    //border-radius: 28px;
-    //margin-left: -64px;
-    
-
-  }
-
-  &InfoStructure {
-    display: flex;
-    flex-direction: row;
-    min-height: 60px;
-    width: 100%;
-    height: 100%;
-    
-    
-  }
-
-  &Scheduled {
-    width: 80px;
-    min-width: 80px;
-    padding: 12px 5px 8px 0;
-    text-align: center;
-    //background-color: aqua;
-
-
-
-    &Time {
-      @include worksans;
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: -0.04em;
-      text-transform: uppercase;
-      user-select: none;
-
-    }
-    &Date {
-      margin-top: 4px;
-      @include worksans;
-      font-weight: 600;
-      font-size: 12px;
-      user-select: none;
-
-    }
-
-    &Now {
-      @include worksans;
-      font-size: 10px;
-      font-weight: 700;;
-      letter-spacing: 0.08em;
-      padding: 8px 10px;
-      color: $white;
-      background-color: $fuel;
-      border-radius: 9999px;
-      user-select: none;
-
-    }
-  }
-
-  &PeopleDescription {
-    padding: 8px 0 8px 8px;
-    border-left: 1px solid $fuel;
-    //background-color: aquamarine;
-    width: 100%;
-    color: $fuel;
-    @include contentR2;
+    color: $font_light;
+    margin-top: auto;
     margin-bottom: auto;
+    margin-left: 12px;
   }
 
-  &AttendeeWrapper {
+  .Mobile & {
+    .iconHolder {
+      width: 48px;
+      min-width: 48px;
+      max-width: 48px;
+      padding: 2px;
+    }
+
+    .name {
+      @include roomTitleMobile;
+    }
+  }
+
+}
+
+.Bottom {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.Info {
+  width: 88px;
+  height: fit-content;
+  min-width: 88px;
+  padding: 12px 0px;
+  border: 0;
+  border-radius: 0px;
+  padding-right: 4px;
+  border-right: 1px solid $ash_medium;
+
+  .time {
+    @include worksans;
+    font-weight: 600;
+    font-size: 18px;
+    color: $font_light;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .date {
+    @include worksans;
+    font-weight: 500;
+    font-size: 11px;
+    color: $font_light;
+    text-align: center;
+  }
+
+  .now {
+    @include worksans;
+    width: fit-content;
+    padding: 6px 12px;
+    font-weight: 600;
+    font-size: 14px;
+    color: $font_light;
+    border-radius: 999px;
+    text-transform: capitalize;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: $hot_salmon;
+  }
+
+}
+
+
+.Details {
+  width: 100%;
+  padding: 0px 0px;
+  border: 0;
+  border-radius: 0px;
+  padding-left: 12px;
+
+  .description {
+    @include worksans;
+    color: $font_light;
+    font-size: 14px;
+
+  }
+
+  .AttendeeWrapper {
     position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    row-gap: 0px;
+    gap: 2px;
     margin-bottom: 8px;
-    padding-right: 12px;
-    //background-color: aqua;
+    margin-top: 8px;
     user-select: none;
-
+  
     .profileImage {
       position: relative;
-      height: 46px;
-      width: 46px;
+      height: 36px;
+      width: 36px;
       border-radius: 999px;
-      margin-right: -12px;
       padding: 0;
-      border: 2px solid transparent;
       background-color: $white;
-
+  
       img {
         position: relative;
         height: 100%;
         width: 100%;
         border-radius: 999px;
-        border: 1px solid $silver-light;
+      }
+
+      .Mobile & {
+        height: 40px;
+        width: 40px;
       }
     }
-
+  
     .empty {
       display: flex;
       align-items: center;
@@ -315,75 +162,75 @@
       height: 40px;
       width: 40px;
       border-radius: 999px;
-      margin-right: -6px;
       padding: 0;
-      border: 2px solid $white;
       background-color: $warm_blue;
-      color: $fuel_50;
+      color: $font_light;
       @include worksans;
       font-size: 14px;
       font-weight: 500;
     }
-
+  
     .emptyMessage {
-      color: $silver-heavy;
+      color: $font_medium;
       @include worksans;
       font-size: 14px;
       font-weight: 800;
       margin-left: auto;
       margin-right: auto;
       padding-right: 8px;
+      margin-top: 12px;
+      margin-bottom: 12px;
     }
 
-    // > div {
-    //   position: relative;
-    //   height: 44px;
-    //   width: 44px;
-    //   margin-right: -16px;
-    //   padding: 0;
-    //   border-color: $white;
-    // }
   }
 
-  &ActionBar {
+  .ActionBar {
     display: flex;
     gap: 8px;
     justify-content: flex-end;
-    margin-top: 32px;
+    margin-top: 16px;
     width: 100%;
     height: 40px;
     background: transparent;
-    border-bottom-right-radius: 24px;
-    overflow: hidden;
-
-
+    overflow: hidden;  
+  
     &Edit {
+      width: 56px;
       height: 100%;
-      width: 60px;
-      padding: 9px;
-      //margin-right: 24px;
+      padding: 8px;
       border: 0;
-      background-color: $fuel_light;
-      border-top-left-radius: 24px;
-      border-bottom-right-radius: 24px;
+      background: $black;
+      border-radius: 99px;
       cursor: pointer;
-      svg path {
-        fill: $white;
+
+      path {
+        fill: $font_medium;
+      }
+  
+      .Desktop & {
+        &:hover {
+              background: $hot_salmon;
+              path {
+                fill: $font_light;
+              }
+        }
       }
 
-      &:hover {
-            background: $fuel;
-
+      .Mobile & {
+        &:active {
+              background: $hot_salmon;
+              path {
+                fill: $font_light;
+              }
+        }
       }
     }
-
+  
     &Submit {
-      
-      border-top-left-radius: 24px;
-      //border-bottom-right-radius: 24px;
+      border-radius: 999px;
       width: 136px;
       height: 100%;
-      color: $white;
+      color: $font_light;
       border: 0;
       outline: none;
       outline-style: none;
@@ -397,39 +244,58 @@
       text-align: center;
       text-transform: capitalize;
       user-select: none;
-
-      background-color: $fuel_light;
-
-
-      &:hover {
-        background: $fuel;
+  
+      background: $black;
+  
+  
+      .Desktop & {
+        &:hover {
+              background: $hot_salmon;
+              color: $font_light;
+        }
       }
 
+      .Mobile & {
+        &:active {
+              background: $hot_salmon;
+              color: $font_light;
+        }
+      }
+  
       &Active {
-          //background: linear-gradient(to left, $hot_purple 10%, $fuel 200%);
-          background: $muted_text;
-          &:hover {
-            background: $fuel;
-          }
+          background: $black;
+          color: $font_medium;
+
       }
-
+  
     }
-
+  
     
   }
-
-  &Mobile {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-
-    .Info {
-      padding: 8px 0px 0px 16px;
-      min-height: 280px;
-    }
-
-    &Name {
-      font-size: 32px;
-    }
-  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

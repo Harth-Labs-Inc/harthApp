@@ -221,6 +221,15 @@
   //text-rendering: optimizeLegibility;
 }
 
+@mixin roomTitleMobile {
+  font-family: var(--Rubik-font);
+  font-weight: 900;
+  font-size: 30px;
+  letter-spacing: 0;
+  line-height: 115%;
+  //text-rendering: optimizeLegibility;
+}
+
 
 @mixin rubik {
   font-family: var(--Rubik-font);
