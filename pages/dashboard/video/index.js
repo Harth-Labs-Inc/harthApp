@@ -175,7 +175,16 @@ const Video = () => {
             );
           })}
         </div>
-        
+        {scheduledcallRooms ?
+          <p className={
+              isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
+            }
+          >
+            UPCOMING
+          </p>
+          : null }
+
+
           {(scheduledcallRooms || []).map((room, idx) => {
             let owner = false;
             if (room?.hostName === creator?.name) {
@@ -183,12 +192,6 @@ const Video = () => {
             }
             return (
               <>
-              <p className={
-                  isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
-                }
-              >
-                UPCOMING
-              </p>
               <div className={styles.roomContainer}>
                 <div
                   key={idx}

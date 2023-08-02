@@ -7,7 +7,7 @@
     overflow: hidden;
     height: fit-content;
     background-color: $ash;
-    padding: 16px;
+    padding: 24px;
     width: 100%;
     border: 1px solid $ash_medium;
 
@@ -50,14 +50,14 @@
         @include roomTitle;
         border-radius: 999px;
         background-color: $black;
-        border: 0;
+        border: 1px solid $ash;
         height: 52px;
         color: $font_light;
         caret-color: $hot_salmon;
         margin: 0;
         
         &::placeholder {
-            color: darken($font_medium, 10%);
+            color: $font_medium;
 
         }
     }
@@ -215,9 +215,6 @@
     }
 
     &.voice {
-        border-radius: 0px 0px 0px 0px;
-        //border-left: 1px solid $ash;
-        //border-bottom: 1px solid $ash_medium;
         .iconHolder {
             width: 36px;
 
@@ -228,11 +225,6 @@
     }
 
     &.stream {
-        border-radius: 0px 0px 0px 0px;
-        //border-left: 1px solid $ash;
-        //border-right: 1px solid $ash;
-        //border-bottom: 1px solid $ash_medium;
-
         .iconHolder {
             width: 44px;
 
@@ -243,10 +235,6 @@
     }
 
     &.party {
-        border-radius: 0px 0px 0px 0px;
-        //border-right: 1px solid $ash;
-        //border-bottom: 1px solid $ash_medium;
-
         .iconHolder {
             width: 38px;
 
@@ -256,8 +244,6 @@
         }
     }
     
-
-
     .text {
         @include worksans;
         letter-spacing: 0.02em;
@@ -265,7 +251,7 @@
         font-weight: 600;
         text-align: center;
         text-transform: capitalize;
-        margin-top: -4px;
+        margin-top: -2px;
 
         .Mobile & {
             margin-top: 0;

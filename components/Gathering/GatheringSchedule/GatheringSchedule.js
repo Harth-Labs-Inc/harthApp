@@ -8,12 +8,12 @@ import {
     updateScheduleRoom,
     deleteScheduledRoom,
 } from "../../../requests/rooms";
-import { IconHeadsetMic } from "../../../resources/icons/IconHeadsetMic";
-import { IconCastNoFill } from "../../../resources/icons/IconCastNoFill";
-import { IconWorkspace } from "../../../resources/icons/IconWorkspace";
 import styles from "./GatheringSchedule.module.scss";
 import { IconDeleteNoFill } from "../../../resources/icons/IconDeleteNoFill";
 import { useState } from "react";
+import { RoomStream } from "resources/icons/RoomStream";
+import { RoomParty } from "resources/icons/RoomParty";
+import { RoomVoice } from "resources/icons/RoomVoice";
 
 const GatheringSchedule = (props) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -125,10 +125,8 @@ const GatheringSchedule = (props) => {
 
     return (
         <Modal onToggleModal={props.closeHandler}>
-            {/* <p className={styles.GatheringScheduleTitle}>
-                {props.type === "edit" ? "Edit" : "Schedule a"} gathering
-            </p> */}
-            <form onSubmit={handleSubmit(scheduleGathering)}>
+            <form className={styles.GatheringSchedule} onSubmit={handleSubmit(scheduleGathering)}>
+                <p className={styles.GatheringScheduleSubTitle}>Enter a name</p>
                 <input
                     {...register("roomName", { required: true })}
                     placeholder="room name"
@@ -144,7 +142,7 @@ const GatheringSchedule = (props) => {
                     }
                 />
 
-                <p className={styles.GatheringScheduleSubTitle}>Choose date</p>
+                <p className={styles.GatheringScheduleSubTitle}>Enter a date</p>
                 <div className={styles.GatheringScheduleDateTime}>
                     <input
                         {...register("gatheringDate", { required: true })}
@@ -156,7 +154,7 @@ const GatheringSchedule = (props) => {
                     />
                 </div>
 
-                <p className={styles.GatheringScheduleSubTitle}>Choose type</p>
+                <p className={styles.GatheringScheduleSubTitle}>Select type</p>
                 <div className={styles.GatheringScheduleType}>
                     <label
                         className={`${styles.GatheringScheduleTypeSelect} ${
@@ -164,11 +162,7 @@ const GatheringSchedule = (props) => {
                         }`}
                     >
                         <span>
-                            <IconHeadsetMic
-                                fill={
-                                    watchType === "voice" ? "#fff" : "#2F1D2A80"
-                                }
-                            />
+                            <RoomVoice/>
                         </span>
                         Voice
                         <input
@@ -183,13 +177,7 @@ const GatheringSchedule = (props) => {
                         }`}
                     >
                         <span>
-                            <IconCastNoFill
-                                fill={
-                                    watchType === "stream"
-                                        ? "#fff"
-                                        : "#2F1D2A80"
-                                }
-                            />
+                            <RoomStream />
                         </span>
                         Stream
                         <input
@@ -204,11 +192,7 @@ const GatheringSchedule = (props) => {
                         }`}
                     >
                         <span>
-                            <IconWorkspace
-                                fill={
-                                    watchType === "party" ? "#fff" : "#2F1D2A80"
-                                }
-                            />
+                            <RoomParty />
                         </span>
                         Party
                         <input
@@ -220,12 +204,14 @@ const GatheringSchedule = (props) => {
                 </div>
 
                 <p className={styles.GatheringScheduleSubTitle}>
-                    Give a description (optional)
+                    Enter a description (optional)
                 </p>
-                <input
+                <textarea
                     {...register("gatheringDescription")}
                     placeholder="let's all..."
                     autoComplete="off"
+
+                    className={styles.description}
                 />
                 <div className={styles.GatheringScheduleButtons}>
                     {props.type === "edit" ? (

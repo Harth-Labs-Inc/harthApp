@@ -20,7 +20,7 @@
     background: linear-gradient(90deg, $black, $fuel 80%); 
 
     &Mobile {
-        padding: 75px 16px 24px 16px;
+        padding: 75px 16px 80px 16px;
         background:$black;
 
     }
@@ -32,6 +32,7 @@
         margin-bottom: 40px;
         margin-top: 12px;
         //background-color: aqua;
+        padding: 0px 8px;
         //justify-content: center;
 
         &ActiveList {
@@ -46,7 +47,7 @@
     .roomHolderMobile {
         //background-color: aqua;
         width: 100%;
-        padding: 0px 8px;
+        padding: 0px 0px;
     }
 
     .gatheringSection {
