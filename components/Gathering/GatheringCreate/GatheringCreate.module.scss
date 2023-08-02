@@ -1,248 +1,310 @@
 @import "../../../styles/fonts.scss";
 @import "../../../styles/globals.scss";
 
-.GatheringCreate {
+.Mobile {
+    width: 100%;
     border-radius: 24px;
     overflow: hidden;
-    width: 336px;
-    //height: 260px;
     height: fit-content;
+    background-color: $ash;
+    padding: 16px;
+    width: 100%;
+    border: 1px solid $ash_medium;
+
+
+}
+
+.Desktop {
+    border-radius: 16px;
+    overflow: hidden;
+    height: fit-content;
+    background-color: $ash;
+    border: 1px solid $ash_medium;
+    padding: 12px;
+    width: 336px;
+}
+
+
+.Content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    padding: 0px;
+    margin: 0;
     border: 0;
-    background-color: $silver-xxlight;
-    padding: 0;
-    box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.075),
-        0 2px 2px hsl(0deg 0% 0% / 0.075),
-        0 4px 4px hsl(0deg 0% 0% / 0.075);
-        //0 8px 8px hsl(0deg 0% 0% / 0.075);
+    gap: 0px;
 
-
-    .Content {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: space-between;
+    .details {
         width: 100%;
-        height: 264px;
-        min-height: 264px;
-        padding: 24px 0px 0px 0px;
-        margin: 0;
-        //border-left: 1px solid $silver-med;
-        //border-top: 1px solid $silver-med;
-        //border-right: 1px solid $silver-med;
-        //background-color: aqua;
-        border: 0;
-        border-radius: 24px 24px 44px 44px;
-        span {
-            width: 100%;
-        }
+        background: $ash_heavy;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid $ash;
     }
 
-    &Mobile {
-        width: 100%;
-        margin-left: 8px;
-        margin-right: 8px;
-
-        .Content {
-            padding: 36px 0px 0px 0px;
-            //height: 280px;
-        }
-    }
-
-    &Input {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        input {
-            text-align: center;
-            width: 90%;
-            height: fit-content;
-            @include roomTitle;
-            border: none;
-            outline: none;
-            -webkit-box-shadow: none;
-            -moz-box-shadow: none;
-            box-shadow: none;
-            resize: none;
-            margin-bottom: 0px;
-
-            //background:aquamarine;
-            border-bottom: 1px solid $fuel;
-            padding: 0px;
-
-            &::placeholder {
-                color: $silver-heavy;
-            }
-        }
-    }
-
-    &LabelHolder {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        gap: 2px;
-        margin-top: -8px;
-        margin-bottom: 8px;
-        // background-color: aquamarine;
-    }
-
-    &LabelText {
-        @include worksans;
-        color: $fuel;
-        font-weight: 500;
-        font-size: 10px;
-        letter-spacing: 0.05em;
+    input {
         text-align: center;
-        //text-transform: uppercase;
-        margin-bottom: 2px;
-        user-select: none;
-        //opacity: 0;
-    }
-
-    &Type {
-        display: flex;
-        justify-content: space-between;
-        width: 260px;
-        background-color: $silver-light;
-        border-radius: 100px;
-        //border: 2px solid $fuel_5;
-        ///add a blur effect to the box shadow
-        /// 
-        box-shadow: inset 0 0 4px 1px $black_10;
-        padding: 6px 8px 6px 8px;
-
-    }
-
-    &SubText {
-        @include worksans;
-        color: $fuel;
-        font-weight: 700;
-        font-size: 11px;
-        margin-top: 6px;
-        margin-bottom: 16px;
-        text-align: center;
-        user-select: none;
-    }
-
-    &Launch {
-        display: flex;
         width: 100%;
-        background-color: transparent;
-        gap: 16px;
+        @include roomTitle;
+        border-radius: 999px;
+        background-color: $black;
+        border: 0;
+        height: 52px;
+        color: $font_light;
+        caret-color: $hot_salmon;
         margin: 0;
-        padding: 0;
-        height: 44px;
-        min-height: 44px;
-        border: 0;
-        outline: none;
-        outline-style: none;
-        -moz-outline-style: none; 
-        -webkit-tap-highlight-color: transparent; 
-    }
+        
+        &::placeholder {
+            color: darken($font_medium, 10%);
 
-    &Submit {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: 50%;
-        height: 100%;
-        color: $white;
-        background: $fuel_light;
-        border-radius: 24px 0px 24px 0px;
-        border: 0;
-        cursor: pointer;
-        @include worksans;
-        font-size: 13px;
-        letter-spacing: 0.08em;
-        font-weight: 600;
-        path {
-            fill: $white;
-        }
-
-        svg {
-            width: 20px;
-        }
-
-        &Schedule {
-            border-radius: 0px 24px 0px 24px;
-        }
-
-        &:hover {
-            background: $fuel;
         }
     }
 }
 
-.GatheringButton {
-    position: relative;
+ 
+
+
+.LabelHolder {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
     align-items: center;
-    gap: 1px;
-    height: 60px;
-    width: 60px;
-    padding: 0;
-    padding-bottom: 4px;
-    background-color: $silver-med;
+    flex-direction: column;
+    background: transparent;
     border: 0;
-    //border: 1px solid $silver-med;
-    border-radius: 999px;
+    margin-top: 8px;
+    margin-bottom: 6px;
+
+    p {
+        @include worksans;
+        color: $font_light;
+        //font-weight: 600;
+        font-size: 11px;
+        text-align: center;
+        user-select: none;
+
+    }
+
+    .Mobile & {
+        margin-top: 12px;
+        margin-bottom: 10px;
+        p {
+            font-size: 12px;
+        }
+    }
+}
+
+.Type {
+    display: flex;
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    margin-top: 6px;
+
+    .Mobile & {
+        margin-top: 12px;
+    }
+}
+
+.Launch {
+    display: flex;
+    width: 100%;
+    background-color: transparent;
+    gap: 12px;
+    margin: 0;
+    height: 36px;
+    border: 0;
+    margin-top: 12px;
+
+    .Mobile & {
+        height: 40px;
+        margin-top: 16px;
+    }
+
+}
+
+.Submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 50%;
+    height: 100%;
+    color: $font_light;
+    background: $black;
+    border-radius: 24px;
+    border: 1px solid $ash;
     cursor: pointer;
+    @include worksans;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    font-weight: 600;
 
-
-    color: $silver-heavy;
     path {
-        fill: $silver-heavy;
+        fill: $font_light;
+    }
+
+    svg {
+        width: 20px;
+    }
+
+    &Schedule {
+        color: $font_medium;
+        background: $black;
+        path {
+            fill: $font_medium;
+        }
+    }
+
+    .Desktop & {
+        &:hover {
+            background: $hot_salmon;
+            color: $font_light;
+            path {
+                fill: $font_light;
+            }
+        }
     }
     
+    .Mobile & {
+        font-size: 14px;
+        svg {
+            width: 24px;
+        }
+
+        &:active {
+            background: $hot_salmon;
+            color: $font_light;
+            path {
+                fill: $font_light;
+            }
+        }
+    }
+
+}
+
+
+.GatheringButton {
+    position: relative;
+    height: 60px;
+    width: 100%;
+    padding: 0;
+    padding-bottom: px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: $ash_medium;
+
+
+
+    .iconHolder {
+        opacity: .4;
+        filter: grayscale(100%);
+        height: 48px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .Mobile & {
+        height: 60px;
+        
+        .iconHolder {
+            height: 48px;
+        }
+    }
+
+    &.voice {
+        border-radius: 0px 0px 0px 0px;
+        //border-left: 1px solid $ash;
+        //border-bottom: 1px solid $ash_medium;
+        .iconHolder {
+            width: 36px;
+
+            .Mobile & {
+                width: 40px;
+            }
+        }
+    }
+
+    &.stream {
+        border-radius: 0px 0px 0px 0px;
+        //border-left: 1px solid $ash;
+        //border-right: 1px solid $ash;
+        //border-bottom: 1px solid $ash_medium;
+
+        .iconHolder {
+            width: 44px;
+
+            .Mobile & {
+                width: 46px;
+            }
+        }
+    }
+
+    &.party {
+        border-radius: 0px 0px 0px 0px;
+        //border-right: 1px solid $ash;
+        //border-bottom: 1px solid $ash_medium;
+
+        .iconHolder {
+            width: 38px;
+
+            .Mobile & {
+                width: 42px;
+            }
+        }
+    }
+    
+
+
     .text {
         @include worksans;
         letter-spacing: 0.02em;
         font-size: 10px;
-        font-weight: 400;
+        font-weight: 600;
         text-align: center;
         text-transform: capitalize;
+        margin-top: -4px;
+
+        .Mobile & {
+            margin-top: 0;
+        }
     }
 
-    &Icon {
-        height: 26px;
-        width: 26px;
+
+
+    .Desktop & {
+        &:hover {
+            color: $font_light;
+
+            .iconHolder {
+                opacity: 1;
+                filter: grayscale(0);
+            }
+        }
     }
 
-    &:active {
-        background-color: $white;
+    .Mobile & {
+        &:active {
+            color: $font_light;
+
+            .iconHolder {
+                opacity: 1;
+                filter: grayscale(0);
+            }
+        }
     }
+
 
     &.Active {
-        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px;
-        background-color: $white;
-        .text {
-            font-weight: 700;
-        }
+        //background-color: $black;
+        color: $font_light;
 
-        &.voice {
-            color: $hot_salmon;
-            path {
-                fill: $hot_salmon;
-            }
+        .iconHolder {
+            opacity: 1;
+            filter: grayscale(0);
         }
-
-        &.stream {
-            color: $hot_red;
-            path {
-                fill: $hot_red;
-            }
-        }
-
-        &.party {
-            color: $hot_purple;
-            path {
-                fill: $hot_purple;
-            }
-        }
+        
     }
 }

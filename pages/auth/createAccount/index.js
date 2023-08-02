@@ -125,7 +125,7 @@ const CreateAccount = () => {
             type="date"
             max={todayMax}
             min={new Date("1/1/1910").toISOString().split("T")[0]}
-            style={{ caretColor: '#ff0000', '::placeholder': { color: '#999' } }}
+            //style={{ caretColor: '#ff0000', color: '#0f0', backgroundColor: '#f00'}}
           />
           <div className={styles.small}>
             Enter your birthday for verification. Your birthday will not be
@@ -145,15 +145,15 @@ const CreateAccount = () => {
           />
         </form>
         <p className={styles.CreateModuleDisclaimer}>
-          By continuing, you are agreeing to our Customer
+          By continuing, you are agreeing to our Customer&nbsp;
           <a
             href="https://harthsocial.com/terms"
             target="_blank"
             rel="noreferrer"
           >
-            Terms of Service
+          Terms of Service
           </a>
-          and
+          &nbsp;and&nbsp;
           <a
             href="https://harthsocial.com/privacy"
             target="_blank"

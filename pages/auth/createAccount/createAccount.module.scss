@@ -14,18 +14,38 @@
     overflow-y: auto;
 
     input {
+      width: 100%;
       border-radius: 4px;
       background-color: black;
       border: 1px solid $ash_medium;
       height: 40px;
+      padding-left: 12px;
       color: $font_light;
       caret-color: $hot_salmon;
       &::placeholder {
           color: $font_medium;
 
       }
+    }
 
-  }
+    input[type="date"]{
+      width: 100%;
+      background-color: $black;
+      color: $font_medium;
+      @include worksans;
+      font-size: 14px;
+    }
+    ::-webkit-calendar-picker-indicator {
+      background-color: $ash_medium;
+      padding: 6px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+
+
+
+    
   
     .small {
         @include worksans;

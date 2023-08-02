@@ -112,7 +112,6 @@ export default function CreateHarthProfile({
                         value={profileName}
                         onInput={handleInputChange}
                         required
-                        className={styles.textEntry}
                         autoComplete="off"
                         maxLength={20}
                     />

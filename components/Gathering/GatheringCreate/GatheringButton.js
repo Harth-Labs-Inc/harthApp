@@ -1,9 +1,6 @@
-// import { Pressable, StyleSheet } from "react-native";
-
-// import { Party, Stream, Voice } from "../../../../icons";
-import { IconHeadsetMic } from "../../../resources/icons/IconHeadsetMic";
-import { IconCastNoFill } from "../../../resources/icons/IconCastNoFill";
-import { IconWorkspace } from "../../../resources/icons/IconWorkspace";
+import { RoomStream } from "resources/icons/RoomStream";
+import { RoomParty } from "resources/icons/RoomParty";
+import { RoomVoice } from "resources/icons/RoomVoice";
 
 import styles from "./GatheringCreate.module.scss";
 
@@ -12,13 +9,13 @@ export const GatheringButton = (props) => {
 
     const Icon = () => {
         if (type === "voice") {
-            return <IconHeadsetMic />;
+            return <RoomVoice />;
         }
         if (type === "stream") {
-            return <IconCastNoFill />;
+            return <RoomStream />;
         }
         if (type === "party") {
-            return <IconWorkspace />;
+            return <RoomParty />;
         }
     };
 
@@ -32,7 +29,7 @@ export const GatheringButton = (props) => {
                 activeButtonHandler(type);
             }}
         >
-            <div className={styles.GatheringButtonIcon}><Icon /></div>
+            <div className={styles.iconHolder} ><Icon /></div>
             <div className={styles.text}>{type}</div>
 
         </button>
