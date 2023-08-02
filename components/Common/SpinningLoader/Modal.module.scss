@@ -12,7 +12,8 @@
     overflow: hidden;
     background: $ash_heavy;  
     &Dark {
-    background: $fuel;
+      background: $ash_heavy;  
+
     &p {
       color: $font_light;
     }

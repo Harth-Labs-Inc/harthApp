@@ -184,7 +184,7 @@ const Video = () => {
           </p>
           : null }
 
-
+          <div className={styles.roomContainer}>
           {(scheduledcallRooms || []).map((room, idx) => {
             let owner = false;
             if (room?.hostName === creator?.name) {
@@ -192,7 +192,7 @@ const Video = () => {
             }
             return (
               <>
-              <div className={styles.roomContainer}>
+
                 <div
                   key={idx}
                   className={`${room.gatheringType} ${
@@ -209,11 +209,11 @@ const Video = () => {
                     editScheduleRoom={triggerNewEditRoom}
                   />
                 </div>
-              </div>
               </>
             );
           })}
-        
+          </div>
+
       </section>
     );
   }
