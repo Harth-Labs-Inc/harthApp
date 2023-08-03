@@ -1341,19 +1341,19 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const reset = () => {
     stopDetectSpeaking();
     if (localAudioStream.current) {
-      disconnectAudios();
       localAudioStream.current.getTracks().forEach((track) => track.stop());
+      disconnectAudios();
     }
 
     if (localVideoStream.current) {
-      disconnectVideos();
       localVideoStream.current.getTracks().forEach((track) => track.stop());
+      disconnectVideos();
     }
 
     if (localCaptureStream.current) {
+      localCaptureStream.current.getTracks().forEach((track) => track.stop());
       setIsActiveScreenShare(false);
       disconnectCaptures();
-      localCaptureStream.current.getTracks().forEach((track) => track.stop());
     }
 
     setSocket(null);
