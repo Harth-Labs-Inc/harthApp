@@ -161,8 +161,8 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       });
       socket.on("chat-update", (newMsg) => {
         if (newMsg?.code == 8) {
-          console.log("user left", newMsg);
           removeElement(newMsg.socketID);
+          removeElement(newMsg.capturePeer);
           remoteUserLeft(newMsg);
           triggerLocalPositionCheck(PEERS.current);
         }
@@ -1341,14 +1341,18 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const reset = () => {
     stopDetectSpeaking();
     if (localAudioStream.current) {
+      disconnectAudios();
       localAudioStream.current.getTracks().forEach((track) => track.stop());
     }
 
     if (localVideoStream.current) {
+      disconnectVideos();
       localVideoStream.current.getTracks().forEach((track) => track.stop());
     }
 
     if (localCaptureStream.current) {
+      setIsActiveScreenShare(false);
+      disconnectCaptures();
       localCaptureStream.current.getTracks().forEach((track) => track.stop());
     }
 
