@@ -26,8 +26,8 @@ const MessageWrapper = () => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
-  const { selectedTopic } = useComms();
-  const { incomingMsg, incomingMsgUpdate, getUnreadMessages } = useSocket();
+  const { selectedTopic, selectedCommRef } = useComms();
+  const { incomingMsg, incomingMsgUpdate, emitUpdateFromRef } = useSocket();
   const { user } = useAuth();
 
   const messagesEndRef = useRef(null);
@@ -75,7 +75,19 @@ const MessageWrapper = () => {
           setLoading(false);
         }
         removeUnsavedMessages(selectedTopic._id, user._id).then(() => {
-          getUnreadMessages(user);
+          let message = {};
+          message.updateType = "reload same User unreads";
+          message.topic_id = selectedTopic._id;
+          message.user_id = user._id;
+          emitUpdateFromRef(
+            selectedCommRef.current?._id,
+            message,
+            async (err) => {
+              if (err) {
+                console.error(err);
+              }
+            }
+          );
         });
       })();
     } else {
@@ -88,7 +100,19 @@ const MessageWrapper = () => {
       if (selectedTopic && incomingMsg.topic_id === selectedTopic._id) {
         setCurrentMessages((prevState) => [incomingMsg, ...prevState]);
         removeUnsavedMessages(selectedTopic._id, user._id).then(() => {
-          getUnreadMessages(user);
+          let message = {};
+          message.updateType = "reload same User unreads";
+          message.topic_id = selectedTopic._id;
+          message.user_id = user._id;
+          emitUpdateFromRef(
+            selectedCommRef.current?._id,
+            message,
+            async (err) => {
+              if (err) {
+                console.error(err);
+              }
+            }
+          );
         });
       }
     }

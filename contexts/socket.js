@@ -256,8 +256,20 @@ export const SocketProvider = ({ children }) => {
           case "reload unreads":
             getUnreadMessages(user);
             break;
+          case "reload same User unreads":
+            if (incomingUpdate.user_id === user._id) {
+              getUnreadMessages(user);
+            }
+            break;
           case "reload conv unreads":
             getUnreadConvMessages(user);
+            break;
+          case "reload same User conv unreads":
+            if (incomingUpdate.user_id === user._id) {
+              getUnreadConvMessages(user);
+            }
+            break;
+
           default:
             break;
         }

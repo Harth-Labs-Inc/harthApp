@@ -45,14 +45,14 @@ export const ConversationMessages = () => {
 
   const {
     selectedcomm,
+    selectedCommRef,
     selectedConversation,
     incomingConversationMsg,
     incomingConversationMsgUpdate,
     setIncomingConversationMessagesHandler,
   } = useComms();
   const { user } = useAuth();
-  const { emitUpdate, socketID, setNewAlerts, getUnreadConvMessages } =
-    useSocket();
+  const { emitUpdate, socketID, setNewAlerts, emitUpdateFromRef } = useSocket();
 
   const uploadingAttchmts = useRef([]);
   const messagesEndRef = useRef(null);
@@ -109,7 +109,18 @@ export const ConversationMessages = () => {
         }
         removeUnsavedConvMessages(selectedConversation._id, user._id).then(
           () => {
-            getUnreadConvMessages(user);
+            let message = {};
+            message.updateType = "reload same User conv unreads";
+            message.user_id = user._id;
+            emitUpdateFromRef(
+              selectedCommRef.current?._id,
+              message,
+              async (err) => {
+                if (err) {
+                  console.error(err);
+                }
+              }
+            );
           }
         );
       })();
@@ -140,7 +151,18 @@ export const ConversationMessages = () => {
         ]);
         removeUnsavedConvMessages(selectedConversation._id, user._id).then(
           () => {
-            getUnreadConvMessages(user);
+            let message = {};
+            message.updateType = "reload same User conv unreads";
+            message.user_id = user._id;
+            emitUpdateFromRef(
+              selectedCommRef.current?._id,
+              message,
+              async (err) => {
+                if (err) {
+                  console.error(err);
+                }
+              }
+            );
           }
         );
       }
