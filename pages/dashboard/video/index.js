@@ -175,45 +175,42 @@ const Video = () => {
             );
           })}
         </div>
-        {scheduledcallRooms ?
-          <p className={
+        {scheduledcallRooms ? (
+          <p
+            className={
               isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
             }
           >
             UPCOMING
           </p>
-          : null }
+        ) : null}
 
-          <div className={styles.roomContainer}>
+        <div className={styles.roomContainer}>
           {(scheduledcallRooms || []).map((room, idx) => {
             let owner = false;
             if (room?.hostName === creator?.name) {
               owner = true;
             }
             return (
-              <>
-
-                <div
-                  key={idx}
-                  className={`${room.gatheringType} ${
-                    isMobile && styles.roomHolderMobile
-                  } room-container`}
-                >
-                  <GatheringTile
-                    cardType="schedule"
-                    room={room}
-                    user={creator}
-                    peers={room.acceptedPeers}
-                    owner={owner}
-                    joinHandler={() => joinRoom(room)}
-                    editScheduleRoom={triggerNewEditRoom}
-                  />
-                </div>
-              </>
+              <div
+                key={idx}
+                className={`${room.gatheringType} ${
+                  isMobile && styles.roomHolderMobile
+                } room-container`}
+              >
+                <GatheringTile
+                  cardType="schedule"
+                  room={room}
+                  user={creator}
+                  peers={room.acceptedPeers}
+                  owner={owner}
+                  joinHandler={() => joinRoom(room)}
+                  editScheduleRoom={triggerNewEditRoom}
+                />
+              </div>
             );
           })}
-          </div>
-
+        </div>
       </section>
     );
   }
