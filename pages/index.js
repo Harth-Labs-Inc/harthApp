@@ -10,6 +10,7 @@ import { SocketProvider } from "contexts/socket";
 import { useAuth } from "contexts/auth";
 import { generateID, urlBase64ToUint8Array } from "services/helper";
 import { saveUserSubscription } from "requests/subscriptions";
+import { SetNotifications } from "components/Alerts/SetNotifications/SetNotifications";
 
 /* eslint-disable */
 
@@ -282,13 +283,14 @@ const dashboard = () => {
         currentPage={currentPage}
         ConversationsArray={Conversations}
       >
-        {showNotButton ? (
-          <button
-            style={{ position: "fixed", zIndex: 100 }}
-            onClick={requestNotificationPermisson}
-          >
-            turn on notifications
-          </button>
+        {!showNotButton ? (
+          <SetNotifications request={requestNotificationPermisson} />
+          // <button
+          //   style={{ position: "fixed", zIndex: 100 }}
+          //   onClick={requestNotificationPermisson}
+          // >
+          //   turn on notifications
+          // </button>
         ) : null}
 
         <SocketProvider swReg={swReg}>

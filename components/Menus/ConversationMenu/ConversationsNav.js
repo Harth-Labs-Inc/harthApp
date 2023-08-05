@@ -78,6 +78,10 @@ const ConversationsNav = ({
         >
           Messages
         </p>
+        {(conversations < 1) ? (
+            <div className={styles.notopic}>Select below to start a new message</div>
+          ) : null}
+
         <div className={styles.ConversationsNavContainer}>
           {selectedcomm &&
             conversations &&

@@ -12,12 +12,13 @@
         @include smallTitle;
         color: $fuel;
         margin-bottom: 4px;
+        color: $font_medium;
     }
 
     p {
         @include topicTitle;
         font-weight: 500;
-        color: $fuel_light;
+        color: $font_light;
     }
 
     .title {
@@ -26,6 +27,7 @@
         text-align: left;
         margin-top: 8px;
         margin-bottom: 24px;
+        color: $font_light;
     }
 
     .Content {
@@ -37,10 +39,10 @@
             flex-direction: column;
             gap: 16px;
             position: relative;
-            //background-color: #ffa773;
+            background-color: $black;
             overflow-y: scroll;
             height: 240px;
-            border: 2px solid $fuel_10;
+            border: 1px solid $ash_medium;
             padding: 16px;
             border-radius: 8px;
 
@@ -49,9 +51,10 @@
                 gap: 12px;
                 align-items: center;
 
+
                 .imageHolder {
                     padding: 0px 0px 0px 12px;
-                    border-left: 1px solid $fuel_10;
+                    border-left: 1px solid $ash_medium;
 
                     img {
                         position: relative;
@@ -70,11 +73,11 @@
                 input[type="checkbox"] {
                     position: relative;
                     appearance: none;
-                    width: 32px;
-                    height: 32px;
-                    border: 2px solid #ccc;
+                    width: 28px;
+                    height: 28px;
+                    border: 1px solid $ash_medium;
                     border-radius: 8px;
-                    background-color: #fff;
+                    background-color: $black;
                     //box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
                     &::before {
@@ -83,7 +86,7 @@
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%, -50%);
-                        font-size: 20px;
+                        font-size: 16px;
                         color: $hot_pink;
                         opacity: 0;
                         transition: opacity 0.2s ease-in-out;

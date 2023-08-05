@@ -1,0 +1,22 @@
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
+
+
+.MainContainer {
+    position: fixed;
+    z-index: 100;
+    top: 50%;
+    //left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    left: 0;
+    width: 300px;
+    height: 300px;
+    background-color: aqua;
+
+    button {
+        color: $font_light;
+        background-color: $ash;
+        border: 1px solid transparent;
+
+    }
+}
