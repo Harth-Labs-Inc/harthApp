@@ -4,7 +4,7 @@ import styles from "./SetNotifications.module.scss";
 export const SetNotifications = (request) => {
   
   return (
-    <div className={`${styles.MainContainer}`}>
+    <div className={styles.MainContainer}>
       <div className={styles.title}>
         Turn on Notifications
       </div>
