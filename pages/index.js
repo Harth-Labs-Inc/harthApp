@@ -283,14 +283,8 @@ const dashboard = () => {
         currentPage={currentPage}
         ConversationsArray={Conversations}
       >
-        {!showNotButton ? (
-          <SetNotifications request={requestNotificationPermisson} />
-          // <button
-          //   style={{ position: "fixed", zIndex: 100 }}
-          //   onClick={requestNotificationPermisson}
-          // >
-          //   turn on notifications
-          // </button>
+        {showNotButton ? (
+           <SetNotifications request={requestNotificationPermisson} />
         ) : null}
 
         <SocketProvider swReg={swReg}>
