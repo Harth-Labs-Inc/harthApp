@@ -14,7 +14,7 @@ export const SetNotifications = ({request}) => {
             </div>
 
             <button onClick={request}>Enable Notifications</button>
-            <button className={styles.cancel}>Don't Allow</button>
+            <button className={styles.cancel}>Don&apos;t Allow</button>
         </div>
     );
 };
