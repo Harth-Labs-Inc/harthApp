@@ -12,10 +12,22 @@
         text-align: left;
         margin-top: 8px;
         margin-bottom: 40px;
+        color: $font_light;
     }
 
     .textEntry {
         width: 90%;
+        border-radius: 4px;
+        background-color: black;
+        border: 1px solid $ash_medium;
+        height: 40px;
+        padding-left: 12px;
+        color: $font_light;
+        caret-color: $hot_salmon;
+        &::placeholder {
+            color: $font_medium;
+    
+        }
     }
 
     .helpText {
@@ -23,7 +35,7 @@
         width: 88%;
         @include interfaceR3;
         padding-top: 4px;
-        color: $silver-dark;
+        color: $font_medium;
     }
 
     .form {

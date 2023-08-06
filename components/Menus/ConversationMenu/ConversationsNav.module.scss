@@ -11,10 +11,27 @@
     overflow-y: scroll;
     border-right: 1px solid $black;
 
+    .notopic {
+        @include worksans;
+        color: $font_medium;
+        width: 100%;
+        text-align: left;
+        padding: 12px 12px 8px 12px;
+    }
+
     &Mobile {
         border: 0;
         width: 100%;
         padding: 75px 16px 24px 16px;
+
+        .notopic {
+            @include worksans;
+            color: $font_medium;
+            font-size: 14px;
+            width: 100%;
+            text-align: left;
+            padding: 12px 20px 4px 20px;
+        }
     }
 
     &Title {
