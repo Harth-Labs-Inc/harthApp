@@ -51,9 +51,13 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
+      const token = localStorage.getItem("token");
       const URLS = socketUrls;
       const tempSocket = io.connect(URLS[process.env.NODE_ENV], {
         transports: ["websocket"],
+        query: {
+          token,
+        },
       });
       tempSocket.on("connect", () => {
         setSocket(tempSocket);

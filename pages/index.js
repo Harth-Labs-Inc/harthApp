@@ -98,7 +98,13 @@ const dashboard = () => {
 
   useEffect(() => {
     if (swReg && "pushManager" in swReg && user && !SUBSCRIPTION) {
-      setShowNotButton(true);
+      let hasDeniedNotifications = localStorage.getItem(
+        "hasDeniedNotifications"
+      );
+      if (!hasDeniedNotifications) {
+        setShowNotButton(true);
+      }
+
       return () => {
         setShowNotButton(false);
       };
@@ -244,6 +250,10 @@ const dashboard = () => {
       setShowCreateHarthNameModal(true);
     }
   };
+  const refuseNotifcations = () => {
+    localStorage.setItem("hasDeniedNotifications", true);
+    setShowNotButton(false);
+  };
 
   if (loading) {
     return <SpinningLoader />;
@@ -284,7 +294,10 @@ const dashboard = () => {
         ConversationsArray={Conversations}
       >
         {showNotButton ? (
-           <SetNotifications request={requestNotificationPermisson} />
+          <SetNotifications
+            request={requestNotificationPermisson}
+            refuseNotifcations={refuseNotifcations}
+          />
         ) : null}
 
         <SocketProvider swReg={swReg}>
