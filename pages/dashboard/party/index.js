@@ -78,8 +78,9 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     if (!loading && user) {
       let ROOMID;
       let HARTHID;
-      if (isMobile) {
-        const storedActiveRoom = sessionStorage.getItem("active_room");
+
+      const storedActiveRoom = sessionStorage.getItem("active_room");
+      if (storedActiveRoom) {
         try {
           const parsedRoom = JSON.parse(storedActiveRoom);
           ROOMID = parsedRoom.room_id;
@@ -987,6 +988,10 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     tracks.forEach((track) => {
       track.stop();
     });
+    let parentContainer = document.getElementById(ownerData.current?.socketID);
+    if (parentContainer) {
+      parentContainer.classList.remove(styles.videoActive);
+    }
     removeElement(id);
     removeElement(ownerData.current?.videoPeer);
     localVideoStream.current = null;
@@ -1098,66 +1103,70 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       });
   };
   const createLocalVideo = (incomingStream, peer, call) => {
-    let existingVideoContainer = document.getElementById(incomingStream.id);
-    if (!existingVideoContainer) {
-      let parentContainer = document.getElementById("localContainer");
-      if (!parentContainer) {
-        parentContainer = document.createElement("section");
-        parentContainer.id = "localContainer";
-        parentContainer.className = ` ${
-          showChatPannel ? styles.ownerVideoChatOpen : null
-        } `;
-        const roomContainer = document.getElementById("video-container");
-        roomContainer.append(parentContainer);
+    if (incomingStream && incomingStream.id) {
+      let existingVideoContainer = document.getElementById(incomingStream.id);
+      if (!existingVideoContainer) {
+        let parentContainer = document.getElementById("localContainer");
+        if (!parentContainer) {
+          parentContainer = document.createElement("section");
+          parentContainer.id = "localContainer";
+          parentContainer.className = ` ${
+            showChatPannel ? styles.ownerVideoChatOpen : null
+          } `;
+          const roomContainer = document.getElementById("video-container");
+          roomContainer.append(parentContainer);
+        }
+        const videoContainer = document.createElement("div");
+        const video = document.createElement("video");
+        videoContainer.id = incomingStream.id;
+        videoContainer.className = styles.ownerVideo;
+        video.srcObject = incomingStream;
+        video.autoplay = true;
+        video.muted = true;
+        video.className = "video";
+        video.playsInline = true;
+        videoContainer.appendChild(video);
+        parentContainer.appendChild(videoContainer);
+        parentContainer.classList.add(styles.videoActive);
       }
-      const videoContainer = document.createElement("div");
-      const video = document.createElement("video");
-      videoContainer.id = incomingStream.id;
-      videoContainer.className = styles.ownerVideo;
-      video.srcObject = incomingStream;
-      video.autoplay = true;
-      video.muted = true;
-      video.className = "video";
-      video.playsInline = true;
-      videoContainer.appendChild(video);
-      parentContainer.appendChild(videoContainer);
-      parentContainer.classList.add(styles.videoActive);
     }
   };
   const createVideo = (incomingStream, peer, call) => {
-    let existingVideoContainer = document.getElementById(peer?.videoPeer);
-    if (!existingVideoContainer) {
-      let parentContainer = document.getElementById(peer?.socketID);
-      if (!parentContainer) {
-        parentContainer = document.createElement("div");
-        parentContainer.id = peer?.socketID;
-        parentContainer.className = styles.videoContainer;
+    if (peer && peer.socketID && peer.videoPeer && incomingStream) {
+      let existingVideoContainer = document.getElementById(peer?.videoPeer);
+      if (!existingVideoContainer) {
+        let parentContainer = document.getElementById(peer?.socketID);
+        if (!parentContainer) {
+          parentContainer = document.createElement("div");
+          parentContainer.id = peer?.socketID;
+          parentContainer.className = styles.videoContainer;
 
-        const profileImage = document.createElement("img");
-        profileImage.src = peer?.img;
-        profileImage.className = styles.peerImage;
-        parentContainer.append(profileImage);
-        let nameContainer = document.createElement("p");
-        var nameText = document.createTextNode(peer?.name);
-        nameContainer.className = styles.peerName;
-        nameContainer.appendChild(nameText);
-        parentContainer.append(nameContainer);
+          const profileImage = document.createElement("img");
+          profileImage.src = peer?.img;
+          profileImage.className = styles.peerImage;
+          parentContainer.append(profileImage);
+          let nameContainer = document.createElement("p");
+          var nameText = document.createTextNode(peer?.name || peer?.userName);
+          nameContainer.className = styles.peerName;
+          nameContainer.appendChild(nameText);
+          parentContainer.append(nameContainer);
 
-        const roomContainer = document.getElementById("peerContainer");
-        roomContainer.append(parentContainer);
+          const roomContainer = document.getElementById("peerContainer");
+          roomContainer.append(parentContainer);
+        }
+
+        const videoContainer = document.createElement("div");
+        const video = document.createElement("video");
+        videoContainer.id = peer?.videoPeer;
+        video.srcObject = incomingStream;
+        video.autoplay = true;
+        video.muted = true;
+        video.className = "video";
+        video.playsInline = true;
+        videoContainer.appendChild(video);
+        parentContainer.appendChild(videoContainer);
+        parentContainer.classList.add(styles.videoActive);
       }
-
-      const videoContainer = document.createElement("div");
-      const video = document.createElement("video");
-      videoContainer.id = peer?.videoPeer;
-      video.srcObject = incomingStream;
-      video.autoplay = true;
-      video.muted = true;
-      video.className = "video";
-      video.playsInline = true;
-      videoContainer.appendChild(video);
-      parentContainer.appendChild(videoContainer);
-      parentContainer.classList.add(styles.videoActive);
     }
   };
   const createAudio = (incomingStream, peer, call) => {
@@ -1593,8 +1602,21 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
             ))}
           </div>
 
-          <section
-            className={`
+          {isMobile ? (
+            <>
+              <section
+                id="stream-window-container"
+                className={`
+                            ${styles.streamContainer}
+                            ${
+                              isActiveScreenShare &&
+                              styles.streamContainerActive
+                            }
+                            ${isMobile && styles.streamContainerMobile}
+                            `}
+              ></section>
+              <section
+                className={`
                         ${styles.peerContainer}
                         ${isActiveScreenShare && styles.peerContainerActive}
                         ${
@@ -1604,12 +1626,27 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
                         } 
                         ${isMobile && styles.peerContainerMobile}
                         `}
-            id="peerContainer"
-          ></section>
-
-          <section
-            id="stream-window-container"
-            className={`
+                id="peerContainer"
+              ></section>
+            </>
+          ) : (
+            <>
+              <section
+                className={`
+                        ${styles.peerContainer}
+                        ${isActiveScreenShare && styles.peerContainerActive}
+                        ${
+                          showChatPannel && !isMobile
+                            ? styles.peerContainerChatOpen
+                            : null
+                        } 
+                        ${isMobile && styles.peerContainerMobile}
+                        `}
+                id="peerContainer"
+              ></section>
+              <section
+                id="stream-window-container"
+                className={`
                             ${styles.streamContainer}
                             ${
                               isActiveScreenShare &&
@@ -1617,7 +1654,9 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
                             }
                             ${isMobile && styles.streamContainerMobile}
                             `}
-          ></section>
+              ></section>
+            </>
+          )}
 
           <section
             id="chatContainer"
