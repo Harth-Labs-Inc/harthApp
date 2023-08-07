@@ -20,10 +20,13 @@ export const VideoProvider = ({ children }) => {
 
   useEffect(() => {
     let URLS = videoSocketUrls;
-
+    const token = localStorage.getItem("token");
     setSocket(
       io.connect(URLS[process.env.NODE_ENV], {
         transports: ["websocket"],
+        query: {
+          token,
+        },
       })
     );
   }, []);

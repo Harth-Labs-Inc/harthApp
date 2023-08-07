@@ -118,9 +118,13 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               .get(`${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`)
               .then((responseData) => {
                 setTurnServers(responseData.data.token.iceServers);
+                const token = localStorage.getItem("token");
                 setSocket(
                   io.connect(URLS[process.env.NODE_ENV], {
                     transports: ["websocket"],
+                    query: {
+                      token,
+                    },
                   })
                 );
               })
