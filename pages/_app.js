@@ -40,14 +40,24 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    let vh = window.innerHeight;
-    let vw = window.innerWidth;
-    const isMobile = vw <= 640;
-    if (isMobile) {
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    } else {
-      document.documentElement.style.setProperty("--vh", `100vh`);
-    }
+    const setVhValue = () => {
+      let vh = window.innerHeight;
+      let vw = window.innerWidth;
+      const isMobile = vw <= 640;
+      if (isMobile) {
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
+      } else {
+        document.documentElement.style.setProperty("--vh", `100vh`);
+      }
+    };
+
+    setVhValue();
+
+    const timeoutId = setTimeout(() => {
+      setVhValue();
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (

@@ -586,12 +586,12 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }),
       createPeerConnection({
         iceServers: [...TurnServers],
-        videoBitrate: 256,
+        videoBitrate: 5000,
         sdpSemantics: "unified-plan",
         video: {
           codecs: [
-            { name: "VP8", priority: 10, payloadType: 120 },
-            { name: "H264", priority: 20, payloadType: 100 },
+            { name: "H264", priority: 10, payloadType: 100 },
+            { name: "VP8", priority: 20, payloadType: 120 },
           ],
         },
       }),
