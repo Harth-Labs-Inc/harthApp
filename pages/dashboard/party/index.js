@@ -70,9 +70,16 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   useEffect(() => {
     const container = document.getElementById("peerContainer");
     if (container) {
-      resize(container);
+      resize(container, isMobile, isActiveScreenShare);
     }
-  }, [width, showChatPannel, chats, screenShareActive, isActiveScreenShare]);
+  }, [
+    width,
+    showChatPannel,
+    chats,
+    screenShareActive,
+    isActiveScreenShare,
+    isMobile,
+  ]);
 
   useEffect(() => {
     if (!loading && user) {
