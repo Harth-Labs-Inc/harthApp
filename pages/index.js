@@ -51,6 +51,8 @@ const dashboard = () => {
   const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
   const [inviteTKN, setInviteTKN] = useState(false);
   const [showNotButton, setShowNotButton] = useState(false);
+  const [hasNotificationsDisabled, setHasNotificationsDisabled] =
+    useState(false);
 
   const {
     user,
@@ -204,9 +206,12 @@ const dashboard = () => {
 
       if (permission === "granted") {
         subcribeToPushService();
+      } else {
+        setHasNotificationsDisabled(true);
       }
     } catch (error) {
       console.log(error);
+      setHasNotificationsDisabled(true);
     }
   };
 
@@ -295,6 +300,7 @@ const dashboard = () => {
       >
         {showNotButton ? (
           <SetNotifications
+            permissionDenied={hasNotificationsDisabled}
             request={requestNotificationPermisson}
             refuseNotifcations={refuseNotifcations}
           />
