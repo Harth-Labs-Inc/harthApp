@@ -45,18 +45,6 @@ export default async (req, res) => {
               background: #2f1d2a;
             "
           >
-            <a 
-              href=""
-              style="
-                font-style: normal;
-                font-size: .8em;
-                letter-spacing: 0.02em;
-                color: #7a7a7a;
-              ">
-              www.harthsocial.com
-            </a>
-            <br />
-            <br />
               <img 
                 src="https://images.squarespace-cdn.com/content/6324af2b1cf55f7c7acccaa1/985d2269-17fb-4e14-9125-da3a0d86339c/Ha%CC%88rth-Logo-Light.png?content-type=image%2Fpng" 
                 alt="Harth Logo"
@@ -109,6 +97,18 @@ export default async (req, res) => {
           </span>
           <br />
           <br />
+          <a 
+          href="https://www.harthsocial.com"
+          style="
+            font-style: normal;
+            font-size: .9em;
+            letter-spacing: 0.02em;
+            color: #7a7a7a;
+          ">
+          www.harthsocial.com
+        </a>
+        <br />
+        <br />
           <br />
           <a 
             style="

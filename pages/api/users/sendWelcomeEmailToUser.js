@@ -31,84 +31,109 @@ export default async (req, res) => {
           from: "noreply@harthapp.com",
           to: email,
           subject: subject,
-          html: `  <div style="height: 600px; width: 355px; margin: 50px auto">
-            <div style="">
+          html: ` 
+          
+          <div style="width: 355px; padding: 24px 12px; margin-left: auto; margin-right: auto; background: #ffffff;">
+          <div
+            style="
+              width: 100%;
+              padding: 0;
+              padding-top: 24px;
+              padding-bottom: 24px;
+              text-align: center;
+              margin: 0;
+              background: #2f1d2a;
+            "
+          >
+              <img 
+                src="https://images.squarespace-cdn.com/content/6324af2b1cf55f7c7acccaa1/985d2269-17fb-4e14-9125-da3a0d86339c/Ha%CC%88rth-Logo-Light.png?content-type=image%2Fpng" 
+                alt="Harth Logo"
+                style="
+                  padding: 0;
+                  height: 36px;
+                  margin-left: auto;
+                  margin-right: auto;
+                "
+              />
+          </div>
+
+          <p
+            style="
+              font-style: normal;
+              font-weight: 600;
+              font-size: 1.4em;
+              letter-spacing: 0.02em;
+              color: #2f1d2a;
+              text-align: center;
+            "
+          >
+          Welcome to Härth
+          </p>
+              
+          <span
+            style="
+              font-style: normal;
+              font-size: 1em;
+              letter-spacing: 0.02em;
+              color: #2f1d2a;
+              text-align: left;
+            ">
+              You have successfully registered for an account with the following address: ${email}
+              <br /><br />
+              We are thrilled to welcome you to Härth, our innovative take on social that creates 
+              a private space for you and your friends.
+              <br /><br />
+              <span style="font-weight: 600;">Providing Feedback:</span> Email <a href="mailto:help@harthsocial.com">help@harthsocial.com</a> if you want 
+              to send us any feedback or if we experience any issues. 
+              <br /> <br />
+              Best,<br/>
+              The Härth Team
+          </span>
+            <br />
+            <div
+              style="
+              font-style: normal;
+              font-size: .9em;
+              letter-spacing: 0.02em;
+              color: #7a7a7a;
+              text-align: left;
+            ">
+              This email was sent to ${email}. Please do not reply to this email. This
+              address is not monitored.
+
+              <br />
+              <br />
+              <a 
+              href="https://www.harthsocial.com"
+              style="
+                font-style: normal;
+                font-size: .9em;
+                letter-spacing: 0.02em;
+                color: #7a7a7a;
+              ">
+              www.harthsocial.com
+            </a>
+            <br />
+            <br />
+              <br />
+              <a 
+                style="
+                  font-style: normal;
+                  font-size: .9em;
+                  letter-spacing: 0.02em;
+                  color: #7a7a7a;
+                  text-align: left;
+                "
+                href="https://www.harthsocial.com/terms">Terms of Service</a>
+              <br />
               <p
                 style="
-                  font-family: 'Work Sans';
                   font-style: normal;
-                  font-weight: 600;
-                  font-size: 18px;
-                  line-height: 125%;
+                  font-size: .9em;
                   letter-spacing: 0.02em;
-                  /* Fuel */
-                  color: #2f1d2a;
-                "
-              >
-                Welcome to Härth
-              </p>
-              <div
-                style="
-                  font-family: 'Work Sans';
-                  font-style: normal;
-                  font-weight: 400;
-                  font-size: 12px;
-                  line-height: 125%;
-                  letter-spacing: 0.02em;
-
-                  /* Fuel */
-                  color: #2f1d2a;
-                "
-              >
-                <p>You have successfully registered for an account with the following address: ${email}</p>
-                <p>
-                  We are thrilled to welcome you as one of the first beta testers for Härth, our innovative take on social
-                  that creates a private space for you and your friends. Your valuable feedback and insights will help us
-                  fine-tune the experience and ensure that we launch a top-notch product.
-                </p>
-                <p style="
-                  font-weight: 600;
-                  ">
-                  Here's what you need to know to get started:
-                  <ul>
-                    <li><span style="font-weight: 600;">Accessing Härth:</span> We recommend that you install Härth as a PWA (Progressive
-                      Web App). This is especially important if you are using the app on your mobile device. Don't worry, it's really easy.
-                      Visit <a href="https://www.harthsocial.com/pwa">https://www.harthsocial.com/pwa</a> for instrucstions </li>
-                    <li><span style="font-weight: 600;">Providing Feedback:</span> Email <a href="mailto:help@harthsocial.com">
-                    help@harthsocial.com</a> if you want to send us any feedback or if we experience any issues. When 
-                    reporting bugs, please include a detailed description, screenshots or screen recordings (if applicable),
-                    and the steps you took leading up to the issue.</li>
-                  </ul>
-                </p>
-                <p>We are excited to embark on this journey with you and look forward to receiving your valuable feedback.
-                Together, we'll make Härth the best it can be. Thank you for your support and happy testing!</p>
-                <p>Warm Regards,<br/>
-                The Härth Team</p>
-              </div>
-
-              <div
-                style="
-                  font-family: 'Work Sans';
-                  font-style: normal;
-                  font-weight: 400;
-                  font-size: 12px;
-                  line-height: 125%;
-
-                  /* or 15px */
-                  letter-spacing: 0.02em;
-
-                  /* Fuel 50 */
-                  color: rgba(47, 29, 42, 0.5);
-                "
-              >
-                <p>
-                  This email was sent to ${email}. Please do not reply to this email. This
-                  address is not monitored
-                </p>
-                <div style="display: flex; justify-content: space-between">
-                  <a href="https://www.harthsocial.com">www.harthsocial.com</a><a href="https://www.harthsocial.com/terms">Terms of Service</a>
-                </div>
-              </div>
+                  color: #7a7a7a;
+                  text-align: left;
+                "> ©2023 Harth Labs Inc. All rights reserved.</p>
             </div>
           </div>`,
         },
