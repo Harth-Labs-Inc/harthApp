@@ -238,8 +238,9 @@ export const SocketProvider = ({ children }) => {
               );
             }
             if (
-              incomingUpdate.creator_id !== user._id ||
-              incomingUpdate.socketID !== socket.id
+              (incomingUpdate.creator_id !== user._id ||
+                incomingUpdate.socketID !== socket.id) &&
+              incomingUpdate.userIDS?.includes(user._id)
             ) {
               setIncomingConversationMessagesHandler(incomingUpdate);
               setNewAlerts(incomingUpdate, "message");
@@ -333,6 +334,9 @@ export const SocketProvider = ({ children }) => {
     getExistingUnreadConvMessages(user._id).then((results) => {
       let { data } = results;
       if (data) {
+        if (data.length) {
+          setNewAlerts(data[0], "message");
+        }
         unreadConvMessagesRef.current = data;
         triggerUpdate((prevValue) => (prevValue += 1));
       }
@@ -342,6 +346,9 @@ export const SocketProvider = ({ children }) => {
     getExistingUnreadMessages(user._id).then((results) => {
       let { data } = results;
       if (data) {
+        if (data.length) {
+          setNewAlerts(data[0], "chat");
+        }
         unreadMessagesRef.current = data;
         triggerUpdate((prevValue) => (prevValue += 1));
       }
