@@ -217,7 +217,7 @@ export const updateConversationMessage = async (msg) => {
   }
 };
 
-export const deleteConversationMessage = async (id) => {
+export const deleteConversationMessage = async (id, prefix) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -225,6 +225,7 @@ export const deleteConversationMessage = async (id) => {
       `/api/conversation/deleteConversationMessage`,
       {
         id,
+        prefix,
       },
       {
         headers: {

@@ -84,7 +84,8 @@ const ChatSingleMessage = (props) => {
 
   const { user } = useAuth();
   const { emitUpdate } = useSocket();
-  const { selectedcomm, selectedTopic, profile } = useComms();
+  const { selectedcomm, selectedTopic, profile, selectedConversation } =
+    useComms();
 
   const formatMessage = (text) => {
     if (typeof text !== "string") {
@@ -310,7 +311,10 @@ const ChatSingleMessage = (props) => {
     });
   };
   const deleteConversation = async () => {
-    await deleteConversationMessage(_id);
+    await deleteConversationMessage(
+      _id,
+      `${selectedcomm._id}-${selectedConversation._id}-${_id}`
+    );
     let msg = props.msg;
     msg.action = "delete";
     msg.updateType = "conversation message update";
