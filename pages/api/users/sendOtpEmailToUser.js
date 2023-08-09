@@ -28,117 +28,107 @@ export default async (req, res) => {
       });
       transporter.sendMail(
         {
-          from: "noreply@harthapp.com",
+          from: "Härth Social <noreply@harthapp.com>",
           to: email,
           subject: subject,
-          html: `  <div style="height: 600px; width: 355px; margin: 50px auto">
+          html: `  
+          
+          <div style="width: 355px; padding: 24px 12px; margin-left: auto; margin-right: auto; background: #ffffff;">
           <div
             style="
-              background: #2f1d2a;
-              padding: 0%;
-              height: 120px;
+              width: 100%;
+              padding: 0;
+              padding-top: 24px;
+              padding-bottom: 24px;
               text-align: center;
-              color: white;
               margin: 0;
+              background: #2f1d2a;
             "
           >
-            <p style="margin: auto; line-height: 120px; font-size: 35.5px">Härth</p>
+              <img 
+                src="https://images.squarespace-cdn.com/content/6324af2b1cf55f7c7acccaa1/985d2269-17fb-4e14-9125-da3a0d86339c/Ha%CC%88rth-Logo-Light.png?content-type=image%2Fpng" 
+                alt="Harth Logo"
+                style="
+                  padding: 0;
+                  height: 36px;
+                  margin-left: auto;
+                  margin-right: auto;
+                "
+              />
           </div>
-          <div style="">
-            <p
-              style="
-                font-family: 'Work Sans';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 18px;
-                line-height: 125%;
-    
-                /* identical to box height, or 22px */
-                letter-spacing: 0.02em;
-    
-                /* Fuel */
-                color: #2f1d2a;
-              "
-            >
-              Your one-time passcode
-            </p>
-            <p
-              style="
-                font-family: 'Work Sans';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 28px;
-                line-height: 125%;
-    
-                /* identical to box height, or 35px */
-                text-align: center;
-                letter-spacing: 0.02em;
-    
-                /* Fuel */
-                color: #2f1d2a;
-              "
-            >
-              ${otp}
-            </p>
-            <div
-              style="
-                font-family: 'Work Sans';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 12px;
-                line-height: 125%;
-    
-                /* or 15px */
-                letter-spacing: 0.02em;
-    
-                /* Fuel */
-                color: #2f1d2a;
-              "
-            >
-              <p>This is a single use passcode and will expite in 15 minutes.</p>
-              <p>
-                If you did not make this request, please contact our help teem for
-                further assistance.
-              </p>
-              <p>
-                Need Assistance?
-                <span
-                  style="
-                    text-decoration-line: underline;
-    
-                    /* Hot Pink */
-                    color: #d96fab;
-                  "
-                >
-                  Get Help</span
-                >
-              </p>
-            </div>
-    
-            <div
-              style="
-                font-family: 'Work Sans';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 12px;
-                line-height: 125%;
-    
-                /* or 15px */
-                letter-spacing: 0.02em;
-    
-                /* Fuel 50 */
-                color: rgba(47, 29, 42, 0.5);
-              "
-            >
-              <p>
-                This email was send to .Please do not reply to this email. This
-                address is not monitored
-              </p>
-              <div style="display: flex; justify-content: space-between">
-              <a href="https://www.harthsocial.com">www.harthsocial.com</a><a href="https://www.harthsocial.com/terms">Terms of Service</a>
-              </div>
-            </div>
-          </div>
+
+          <p
+            style="
+              font-style: normal;
+              font-weight: 600;
+              font-size: 1.4em;
+              letter-spacing: 0.02em;
+              color: #2f1d2a;
+              text-align: center;
+            "
+          >
+            Your one-time passcode
+          </p>
+          <p
+            style="
+              font-style: normal;
+              font-weight: 700;
+              font-size: 3em;
+\             text-align: center;
+              letter-spacing: 0.2em;
+              color: #2f1d2a;
+            "
+          >
+            ${otp}
+          </p>
+
+          <span
+            style="
+              font-style: normal;
+              font-size: .9em;
+              letter-spacing: 0.02em;
+              color: #7a7a7a;
+              text-align: left;
+            ">
+            This is a single use passcode and will expire in 15 minutes.
+            <br />
+            <br />
+            If you did not request this email, you can safely ignore it. Please do not reply to this email. This address is not monitored
+          </span>
+          <br />
+          <br />
+          <a 
+          href="https://www.harthsocial.com"
+          style="
+            font-style: normal;
+            font-size: .9em;
+            letter-spacing: 0.02em;
+            color: #7a7a7a;
+          ">
+          www.harthsocial.com
+        </a>
+        <br />
+        <br />
+          <br />
+          <a 
+            style="
+              font-style: normal;
+              font-size: .9em;
+              letter-spacing: 0.02em;
+              color: #7a7a7a;
+              text-align: left;
+            "
+            href="https://www.harthsocial.com/terms">Terms of Service</a>
+          <br />
+          <p
+            style="
+              font-style: normal;
+              font-size: .9em;
+              letter-spacing: 0.02em;
+              color: #7a7a7a;
+              text-align: left;
+            "> ©2023 Harth Labs Inc. All rights reserved.</p>
+
         </div>`,
           text: `one time password is ${otp}`,
         },

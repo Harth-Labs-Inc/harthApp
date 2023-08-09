@@ -96,6 +96,7 @@ const CreateAccount = () => {
         </div>
         <TalkingHead text={bubbleText} />
         <form onSubmit={handleSubmit(submitHandler)}>
+          <p className={styles.label}>Full Name</p>
           <input
             {...register("fullName", { required: true })}
             type="text"
@@ -104,6 +105,7 @@ const CreateAccount = () => {
           <ErrorMessage
             errorMsg={errors.fullName ? "You must enter your name" : null}
           />
+          <p className={styles.label}>Email</p>
           <input
             {...register("email", {
               required: true,
@@ -114,7 +116,7 @@ const CreateAccount = () => {
             placeholder="Email"
           />
           <ErrorMessage errorMsg={errors.email ? handleEmailError() : null} />
-
+          <p className={styles.label}>Date of Birth</p>
           <input
             {...register("dob", {
               required: true,
@@ -128,7 +130,7 @@ const CreateAccount = () => {
             //style={{ caretColor: '#ff0000', color: '#0f0', backgroundColor: '#f00'}}
           />
           <div className={styles.small}>
-            Enter your birthday for verification. Your birthday will not be
+            Enter your birthday for age verification. Your birthday will not be
             publicly displayed.
           </div>
           <ErrorMessage errorMsg={errors.dob ? handleDobError() : null} />

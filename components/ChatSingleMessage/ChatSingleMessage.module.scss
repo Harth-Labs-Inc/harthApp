@@ -349,7 +349,7 @@
     background-color: $black;
     border-radius: 12px;
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
     user-select: none;
     height: 300px;
     overflow: hidden;
@@ -430,10 +430,9 @@
         letter-spacing: 0em;
         margin-bottom: 4px;
         color: $font_medium;
-        //max-height: 90px;
         overflow: hidden;
         text-overflow: ellipsis;
-        // display: inline-block;
+        display: inline-block;
     }
 }
 
