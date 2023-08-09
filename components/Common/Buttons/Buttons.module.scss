@@ -54,7 +54,7 @@
     transition: all 0.2s;
     background-color: transparent;
     path {
-        fill: $oxygen;
+        fill: $ash_light;
     }
     &:hover {
         background-color: $oxygen_10;
@@ -99,7 +99,7 @@
     &Secondary {
         color: $font_medium;
         background: transparent;
-        border-color: $ash;
+        border-color: $ash_medium;
         &:hover {
             color: $font_light;
             background-color: $black;
@@ -120,9 +120,10 @@
     }
 
     &:disabled {
-        color: #9a9a9a;
-        background-color: #eaeaea;
+        color: $ash;
+        background-color: $ash_heavy;
         cursor: default;
+        border: 1px solid $ash_medium;
     }
 
     &Loading {

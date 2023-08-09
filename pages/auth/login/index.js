@@ -48,6 +48,7 @@ const Login = () => {
 
       <div className={styles.greeting}>Where friends gather</div>
       <form onSubmit={handleSubmit(submitHandler)}>
+        <p className={styles.label}>Login</p>
         <input
           {...register("email", { required: true })}
           placeholder="Enter your email"
@@ -66,7 +67,7 @@ const Login = () => {
           //     </button>
           // </div>
           <div className={styles.accountCreateAlert}>
-            We are currently in a closed beta.
+            We are currently in an early release.
             <br />
             Click below to get on the list.
             <br />
