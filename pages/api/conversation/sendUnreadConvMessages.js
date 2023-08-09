@@ -60,7 +60,13 @@ export default async (req, res) => {
   }
 
   const messagesData = harth.users
-    .filter((usr) => usr && usr.userId !== user._id.toString() && !usr.muted)
+    .filter(
+      (usr) =>
+        usr &&
+        usr.userId !== user._id.toString() &&
+        !usr.muted &&
+        msg.userIDS.includes(usr.userId)
+    )
     .map((usr) => ({
       conversation_id: msg.conversation_id,
       creator_id: msg.creator_id,
