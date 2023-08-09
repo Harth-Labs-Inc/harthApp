@@ -64,7 +64,47 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const { isMobile } = useContext(MobileContext);
 
   useEffect(() => {
-    return stopDetectSpeaking;
+    let wakeLock = null;
+
+    async function requestWakeLock() {
+      if ("wakeLock" in navigator) {
+        try {
+          wakeLock = await navigator.wakeLock.request("screen");
+          console.log("Wake Lock acquired");
+        } catch (err) {
+          console.error("Error acquiring wake lock:", err);
+        }
+      } else {
+        console.warn("Wake Lock API is not supported on this browser/device.");
+      }
+    }
+
+    function handleVisibilityChange() {
+      if (document.visibilityState === "visible") {
+        requestWakeLock();
+      } else {
+        if (wakeLock !== null) {
+          wakeLock.release().then(() => {
+            console.log("Wake Lock released due to visibility change");
+            wakeLock = null;
+          });
+        }
+      }
+    }
+
+    requestWakeLock();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      if (wakeLock !== null) {
+        wakeLock.release().then(() => {
+          console.log("Wake Lock released");
+          wakeLock = null;
+        });
+      }
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      stopDetectSpeaking();
+    };
   }, []);
 
   useEffect(() => {
