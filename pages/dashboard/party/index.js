@@ -299,12 +299,14 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           removeElement(newMsg.videoPeer);
         }
         if (newMsg?.code == 4) {
-          for (let conns in audioSharePeer.current.connections) {
-            audioSharePeer.current.connections[conns].forEach((conn) => {
-              if (conn.metadata?.streamID == newMsg.deleteID) {
-                if (conn.close) conn.close();
-              }
-            });
+          if (audioSharePeer && audioSharePeer?.current) {
+            for (let conns in audioSharePeer.current?.connections) {
+              audioSharePeer.current?.connections[conns].forEach((conn) => {
+                if (conn.metadata?.streamID == newMsg.deleteID) {
+                  if (conn.close) conn.close();
+                }
+              });
+            }
           }
           removeElement(newMsg.peerId);
         }
@@ -1180,8 +1182,9 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const createVideo = (incomingStream, peer, call) => {
     if (peer && peer.socketID && peer.videoPeer && incomingStream) {
+      let existingVideo = document.getElementById(incomingStream.id);
       let existingVideoContainer = document.getElementById(peer?.videoPeer);
-      if (!existingVideoContainer) {
+      if (!existingVideoContainer && !existingVideo) {
         let parentContainer = document.getElementById(peer?.socketID);
         if (!parentContainer) {
           parentContainer = document.createElement("div");
@@ -1210,6 +1213,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         video.muted = true;
         video.className = "video";
         video.playsInline = true;
+        video.id = incomingStream.id;
         videoContainer.appendChild(video);
         parentContainer.appendChild(videoContainer);
         parentContainer.classList.add(styles.videoActive);
@@ -1295,7 +1299,10 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const setPeerContainers = () => {
     PEERS.current?.forEach((peer) => {
       if (socketID && peer) {
-        if (PEERS.current?.length <= 1 || socketID !== peer?.socketID) {
+        if (
+          PEERS.current?.length <= 1 ||
+          (socketID !== peer?.socketID && user._id !== peer?.userID)
+        ) {
           let parentContainer = document.getElementById(peer?.socketID);
           if (!parentContainer) {
             parentContainer = document.createElement("div");
