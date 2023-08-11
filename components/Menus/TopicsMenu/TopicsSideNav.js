@@ -15,6 +15,7 @@ import { IconAdd } from "../../../resources/icons/IconAdd";
 import { CustomContextMenu } from "../../CustomContextMenu/CustomContextMenu";
 import CreateNewTopicModal from "./CreateNewTopicModal/CreateNewTopicModal";
 import styles from "./TopicsNav.module.scss";
+import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 
 const TopicsNav = (props) => {
   const [topicsArr, setTopicsArr] = useState([]);
@@ -28,8 +29,14 @@ const TopicsNav = (props) => {
   const { isMobile } = useContext(MobileContext);
   const { incomingTopic, emitUpdate, unreadMessagesRef } = useSocket();
   const { user } = useAuth();
-  const { topics, setTopic, selectedTopic, updateSelectedTopic, selectedcomm } =
-    useComms();
+  const {
+    topics,
+    setTopic,
+    selectedTopic,
+    updateSelectedTopic,
+    selectedcomm,
+    isLoadingTopics,
+  } = useComms();
 
   useEffect(() => {
     if (topics) {
@@ -290,122 +297,58 @@ const TopicsNav = (props) => {
         >
           Chats
         </p>
-        <div className={styles.TopicsNavContainer}>
-          {selectedcomm &&
-            topicsArr &&
-            topicsArr.map((topic) => {
-              let isActive = false;
-              let isShort = false;
-              let hasAlert = false;
-              let alertProfiles = [];
-              if ((selectedTopic || {})._id == (topic || {})._id) {
-                isActive = true;
-              }
-              unreadMessagesRef.forEach((msg) => {
-                if (
-                  msg.topic_id === topic._id &&
-                  msg.creator_id !== user._id &&
-                  (selectedTopic || {})._id !== msg.topic_id
-                ) {
-                  let owner = topic?.members.find(
-                    (member) => member?.user_id === user._id
-                  );
-                  let isHarthMuted = false;
-                  if (selectedcomm && user) {
-                    let userIndex = selectedcomm.users.findIndex((usr) => {
-                      return usr.userId == user._id;
-                    });
-
-                    if (userIndex >= 0) {
-                      let profile = selectedcomm.users[userIndex];
-                      isHarthMuted = profile?.muted;
-                    }
-                  }
-                  if (!isHarthMuted && (!owner || !owner.muted)) {
-                    hasAlert = true;
-                    let match = alertProfiles.find(
-                      (prof) => prof.creator_id == msg.creator_id
+        {isLoadingTopics ? (
+          <div>
+            <SpinningLoader spinnerOnly={true} />
+          </div>
+        ) : (
+          <div className={styles.TopicsNavContainer}>
+            {selectedcomm &&
+              topicsArr &&
+              topicsArr.map((topic) => {
+                let isActive = false;
+                let isShort = false;
+                let hasAlert = false;
+                let alertProfiles = [];
+                if ((selectedTopic || {})._id == (topic || {})._id) {
+                  isActive = true;
+                }
+                unreadMessagesRef.forEach((msg) => {
+                  if (
+                    msg.topic_id === topic._id &&
+                    msg.creator_id !== user._id &&
+                    (selectedTopic || {})._id !== msg.topic_id
+                  ) {
+                    let owner = topic?.members.find(
+                      (member) => member?.user_id === user._id
                     );
-                    if (!match) {
-                      alertProfiles.push(msg);
+                    let isHarthMuted = false;
+                    if (selectedcomm && user) {
+                      let userIndex = selectedcomm.users.findIndex((usr) => {
+                        return usr.userId == user._id;
+                      });
+
+                      if (userIndex >= 0) {
+                        let profile = selectedcomm.users[userIndex];
+                        isHarthMuted = profile?.muted;
+                      }
+                    }
+                    if (!isHarthMuted && (!owner || !owner.muted)) {
+                      hasAlert = true;
+                      let match = alertProfiles.find(
+                        (prof) => prof.creator_id == msg.creator_id
+                      );
+                      if (!match) {
+                        alertProfiles.push(msg);
+                      }
                     }
                   }
+                });
+
+                if (topic?.contentAge == "short") {
+                  isShort = true;
                 }
-              });
-
-              if (topic?.contentAge == "short") {
-                isShort = true;
-              }
-              return (
-                <TopicListElement
-                  clickHandler={changeSelectedTopic}
-                  key={topic._id}
-                  topic={topic}
-                  isMobile={isMobile}
-                  hasAlert={hasAlert}
-                  alertProfiles={alertProfiles}
-                  isActive={isActive}
-                  isShort={isShort}
-                  label={topic?.title}
-                  toggleTopicEditModal={toggleTopicEditModal}
-                />
-              );
-            })}
-          {topicsArr.length < 1 ? (
-            <div className={styles.notopic}>Select below to add a topic</div>
-          ) : null}
-          <button
-            id="create_topic"
-            className={isMobile ? styles.CreateTopicMobile : styles.CreateTopic}
-            onClick={openCreateTopic}
-          >
-            <IconAdd />
-          </button>
-
-          {hiddenTopicsArr.length > 0 && (
-            <button
-              className={`
-                            ${styles.TopicsNavHidden}
-                            ${isMobile && styles.TopicsNavHiddenMobile}
-                            ${isHiddenView && styles.TopicsNavHiddenActive}
-                            `}
-              onClick={toggleHidden}
-            >
-              Hidden
-            </button>
-          )}
-          {isHiddenView &&
-            hiddenTopicsArr &&
-            hiddenTopicsArr.map((topic) => {
-              let isActive = false;
-              let isShort = false;
-              let hasAlert = false;
-              let alertProfiles = [];
-              if ((selectedTopic || {})._id == (topic || {})._id) {
-                isActive = true;
-              }
-              unreadMessagesRef.forEach((msg) => {
-                if (
-                  msg.topic_id === topic._id &&
-                  msg.creator_id !== user._id &&
-                  (selectedTopic || {})._id !== msg.topic_id
-                ) {
-                  let owner = topic?.members.find(
-                    (member) => member?.user_id === user._id
-                  );
-                  if (!owner || (!owner.muted && !owner.hidden)) {
-                    hasAlert = true;
-                    alertProfiles.push(msg);
-                  }
-                }
-              });
-
-              if (topic?.contentAge == "short") {
-                isShort = true;
-              }
-              return (
-                <>
-                  <p className={styles.spacer} />
+                return (
                   <TopicListElement
                     clickHandler={changeSelectedTopic}
                     key={topic._id}
@@ -417,12 +360,84 @@ const TopicsNav = (props) => {
                     isShort={isShort}
                     label={topic?.title}
                     toggleTopicEditModal={toggleTopicEditModal}
-                    isHidden={true}
                   />
-                </>
-              );
-            })}
-        </div>
+                );
+              })}
+            {topicsArr.length < 1 ? (
+              <div className={styles.notopic}>Select below to add a topic</div>
+            ) : null}
+            <button
+              id="create_topic"
+              className={
+                isMobile ? styles.CreateTopicMobile : styles.CreateTopic
+              }
+              onClick={openCreateTopic}
+            >
+              <IconAdd />
+            </button>
+
+            {hiddenTopicsArr.length > 0 && (
+              <button
+                className={`
+                            ${styles.TopicsNavHidden}
+                            ${isMobile && styles.TopicsNavHiddenMobile}
+                            ${isHiddenView && styles.TopicsNavHiddenActive}
+                            `}
+                onClick={toggleHidden}
+              >
+                Hidden
+              </button>
+            )}
+            {isHiddenView &&
+              hiddenTopicsArr &&
+              hiddenTopicsArr.map((topic) => {
+                let isActive = false;
+                let isShort = false;
+                let hasAlert = false;
+                let alertProfiles = [];
+                if ((selectedTopic || {})._id == (topic || {})._id) {
+                  isActive = true;
+                }
+                unreadMessagesRef.forEach((msg) => {
+                  if (
+                    msg.topic_id === topic._id &&
+                    msg.creator_id !== user._id &&
+                    (selectedTopic || {})._id !== msg.topic_id
+                  ) {
+                    let owner = topic?.members.find(
+                      (member) => member?.user_id === user._id
+                    );
+                    if (!owner || (!owner.muted && !owner.hidden)) {
+                      hasAlert = true;
+                      alertProfiles.push(msg);
+                    }
+                  }
+                });
+
+                if (topic?.contentAge == "short") {
+                  isShort = true;
+                }
+                return (
+                  <>
+                    <p className={styles.spacer} />
+                    <TopicListElement
+                      clickHandler={changeSelectedTopic}
+                      key={topic._id}
+                      topic={topic}
+                      isMobile={isMobile}
+                      hasAlert={hasAlert}
+                      alertProfiles={alertProfiles}
+                      isActive={isActive}
+                      isShort={isShort}
+                      label={topic?.title}
+                      toggleTopicEditModal={toggleTopicEditModal}
+                      isHidden={true}
+                    />
+                  </>
+                );
+              })}
+          </div>
+        )}
       </aside>
     </>
   );

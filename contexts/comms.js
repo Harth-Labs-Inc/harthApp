@@ -38,6 +38,8 @@ export const CommsProvider = ({
   const [hasRoomMinimized, setHasRoomMinimized] = useState(false);
   const [openMinimizedRoom, setOpenMinimizedRoom] = useState(false);
   const [activeRoom, setActiveRoom] = useState(null);
+  const [isLoadingTopics, setIsLoadingTopics] = useState(null);
+  const [isLoadingConversations, setIsLoadingConversations] = useState(null);
 
   const { user } = useAuth();
 
@@ -264,6 +266,7 @@ export const CommsProvider = ({
     });
   };
   const fetchConversations = async (comid) => {
+    setIsLoadingConversations(true);
     let result = await getConversations(comid, user._id);
     const { ok, conversations } = result;
     if (ok) {
@@ -271,10 +274,12 @@ export const CommsProvider = ({
       if (!isMobile) {
         setSelectedConversation(conversations[0] || {});
       }
+      setIsLoadingConversations(false);
     }
     return;
   };
   const grabTopics = async (comid) => {
+    setIsLoadingTopics(true);
     let result = await getTopics(comid, user._id);
     const { ok, topics } = result;
     if (ok) {
@@ -315,8 +320,8 @@ export const CommsProvider = ({
         }
         setSelectedTopic(startingTopic);
       }
-
       setTopics(topics);
+      setIsLoadingTopics(false);
     }
     return;
   };
@@ -541,6 +546,8 @@ export const CommsProvider = ({
         closeActiveRoomFromMobile,
         minimizeHandler,
         activeRoom,
+        isLoadingTopics,
+        isLoadingConversations,
       }}
     >
       {children}
