@@ -103,22 +103,14 @@ const ChatSingleMessage = (props) => {
         const properURL = part.startsWith("www") ? "http://" + part : part;
 
         return (
-          <span
+          <a
             key={`url_${index}`}
-            onClick={() => window.open(properURL, "_blank")}
-            // style={{
-            //   display: "inline-block",
-            //   height: "20px",
-            //   overflow: "hidden",
-            //   textOverflow: "ellipsis",
-            //   cursor: "pointer",
-            //   color: "pink",
-            //   textDecoration: "underline",
-            // }}
-            className={styles.urlLink}
+            href={properURL}
+            target="_blank"
+            // className={styles.urlLink}
           >
             {part}
-          </span>
+          </a>
         );
       } else if (emojiRegex.test(part)) {
         return (
