@@ -31,10 +31,9 @@ self.addEventListener("push", function (event) {
     dir: "ltr",
     lang: "en-US",
     vibrate: [100, 50, 200],
-    tag: "chat-notification",
     icon: "/icons/icon-150x150.png",
     badge: "/icons/icon-96x96.png",
-    openUrl: "https://www.harth.social/",
+    data: { url: "https://www.harth.social/" },
   };
 
   if (event.data) {
@@ -45,7 +44,6 @@ self.addEventListener("push", function (event) {
     dir: "ltr",
     lang: "en-US",
     vibrate: [100, 50, 200],
-    tag: "chat-notification",
     icon: "/icons/icon-150x150.png",
     badge: "/icons/icon-96x96.png",
     data: {
@@ -58,9 +56,15 @@ self.addEventListener("push", function (event) {
   }
 });
 
+self.addEventListener("notificationclick", function (event) {
+  event.notification.close();
+  if (event.notification.data && event.notification.data.url) {
+    clients.openWindow(event.notification.data.url);
+  }
+});
+
 const { precaching, routing, strategies } = workbox;
 
-// Precache and route any assets you need
 precaching.precacheAndRoute([]);
 
 // CacheFirst
@@ -119,7 +123,6 @@ workbox.routing.registerRoute(
 );
 
 // StaleWhileRevalidate
-
 // Cache CSS files
 routing.registerRoute(
   /\.css$/,
