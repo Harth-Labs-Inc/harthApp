@@ -129,28 +129,10 @@ const dashboard = () => {
           user,
           subject: "Welcome To Härth",
         });
-        if (!storedinviteTKN && !tkn) {
-          setShowCreateHarthNameModal(true);
-        } else {
-          localStorage.removeItem("showFirstTimeUser");
-          async function testToken() {
-            let results = await checkIfInviteTokenIsGood({
-              token: tkn || storedinviteTKN,
-              user,
-            });
-            if (results?.ok) {
-              setShowCreateHarthNameModal(false);
-              setInvitedHarth({ ...results?.harth });
-              setShowInviteAcceptModal(true);
-            } else {
-              setInviteTKN(null);
-              setShowCreateHarthNameModal(false);
-              setShowInviteAcceptModal(false);
-            }
-          }
-          testToken();
-        }
-      } else if (storedinviteTKN || tkn) {
+        localStorage.removeItem("showFirstTimeUser");
+      }
+
+      if (storedinviteTKN || tkn) {
         async function testToken() {
           let results = await checkIfInviteTokenIsGood({
             token: tkn || storedinviteTKN,
@@ -161,19 +143,30 @@ const dashboard = () => {
             setInvitedHarth({ ...results?.harth });
             setShowInviteAcceptModal(true);
           } else {
+            localStorage.removeItem("inviteToken");
             setInviteTKN(null);
-            setShowCreateHarthNameModal(false);
             setShowInviteAcceptModal(false);
+            if (!user.comms || user?.comms.length == 0) {
+              setShowCreateHarthNameModal(true);
+            } else {
+              setShowCreateHarthNameModal(false);
+            }
           }
         }
         testToken();
       } else if (!user.comms || user?.comms.length == 0) {
         setShowCreateHarthNameModal(true);
+      } else {
+        if (showCreateHarthNameModal) {
+          setShowCreateHarthNameModal(false);
+        }
       }
     }
 
     return () => {
       setInviteTKN(null);
+      setShowCreateHarthNameModal(false);
+      setInvitedHarth(null);
     };
   }, [loading]);
 
@@ -241,6 +234,7 @@ const dashboard = () => {
     }
   };
   const resetNewInviteHarth = () => {
+    localStorage.removeItem("inviteToken");
     setInvitedHarth(null);
     setShowInviteProfileModal(false);
     setShowInviteAcceptModal(false);

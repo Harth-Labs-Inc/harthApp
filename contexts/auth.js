@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
 
   const [TOPICS, setTOPICS] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [inviteTKN, setInviteTKN] = useState(null);
 
   const router = useRouter();
   let { invite, tkn } = router.query;
@@ -77,7 +76,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
   useEffect(() => {
     if (invite && tkn) {
-      setInviteTKN(tkn);
+      localStorage.setItem("inviteToken", tkn);
     }
   }, [invite, tkn]);
 
@@ -94,8 +93,6 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!user,
         user,
         loading,
-        inviteTKN,
-        setInviteTKN,
         setContextUser,
         Comms,
         CREATOR,
