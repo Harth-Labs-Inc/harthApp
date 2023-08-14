@@ -29,13 +29,12 @@ export const LinkPreview = ({ message }) => {
   const blacklist = new Set(["twitter.com", "instagram.com", "amazon.com"]);
 
   const isBlacklisted = (url) => {
-    try {
-      const parsedURL = new URL(url);
-      return blacklist.has(parsedURL.hostname);
-    } catch (e) {
-      console.error(`Failed to parse URL: ${url}`);
-      return false;
+    for (let domain of blacklist) {
+      if (url.includes(domain)) {
+        return true;
+      }
     }
+    return false;
   };
 
   const renderPlaceholder = () => {
@@ -119,7 +118,7 @@ export const LinkPreview = ({ message }) => {
             const response = await axios.get(
               `https://opengraph.io/api/1.1/site/${encodeURIComponent(
                 url
-              )}?accept_lang=auto&use_proxy=true&app_id=bc82985a-b469-4157-8620-76c822cab0c5`
+              )}?accept_lang=auto&app_id=bc82985a-b469-4157-8620-76c822cab0c5`
             );
 
             if (response.status === 200 && response.data?.hybridGraph) {
