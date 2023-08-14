@@ -51,7 +51,7 @@ export const CommsProvider = ({
 
   const router = useRouter();
   const {
-    query: { gather_window },
+    query: { gather_window, openFromPush },
   } = router;
 
   useEffect(() => {
@@ -97,7 +97,19 @@ export const CommsProvider = ({
       (selectedConversation == null ||
         !Object.keys(selectedConversation || {}).length)
     ) {
-      setSelectedConversation(conversations[0]);
+      let startingConv;
+
+      startingConv = conversations[0];
+
+      if (openFromPush && router.query.conversation_id) {
+        const matchingConv = conversations.find(
+          ({ _id }) => _id == router.query.conversation_id
+        );
+        if (matchingConv) {
+          startingConv = matchingConv;
+        }
+      }
+      setSelectedConversation(startingConv);
     }
   }, [conversations, isMobile]);
 
@@ -108,6 +120,16 @@ export const CommsProvider = ({
   useEffect(() => {
     selectedTopicRef.current = selectedTopic;
   }, [selectedTopic]);
+
+  useEffect(() => {
+    if (openFromPush && comms && comms.length) {
+      const { comm_id } = router.query;
+      const harth = comms.find(({ _id }) => _id === comm_id);
+      if (harth) {
+        changeSelectedCommFromChild(harth);
+      }
+    }
+  }, [openFromPush, comms]);
 
   const setStartingTopic = (tpcs) => {
     let startingTopic;
@@ -270,22 +292,37 @@ export const CommsProvider = ({
     let result = await getConversations(comid, user._id);
     const { ok, conversations } = result;
     if (ok) {
-      setConversations(conversations);
+      let startingConv;
+
       if (!isMobile) {
-        setSelectedConversation(conversations[0] || {});
+        startingConv = conversations[0];
+      }
+
+      if (openFromPush && router.query.conversation_id) {
+        const matchingConv = conversations.find(
+          ({ _id }) => _id == router.query.conversation_id
+        );
+        if (matchingConv) {
+          startingConv = matchingConv;
+        }
+      }
+      setConversations(conversations);
+
+      if (startingConv) {
+        setSelectedConversation(startingConv);
       }
       setIsLoadingConversations(false);
     }
     return;
   };
+
   const grabTopics = async (comid) => {
     setIsLoadingTopics(true);
     let result = await getTopics(comid, user._id);
     const { ok, topics } = result;
     if (ok) {
+      let startingTopic;
       if (!isMobile) {
-        let startingTopic;
-
         for (let topic of topics) {
           for (let member of topic.members) {
             if (member.user_id == user._id) {
@@ -318,10 +355,26 @@ export const CommsProvider = ({
             console.log();
           }
         }
-        setSelectedTopic(startingTopic);
+      }
+      if (openFromPush && router.query.topic_id) {
+        const matchingTopic = topics.find(
+          ({ _id }) => _id == router.query.topic_id
+        );
+        if (matchingTopic) {
+          for (let member of matchingTopic.members) {
+            if (member.user_id == user._id) {
+              if (!member.hidden) {
+                startingTopic = matchingTopic;
+              }
+            }
+          }
+        }
       }
       setTopics(topics);
       setIsLoadingTopics(false);
+      if (startingTopic) {
+        setSelectedTopic(startingTopic);
+      }
     }
     return;
   };

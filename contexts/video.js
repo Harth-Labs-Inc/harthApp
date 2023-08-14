@@ -5,7 +5,6 @@ import { getScheduledCallRooms, deleteScheduledRoom } from "../requests/rooms";
 import { combineDateTime } from "../services/helper";
 import { useComms } from "./comms";
 import { useSocket } from "./socket";
-import { sendPushNotification } from "requests/subscriptions";
 const VideoContext = createContext({});
 
 /* eslint-disable */
@@ -143,24 +142,6 @@ export const VideoProvider = ({ children }) => {
   };
   const createEmptyRoom = (data, cb) => {
     socket && socket.emit("create-call-room", data, cb);
-
-    let pushData = {
-      message: `Room ${data.roomName} is now active!`,
-      pushTitle: `Harth`,
-      env: process.env.NODE_ENV,
-      ignoreSelf: true,
-      comm_id: selectedCommRef.current._id,
-    };
-
-    if (data.setInitalTimer) {
-      delete pushData.ignoreSelf;
-    }
-
-    try {
-      sendPushNotification(pushData);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (

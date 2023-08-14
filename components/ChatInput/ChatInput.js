@@ -23,6 +23,7 @@ import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
 import { sendPushNotification } from "requests/subscriptions";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
+import { generatePushMessage } from "services/helper";
 
 const ChatInput = (props) => {
   const [attachments, setAttachments] = useState([]);
@@ -204,13 +205,14 @@ const ChatInput = (props) => {
           }
         }
         try {
-          sendPushNotification({
+          let pushmessage = generatePushMessage({
             ...newMessage,
             pushTitle: `New message from ${newMessage.creator_name}`,
             env: process.env.NODE_ENV,
             ignoreSelf: true,
             type: "chat",
           });
+          sendPushNotification(pushmessage);
         } catch (error) {
           console.log(error);
         }

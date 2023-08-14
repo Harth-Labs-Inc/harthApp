@@ -9,6 +9,8 @@ import GatheringCreate from "../../../components/Gathering/GatheringCreate/Gathe
 import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
 import { GatherLoading } from "../../../components/Gathering/GatherLoading/GatherLoading";
 import styles from "./GatheringDashboard.module.scss";
+import { generatePushMessage } from "services/helper";
+import { sendPushNotification } from "requests/subscriptions";
 
 const Video = () => {
   const [socketData, setSocketData] = useState({});
@@ -81,6 +83,35 @@ const Video = () => {
   };
   const createRoom = (room) => {
     createEmptyRoom({ ...socketData, ...room }, (data) => {
+      let pushData = {
+        message: `Room ${data?.newGroupCallRoom.roomName} is now active!`,
+        pushTitle: `Harth`,
+        env: process.env.NODE_ENV,
+        ignoreSelf: true,
+        comm_id: selectedcomm._id,
+        type: "gather",
+        roomDetails: {
+          gather_window: true,
+          room_type: data?.newGroupCallRoom?.gatheringType,
+          user_name: socketData.name,
+          user_img: socketData.icon,
+          room_id: data?.newGroupCallRoom?.roomId,
+          harth_id: selectedcomm._id,
+          room_name: data?.newGroupCallRoom?.roomName,
+          harth_icon: selectedcomm.iconKey,
+        },
+      };
+
+      if (data.setInitalTimer) {
+        delete pushData.ignoreSelf;
+      }
+
+      try {
+        let pushmessage = generatePushMessage(pushData);
+        sendPushNotification(pushmessage);
+      } catch (error) {
+        console.log(error);
+      }
       joinRoom({ ...data.newGroupCallRoom, ...room });
     });
   };

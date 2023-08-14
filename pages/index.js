@@ -53,6 +53,7 @@ const dashboard = () => {
   const [showNotButton, setShowNotButton] = useState(false);
   const [hasNotificationsDisabled, setHasNotificationsDisabled] =
     useState(false);
+  const [openFromPushState, setOpenFromPushState] = useState(false);
 
   const {
     user,
@@ -67,7 +68,7 @@ const dashboard = () => {
 
   const router = useRouter();
   const {
-    query: { tkn },
+    query: { tkn, openFromPush, type },
   } = router;
 
   const [currentPage, setCurrentPage] = useState(null);
@@ -99,6 +100,12 @@ const dashboard = () => {
   }, []);
 
   useEffect(() => {
+    if (openFromPush) {
+      setOpenFromPushState(true);
+    }
+  }, [openFromPush]);
+
+  useEffect(() => {
     if (swReg && "pushManager" in swReg && user && !SUBSCRIPTION) {
       let hasDeniedNotifications = localStorage.getItem(
         "hasDeniedNotifications"
@@ -121,7 +128,11 @@ const dashboard = () => {
 
     if (!loading && user) {
       let prevPage = localStorage.getItem("selectedPage");
-      changePageHandler(prevPage || "chat");
+      let page = prevPage || "chat";
+      if (openFromPush && type) {
+        page = type;
+      }
+      changePageHandler(page);
 
       const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");
       if (showFirstTimeUser) {
@@ -207,7 +218,6 @@ const dashboard = () => {
       setHasNotificationsDisabled(true);
     }
   };
-
   const changePageHandler = (pg) => {
     if (["gather", "chat", "message"].includes(pg)) {
       localStorage.setItem("selectedPage", pg);
@@ -264,19 +274,25 @@ const dashboard = () => {
         const DynamicChat = dynamic(() => import("./dashboard/chat"), {
           loading: () => null,
         });
-        page = DynamicChat ? <DynamicChat /> : null;
+        page = DynamicChat ? (
+          <DynamicChat setOpenFromPushState={setOpenFromPushState} />
+        ) : null;
         break;
       case "gather":
         const DynamicVideo = dynamic(() => import("./dashboard/video"), {
           loading: () => null,
         });
-        page = DynamicVideo ? <DynamicVideo /> : null;
+        page = DynamicVideo ? (
+          <DynamicVideo setOpenFromPushState={setOpenFromPushState} />
+        ) : null;
         break;
       case "message":
         const DynamicMessage = dynamic(() => import("./dashboard/message"), {
           loading: () => null,
         });
-        page = DynamicMessage ? <DynamicMessage /> : null;
+        page = DynamicMessage ? (
+          <DynamicMessage setOpenFromPushState={setOpenFromPushState} />
+        ) : null;
         break;
       default:
         page = null;
@@ -284,107 +300,109 @@ const dashboard = () => {
     }
 
     return (
-      <CommsProvider
-        CommsArr={Comms}
-        CREATOR={CREATOR}
-        SELECTEDCOMM={SELECTEDCOMM}
-        TOPICS={TOPICS}
-        currentPage={currentPage}
-        ConversationsArray={Conversations}
-      >
-        {showNotButton ? (
-          <SetNotifications
-            permissionDenied={hasNotificationsDisabled}
-            request={requestNotificationPermisson}
-            refuseNotifcations={refuseNotifcations}
-          />
-        ) : null}
+      <>
+        {openFromPushState ? <SpinningLoader /> : null}
+        <CommsProvider
+          CommsArr={Comms}
+          CREATOR={CREATOR}
+          SELECTEDCOMM={SELECTEDCOMM}
+          TOPICS={TOPICS}
+          currentPage={currentPage}
+          ConversationsArray={Conversations}
+        >
+          {showNotButton ? (
+            <SetNotifications
+              permissionDenied={hasNotificationsDisabled}
+              request={requestNotificationPermisson}
+              refuseNotifcations={refuseNotifcations}
+            />
+          ) : null}
 
-        <SocketProvider swReg={swReg}>
-          <VideoProvider>
-            {showCreateHarthNameModal ? (
-              <CreateHarthName
-                talkingHeadMsg="Time to make a sweet new härth for you and your crew."
-                footer="Tip: You can change your härth name and image at any time"
-                placeholder="härth name"
-                submitText="Create"
-                closeHandler={async () => {
-                  let result = await getComms(user);
-                  const { ok, comms } = result;
-                  if (!ok || !comms || !comms.length) {
-                    setShowCreateHarthNameModal(true);
-                  } else {
-                    setShowCreateHarthNameModal(false);
-                  }
-                }}
-                submitHandler={harthNameCreationHandler}
-              />
-            ) : null}
-            {showCreateHarthProfileModal ? (
-              <CreateHarthProfile
-                talkingHeadMsg={`Enter the name you would like to be called in ${newHarth.name}. Don't forget to add a picture.`}
-                footer="Tip: Since each härth has a unique avatar, choose one that represents who you want to be for this härth."
-                placeholder="avatar name"
-                submitText="Join"
-                submitHandler={resetNewHarth}
-                harth={newHarth}
-              />
-            ) : null}
-            {showInviteAcceptModal ? (
-              <HarthInviteAcceptModal
-                talkingHeadMsg="You have been invited to join a new härth"
-                footer="Remember to be safe and only accept invites from people that you know."
-                submitText="Accept Invite"
-                submitHandler={goodInviteHandler}
-                tkn={tkn || inviteTKN || ""}
+          <SocketProvider swReg={swReg}>
+            <VideoProvider>
+              {showCreateHarthNameModal ? (
+                <CreateHarthName
+                  talkingHeadMsg="Time to make a sweet new härth for you and your crew."
+                  footer="Tip: You can change your härth name and image at any time"
+                  placeholder="härth name"
+                  submitText="Create"
+                  closeHandler={async () => {
+                    let result = await getComms(user);
+                    const { ok, comms } = result;
+                    if (!ok || !comms || !comms.length) {
+                      setShowCreateHarthNameModal(true);
+                    } else {
+                      setShowCreateHarthNameModal(false);
+                    }
+                  }}
+                  submitHandler={harthNameCreationHandler}
+                />
+              ) : null}
+              {showCreateHarthProfileModal ? (
+                <CreateHarthProfile
+                  talkingHeadMsg={`Enter the name you would like to be called in ${newHarth.name}. Don't forget to add a picture.`}
+                  footer="Tip: Since each härth has a unique avatar, choose one that represents who you want to be for this härth."
+                  placeholder="avatar name"
+                  submitText="Join"
+                  submitHandler={resetNewHarth}
+                  harth={newHarth}
+                />
+              ) : null}
+              {showInviteAcceptModal ? (
+                <HarthInviteAcceptModal
+                  talkingHeadMsg="You have been invited to join a new härth"
+                  footer="Remember to be safe and only accept invites from people that you know."
+                  submitText="Accept Invite"
+                  submitHandler={goodInviteHandler}
+                  tkn={tkn || inviteTKN || ""}
+                  user={user}
+                  closeHandler={async () => {
+                    resetNewInviteHarth();
+                    window.history.replaceState(null, null, "/");
+                    let result = await getComms(user);
+                    const { ok, comms } = result;
+                    if (!ok || !comms || !comms.length) {
+                      toggleNoHarthDetected(true);
+                    }
+                  }}
+                  invitedHarth={invitedHarth}
+                />
+              ) : null}
+              {showInviteProfileModal ? (
+                <CreateHarthProfile
+                  header="harth"
+                  talkingHeadMsg={`Enter the name you would like to be called in ${invitedHarth.name}. Don't forget to add a picture.`}
+                  footer="Tip: Since each härth has a unique avatar, choose one that represents who you want to be for this härth."
+                  placeholder="avatar name"
+                  submitText="Join"
+                  submitHandler={resetNewInviteHarth}
+                  harth={invitedHarth}
+                  invite={true}
+                  closeHandler={async () => {
+                    resetNewInviteHarth();
+                    window.history.replaceState(null, null, "/");
+                    let result = await getComms(user);
+                    const { ok, comms } = result;
+                    if (!ok || !comms || !comms.length) {
+                      toggleNoHarthDetected(true);
+                    }
+                  }}
+                />
+              ) : null}
+
+              <DashboardLayout
+                changePage={changePageHandler}
+                currentPage={currentPage}
+                setShowCreateHarthNameModal={setShowCreateHarthNameModal}
                 user={user}
-                closeHandler={async () => {
-                  resetNewInviteHarth();
-                  window.history.replaceState(null, null, "/");
-                  let result = await getComms(user);
-                  const { ok, comms } = result;
-                  if (!ok || !comms || !comms.length) {
-                    toggleNoHarthDetected(true);
-                  }
-                }}
-                invitedHarth={invitedHarth}
-              />
-            ) : null}
-            {showInviteProfileModal ? (
-              <CreateHarthProfile
-                header="harth"
-                talkingHeadMsg={`Enter the name you would like to be called in ${invitedHarth.name}. Don't forget to add a picture.`}
-                footer="Tip: Since each härth has a unique avatar, choose one that represents who you want to be for this härth."
-                //placeholder={`${"First Name"}`}
-                placeholder="avatar name"
-                submitText="Join"
-                submitHandler={resetNewInviteHarth}
-                harth={invitedHarth}
-                invite={true}
-                closeHandler={async () => {
-                  resetNewInviteHarth();
-                  window.history.replaceState(null, null, "/");
-                  let result = await getComms(user);
-                  const { ok, comms } = result;
-                  if (!ok || !comms || !comms.length) {
-                    toggleNoHarthDetected(true);
-                  }
-                }}
-              />
-            ) : null}
-
-            <DashboardLayout
-              changePage={changePageHandler}
-              currentPage={currentPage}
-              setShowCreateHarthNameModal={setShowCreateHarthNameModal}
-              user={user}
-              toggleNoHarthDetected={toggleNoHarthDetected}
-            >
-              {page}
-            </DashboardLayout>
-          </VideoProvider>
-        </SocketProvider>
-      </CommsProvider>
+                toggleNoHarthDetected={toggleNoHarthDetected}
+              >
+                {page}
+              </DashboardLayout>
+            </VideoProvider>
+          </SocketProvider>
+        </CommsProvider>
+      </>
     );
   }
   return null;

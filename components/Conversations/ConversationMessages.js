@@ -24,6 +24,7 @@ import {
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 import TalkingHead from "components/TalkingHead/TalkingHead";
 import { sendPushNotification } from "requests/subscriptions";
+import { generatePushMessage } from "services/helper";
 
 /* eslint-disable */
 export const ConversationMessages = () => {
@@ -248,12 +249,14 @@ export const ConversationMessages = () => {
         }
       }
       try {
-        sendPushNotification({
+        let pushmessage = generatePushMessage({
           ...newMessage,
           pushTitle: `New message from ${newMessage.creator_name}`,
           env: process.env.NODE_ENV,
           ignoreSelf: true,
+          type: "message",
         });
+        sendPushNotification(pushmessage);
       } catch (error) {
         console.log(error);
       }

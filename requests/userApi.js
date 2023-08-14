@@ -62,7 +62,8 @@ export const getUserDataFromToken = async (
   token,
   selectedHarthID,
   selectedPage,
-  deviceKey
+  deviceKey,
+  pushData
 ) => {
   try {
     const res = await api.post("/api/users/getUserDataFromToken", {
@@ -70,6 +71,7 @@ export const getUserDataFromToken = async (
       selectedHarthID,
       selectedPage,
       deviceKey,
+      pushData,
     });
     return res.data;
   } catch (error) {

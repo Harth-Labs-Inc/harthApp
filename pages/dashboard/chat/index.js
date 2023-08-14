@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useComms } from "../../../contexts/comms";
 import TopicsNav from "../../../components/Menus/TopicsMenu/TopicsSideNav";
 import MobileChatHeader from "../../../components/Topics/MobileChatHeader/MobileChatHeader";
@@ -6,18 +6,29 @@ import ChatMessages from "../../../components/ChatMessages/ChatMessages";
 import { MobileContext } from "../../../contexts/mobile.js";
 import styles from "./chatPage.module.scss";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { useRouter } from "next/router";
 
-const Chat = () => {
+const Chat = ({ setOpenFromPushState }) => {
   const { isMobile } = useContext(MobileContext);
   const { selectedTopic, setSelectedTopic } = useComms();
-  const [chatVisible, setChatVisible] = useState(false);
 
-  function handleMobileChat(newValue) {
-    if (chatVisible && isMobile) {
+  const router = useRouter();
+  const {
+    query: { topic_id },
+  } = router;
+
+  function handleMobileChat() {
+    if (Object.keys(selectedTopic || {})?.length && isMobile) {
       setSelectedTopic(null);
     }
-    setChatVisible(newValue);
   }
+
+  useEffect(() => {
+    if (topic_id && selectedTopic?._id == topic_id) {
+      window.history.replaceState(null, null, "/");
+      setOpenFromPushState(false);
+    }
+  }, [selectedTopic?._id]);
 
   return (
     <>
@@ -33,11 +44,11 @@ const Chat = () => {
           </div>
           <TransitionGroup>
             <CSSTransition
-              key={chatVisible ? "chat" : "topics"}
+              key={Object.keys(selectedTopic || {})?.length ? "chat" : "topics"}
               timeout={300}
               classNames="slide"
             >
-              {chatVisible ? (
+              {Object.keys(selectedTopic || {})?.length ? (
                 <div id="mainchatContainer" className={styles.chatHolderMobile}>
                   <MobileChatHeader
                     selectedTopic={selectedTopic}

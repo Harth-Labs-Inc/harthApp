@@ -47,7 +47,7 @@ self.addEventListener("push", function (event) {
     icon: "/icons/icon-150x150.png",
     badge: "/icons/icon-96x96.png",
     data: {
-      url: "https://www.harth.social/",
+      url: data.openUrl,
     },
   };
 

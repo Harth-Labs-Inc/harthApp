@@ -1,5 +1,35 @@
 import { v4 as uuidv4 } from "uuid";
 import { getUploadURL, putImageInBucket } from "../requests/s3";
+import { envUrls } from "constants/urls";
+
+export const generatePushMessage = (newMessage) => {
+  const { type, topic_id, comm_id, conversation_id, env, roomDetails } =
+    newMessage;
+
+  let queryParams = [];
+
+  if (type === "gather") {
+    queryParams = Object.entries(roomDetails).map(
+      ([key, value]) => `${key}=${value}`
+    );
+  } else {
+    queryParams = [
+      "openFromPush=true",
+      `type=${type}`,
+      `comm_id=${comm_id}`,
+      topic_id && `topic_id=${topic_id}`,
+      conversation_id && `conversation_id=${conversation_id}`,
+    ].filter(Boolean);
+  }
+
+  const path =
+    type === "gather" ? `/dashboard/${roomDetails?.room_type || ""}` : "";
+
+  return {
+    ...newMessage,
+    openUrl: `${envUrls[env]}${path}?${queryParams.join("&")}`,
+  };
+};
 
 export const fetchImage = async (url) => {
   const response = await fetch(url);

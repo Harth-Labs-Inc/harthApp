@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useState, useEffect } from "react";
 import { IconChevronLeft } from "../../../resources/icons/IconChevronLeft";
 import { IconMoreDots } from "../../../resources/icons/IconMoreDots";
 import { CustomConversationContextMenu } from "components/CustomConversationContextMenu/CustomConversationContextMenu";
@@ -16,17 +16,34 @@ import {
 } from "requests/conversations";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { CustomConvContextMenu } from "components/CustomConvContextMenu/CustomConvContextMenu";
+import { useRouter } from "next/router";
 
-const Message = () => {
+const Message = ({ setOpenFromPushState }) => {
   const { isMobile } = useContext(MobileContext);
   const { emitUpdate } = useSocket();
-  const { selectedcomm, fetchConversations, setSelectedConversation } =
-    useComms();
+  const {
+    selectedcomm,
+    fetchConversations,
+    setSelectedConversation,
+    selectedConversation,
+  } = useComms();
   const { user } = useAuth();
   const [openEditConversationMenu, setOpenEditConversationMenu] =
     useState(false);
   const [chatVisible, setChatVisible] = useState(false);
   const [showMobileConvMenu, setShowMobileConvMenu] = useState(false);
+
+  const router = useRouter();
+  const {
+    query: { conversation_id },
+  } = router;
+
+  useEffect(() => {
+    if (conversation_id && selectedConversation?._id == conversation_id) {
+      window.history.replaceState(null, null, "/");
+      setOpenFromPushState(false);
+    }
+  }, [selectedConversation?._id]);
 
   const toggleConversationEditModal = ({ conversation, pos }) => {
     setOpenEditConversationMenu({ conversation, pos });
@@ -135,11 +152,15 @@ const Message = () => {
           </div>
           <TransitionGroup>
             <CSSTransition
-              key={chatVisible ? "chat" : "topics"}
+              key={
+                Object.keys(selectedConversation || {})?.length
+                  ? "chat"
+                  : "topics"
+              }
               timeout={300}
               classNames="slide"
             >
-              {chatVisible ? (
+              {Object.keys(selectedConversation || {})?.length ? (
                 <div id="mainchatContainer" className={styles.chatHolderMobile}>
                   <div className={styles.MobileChatHeader}>
                     <button onClick={handleBackToNav} aria-label="back">
