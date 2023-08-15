@@ -37,8 +37,8 @@ export default async (req, res) => {
         const { width } = await Sharp(buffer).metadata();
         let desiredWidth = null;
 
-        if (width > 300) {
-          desiredWidth = 300;
+        if (width > 280) {
+          desiredWidth = 280;
         }
 
         const compressedBuffer = await Sharp(buffer)

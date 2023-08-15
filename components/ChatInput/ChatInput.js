@@ -74,21 +74,35 @@ const ChatInput = (props) => {
       ...topicInputs,
       [selectedTopic?._id]: selectedEdit?.message,
     });
-
     setSelectedEditMsg(selectedEdit);
   }, [selectedEdit]);
 
+  useEffect(() => {
+    if (selectedEditMsg?._id) {
+      textRef.current.focus();
+    }
+  }, [selectedEditMsg?._id]);
+
   // input only related
-  const calcHeight = () => {
+  const calcHeight = (reset) => {
     const textarea = textRef.current;
+
+    if (reset) {
+      textarea.style.height = "48px";
+      textarea.style.overflowY = "auto";
+      return;
+    }
+
     const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
     const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
     const paddingBottom = parseInt(getComputedStyle(textarea).paddingBottom);
     const minHeight = lineHeight + paddingTop + paddingBottom;
-    textarea.style.height = "auto";
-    textarea.style.overflowY = "hidden"; // Temporarily hide the scrollbar
 
-    // Calculate the scrollHeight and newHeight
+    textarea.style.height = "auto";
+    textarea.style.overflowY = "hidden"; // Temporarily hide the scrollbar to get accurate scrollHeight
+
+    textarea.offsetHeight; // Forces a reflow
+
     const scrollHeight = textarea.scrollHeight;
     const newHeight = Math.max(minHeight, scrollHeight);
 
@@ -107,12 +121,9 @@ const ChatInput = (props) => {
   };
   const getPastedData = (e) => {
     const { files } = e.clipboardData;
-    // const text = e.clipboardData.getData("Text");
     if (files[0]) {
       addAttachment(files[0]);
     }
-    // if (text) {
-    // }
   };
   const openFileSelector = () => {
     fileRef.current.click();
@@ -147,17 +158,18 @@ const ChatInput = (props) => {
   const triggerPicker = () => {
     setEmojiPicker(!emojiPickerState);
   };
-
-  // need to update to be input and prop deperndent
   const inputHandler = (e) => {
     const { value } = e.target;
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: value });
   };
   const cancelEdit = () => {
+    setUploadingAttachments([]);
+    setAttachments([]);
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
     setSelectedEditMsg({});
     resetEdit();
     toggleEditing();
+    calcHeight(true);
   };
   const addEmoji = (e) => {
     let text = topicInputs[selectedTopic?._id];
@@ -168,7 +180,6 @@ const ChatInput = (props) => {
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: msg });
     setEmojiPicker(!emojiPickerState);
   };
-  // need to be moved to parent
   const sendMessagge = async () => {
     if (selectedTopic && selectedcomm && user) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
@@ -229,6 +240,7 @@ const ChatInput = (props) => {
     setIncomingMsg(message);
     setNewAlerts(message, "chat");
     setIsSubmitting(false);
+    calcHeight(true);
     let { ok } = await sendUnreadMessages(message);
     if (ok) {
       let unreadmessage = {};
@@ -384,8 +396,9 @@ const ChatInput = (props) => {
           ref={textRef}
           onChange={(e) => {
             inputHandler(e);
-            calcHeight(e.target.value);
+            calcHeight();
           }}
+          onFocus={() => calcHeight()}
           value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
           onKeyDown={(e) => {
             let input = topicInputs[selectedTopic?._id] || "";
@@ -403,7 +416,7 @@ const ChatInput = (props) => {
               !e.shiftKey &&
               input.trim().length > 0
             ) {
-              e.preventDefault(); // Prevents the default behavior of sending the message
+              e.preventDefault();
               submitMessageLogic();
             }
           }}

@@ -66,16 +66,31 @@ const DumbChatInput = (props) => {
     setSelectedEditMsg(selectedEdit);
   }, [selectedEdit]);
 
-  const calcHeight = () => {
+  useEffect(() => {
+    if (selectedEditMsg?._id) {
+      textRef.current.focus();
+    }
+  }, [selectedEditMsg?._id]);
+
+  const calcHeight = (reset) => {
     const textarea = textRef.current;
+
+    if (reset) {
+      textarea.style.height = "48px";
+      textarea.style.overflowY = "auto";
+      return;
+    }
+
     const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
     const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
     const paddingBottom = parseInt(getComputedStyle(textarea).paddingBottom);
     const minHeight = lineHeight + paddingTop + paddingBottom;
-    textarea.style.height = "auto";
-    textarea.style.overflowY = "hidden"; // Temporarily hide the scrollbar
 
-    // Calculate the scrollHeight and newHeight
+    textarea.style.height = "auto";
+    textarea.style.overflowY = "hidden";
+
+    textarea.offsetHeight;
+
     const scrollHeight = textarea.scrollHeight;
     const newHeight = Math.max(minHeight, scrollHeight);
 
@@ -141,10 +156,12 @@ const DumbChatInput = (props) => {
     setInputs({ ...Inputs, [selectedInputID]: value });
   };
   const cancelEdit = () => {
+    setAttachments([]);
     setInputs({ ...Inputs, [selectedInputID]: "" });
     setSelectedEditMsg({});
     resetEdit();
     toggleEditing();
+    calcHeight(true);
   };
   const addEmoji = (e) => {
     let text = Inputs[selectedInputID];
@@ -179,6 +196,7 @@ const DumbChatInput = (props) => {
               aria-label="send chat message"
               disabled={isDisabled}
               onClick={() => {
+                calcHeight(true);
                 updateMessage(selectedEditMsg, selectedInputID);
                 setSelectedEditMsg({});
               }}
@@ -206,8 +224,7 @@ const DumbChatInput = (props) => {
     }
   };
   const submitMessageLogic = () => {
-    // setAttachments([]);
-
+    calcHeight(true);
     sendMessage({
       msg: Inputs[selectedInputID],
       atts: attachments,
@@ -230,8 +247,9 @@ const DumbChatInput = (props) => {
           ref={textRef}
           onChange={(e) => {
             inputHandler(e);
-            calcHeight(e.target.value);
+            calcHeight();
           }}
+          onFocus={() => calcHeight()}
           value={(Inputs && Inputs[selectedInputID]) || ""}
           disabled={disableChat}
           onKeyDown={(e) => {
