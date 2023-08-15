@@ -8,9 +8,9 @@ const Placeholder = () => {
       onTouchEnd={(event) => event.stopPropagation()}
       style={{
         borderRadius: 12,
-        height: 300,
+        height: 280,
         display: "flex",
-        width: 300,
+        width: 280,
         flexDirection: "column",
         justifyContent: "center",
         background: `linear-gradient(

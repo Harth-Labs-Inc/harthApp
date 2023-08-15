@@ -500,11 +500,20 @@ const ChatSingleMessage = (props) => {
                         key={idx}
                         className="active-image"
                         src={urls[idx]}
-                        width={desiredWidth || 280}
+                        width={
+                          desiredWidth && desiredWidth <= 280
+                            ? desiredWidth
+                            : 280
+                        }
                         height={desiredHeight || 280}
                         placeholder="blur"
                         blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                          shimmer(desiredWidth || 280, desiredHeight || 280)
+                          shimmer(
+                            desiredWidth && desiredWidth <= 280
+                              ? desiredWidth
+                              : 280,
+                            desiredHeight || 280
+                          )
                         )}`}
                         alt="message image"
                         onClick={(e) => {
@@ -519,9 +528,18 @@ const ChatSingleMessage = (props) => {
                         key={idx}
                         className="active-image"
                         src={`data:image/svg+xml;base64,${toBase64(
-                          shimmer(desiredWidth || 280, desiredHeight || 280)
+                          shimmer(
+                            desiredWidth && desiredWidth <= 280
+                              ? desiredWidth
+                              : 280,
+                            desiredHeight || 280
+                          )
                         )}`}
-                        width={desiredWidth || 280}
+                        width={
+                          desiredWidth && desiredWidth <= 280
+                            ? desiredWidth
+                            : 280
+                        }
                         height={desiredHeight || 280}
                         alt="message image"
                         onClick={(e) => {
@@ -658,11 +676,16 @@ const ChatSingleMessage = (props) => {
                   key={idx}
                   className="active-image"
                   src={urls[idx]}
-                  width={desiredWidth || 280}
+                  width={
+                    desiredWidth && desiredWidth <= 280 ? desiredWidth : 280
+                  }
                   height={desiredHeight || 280}
                   placeholder="blur"
                   blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(desiredWidth || 280, desiredHeight || 280)
+                    shimmer(
+                      desiredWidth && desiredWidth <= 280 ? desiredWidth : 280,
+                      desiredHeight || 280
+                    )
                   )}`}
                   alt="message image"
                   onClick={(e) => {
@@ -677,9 +700,14 @@ const ChatSingleMessage = (props) => {
                   key={idx}
                   className="active-image"
                   src={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(desiredWidth || 280, desiredHeight || 280)
+                    shimmer(
+                      desiredWidth && desiredWidth <= 280 ? desiredWidth : 280,
+                      desiredHeight || 280
+                    )
                   )}`}
-                  width={desiredWidth || 280}
+                  width={
+                    desiredWidth && desiredWidth <= 280 ? desiredWidth : 280
+                  }
                   height={desiredHeight || 280}
                   alt="message image"
                   onClick={(e) => {

@@ -146,10 +146,14 @@ export const ConversationMessages = () => {
         selectedConversation &&
         incomingConversationMsg.conversation_id === selectedConversation._id
       ) {
-        setCurrentMessages((prevState) => [
-          incomingConversationMsg,
-          ...prevState,
-        ]);
+        setCurrentMessages((prevState) => {
+          if (
+            prevState.some((msg) => msg._id === incomingConversationMsg._id)
+          ) {
+            return prevState;
+          }
+          return [incomingConversationMsg, ...prevState];
+        });
         removeUnsavedConvMessages(selectedConversation._id, user._id).then(
           () => {
             let message = {};

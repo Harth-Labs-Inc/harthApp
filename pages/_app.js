@@ -50,14 +50,20 @@ function MyApp({ Component, pageProps }) {
         document.documentElement.style.setProperty("--vh", `100vh`);
       }
     };
+    const preventDragStart = (event) => {
+      event.preventDefault();
+    };
 
     setVhValue();
+    document.addEventListener("dragstart", preventDragStart);
 
     const timeoutId = setTimeout(() => {
       setVhValue();
     }, 1000);
-
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("dragstart", preventDragStart);
+    };
   }, []);
 
   return (

@@ -98,7 +98,12 @@ const MessageWrapper = () => {
   useEffect(() => {
     if (incomingMsg && Object.keys(incomingMsg).length) {
       if (selectedTopic && incomingMsg.topic_id === selectedTopic._id) {
-        setCurrentMessages((prevState) => [incomingMsg, ...prevState]);
+        setCurrentMessages((prevState) => {
+          if (prevState.some((msg) => msg._id === incomingMsg._id)) {
+            return prevState;
+          }
+          return [incomingMsg, ...prevState];
+        });
         removeUnsavedMessages(selectedTopic._id, user._id).then(() => {
           let message = {};
           message.updateType = "reload same User unreads";

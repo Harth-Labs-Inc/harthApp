@@ -16,7 +16,13 @@ body {
         height: var(--vh);
     }
 }
-
+body, :root {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -webkit-overflow-scrolling: auto; 
+    user-select: none;
+    overflow-x: hidden;
+}
 * {
     box-sizing: border-box;
     /* Hide scrollbar for IE, Edge and Firefox */

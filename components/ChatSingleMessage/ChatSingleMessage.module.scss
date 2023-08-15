@@ -121,7 +121,7 @@
 
     .Body {
         position: relative;
-        width: 100%;
+        width: calc(100% - 44px);
         .Info {
             display: flex;
             align-items: baseline;
@@ -163,7 +163,7 @@
                 border: 3px solid transparent;
                 margin-top: 4px;
                 margin-bottom: 4px;
-
+width: 100%;
                 &:hover {
                     border-color: $hot_pink;
                 }
@@ -337,6 +337,9 @@
 .imageholder {
     height: 63%;
     overflow: hidden;
+    img {
+        object-fit: cover;
+    }
 }
 
 .ogCard {

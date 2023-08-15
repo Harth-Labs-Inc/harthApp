@@ -102,9 +102,12 @@ const CreateAccount = () => {
             type="text"
             placeholder="Name"
           />
-          <ErrorMessage
-            errorMsg={errors.fullName ? "You must enter your name" : null}
-          />
+          {errors.fullName ? (
+            <ErrorMessage
+              errorMsg={errors.fullName ? "You must enter your name" : null}
+            />
+          ) : null}
+
           <p className={styles.label}>Email</p>
           <input
             {...register("email", {
@@ -115,7 +118,10 @@ const CreateAccount = () => {
             type="email"
             placeholder="Email"
           />
-          <ErrorMessage errorMsg={errors.email ? handleEmailError() : null} />
+          {errors.email ? (
+            <ErrorMessage errorMsg={errors.email ? handleEmailError() : null} />
+          ) : null}
+
           <p className={styles.label}>Date of Birth</p>
           <input
             {...register("dob", {
@@ -127,14 +133,18 @@ const CreateAccount = () => {
             type="date"
             max={todayMax}
             min={new Date("1/1/1910").toISOString().split("T")[0]}
-            //style={{ caretColor: '#ff0000', color: '#0f0', backgroundColor: '#f00'}}
           />
           <div className={styles.small}>
             Enter your birthday for age verification. Your birthday will not be
             publicly displayed.
           </div>
-          <ErrorMessage errorMsg={errors.dob ? handleDobError() : null} />
-          <ErrorMessage errorMsg={customErrors ? customErrors.match : null} />
+          {errors.dob ? (
+            <ErrorMessage errorMsg={errors.dob ? handleDobError() : null} />
+          ) : null}
+          {customErrors ? (
+            <ErrorMessage errorMsg={customErrors ? customErrors.match : null} />
+          ) : null}
+
           <Button
             tier="primary"
             type="submit"
@@ -153,7 +163,7 @@ const CreateAccount = () => {
             target="_blank"
             rel="noreferrer"
           >
-          Terms of Service
+            Terms of Service
           </a>
           &nbsp;and&nbsp;
           <a
