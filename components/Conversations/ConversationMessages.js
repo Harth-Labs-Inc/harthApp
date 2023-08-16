@@ -25,6 +25,7 @@ import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader"
 import TalkingHead from "components/TalkingHead/TalkingHead";
 import { sendPushNotification } from "requests/subscriptions";
 import { generatePushMessage } from "services/helper";
+import { useRouter } from "next/router";
 
 /* eslint-disable */
 export const ConversationMessages = () => {
@@ -51,6 +52,7 @@ export const ConversationMessages = () => {
     incomingConversationMsg,
     incomingConversationMsgUpdate,
     setIncomingConversationMessagesHandler,
+    setKeepSpinning,
   } = useComms();
   const { user } = useAuth();
   const { emitUpdate, socketID, setNewAlerts, emitUpdateFromRef } = useSocket();
@@ -58,6 +60,18 @@ export const ConversationMessages = () => {
   const uploadingAttchmts = useRef([]);
   const messagesEndRef = useRef(null);
   const { isMobile } = useContext(MobileContext);
+
+  const router = useRouter();
+  const {
+    query: { conversation_id },
+  } = router;
+
+  useEffect(() => {
+    localStorage.setItem("isInChatOrDM", true);
+    return () => {
+      localStorage.removeItem("isInChatOrDM");
+    };
+  }, []);
 
   useEffect(() => {
     if (selectedConversation && page > 1) {
@@ -86,6 +100,17 @@ export const ConversationMessages = () => {
       setLoading(false);
     }
   }, [page]);
+
+  useEffect(() => {
+    if (
+      !loading &&
+      conversation_id &&
+      selectedConversation?._id == conversation_id
+    ) {
+      window.history.replaceState(null, null, "/");
+      setKeepSpinning(false);
+    }
+  }, [loading, selectedConversation?._id]);
 
   useEffect(() => {
     setLoading(true);

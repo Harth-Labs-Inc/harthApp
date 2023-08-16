@@ -16,9 +16,8 @@ import {
 } from "requests/conversations";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { CustomConvContextMenu } from "components/CustomConvContextMenu/CustomConvContextMenu";
-import { useRouter } from "next/router";
 
-const Message = ({ setOpenFromPushState }) => {
+const Message = () => {
   const { isMobile } = useContext(MobileContext);
   const { emitUpdate } = useSocket();
   const {
@@ -32,18 +31,6 @@ const Message = ({ setOpenFromPushState }) => {
     useState(false);
   const [chatVisible, setChatVisible] = useState(false);
   const [showMobileConvMenu, setShowMobileConvMenu] = useState(false);
-
-  const router = useRouter();
-  const {
-    query: { conversation_id },
-  } = router;
-
-  useEffect(() => {
-    if (conversation_id && selectedConversation?._id == conversation_id) {
-      window.history.replaceState(null, null, "/");
-      setOpenFromPushState(false);
-    }
-  }, [selectedConversation?._id]);
 
   const toggleConversationEditModal = ({ conversation, pos }) => {
     setOpenEditConversationMenu({ conversation, pos });
