@@ -25,6 +25,7 @@ export const SocketProvider = ({ children }) => {
   const [unreadMsg, setUnreadMsg] = useState({});
   const [unusedValue, triggerUpdate] = useState(0);
   const [mainAlerts, setMainAlerts] = useState({});
+  const [reconnected, setReconnected] = useState(false);
 
   const { user } = useAuth();
   const {
@@ -58,25 +59,22 @@ export const SocketProvider = ({ children }) => {
         query: {
           token,
         },
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
       });
       tempSocket.on("connect", () => {
         setSocket(tempSocket);
+        setReconnected((prev) => !prev);
       });
 
       return () => {
-        if (tempSocket) {
-          tempSocket.disconnect();
-        }
+        tempSocket.disconnect();
         setSocket(null);
       };
     }
   }, [user]);
-
-  useEffect(() => {
-    if (selectedcomm) {
-      selectedHarthRef.current = selectedcomm;
-    }
-  }, [selectedcomm]);
 
   useEffect(() => {
     if (socket && user) {
@@ -279,20 +277,14 @@ export const SocketProvider = ({ children }) => {
             break;
         }
       });
-
-      window.addEventListener("online", () => {});
-      window.addEventListener("offline", () => {
-        socket.disconnect();
-      });
-      return () => {
-        window.removeEventListener("offline", () => {
-          socket.disconnect();
-        });
-        window.removeEventListener("online", () => {});
-        socket.disconnect();
-      };
     }
-  }, [socket, user]);
+  }, [socket?.id, user, reconnected]);
+
+  useEffect(() => {
+    if (selectedcomm) {
+      selectedHarthRef.current = selectedcomm;
+    }
+  }, [selectedcomm]);
 
   useEffect(() => {
     if (socket?.connected) {
