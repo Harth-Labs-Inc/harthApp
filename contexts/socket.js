@@ -41,6 +41,8 @@ export const SocketProvider = ({ children }) => {
     setProfile,
     profileRef,
     fetchConversations,
+    changeSelectedCommFromChild,
+    selectedCommRef,
   } = useComms();
 
   const socketRef = useRef(null);
@@ -286,7 +288,11 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     function handleVisibilityChange() {
       if (!document.hidden) {
+        console.log("visible");
         manageSocketConnection();
+        if (selectedCommRef.current?._id) {
+          changeSelectedCommFromChild(selectedCommRef.current);
+        }
       }
     }
 
@@ -297,6 +303,9 @@ export const SocketProvider = ({ children }) => {
     function handleOnline() {
       console.log("back online");
       manageSocketConnection();
+      if (selectedCommRef.current?._id) {
+        changeSelectedCommFromChild(selectedCommRef.current);
+      }
     }
 
     const manageSocketConnection = () => {
