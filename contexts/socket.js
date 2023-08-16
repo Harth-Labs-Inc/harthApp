@@ -289,10 +289,10 @@ export const SocketProvider = ({ children }) => {
     function handleVisibilityChange() {
       if (!document.hidden) {
         console.log("visible");
-        manageSocketConnection();
         if (selectedCommRef.current?._id) {
           changeSelectedCommFromChild(selectedCommRef.current);
         }
+        manageSocketConnection();
       }
     }
 
@@ -302,10 +302,10 @@ export const SocketProvider = ({ children }) => {
 
     function handleOnline() {
       console.log("back online");
-      manageSocketConnection();
       if (selectedCommRef.current?._id) {
         changeSelectedCommFromChild(selectedCommRef.current);
       }
+      manageSocketConnection();
     }
 
     const manageSocketConnection = () => {
