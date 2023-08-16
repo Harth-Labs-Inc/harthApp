@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    background-color: $ash_heavy;      
+    background-color: $ash;      
 
     &TitleHolder {
         display: flex;
@@ -62,28 +62,41 @@
 
         .Desktop & {
             position: absolute;
+            width: 260px;
             top: 0px;
             left: 0px;
             display: flex;
-            width: fit-content;
+            //width: fit-content;
+            margin: 0;
+            border: 0;
             height: 56px;
-            justify-content: center;
+            justify-content: space-evenly;
             align-items: center;
-            padding: 8px 28px 0px 20px;
-            gap: 16px;
-            background-color: $ash_heavy;
+            padding: 8px 8px 0px 8px;
+            //gap: 16px;
+            background-color: $ash;
 
-            &::after {
+            &::before {
                 position: absolute;
                 content: "";
                 bottom: -10px;
                 left: 0px;
                 height: 10px;
                 width: 100%;
+                background-color: $ash;
+                border-bottom: 1px solid $ash_medium;
+            }
+            &::after {
+                position: absolute;
+                content: "";
+                bottom: -10px;
+                right: 0px;
+                height: 10px;
+                width: 10px;
                 background-color: $ash_heavy;
-                border-bottom-right-radius: 10px;
-                border-bottom: 1px solid $ash;
-                border-right: 1px solid $ash;
+                border-top-left-radius: 99px;
+                border-top: 1px solid $ash_medium;
+                border-left: 1px solid $ash_medium;
 
                 
             }
@@ -98,8 +111,7 @@
             border-radius: 0;
             justify-content:space-evenly;
             padding: 4px 0px 0px 0px;
-            //background-color: aqua;
-            //margin-left: 96px;
+
         }
     }
 
@@ -116,8 +128,8 @@
         z-index: 1;
         .iconHolder {
             position: relative;
-            height: 28px;
-            width: 28px;
+            height: 24px;
+            width: 24px;
             &UnreadMessage {
                 position: relative;
                 &:before {
@@ -158,8 +170,8 @@
 
             .iconHolder {
                 position: relative;
-                height: 32px;
-                width: 32px;
+                height: 28px;
+                width: 28px;
             }
             .title {
                 @include titleNavMobile;
@@ -177,27 +189,44 @@
             border: 1px solid transparent;
             border-radius: 6px;
             cursor: pointer;
-            gap: 3px;
+            gap: 2px;
             
-
-
-            &:hover {
-                background: $black;
-                //border-color: $silver-light;
-            }
-
+            // @media (hover: hover) and (pointer: fine) {
+            //     &:hover {
+            //         &::after {
+            //             position: absolute;
+            //             content: "";
+            //             bottom: 0px;
+            //             left: 50%;
+            //             transform: translateX(-50%);
+            //             height: 2px;
+            //             width: 40px;
+            //             border-radius: 99px;
+            //             background-color: $font_medium;
+                        
+            //     } 
+            //     }
+            // }
         }
 
         &.Active {
 
             .Desktop & {
-                background: $black;
-                border-color: $black;
-                //padding-bottom: 3px;
                 .title {
                     color: $font_light;
-                    font-weight: 500;
                 }
+                // &::after {
+                //         position: absolute;
+                //         content: "";
+                //         bottom: 0px;
+                //         left: 50%;
+                //         transform: translateX(-50%);
+                //         height: 2px;
+                //         width: 40px;
+                //         border-radius: 99px;
+                //         background-color: $font_light;
+                        
+                // } 
 
             }
 
@@ -207,7 +236,6 @@
 
                 .title {
                     color: $font_light;
-                    font-weight: 500;
                 }
 
             }

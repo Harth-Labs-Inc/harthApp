@@ -474,7 +474,6 @@ const ChatSingleMessage = (props) => {
               <UserIcon
                 img={creator_image}
                 showName={false}
-                size="regular"
                 iconClass={`${selectedcomm._id}_${creator_id}`}
                 shouldIgnoreUserId={true}
               />

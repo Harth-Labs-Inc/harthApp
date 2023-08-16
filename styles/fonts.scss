@@ -101,7 +101,17 @@
   font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 14px;
-  line-height: 150%;
+  line-height: 140%;
+  letter-spacing: 0.05em;
+  text-rendering: optimizeLegibility;
+}
+
+@mixin chatTextMobile {
+  //font-family: var(--Open_Sans-font);
+  font-family: var(--Rubik-font);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 140%;
   letter-spacing: 0.05em;
   text-rendering: optimizeLegibility;
 }
@@ -125,8 +135,9 @@
 @mixin timeStamp {
   font-family: var(--Rubik-font);
   font-weight: 400;
-  font-size: 12px;
+  font-size: 11px;
   //letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   line-height: 12px;
   //text-rendering: optimizeLegibility;
 }

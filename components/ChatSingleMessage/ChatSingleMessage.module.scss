@@ -29,6 +29,13 @@
 
     &.Editing {
         background-color: $hot_pink;
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: $hot_pink;
+            }
+        }
+
     }
 
     &.EmojiActive {
@@ -43,29 +50,29 @@
 }
 
 .SingleMessage {
+    opacity: 0;
+    animation: fadeIn 1.5s forwards;
+
     display: inline-flex;
     position: relative;
     background-color: transparent;
     width: 100%;
     padding: 8px 6px 12px 0px;
     column-gap: 10px;
-    border: 1px solid transparent;
-    border-radius: 8px;
+    border: 0;
+    //border-radius: 8px;
+    //background: aqua;
 
     &Desktop {
-        padding: 8px 6px 12px 6px;
-        &:hover {
-            border-color: $black;
-            background: $white_2;
-            //border-image: linear-gradient(to right, $silver-med, $white) 1;
-            .Body {
-                .Info {
-                    .Timestamp {
-                        visibility: visible;
-                    }
-                }
+        padding: 8px 16px 12px 16px;
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: lighten($ash_heavy, 3%);
             }
         }
+
+
     }
 
     .UserIcon {
@@ -126,15 +133,14 @@
             display: flex;
             align-items: baseline;
             column-gap: 8px;
-            height: 16px;
-            padding: 0px 0px 0px 0px;
+            //height: 20px;
+            padding: 6px 0px 0px 0px;
             .Creator {
                 @include chatProfile;
                 color: $font_light;
                 user-select: none;
             }
             .Timestamp {
-                visibility: hidden;
                 color: $font_medium;
                 @include timeStamp;
                 user-select: none;
@@ -144,13 +150,14 @@
         .Content {
             position: relative;
             width: fit-content;
+            padding-top: 4px;
             max-width: 100%;
             color: $font_light;
             @include chatText;
             border: 0;
-            border: 0;
             white-space: pre-wrap;
             overflow-wrap: anywhere;
+
 
             .message-text {
                 margin: 0;
@@ -159,14 +166,19 @@
             }
 
             > img {
-                border-radius: 12px;
-                border: 3px solid transparent;
+                border-radius: 16px;
                 margin-top: 4px;
                 margin-bottom: 4px;
-width: 100%;
-                &:hover {
-                    border-color: $hot_pink;
-                }
+                width: 100%;
+            }
+
+            a {
+                word-break: break-all;
+                color: lighten($hot_blue, 10%);
+            }
+
+            a:visited {
+                color: lighten($hot_blue, 10%);
             }
         }
 
@@ -176,7 +188,7 @@ width: 100%;
             white-space: pre-wrap;
             @include url;
             word-break: break-all;
-            color: lighten($hot_blue, 10%);
+            color: lighten($hot_blue, 15%);
         }
 
         &Reactions {
@@ -188,8 +200,6 @@ width: 100%;
             margin-top: 4px;
             column-gap: 4px;
             row-gap: 4px;
-            //background: $black_60;
-            //padding: 4px 8px;
             border-radius: 999px;
             border: 0;
 
@@ -206,10 +216,10 @@ width: 100%;
                 //width: 48px;
                 font-size: 24px;
                 text-align: center;
-                background-color: $black;
+                background-color: $ash;
                 border-radius: 99px;
                 margin: 0;
-                border: 1px solid $ash_heavy;
+                border: 0;
                 user-select: none;
                 padding: 0px 8px;
 
@@ -218,7 +228,10 @@ width: 100%;
                     @include reactionLabel;
                 }
                 &Owner {
-                    border-color: $hot_pink;
+                    background-color: $ash_medium;
+                    .label {
+                        color: $font_light;
+                    }
                 }
                 &Data {
                     position: absolute;
@@ -234,15 +247,16 @@ width: 100%;
                 }
 
                 &Desktop {
+                    @media (hover: hover) and (pointer: fine) {
                     &:hover {
                         cursor: pointer;
-                        scale: 1.02;
                     }
+                }
                 }
 
                 &Mobile {
                     &:active {
-                        border-color: $ash;
+                        background: $ash_medium;
                     }
                 }
             }
@@ -255,15 +269,15 @@ width: 100%;
                 padding: 2px 0px 0px 0px;
                 border-radius: 99px;
                 margin: 0;
-                border: 1px solid $ash_heavy;
+                border: 0;
                 user-select: none;
-                background-color: $black;
+                background-color: $ash;
                 svg {
                     width: 20px;
                     height: 20px;
                 }
                 path {
-                    fill: $ash_medium;
+                    fill: $font_medium;
                 }
 
                 &Desktop {
@@ -292,10 +306,9 @@ width: 100%;
         top: -8px;
         right: 16px;
         background-color: $ash_medium;
-        backdrop-filter: blur(24px);
         border-radius: 8px;
         padding: 2px;
-        border: 1px solid $black;
+        border: 1px solid $ash_medium;
 
         > button {
             position: relative;
@@ -312,11 +325,11 @@ width: 100%;
             overflow: hidden;
 
             path {
-                fill: $black;
+                fill: $font_light;
             }
 
             &:hover {
-                scale: 1.2;
+                scale: 1.1;
                 path {
                     fill: $font_light;
                 }
@@ -343,19 +356,30 @@ width: 100%;
 }
 
 .ogCard {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 12px;
     padding-bottom: 6px;
-    background-color: $black;
-    border-radius: 12px;
+    background-color: transparent;
+    //border-radius: 12px;
     width: 100%;
-    max-width: 320px;
+    //max-width: 100%;
     user-select: none;
     height: 300px;
     overflow: hidden;
-    border: 1px solid $ash;
+    //border: 1px solid $ash;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 4px;
+        height: calc(100% - 16px);
+        border-radius: 99px;
+        background-color: $hot_blue;
+    }
 
     .attribution {
         display: flex;
@@ -388,6 +412,7 @@ width: 100%;
             line-height: 100%;
             font-weight: 800;
             color: $font_light;
+
         }
     }
 
@@ -402,13 +427,20 @@ width: 100%;
             @include worksans;
             font-weight: 600;
             letter-spacing: 0em;
-            line-height: 115%;
+            line-height: 120%;
             font-size: 14px;
+            padding-top: 4px;
             word-wrap: normal;
             word-break: keep-all;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
+
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
     }
 
@@ -419,7 +451,7 @@ width: 100%;
         object-fit: contain;
         padding: 0;
         margin: 4px 0px;
-        border-radius: 8px;
+        //border-radius: 8px;
     }
 
     .description {
@@ -466,3 +498,13 @@ width: 100%;
         }
     }
 }
+
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }

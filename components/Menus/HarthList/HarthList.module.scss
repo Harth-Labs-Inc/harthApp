@@ -23,8 +23,8 @@
         &Button {
             opacity: .8;
             position: relative;
-            height: 44px;
-            width: 44px;
+            height: 40px;
+            width: 40px;
             padding: 3px;
             background-color: transparent;
             border-radius: 11px;
@@ -60,7 +60,7 @@
 
             button {
                 opacity: 1;
-                border-color: $hot_salmon;
+                border-color: $ash_ultralight;
                 padding: 2px;
             }
 
@@ -85,8 +85,8 @@
     }
 
     .NewHarth {
-        height: 28px;
-        width: 28px;
+        height: 24px;
+        width: 24px;
         border: 0px;
         margin-top: 8px;
         margin-bottom: 24px;
@@ -103,17 +103,17 @@
             border: 1px solid $ash_medium;
             border-radius: 8px; 
             background: transparent;
-            padding: 5px;
+            padding: 3px;
             cursor: pointer;
             path {
                 fill: $ash_medium;
             }
 
             &:hover {
-                background-color: $ash_medium;
-                border-color: $ash_medium;
+                background-color: lighten($ash_medium, 10%);
+                border-color: lighten($ash_medium, 10%);
                 path {
-                    fill: $ash_heavy;
+                    fill: darken($ash_medium, 10%);
                 }
             }
         }

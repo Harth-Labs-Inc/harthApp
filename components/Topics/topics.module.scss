@@ -107,14 +107,14 @@
     }
 
     &Active {
-        background-color: $fuel;
+        background-color: $ash_heavy;
 
         .label {
             //font-weight: 800;
             color: $font_light;
         }
         &:hover {
-            background-color: $fuel;
+            background-color: $ash_heavy;
 
         }
     }

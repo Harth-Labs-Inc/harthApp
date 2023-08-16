@@ -11,12 +11,12 @@
 }
 .SideNav {
     position: relative;
-    padding: 8px 0px 96px 0px;
+    padding: 12px 0px 96px 0px;
     width: 56px;
     height: var(--vh);
     min-width: 56px;
-    background-color: $ash_heavy;
-    border-right: 1px solid $ash;
+    background-color: $ash;
+    border-right: 1px solid $ash_medium;
 
     .bottomHolder {
         position: absolute;
@@ -26,7 +26,7 @@
         bottom: 0px;
         height: fit-content;
         width: 100%;
-        background-color: $ash_heavy;
+        background-color: $ash;
         //border-top: 1px solid $ash_medium;
         z-index: 1;
         padding: 12px 0px 12px 0px;
@@ -45,17 +45,13 @@
     
     
             path {
-                fill: $ash_medium;
+                fill: $ash_light;
             }
     
     
             &:hover {
-                //border: 1px solid $fuel_10;
-                background-color: $black;
-    
-                path {
-                    fill: $ash_light;
-                }
+                background-color: $ash_heavy;
+
             }
     
             &Invites {
