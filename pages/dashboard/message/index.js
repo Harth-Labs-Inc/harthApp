@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState, useEffect } from "react";
+import { Fragment, useContext, useState } from "react";
 import { IconChevronLeft } from "../../../resources/icons/IconChevronLeft";
 import { IconMoreDots } from "../../../resources/icons/IconMoreDots";
 import { CustomConversationContextMenu } from "components/CustomConversationContextMenu/CustomConversationContextMenu";

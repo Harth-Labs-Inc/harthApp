@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useComms } from "../../../contexts/comms";
 import TopicsNav from "../../../components/Menus/TopicsMenu/TopicsSideNav";
 import MobileChatHeader from "../../../components/Topics/MobileChatHeader/MobileChatHeader";
