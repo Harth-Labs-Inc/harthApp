@@ -288,7 +288,6 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     function handleVisibilityChange() {
       if (!document.hidden) {
-        console.log("visible");
         if (selectedCommRef.current?._id) {
           changeSelectedCommFromChild(selectedCommRef.current);
         }
@@ -296,12 +295,7 @@ export const SocketProvider = ({ children }) => {
       }
     }
 
-    function handleOffline() {
-      console.log("offline");
-    }
-
     function handleOnline() {
-      console.log("back online");
       if (selectedCommRef.current?._id) {
         changeSelectedCommFromChild(selectedCommRef.current);
       }
@@ -317,12 +311,10 @@ export const SocketProvider = ({ children }) => {
     manageSocketConnection();
 
     window.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("offline", handleOffline);
     window.addEventListener("online", handleOnline);
 
     return () => {
       window.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("offline", handleOffline);
       window.removeEventListener("online", handleOnline);
 
       if (socket) {

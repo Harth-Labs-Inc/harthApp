@@ -65,7 +65,13 @@ const DashboardLayout = (props) => {
   }, [currentPage]);
 
   useEffect(() => {
-    if (socketID && selectedcomm && selectedcomm.users && user) {
+    if (
+      socketID &&
+      selectedcomm &&
+      selectedcomm.users &&
+      user &&
+      currentPage !== "gather"
+    ) {
       let creator = selectedcomm.users?.find((usr) => usr.userId === user._id);
       if (creator) {
         let data = {};
@@ -77,7 +83,7 @@ const DashboardLayout = (props) => {
         getInitialCallRooms(data);
       }
     }
-  }, [socketID, selectedcomm, user]);
+  }, [socketID, selectedcomm?._id, currentPage]);
 
   useEffect(() => {
     if (selectedcomm) {

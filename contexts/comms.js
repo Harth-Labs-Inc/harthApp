@@ -505,7 +505,7 @@ export const CommsProvider = ({
     setComm(com);
     grabRooms();
     let isInChatOrDM = localStorage.getItem("isInChatOrDM");
-    if (!isInChatOrDM) {
+    if (!isInChatOrDM && !openFromPush) {
       setTopic({});
     }
   };
