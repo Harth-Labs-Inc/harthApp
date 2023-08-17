@@ -26,29 +26,38 @@
             max-width: 100%;
             @include harthTitle1;
             color: $font_light;
-            padding: 0px 12px 0px 8px;
+            padding: 0px 20px 0px 8px;
             border-radius: 8px;
             text-overflow: ellipsis;
             background-color: transparent;
-            margin-left: 256px;
+            margin-left: 250px;
             cursor: pointer;
             white-space: nowrap;
             user-select: none;
 
             .iconHolder {
                 position: absolute;
-                top: -2px;
-                right: 0px;
+                top: 0px;
+                right: 4px;
                 width: 20px;
                 height: 20px;
                 path {
-                    fill: $font_light;
+                    fill: $ash_light;
                 }
 
             }
 
-            &:hover {
-                background: $black;
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    background: $ash_heavy;
+
+                    .iconHolder {
+                        path {
+                            fill: $font_light;
+                        }
+        
+                    }
+                }
             }
         }
 
@@ -215,24 +224,10 @@
                 .title {
                     color: $font_light;
                 }
-                // &::after {
-                //         position: absolute;
-                //         content: "";
-                //         bottom: 0px;
-                //         left: 50%;
-                //         transform: translateX(-50%);
-                //         height: 2px;
-                //         width: 40px;
-                //         border-radius: 99px;
-                //         background-color: $font_light;
-                        
-                // } 
 
             }
 
             .Mobile & {
-                background: $black;
-                border-color: $black;
 
                 .title {
                     color: $font_light;
@@ -249,8 +244,8 @@
         height: 76px;
         align-items: flex-start;
         padding: 0px;
-        border-top: 1px solid $ash;
-        background-color: $ash_heavy;
+        border-top: 1px solid $ash_medium;
+        background-color: $ash;
 
 
     }

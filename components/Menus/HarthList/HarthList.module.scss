@@ -23,8 +23,8 @@
         &Button {
             opacity: .8;
             position: relative;
-            height: 40px;
-            width: 40px;
+            height: 42px;
+            width: 42px;
             padding: 3px;
             background-color: transparent;
             border-radius: 11px;
@@ -73,10 +73,10 @@
             &:after {
                 position: absolute;
                 top: 18px;
-                left: 5px;
+                left: 4px;
                 z-index: 1;
                 height: 12px;
-                width: 4px;
+                width: 3px;
                 content: "";
                 background-color: $hot_salmon;
                 border-radius: 9999px;
@@ -109,11 +109,13 @@
                 fill: $ash_medium;
             }
 
-            &:hover {
-                background-color: lighten($ash_medium, 10%);
-                border-color: lighten($ash_medium, 10%);
-                path {
-                    fill: darken($ash_medium, 10%);
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    background-color: lighten($ash_medium, 30%);
+                    border-color: lighten($ash_medium, 30%);
+                    path {
+                        fill: darken($ash_medium, 10%);
+                    }
                 }
             }
         }

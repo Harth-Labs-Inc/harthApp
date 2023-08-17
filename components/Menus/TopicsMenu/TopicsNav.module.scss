@@ -25,7 +25,7 @@
     &Mobile {
         border: 0;
         width: 100%;
-        //background-size: 40px;
+        background: $ash_heavy;
 
         padding: 75px 16px 24px 16px;
 
@@ -162,29 +162,26 @@
             z-index: 9;
         }
         
-        &:hover {
-            background-color: $ash_medium;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: lighten($ash_medium, 30%);
+                border-color: lighten($ash_medium, 30%);
+                path {
+                    fill: darken($ash_medium, 10%);
+                }
 
-            path {
-                fill: $black;
+                &::before {
+                    opacity: 1;
+                    transition-delay: .6s;
+                }
+        
+                &::after {
+                    opacity: 1;
+                    transition-delay: .6s;
+                }
             }
-
-            &::before {
-                opacity: 1;
-                transition-delay: .6s;
-            }
-    
-            &::after {
-                opacity: 1;
-                transition-delay: .6s;
-            }
-
-
-
-
-
-
         }
+
     }
 
     .CreateTopicMobile {
@@ -203,11 +200,11 @@
         background-color: transparent;
         
         path {
-            fill: $ash_medium;
+            fill: $ash_light;
         }
         
         &:active{
-            background-color: $silver-med;
+            background-color: $ash;
         }
 
     }

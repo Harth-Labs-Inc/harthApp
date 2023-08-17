@@ -13,7 +13,7 @@
     background-color: transparent;
     margin-bottom: 4px;
     cursor: pointer;
-    border: 1px solid $fuel;
+    //border: 1px solid $fuel;
 
     .label {
         display: flex;
@@ -58,7 +58,7 @@
     &Mobile {
         margin-bottom: 12px;
         padding: 10px 8px 14px 12px;
-        border: 1px solid $fuel;
+        border: 0;
         .moreMenu {
             display: none;
         }
@@ -69,7 +69,7 @@
         }
 
         &:active {
-            background-color: $fuel;
+            background-color: $ash;
 
         }
         
@@ -80,8 +80,8 @@
         .moreMenu {
             position: absolute;
             visibility: hidden;
-            right: 4px;
             top: 12px;
+            right: 4px;
             border: 0;
             width: 24px;
             min-width: 24px;
@@ -98,32 +98,36 @@
             }
 
             &:hover {
-                background-color: $black;
-
+                background-color: $ash;
+                path {
+                    fill: lighten($ash_light, 30%);
+                }
             }
 
         }
         
-        &:hover {
-            background-color: $ash_heavy;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: $ash_heavy;
 
-            .moreMenu {
-                visibility: visible;
+                .moreMenu {
+                    visibility: visible;
+                }
+
             }
-
         }
 
     }
     &Active {
-        background-color: $fuel;
+        background-color: $ash_heavy;
 
+        .moreMenu {
+            visibility: visible;
+        }
         .label {
             color: $font_light;
         }
-        &:hover {
-            background-color: $fuel;
 
-        }
 
     }
 

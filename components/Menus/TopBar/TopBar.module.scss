@@ -48,26 +48,13 @@
         //border: 1px solid $silver-med;
         user-select: none;
 
-        // &::after {
-        //     content: "";
-        //     position: absolute;
-        //     bottom: -12px;
-        //     left: 0;
-        //     height: 16px;
-        //     width: 100%;
-        //     border-bottom-right-radius: 8px;
-        //     background-color: $silver-xlight;
-        //     border-bottom: 1px solid $black;
-        //     border-right: 1px solid $black;
-        //     //z-index: 1;
-        // }
 
         img {
             position: relative;
-            height: 40px;
-            min-height: 40px;
-            width: 40px;
-            min-width: 40px;
+            height: 36px;
+            min-height: 36px;
+            width: 36px;
+            min-width: 36px;
             border-radius: 8px;
             z-index: 1;
             margin-top: 0px;

@@ -8,11 +8,11 @@
     display: flex;
     flex-direction: column;
     row-gap: 2px;
-    //background: linear-gradient(90deg, $black, $fuel 80%); 
     background: $ash_heavy;
-    padding: 0px 20px 8px 20px;
+    padding: 0px 16px 12px 16px;
     border-bottom: none;
     //overflow: hidden;
+
 
     &Text {
         resize: none;
@@ -37,16 +37,17 @@
     }
 
     .entryBox {
-        //border: 1px solid $silver_med;
-        border-radius: 12px;
+        border: 1px solid $ash_medium;
+        border-radius: 4px;
         padding: 0;
         overflow: hidden;
+
     }
 
     &Controls {
         display: flex;
         justify-content: space-between;
-        padding: 0px;
+        padding: 2px;
 
         &Right,
         &Left {
@@ -70,23 +71,16 @@
                     fill: $ash_medium;
                 }
 
-                &Mobile {
-                    height: 40px;
-                    width: 40px;
-                    padding: 8px;
-                }
-                &:hover { 
-                        background-color: $white_10;
-                        path {
-                            fill: $ash_light;
-                        }
-                }
-                
-                @media (hover: none), (pointer: coarse) {
-                    &:hover {
-                      /* Reset any hover styles for touch devices */
+
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover { 
+                            background-color: $white_5;
+                            path {
+                                fill: $font_light;
+                            }
                     }
                 }
+                
 
 
                 &.EditCancel {
@@ -102,22 +96,20 @@
                     padding: 8px 12px;
                     margin: auto;
 
-                    &:hover { 
-                        background-color: $black;
-                    }
-                    
-                    @media (hover: none), (pointer: coarse) {
-                        &:hover {
-                          /* Reset any hover styles for touch devices */
+                    @media (hover: hover) and (pointer: fine) {
+                        &:hover { 
+                                background-color: $black;
                         }
                     }
+
+
                 }
 
                 &.SendActive {
                     //border: 1px solid $silver-med;
-                    //background-color: $hot_pink;
+                    background-color: $hot_pink;
                     path {
-                        fill: $hot_pink;
+                        fill: $font_light;
                     }
                 }
 
