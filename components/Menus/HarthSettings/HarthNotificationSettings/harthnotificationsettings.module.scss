@@ -14,7 +14,7 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $black;
+        background-color: $ash_heavy;
         width: 100%;
         height: 48px;
         @include worksans;
@@ -23,7 +23,7 @@
         letter-spacing: 0.03em;
         padding: 0px 8px 0px 12px;
         border-radius: 8px;
-        border: 1px solid $ash_medium;
+        //border: 1px solid $ash_medium;
         color: $font_light;
 
     }
@@ -33,8 +33,8 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $silver-xlight;
-        border: 1px solid $silver-light;
+        background-color: $ash_medium;
+        color: $font_light;
         border-radius: 6px;
         width: 100%;
         height: 40px;

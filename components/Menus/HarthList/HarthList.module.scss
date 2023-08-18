@@ -23,8 +23,8 @@
         &Button {
             opacity: .8;
             position: relative;
-            height: 44px;
-            width: 44px;
+            height: 42px;
+            width: 42px;
             padding: 3px;
             background-color: transparent;
             border-radius: 11px;
@@ -60,7 +60,7 @@
 
             button {
                 opacity: 1;
-                border-color: $hot_salmon;
+                border-color: $ash_ultralight;
                 padding: 2px;
             }
 
@@ -73,10 +73,10 @@
             &:after {
                 position: absolute;
                 top: 18px;
-                left: 5px;
+                left: 4px;
                 z-index: 1;
                 height: 12px;
-                width: 4px;
+                width: 3px;
                 content: "";
                 background-color: $hot_salmon;
                 border-radius: 9999px;
@@ -85,8 +85,8 @@
     }
 
     .NewHarth {
-        height: 28px;
-        width: 28px;
+        height: 24px;
+        width: 24px;
         border: 0px;
         margin-top: 8px;
         margin-bottom: 24px;
@@ -103,17 +103,19 @@
             border: 1px solid $ash_medium;
             border-radius: 8px; 
             background: transparent;
-            padding: 5px;
+            padding: 3px;
             cursor: pointer;
             path {
                 fill: $ash_medium;
             }
 
-            &:hover {
-                background-color: $ash_medium;
-                border-color: $ash_medium;
-                path {
-                    fill: $ash_heavy;
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    background-color: lighten($ash_medium, 30%);
+                    border-color: lighten($ash_medium, 30%);
+                    path {
+                        fill: darken($ash_medium, 10%);
+                    }
                 }
             }
         }
@@ -146,7 +148,6 @@
         border: 0;
         border-radius: 12px;
         width: 100%;
-        border: 3px solid transparent;
 
         &Button {
             position: relative;
@@ -169,21 +170,21 @@
             height: 48px;
             padding: 6px;
             border-radius: 8px;
-            background-color: $ash;
+            //background-color: $ash;
         }
 
         &Image {
             img {
-                height: 48px;
-                width: 48px;
-                min-width: 48px;
+                height: 44px;
+                width: 44px;
+                min-width: 44px;
                 border-radius: 8px;
                 border: 0;
             }
         }
 
         &Active {
-            border: 3px solid $hot_salmon;
+            background-color: $ash_heavy;
         }
 
         &Name {

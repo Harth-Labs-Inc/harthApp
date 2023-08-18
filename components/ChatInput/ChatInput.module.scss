@@ -7,25 +7,24 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    row-gap: 2px;
-    background: linear-gradient(90deg, $black, $fuel 80%); 
-    padding: 0px 8px 8px 8px;
+    background: $ash_heavy;
+    padding: 0px 16px 12px 16px;
     border-bottom: none;
-    //overflow: hidden;
+
 
     &Text {
         resize: none;
         display: block;
         width: 100%;
-        min-height: 48px;
-        height: 48px;
+        min-height: 56px;
+        height: 56px;
         max-height: calc(var(--vh) * 0.5);
         margin: 0;
         padding: 8px 12px;
         @include chatText;
         caret-color: $hot_pink;
         color: $font_light;
-        background: $ash;
+        background: lighten($ash_heavy, 2%);
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
@@ -33,19 +32,34 @@
         white-space: -pre-wrap; /* Opera 4-6 */
         white-space: -o-pre-wrap; /* Opera 7 */
         word-wrap: break-word; /* Internet Explorer 5.5+ */
+
+        &::placeholder {
+            @include chatText;
+            color: darken($font_medium, 15%);
+        }
     }
 
     .entryBox {
-        //border: 1px solid $silver_med;
-        border-radius: 12px;
+        border: 1px solid $ash_medium;
+        border-bottom: 1px solid lighten($ash, 3%);
+        border-radius: 6px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
         padding: 0;
         overflow: hidden;
+
     }
 
     &Controls {
         display: flex;
         justify-content: space-between;
-        padding: 0px;
+        padding: 4px;
+        background: lighten($ash_heavy, 2%);
+        border: 1px solid $ash_medium;
+        border-radius: 6px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-top: 0;
 
         &Right,
         &Left {
@@ -57,11 +71,11 @@
             > button {
                 position: relative;
                 margin: 0 0px;
-                height: 36px;
-                width: 36px;
-                padding: 6px;
+                height: 32px;
+                width: 32px;
+                padding: 5px;
                 background-color: transparent;
-                border-radius: 8px;
+                border-radius: 6px;
                 border: 0px;
                 cursor: pointer;
 
@@ -69,23 +83,16 @@
                     fill: $ash_medium;
                 }
 
-                &Mobile {
-                    height: 40px;
-                    width: 40px;
-                    padding: 8px;
-                }
-                &:hover { 
-                        background-color: $white_10;
-                        path {
-                            fill: $ash_light;
-                        }
-                }
-                
-                @media (hover: none), (pointer: coarse) {
-                    &:hover {
-                      /* Reset any hover styles for touch devices */
+
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover { 
+                            background-color: $ash_heavy;
+                            path {
+                                fill: $font_light;
+                            }
                     }
                 }
+                
 
 
                 &.EditCancel {
@@ -101,22 +108,20 @@
                     padding: 8px 12px;
                     margin: auto;
 
-                    &:hover { 
-                        background-color: $black;
-                    }
-                    
-                    @media (hover: none), (pointer: coarse) {
-                        &:hover {
-                          /* Reset any hover styles for touch devices */
+                    @media (hover: hover) and (pointer: fine) {
+                        &:hover { 
+                                background-color: $black;
                         }
                     }
+
+
                 }
 
                 &.SendActive {
                     //border: 1px solid $silver-med;
-                    //background-color: $hot_pink;
+                    background-color: $hot_pink;
                     path {
-                        fill: $hot_pink;
+                        fill: $font_light;
                     }
                 }
 
@@ -204,9 +209,9 @@
     row-gap: 8px;
     justify-content: flex-start;
     width: auto;
-    background: $ash;
+    background: lighten($ash_heavy, 2%);
     padding: 8px;
-    border-bottom: 1px solid $black;
+    border-bottom: 1px solid $ash_medium;
 
     .imageContainer {
         position: relative;

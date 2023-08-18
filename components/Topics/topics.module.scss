@@ -90,31 +90,38 @@
             }
 
             &:hover {
-                background-color: $black;
-
+                background-color: $ash;
+                path {
+                    fill: lighten($ash_light, 30%);
+                }
             }
 
         }
         
-        &:hover {
-            background-color: $ash_heavy;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: $ash_heavy;
 
-            .moreMenu {
-                visibility: visible;
+                .moreMenu {
+                    visibility: visible;
+                }
+
             }
-
         }
     }
 
     &Active {
-        background-color: $fuel;
+        background-color: $ash_heavy;
 
         .label {
             //font-weight: 800;
             color: $font_light;
         }
+        .moreMenu {
+            visibility: visible;
+        }
         &:hover {
-            background-color: $fuel;
+            background-color: $ash_heavy;
 
         }
     }
@@ -138,14 +145,14 @@
         .label {
             @include topicTitleMobile;
             padding: 0px 8px 0px 12px;
-            gap: 10px;
+            gap: 16px;
             span {
                 padding: 8px 0px;
             }
         }
 
         &:active {
-            background-color: $fuel;
+            background-color: $ash;
             // .label {
             //     color: $white;
             // }

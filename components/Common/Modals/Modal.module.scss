@@ -59,7 +59,7 @@
         left: 50%;
         transform: translate3d(-50%, -50%, 0);
         padding: 0px;
-        background-color: $ash_heavy;
+        background-color: $ash;
         border-radius: 12px;
         border: 1px solid $ash_medium;
         &Dark {
@@ -76,7 +76,7 @@
         top: 0;
         height: var(--vh);
         width: 356px;
-        background-color: $ash_heavy;
+        background-color: $ash;
         overflow: hidden;
         padding-bottom: 28px;
         border-radius: 0 0px 0px 0;

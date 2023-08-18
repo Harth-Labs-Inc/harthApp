@@ -14,9 +14,9 @@
     height: 56px;
     min-height: 56px;
     max-height: 56px;
-    background-color: $ash_heavy;
+    background-color: $ash;
     color: $font_light;
-    border-bottom: 1px solid $black;
+    border-bottom: 1px solid $ash_medium;
     @include topicTitle;
 
     .emojiHolder {
@@ -42,11 +42,11 @@
 
 
         path {
-            fill: $ash_medium;
+            fill: $ash_light;
         }
 
         &:active {
-            background-color: $black;
+            background-color: lighten($ash_heavy, 5%);
         }
 
     }

@@ -1,4 +1,5 @@
-import { SpinningLoader } from "../SpinningLoader/SpinningLoader";
+
+import styles from "./placeholder.module.scss";
 
 const Placeholder = () => {
   return (
@@ -6,22 +7,9 @@ const Placeholder = () => {
       onClick={(e) => e.stopPropagation()}
       onTouchStart={(event) => event.stopPropagation()}
       onTouchEnd={(event) => event.stopPropagation()}
-      style={{
-        borderRadius: 12,
-        height: 280,
-        display: "flex",
-        width: 280,
-        flexDirection: "column",
-        justifyContent: "center",
-        background: `linear-gradient(
-          90deg,
-          #2f1d2a 20%,
-          #282828 50%,
-          #2f1d2a 70%
-        )`,
-      }}
+      className={styles.placeholder}
+
     >
-      <SpinningLoader spinnerOnly={true} />
     </div>
   );
 };

@@ -120,9 +120,6 @@ const InviteComp = (props) => {
                                         {url}
                                     </p>
                                     <button
-                                        className={
-                                            styles.InviteListItemCodeCopy
-                                        }
                                         onClick={() =>
                                             copyInviteToClipboard(url)
                                         }
