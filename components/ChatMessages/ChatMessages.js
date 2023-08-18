@@ -12,6 +12,7 @@ import TalkingHead from "components/TalkingHead/TalkingHead";
 import { getMessagesByTopic } from "requests/chat";
 import { useAuth } from "contexts/auth";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
+import { useRouter } from "next/router";
 
 const MessageWrapper = () => {
   const [currentMessages, setCurrentMessages] = useState([]);
@@ -26,12 +27,24 @@ const MessageWrapper = () => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
-  const { selectedTopic, selectedCommRef } = useComms();
+  const { selectedTopic, selectedCommRef, setKeepSpinning } = useComms();
   const { incomingMsg, incomingMsgUpdate, emitUpdateFromRef } = useSocket();
   const { user } = useAuth();
 
   const messagesEndRef = useRef(null);
   const { isMobile } = useContext(MobileContext);
+
+  const router = useRouter();
+  const {
+    query: { topic_id },
+  } = router;
+
+  useEffect(() => {
+    localStorage.setItem("isInChatOrDM", true);
+    return () => {
+      localStorage.removeItem("isInChatOrDM");
+    };
+  }, []);
 
   useEffect(() => {
     if (selectedTopic && page > 1) {
@@ -56,6 +69,13 @@ const MessageWrapper = () => {
       setLoading(false);
     }
   }, [page]);
+
+  useEffect(() => {
+    if (!loading && topic_id && selectedTopic?._id == topic_id) {
+      window.history.replaceState(null, null, "/");
+      setKeepSpinning(false);
+    }
+  }, [loading, selectedTopic?._id]);
 
   useEffect(() => {
     setLoading(true);

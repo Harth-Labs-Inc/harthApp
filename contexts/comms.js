@@ -21,6 +21,7 @@ export const CommsProvider = ({
   TOPICS,
   currentPage,
   ConversationsArray,
+  setKeepSpinning,
 }) => {
   const [comms, setComms] = useState(CommsArr);
   const [selectedcomm, setSelectedcomm] = useState(SELECTEDCOMM);
@@ -502,8 +503,11 @@ export const CommsProvider = ({
       resetConversations();
     }
     setComm(com);
-    setTopic({});
     grabRooms();
+    let isInChatOrDM = localStorage.getItem("isInChatOrDM");
+    if (!isInChatOrDM && !openFromPush) {
+      setTopic({});
+    }
   };
   const openMobileRoom = (data) => {
     let closeExisting = document.getElementById("mobile_minimized_closer");
@@ -601,6 +605,7 @@ export const CommsProvider = ({
         activeRoom,
         isLoadingTopics,
         isLoadingConversations,
+        setKeepSpinning,
       }}
     >
       {children}

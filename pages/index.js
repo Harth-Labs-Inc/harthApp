@@ -53,7 +53,7 @@ const dashboard = () => {
   const [showNotButton, setShowNotButton] = useState(false);
   const [hasNotificationsDisabled, setHasNotificationsDisabled] =
     useState(false);
-  const [openFromPushState, setOpenFromPushState] = useState(false);
+  const [keepSpinning, setKeepSpinning] = useState(true);
 
   const {
     user,
@@ -100,12 +100,6 @@ const dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (openFromPush) {
-      setOpenFromPushState(true);
-    }
-  }, [openFromPush]);
-
-  useEffect(() => {
     if (swReg && "pushManager" in swReg && user && !SUBSCRIPTION) {
       let hasDeniedNotifications = localStorage.getItem(
         "hasDeniedNotifications"
@@ -127,6 +121,10 @@ const dashboard = () => {
     }
 
     if (!loading && user) {
+      if (!openFromPush) {
+        setKeepSpinning(false);
+      }
+
       let prevPage = localStorage.getItem("selectedPage");
       let page = prevPage || "chat";
       if (openFromPush && type) {
@@ -274,25 +272,19 @@ const dashboard = () => {
         const DynamicChat = dynamic(() => import("./dashboard/chat"), {
           loading: () => null,
         });
-        page = DynamicChat ? (
-          <DynamicChat setOpenFromPushState={setOpenFromPushState} />
-        ) : null;
+        page = DynamicChat ? <DynamicChat /> : null;
         break;
       case "gather":
         const DynamicVideo = dynamic(() => import("./dashboard/video"), {
           loading: () => null,
         });
-        page = DynamicVideo ? (
-          <DynamicVideo setOpenFromPushState={setOpenFromPushState} />
-        ) : null;
+        page = DynamicVideo ? <DynamicVideo /> : null;
         break;
       case "message":
         const DynamicMessage = dynamic(() => import("./dashboard/message"), {
           loading: () => null,
         });
-        page = DynamicMessage ? (
-          <DynamicMessage setOpenFromPushState={setOpenFromPushState} />
-        ) : null;
+        page = DynamicMessage ? <DynamicMessage /> : null;
         break;
       default:
         page = null;
@@ -301,8 +293,9 @@ const dashboard = () => {
 
     return (
       <>
-        {openFromPushState ? <SpinningLoader /> : null}
+        {keepSpinning ? <SpinningLoader /> : null}
         <CommsProvider
+          setKeepSpinning={setKeepSpinning}
           CommsArr={Comms}
           CREATOR={CREATOR}
           SELECTEDCOMM={SELECTEDCOMM}

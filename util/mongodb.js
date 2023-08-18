@@ -1,29 +1,44 @@
 import { MongoClient } from "mongodb";
 
-if (!process.env.MONGODB_URI) {
-  throw new Error("Invalid/Missing environment variable: 'MONGODB_URI'");
+const uri =
+  process.env.NODE_ENV !== "production"
+    ? process.env.MONGODB_URI_QA
+    : process.env.MONGODB_URI;
+
+if (!uri) {
+  throw new Error(
+    "Invalid/Missing environment variable: 'MONGODB_URI' or 'MONGODB_URI_QA'"
+  );
 }
 
-let uri = "";
-if (process.env.NODE_ENV !== "production") {
-  uri = process.env.MONGODB_URI_QA;
-} else {
-  uri = process.env.MONGODB_URI;
-}
-const options = {};
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 
 let client;
-let clientPromise;
 
-if (process.env.NODE_ENV === "development") {
-  if (!global._mongoClientPromise) {
+const getClient = async () => {
+  if (!client) {
     client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+    try {
+      await client.connect();
+    } catch (error) {
+      client = null;
+      throw error;
+    }
+  } else if (!client.topology.isConnected()) {
+    try {
+      await client.connect();
+    } catch (error) {
+      client = null;
+      throw error;
+    }
   }
-  clientPromise = global._mongoClientPromise;
-} else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
-}
+
+  return client;
+};
+
+const clientPromise = getClient();
 
 export default clientPromise;
