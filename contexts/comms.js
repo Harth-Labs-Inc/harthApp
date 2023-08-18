@@ -21,7 +21,7 @@ export const CommsProvider = ({
   TOPICS,
   currentPage,
   ConversationsArray,
-  setKeepSpinning,
+  keepSpinning,
 }) => {
   const [comms, setComms] = useState(CommsArr);
   const [selectedcomm, setSelectedcomm] = useState(SELECTEDCOMM);
@@ -101,8 +101,10 @@ export const CommsProvider = ({
       let startingConv;
 
       startingConv = conversations[0];
-
-      if (openFromPush && router.query.conversation_id) {
+      let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
+        "openFromPush"
+      );
+      if (shouldOpenFromPush && router.query.conversation_id) {
         const matchingConv = conversations.find(
           ({ _id }) => _id == router.query.conversation_id
         );
@@ -298,8 +300,10 @@ export const CommsProvider = ({
       if (!isMobile) {
         startingConv = conversations[0];
       }
-
-      if (openFromPush && router.query.conversation_id) {
+      let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
+        "openFromPush"
+      );
+      if (shouldOpenFromPush && router.query.conversation_id) {
         const matchingConv = conversations.find(
           ({ _id }) => _id == router.query.conversation_id
         );
@@ -357,7 +361,10 @@ export const CommsProvider = ({
           }
         }
       }
-      if (openFromPush && router.query.topic_id) {
+      let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
+        "openFromPush"
+      );
+      if (shouldOpenFromPush && router.query.topic_id) {
         const matchingTopic = topics.find(
           ({ _id }) => _id == router.query.topic_id
         );
@@ -505,7 +512,10 @@ export const CommsProvider = ({
     setComm(com);
     grabRooms();
     let isInChatOrDM = localStorage.getItem("isInChatOrDM");
-    if (!isInChatOrDM && !openFromPush) {
+    let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
+      "openFromPush"
+    );
+    if (!isInChatOrDM && !shouldOpenFromPush) {
       setTopic({});
     }
   };
@@ -605,7 +615,7 @@ export const CommsProvider = ({
         activeRoom,
         isLoadingTopics,
         isLoadingConversations,
-        setKeepSpinning,
+        keepSpinning,
       }}
     >
       {children}

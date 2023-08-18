@@ -121,8 +121,13 @@ const dashboard = () => {
     }
 
     if (!loading && user) {
-      if (!openFromPush) {
+      let shouldOpenFromPush = new URL(window?.location.href).searchParams.get(
+        "openFromPush"
+      );
+      if (!shouldOpenFromPush) {
         setKeepSpinning(false);
+      } else if (shouldOpenFromPush && !keepSpinning) {
+        setKeepSpinning(true);
       }
 
       let prevPage = localStorage.getItem("selectedPage");
@@ -293,9 +298,13 @@ const dashboard = () => {
 
     return (
       <>
-        {keepSpinning ? <SpinningLoader /> : null}
+        {keepSpinning ? (
+          <div id="pushSpinner">
+            <SpinningLoader />
+          </div>
+        ) : null}
         <CommsProvider
-          setKeepSpinning={setKeepSpinning}
+          keepSpinning={keepSpinning}
           CommsArr={Comms}
           CREATOR={CREATOR}
           SELECTEDCOMM={SELECTEDCOMM}
