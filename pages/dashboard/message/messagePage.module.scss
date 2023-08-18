@@ -44,12 +44,12 @@
     height: 56px;
     min-height: 56px;
     max-height: 56px;
-    background-color: $ash_heavy;
+    background-color: $ash;
     color: $fuel;
     font-size: 14px;
     font-weight: 600;
     //backdrop-filter: blur(12px);
-    border-bottom: 1px solid $black;
+    border-bottom: 1px solid $ash_medium;
     @include topicTitleActive;
 
     .people {
@@ -71,11 +71,11 @@
         -webkit-tap-highlight-color: transparent; 
 
         path {
-            fill: $ash_medium;
+            fill: $ash_light;
         }
 
         &:active {
-            background-color: $black;
+            background-color: $ash_heavy;
         }
     }
 }

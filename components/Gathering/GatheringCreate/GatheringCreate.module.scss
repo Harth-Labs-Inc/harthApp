@@ -38,10 +38,10 @@
 
     .details {
         width: 100%;
-        background: $ash_heavy;
+        background: darken($ash, 3%);
         padding: 12px;
         border-radius: 12px;
-        border: 1px solid $ash;
+        //border: 1px solid $ash;
     }
 
     input {
@@ -49,15 +49,15 @@
         width: 100%;
         @include roomTitle;
         border-radius: 999px;
-        background-color: $black;
-        border: 1px solid $ash;
+        background-color: darken($ash, 10%);
+        //border: 1px solid $ash;
         height: 52px;
         color: $font_light;
         caret-color: $hot_salmon;
         margin: 0;
         
         &::placeholder {
-            color: $font_medium;
+            color: darken($font_medium, 20%);
 
         }
     }
@@ -131,18 +131,18 @@
     gap: 8px;
     width: 50%;
     height: 100%;
-    color: $font_light;
-    background: $black;
-    border-radius: 24px;
-    border: 1px solid $ash;
+    color: $font_medium;
+    background: $ash_heavy;
+    border-radius: 99px;
     cursor: pointer;
     @include worksans;
     font-size: 12px;
     letter-spacing: 0.08em;
     font-weight: 600;
+    border: 0;
 
     path {
-        fill: $font_light;
+        fill: $font_medium;
     }
 
     svg {
@@ -151,18 +151,20 @@
 
     &Schedule {
         color: $font_medium;
-        background: $black;
         path {
             fill: $font_medium;
         }
+
     }
 
     .Desktop & {
-        &:hover {
-            background: $hot_salmon;
-            color: $font_light;
-            path {
-                fill: $font_light;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background: darken($ash_dark, 3%);
+                color: $font_light;
+                path {
+                    fill: $font_light;
+                }
             }
         }
     }
@@ -190,7 +192,6 @@
     height: 60px;
     width: 100%;
     padding: 0;
-    padding-bottom: px;
     background: transparent;
     border: 0;
     cursor: pointer;

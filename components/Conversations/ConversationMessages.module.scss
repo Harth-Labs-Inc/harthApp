@@ -8,13 +8,13 @@
     flex-direction: column;
     height: calc(var(--vh) - 56px);
     width: 100%;
-    //background: linear-gradient(90deg, $black, $fuel 50%);
     background: $ash_heavy;
-    //padding-left: 8px;
 
     @media screen and (max-width: 640px) {
         height: var(--vh);
-        padding: 8px;
+        //padding: 8px;
+        padding-bottom: 88px;
+        padding-top: 56px;
     }
 }
 
@@ -26,7 +26,7 @@
     bottom: 0;
     background-color: transparent;
     width: 100%;
-    padding: 24px 8px;
+    padding: 24px 0px;
     overflow-y: scroll;
     -ms-overflow-style: none;
     color: $fuel;
@@ -214,12 +214,7 @@
     }
 
     &Desktop {
-        //position: absolute;
-        //bottom: 0px;
         width: 100%;
-        //min-height: 100px;
-        //padding: 0px 16px 8px 16px;
-        //background-color: aqua;
     }
 }
 

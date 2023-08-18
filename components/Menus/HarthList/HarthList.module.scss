@@ -148,7 +148,6 @@
         border: 0;
         border-radius: 12px;
         width: 100%;
-        border: 3px solid transparent;
 
         &Button {
             position: relative;
@@ -171,21 +170,21 @@
             height: 48px;
             padding: 6px;
             border-radius: 8px;
-            background-color: $ash;
+            //background-color: $ash;
         }
 
         &Image {
             img {
-                height: 48px;
-                width: 48px;
-                min-width: 48px;
+                height: 44px;
+                width: 44px;
+                min-width: 44px;
                 border-radius: 8px;
                 border: 0;
             }
         }
 
         &Active {
-            border: 3px solid $hot_salmon;
+            background-color: $ash_heavy;
         }
 
         &Name {

@@ -1,0 +1,38 @@
+@import "../../../styles/fonts.scss";
+@import "../../../styles/globals.scss";
+
+.placeholder {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(90deg, transparent, $ash, transparent);
+    width: 100%;
+    user-select: none;
+    height: 300px;
+    overflow: hidden;
+
+
+    &::after {
+        animation: loading 2s infinite;
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 4px;
+        height: calc(100% - 16px);
+        border-radius: 99px;
+        background-color: $hot_blue;
+    }
+
+    @keyframes loading {
+        0%, 100% {
+            background-color: lighten($hot_blue, 20%);
+        }
+
+        50% {
+            background-color: darken($hot_blue, 20%);
+        }
+        
+    }
+}
+

@@ -244,6 +244,7 @@ const DumbChatInput = (props) => {
         />
         <textarea
           id={styles.ChatInputText}
+          placeholder="say something"
           ref={textRef}
           onChange={(e) => {
             inputHandler(e);

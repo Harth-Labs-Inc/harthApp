@@ -58,7 +58,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
             >
                 <div className={styles.details}>
                     <input
-                        placeholder="gathering name"
+                        placeholder="enter a name"
                         autoComplete="off"
                         {...register("roomName", { required: true })}
                         maxLength={64}
@@ -133,7 +133,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                         // }
                     >
                         <IconPlayCircle />
-                        Start Now
+                        Start
                     </button>
                 </div>
             </form>
