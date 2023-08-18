@@ -92,7 +92,6 @@ const ChatSingleMessage = (props) => {
     if (typeof text !== "string") {
       return "";
     }
-    console.log(text);
     const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
     const emojiRegexPattern = emojiRegex();
     const parts =
