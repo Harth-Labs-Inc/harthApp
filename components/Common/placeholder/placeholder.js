@@ -1,4 +1,3 @@
-import { SpinningLoader } from "../SpinningLoader/SpinningLoader";
 
 import styles from "./placeholder.module.scss";
 
@@ -11,7 +10,6 @@ const Placeholder = () => {
       className={styles.placeholder}
 
     >
-      {/* <SpinningLoader spinnerOnly={true} /> */}
     </div>
   );
 };
