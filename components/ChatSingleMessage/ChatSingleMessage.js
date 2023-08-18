@@ -95,11 +95,14 @@ const ChatSingleMessage = (props) => {
     console.log(text);
     const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
     const emojiRegexPattern = emojiRegex();
-    const parts = text.match(
-      /(https?:\/\/[^\s]+|www\.[^\s]+|[\p{Emoji_Presentation}\uFE0F]+|\s+|[^\p{Emoji_Presentation}\uFE0F\s]+)/gu
-    );
+    const parts =
+      text.match(
+        /(https?:\/\/[^\s]+|www\.[^\s]+|[\p{Emoji_Presentation}\uFE0F]+|\s+|[^\p{Emoji_Presentation}\uFE0F\s]+)/gu
+      ) || [];
 
     const wrappedText = parts.map((part, index) => {
+      if (!part) return null;
+
       if (urlRegex.test(part)) {
         const properURL = part.startsWith("www") ? "http://" + part : part;
 
