@@ -24,6 +24,7 @@ import {
 } from "services/helper";
 import { CustomMessageContextMenu } from "components/CustomMessageContextMenu/CustomMessageContextMenu";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
+import emojiRegex from "emoji-regex";
 
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -91,11 +92,11 @@ const ChatSingleMessage = (props) => {
     if (typeof text !== "string") {
       return "";
     }
-
+    console.log(text);
     const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
-    const emojiRegex = /([\uD800-\uDBFF][\uDC00-\uDFFF])/g;
-    const parts = text.split(
-      /(https?:\/\/[^\s]+|www\.[^\s]+|[\uD800-\uDBFF][\uDC00-\uDFFF])/
+    const emojiRegexPattern = emojiRegex();
+    const parts = text.match(
+      /(https?:\/\/[^\s]+|www\.[^\s]+|[\p{Emoji_Presentation}\uFE0F]+|\s+|[^\p{Emoji_Presentation}\uFE0F\s]+)/gu
     );
 
     const wrappedText = parts.map((part, index) => {
@@ -103,31 +104,37 @@ const ChatSingleMessage = (props) => {
         const properURL = part.startsWith("www") ? "http://" + part : part;
 
         return (
-          <a
-            key={`url_${index}`}
-            href={properURL}
-            target="_blank"
-            // className={styles.urlLink}
-          >
+          <a key={`url_${index}`} href={properURL} target="_blank">
             {part}
           </a>
         );
-      } else if (emojiRegex.test(part)) {
+      } else if (emojiRegexPattern.test(part)) {
         return (
           <span
             key={`emoji_${index}`}
             className={styles.MessageEmoji}
             style={{
               display: "inline-block",
-              width: "20px",
-              height: "20px",
+              fontSize: "20px",
             }}
           >
             {part}
           </span>
         );
-      } else {
-        return part;
+      } else if (part.length) {
+        if (/^\s+$/.test(part)) {
+          return part;
+        }
+
+        return (
+          <span
+            style={{
+              display: "inline-block",
+            }}
+          >
+            {part}
+          </span>
+        );
       }
     });
 

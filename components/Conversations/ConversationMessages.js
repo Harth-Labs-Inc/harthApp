@@ -52,7 +52,7 @@ export const ConversationMessages = () => {
     incomingConversationMsg,
     incomingConversationMsgUpdate,
     setIncomingConversationMessagesHandler,
-    setKeepSpinning,
+    keepSpinning,
   } = useComms();
   const { user } = useAuth();
   const { emitUpdate, socketID, setNewAlerts, emitUpdateFromRef } = useSocket();
@@ -68,8 +68,16 @@ export const ConversationMessages = () => {
 
   useEffect(() => {
     localStorage.setItem("isInChatOrDM", true);
+
+    const handleBeforeUnload = () => {
+      localStorage.removeItem("isInChatOrDM");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     return () => {
       localStorage.removeItem("isInChatOrDM");
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
@@ -100,17 +108,6 @@ export const ConversationMessages = () => {
       setLoading(false);
     }
   }, [page]);
-
-  useEffect(() => {
-    if (
-      !loading &&
-      conversation_id &&
-      selectedConversation?._id == conversation_id
-    ) {
-      window.history.replaceState(null, null, "/");
-      setKeepSpinning(false);
-    }
-  }, [loading, selectedConversation?._id]);
 
   useEffect(() => {
     setLoading(true);
@@ -159,6 +156,17 @@ export const ConversationMessages = () => {
       if (numberOfUsers <= 1) {
         setDisableChat(true);
       }
+    }
+    if (conversation_id && selectedConversation?._id == conversation_id) {
+      window.history.replaceState(null, null, "/");
+      setTimeout(() => {
+        if (keepSpinning) {
+          let spinner = document.getElementById("pushSpinner");
+          if (spinner) {
+            spinner.remove();
+          }
+        }
+      }, 305);
     }
   }, [selectedConversation]);
 

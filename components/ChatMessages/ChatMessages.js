@@ -27,7 +27,7 @@ const MessageWrapper = () => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
-  const { selectedTopic, selectedCommRef, setKeepSpinning } = useComms();
+  const { selectedTopic, selectedCommRef, keepSpinning } = useComms();
   const { incomingMsg, incomingMsgUpdate, emitUpdateFromRef } = useSocket();
   const { user } = useAuth();
 
@@ -41,8 +41,16 @@ const MessageWrapper = () => {
 
   useEffect(() => {
     localStorage.setItem("isInChatOrDM", true);
+
+    const handleBeforeUnload = () => {
+      localStorage.removeItem("isInChatOrDM");
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     return () => {
       localStorage.removeItem("isInChatOrDM");
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
@@ -69,13 +77,6 @@ const MessageWrapper = () => {
       setLoading(false);
     }
   }, [page]);
-
-  useEffect(() => {
-    if (!loading && topic_id && selectedTopic?._id == topic_id) {
-      window.history.replaceState(null, null, "/");
-      setKeepSpinning(false);
-    }
-  }, [loading, selectedTopic?._id]);
 
   useEffect(() => {
     setLoading(true);
@@ -112,6 +113,17 @@ const MessageWrapper = () => {
       })();
     } else {
       setLoading(false);
+    }
+    if (topic_id && selectedTopic?._id == topic_id) {
+      window.history.replaceState(null, null, "/");
+      setTimeout(() => {
+        if (keepSpinning) {
+          let spinner = document.getElementById("pushSpinner");
+          if (spinner) {
+            spinner.remove();
+          }
+        }
+      }, 305);
     }
   }, [selectedTopic]);
 
