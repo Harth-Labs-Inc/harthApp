@@ -44,6 +44,8 @@
     width: 100%;
     padding: 0px 16px 0px 16px;
     z-index: 10;
+    background: $ash;
+    border: 1px solid $ash_medium;
 
     .labelHolder {
         display: flex;

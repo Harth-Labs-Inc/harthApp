@@ -5,7 +5,7 @@ import Script from "next/script";
 import { generateID } from "services/helper";
 import { useAuth } from "contexts/auth";
 import { MobileContext } from "contexts/mobile";
-
+import { RoomStream } from "resources/icons/RoomStream";
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
@@ -340,20 +340,20 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               if (!element) {
                 let myElement = document.getElementById(info?.peerId);
                 if (myElement) {
-                  myElement.style.border = "1px solid #e46eb1";
+                  myElement.style.borderColor = "#499c8e";
                 }
               } else {
-                element.style.border = "1px solid #e46eb1";
+                element.style.borderColor = "#499c8e";
               }
             } else {
               let element = document.getElementById(info?.socketID);
               if (!element) {
                 let myElement = document.getElementById(info?.peerId);
                 if (myElement) {
-                  myElement.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                  myElement.style.borderColor = "transparent";
                 }
               } else {
-                element.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                element.style.borderColor = "transparent";
               }
             }
           } else {
@@ -1465,17 +1465,22 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
       {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
       <main className={styles.streamWindow}>
-        <button
-          id="mobile_minimized_closer"
-          onClick={leaveRoom}
-          style={{ display: "none" }}
-        />
-        <GatherHeader
-          gatheringName={activeCallRoom?.roomName}
-          selectedHarthIcon={selectedHarth?.iconKey}
-          leaveMethod={leaveRoom}
-          minimizeHandler={minimizeHandler}
-        />
+        {isMobile ?
+          <>
+            <button
+              id="mobile_minimized_closer"
+              onClick={leaveRoom}
+              style={{ display: "none" }}
+            />
+            <GatherHeader
+              gatheringName={activeCallRoom?.roomName}
+              selectedHarthIcon={selectedHarth?.iconKey}
+              leaveMethod={leaveRoom}
+              minimizeHandler={minimizeHandler}
+            />
+          </>
+          : null
+        }
 
         <section
           className={`${styles.ContentContainer} ${
@@ -1488,7 +1493,12 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
             className={`${styles.leftContainer} ${
               isMobile && styles.leftContainerMobile
             }`}
-          ></section>
+          >
+            <div className={styles.roomHeading}>
+              <span className={styles.icon}><RoomStream /></span>
+              <span className={styles.label}>{activeCallRoom?.roomName}</span>
+            </div>
+          </section>
 
           <section
             id="stream-window-container"

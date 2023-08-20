@@ -14,12 +14,14 @@ export const GatheringTile = (props) => {
   const [isInRoom, setIsInRoom] = useState(false);
   const [localTime, setLocalTime] = useState(null);
   const [localDate, setLocalDate] = useState(null);
-
+  const [localDay, setLocalDay] = useState(null);
+  const days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat'];
   const { room, user, peers, owner, cardType, joinHandler, editScheduleRoom } =
     props;
 
   const { refreshScheduledCallRooms } = useVideo();
   const { isMobile } = useContext(MobileContext);
+
 
   useEffect(() => {
     if (room) {
@@ -32,9 +34,11 @@ export const GatheringTile = (props) => {
               timeZone: userTimeZone,
             }
           );
+          const day = new Date(room.localTimeDate).getDay();
           const [date, time] = userDateTime.split(",");
           setLocalTime(formatTimeString(time));
           setLocalDate(date);
+          setLocalDay(day);
         } catch (error) {
           console.log(error);
         }
@@ -121,6 +125,9 @@ export const GatheringTile = (props) => {
           {cardType === "schedule" ? (
             <>
               <div>
+                <p className={styles.day}>
+                  {days[localDay]}
+                </p>
                 <p className={styles.time}>
                   {localTime || room.gatheringTime}
                 </p>

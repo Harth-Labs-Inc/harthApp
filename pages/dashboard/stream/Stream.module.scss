@@ -28,6 +28,7 @@
     &Active {
         &:before {
             color: $hot_pink;
+
         }
     }
 }
@@ -41,32 +42,30 @@
     width: 100%;
     border: 0;
     padding: 0px 0px 0px 0px;
-    background: radial-gradient(ellipse at top, $ash 20%, $black_60),
-        radial-gradient(ellipse at bottom, $hot_red, $fuel);
+    background: $ash_heavy;
 
+    @media (max-width: 640px) {
+        height: var(--vh);
+        z-index: 500;
+    }
 
-        @media (max-width: 640px) {
-            height: var(--vh);
-            z-index: 500;
-        }
     .ContentContainer {
         position: relative;
         display: flex;
         flex-direction: row;
-        height: calc(100% - 108px);
+        height: calc(100% - 60px);
         width: 100%;
-        padding-top: 8px;
 
         &Mobile {
+            height: calc(100% - 108px);
             flex-direction: column-reverse;
             justify-content: flex-end;
         }
 
         .leftContainer {
-            margin-right: 12px;
-            margin-left: 4px;
+            background: $ash;
+            border-right: 1px solid $ash_medium;
             width: 240px;
-            //background-color: aqua;
             user-select: none;
 
             &Mobile {
@@ -74,6 +73,31 @@
                 max-height: 50%;
                 margin: 0;
                 overflow: auto;
+            }
+
+            .roomHeading {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                border-bottom: 1px solid $ash_medium;
+                padding: 12px 8px 8px 12px;
+                margin-bottom: 8px;
+
+                .icon {
+                    width: 32px;
+                    min-width: 32px;
+                    height: 32px;
+                }
+
+                .label {
+                    @include roomTitle;
+                    font-size: 18px;
+                    color: $font_light;
+                    border-left: 1px solid $ash_medium;
+                    padding-left: 8px;
+                }
+
             }
         }
 
@@ -111,10 +135,7 @@
             align-items: center;
             flex-direction: column;
             justify-content: center;
-            // max-width: calc(50% - 16px);
-            // min-width: 270px;
             min-height: calc(100% / 3);
-            // width: 100%;
             aspect-ratio: 1/1;
             margin: 4px;
             overflow: hidden;
@@ -139,18 +160,12 @@
         .userContainer {
             position: relative;
             width: 100%;
-            margin: 4px;
-            padding: 8px 8px;
-            border: 1px solid $white_10;
-            border-radius: 8px;
-            backdrop-filter: blur(8px);
-            background-color: $white_5;
-
+            padding: 2px 4px 2px 8px;
+            border-left: 4px solid transparent;
             .topContainer {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-
                 .profileContainer {
                     display: flex;
                     align-items: center;
@@ -170,8 +185,8 @@
             }
 
             .peerImage {
-                height: 44px;
-                width: 44px;
+                height: 40px;
+                width: 40px;
                 margin-right: 8px;
                 border-radius: 50%;
                 object-fit: cover;
@@ -188,10 +203,9 @@
                 z-index: 99;
                 display: flex;
                 align-items: center;
-                padding: 4px;
-                margin: 8px 0px;
+                padding: 8px;
                 //border: 2px solid $white_10;
-                //background-color: $white_80;
+                background-color: $ash_heavy;
 
                 input[type="range"] {
                     height: 20px;
@@ -327,7 +341,7 @@
             flex: 1;
             flex-direction: column;
             background-color: transparent;
-
+            //padding: 0px 8px;
             &Mobile {
                 flex: unset;
                 max-height: 50%;
