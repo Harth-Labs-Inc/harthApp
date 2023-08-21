@@ -60,7 +60,7 @@ export const LinkPreview = ({ message }) => {
             onTouchEnd={(event) => event.stopPropagation()}
           >
             {!video && !image && !favicon ? null : (
-              <div style={{ height: "unset" }} className={styles.imageholder}>
+              <div style={{ height: "100%" }} className={styles.imageholder}>
                 {image ? (
                   <img width="100%" height="100%" src={image} alt={title} />
                 ) : null}
