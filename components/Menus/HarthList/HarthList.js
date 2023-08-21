@@ -112,7 +112,7 @@ const HarthList = ({
                     <span className={styles.ItemImage}>
                       <img
                         src={com.iconKey}
-                        loading="lazy"
+                        loading="eager"
                         height={40}
                         width={40}
                       />

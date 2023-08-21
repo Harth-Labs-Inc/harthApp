@@ -262,12 +262,16 @@ const ChatInput = (props) => {
       promises.push(
         new Promise(async (res) => {
           let extention = file.name.split(".").pop();
-          let name = `${selectedcomm._id}-${selectedTopic._id}-${id}_${
+          const baseName = `${selectedcomm._id}-${selectedTopic._id}-${id}_${
             idx + 1
-          }_full.${extention}`;
-          let thumbnail = `${selectedcomm._id}-${selectedTopic._id}-${id}_${
-            idx + 1
-          }_thumbnail.${extention}`;
+          }`;
+
+          const isGif = file.type === "image/gif";
+
+          const name = isGif
+            ? `${baseName}.${extention}`
+            : `${baseName}_full.${extention}`;
+          const thumbnail = isGif ? name : `${baseName}_thumbnail.${extention}`;
 
           let bucket = "topic-message-attachments";
           const data = await getUploadURL(name, file.type, bucket);
@@ -278,25 +282,32 @@ const ChatInput = (props) => {
               let result = await putImageInBucket(uploadURL, reader, file.type);
               let { status } = result;
               if (status == 200) {
-                let { desiredHeight, desiredWidth } = await compressImage(
-                  name,
-                  thumbnail,
-                  bucket,
-                  file.type
-                );
-                await addKeyToDB(
-                  id,
-                  thumbnail,
-                  file.type,
-                  desiredHeight,
-                  desiredWidth
-                );
-                res({
-                  name: thumbnail,
-                  fileType: file.type,
-                  desiredHeight,
-                  desiredWidth,
-                });
+                if (isGif) {
+                  res({
+                    name: thumbnail,
+                    fileType: file.type,
+                  });
+                } else {
+                  let { desiredHeight, desiredWidth } = await compressImage(
+                    name,
+                    thumbnail,
+                    bucket,
+                    file.type
+                  );
+                  await addKeyToDB(
+                    id,
+                    thumbnail,
+                    file.type,
+                    desiredHeight,
+                    desiredWidth
+                  );
+                  res({
+                    name: thumbnail,
+                    fileType: file.type,
+                    desiredHeight,
+                    desiredWidth,
+                  });
+                }
               }
             });
             reader.readAsArrayBuffer(file);
@@ -355,8 +366,13 @@ const ChatInput = (props) => {
             <button
               className={styles.SendActive}
               aria-label="send chat message"
-              disabled={isDisabled}
-              onClick={updateMsg}
+              onClick={() => {
+                if (isDisabled) {
+                  cancelEdit();
+                } else {
+                  updateMsg();
+                }
+              }}
             >
               <IconSend />
             </button>

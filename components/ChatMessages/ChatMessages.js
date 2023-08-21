@@ -22,7 +22,7 @@ const MessageWrapper = () => {
   const [showImageSlideShow, setShowImageSlideShow] = useState(false);
   const [imageSlideshowURL, setImageSlideshowURL] = useState();
   const [messageEditing, setMessageEditing] = useState();
-
+  const [scrollLock, setScrollLock] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
@@ -65,16 +65,19 @@ const MessageWrapper = () => {
           setCurrentMessages((prevState) => [...prevState, ...sortedMessages]);
           setHasMore(fetchResults.length > 0);
           setLoading(false);
+          setScrollLock(false);
         } else {
           setCurrentMessages([]);
           setPage(1);
           setLoading(false);
+          setScrollLock(false);
         }
       })();
     } else {
       setPage(1);
       setCurrentMessages([]);
       setLoading(false);
+      setScrollLock(false);
     }
   }, [page]);
 
@@ -230,10 +233,14 @@ const MessageWrapper = () => {
       e.target.scrollHeight - Math.abs(e.target.scrollTop) <=
       e.target.clientHeight + 200;
 
-    if (bottom && !loading && hasMore) {
-      setPage((prevState) => prevState + 1);
+    if (bottom && !loading && hasMore && !scrollLock) {
+      setScrollLock(true);
+      setPage((prevState) => {
+        return prevState + 1;
+      });
     }
   };
+
   return (
     <>
       {showImageSlideShow ? (

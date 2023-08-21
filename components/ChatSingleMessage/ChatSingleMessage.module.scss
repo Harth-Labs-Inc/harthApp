@@ -52,16 +52,13 @@
 .SingleMessage {
     opacity: 0;
     animation: fadeIn 1.5s forwards;
-
     display: inline-flex;
     position: relative;
     background-color: transparent;
     width: 100%;
-    
+    z-index: 1;
     column-gap: 10px;
     border: 0;
-    //border-radius: 8px;
-    //background: aqua;
 
     &Desktop {
         padding: 8px 20px 12px 20px;
@@ -185,7 +182,11 @@
                 border-radius: 16px;
                 margin-top: 4px;
                 margin-bottom: 4px;
-                width: 100%;
+                width: max-content;
+                max-width: 500px;
+                @media screen and (max-width: 640px) {
+                    max-width: 280px;
+                }
             }
 
             a {

@@ -130,6 +130,7 @@ const ChatSingleMessage = (props) => {
 
         return (
           <span
+            key={`url_${index}`}
             style={{
               display: "inline-block",
             }}

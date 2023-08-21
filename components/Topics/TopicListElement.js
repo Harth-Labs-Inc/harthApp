@@ -74,7 +74,7 @@ const TopicListElement = (props) => {
                 <img
                   src={e?.creator_image}
                   className={`${e?.comm_id}_${e?.creator_id}`}
-                  loading="lazy"
+                  loading="eager"
                 />
               </Fragment>
             );
