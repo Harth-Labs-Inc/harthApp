@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./ChatSingleMessage.module.scss";
 import Placeholder from "components/Common/placeholder/placeholder";
-import { getAttachment, openDB, saveAttachment } from "services/helper";
+import {
+  fetchImage,
+  getAttachment,
+  openDB,
+  saveAttachment,
+} from "services/helper";
+import { getURLMetaData } from "requests/urls";
 
 const DB_NAME = "LinkPreviewCache";
 const STORE_NAME = "previews";
@@ -34,6 +40,7 @@ export const LinkPreview = ({ message }) => {
         return true;
       }
     }
+
     return false;
   };
 
@@ -43,7 +50,26 @@ export const LinkPreview = ({ message }) => {
 
   const renderLinkPreview = () => {
     const { title, site_name, description, video, image, favicon } = linkData;
-
+    if (title == "GIF Image") {
+      return (
+        <>
+          <article
+            id="ogCard"
+            className={styles.ogCard}
+            onTouchStart={(event) => event.stopPropagation()}
+            onTouchEnd={(event) => event.stopPropagation()}
+          >
+            {!video && !image && !favicon ? null : (
+              <div style={{ height: "unset" }} className={styles.imageholder}>
+                {image ? (
+                  <img width="100%" height="100%" src={image} alt={title} />
+                ) : null}
+              </div>
+            )}
+          </article>
+        </>
+      );
+    }
     return (
       <>
         <article
@@ -104,29 +130,82 @@ export const LinkPreview = ({ message }) => {
 
         for (let url of uniqueUrls) {
           if (isBlacklisted(url)) {
-            console.log(`Skipping blacklisted URL: ${url}`);
+            continue;
+          }
+
+          if (url.endsWith(".gif")) {
+            const dbName = "Attachments";
+            const storeName = "chat";
+            const db = await openDB(dbName, storeName);
+            const cachedData = await getAttachment(db, storeName, url).catch(
+              () => null
+            );
+            if (cachedData) {
+              const finalURL = URL.createObjectURL(cachedData.data);
+              setLinkData({
+                image: finalURL,
+                title: "GIF Image",
+                site_name: new URL(finalURL).hostname,
+              });
+            } else {
+              const imageBlob = await fetchImage(url);
+              try {
+                saveAttachment(db, storeName, url, imageBlob);
+                setLinkData({
+                  image: url,
+                  title: "GIF Image",
+                  site_name: new URL(url).hostname,
+                });
+              } catch (error) {
+                console.log("Failed to save attachment:", error);
+              }
+            }
+
             continue;
           }
 
           const cached = await getCachedData(url);
-          if (cached) {
+          if (
+            cached &&
+            cached.data &&
+            (cached.data.image || cached.data.favicon || cached.data.video)
+          ) {
             setLinkData(cached.data);
             return;
           }
 
           try {
-            const response = await axios.get(
-              `https://opengraph.io/api/1.1/site/${encodeURIComponent(
-                url
-              )}?accept_lang=auto&app_id=bc82985a-b469-4157-8620-76c822cab0c5`
-            );
+            const opengraphIO = axios
+              .get(
+                `https://opengraph.io/api/1.1/site/${encodeURIComponent(
+                  url
+                )}?accept_lang=auto&app_id=bc82985a-b469-4157-8620-76c822cab0c5`
+              )
+              .then(async (response) => {
+                if (response.data?.hybridGraph) {
+                  const data = { ...response.data.hybridGraph };
+                  setLinkData((prevData) => ({ ...prevData, ...data }));
+                  await cacheData(url, data);
+                }
+              })
+              .catch((error) => {
+                console.log("Error from opengraphIO:", error.message);
+              });
 
-            if (response.status === 200 && response.data?.hybridGraph) {
-              setLinkData(response.data.hybridGraph);
-              await cacheData(url, response.data.hybridGraph);
-            }
+            const yourAPI = getURLMetaData(url)
+              .then(async (response) => {
+                if (response.data?.hybridGraph) {
+                  const data = { ...response.data.hybridGraph };
+                  setLinkData((prevData) => ({ ...prevData, ...data }));
+                  await cacheData(url, data);
+                }
+              })
+              .catch((error) => {
+                console.log("Error from yourAPI:", error);
+              });
+            await Promise.allSettled([opengraphIO, yourAPI]);
           } catch (error) {
-            console.log(error);
+            console.log("General error:", error);
           }
         }
       }

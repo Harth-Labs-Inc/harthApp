@@ -49,10 +49,7 @@ const TopBar = (props) => {
               onClick={onToggleMenu}
               aria-label="Current Harth"
             >
-              <img src={selectedcomm?.iconKey} loading="lazy" />
-              {/* <div className={styles.menuIcon}>
-                <IconMenu />
-              </div> */}
+              <img src={selectedcomm?.iconKey} loading="eager" />
             </button>
 
             <div className={styles.TopBarName}>{selectedcomm?.name}</div>

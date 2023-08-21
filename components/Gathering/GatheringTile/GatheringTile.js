@@ -121,51 +121,41 @@ export const GatheringTile = (props) => {
           {cardType === "schedule" ? (
             <>
               <div>
-                <p className={styles.time}>
-                  {localTime || room.gatheringTime}
-                </p>
+                <p className={styles.time}>{localTime || room.gatheringTime}</p>
               </div>
-              <p className={styles.date}>
-                {dateFormat()}
-              </p>
+              <p className={styles.date}>{dateFormat()}</p>
             </>
           ) : (
             <div className={styles.now}>NOW</div>
           )}
-
         </div>
 
         <div className={styles.Details}>
-
           <div className={styles.AttendeeWrapper}>
-                {peers.length > 0 ? (
-                  peers.map((peer, idx) => {
-                    return (
-                      <div key={`${peer.id}${idx}`}>
-                        {peer.img ? (
-                          <div className={styles.profileImage} title={peer.name}>
-                            <img src={peer.img} loading="lazy" />
-                          </div>
-                        ) : (
-                          <div className={styles.empty} title={peer.name}>
-                            ?
-                          </div>
-                        )}
+            {peers.length > 0 ? (
+              peers.map((peer, idx) => {
+                return (
+                  <div key={`${peer.id}${idx}`}>
+                    {peer.img ? (
+                      <div className={styles.profileImage} title={peer.name}>
+                        <img src={peer.img} loading="eager" />
                       </div>
-                    );
-                  })
-                ) : (
-                  <>
-                    <div className={styles.emptyMessage}>( empty )</div>
-                  </>
-                )}
+                    ) : (
+                      <div className={styles.empty} title={peer.name}>
+                        ?
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <>
+                <div className={styles.emptyMessage}>( empty )</div>
+              </>
+            )}
           </div>
 
-          <p className={styles.description}>
-            {room.gatheringDescription}
-          </p>
-              
-        
+          <p className={styles.description}>{room.gatheringDescription}</p>
 
           <div className={styles.ActionBar}>
             {owner && cardType === "schedule" ? (
@@ -187,11 +177,6 @@ export const GatheringTile = (props) => {
           </div>
         </div>
       </div>
-
-      
-
-        
     </div>
-
   );
 };

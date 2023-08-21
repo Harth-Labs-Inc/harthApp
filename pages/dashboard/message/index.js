@@ -168,7 +168,7 @@ const Message = () => {
                                                                         ${selectedcomm?._id}_${e.userId}
                                                                         `}
                                     src={e.iconKey}
-                                    loading="lazy"
+                                    loading="eager"
                                   />
                                 </Fragment>
                               );
