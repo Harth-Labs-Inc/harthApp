@@ -49,8 +49,7 @@ export const LinkPreview = ({ message }) => {
   };
 
   const renderLinkPreview = () => {
-    const { title, site_name, description, video, image, favicon, url } =
-      linkData;
+    const { title, site_name, description, video, image, favicon } = linkData;
     if (title == "GIF Image") {
       return (
         <>
@@ -202,7 +201,7 @@ export const LinkPreview = ({ message }) => {
                 }
               })
               .catch((error) => {
-                console.log("Error from yourAPI:");
+                console.log("Error from yourAPI:", error);
               });
             await Promise.allSettled([opengraphIO, yourAPI]);
           } catch (error) {
