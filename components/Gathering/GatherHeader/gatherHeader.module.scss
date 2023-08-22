@@ -10,12 +10,13 @@
     min-height: 44px;
     width: 100%;
     padding: 0px 12px 0px 12px;
-    //background-color: $fuel;
+    background-color: $ash;
+    border-bottom: 1px solid $ash_medium;
     z-index: 10;
 
     .mobileSpacer {
-        height: 28px;
-        width: 28px;
+        height: 36px;
+        width: 36px;
         background: transparent;
     }
 

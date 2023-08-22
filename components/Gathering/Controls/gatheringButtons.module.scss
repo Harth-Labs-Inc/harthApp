@@ -250,12 +250,11 @@
     border-radius: 8px;
     cursor: pointer;
     background-color: transparent;
-    background-color: $white_5;
     path {
-        fill: $white_50;
+        fill: $ash_light;
     }
     &:active {
-        background-color: $ash;
+        background-color: $ash_heavy;
     }
 }
 
