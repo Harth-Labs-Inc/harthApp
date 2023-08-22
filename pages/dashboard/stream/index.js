@@ -11,7 +11,10 @@ import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeade
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
 import { SpinningLoader } from "../../../components/Common/SpinningLoader/SpinningLoader";
-
+import { LeaveButtonMobile } from "components/Gathering/Controls";
+import { IconCloseFullScreen } from "resources/icons/IconCloseFullScreen";
+import { IconPower } from "resources/icons/IconPower";
+import { Modal } from "Common";
 import { getHarthByID } from "../../../requests/community";
 import {
   compressImage,
@@ -1088,7 +1091,11 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         if (!parentContainer) {
           parentContainer = document.createElement("div");
           parentContainer.id = peer?.socketID;
-          parentContainer.className = styles.userContainer;
+          if (isMobile) { 
+            parentContainer.className = styles.userContainerMobile;
+          } else {
+            parentContainer.className = styles.userContainer;
+          }
 
           const topContainer = document.createElement("div");
           topContainer.id = `${peer?.socketID}_TopContainer`;
@@ -1456,6 +1463,45 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     }
   };
 
+  const StreamMobileHeader = (props) => {
+    const { gatheringName, leaveMethod, minimizeHandler } = props;
+    const [modal, setModal] = useState();
+    const { isMobile } = useContext(MobileContext);
+  
+    const showMobileMenu = () => {
+      setModal(!modal);
+    };
+  
+    return (
+      <>
+        {modal ? (
+          <Modal show={modal} onToggleModal={showMobileMenu} isDark={true}>
+            <div className={styles.leaveMenu}>
+              <button className={styles.menuItem} onClick={minimizeHandler}>
+                <IconCloseFullScreen />
+                <p>Minimize Gathering</p>
+              </button>
+              <button className={styles.menuItem} onClick={leaveMethod}>
+                <IconPower />
+                <p>Leave Gathering</p>
+              </button>
+            </div>
+          </Modal>
+        ) : (
+          ""
+        )}
+  
+        <div className={styles.roomHeadingMobile}>
+            <span className={styles.icon}><RoomStream /></span>
+            <span className={styles.label}>{activeCallRoom?.roomName}</span>
+            <LeaveButtonMobile onClick={showMobileMenu} />
+        </div>
+      </>
+    );
+  };
+
+
+
   if (ownerData.current) {
     setPeerContainers(ownerData.current);
   }
@@ -1472,12 +1518,12 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               onClick={leaveRoom}
               style={{ display: "none" }}
             />
-            <GatherHeader
+             {/* <StreamMobileHeader
               gatheringName={activeCallRoom?.roomName}
               selectedHarthIcon={selectedHarth?.iconKey}
               leaveMethod={leaveRoom}
               minimizeHandler={minimizeHandler}
-            />
+            />  */}
           </>
           : null
         }
@@ -1494,10 +1540,13 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               isMobile && styles.leftContainerMobile
             }`}
           >
-            <div className={styles.roomHeading}>
-              <span className={styles.icon}><RoomStream /></span>
-              <span className={styles.label}>{activeCallRoom?.roomName}</span>
-            </div>
+            {!isMobile ?
+              <div className={styles.roomHeading}>
+                <span className={styles.icon}><RoomStream /></span>
+                <span className={styles.label}>{activeCallRoom?.roomName}</span>
+              </div>
+              : null 
+            }
           </section>
 
           <section

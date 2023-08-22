@@ -13,6 +13,46 @@
     font-style: normal;
 }
 
+.leaveMenu {
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    gap: 8px;
+    width: 280px;
+
+    .menuItem {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        height: 48px;
+        gap: 16px;
+        padding: 0px 12px;
+        border: 0;
+        border-radius: 8px;
+        background-color: $ash_medium;
+        svg {
+            height: 24px;
+            width: 24px;
+        }
+
+        path {
+            fill: $font_light;
+        }
+
+        p {
+            @include rubik;
+            font-size: 14px;
+            font-weight: 400;
+            color: $font_light;
+        }
+
+        &:active {
+            background-color: $ash_heavy;
+        }
+    }
+}
+
 .volumeButton {
     &:before {
         font-family: "icomoon";
@@ -33,6 +73,34 @@
     }
 }
 
+.roomHeadingMobile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    min-height: 56px;
+    max-height: 56px;
+    width: 100%;
+    padding: 0px 12px 0px 12px;
+    background-color: $ash;
+    border-bottom: 1px solid $ash_medium;
+    z-index: 10;
+
+    .icon {
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+    }
+
+    .label {
+        @include roomTitle;
+        font-size: 18px;
+        color: $font_light;
+    }
+
+}
+
 .streamWindow {
     position: absolute;
     display: flex;
@@ -47,6 +115,7 @@
     @media (max-width: 640px) {
         height: var(--vh);
         z-index: 500;
+        background: $ash;
     }
 
     .ContentContainer {
@@ -58,6 +127,7 @@
 
         &Mobile {
             height: calc(100% - 108px);
+            background-color: $ash_heavy;
             flex-direction: column-reverse;
             justify-content: flex-end;
         }
@@ -70,10 +140,13 @@
             user-select: none;
 
             &Mobile {
-                width: calc(100% - 8px);
-                max-height: 50%;
+                width: 100%;
+                height: 100%;
                 margin: 0;
                 overflow: auto;
+                padding: 12px 8px 48px 8px;
+                border: 0;
+                background: $ash_heavy;
             }
 
             .roomHeading {
@@ -140,9 +213,9 @@
             aspect-ratio: 1/1;
             margin: 4px;
             overflow: hidden;
-            border: 1px solid $white_10;
+            border: 0;
             border-radius: 12px;
-            background-color: $black_50;
+            background-color: transparent;
 
             video {
                 position: absolute;
@@ -161,7 +234,7 @@
         .userContainer {
             position: relative;
             width: 100%;
-            padding: 2px 4px 2px 8px;
+            padding: 4px 4px 4px 8px;
             border-left: 4px solid transparent;
             .topContainer {
                 display: flex;
@@ -204,9 +277,12 @@
                 z-index: 99;
                 display: flex;
                 align-items: center;
-                padding: 8px;
+                padding: 12px 8px 10px 8px;
+                margin-bottom: 4px;
+                margin-top: 4px;
                 //border: 2px solid $white_10;
                 background-color: $ash_heavy;
+                border-radius: 12px;
 
                 input[type="range"] {
                     height: 20px;
@@ -336,6 +412,186 @@
             }
         }
 
+        .userContainerMobile {
+            position: relative;
+            width: 100%;
+            padding: 8px 8px 8px 12px;
+            border-left: 6px solid transparent;
+            background-color: transparent;
+            .topContainer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .profileContainer {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .volumeButton {
+                    font-size: 24px;
+                    background-color: transparent;
+                    border: 0;
+                    cursor: pointer;
+                }
+            }
+
+            .peerName {
+                color: $font_light;
+                @include topicTitleMobile;
+            }
+
+            .peerImage {
+                height: 48px;
+                width: 48px;
+                margin-right: 8px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 0;
+            }
+
+            &.ownerVideo {
+                transform: scaleX(-1);
+            }
+
+            .sliderContainer {
+                position: relative;
+                margin-top: 8px;
+                margin-bottom: 6px;
+                z-index: 99;
+                display: flex;
+                align-items: center;
+                padding: 20px 12px 14px 12px;
+                border-radius: 12px;
+                background-color: $ash;
+
+                input[type="range"] {
+                    height: 20px;
+                    width: 100%;
+                    border: 0;
+                    border-radius: 0;
+                    -webkit-appearance: none;
+                }
+                input[type="range"]::-webkit-slider-thumb {
+                    height: 20px;
+                    width: 20px;
+                    margin-top: -7px;
+                    background: $hot_pink;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    box-shadow: 0 1px 2px $white_20;
+                    -webkit-appearance: none;
+                }
+                input[type="range"]::-moz-range-thumb {
+                    height: 20px;
+                    width: 20px;
+                    background: $hot_pink;
+                    border: 0;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    box-shadow: 0 1px 2px $white_20;
+                }
+
+                input[type="range"]::-webkit-slider-runnable-track {
+                    width: 100%;
+                    height: 6px;
+                    animate: 0.2s;
+                    background: $white_50;
+                    border-radius: 100px;
+                    cursor: pointer;
+                }
+                input[type="range"]::-webkit-progress-value {
+                    background-color: $white;
+                }
+
+                input[type="range"]::-moz-range-track {
+                    width: 100%;
+                    height: 6px;
+                    animate: 0.2s;
+                    background: $white_50;
+                    border: 0;
+                    border-radius: 100px;
+                    cursor: pointer;
+                }
+                input[type="range"]::-moz-range-progress {
+                    height: 6px;
+                    background-color: $white;
+                    border-radius: 100px;
+                }
+
+                .muteButton {
+                    background-color: transparent;
+                    border: 0;
+                    cursor: pointer;
+
+                    &:before {
+                        font-family: "icomoon";
+                        content: "\e900";
+                        color: $fuel;
+                        font-weight: normal;
+                        font-variant: normal;
+                        text-transform: none;
+                        line-height: 1;
+                        -webkit-font-smoothing: antialiased;
+                    }
+                }
+                .unMuteButton {
+                    background-color: transparent;
+                    border: 0;
+                    cursor: pointer;
+
+                    &:before {
+                        font-family: "icomoon";
+                        content: "\e901";
+                        color: $red;
+                        font-weight: normal;
+                        font-variant: normal;
+                        text-transform: none;
+                        line-height: 1;
+                        -webkit-font-smoothing: antialiased;
+                    }
+                }
+            }
+
+            .playButton {
+                display: block;
+                margin: 4px 0 0 auto;
+                padding: 8px 16px;
+                border-radius: 99px;
+                color: $font_light;
+                @include worksans;
+                font-size: 14px;
+                font-weight: 500;
+                letter-spacing: 0.02em;
+                line-height: 125%;
+                background-color: $hot_salmon;
+                border: 0;
+                cursor: pointer;
+
+                &:hover {
+                    //color: $hot_pink;
+                    background-color: $black_10;
+                }
+            }
+
+            audio {
+                position: relative;
+                z-index: 2;
+            }
+
+            video {
+                position: absolute;
+                z-index: 1;
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                overflow: hidden;
+                background-size: cover;
+                overflow: hidden;
+            }
+        }
+
         .streamContainer {
             position: relative;
             display: flex;
@@ -392,14 +648,16 @@
                 position: absolute;
                 top: 0;
                 left: 100%;
+                width: 100%;
                 margin: 0;
                 z-index: 1;
-                height: calc(100% - 20px);
+                height: calc(100% - 25px);
+                border-radius: 0;
+                border: 0;
                 
 
                 &.ChatPanelContainerOpen {
-                    width: calc(100% - 20px);
-                    margin-left: 10px;
+                    width: 100%;
                 
                 }
 

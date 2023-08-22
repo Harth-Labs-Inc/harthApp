@@ -47,11 +47,15 @@
     align-items: center;
     justify-content: space-evenly;
     grid-area: header;
-    padding: 0px 8px 24px 0px;
+    padding: 0px 8px 24px 8px;
     //height:104px;
     border: 0;
     width: 100%;
     //background-color: aqua;
+    height: 78px;
+    min-height: 78px;
+    background: $ash;
+    border-top: 1px solid $ash_medium;
 
     .spacerLarge {
         display: flex;
@@ -63,7 +67,12 @@
 
 
     &Mobile {
-
+        width: 36px;
+        height: 36px;
+        background: transparent;
+        border: 0;
+        border-radius: 4px;
+        padding: 6px;
     }
 
     &Desktop {
@@ -100,7 +109,12 @@
 
 
     &Mobile {
-
+        width: 40px;
+        height: 40px;
+        background: transparent;
+        border: 0;
+        border-radius: 4px;
+        padding: 6px;
     }
 
     &Desktop {
@@ -137,16 +151,21 @@
     position: relative;
 
     &Mobile {
-
+        width: 40px;
+        height: 40px;
+        background: transparent;
+        border: 0;
+        border-radius: 4px;
+        padding: 6px;
     }
 
     &Desktop {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
         background: $ash;
         border: 0;
         border-radius: 99px;
-        padding: 8px;
+        padding: 9px;
 
         @media (hover: hover) and (pointer: fine) {
             &:hover {
