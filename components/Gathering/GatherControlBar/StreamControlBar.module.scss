@@ -1,0 +1,310 @@
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
+
+.desktop {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-area: header;
+    padding: 0px;
+    padding-right: 12px;
+    border: 0;
+    background-color: transparent;
+    //column-gap: 16px;
+
+    .optionsContainer {
+        position: relative;
+    }
+
+    .controlGroup {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $ash;
+        width: 240px;
+        padding: 6px 12px;
+        border-top: 1px solid $ash_medium;
+        border-right: 1px solid $ash_medium;
+
+    }
+
+    .spacerSmall {
+        width: 44px;
+
+    }
+
+    .spacerLarge {
+        width: 52px;
+
+    }
+}
+
+.mobile {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    grid-area: header;
+    padding: 0px 8px 24px 0px;
+    //height:104px;
+    border: 0;
+    width: 100%;
+    //background-color: aqua;
+
+    .spacerLarge {
+        display: flex;
+        width: 52px;
+    }
+}
+
+.streamButton {
+
+
+    &Mobile {
+
+    }
+
+    &Desktop {
+        width: 36px;
+        height: 36px;
+        background: transparent;
+        border: 0;
+        border-radius: 4px;
+        padding: 6px;
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background: $ash_heavy;
+            }
+        }
+
+    }
+
+    &Active {
+        path {
+            fill: $hot_salmon;
+        }
+    }
+
+    &Inactive {
+        path {
+            fill: $ash_light;
+        }
+
+    }
+}
+
+.micButton {
+
+
+    &Mobile {
+
+    }
+
+    &Desktop {
+        width: 36px;
+        height: 36px;
+        background: transparent;
+        border: 0;
+        border-radius: 4px;
+        padding: 6px;
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background: $ash_heavy;
+            }
+        }
+
+    }
+
+    &Muted {
+        path {
+            fill: $hot_red;
+        }
+    }
+
+    &Inactive {
+        path {
+            fill: $ash_light;
+        }
+
+    }
+}
+
+.chatButton {
+    position: relative;
+
+    &Mobile {
+
+    }
+
+    &Desktop {
+        width: 36px;
+        height: 36px;
+        background: $ash;
+        border: 0;
+        border-radius: 99px;
+        padding: 8px;
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background: $ash_heavy;
+            }
+        }
+
+    }
+
+    &Active {
+        path {
+            fill: $hot_salmon;
+        }
+    }
+
+    &Inactive {
+        path {
+            fill: $ash_light;
+        }
+
+    }
+    .alert {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 10px;
+        height: 10px;
+        border-radius: 99px;
+        background: $hot_salmon;
+        border: 2px solid $ash;
+
+    }
+}
+
+.leaveButton {
+
+
+    &Mobile {
+
+    }
+
+    &Desktop {
+        width: 36px;
+        height: 36px;
+        background: transparent;
+        border: 0;
+        border-radius: 4px;
+        padding: 6px;
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background: $ash_heavy;
+            }
+        }
+
+    }
+
+    &Active {
+        path {
+            fill: $hot_salmon;
+        }
+    }
+
+    &Inactive {
+        path {
+            fill: $ash_light;
+        }
+
+    }
+}
+
+.moreButton {
+    position: relative;
+    border-radius: 99px;
+    cursor: pointer;
+    border: 0;
+    background-color: transparent;
+    transform: rotate(90deg);
+    padding: 0px;
+    height: 18px;
+    width: 18px;
+
+    path {
+        fill: $ash_light;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: $ash_heavy;
+            path {
+                fill: $font_light;
+            }
+        }
+    }
+
+    &Active {
+        background-color: $ash_heavy;
+        path {
+            fill: $font_light;
+        }
+    }
+}
+
+.OptionsMenu {
+    position: absolute;
+    bottom: 58px;
+    z-index: 1;
+    width: 220px;
+    border-radius: 8px;
+
+    &Container {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 8px;
+        background-color: $black;
+        border-radius: 8px;
+    }
+
+    button {
+        @include worksans;
+        font-weight: 500;
+        letter-spacing: 0;
+        text-align: left;
+        background-color: $silver-dark;
+        border: 0;
+        padding: 6px 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: $white;
+        }
+
+    }
+
+    &:before {
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        z-index: 0;
+        height: calc(100% + 6px);
+        width: calc(100% + 6px);
+        content: "";
+        background-image: linear-gradient(
+                rgba(255, 255, 255, 0),
+                rgba(255, 255, 255, 0)
+            ),
+            linear-gradient(35deg, $hot_blue, $hot_pink);
+        border-radius: 8px;
+    }
+}
+
+.position {
+    position: absolute;
+    top: -3px;
+    right: -4px;
+}

@@ -6,7 +6,7 @@ import { generateID } from "services/helper";
 import { useAuth } from "contexts/auth";
 import { MobileContext } from "contexts/mobile";
 import { RoomStream } from "resources/icons/RoomStream";
-import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
+import StreamControlBar from "components/Gathering/GatherControlBar/StreamControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
@@ -1528,7 +1528,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           ></section>
         </section>
         <>
-          <GatherControlBar
+          <StreamControlBar
             onLeaveHandler={leaveRoom}
             onToggleAudio={toggleAudio}
             onToggleScreenShare={toggleCapture}
