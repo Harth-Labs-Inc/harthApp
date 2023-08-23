@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import styles from "./ChatSingleMessage.module.scss";
 import Placeholder from "components/Common/placeholder/placeholder";
 import {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import ChatAttachment from "../ChatInput/chatAttachmentsGeneral";
 import { DiceAlert } from "../Gathering/GatherTools/DiceAlert";
@@ -6,41 +6,7 @@ import { DiceAlert } from "../Gathering/GatherTools/DiceAlert";
 import styles from "./ChatMessages.module.scss";
 
 const GeneralMessageWrapper = ({ messages, userName }) => {
-  const [bottom, setBottom] = useState(null);
-  const [displayScrollButton, setDisplayScrollButton] = useState(false);
-  const [inview, setInview] = useState(null);
-
   const messagesEndRef = useRef(null);
-  const bottomObserver = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-
-        if (entry.isIntersecting) {
-          setInview(true);
-          setDisplayScrollButton(false);
-        } else {
-          setInview(false);
-        }
-      },
-      { threshold: 0.25, rootMargin: "50px" }
-    );
-    bottomObserver.current = observer;
-  }, []);
-
-  useEffect(() => {
-    const observer = bottomObserver.current;
-    if (bottom) {
-      observer.observe(bottom);
-    }
-    return () => {
-      if (bottom) {
-        observer.unobserve(bottom);
-      }
-    };
-  }, [bottom]);
 
   const formatMessage = (text) => {
     if (typeof text !== "string") {
@@ -114,7 +80,6 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
     <>
       <div id={styles.ChatMessages}>
         <div ref={messagesEndRef} />
-        <div ref={setBottom} />
         {messages &&
           messages.map((chat, idx) => {
             if (chat.creator_name === "Admin") {
