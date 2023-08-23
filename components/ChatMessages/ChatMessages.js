@@ -28,7 +28,12 @@ const MessageWrapper = () => {
   const [page, setPage] = useState(1);
 
   const { selectedTopic, selectedCommRef, keepSpinning } = useComms();
-  const { incomingMsg, incomingMsgUpdate, emitUpdateFromRef } = useSocket();
+  const {
+    incomingMsg,
+    incomingMsgUpdate,
+    emitUpdateFromRef,
+    newMessageIndicators,
+  } = useSocket();
   const { user } = useAuth();
 
   const messagesEndRef = useRef(null);
@@ -49,6 +54,9 @@ const MessageWrapper = () => {
     window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
+      if (selectedTopic?._id) {
+        delete newMessageIndicators[selectedTopic._id];
+      }
       localStorage.removeItem("isInChatOrDM");
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };

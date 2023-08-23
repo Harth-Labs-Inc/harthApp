@@ -32,7 +32,12 @@ const getCachedData = async (url) => {
 export const LinkPreview = ({ message }) => {
   const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
   const [linkData, setLinkData] = useState(null);
-  const blacklist = new Set(["twitter.com", "instagram.com", "amazon.com"]);
+  const blacklist = new Set([
+    "twitter.com",
+    "instagram.com",
+    "amazon.com",
+    "x.com",
+  ]);
 
   const isBlacklisted = (url) => {
     for (let domain of blacklist) {
@@ -175,24 +180,25 @@ export const LinkPreview = ({ message }) => {
           }
 
           try {
-            const opengraphIO = axios
-              .get(
-                `https://opengraph.io/api/1.1/site/${encodeURIComponent(
-                  url
-                )}?accept_lang=auto&app_id=bc82985a-b469-4157-8620-76c822cab0c5`
-              )
-              .then(async (response) => {
-                if (response.data?.hybridGraph) {
-                  const data = { ...response.data.hybridGraph };
-                  setLinkData((prevData) => ({ ...prevData, ...data }));
-                  await cacheData(url, data);
-                }
-              })
-              .catch((error) => {
-                console.log("Error from opengraphIO:", error.message);
-              });
+            // const opengraphIO = axios
+            //   .get(
+            //     `https://opengraph.io/api/1.1/site/${encodeURIComponent(
+            //       url
+            //     )}?accept_lang=auto&app_id=bc82985a-b469-4157-8620-76c822cab0c5`
+            //   )
+            //   .then(async (response) => {
+            //     if (response.data?.hybridGraph) {
+            //       console.log(response.data.hybridGraph, "opengraph");
+            //       const data = { ...response.data.hybridGraph };
+            //       setLinkData((prevData) => ({ ...prevData, ...data }));
+            //       await cacheData(url, data);
+            //     }
+            //   })
+            //   .catch((error) => {
+            //     console.log("Error from opengraphIO:", error.message);
+            //   });
 
-            const yourAPI = getURLMetaData(url)
+            getURLMetaData(url)
               .then(async (response) => {
                 if (response.data?.hybridGraph) {
                   const data = { ...response.data.hybridGraph };
@@ -203,7 +209,6 @@ export const LinkPreview = ({ message }) => {
               .catch((error) => {
                 console.log("Error from yourAPI:", error);
               });
-            await Promise.allSettled([opengraphIO, yourAPI]);
           } catch (error) {
             console.log("General error:", error);
           }

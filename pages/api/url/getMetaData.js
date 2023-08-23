@@ -10,10 +10,27 @@ const userAgents = [
 
 const getYoutubeEmbedLink = (link) => {
   const regex =
-    /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/;
+    /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?.*v=([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/;
   const match = link.match(regex);
-  return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+  const videoId = match ? match[1] || match[2] : null;
+  return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 };
+
+function buildFullURL(rootURL, path) {
+  if (!path) return null;
+
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+
+  try {
+    const url = new URL(path, rootURL);
+    return url.href;
+  } catch (error) {
+    console.error("Error building full URL:", error);
+    return null;
+  }
+}
 
 export default async (req, res) => {
   let obj;
@@ -41,11 +58,16 @@ export default async (req, res) => {
     const $ = load(html);
 
     let videoLink = $('meta[property="og:video"]').attr("content");
-    if (url.includes("youtube.com")) {
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
       const embedLink = getYoutubeEmbedLink(url);
       if (embedLink) videoLink = embedLink;
     }
 
+    const absoluteFaviconURL = buildFullURL(
+      url,
+      $('link[rel="icon"]').attr("href") ||
+        $('link[rel="shortcut icon"]').attr("href")
+    );
     result = {
       hybridGraph: {
         title:
@@ -55,14 +77,16 @@ export default async (req, res) => {
           $('meta[property="og:description"]').attr("content") ||
           $('meta[name="description"]').attr("content"),
         url: $('meta[property="og:url"]').attr("content") || url,
-        image: $('meta[property="og:image"]').attr("content"),
+        image:
+          $('meta[property="og:image"]').attr("content") ||
+          $('meta[name="twitter:image"]').attr("content") ||
+          $('meta[name="twitter:image:src"]').attr("content"),
         video: videoLink,
-        favicon:
-          $('link[rel="icon"]').attr("href") ||
-          $('link[rel="shortcut icon"]').attr("href"),
+        favicon: absoluteFaviconURL,
       },
     };
   } catch (error) {
+    console.log(error, "error");
     if (error.response?.data) {
       const $ = load(error.response.data);
       result = {

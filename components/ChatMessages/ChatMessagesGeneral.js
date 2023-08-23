@@ -42,16 +42,6 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
     };
   }, [bottom]);
 
-  useEffect(() => {
-    if (messages && messages.length) {
-      if (inview === false) {
-        setDisplayScrollButton(true);
-      } else {
-        scrollToBottom("smooth");
-      }
-    }
-  }, [messages]);
-
   const formatMessage = (text) => {
     if (typeof text !== "string") {
       return "";
@@ -110,23 +100,6 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
     return wrappedText;
   };
 
-  const scrollToBottom = () => {
-    messagesEndRef?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-  const ScrollButton = () => {
-    if (displayScrollButton) {
-      return (
-        <button onClick={scrollToBottom} className={styles.ScrollButton}>
-          New
-        </button>
-      );
-    }
-    return null;
-  };
-
   const chatClassname = (creator) => {
     if (creator === "Admin") {
       return styles.AdminMessage;
@@ -146,7 +119,6 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
           messages.map((chat, idx) => {
             if (chat.creator_name === "Admin") {
               if (chat?.code == 7 && chat?.data) {
-                // chat.data should have everything the
                 return (
                   <div key={`${idx}_${chat?.data}`}>
                     <DiceAlert
@@ -198,7 +170,6 @@ const GeneralMessageWrapper = ({ messages, userName }) => {
             );
           })}
       </div>
-      <ScrollButton />
     </>
   );
 };
