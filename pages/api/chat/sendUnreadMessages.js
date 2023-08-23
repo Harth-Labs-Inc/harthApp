@@ -69,6 +69,7 @@ export default async (req, res) => {
       creator_image: msg.creator_image,
       comm_id: msg.comm_id,
       date: msg.date,
+      message_id: msg._id,
     }));
 
   if (!messagesData.length) {

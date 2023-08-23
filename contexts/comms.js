@@ -122,6 +122,11 @@ export const CommsProvider = ({
 
   useEffect(() => {
     selectedTopicRef.current = selectedTopic;
+    if (selectedTopic?._id) {
+      localStorage.setItem("selectedTopicId", selectedTopic._id);
+    } else {
+      localStorage.removeItem("selectedTopicId");
+    }
   }, [selectedTopic]);
 
   useEffect(() => {
@@ -321,13 +326,16 @@ export const CommsProvider = ({
     return;
   };
 
-  const grabTopics = async (comid) => {
+  const grabTopics = async (comid, repullMessages) => {
     setIsLoadingTopics(true);
+    console.log("pulling topics....");
     let result = await getTopics(comid, user._id);
+    console.log("topics results: ", result);
+
     const { ok, topics } = result;
     if (ok) {
       let startingTopic;
-      if (!isMobile) {
+      if (!isMobile || repullMessages) {
         for (let topic of topics) {
           for (let member of topic.members) {
             if (member.user_id == user._id) {
@@ -496,13 +504,21 @@ export const CommsProvider = ({
     setSelectedTopic(null);
     setTopicChange(0);
   };
-  const changeSelectedCommFromChild = (com) => {
+  const changeSelectedCommFromChild = (com, repullMessages) => {
+    console.log("page specific grab (topics/convs/rooms) ", {
+      com,
+      selectedCommRef,
+      selectedcomm,
+    });
+
+    let isInChatOrDM = localStorage.getItem("isInChatOrDM");
+
     if (currentPage === "message") {
       fetchConversations(com._id);
       resetTopics();
     }
     if (currentPage === "chat") {
-      grabTopics(com._id);
+      grabTopics(com._id, isInChatOrDM && repullMessages);
       resetConversations();
     }
     if (currentPage === "gather") {
@@ -511,7 +527,7 @@ export const CommsProvider = ({
     }
     setComm(com);
     grabRooms();
-    let isInChatOrDM = localStorage.getItem("isInChatOrDM");
+
     let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
       "openFromPush"
     );
@@ -616,6 +632,7 @@ export const CommsProvider = ({
         isLoadingTopics,
         isLoadingConversations,
         keepSpinning,
+        selectedTopicRef: selectedTopicRef.current,
       }}
     >
       {children}

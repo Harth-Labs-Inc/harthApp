@@ -189,20 +189,45 @@
 //     line-height: 15px;
 // }
 
+
+
 .ScrollButton {
-    @include x-center;
-    bottom: 15%;
-    z-index: 999;
+    position: relative;
+    text-align: center;
     padding: 4px 14px;
-    color: $white;
-    font-size: 9px;
+    color: #fff;
+    font-size: 14px;
     line-height: 11px;
     text-transform: uppercase;
     background-color: #ee5500;
     border: 0;
     border-radius: 9px;
-    cursor: pointer;
+    width: max-content;
 }
+
+.ScrollButton::before,
+.ScrollButton::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 50%;
+    height: 1px;
+    background-color: #ee5500;
+}
+
+.ScrollButton::before {
+    left: 0;
+    margin-right: 5px; /* Adjust this value to increase/decrease the gap from text */
+    transform: translateX(-100%);
+}
+
+.ScrollButton::after {
+    right: 0;
+    margin-left: 5px; /* Adjust this value to increase/decrease the gap from text */
+    transform: translateX(100%);
+}
+
+
 
 .Input {
     &Mobile {
