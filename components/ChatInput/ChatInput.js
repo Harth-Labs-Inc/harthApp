@@ -300,7 +300,7 @@ const ChatInput = (props) => {
             let videoMetadata = await getVideoMetadata(file);
             let { duration } = videoMetadata;
             const data = await getUploadURL(name, file.type, bucket);
-            const { ok, uploadURL } = data;
+            const { uploadURL } = data;
             const result = await putVideoInBucket(uploadURL, file);
             console.log(result);
             await addKeyToDB(id, name, file.type, duration);
