@@ -256,32 +256,6 @@ const ChatInput = (props) => {
       }
     });
   };
-  const getVideoMetadata = (file) => {
-    return new Promise((resolve, reject) => {
-      const video = document.createElement("video");
-      video.preload = "metadata";
-
-      video.onloadedmetadata = function () {
-        URL.revokeObjectURL(video.src);
-
-        const duration = video.duration;
-        const desiredHeight = video.videoHeight;
-        const desiredWidth = video.videoWidth;
-
-        resolve({
-          duration,
-          desiredHeight,
-          desiredWidth,
-        });
-      };
-
-      video.onerror = function () {
-        reject(new Error("Failed to load video metadata."));
-      };
-
-      video.src = URL.createObjectURL(file);
-    });
-  };
 
   const uploadAttacments = async (id, message) => {
     let promises = [];
