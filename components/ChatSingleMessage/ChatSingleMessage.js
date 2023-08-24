@@ -443,7 +443,6 @@ const ChatSingleMessage = (props) => {
       setShowLongPressMenu(false);
     }
   };
-
   let addNewIndicator =
     newMessageIndicators[props.msg.topic_id] == props.msg._id &&
     !document.getElementById("addnewindicator");
@@ -510,7 +509,20 @@ const ChatSingleMessage = (props) => {
               </span>
               <div className={styles.Content}>
                 {(attachments || []).map(
-                  ({ desiredWidth, desiredHeight }, idx) => {
+                  ({ desiredWidth, desiredHeight, fileType }, idx) => {
+                    if (fileType.includes("video")) {
+                      return (
+                        <video
+                          key={idx}
+                          width="280"
+                          height="280"
+                          controls
+                          src={urls[idx]}
+                          type={fileType}
+                        ></video>
+                      );
+                    }
+
                     return urls[idx] ? (
                       <Image
                         key={idx}
@@ -693,7 +705,20 @@ const ChatSingleMessage = (props) => {
             </span>
             <div className={styles.Content}>
               {(attachments || []).map(
-                ({ desiredWidth, desiredHeight }, idx) => {
+                ({ desiredWidth, desiredHeight, fileType }, idx) => {
+                  if (fileType.includes("video")) {
+                    return (
+                      <video
+                        key={idx}
+                        width="320"
+                        height="240"
+                        controls
+                        src={urls[idx]}
+                        type={fileType}
+                      ></video>
+                    );
+                  }
+
                   return urls[idx] ? (
                     <Image
                       key={idx}

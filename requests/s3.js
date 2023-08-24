@@ -47,6 +47,21 @@ export const getUploadURL = async (name, fileType, bucket) => {
   }
 };
 
+export const putVideoInBucket = async (url, file) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": file.type,
+      },
+    };
+
+    const response = await api.put(url, file, config);
+    return response;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 export const putImageInBucket = async (url, reader, fileType) => {
   try {
     const token = localStorage.getItem("token");

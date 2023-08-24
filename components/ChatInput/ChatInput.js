@@ -16,6 +16,7 @@ import {
   getUploadURL,
   putImageInBucket,
   compressImage,
+  putVideoInBucket,
 } from "../../requests/s3";
 import { addKeyToDB } from "../../requests/chat";
 
@@ -255,6 +256,33 @@ const ChatInput = (props) => {
       }
     });
   };
+  const getVideoMetadata = (file) => {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement("video");
+      video.preload = "metadata";
+
+      video.onloadedmetadata = function () {
+        URL.revokeObjectURL(video.src);
+
+        const duration = video.duration;
+        const desiredHeight = video.videoHeight;
+        const desiredWidth = video.videoWidth;
+
+        resolve({
+          duration,
+          desiredHeight,
+          desiredWidth,
+        });
+      };
+
+      video.onerror = function () {
+        reject(new Error("Failed to load video metadata."));
+      };
+
+      video.src = URL.createObjectURL(file);
+    });
+  };
+
   const uploadAttacments = async (id, message) => {
     let promises = [];
     attachments.forEach((file, idx) => {
@@ -265,52 +293,74 @@ const ChatInput = (props) => {
           const baseName = `${selectedcomm._id}-${selectedTopic._id}-${id}_${
             idx + 1
           }`;
-
-          const isGif = file.type === "image/gif";
-
-          const name = isGif
-            ? `${baseName}.${extention}`
-            : `${baseName}_full.${extention}`;
-          const thumbnail = isGif ? name : `${baseName}_thumbnail.${extention}`;
-
-          let bucket = "topic-message-attachments";
-          const data = await getUploadURL(name, file.type, bucket);
-          const { ok, uploadURL } = data;
-          if (ok) {
-            let reader = new FileReader();
-            reader.addEventListener("loadend", async () => {
-              let result = await putImageInBucket(uploadURL, reader, file.type);
-              let { status } = result;
-              if (status == 200) {
-                if (isGif) {
-                  res({
-                    name: thumbnail,
-                    fileType: file.type,
-                  });
-                } else {
-                  let { desiredHeight, desiredWidth } = await compressImage(
-                    name,
-                    thumbnail,
-                    bucket,
-                    file.type
-                  );
-                  await addKeyToDB(
-                    id,
-                    thumbnail,
-                    file.type,
-                    desiredHeight,
-                    desiredWidth
-                  );
-                  res({
-                    name: thumbnail,
-                    fileType: file.type,
-                    desiredHeight,
-                    desiredWidth,
-                  });
-                }
-              }
+          const bucket = "topic-message-attachments";
+          const isVideo = file.type.includes("video");
+          if (isVideo) {
+            const name = `${baseName}.${extention}`;
+            let videoMetadata = await getVideoMetadata(file);
+            let { duration } = videoMetadata;
+            const data = await getUploadURL(name, file.type, bucket);
+            const { ok, uploadURL } = data;
+            const result = await putVideoInBucket(uploadURL, file);
+            console.log(result);
+            await addKeyToDB(id, name, file.type, duration);
+            res({
+              name: name,
+              fileType: file.type,
+              duration,
             });
-            reader.readAsArrayBuffer(file);
+          } else {
+            const isGif = file.type === "image/gif";
+            const name = isGif
+              ? `${baseName}.${extention}`
+              : `${baseName}_full.${extention}`;
+            const thumbnail = isGif
+              ? name
+              : `${baseName}_thumbnail.${extention}`;
+
+            const data = await getUploadURL(name, file.type, bucket);
+            const { ok, uploadURL } = data;
+            if (ok) {
+              let reader = new FileReader();
+              reader.addEventListener("loadend", async () => {
+                let result = await putImageInBucket(
+                  uploadURL,
+                  reader,
+                  file.type
+                );
+                let { status } = result;
+                if (status == 200) {
+                  if (isGif) {
+                    await addKeyToDB(id, thumbnail, file.type);
+                    res({
+                      name: thumbnail,
+                      fileType: file.type,
+                    });
+                  } else {
+                    let { desiredHeight, desiredWidth } = await compressImage(
+                      name,
+                      thumbnail,
+                      bucket,
+                      file.type
+                    );
+                    await addKeyToDB(
+                      id,
+                      thumbnail,
+                      file.type,
+                      desiredHeight,
+                      desiredWidth
+                    );
+                    res({
+                      name: thumbnail,
+                      fileType: file.type,
+                      desiredHeight,
+                      desiredWidth,
+                    });
+                  }
+                }
+              });
+              reader.readAsArrayBuffer(file);
+            }
           }
         })
       );
@@ -470,7 +520,7 @@ const ChatInput = (props) => {
             ref={fileRef}
             type="file"
             id="file-input"
-            accept="image/*"
+            accept="image/*,video/mp4,video/webm,video/ogg"
             onChange={(e) => {
               const { files } = e.target;
               addAttachment(files[0]);
