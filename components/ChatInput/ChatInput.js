@@ -130,7 +130,7 @@ const ChatInput = (props) => {
     fileRef.current.click();
   };
   const addAttachment = (file) => {
-    setAttachments([...attachments, file]);
+    setAttachments((prevAttch) => [...prevAttch, file]);
   };
   const removeAttachment = (idx) => {
     const tempAttachments = [...attachments];
@@ -297,17 +297,14 @@ const ChatInput = (props) => {
           const isVideo = file.type.includes("video");
           if (isVideo) {
             const name = `${baseName}.${extention}`;
-            let videoMetadata = await getVideoMetadata(file);
-            let { duration } = videoMetadata;
             const data = await getUploadURL(name, file.type, bucket);
             const { uploadURL } = data;
             const result = await putVideoInBucket(uploadURL, file);
             console.log(result);
-            await addKeyToDB(id, name, file.type, duration);
+            await addKeyToDB(id, name, file.type);
             res({
               name: name,
               fileType: file.type,
-              duration,
             });
           } else {
             const isGif = file.type === "image/gif";
