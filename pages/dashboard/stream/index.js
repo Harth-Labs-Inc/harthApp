@@ -340,20 +340,20 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               if (!element) {
                 let myElement = document.getElementById(info?.peerId);
                 if (myElement) {
-                  myElement.style.border = "1px solid #e46eb1";
+                  myElement.style.borderColor = "#3cc8a3";
                 }
               } else {
-                element.style.border = "1px solid #e46eb1";
+                element.style.borderColor = "#3cc8a3";
               }
             } else {
               let element = document.getElementById(info?.socketID);
               if (!element) {
                 let myElement = document.getElementById(info?.peerId);
                 if (myElement) {
-                  myElement.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                  myElement.style.borderColor = "transparent";
                 }
               } else {
-                element.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                element.style.borderColor = "transparent";
               }
             }
           } else {
@@ -1475,6 +1475,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           selectedHarthIcon={selectedHarth?.iconKey}
           leaveMethod={leaveRoom}
           minimizeHandler={minimizeHandler}
+          type="stream"
         />
 
         <section
