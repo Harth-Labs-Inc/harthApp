@@ -98,18 +98,21 @@ export const VideoProvider = ({ children }) => {
 
   useEffect(() => {
     function handleVisibilityChange() {
-      if (!document.hidden) {
-        manageSocketConnection();
+      if (
+        !document.hidden &&
+        (!socketRef.current || !socketRef.current.connected)
+      ) {
+        manageSocketConnection(true);
       }
     }
 
     function handleOnline() {
-      manageSocketConnection();
+      manageSocketConnection(true);
     }
 
-    const manageSocketConnection = () => {
-      if (navigator && navigator.onLine && !document.hidden) {
-        connectSocket(user);
+    const manageSocketConnection = (fullReload) => {
+      if (navigator.onLine && !document.hidden) {
+        connectSocket(user, fullReload);
       }
     };
 
