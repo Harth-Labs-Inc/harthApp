@@ -8,30 +8,34 @@ import { LeaveButtonStream } from "../Controls/LeaveButtonStream";
 import { DiceBar } from "../GatherTools/DiceBar";
 import { MapBar } from "../GatherTools/MapBar";
 import { Modal } from "../../Common";
+import { IconPower } from "resources/icons/IconPower";
 
 import styles from "./streamControlBar.module.scss";
 
 const StreamControlBar = (props) => {
     const {
         onLeaveHandler,
+        //onToggleVideo,
         onToggleAudio,
         onToggleScreenShare,
         captureIsActice,
         onToggleChat,
         diceRollHandler,
         changeAudioDevice,
+        //changeVideoDevice,
         unreadMsg,
         roomId,
         mapChangeHandler,
         mapUpdate,
         hasAudioStream,
+        //hasVideoStream,
         hasScreenShareStream,
     } = props;
     const [modal, setModal] = useState();
     const [showDiceModal, setShowDiceModal] = useState();
     const [showMapModal, setShowMapModal] = useState();
     const [audioList, setAudioList] = useState();
-    const [videoList, setVideoList] = useState();
+    //const [videoList, setVideoList] = useState();
 
     const AudioDeviceListCount = useRef(0);
     const VideoDeviceListCount = useRef(0);
@@ -66,6 +70,24 @@ const StreamControlBar = (props) => {
                 });
         }
     };
+
+    // const onToggleVideoDevicesModal = () => {
+    //     if (videoList) {
+    //         setVideoList(null);
+    //     } else {
+    //         navigator?.mediaDevices
+    //             .enumerateDevices()
+    //             .then((devices) => {
+    //                 let videoInputs = devices.filter(
+    //                     ({ kind }) => kind == "videoinput"
+    //                 );
+    //                 setVideoList(videoInputs);
+    //             })
+    //             .catch((err) => {
+    //                 console.error(err);
+    //             });
+    //     }
+    // };
 
     try {
         if (!navigator.mediaDevices?.enumerateDevices) {
