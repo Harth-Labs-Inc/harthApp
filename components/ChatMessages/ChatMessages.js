@@ -66,7 +66,7 @@ const MessageWrapper = () => {
     if (selectedTopic && page > 1) {
       setLoading(true);
       (async () => {
-        let data = await getMessagesByTopic(selectedTopic._id, page, 13);
+        let data = await getMessagesByTopic(selectedTopic._id, page, 25);
         const { ok, fetchResults } = data;
         if (ok) {
           const sortedMessages = sortMessages([...fetchResults]);
@@ -95,7 +95,7 @@ const MessageWrapper = () => {
     setCurrentMessages([]);
     if (selectedTopic && selectedTopic._id) {
       (async () => {
-        let data = await getMessagesByTopic(selectedTopic._id, 1, 13);
+        let data = await getMessagesByTopic(selectedTopic._id, 1, 25);
         const { ok, fetchResults } = data;
         if (ok) {
           setCurrentMessages(sortMessages([...fetchResults]));
@@ -237,15 +237,16 @@ const MessageWrapper = () => {
     setMessageEditing(msgId);
   };
   const handleScroll = (e) => {
-    const bottom =
-      e.target.scrollHeight - Math.abs(e.target.scrollTop) <=
-      e.target.clientHeight + 200;
+    const { scrollTop, clientHeight, scrollHeight } = e.target;
+    const threshold = 100;
 
-    if (bottom && !loading && hasMore && !scrollLock) {
+    const absScrollTop = Math.abs(scrollTop);
+    const isNearBottom =
+      absScrollTop + clientHeight + threshold >= scrollHeight;
+
+    if (isNearBottom && !loading && hasMore && !scrollLock) {
       setScrollLock(true);
-      setPage((prevState) => {
-        return prevState + 1;
-      });
+      setPage((prevState) => prevState + 1);
     }
   };
 

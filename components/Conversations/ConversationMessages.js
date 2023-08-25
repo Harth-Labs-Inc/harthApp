@@ -36,7 +36,7 @@ export const ConversationMessages = () => {
   const [showImageSlideShow, setShowImageSlideShow] = useState(false);
   const [imageSlideshowURL, setImageSlideshowURL] = useState();
   const [messageEditing, setMessageEditing] = useState();
-
+  const [scrollLock, setScrollLock] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
@@ -88,7 +88,7 @@ export const ConversationMessages = () => {
         let data = await getconversationMessagesByID(
           selectedConversation._id,
           page,
-          13
+          25
         );
         const { ok, fetchResults } = data;
         if (ok) {
@@ -96,16 +96,19 @@ export const ConversationMessages = () => {
           setCurrentMessages((prevState) => [...prevState, ...sortedMessages]);
           setHasMore(fetchResults.length > 0);
           setLoading(false);
+          setScrollLock(false);
         } else {
           setCurrentMessages([]);
           setPage(1);
           setLoading(false);
+          setScrollLock(false);
         }
       })();
     } else {
       setPage(1);
       setCurrentMessages([]);
       setLoading(false);
+      setScrollLock(false);
     }
   }, [page]);
 
@@ -118,7 +121,7 @@ export const ConversationMessages = () => {
         let data = await getconversationMessagesByID(
           selectedConversation._id,
           1,
-          13
+          25
         );
         const { ok, fetchResults } = data;
         if (ok) {
@@ -431,11 +434,15 @@ export const ConversationMessages = () => {
     setMessageEditing(msgId);
   };
   const handleScroll = (e) => {
-    const bottom =
-      e.target.scrollHeight - Math.abs(e.target.scrollTop) <=
-      e.target.clientHeight + 200;
+    const { scrollTop, clientHeight, scrollHeight } = e.target;
+    const threshold = 100;
 
-    if (bottom && !loading && hasMore) {
+    const absScrollTop = Math.abs(scrollTop);
+    const isNearBottom =
+      absScrollTop + clientHeight + threshold >= scrollHeight;
+
+    if (isNearBottom && !loading && hasMore && !scrollLock) {
+      setScrollLock(true);
       setPage((prevState) => prevState + 1);
     }
   };

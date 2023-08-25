@@ -20,7 +20,7 @@ export default async (req, res) => {
   const key = crypto.scryptSync(encryptionKey, "salt", 32);
   const iv = Buffer.alloc(16, 0);
 
-  const getMsgs = async (db, id, page = 1, limit = 13) => {
+  const getMsgs = async (db, id, page = 1, limit = 25) => {
     const skip = (page - 1) * limit;
     return await db
       .collection("conversation_messages")
@@ -53,7 +53,7 @@ export default async (req, res) => {
   const findUser = (db, id) => {
     return new Promise((resolve) => {
       let mongo = require("mongodb");
-      let o_id = new mongo.ObjectID(id);
+      let o_id = new mongo.ObjectId(id);
       db.collection("users")
         .find({ _id: o_id })
         .toArray(function (err, results) {
