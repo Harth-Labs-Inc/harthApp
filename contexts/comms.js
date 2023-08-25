@@ -123,6 +123,22 @@ export const CommsProvider = ({
   useEffect(() => {
     selectedTopicRef.current = selectedTopic;
     if (selectedTopic?._id) {
+      let storedData = localStorage.getItem("harthData");
+
+      try {
+        storedData = JSON.parse(storedData);
+      } catch (error) {
+        console.log(error);
+        storedData = {};
+      }
+      if (!storedData) {
+        storedData = {};
+      }
+      storedData[selectedcomm?._id] = {
+        ...(storedData[selectedcomm?._id] || {}),
+        selected_topic: selectedTopic,
+      };
+      localStorage.setItem("harthData", JSON.stringify(storedData));
       localStorage.setItem("selectedTopicId", selectedTopic._id);
     } else {
       localStorage.removeItem("selectedTopicId");
