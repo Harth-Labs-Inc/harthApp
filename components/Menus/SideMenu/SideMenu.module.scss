@@ -56,43 +56,43 @@
     
             &Invites {
                 path{
-                    fill: $hot_pink;
+                    fill: $hot_salmon;
                 }
-                &:hover {
-                    path{
-                        fill: $hot_pink;
-                    }
-                    &::before {
-                        position: absolute;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        content: "Invites";
-                        width: fit-content;
-                        top: 3px;
-                        left: 38px;
-                        padding: 6px 10px;
-                        background-color: $ash_light;
-                        border-radius: 2px;
-                        @include worksans;
-                        letter-spacing: 0.05em;
-                        font-size: 12px;
-                        font-weight: 400;
-                        color: $ash;
-                        z-index: 10;
-                    }
-            
-                    &::after {
-                        position: absolute;
-                        content: " ";
-                        top: 4px;
-                        left: 32px;
-                        width: 0;
-                        height: 0;
-                        border-top: 12px solid transparent;
-                        border-bottom: 12px solid transparent;
-                        border-right: 12px solid $ash_light;
-                        z-index: 9;
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover {
+
+                        &::before {
+                            position: absolute;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            content: "Invites";
+                            width: fit-content;
+                            top: 3px;
+                            left: 38px;
+                            padding: 6px 10px;
+                            background-color: $black;
+                            border-radius: 2px;
+                            @include worksans;
+                            letter-spacing: 0.05em;
+                            font-size: 12px;
+                            font-weight: 400;
+                            color: $font_light;
+                            z-index: 10;
+                        }
+                
+                        &::after {
+                            position: absolute;
+                            content: " ";
+                            top: 4px;
+                            left: 32px;
+                            width: 0;
+                            height: 0;
+                            border-top: 12px solid transparent;
+                            border-bottom: 12px solid transparent;
+                            border-right: 12px solid $black;
+                            z-index: 9;
+                        }
                     }
                 }
             }

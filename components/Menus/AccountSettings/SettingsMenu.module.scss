@@ -188,12 +188,14 @@
     color: $font_light;
 
     &Invites {
-        color: $hot_pink;
+        color: $hot_salmon;
         font-weight: 600;
 
     }
-    &:hover {
-        background-color: $fuel_10;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: $fuel_10;
+        }
     }
 
     .iconHolder {
