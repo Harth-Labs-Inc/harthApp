@@ -6,7 +6,6 @@ import {
     ChatButton,
     LeaveButton,
     MicButton,
-    MicButtonStream,
     MoreButton,
     StreamButton,
 } from "../Controls";

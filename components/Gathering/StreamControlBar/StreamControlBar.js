@@ -1,14 +1,5 @@
 import { useState, useContext, useRef } from "react";
 import { MobileContext } from "../../../contexts/mobile";
-import {
-    BagButton,
-    CameraButton,
-    ChatButton,
-    LeaveButton,
-    MicButton,
-    MoreButton,
-    StreamButton,
-} from "../Controls";
 import { MicButtonStream } from "../Controls/MicButtonStream";
 import { MoreButtonStream } from "../Controls/MoreButtonStream";
 import { StreamButtonStream } from "../Controls/StreamButtonStream";
@@ -17,27 +8,23 @@ import { LeaveButtonStream } from "../Controls/LeaveButtonStream";
 import { DiceBar } from "../GatherTools/DiceBar";
 import { MapBar } from "../GatherTools/MapBar";
 import { Modal } from "../../Common";
-import { IconPower } from "resources/icons/IconPower";
 
 import styles from "./streamControlBar.module.scss";
 
 const StreamControlBar = (props) => {
     const {
         onLeaveHandler,
-        onToggleVideo,
         onToggleAudio,
         onToggleScreenShare,
         captureIsActice,
         onToggleChat,
         diceRollHandler,
         changeAudioDevice,
-        changeVideoDevice,
         unreadMsg,
         roomId,
         mapChangeHandler,
         mapUpdate,
         hasAudioStream,
-        hasVideoStream,
         hasScreenShareStream,
     } = props;
     const [modal, setModal] = useState();
@@ -73,24 +60,6 @@ const StreamControlBar = (props) => {
                         ({ kind }) => kind == "audioinput"
                     );
                     setAudioList(audioInputs);
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
-        }
-    };
-
-    const onToggleVideoDevicesModal = () => {
-        if (videoList) {
-            setVideoList(null);
-        } else {
-            navigator?.mediaDevices
-                .enumerateDevices()
-                .then((devices) => {
-                    let videoInputs = devices.filter(
-                        ({ kind }) => kind == "videoinput"
-                    );
-                    setVideoList(videoInputs);
                 })
                 .catch((err) => {
                     console.error(err);

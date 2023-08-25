@@ -6,7 +6,6 @@ import { generateID } from "services/helper";
 import { useAuth } from "contexts/auth";
 import { MobileContext } from "contexts/mobile";
 import StreamControlBar from "components/Gathering/StreamControlBar/StreamControlBar";
-import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
