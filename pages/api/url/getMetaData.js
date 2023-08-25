@@ -10,7 +10,7 @@ const userAgents = [
 
 const getYoutubeEmbedLink = (link) => {
   const regex =
-    /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?.*v=([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/;
+    /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:watch\?.*v=|shorts\/)([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/;
   const match = link.match(regex);
   const videoId = match ? match[1] || match[2] : null;
   return videoId ? `https://www.youtube.com/embed/${videoId}` : null;

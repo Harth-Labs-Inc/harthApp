@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./ChatSingleMessage.module.scss";
+import axios from "axios";
 import Placeholder from "components/Common/placeholder/placeholder";
 import {
   fetchImage,
@@ -36,6 +37,8 @@ export const LinkPreview = ({ message }) => {
     "instagram.com",
     "amazon.com",
     "x.com",
+    "facebook.com",
+    "facebookuserprivacysettlement.com",
   ]);
 
   const isBlacklisted = (url) => {
@@ -178,39 +181,60 @@ export const LinkPreview = ({ message }) => {
             return;
           }
 
-          try {
-            // const opengraphIO = axios
-            //   .get(
-            //     `https://opengraph.io/api/1.1/site/${encodeURIComponent(
-            //       url
-            //     )}?accept_lang=auto&app_id=bc82985a-b469-4157-8620-76c822cab0c5`
-            //   )
-            //   .then(async (response) => {
-            //     if (response.data?.hybridGraph) {
-            //       console.log(response.data.hybridGraph, "opengraph");
-            //       const data = { ...response.data.hybridGraph };
-            //       setLinkData((prevData) => ({ ...prevData, ...data }));
-            //       await cacheData(url, data);
-            //     }
-            //   })
-            //   .catch((error) => {
-            //     console.log("Error from opengraphIO:", error.message);
-            //   });
+          const fetchOpenGraphIO = () => {
+            return axios.get(
+              `https://opengraph.io/api/1.1/site/${encodeURIComponent(
+                url
+              )}?accept_lang=auto&app_id=bc82985a-b469-4157-8620-76c822cab0c5`
+            );
+          };
 
-            getURLMetaData(url)
+          const fetchCustomAPI = () => {
+            return getURLMetaData(url);
+          };
+
+          const fetchData = async () => {
+            let dataReceivedFromCustomAPI = false;
+
+            const opengraphIOPromise = fetchOpenGraphIO()
               .then(async (response) => {
                 if (response.data?.hybridGraph) {
                   const data = { ...response.data.hybridGraph };
-                  setLinkData((prevData) => ({ ...prevData, ...data }));
-                  await cacheData(url, data);
+                  if (
+                    dataReceivedFromCustomAPI &&
+                    (!linkData.image || !linkData.video)
+                  ) {
+                    setLinkData((prevData) => ({ ...prevData, ...data }));
+                    await cacheData(url, data);
+                  } else if (!dataReceivedFromCustomAPI) {
+                    setLinkData((prevData) => ({ ...prevData, ...data }));
+                    await cacheData(url, data);
+                  }
                 }
               })
               .catch((error) => {
-                console.log("Error from yourAPI:", error);
+                console.log("Error from opengraphIO:", error.message);
               });
-          } catch (error) {
-            console.log("General error:", error);
-          }
+
+            const yourAPIPromise = fetchCustomAPI()
+              .then(async (response) => {
+                if (response.data?.hybridGraph) {
+                  dataReceivedFromCustomAPI = true;
+                  const data = { ...response.data.hybridGraph };
+                  if (!linkData || !linkData.image || !linkData.video) {
+                    setLinkData((prevData) => ({ ...prevData, ...data }));
+                    await cacheData(url, data);
+                  }
+                }
+              })
+              .catch((error) => {
+                console.log("Error from yourAPI:", error.message);
+              });
+
+            await Promise.all([opengraphIOPromise, yourAPIPromise]);
+          };
+
+          fetchData();
         }
       }
     };

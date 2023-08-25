@@ -517,6 +517,8 @@ const ChatSingleMessage = (props) => {
                           width="280"
                           height="280"
                           controls
+                          playsInline
+                          muted
                           src={urls[idx]}
                           type={fileType}
                         ></video>
