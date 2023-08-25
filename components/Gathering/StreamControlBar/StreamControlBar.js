@@ -8,7 +8,7 @@ import { LeaveButtonStream } from "../Controls/LeaveButtonStream";
 import { DiceBar } from "../GatherTools/DiceBar";
 import { MapBar } from "../GatherTools/MapBar";
 import { Modal } from "../../Common";
-import { IconPower } from "resources/icons/IconPower";
+//import { IconPower } from "resources/icons/IconPower";
 
 import styles from "./streamControlBar.module.scss";
 
