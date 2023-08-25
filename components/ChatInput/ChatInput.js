@@ -491,7 +491,7 @@ const ChatInput = (props) => {
             ref={fileRef}
             type="file"
             id="file-input"
-            accept="image/*,video/mp4,video/webm,video/ogg"
+            accept="image/*,video/mp4,video/webm,video/ogg,video/x-msvideo,video/quicktime,video/x-matroska,video/x-flv,video/3gpp,video/3gpp2,video/mpeg,video/x-ms-wmv"
             onChange={(e) => {
               const { files } = e.target;
               addAttachment(files[0]);
