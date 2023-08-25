@@ -5,7 +5,7 @@ import Script from "next/script";
 import { generateID } from "services/helper";
 import { useAuth } from "contexts/auth";
 import { MobileContext } from "contexts/mobile";
-
+import StreamControlBar from "components/Gathering/StreamControlBar/StreamControlBar";
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
@@ -1088,7 +1088,14 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         if (!parentContainer) {
           parentContainer = document.createElement("div");
           parentContainer.id = peer?.socketID;
-          parentContainer.className = styles.userContainer;
+          
+
+          if(isMobile) {
+            parentContainer.className = styles.userContainerMobile;
+          }
+          else {
+            parentContainer.className = styles.userContainer;
+          }
 
           const topContainer = document.createElement("div");
           topContainer.id = `${peer?.socketID}_TopContainer`;
@@ -1519,7 +1526,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           ></section>
         </section>
         <>
-          <GatherControlBar
+          <StreamControlBar
             onLeaveHandler={leaveRoom}
             onToggleAudio={toggleAudio}
             onToggleScreenShare={toggleCapture}

@@ -43,16 +43,15 @@ const GatherHeader = (props) => {
           ${styles.stream}
           ${isMobile ? styles.streamMobile : styles.streamDesktop}
         `}>
-          {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : null}
           <div className={styles.iconHolder}><RoomStream /></div>
-          <div className={styles.labelHolder}>{gatheringName} hello</div>
+          <div className={styles.labelHolder}>{gatheringName}</div>
 
-          {isMobile ? <div className={styles.mobileSpacer} /> : null}
+          {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : null}
         </div>
       ) : ( 
         <div className={`
           ${styles.basic}
-          ${isMobile ? styles.mobile : styles.desktop}
+          ${isMobile ? styles.basicMobile : styles.basicDesktop}
         `}>          
           
           {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : null}

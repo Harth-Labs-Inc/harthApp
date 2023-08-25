@@ -6,19 +6,23 @@ import {
     ChatButton,
     LeaveButton,
     MicButton,
-    MicButtonStream,
     MoreButton,
     StreamButton,
 } from "../Controls";
+import { MicButtonStream } from "../Controls/MicButtonStream";
+import { MoreButtonStream } from "../Controls/MoreButtonStream";
+import { StreamButtonStream } from "../Controls/StreamButtonStream";
+import { ChatButtonStream } from "../Controls/ChatButtonStream";
+import { LeaveButtonStream } from "../Controls/LeaveButtonStream";
 import { DiceBar } from "../GatherTools/DiceBar";
 import { MapBar } from "../GatherTools/MapBar";
 import { Modal } from "../../Common";
+import { IconPower } from "resources/icons/IconPower";
 
-import styles from "./gatheringControlBar.module.scss";
+import styles from "./streamControlBar.module.scss";
 
-const GatherControlBar = (props) => {
+const StreamControlBar = (props) => {
     const {
-        roomType = "party",
         onLeaveHandler,
         onToggleVideo,
         onToggleAudio,
@@ -151,97 +155,10 @@ const GatherControlBar = (props) => {
                 )}
             </div>
 
-            {(roomType == "stream") ? (
-            <>
-            {isMobile ? (
-                <header className={styles.streamMobile}>
-                    {roomType == "voice" && (
-                        <div className={styles.spacerLarge} />
-                    )}
-
-                    <MicButton
-                        onPress={onToggleAudio}
-                        audioList={audioList}
-                        changeAudioDevice={changeAudioDevice}
-                        clearAudioList={() => setAudioList(null)}
-                        isOn={hasAudioStream}
-                        isMobile={true}
-                    />
-
-                    <ChatButton
-                        unreadMsg={unreadMsg}
-                        onPress={onToggleChat}
-                        isMobile={true}
-                    />
-                </header>
-            ) : (
-                <header className={styles.streamDesktop}>
-
-                    <div className={styles.leftGroup}>
-                        <LeaveButton onPress={onLeaveHandler} />
-                        <div className={styles.optionsContainer}>
-                            <div className={styles.mainButton}>
-                                <MicButton
-                                    onPress={onToggleAudio}
-                                    audioList={audioList}
-                                    changeAudioDevice={changeAudioDevice}
-                                    clearAudioList={() => setAudioList(null)}
-                                    isOn={hasAudioStream}
-                                />
-                            </div>
-                            {AudioDeviceListCount.current > 1 ? (
-                                <div className={styles.moreButton}>
-                                    <MoreButton
-                                        onPress={onToggleAudioDevicesModal}
-                                        isActive={!!audioList}
-                                    />
-                                </div>
-                            ) : null}
-                        </div>
-                            <StreamButton
-                                onPress={onToggleScreenShare}
-                                show={captureIsActice}
-                                isOn={hasScreenShareStream}
-                            />
-                    </div>
-
-
-                        <ChatButton
-                            unreadMsg={unreadMsg}
-                            onPress={onToggleChat}
-                        />
-                    
-                </header>
-            )}
-</>
-
-            ) : (
-<>
-
             {isMobile ? (
                 <header className={styles.mobile}>
-                    {roomType == "voice" && (
-                        <div className={styles.spacerLarge} />
-                    )}
-                    {roomType == "party" && (
-                        <>
-                            <BagButton
-                                isMobile={true}
-                                onDicePress={togggleDiceModal}
-                                onMapPress={togggleMapModal}
-                            />
-                            <CameraButton
-                                onPress={onToggleVideo}
-                                videoList={videoList}
-                                changeVideoDevice={changeVideoDevice}
-                                clearVideoList={() => setVideoList(null)}
-                                isMobile={true}
-                                isOn={hasVideoStream}
-                            />
-                        </>
-                    )}
 
-                    <MicButton
+                    <MicButtonStream
                         onPress={onToggleAudio}
                         audioList={audioList}
                         changeAudioDevice={changeAudioDevice}
@@ -250,7 +167,7 @@ const GatherControlBar = (props) => {
                         isMobile={true}
                     />
 
-                    <ChatButton
+                    <ChatButtonStream
                         unreadMsg={unreadMsg}
                         onPress={onToggleChat}
                         isMobile={true}
@@ -258,36 +175,11 @@ const GatherControlBar = (props) => {
                 </header>
             ) : (
                 <header className={styles.desktop}>
-                    <LeaveButton onPress={onLeaveHandler} />
-
-                    <div className={styles.middleGroup}>
-                        {roomType == "party" ? (
-                            <div className={styles.optionsContainer}>
-                                <div className={styles.mainButton}>
-                                    <CameraButton
-                                        onPress={onToggleVideo}
-                                        videoList={videoList}
-                                        changeVideoDevice={changeVideoDevice}
-                                        clearVideoList={() =>
-                                            setVideoList(null)
-                                        }
-                                        isOn={hasVideoStream}
-                                    />
-                                </div>
-                                {VideoDeviceListCount.current > 1 ? (
-                                    <div className={styles.moreButton}>
-                                        <MoreButton
-                                            onPress={onToggleVideoDevicesModal}
-                                            isActive={!!videoList}
-                                        />
-                                    </div>
-                                ) : null}
-                            </div>
-                        ) : null}
-
+                    <div className={styles.leftGroup}>
+                    <LeaveButtonStream onPress={onLeaveHandler} />
                         <div className={styles.optionsContainer}>
                             <div className={styles.mainButton}>
-                                <MicButton
+                                <MicButtonStream
                                     onPress={onToggleAudio}
                                     audioList={audioList}
                                     changeAudioDevice={changeAudioDevice}
@@ -296,44 +188,32 @@ const GatherControlBar = (props) => {
                                 />
                             </div>
                             {AudioDeviceListCount.current > 1 ? (
-                                <div className={styles.moreButton}>
-                                    <MoreButton
+                                    <MoreButtonStream
                                         onPress={onToggleAudioDevicesModal}
                                         isActive={!!audioList}
                                     />
-                                </div>
+
                             ) : null}
                         </div>
-                        {roomType !== "voice" && (
-                            <StreamButton
+                            <StreamButtonStream
                                 onPress={onToggleScreenShare}
                                 show={captureIsActice}
                                 isOn={hasScreenShareStream}
                             />
-                        )}
-                        {roomType == "party" && (
-                            <BagButton
-                                onDicePress={togggleDiceModal}
-                                onMapPress={togggleMapModal}
-                            />
-                        )}
+
                     </div>
 
-                    {roomType == "voice" ? (
-                        <p className={styles.spacerSmall}></p>
-                    ) : (
-                        <ChatButton
+
+                        <ChatButtonStream
                             unreadMsg={unreadMsg}
                             onPress={onToggleChat}
                         />
-                    )}
                 </header>
             )}
-            </>
-            )}
+
 
         </>
     );
 };
 
-export default GatherControlBar;
+export default StreamControlBar;

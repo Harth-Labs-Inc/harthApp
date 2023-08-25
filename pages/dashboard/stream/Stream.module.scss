@@ -17,7 +17,7 @@
     &:before {
         font-family: "icomoon";
         content: "\e900";
-        color: rgba(252, 255, 246, 0.5);
+        color: $ash_light;
         font-weight: normal;
         font-variant: normal;
         text-transform: none;
@@ -47,6 +47,7 @@
 
     @media (max-width: 640px) {
         height: var(--vh);
+        
         z-index: 500;
     }
 
@@ -54,13 +55,14 @@
         position: relative;
         display: flex;
         flex-direction: row;
-        height: calc(100% - 108px);
+        height: calc(100% - 77px);
         width: 100%;
         //padding-top: 8px;
 
         &Mobile {
             flex-direction: column-reverse;
             justify-content: flex-end;
+            height: calc(100% - 108px);
         }
 
         .leftContainer {
@@ -73,10 +75,13 @@
             border-right: 1px solid $ash_medium;
 
             &Mobile {
-                width: calc(100% - 8px);
-                max-height: 50%;
+                width: 100%;
+                //max-height: 50%;
                 margin: 0;
                 overflow: auto;
+                padding-top: 16px;
+                background: $ash_heavy;
+                border: 0;
             }
         }
 
@@ -327,12 +332,12 @@
         .userContainerMobile {
             position: relative;
             width: 100%;
-            margin: 4px;
-            padding: 8px 8px;
-            border: 1px solid $white_10;
-            border-radius: 8px;
-            backdrop-filter: blur(8px);
-            background-color: $white_5;
+            padding: 2px 12px 2px 8px;
+            border-left: 4px solid transparent;
+            background-color: transparent;
+            margin-bottom: 10px;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;        
 
             .topContainer {
                 display: flex;
@@ -353,17 +358,17 @@
             }
 
             .peerName {
-                color: $white;
-                @include topicTitle;
+                color: $font_light;
+                @include topicTitleMobile;
             }
 
             .peerImage {
-                height: 44px;
-                width: 44px;
-                margin-right: 8px;
+                height: 40px;
+                width: 40px;
+                margin-right: 12px;
                 border-radius: 50%;
                 object-fit: cover;
-                border: 3px solid transparent;
+                border: 0
             }
 
             &.ownerVideo {
@@ -472,21 +477,23 @@
             .playButton {
                 display: block;
                 margin: 4px 0 0 auto;
-                padding: 6.5px 12px;
-                color: $white;
-                font-family: var(--Work_Sans-font);
+                padding: 8px 12px;
+                color: $hot_salmon;
+                @include worksans;
                 font-size: 12px;
                 font-weight: 500;
                 letter-spacing: 0.02em;
                 line-height: 125%;
-                background-color: $black_50;
-                border: 2px solid $hot_pink;
-                border-radius: 4px;
+                background: $ash_heavy;
+                border: 0;
+                border-radius: 99px;
                 cursor: pointer;
 
-                &:hover {
-                    //color: $hot_pink;
-                    background-color: $black_10;
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover {
+                        background: $hot_salmon;
+                        color: $font_light;
+                    }
                 }
             }
 

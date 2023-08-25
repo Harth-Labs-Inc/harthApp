@@ -4,67 +4,6 @@
 
 
 .basic {
-    .mobile {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        height: 44px;
-        min-height: 44px;
-        width: 100%;
-        padding: 0px 12px 0px 12px;
-        //background-color: $fuel;
-        z-index: 10;
-    
-        .mobileSpacer {
-            height: 28px;
-            width: 28px;
-            background: transparent;
-        }
-    
-        .labelHolder {
-            display: flex;
-            position: relative;
-            align-items: center;
-            column-gap: 8px;
-            @include roomTitle;
-            font-size: 14px;
-            color: $font_medium;
-            user-select: none;
-        }
-    
-    
-    }
-    
-    .desktop {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        height: 40px;
-        min-height: 40px;
-        width: 100%;
-        padding: 0px 16px 0px 16px;
-        z-index: 10;
-    
-        .labelHolder {
-            display: flex;
-            position: relative;
-            align-items: center;
-            column-gap: 8px;
-            @include roomTitle;
-            font-size: 14px;
-            color: $font_medium;
-            user-select: none;
-        }
-    }
-}
-
-.stream {
-
-
-
     &Mobile {
         display: flex;
         flex-direction: row;
@@ -102,10 +41,78 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: center;
+        height: 40px;
+        min-height: 40px;
+        width: 100%;
+        padding: 0px 16px 0px 16px;
+        z-index: 10;
+    
+        .labelHolder {
+            display: flex;
+            position: relative;
+            align-items: center;
+            column-gap: 8px;
+            @include roomTitle;
+            font-size: 14px;
+            color: $font_medium;
+            user-select: none;
+        }
+    }
+}
+
+.stream {
+
+
+    &Mobile {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        height: 48px;
+        min-height: 48px;
+        width: 100%;
+        padding: 0px 12px 0px 12px;
+        background-color: $ash;
+        border-bottom: 1px solid $ash_medium;
+        z-index: 10;
+    
+        .mobileSpacer {
+            height: 28px;
+            width: 28px;
+            background: transparent;
+        }
+
+        .iconHolder {
+            width: 40px;
+            min-width: 40px;
+            height: 32px;
+            padding-right: 8px;
+        }
+    
+        .labelHolder {
+            display: flex;
+            position: relative;
+            align-items: center;
+            column-gap: 8px;
+            @include roomTitle;
+            font-size: 14px;
+            color: $font_medium;
+            user-select: none;
+        }
+    
+    
+    }
+    
+    &Desktop {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         justify-content: flex-start;
-        height: 24px;
-        min-height: 24px;
-        max-height: 24px;
+        height: 28px;
+        min-height: 28px;
+        max-height: 28px;
         width: 240px;
         padding: 24px 12px 0px 12px;
         z-index: 10;
@@ -114,7 +121,7 @@
     
         .iconHolder {
             width: 40px;
-            max-width: 40px;
+            min-width: 40px;
             height: 32px;
             margin-right: 8px;
             padding-right: 8px;
