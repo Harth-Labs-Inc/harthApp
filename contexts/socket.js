@@ -73,11 +73,15 @@ export const SocketProvider = ({ children }) => {
     });
 
     tempSocket.on("connect", () => {
+      let shouldReloud = socketRef.current ? true : false;
       socketRef.current = tempSocket;
       setSocket(tempSocket);
       setReconnected((prev) => !prev);
       fetchUnreadData(user);
       setupListeners(tempSocket, user);
+      if (selectedCommRef.current?._id && shouldReloud) {
+        changeSelectedCommFromChild(selectedCommRef.current, true);
+      }
     });
 
     return tempSocket;
@@ -288,25 +292,14 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     function handleVisibilityChange() {
-      if (!document.hidden) {
-        console.log("visibility change", { selectedCommRef, selectedcomm });
-        if (selectedCommRef.current?._id) {
-          changeSelectedCommFromChild(selectedCommRef.current, true);
-        }
+      if (
+        !document.hidden &&
+        (!socketRef.current || !socketRef.current.connected)
+      ) {
         manageSocketConnection();
-      } else {
-        if (socketRef.current) {
-          socketRef.current.io.reconnection(false);
-          socketRef.current.disconnect();
-        }
       }
     }
-
     function handleOnline() {
-      console.log("online change", { selectedCommRef, selectedcomm });
-      if (selectedCommRef.current?._id) {
-        changeSelectedCommFromChild(selectedCommRef.current, true);
-      }
       manageSocketConnection();
     }
 
@@ -318,12 +311,11 @@ export const SocketProvider = ({ children }) => {
 
     manageSocketConnection();
 
-    window.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("online", handleOnline);
-
+    window.addEventListener("visibilitychange", handleVisibilityChange);
     return () => {
-      window.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("online", handleOnline);
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
 
       if (socket) {
         socket.disconnect();
