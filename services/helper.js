@@ -183,7 +183,7 @@ export const checkForFolder = (e) => {
 };
 
 export const checkForBadFile = (file) => {
-  let goodFiles = ["png", "jpg", "jpeg", "raw", "eps", "gimp", "heif"];
+  let goodFiles = ["png", "jpg", "jpeg", "raw", "eps", "gimp", "heif", "gif"];
   let isBadFile = true;
 
   if (file) {

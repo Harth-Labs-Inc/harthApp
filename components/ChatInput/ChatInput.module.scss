@@ -225,6 +225,15 @@
             width: 80px;
             border: 1px solid $fuel;
         }
+        .video{
+            position: relative;
+            z-index: 1;
+            border-radius: 8px;
+            height: 80px;
+            width: 80px;
+            border: 1px solid #271623;
+            object-fit: contain; 
+        }
         button {
             position: absolute;
             top: 0;

@@ -57,7 +57,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
           bucket: "community-profile-images",
           name: `${harth._id}_${updatedProfile.userId}_${new Date()}`,
         });
-        if (name) {
+        if (name && newFile.type !== "image/gif") {
           await compressImage(
             name,
             name,
@@ -66,8 +66,8 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
             150,
             150
           );
-          newIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${name}`;
         }
+        newIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${name}`;
       }
 
       let usersArr = [...harth.users];
