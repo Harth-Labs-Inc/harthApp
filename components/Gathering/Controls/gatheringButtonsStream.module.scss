@@ -86,15 +86,15 @@
 
 .basicButton {
     position: relative;
-    border-radius: 10px;
-    cursor: pointer;
-    border: solid 1px $black;
-    background-color: $ash_heavy;
+    
 
-    &Large {
-        padding: 10px;
-        height: 52px;
-        width: 52px;
+
+    &Mobile {
+        padding: 6px;
+        height: 48px;
+        width: 48px;
+        border: 0;
+        background-color: transparent;
 
         &:active {
             //border: solid 1px $white_80;
@@ -102,14 +102,21 @@
         }
     }
 
-    &Small {
-        padding: 10px;
-        height: 44px;
-        width: 44px;
+    &Desktop {
+        padding: 7px;
+        height: 36px;
+        width: 36px;
+        border: 0;
+        background-color: $ash_heavy;
+        border-radius: 4px;
+        cursor: pointer;
+        background: transparent;
 
-        &:hover {
-            //border: solid 1px $white_80;
-            background-color: $black;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                //border: solid 1px $white_80;
+                background-color: $ash_heavy;
+            }
         }
     }
 
@@ -191,18 +198,15 @@
     }
 }
 
-.streamButton {
+.chatButton {
     position: relative;
-    border-radius: 6px;
-    cursor: pointer;
-
 
     &Mobile {
-        padding: 10px;
-        height: 52px;
-        width: 52px;
-        border: solid 1px $black;
-        background-color: $ash;
+        padding: 6px;
+        height: 48px;
+        width: 48px;
+        border: 0;
+        background-color: transparent;
 
         &:active {
             //border: solid 1px $white_80;
@@ -211,25 +215,24 @@
     }
 
     &Desktop {
-        padding: 7px;
-        height: 36px;
-        width: 36px;
+        padding: 9px;
+        height: 40px;
+        width: 40px;
         border: 0;
-        background-color: $ash;
-        path {
-            fill: $ash_light;
-        }
+        border-radius: 99px;
+        cursor: pointer;
+        background: $ash;
+
+
 
         @media (hover: hover) and (pointer: fine) {
             &:hover {
                 //border: solid 1px $white_80;
-                background-color: $ash_heavy;
+                background-color: $black;
+
             }
         }
-
     }
-
-
 
 
     &Active {
@@ -256,6 +259,11 @@
                 fill: $ash_light;
             }
         }
+        // &:hover {
+        //     //border: solid 1px $white_80;
+        //     background-color: $ash;
+        // }
+
     }
 
     .unreadMsg {
@@ -263,29 +271,88 @@
         position: absolute;
         top: 3px;
         right: 3px;
-        height: 9px;
-        width: 9px;
+        height: 10px;
+        width: 10px;
         font-size: 0;
         background-color: $hot_pink;
-        border: 1px solid $ash;
+        border: 2px solid $ash;
         border-radius: 50%;
     }
 }
 
-.leaveButton {
+.controlButtonMobile {
     position: relative;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    border: 0;
+    //border: 1px solid $white_20;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: transparent;
+    background-color: $white_5;
+    path {
+        fill: $white_50;
+    }
+    &:active {
+        background-color: $ash;
+    }
+}
+
+.moreButton {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    border-radius: 99px;
+    cursor: pointer;
+    border: solid 1px $ash;
+    background: $ash_heavy;
+    transform: rotate(90deg);
+    padding: 0px;
+    height: 18px;
+    width: 18px;
+
+    path {
+        fill: $ash_medium;
+    }
 
     @media (hover: hover) and (pointer: fine) {
         &:hover {
+            background-color: $ash_medium;
+            path {
+                fill: $font_light;
+            }
+        }
+    }
+
+    &Active {
+        background-color: $ash_medium;
+        path {
+            fill: $font_light;
+        }
+    }
+}
+
+.defaultIcon {
+    path {
+        fill: $ash_light;
+    }
+}
+
+.streamButton {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background: $ash_heavy;
+
             &::before {
                 position: absolute;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                content: "Leave";
+                content: "Stream";
                 width: fit-content;
                 top: -36px;
-                left: 75%;
+                left: 50%;
                 -webkit-transform: translateX(-50%);
                 -moz-transform: translateX(-50%);
                 -ms-transform: translateX(-50%);
@@ -294,7 +361,7 @@
                 padding: 6px 10px;
                 background-color: $black;
                 border-radius: 2px;
-                @include rubik;
+                @include worksans;
                 letter-spacing: 0.05em;
                 font-size: 12px;
                 font-weight: 300;
@@ -323,59 +390,53 @@
     }
 }
 
-.controlButtonMobile {
-    position: relative;
-    height: 40px;
-    width: 40px;
-    padding: 10px;
-    border: 0;
-    //border: 1px solid $white_20;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: transparent;
+.leaveButton {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background: $ash_heavy;
 
-    path {
-        fill: $ash_light;
-    }
-    &:active {
-        background-color: $ash_heavy;
-    }
-}
+            &::before {
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                content: "Leave";
+                width: fit-content;
+                top: -36px;
+                left: 75%;
+                -webkit-transform: translateX(-50%);
+                -moz-transform: translateX(-50%);
+                -ms-transform: translateX(-50%);
+                -o-transform: translateX(-50%);
+                transform: translateX(-50%);
+                padding: 6px 10px;
+                background-color: $black;
+                border-radius: 2px;
+                @include worksans;
+                letter-spacing: 0.05em;
+                font-size: 12px;
+                font-weight: 300;
+                color: $font_light;
+                z-index: 10;
+            }
 
-.moreButton {
-    position: absolute;
-    top: -6px;
-    right: -4px;
-    border-radius: 6px;
-    cursor: pointer;
-    border: solid 1px $black;
-    background-color: $ash_heavy;
-    transform: rotate(90deg);
-    padding: 0px;
-    height: 18px;
-    width: 18px;
-
-    path {
-        fill: $ash_medium;
-    }
-
-    &:hover {
-        background-color: $ash;
-        path {
-            fill: $white_60;
+            &::after {
+                position: absolute;
+                content: " ";
+                top: -15px;
+                left: 50%;
+                -webkit-transform: translateX(-50%);
+                -moz-transform: translateX(-50%);
+                -ms-transform: translateX(-50%);
+                -o-transform: translateX(-50%);
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 12px solid transparent;
+                border-right: 12px solid transparent;
+                border-top: 12px solid $black;
+                z-index: 9;
+            }
         }
-    }
-
-    &Active {
-        background-color: $ash;
-        path {
-            fill: $white_60;
-        }
-    }
-}
-
-.defaultIcon {
-    path {
-        fill: $white_50;
     }
 }

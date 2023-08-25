@@ -150,6 +150,73 @@ const GatherControlBar = (props) => {
                 )}
             </div>
 
+            {(roomType == "stream") ? (
+            <>
+            {isMobile ? (
+                <header className={styles.streamMobile}>
+                    {roomType == "voice" && (
+                        <div className={styles.spacerLarge} />
+                    )}
+
+                    <MicButton
+                        onPress={onToggleAudio}
+                        audioList={audioList}
+                        changeAudioDevice={changeAudioDevice}
+                        clearAudioList={() => setAudioList(null)}
+                        isOn={hasAudioStream}
+                        isMobile={true}
+                    />
+
+                    <ChatButton
+                        unreadMsg={unreadMsg}
+                        onPress={onToggleChat}
+                        isMobile={true}
+                    />
+                </header>
+            ) : (
+                <header className={styles.streamDesktop}>
+
+                    <div className={styles.leftGroup}>
+                        <LeaveButton onPress={onLeaveHandler} />
+                        <div className={styles.optionsContainer}>
+                            <div className={styles.mainButton}>
+                                <MicButton
+                                    onPress={onToggleAudio}
+                                    audioList={audioList}
+                                    changeAudioDevice={changeAudioDevice}
+                                    clearAudioList={() => setAudioList(null)}
+                                    isOn={hasAudioStream}
+                                />
+                            </div>
+                            {AudioDeviceListCount.current > 1 ? (
+                                <div className={styles.moreButton}>
+                                    <MoreButton
+                                        onPress={onToggleAudioDevicesModal}
+                                        isActive={!!audioList}
+                                    />
+                                </div>
+                            ) : null}
+                        </div>
+                            <StreamButton
+                                onPress={onToggleScreenShare}
+                                show={captureIsActice}
+                                isOn={hasScreenShareStream}
+                            />
+                    </div>
+
+
+                        <ChatButton
+                            unreadMsg={unreadMsg}
+                            onPress={onToggleChat}
+                        />
+                    
+                </header>
+            )}
+</>
+
+            ) : (
+<>
+
             {isMobile ? (
                 <header className={styles.mobile}>
                     {roomType == "voice" && (
@@ -261,6 +328,9 @@ const GatherControlBar = (props) => {
                     )}
                 </header>
             )}
+            </>
+            )}
+
         </>
     );
 };

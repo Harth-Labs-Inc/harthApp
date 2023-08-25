@@ -5,8 +5,7 @@ import Script from "next/script";
 import { generateID } from "services/helper";
 import { useAuth } from "contexts/auth";
 import { MobileContext } from "contexts/mobile";
-
-import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
+import StreamControlBar from "components/Gathering/StreamControlBar/StreamControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
@@ -340,20 +339,20 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               if (!element) {
                 let myElement = document.getElementById(info?.peerId);
                 if (myElement) {
-                  myElement.style.border = "1px solid #e46eb1";
+                  myElement.style.borderColor = "#3cc8a3";
                 }
               } else {
-                element.style.border = "1px solid #e46eb1";
+                element.style.borderColor = "#3cc8a3";
               }
             } else {
               let element = document.getElementById(info?.socketID);
               if (!element) {
                 let myElement = document.getElementById(info?.peerId);
                 if (myElement) {
-                  myElement.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                  myElement.style.borderColor = "transparent";
                 }
               } else {
-                element.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                element.style.borderColor = "transparent";
               }
             }
           } else {
@@ -1088,7 +1087,14 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         if (!parentContainer) {
           parentContainer = document.createElement("div");
           parentContainer.id = peer?.socketID;
-          parentContainer.className = styles.userContainer;
+          
+
+          if(isMobile) {
+            parentContainer.className = styles.userContainerMobile;
+          }
+          else {
+            parentContainer.className = styles.userContainer;
+          }
 
           const topContainer = document.createElement("div");
           topContainer.id = `${peer?.socketID}_TopContainer`;
@@ -1475,6 +1481,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           selectedHarthIcon={selectedHarth?.iconKey}
           leaveMethod={leaveRoom}
           minimizeHandler={minimizeHandler}
+          type="stream"
         />
 
         <section
@@ -1518,7 +1525,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           ></section>
         </section>
         <>
-          <GatherControlBar
+          <StreamControlBar
             onLeaveHandler={leaveRoom}
             onToggleAudio={toggleAudio}
             onToggleScreenShare={toggleCapture}

@@ -60,3 +60,72 @@
         width: 52px;
     }
 }
+
+
+.stream {
+
+    &Desktop {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        grid-area: header;
+        padding: 0px 16px 0px 0px;
+        border: 0;
+        background-color: transparent;
+        //column-gap: 16px;
+    
+        .optionsContainer {
+            position: relative;
+    
+            .moreButton {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+            }
+        }
+    
+        .leftGroup {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: $ash;
+            width: 240px;
+            padding: 0px 8px;
+            border-top: 1px solid $ash_medium;
+            border-right: 1px solid $ash_medium;
+        }
+    
+        .spacerSmall {
+            width: 44px;
+            background-color: red;
+    
+        }
+    
+        .spacerLarge {
+            width: 52px;
+            background-color: red;
+    
+        }
+    }
+    
+    &Mobile {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        grid-area: header;
+        padding: 0px 8px 24px 0px;
+        //height:104px;
+        border: 0;
+        width: 100%;
+        //background-color: aqua;
+    
+        .spacerLarge {
+            display: flex;
+            width: 52px;
+        }
+    }
+    
+}
