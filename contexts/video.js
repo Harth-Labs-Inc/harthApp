@@ -26,33 +26,44 @@ export const VideoProvider = ({ children }) => {
   const connectSocket = (user) => {
     if (!user) return;
 
-    if (socketRef.current) {
-      socketRef.current.io.reconnection(false);
-      socketRef.current.disconnect();
-    }
+    disconnectSocket();
 
     const token = localStorage.getItem("token");
-    let URLS = videoSocketUrls;
-    const tempSocket = io.connect(URLS[process.env.NODE_ENV], {
+    const URL = videoSocketUrls[process.env.NODE_ENV];
+
+    const tempSocket = io.connect(URL, {
       transports: ["websocket"],
       query: { token },
       reconnection: true,
       reconnectionAttempts: Infinity,
       reconnectionDelay: 1000,
-      reconnectionDelayMax: 5000,
+      reconnectionDelayMax: 3000,
     });
 
     tempSocket.on("connect", () => {
+      if (document.hidden) {
+        tempSocket.disconnect();
+        return;
+      }
+
       socketRef.current = tempSocket;
       setSocket(tempSocket);
       setSocketID(tempSocket.id);
       setReconnected((prev) => !prev);
       setupListeners(tempSocket, user);
     });
+    tempSocket.on("error", () => {
+      disconnectSocket();
+    });
 
     return tempSocket;
   };
-
+  const disconnectSocket = () => {
+    if (socketRef.current) {
+      socketRef.current.io.reconnection = false;
+      socketRef.current.disconnect();
+    }
+  };
   const setupListeners = (socket, user) => {
     if (!socket || !user) return;
     socket.off("broadcast");
@@ -98,21 +109,23 @@ export const VideoProvider = ({ children }) => {
 
   useEffect(() => {
     function handleVisibilityChange() {
-      if (
-        !document.hidden &&
-        (!socketRef.current || !socketRef.current.connected)
-      ) {
-        manageSocketConnection(true);
+      const hidden = document.hidden;
+      const connected = socketRef.current?.connected;
+
+      if (!hidden) {
+        if (!connected) {
+          manageSocketConnection();
+        }
       }
     }
 
     function handleOnline() {
-      manageSocketConnection(true);
+      manageSocketConnection();
     }
 
-    const manageSocketConnection = (fullReload) => {
+    const manageSocketConnection = () => {
       if (navigator.onLine && !document.hidden) {
-        connectSocket(user, fullReload);
+        connectSocket(user);
       }
     };
 

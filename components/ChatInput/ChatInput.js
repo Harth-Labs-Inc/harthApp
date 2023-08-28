@@ -432,6 +432,8 @@ const ChatInput = (props) => {
           id={styles.ChatInputText}
           placeholder="say something"
           ref={textRef}
+          autoComplete="off"
+          autoCorrect="off"
           onChange={(e) => {
             inputHandler(e);
             calcHeight();
