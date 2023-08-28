@@ -79,11 +79,7 @@ export const SocketProvider = ({ children }) => {
         return;
       }
       console.log("Document is visible. setting new socket");
-
-      if (socketRef.current) {
-        rebuildData();
-      }
-
+      rebuildData();
       socketRef.current = tempSocket;
       setSocket(tempSocket);
       setReconnected((prev) => !prev);
@@ -280,7 +276,11 @@ export const SocketProvider = ({ children }) => {
           getUnreadMessages(user);
           break;
         case "reload same User unreads":
-          if (incomingUpdate.user_id === user._id) {
+          if (
+            incomingUpdate.user_id === user._id &&
+            incomingUpdate.senderSocketID &&
+            incomingUpdate.senderSocketID !== socketRef.current?.id
+          ) {
             getUnreadMessages(user);
           }
           break;
@@ -302,10 +302,11 @@ export const SocketProvider = ({ children }) => {
   };
   const rebuildData = () => {
     fetchUnreadData(user);
-    changeSelectedCommFromChild(selectedCommRef.current, true);
+    if (socketRef.current) {
+      changeSelectedCommFromChild(selectedCommRef.current, true);
+    }
   };
   const fetchUnreadData = (user) => {
-    console.log("repulling unreads");
     getUnreadMessages(user, true);
     getUnreadConvMessages(user);
   };
@@ -404,6 +405,7 @@ export const SocketProvider = ({ children }) => {
     });
   };
   const getUnreadMessages = (user, overideALL) => {
+    console.log("....pulling unreads");
     if (!ispullingUnreads) {
       setIspullingUnreads(true);
       getExistingUnreadMessages(user._id).then((results) => {
@@ -485,6 +487,7 @@ export const SocketProvider = ({ children }) => {
         getUnreadMessages,
         getUnreadConvMessages,
         newMessageIndicators: newMessageIndicators.current,
+        socketRef: socketRef.current,
       }}
     >
       {children}
