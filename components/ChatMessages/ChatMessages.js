@@ -33,6 +33,7 @@ const MessageWrapper = () => {
     incomingMsgUpdate,
     emitUpdateFromRef,
     newMessageIndicators,
+    socketRef,
   } = useSocket();
   const { user } = useAuth();
 
@@ -109,6 +110,7 @@ const MessageWrapper = () => {
         removeUnsavedMessages(selectedTopic._id, user._id).then(() => {
           let message = {};
           message.updateType = "reload same User unreads";
+          message.senderSocketID = socketRef?.id;
           message.topic_id = selectedTopic._id;
           message.user_id = user._id;
           emitUpdateFromRef(
@@ -150,6 +152,7 @@ const MessageWrapper = () => {
         removeUnsavedMessages(selectedTopic._id, user._id).then(() => {
           let message = {};
           message.updateType = "reload same User unreads";
+          message.senderSocketID = socketRef?.id;
           message.topic_id = selectedTopic._id;
           message.user_id = user._id;
           emitUpdateFromRef(
