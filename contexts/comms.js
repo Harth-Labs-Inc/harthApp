@@ -521,12 +521,6 @@ export const CommsProvider = ({
     setTopicChange(0);
   };
   const changeSelectedCommFromChild = (com, repullMessages) => {
-    console.log("page specific grab (topics/convs/rooms) ", {
-      com,
-      selectedCommRef,
-      selectedcomm,
-    });
-
     let isInChatOrDM = localStorage.getItem("isInChatOrDM");
 
     if (currentPage === "message") {

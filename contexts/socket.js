@@ -55,38 +55,54 @@ export const SocketProvider = ({ children }) => {
 
   const connectSocket = (user) => {
     if (!user) return;
-
-    if (socketRef.current) {
-      socketRef.current.io.reconnection(false);
-      socketRef.current.disconnect();
-    }
+    console.log("Attempting to connect socket...");
+    disconnectSocket();
 
     const token = localStorage.getItem("token");
-    const URLS = socketUrls;
-    const tempSocket = io.connect(URLS[process.env.NODE_ENV], {
+    const URL = socketUrls[process.env.NODE_ENV];
+
+    const tempSocket = io.connect(URL, {
       transports: ["websocket"],
       query: { token },
       reconnection: true,
       reconnectionAttempts: Infinity,
-      reconnectionDelay: 0,
-      reconnectionDelayMax: 2000,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 3000,
     });
 
     tempSocket.on("connect", () => {
-      let shouldReloud = socketRef.current ? true : false;
+      console.log("Socket connected.");
+
+      if (document.hidden) {
+        console.log("Document is hidden. Disconnecting socket.");
+        tempSocket.disconnect();
+        return;
+      }
+      console.log("Document is visible. setting new socket");
+
+      if (socketRef.current) {
+        rebuildData();
+      }
+
       socketRef.current = tempSocket;
       setSocket(tempSocket);
       setReconnected((prev) => !prev);
-      fetchUnreadData(user);
       setupListeners(tempSocket, user);
-      if (selectedCommRef.current?._id && shouldReloud) {
-        changeSelectedCommFromChild(selectedCommRef.current, true);
-      }
+    });
+
+    tempSocket.on("error", (err) => {
+      console.error("Socket encountered an error:", err);
+      disconnectSocket();
     });
 
     return tempSocket;
   };
-
+  const disconnectSocket = () => {
+    if (socketRef.current) {
+      socketRef.current.io.reconnection = false;
+      socketRef.current.disconnect();
+    }
+  };
   const setupListeners = (socket, user) => {
     if (!socket || !user) return;
     socket.off("new update");
@@ -284,22 +300,31 @@ export const SocketProvider = ({ children }) => {
 
     return;
   };
-
+  const rebuildData = () => {
+    fetchUnreadData(user);
+    changeSelectedCommFromChild(selectedCommRef.current, true);
+  };
   const fetchUnreadData = (user) => {
+    console.log("repulling unreads");
     getUnreadMessages(user, true);
     getUnreadConvMessages(user);
   };
 
   useEffect(() => {
     function handleVisibilityChange() {
-      if (
-        !document.hidden &&
-        (!socketRef.current || !socketRef.current.connected)
-      ) {
-        manageSocketConnection();
+      const hidden = document.hidden;
+      const connected = socketRef.current?.connected;
+
+      if (!hidden) {
+        if (!connected) {
+          console.log("good to reconnect");
+          manageSocketConnection();
+        }
       }
     }
+
     function handleOnline() {
+      console.log("now online");
       manageSocketConnection();
     }
 
