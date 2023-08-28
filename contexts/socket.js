@@ -276,11 +276,7 @@ export const SocketProvider = ({ children }) => {
           getUnreadMessages(user);
           break;
         case "reload same User unreads":
-          if (
-            incomingUpdate.user_id === user._id &&
-            incomingUpdate.senderSocketID &&
-            incomingUpdate.senderSocketID !== socketRef.current?.id
-          ) {
+          if (incomingUpdate.user_id === user._id) {
             getUnreadMessages(user);
           }
           break;
@@ -405,7 +401,6 @@ export const SocketProvider = ({ children }) => {
     });
   };
   const getUnreadMessages = (user, overideALL) => {
-    console.log("....pulling unreads");
     if (!ispullingUnreads) {
       setIspullingUnreads(true);
       getExistingUnreadMessages(user._id).then((results) => {
