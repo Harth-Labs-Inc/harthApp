@@ -322,17 +322,10 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           setChats((prevChats) => [newMsg, ...(prevChats || [])]);
         }
       });
-      // socket.on("party-event", (data) => {
-      //     setDiceAlerts((alerts) => [...alerts, data]);
-      // });
-      // socket.on("map-change", (data) => {
-      //     triggerMapUpdate((prevValue) => (prevValue += 1));
-      // });
       socket.on("userInfo-update", (info) => {
         if (info && ownerData.current) {
           userInfo.current = info;
           if (info.code == "isTalking") {
-            console.log("user change");
             let userData = info[info?.userName];
             if (userData.isTalking) {
               let element = document.getElementById(info?.socketID);
@@ -523,7 +516,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           userInfo.current[userName] &&
           !userInfo.current[userName].isTalking
         ) {
-          console.log("talking");
           socket &&
             socket.emit(
               "set-user-is-speaking",
@@ -574,7 +566,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         frameRate: { ideal: 60, max: 60 },
         logicalSurface: true,
       },
-      audio: false,
+      audio: true,
     }
   ) => {
     return new Promise((resolve) => {
@@ -984,27 +976,34 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       parentContainer.appendChild(audioContainer);
     }
   };
-  const createCapture = (incomingStream, peer, isPaused) => {
-    const parentContainer = document.getElementById("stream-window-container");
-    const videoContainer = document.createElement("div");
-    const video = document.createElement("video");
-    videoContainer.className = styles.videoContainer;
-    videoContainer.id = peer?.capturePeer;
-    video.srcObject = incomingStream;
-    video.id = `${peer?.socketID}_${peer?.capturePeer}`;
-    video.autoplay = true;
-    video.muted = true;
-    video.className = "video";
-    video.playsInline = true;
-
-    videoContainer.appendChild(video);
-    parentContainer.appendChild(videoContainer);
-    removeElement(`${peer?.socketID}_play-button`);
-    createStopButton(peer);
-    setPlayingStreams({
-      ...playingStreams,
-      [peer.socketID]: false,
-    });
+  const createCapture = (incomingStream, peer) => {
+    let existingVideo = document.getElementById(peer?.capturePeer);
+    if (!existingVideo) {
+      const parentContainer = document.getElementById(
+        "stream-window-container"
+      );
+      const videoContainer = document.createElement("div");
+      const video = document.createElement("video");
+      videoContainer.className = styles.videoContainer;
+      videoContainer.id = peer?.capturePeer;
+      video.srcObject = incomingStream;
+      video.id = `${peer?.socketID}_${peer?.capturePeer}`;
+      video.autoplay = true;
+      video.muted = true;
+      video.className = "video";
+      video.playsInline = true;
+      if (isMobile) {
+        video.controls = true;
+      }
+      videoContainer.appendChild(video);
+      parentContainer.appendChild(videoContainer);
+      removeElement(`${peer?.socketID}_play-button`);
+      createStopButton(peer);
+      setPlayingStreams({
+        ...playingStreams,
+        [peer.socketID]: false,
+      });
+    }
   };
   const createPlayButton = (peer) => {
     const parentContainer = document.getElementById(peer?.socketID);
@@ -1087,12 +1086,10 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         if (!parentContainer) {
           parentContainer = document.createElement("div");
           parentContainer.id = peer?.socketID;
-          
 
-          if(isMobile) {
+          if (isMobile) {
             parentContainer.className = styles.userContainerMobile;
-          }
-          else {
+          } else {
             parentContainer.className = styles.userContainer;
           }
 
@@ -1322,24 +1319,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }
     }
   };
-  // const toggleHDSwitch = () => {
-  //   try {
-  //     navigator.mediaDevices.getUserMedia({ audio: false, video: true });
-
-  //     navigator.mediaDevices.enumerateDevices().then((devices) => {
-  //       devices.forEach((device) => {
-  //         try {
-  //           if (device.kind == "videoinput") {
-  //             //   console.log(device, device?.getCapabilities());
-  //           }
-  //         } catch (error) {}
-  //       });
-  //     });
-  //   } catch (error) {
-  //     setNotHDCapable(true);
-  //   }
-  // };
-  // volume controls for users
   const volumeSliderHandler = (e, peer) => {
     const { value } = e.target;
     if (userInfo.current[peer.name]) {
@@ -1351,48 +1330,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       triggerUpdate();
     }
   };
-  // const createUnMuteButton = (peer) => {
-  //   removeElement(`${peer?.socketID}_mute-button`);
-  //   const parentContainer = document.getElementById(
-  //     `${peer?.socketID}_slider-container`
-  //   );
-  //   if (parentContainer) {
-  //     const button = document.createElement("button");
-  //     button.id = `${peer?.socketID}_mute-button`;
-  //     button.className = styles.unMuteButton;
-  //     button.setAttribute("aria-label", `unmute ${peer?.name}`);
-  //     button.setAttribute("data-title", `unmute ${peer?.name}`);
-  //     button.onclick = function () {
-  //       const audio = document.getElementById(`${peer?.peerId}_audio`);
-  //       if (audio) {
-  //         audio.play();
-  //         // createMuteButton(peer);
-  //       }
-  //     };
-  //     parentContainer.appendChild(button);
-  //   }
-  // };
-  // const createMuteButton = (peer) => {
-  //   removeElement(`${peer?.socketID}_mute-button`);
-  //   const parentContainer = document.getElementById(
-  //     `${peer?.socketID}_slider-container`
-  //   );
-  //   if (parentContainer) {
-  //     const button = document.createElement("button");
-  //     button.id = `${peer?.socketID}_mute-button`;
-  //     button.className = styles.muteButton;
-  //     button.setAttribute("aria-label", `mute ${peer?.name}`);
-  //     button.setAttribute("data-title", `mute ${peer?.name}`);
-  //     button.onclick = function () {
-  //       const audio = document.getElementById(`${peer?.peerId}_audio`);
-  //       if (audio) {
-  //         audio.pause();
-  //         createUnMuteButton(peer);
-  //       }
-  //     };
-  //     parentContainer.appendChild(button);
-  //   }
-  // };
   const createVolumeSlider = (peer) => {
     const parentContainer = document.getElementById(peer?.socketID);
     if (parentContainer) {
