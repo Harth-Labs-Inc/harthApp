@@ -78,7 +78,7 @@ export const SocketProvider = ({ children }) => {
         tempSocket.disconnect();
         return;
       }
-      console.log("Document is visible. setting new socket");
+      console.log("Document is visible setting new socket");
       rebuildData();
       socketRef.current = tempSocket;
       setSocket(tempSocket);
