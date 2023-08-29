@@ -44,7 +44,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const [harthId, setHarthId] = useState("");
   const [isActiveScreenShare, setIsActiveScreenShare] = useState(false);
   const [TurnServers, setTurnServers] = useState([]);
-  // const [diceAlerts, setDiceAlerts] = useState([]);
+  const [reconnected, setReconnected] = useState(false);
   const [playingStreams, setPlayingStreams] = useState({});
   const [userID, setUserID] = useState("");
   const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
@@ -62,52 +62,318 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const detectSpeakingIntervalId = useRef(null);
   const localCaptureStream = useRef();
   const userInfo = useRef();
+  const wakeLockRef = useRef(null);
+  const socketRef = useRef(null);
 
   const { user, loading, Comms } = useAuth();
 
-  useEffect(() => {
-    let wakeLock = null;
+  async function requestWakeLock() {
+    if (navigator && "wakeLock" in navigator) {
+      try {
+        const wakeLock = await navigator.wakeLock.request("screen");
+        wakeLockRef.current = wakeLock;
+      } catch (err) {
+        wakeLockRef.current = null;
+        console.error("Error acquiring wake lock:", err);
+      }
+    } else {
+      wakeLockRef.current = null;
+    }
+  }
+  const connectSocket = (user) => {
+    if (!user) return;
+    disconnectSocket();
 
-    async function requestWakeLock() {
-      if ("wakeLock" in navigator) {
-        try {
-          wakeLock = await navigator.wakeLock.request("screen");
-          console.log("Wake Lock acquired");
-        } catch (err) {
-          console.error("Error acquiring wake lock:", err);
+    const token = localStorage.getItem("token");
+    const URL = videoSocketUrls[process.env.NODE_ENV];
+
+    const tempSocket = io.connect(URL, {
+      transports: ["websocket"],
+      query: { token },
+      reconnection: true,
+      reconnectionAttempts: Infinity,
+      reconnectionDelay: 300,
+      reconnectionDelayMax: 2000,
+    });
+
+    tempSocket.on("connect", () => {
+      if (document.hidden) {
+        tempSocket.disconnect();
+        return;
+      }
+
+      socketRef.current = tempSocket;
+      setSocket(tempSocket);
+      setSocketID(tempSocket.id);
+      setReconnected((prev) => !prev);
+      setupListeners(tempSocket, user);
+    });
+
+    tempSocket.on("error", (err) => {
+      console.error("Socket encountered an error:", err);
+      disconnectSocket();
+    });
+
+    return tempSocket;
+  };
+  const disconnectSocket = () => {
+    if (socketRef.current) {
+      socketRef.current.io.reconnection = false;
+      socketRef.current.disconnect();
+    }
+  };
+  const setupListeners = (socket, user) => {
+    if (!socket || !user) return;
+    socket.off("broadcast");
+    socket.off("chat-update");
+    socket.off("incoming-chat-message");
+    socket.off("userInfo-update");
+
+    socket.on("broadcast", (data) => {
+      let { event, groupCallRooms, peers } = data;
+      switch (event) {
+        case "GROUP_CALL_ROOMS":
+          setCallRooms(groupCallRooms);
+          break;
+        case "GROUP_CALL_PEERS":
+          PEERS.current = peers;
+          triggerUpdate();
+          break;
+        default:
+          break;
+      }
+    });
+    socket.on("chat-update", (newMsg) => {
+      if (newMsg?.code == 8) {
+        removeElement(newMsg.socketID);
+        remoteUserLeft(newMsg);
+      }
+      if (newMsg?.code == 9) {
+        if (newMsg?.userID == user._id) {
+          if (localAudioStream.current) {
+            disconnectAudios();
+          }
+          if (localCaptureStream.current) {
+            disconnectCaptures();
+          }
+          let newMsg = {
+            value: `${userName} alternate device detected`,
+            code: 22,
+            userName: userName,
+            roomId: roomId,
+            date: new Date(),
+            creator_name: "Admin",
+            flames: [],
+            reactions: [],
+            attachments: [],
+            hidden: true,
+            ...ownerData.current,
+          };
+          sendNewChatMessage(newMsg);
+          leaveGroupCall();
+        }
+
+        if (localAudioStream.current) {
+          let options = {
+            metadata: {
+              streamID: localAudioStream.current.id,
+              priority: "high",
+              type: "audio",
+            },
+            sdpSemantics: "unified-plan",
+            prioritize: ["audio", "video"],
+          };
+
+          audioSharePeer.current.call(
+            newMsg.peerId,
+            localAudioStream.current,
+            options
+          );
+        }
+        if (localCaptureStream.current) {
+          ScreenSharePeer.current.call(
+            newMsg.capturePeer,
+            localCaptureStream.current
+          );
+        }
+      }
+      setChats((prevChats) => [newMsg, ...(prevChats || [])]);
+    });
+    socket.on("incoming-chat-message", (newMsg) => {
+      if (
+        newMsg?.code == 1 &&
+        newMsg?.socketID !== ownerData.current?.socketID
+      ) {
+        createPlayButton(newMsg);
+      }
+      if (newMsg?.code == 4) {
+        for (let conns in audioSharePeer.current.connections) {
+          audioSharePeer.current.connections[conns].forEach((conn) => {
+            if (conn.metadata?.streamID == newMsg.deleteID) {
+              if (conn.close) conn.close();
+            }
+          });
+        }
+        removeElement(newMsg.peerId);
+      }
+      if (newMsg?.code == 2) {
+        removeElement(`${newMsg?.socketID}_play-button`);
+        removeElement(newMsg.capturePeer);
+        for (let conns in ScreenSharePeer.current.connections) {
+          ScreenSharePeer.current.connections[conns].forEach((conn) => {
+            if (conn.metadata?.streamID == newMsg.deleteID) {
+              if (conn.close) conn.close();
+            }
+          });
+        }
+      }
+      if (newMsg?.code == 22) {
+        removeElement(newMsg?.socketID);
+      }
+      if (
+        newMsg?.code == 100 &&
+        newMsg?.callerID == ownerData.current?.socketID
+      ) {
+        if (localCaptureStream.current) {
+          ScreenSharePeer.current.call(
+            newMsg.capturePeer,
+            localCaptureStream.current
+          );
+        }
+      }
+      if (
+        newMsg?.code == 101 &&
+        newMsg?.callerID == ownerData.current?.socketID
+      ) {
+        createPlayButton(newMsg);
+      }
+      if (
+        newMsg?.code == 102 &&
+        newMsg?.callerID == ownerData.current?.socketID
+      ) {
+        for (let conns in ScreenSharePeer.current.connections) {
+          ScreenSharePeer.current.connections[conns].forEach((conn) => {
+            if (conn?.peer == newMsg.capturePeer) {
+              if (conn.close) {
+                conn.close();
+              }
+            }
+          });
+        }
+      }
+      if (!chatPannel.current) {
+        setUnreadMsg(true);
+      }
+      if (!newMsg?.ignoreInChat) {
+        setChats((prevChats) => [newMsg, ...(prevChats || [])]);
+      }
+    });
+    socket.on("userInfo-update", (info) => {
+      if (info && ownerData.current) {
+        userInfo.current = info;
+        if (info.code == "isTalking") {
+          let userData = info[info?.userName];
+          if (userData.isTalking) {
+            let element = document.getElementById(info?.socketID);
+            if (!element) {
+              let myElement = document.getElementById(info?.peerId);
+              if (myElement) {
+                myElement.style.borderColor = "#3cc8a3";
+              }
+            } else {
+              element.style.borderColor = "#3cc8a3";
+            }
+          } else {
+            let element = document.getElementById(info?.socketID);
+            if (!element) {
+              let myElement = document.getElementById(info?.peerId);
+              if (myElement) {
+                myElement.style.borderColor = "transparent";
+              }
+            } else {
+              element.style.borderColor = "transparent";
+            }
+          }
+        } else {
+          let match = Object.values(info).find(
+            (usr) => usr.screenShare === true
+          );
+          if (typeof isActiveScreenShare !== typeof match) {
+            setIsActiveScreenShare(match);
+          }
+        }
+      }
+    });
+
+    return;
+  };
+  const manageSocketConnection = () => {
+    if (navigator && navigator.onLine && !document.hidden) {
+      connectSocket(user);
+    }
+  };
+  const updateUserVisibility = (isHidden) => {
+    socketRef.current &&
+      socketRef.current.emit(
+        "user-visibility-change",
+        {
+          userName,
+          roomId,
+          isHidden,
+        },
+        () => {}
+      );
+  };
+
+  useEffect(() => {
+    requestWakeLock();
+    return () => {
+      if (wakeLockRef.current !== null) {
+        wakeLockRef.current.release().then(() => {
+          wakeLockRef.current = null;
+        });
+      }
+      stopDetectSpeaking();
+    };
+  }, []);
+
+  useEffect(() => {
+    function handleVisibilityChange() {
+      const hidden = document.hidden;
+      const connected = socketRef.current?.connected;
+      updateUserVisibility(hidden);
+      if (!hidden) {
+        requestWakeLock();
+        if (!connected) {
+          manageSocketConnection();
         }
       } else {
-        console.warn("Wake Lock API is not supported on this browser/device.");
-      }
-    }
-
-    function handleVisibilityChange() {
-      if (document.visibilityState === "visible") {
-        requestWakeLock();
-      } else {
-        if (wakeLock !== null) {
-          wakeLock.release().then(() => {
-            console.log("Wake Lock released due to visibility change");
-            wakeLock = null;
+        if (wakeLockRef.current !== null) {
+          wakeLockRef.current.release().then(() => {
+            wakeLockRef.current = null;
           });
         }
       }
     }
 
-    requestWakeLock();
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    function handleOnline() {
+      manageSocketConnection();
+    }
 
-    return () => {
-      if (wakeLock !== null) {
-        wakeLock.release().then(() => {
-          console.log("Wake Lock released");
-          wakeLock = null;
-        });
-      }
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      stopDetectSpeaking();
-    };
-  }, []);
+    if (userName && roomId) {
+      window.addEventListener("online", handleOnline);
+      window.addEventListener("visibilitychange", handleVisibilityChange);
+      return () => {
+        window.removeEventListener("online", handleOnline);
+        window.removeEventListener("visibilitychange", handleVisibilityChange);
+
+        if (socket) {
+          socket.disconnect();
+          setSocket(null);
+        }
+      };
+    }
+  }, [userName, roomId]);
 
   useEffect(() => {
     if (!loading && user) {
@@ -120,9 +386,10 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           ROOMID = parsedRoom.room_id;
           HARTHID = parsedRoom.harth_id;
         } catch (error) {
-          console.log(error);
-          ROOMID = null;
-          HARTHID = null;
+          const queryString = window.location.search;
+          const urlParams = new URLSearchParams(queryString);
+          ROOMID = urlParams.get("room_id");
+          HARTHID = urlParams.get("harth_id");
         }
       } else {
         const queryString = window.location.search;
@@ -153,15 +420,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               .get(`${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`)
               .then((responseData) => {
                 setTurnServers(responseData.data.token.iceServers);
-                const token = localStorage.getItem("token");
-                setSocket(
-                  io.connect(URLS[process.env.NODE_ENV], {
-                    transports: ["websocket"],
-                    query: {
-                      token,
-                    },
-                  })
-                );
+                manageSocketConnection();
               })
               .catch((err) => {
                 console.error(err);
@@ -179,195 +438,12 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   }, [loading, user, isMobile]);
 
   useEffect(() => {
-    if (socket) {
-      socket.on("connection", () => {
-        setSocketID(socket.id);
-      });
-      socket.on("broadcast", (data) => {
-        let { event, groupCallRooms, peers } = data;
-        switch (event) {
-          case "GROUP_CALL_ROOMS":
-            setCallRooms(groupCallRooms);
-            break;
-          case "GROUP_CALL_PEERS":
-            PEERS.current = peers;
-            triggerUpdate();
-            break;
-          default:
-            break;
-        }
-      });
-      socket.on("chat-update", (newMsg) => {
-        if (newMsg?.code == 8) {
-          removeElement(newMsg.socketID);
-          remoteUserLeft(newMsg);
-        }
-        if (newMsg?.code == 9) {
-          if (newMsg?.userID == user._id) {
-            if (localAudioStream.current) {
-              disconnectAudios();
-            }
-            if (localCaptureStream.current) {
-              disconnectCaptures();
-            }
-            let newMsg = {
-              value: `${userName} alternate device detected`,
-              code: 22,
-              userName: userName,
-              roomId: roomId,
-              date: new Date(),
-              creator_name: "Admin",
-              flames: [],
-              reactions: [],
-              attachments: [],
-              hidden: true,
-              ...ownerData.current,
-            };
-            sendNewChatMessage(newMsg);
-            leaveGroupCall();
-          }
-
-          if (localAudioStream.current) {
-            let options = {
-              metadata: {
-                streamID: localAudioStream.current.id,
-                priority: "high",
-                type: "audio",
-              },
-              sdpSemantics: "unified-plan",
-              prioritize: ["audio", "video"],
-            };
-
-            audioSharePeer.current.call(
-              newMsg.peerId,
-              localAudioStream.current,
-              options
-            );
-          }
-          if (localCaptureStream.current) {
-            ScreenSharePeer.current.call(
-              newMsg.capturePeer,
-              localCaptureStream.current
-            );
-          }
-        }
-        setChats((prevChats) => [newMsg, ...(prevChats || [])]);
-      });
-      socket.on("incoming-chat-message", (newMsg) => {
-        if (
-          newMsg?.code == 1 &&
-          newMsg?.socketID !== ownerData.current?.socketID
-        ) {
-          createPlayButton(newMsg);
-        }
-        if (newMsg?.code == 4) {
-          for (let conns in audioSharePeer.current.connections) {
-            audioSharePeer.current.connections[conns].forEach((conn) => {
-              if (conn.metadata?.streamID == newMsg.deleteID) {
-                if (conn.close) conn.close();
-              }
-            });
-          }
-          removeElement(newMsg.peerId);
-        }
-        if (newMsg?.code == 2) {
-          removeElement(`${newMsg?.socketID}_play-button`);
-          removeElement(newMsg.capturePeer);
-          for (let conns in ScreenSharePeer.current.connections) {
-            ScreenSharePeer.current.connections[conns].forEach((conn) => {
-              if (conn.metadata?.streamID == newMsg.deleteID) {
-                if (conn.close) conn.close();
-              }
-            });
-          }
-        }
-        if (newMsg?.code == 22) {
-          removeElement(newMsg?.socketID);
-        }
-        if (
-          newMsg?.code == 100 &&
-          newMsg?.callerID == ownerData.current?.socketID
-        ) {
-          if (localCaptureStream.current) {
-            ScreenSharePeer.current.call(
-              newMsg.capturePeer,
-              localCaptureStream.current
-            );
-          }
-        }
-        if (
-          newMsg?.code == 101 &&
-          newMsg?.callerID == ownerData.current?.socketID
-        ) {
-          createPlayButton(newMsg);
-        }
-        if (
-          newMsg?.code == 102 &&
-          newMsg?.callerID == ownerData.current?.socketID
-        ) {
-          for (let conns in ScreenSharePeer.current.connections) {
-            ScreenSharePeer.current.connections[conns].forEach((conn) => {
-              if (conn?.peer == newMsg.capturePeer) {
-                if (conn.close) {
-                  conn.close();
-                }
-              }
-            });
-          }
-        }
-        if (!chatPannel.current) {
-          setUnreadMsg(true);
-        }
-        if (!newMsg?.ignoreInChat) {
-          setChats((prevChats) => [newMsg, ...(prevChats || [])]);
-        }
-      });
-      socket.on("userInfo-update", (info) => {
-        if (info && ownerData.current) {
-          userInfo.current = info;
-          if (info.code == "isTalking") {
-            let userData = info[info?.userName];
-            if (userData.isTalking) {
-              let element = document.getElementById(info?.socketID);
-              if (!element) {
-                let myElement = document.getElementById(info?.peerId);
-                if (myElement) {
-                  myElement.style.borderColor = "#3cc8a3";
-                }
-              } else {
-                element.style.borderColor = "#3cc8a3";
-              }
-            } else {
-              let element = document.getElementById(info?.socketID);
-              if (!element) {
-                let myElement = document.getElementById(info?.peerId);
-                if (myElement) {
-                  myElement.style.borderColor = "transparent";
-                }
-              } else {
-                element.style.borderColor = "transparent";
-              }
-            }
-          } else {
-            let match = Object.values(info).find(
-              (usr) => usr.screenShare === true
-            );
-            if (typeof isActiveScreenShare !== typeof match) {
-              setIsActiveScreenShare(match);
-            }
-          }
-        }
-      });
-    }
-  }, [socket]);
-
-  useEffect(() => {
-    if (socketID && !audioSharePeer.current) {
+    if (socketRef.current?.id) {
       if (userName && roomId && typeof window !== "undefined") {
         createPeerObjects({ userName, userIcon, roomId });
       }
     }
-  }, [socketID]);
+  }, [socketRef.current?.connected, reconnected]);
 
   useEffect(() => {
     let tempactiveCallRoom = {};
@@ -516,8 +592,8 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           userInfo.current[userName] &&
           !userInfo.current[userName].isTalking
         ) {
-          socket &&
-            socket.emit(
+          socketRef.current &&
+            socketRef.current.emit(
               "set-user-is-speaking",
               {
                 harthId,
@@ -535,8 +611,8 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           userInfo.current[userName] &&
           userInfo.current[userName].isTalking
         ) {
-          socket &&
-            socket.emit(
+          socketRef.current &&
+            socketRef.current.emit(
               "set-user-is-not-speaking",
               {
                 harthId,
@@ -620,7 +696,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }),
       createPeerConnection({
         iceServers: [...TurnServers],
-        videoBitrate: 5000,
+        videoBitrate: 3500,
         sdpSemantics: "unified-plan",
         video: {
           codecs: [
@@ -673,15 +749,19 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     joinRoomSocket(obj);
   };
   const joinRoomSocket = (obj) => {
-    socket &&
-      socket.emit("group-call-join-request", obj, ({ peers, chats }) => {
-        PEERS.current = peers;
-        ownerData.current = obj;
-        triggerUpdate();
-        setPeerContainers(obj);
-        connectToUsers(peers, obj);
-        setChats(chats);
-      });
+    socketRef.current &&
+      socketRef.current.emit(
+        "group-call-join-request",
+        obj,
+        ({ peers, chats }) => {
+          PEERS.current = peers;
+          ownerData.current = obj;
+          triggerUpdate();
+          setPeerContainers(obj);
+          connectToUsers(peers, obj);
+          setChats(chats);
+        }
+      );
   };
   const connectToUsers = async (peers, obj) => {
     let audioStream = await getLocalAudioStream();
@@ -902,8 +982,8 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     detectSpeakingIntervalId.current = null;
     localStreamAnalyser.current?.disconnect();
     localStreamSource.current?.disconnect();
-    socket &&
-      socket.emit(
+    socketRef.current &&
+      socketRef.current.emit(
         "set-user-is-not-speaking",
         {
           harthId,
@@ -933,8 +1013,8 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     }
   };
   const sendNewChatMessage = (message) => {
-    socket &&
-      socket.emit("send-chat-message", message, () => {
+    socketRef.current &&
+      socketRef.current.emit("send-chat-message", message, () => {
         setChats((prevChats) => [message, ...(prevChats || [])]);
       });
   };
@@ -1059,10 +1139,13 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
                     callerID: peer?.socketID,
                     ...ownerData.current,
                   };
+                  let peermatch = PEERS.current?.find(
+                    (p) => p.userID == peer.userID
+                  );
                   sendNewChatMessage(newMsg);
-                  removeElement(`${peer?.socketID}_play-button`);
-                  removeElement(peer?.capturePeer);
-                  createPlayButton(peer);
+                  removeElement(`${peermatch?.socketID}_play-button`);
+                  removeElement(peermatch?.capturePeer);
+                  createPlayButton(peermatch);
                   conn.close();
                 }
               }
@@ -1079,45 +1162,88 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       Container.remove();
     }
   };
+  const replacePeersIds = ({
+    badCaptureId,
+    badSocketId,
+    capturePeer,
+    socketID,
+  }) => {
+    let parentContainer = document.getElementById(badSocketId);
+    let topContainer = document.getElementById(`${badSocketId}_TopContainer`);
+    let volumeButton = document.getElementById(`${badSocketId}_volume-button`);
+    let existingVideoContainer = document.getElementById(badCaptureId);
+    let existingVideo = document.getElementById(
+      `${badSocketId}_${badCaptureId}`
+    );
+    let playButton = document.getElementById(`${badSocketId}_play-button`);
+
+    if (parentContainer && socketID) {
+      parentContainer.id = socketID;
+    }
+    if (topContainer && socketID) {
+      topContainer.id = `${socketID}_TopContainer`;
+    }
+    if (volumeButton && socketID) {
+      volumeButton.id = `${socketID}_volume-button`;
+    }
+    if (existingVideoContainer && socketID) {
+      existingVideoContainer.id = capturePeer;
+    }
+    if (existingVideo && socketID) {
+      existingVideo.id = `${socketID}_${capturePeer}`;
+    }
+    if (playButton && socketID) {
+      playButton.id = `${socketID}_play-button`;
+    }
+  };
   const setPeerContainers = (owner) => {
     PEERS.current?.forEach((peer) => {
       if (socketID && peer) {
-        let parentContainer = document.getElementById(peer?.socketID);
-        if (!parentContainer) {
-          parentContainer = document.createElement("div");
-          parentContainer.id = peer?.socketID;
+        if (
+          (peer.isReconnectingPeer &&
+            document.getElementById(peer?.badSocketId)) ||
+          document.querySelector(`[data-userName="${peer.userName}"]`)
+        ) {
+          replacePeersIds(peer);
+        } else {
+          let parentContainer = document.getElementById(peer?.socketID);
+          if (!parentContainer) {
+            parentContainer = document.createElement("div");
+            parentContainer.id = peer?.socketID;
+            parentContainer.setAttribute("data-userName", peer?.userName);
 
-          if (isMobile) {
-            parentContainer.className = styles.userContainerMobile;
-          } else {
-            parentContainer.className = styles.userContainer;
+            if (isMobile) {
+              parentContainer.className = styles.userContainerMobile;
+            } else {
+              parentContainer.className = styles.userContainer;
+            }
+
+            const topContainer = document.createElement("div");
+            topContainer.id = `${peer?.socketID}_TopContainer`;
+            topContainer.className = styles.topContainer;
+
+            const profileContainer = document.createElement("span");
+            profileContainer.className = styles.profileContainer;
+
+            const profileImage = document.createElement("img");
+            profileImage.src = peer?.img;
+            profileImage.className = styles.peerImage;
+            profileContainer.append(profileImage);
+
+            const nameContainer = document.createElement("p");
+            const nameText = document.createTextNode(peer?.name);
+            nameContainer.className = styles.peerName;
+            nameContainer.appendChild(nameText);
+            profileContainer.append(nameContainer);
+
+            topContainer.append(profileContainer);
+            parentContainer.append(topContainer);
+
+            const roomContainer = document.getElementById("leftcontainer");
+            roomContainer.append(parentContainer);
           }
-
-          const topContainer = document.createElement("div");
-          topContainer.id = `${peer?.socketID}_TopContainer`;
-          topContainer.className = styles.topContainer;
-
-          const profileContainer = document.createElement("span");
-          profileContainer.className = styles.profileContainer;
-
-          const profileImage = document.createElement("img");
-          profileImage.src = peer?.img;
-          profileImage.className = styles.peerImage;
-          profileContainer.append(profileImage);
-
-          const nameContainer = document.createElement("p");
-          const nameText = document.createTextNode(peer?.name);
-          nameContainer.className = styles.peerName;
-          nameContainer.appendChild(nameText);
-          profileContainer.append(nameContainer);
-
-          topContainer.append(profileContainer);
-          parentContainer.append(topContainer);
-
-          const roomContainer = document.getElementById("leftcontainer");
-          roomContainer.append(parentContainer);
+          createVolumeContainer(peer, owner);
         }
-        createVolumeContainer(peer, owner);
       }
     });
   };
@@ -1259,8 +1385,8 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const leaveGroupCall = (data) => {
     reset();
     return new Promise((res, rej) => {
-      socket &&
-        socket.emit("group-call-user-left", data, (response) => {
+      socketRef.current &&
+        socketRef.current.emit("group-call-user-left", data, (response) => {
           if (response.ok) {
             res(true);
             try {
@@ -1402,7 +1528,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   if (ownerData.current) {
     setPeerContainers(ownerData.current);
   }
-
   return (
     <>
       <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />

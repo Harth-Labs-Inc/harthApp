@@ -66,8 +66,8 @@ export const SocketProvider = ({ children }) => {
       query: { token },
       reconnection: true,
       reconnectionAttempts: Infinity,
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 3000,
+      reconnectionDelay: 300,
+      reconnectionDelayMax: 2000,
     });
 
     tempSocket.on("connect", () => {
