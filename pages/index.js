@@ -100,18 +100,44 @@ const dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (swReg && "pushManager" in swReg && user && !SUBSCRIPTION) {
-      let hasDeniedNotifications = localStorage.getItem(
+    async function checkSubscription() {
+      if (swReg && "pushManager" in swReg && user) {
+        const subscription = await swReg.pushManager.getSubscription();
+
+        if (
+          subscription &&
+          (!SUBSCRIPTION || subscription.endpoint !== SUBSCRIPTION.sub.endpoint)
+        ) {
+          saveCurrentSubscription(subscription);
+        } else if (!subscription) {
+          showNotificationButtonIfNotDenied();
+        }
+      }
+    }
+
+    function saveCurrentSubscription(subscription) {
+      let deviceKey = localStorage.getItem("deviceKey");
+      if (!deviceKey) {
+        deviceKey = generateID();
+        localStorage.setItem("deviceKey", deviceKey);
+      }
+      saveUserSubscription({
+        sub: subscription,
+        userId: user._id,
+        deviceKey,
+      });
+    }
+
+    function showNotificationButtonIfNotDenied() {
+      const hasDeniedNotifications = localStorage.getItem(
         "hasDeniedNotifications"
       );
       if (!hasDeniedNotifications) {
         setShowNotButton(true);
       }
-
-      return () => {
-        setShowNotButton(false);
-      };
     }
+
+    checkSubscription();
   }, [swReg, user, SUBSCRIPTION]);
 
   useEffect(() => {

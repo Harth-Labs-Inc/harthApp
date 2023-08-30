@@ -1,6 +1,30 @@
 @import "../../../../styles/globals.scss";
 @import "../../../../styles/fonts.scss";
 
+
+.participantElement {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    border:0;
+    &:not(:last-child) {
+        margin-bottom: -6px;
+    }
+    .avatar {
+        height: 25px;
+        width: 25px;
+        border-radius: 9999px;
+        border:0;
+        border: 2px solid $ash;
+        user-select: none;
+    }
+}
+
 .listHolder{
     display: flex;
     flex-direction: column;
@@ -41,6 +65,19 @@
         padding: 0px 16px 0px 16px;
         @include topicTitle;
 
+    }
+    .individualConvRow {
+        display: flex;
+        flex-direction: row;
+        justify-content:space-between;
+        align-items: center;
+        background-color: $ash_medium;
+        color: $font_light;
+        border-radius: 6px;
+        width: 100%;
+        height: max-content;
+        padding: 0px 16px 0px 16px;
+        @include topicTitle; 
     }
 
     .chatListHolder{

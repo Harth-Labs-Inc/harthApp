@@ -63,6 +63,9 @@ const ConversationListElement = (props) => {
         {conversation.OriginalUsers
           ? conversation.OriginalUsers?.map((e) => {
               if (e.userId !== profile.userId) {
+                let creator = selectedcomm.users?.find(
+                  (usr) => usr.userId === e.userId
+                );
                 return (
                   <div key={e.userId} className={styles.participantElement}>
                     <img
@@ -71,7 +74,7 @@ const ConversationListElement = (props) => {
                                   ${isMobile && styles.avatarMobile} 
                                   ${selectedcomm?._id}_${e.userId}
                                   `}
-                      src={e.iconKey}
+                      src={creator?.iconKey}
                       loading="eager"
                     />
                     <div
@@ -80,7 +83,7 @@ const ConversationListElement = (props) => {
                         `${selectedcomm._id}_${e.userId}_name`,
                       ].join(" ")}
                     >
-                      {e.name}
+                      {creator?.name}
                     </div>
                   </div>
                 );
@@ -88,6 +91,9 @@ const ConversationListElement = (props) => {
               return null;
             })
           : conversation.users?.map((e) => {
+              let creator = selectedcomm.users?.find(
+                (usr) => usr.userId === e.userId
+              );
               if (e.userId == profile?.userId) {
                 return (
                   <div key={e.userId} className={styles.participantElement}>
@@ -99,7 +105,7 @@ const ConversationListElement = (props) => {
                         profile?.userId
                       }
                                             `}
-                      src={profile?.iconKey}
+                      src={creator?.iconKey}
                       loading="eager"
                     />
                     <div
@@ -108,7 +114,7 @@ const ConversationListElement = (props) => {
                         `${selectedcomm._id}_${profile?.userId}_name`,
                       ]}
                     >
-                      {profile?.name}
+                      {creator?.name}
                     </div>
                   </div>
                 );
@@ -121,7 +127,7 @@ const ConversationListElement = (props) => {
                                 ${isMobile && styles.avatarMobile} 
                                 ${selectedcomm?._id}_${e.userId}
                                 `}
-                    src={e.iconKey}
+                    src={creator?.iconKey}
                     loading="eager"
                   />
                   <div
@@ -130,7 +136,7 @@ const ConversationListElement = (props) => {
                       `${selectedcomm._id}_${e.userId}_name`,
                     ].join(" ")}
                   >
-                    {e.name}
+                    {creator?.name}
                   </div>
                 </div>
               );

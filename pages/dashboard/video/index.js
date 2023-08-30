@@ -108,6 +108,11 @@ const Video = () => {
 
       try {
         let pushmessage = generatePushMessage(pushData);
+        let receiverIds = selectedcomm?.users
+          .filter((obj) => obj.userId !== user._id)
+          .map((obj) => obj.userId);
+
+        pushmessage.receiverIds = receiverIds;
         sendPushNotification(pushmessage);
       } catch (error) {
         console.log(error);
@@ -171,7 +176,9 @@ const Video = () => {
         )}
         <div
           className={
-            isMobile ? styles.gatheringSectionMobile : styles.gatheringSectionTop
+            isMobile
+              ? styles.gatheringSectionMobile
+              : styles.gatheringSectionTop
           }
         >
           GATHERINGS

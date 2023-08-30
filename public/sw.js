@@ -51,9 +51,7 @@ self.addEventListener("push", function (event) {
     },
   };
 
-  if (data.title !== "admin-rewake") {
-    event.waitUntil(self.registration.showNotification(data.title, options));
-  }
+  event.waitUntil(self.registration.showNotification(data.title, options));
 });
 
 self.addEventListener("notificationclick", function (event) {

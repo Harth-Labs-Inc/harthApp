@@ -296,6 +296,10 @@ export const ConversationMessages = () => {
           ignoreSelf: true,
           type: "message",
         });
+        let receiverIds = selectedConversation.users
+          ?.filter((obj) => obj.userId !== user._id)
+          .map((obj) => obj.userId);
+        pushmessage.receiverIds = receiverIds;
         sendPushNotification(pushmessage);
       } catch (error) {
         console.log(error);
