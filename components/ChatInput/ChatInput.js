@@ -224,11 +224,13 @@ const ChatInput = (props) => {
             ignoreSelf: true,
             type: "chat",
           });
-          let receiverIds = selectedcomm?.users
+          console.log(selectedCommRef, selectedcomm, user);
+          let receiverIds = selectedCommRef.current.users
             .filter((obj) => obj.userId !== user._id)
             .map((obj) => obj.userId);
 
           pushmessage.receiverIds = receiverIds;
+          console.log(pushmessage);
           sendPushNotification(pushmessage);
         } catch (error) {
           console.log(error);
