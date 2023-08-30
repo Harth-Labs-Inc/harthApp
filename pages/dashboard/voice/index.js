@@ -5,6 +5,7 @@ import Script from "next/script";
 import { generateID } from "services/helper";
 import { MobileContext } from "contexts/mobile";
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
+import VoiceControlBar from "components/Gathering/VoiceControlBar/VoiceControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
@@ -1472,16 +1473,29 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           selectedHarthIcon={selectedHarth?.iconKey}
           leaveMethod={leaveRoom}
           minimizeHandler={minimizeHandler}
+          type="voice"
         />
 
         <section className={styles.ContentContainer} id="video-container">
+          <div style={{height: "100%", width: "100%"}}>
           <section
             id="leftcontainer"
             className={`${styles.leftContainer} ${
               isMobile && styles.leftContainerMobile
             }`}
           ></section>
-
+          <VoiceControlBar
+            onLeaveHandler={leaveRoom}
+            onToggleAudio={toggleAudio}
+            onToggleChat={isMobile && toggleChat}
+            unreadMsg={unreadMsg}
+            changeAudioDevice={changeAudioDevice}
+            roomId={roomId}
+            userInfo={(userInfo.current || {})[userName]}
+            roomType="voice"
+            hasAudioStream={localAudioStream.current}
+          />
+          </div>
           <section
             id="chatContainer"
             className={`${styles.ChatPanelContainer}
@@ -1495,19 +1509,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
             />
           </section>
         </section>
-        <>
-          <GatherControlBar
-            onLeaveHandler={leaveRoom}
-            onToggleAudio={toggleAudio}
-            onToggleChat={isMobile && toggleChat}
-            unreadMsg={unreadMsg}
-            changeAudioDevice={changeAudioDevice}
-            roomId={roomId}
-            userInfo={(userInfo.current || {})[userName]}
-            roomType="voice"
-            hasAudioStream={localAudioStream.current}
-          />
-        </>
+
       </main>
     </>
   );
