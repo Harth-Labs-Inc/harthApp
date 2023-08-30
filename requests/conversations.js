@@ -121,7 +121,26 @@ export const saveConversation = async (conversation) => {
     console.error(error);
   }
 };
+export const updatedConv = async (data) => {
+  const token = localStorage.getItem("token");
 
+  try {
+    const res = await api.post(
+      `/api/conversation/updatedConv`,
+      {
+        data,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const getConversations = async (commId, UserId) => {
   try {
     const token = localStorage.getItem("token");

@@ -5,7 +5,7 @@ import {
   updatedTopic,
   updateHarthData,
 } from "../requests/community";
-import { getConversations } from "../requests/conversations";
+import { getConversations, updatedConv } from "../requests/conversations";
 import { getRooms } from "../requests/rooms";
 import { useAuth } from "./auth";
 import { useRouter } from "next/router";
@@ -255,6 +255,50 @@ export const CommsProvider = ({
           await updatedTopic({
             type: "replace",
             topic: newTopic,
+          });
+          resolve(true);
+        }
+      }
+      run();
+    });
+  };
+  const updateSelectedConv = async ({ newconv }) => {
+    return new Promise((resolve) => {
+      async function run() {
+        let tmpConv = [...conversations];
+        let matchingConvIndex = -1;
+        tmpConv.forEach((Conv, index) => {
+          if (Conv._id === newconv._id) {
+            matchingConvIndex = index;
+          }
+        });
+        if (matchingConvIndex >= 0) {
+          tmpConv[matchingConvIndex] = newconv;
+          setConversations(tmpConv);
+          if (selectedConversation._id == newconv._id) {
+            if (selectedConversation) {
+              let storedData = localStorage.getItem("harthData");
+
+              try {
+                storedData = JSON.parse(storedData);
+              } catch (error) {
+                console.log(error);
+                storedData = {};
+              }
+              if (!storedData) {
+                storedData = {};
+              }
+              storedData[selectedCommRef.current?._id] = {
+                ...(storedData[selectedCommRef.current?._id] || {}),
+                selected_Conv: selectedConversation,
+              };
+              localStorage.setItem("harthData", JSON.stringify(storedData));
+            }
+            setSelectedConversation(newconv);
+          }
+          await updatedConv({
+            type: "replace",
+            Conv: newconv,
           });
           resolve(true);
         }
@@ -643,6 +687,7 @@ export const CommsProvider = ({
         isLoadingConversations,
         keepSpinning,
         selectedTopicRef: selectedTopicRef.current,
+        updateSelectedConv,
       }}
     >
       {children}
