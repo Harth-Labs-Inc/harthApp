@@ -6,22 +6,30 @@ workbox.setConfig({ debug: false });
 self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          return caches.delete(cacheName);
-        })
-      );
-    })
-  );
-  event.waitUntil(clients.claim());
-});
-
 self.addEventListener("message", function (event) {
   if (event.data === "ping") {
     event.source.postMessage("pong");
+  }
+  if (event.data && event.data.type === "UPDATE_VERSION") {
+    const cachesToDelete = [
+      "html-cache",
+      "css-cache",
+      "json-cache",
+      "js-cache",
+    ];
+
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter((cacheName) => cachesToDelete.includes(cacheName))
+            .map((cacheName) => caches.delete(cacheName))
+        );
+      })
+      .then(() => {
+        event.ports[0].postMessage({ type: "FORCE_UPDATE" });
+      });
   }
 });
 self.addEventListener("push", function (event) {
@@ -53,7 +61,6 @@ self.addEventListener("push", function (event) {
 
   event.waitUntil(self.registration.showNotification(data.title, options));
 });
-
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
   if (event.notification.data && event.notification.data.url) {
@@ -65,6 +72,12 @@ const { precaching, routing, strategies } = workbox;
 
 precaching.precacheAndRoute([]);
 
+workbox.routing.registerRoute(
+  /version\.txt$/,
+  new workbox.strategies.NetworkFirst({
+    cacheName: "version-cache",
+  })
+);
 // CacheFirst
 //
 // Cache font files
@@ -79,7 +92,6 @@ workbox.routing.registerRoute(
     ],
   })
 );
-
 // Cache image files
 workbox.routing.registerRoute(
   ({ request }) =>
@@ -106,7 +118,6 @@ workbox.routing.registerRoute(
     ],
   })
 );
-
 // Cache html files
 workbox.routing.registerRoute(
   /\.html$/i,
@@ -119,26 +130,24 @@ workbox.routing.registerRoute(
     ],
   })
 );
-
-// StaleWhileRevalidate
 // Cache CSS files
 routing.registerRoute(
   /\.css$/,
-  new strategies.StaleWhileRevalidate({
+  new strategies.CacheFirst({
     cacheName: "css-cache",
   })
 );
 // Cache json files
 workbox.routing.registerRoute(
   /\.json$/i,
-  new workbox.strategies.StaleWhileRevalidate({
+  new workbox.strategies.CacheFirst({
     cacheName: "json-cache",
   })
 );
 // Cache js files
 workbox.routing.registerRoute(
   /\.js$/i,
-  new workbox.strategies.StaleWhileRevalidate({
+  new workbox.strategies.CacheFirst({
     cacheName: "js-cache",
   })
 );

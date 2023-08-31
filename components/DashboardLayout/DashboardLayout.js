@@ -55,7 +55,12 @@ const DashboardLayout = (props) => {
   } = useComms();
   const { getInitialCallRooms, socketID, callRooms } = useVideo();
   const { user } = useAuth();
-  const { mainAlertsRef, setMainAlertsFromChild } = useSocket();
+  const {
+    mainAlertsRef,
+    setMainAlertsFromChild,
+    showHasUpdateButton,
+    setShowHasUpdateButton,
+  } = useSocket();
 
   const prePageRef = useRef("");
   const backgroundColorClass = useRef("defaultTransitionBackground");
@@ -138,6 +143,40 @@ const DashboardLayout = (props) => {
     }
     changePage(pg);
   };
+  const updateCacheWithReload = (e) => {
+    e.stopPropagation();
+    if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+      const channel = new MessageChannel();
+      channel.port1.onmessage = (event) => {
+        if (event.data && event.data.type === "FORCE_UPDATE") {
+          window.location.reload();
+        }
+      };
+      navigator.serviceWorker.controller.postMessage(
+        { type: "UPDATE_VERSION" },
+        [channel.port2]
+      );
+    } else {
+      window.location.reload();
+    }
+  };
+  const updateCacheWithoutReload = (e) => {
+    e.stopPropagation();
+    if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+      const channel = new MessageChannel();
+      channel.port1.onmessage = (event) => {
+        if (event.data && event.data.type === "FORCE_UPDATE") {
+          setShowHasUpdateButton(false);
+        }
+      };
+      navigator.serviceWorker.controller.postMessage(
+        { type: "UPDATE_VERSION" },
+        [channel.port2]
+      );
+    } else {
+      setShowHasUpdateButton(false);
+    }
+  };
 
   if (isMobile) {
     let previous = prePageRef.current;
@@ -174,6 +213,30 @@ const DashboardLayout = (props) => {
 
     return (
       <>
+        {showHasUpdateButton ? (
+          <div className={styles.updateMain}>
+            <div className={styles.buttonwrapper}>
+              <div className={styles.button}>
+                <p>Update available!</p>
+                <div className={styles.updateContainer}>
+                  <button
+                    className={styles.UpdateLater}
+                    onClick={updateCacheWithoutReload}
+                  >
+                    update later
+                  </button>
+                  <button
+                    className={styles.UpdateNow}
+                    onClick={updateCacheWithReload}
+                  >
+                    update now
+                  </button>
+                </div>
+              </div>
+              <div className={styles.buttonbg}></div>
+            </div>
+          </div>
+        ) : null}
         {activeRoom && (
           <div
             key={activeRoom.room_id}
@@ -233,6 +296,30 @@ const DashboardLayout = (props) => {
 
   return (
     <main className={styles.Dashboard}>
+      {showHasUpdateButton ? (
+        <div className={styles.updateMain}>
+          <div className={styles.buttonwrapper}>
+            <div className={styles.button}>
+              <p>Update available!</p>
+              <div className={styles.updateContainer}>
+                <button
+                  className={styles.UpdateLater}
+                  onClick={updateCacheWithoutReload}
+                >
+                  update later
+                </button>
+                <button
+                  className={styles.UpdateNow}
+                  onClick={updateCacheWithReload}
+                >
+                  update now
+                </button>
+              </div>
+            </div>
+            <div className={styles.buttonbg}></div>
+          </div>
+        </div>
+      ) : null}
       <SideNav
         menuOpen={menuActive}
         onToggleMenu={toggleMenu}

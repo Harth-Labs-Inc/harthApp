@@ -13,8 +13,11 @@ import { socketUrls } from "../constants/urls";
 
 const SocketContext = createContext({});
 
-/* eslint-disable */
+// -------------------- update version here ------------------------------------------------------------------------------
+const APP_VERSION = "1.0.0.0";
+// -----------------------------------------------------------------------------------------------------------------------
 
+/* eslint-disable */
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [incomingMsg, setIncomingMsg] = useState({});
@@ -27,6 +30,7 @@ export const SocketProvider = ({ children }) => {
   const [mainAlerts, setMainAlerts] = useState({});
   const [reconnected, setReconnected] = useState(false);
   const [ispullingUnreads, setIspullingUnreads] = useState(false);
+  const [showHasUpdateButton, setShowHasUpdateButton] = useState(false);
 
   const { user } = useAuth();
   const {
@@ -84,6 +88,7 @@ export const SocketProvider = ({ children }) => {
       setSocket(tempSocket);
       setReconnected((prev) => !prev);
       setupListeners(tempSocket, user);
+      checkForCacheUpdate();
     });
 
     tempSocket.on("error", (err) => {
@@ -306,6 +311,18 @@ export const SocketProvider = ({ children }) => {
     getUnreadMessages(user, true);
     getUnreadConvMessages(user);
   };
+  const checkForCacheUpdate = () => {
+    fetch("/version.txt?" + new Date().getTime())
+      .then((response) => response.text())
+      .then((version) => {
+        if (
+          typeof APP_VERSION === "undefined" ||
+          APP_VERSION.trim() !== version.trim()
+        ) {
+          setShowHasUpdateButton(true);
+        }
+      });
+  };
 
   useEffect(() => {
     function handleVisibilityChange() {
@@ -314,14 +331,14 @@ export const SocketProvider = ({ children }) => {
 
       if (!hidden) {
         if (!connected) {
-          console.log("good to reconnect");
           manageSocketConnection();
+        } else {
+          checkForCacheUpdate();
         }
       }
     }
 
     function handleOnline() {
-      console.log("now online");
       manageSocketConnection();
     }
 
@@ -330,7 +347,6 @@ export const SocketProvider = ({ children }) => {
         connectSocket(user);
       }
     };
-
     manageSocketConnection();
 
     window.addEventListener("online", handleOnline);
@@ -483,6 +499,8 @@ export const SocketProvider = ({ children }) => {
         getUnreadConvMessages,
         newMessageIndicators: newMessageIndicators.current,
         socketRef: socketRef.current,
+        showHasUpdateButton,
+        setShowHasUpdateButton,
       }}
     >
       {children}

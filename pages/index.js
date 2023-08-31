@@ -424,6 +424,7 @@ const dashboard = () => {
                 setShowCreateHarthNameModal={setShowCreateHarthNameModal}
                 user={user}
                 toggleNoHarthDetected={toggleNoHarthDetected}
+                swReg={swReg}
               >
                 {page}
               </DashboardLayout>
