@@ -145,37 +145,11 @@ const DashboardLayout = (props) => {
   };
   const updateCacheWithReload = (e) => {
     e.stopPropagation();
-    if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
-      const channel = new MessageChannel();
-      channel.port1.onmessage = (event) => {
-        if (event.data && event.data.type === "FORCE_UPDATE") {
-          window.location.reload();
-        }
-      };
-      navigator.serviceWorker.controller.postMessage(
-        { type: "UPDATE_VERSION" },
-        [channel.port2]
-      );
-    } else {
-      window.location.reload();
-    }
+    window.location.reload();
   };
   const updateCacheWithoutReload = (e) => {
     e.stopPropagation();
-    if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
-      const channel = new MessageChannel();
-      channel.port1.onmessage = (event) => {
-        if (event.data && event.data.type === "FORCE_UPDATE") {
-          setShowHasUpdateButton(false);
-        }
-      };
-      navigator.serviceWorker.controller.postMessage(
-        { type: "UPDATE_VERSION" },
-        [channel.port2]
-      );
-    } else {
-      setShowHasUpdateButton(false);
-    }
+    setShowHasUpdateButton(false);
   };
 
   if (isMobile) {

@@ -7,12 +7,12 @@ import { removeUnsavedMessages } from "../../requests/chat";
 import ChatInput from "../ChatInput/ChatInput";
 import ChatSingleMessage from "../ChatSingleMessage/ChatSingleMessage";
 import styles from "./ChatMessages.module.scss";
-import ImageViewer from "react-simple-image-viewer";
 import TalkingHead from "components/TalkingHead/TalkingHead";
 import { getMessagesByTopic } from "requests/chat";
 import { useAuth } from "contexts/auth";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 import { useRouter } from "next/router";
+import ZoomViewer from "components/ZoomViewer/ZoomViewer";
 
 const MessageWrapper = () => {
   const [currentMessages, setCurrentMessages] = useState([]);
@@ -253,18 +253,10 @@ const MessageWrapper = () => {
   return (
     <>
       {showImageSlideShow ? (
-        <>
-          <div className={styles.imageViewer}>
-            <ImageViewer
-              src={[imageSlideshowURL]}
-              closeOnClickOutside={true}
-              onClose={resetImageSLideshow}
-              backgroundStyle={{
-                backgroundColor: "rgba(0,0,0,0.92)",
-              }}
-            />
-          </div>
-        </>
+        <ZoomViewer
+          resetImageSLideshow={resetImageSLideshow}
+          url={[imageSlideshowURL]}
+        />
       ) : null}
 
       <div className={styles.Holder}>

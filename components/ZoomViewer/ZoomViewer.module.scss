@@ -1,0 +1,24 @@
+@import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
+
+.mainContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 500000;
+    height: 100vh;
+    width: 100vw;
+    background-color: $ash_dark;
+  }
+  
+  .imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+  
+
+  }

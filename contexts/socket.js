@@ -14,7 +14,7 @@ import { socketUrls } from "../constants/urls";
 const SocketContext = createContext({});
 
 // -------------------- update version here ------------------------------------------------------------------------------
-const APP_VERSION = "1.0.0.0";
+const APP_VERSION = "1.0.0.3";
 // -----------------------------------------------------------------------------------------------------------------------
 
 /* eslint-disable */
@@ -319,7 +319,23 @@ export const SocketProvider = ({ children }) => {
           typeof APP_VERSION === "undefined" ||
           APP_VERSION.trim() !== version.trim()
         ) {
-          setShowHasUpdateButton(true);
+          if (
+            "serviceWorker" in navigator &&
+            navigator.serviceWorker.controller
+          ) {
+            const channel = new MessageChannel();
+            channel.port1.onmessage = (event) => {
+              if (event.data && event.data.type === "FORCE_UPDATE") {
+                setShowHasUpdateButton(true);
+              }
+            };
+            navigator.serviceWorker.controller.postMessage(
+              { type: "UPDATE_VERSION" },
+              [channel.port2]
+            );
+          } else {
+            setShowHasUpdateButton(true);
+          }
         }
       });
   };

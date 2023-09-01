@@ -203,13 +203,13 @@ const ChatInput = (props) => {
         };
 
         const data = await saveMessage(newMessage);
-
+        const hasAttachments = attachments.length > 0;
         let { id, ok } = data;
         if (ok) {
           if (id) {
             newMessage._id = id;
           }
-          if (attachments.length > 0) {
+          if (hasAttachments) {
             uploadAttacments(id, newMessage);
           } else {
             broadcastMessage(newMessage);
@@ -224,7 +224,15 @@ const ChatInput = (props) => {
             ignoreSelf: true,
             type: "chat",
           });
-          console.log(selectedCommRef, selectedcomm, user);
+
+          if (!pushmessage.message) {
+            pushmessage.message = "";
+
+            if (hasAttachments) {
+              pushmessage.message = "Check out the new image!";
+            }
+          }
+
           let receiverIds = selectedCommRef.current.users
             .filter((obj) => obj.userId !== user._id)
             .map((obj) => obj.userId);
@@ -263,7 +271,6 @@ const ChatInput = (props) => {
       }
     });
   };
-
   const uploadAttacments = async (id, message) => {
     let promises = [];
     attachments.forEach((file, idx) => {
@@ -366,10 +373,20 @@ const ChatInput = (props) => {
     });
   };
   const submitMessageLogic = () => {
-    if (isReply) {
-      // sendReply();
-    } else {
-      sendMessagge();
+    let isDisabled =
+      ((topicInputs && topicInputs[selectedTopic?._id]) || "").trim().length ===
+        0 && attachments.length == 0;
+
+    if (isSubmitting) {
+      isDisabled = true;
+    }
+
+    if (!isDisabled) {
+      if (Object.keys(selectedEditMsg).length > 0) {
+        updateMsg();
+      } else {
+        sendMessagge();
+      }
     }
   };
   const MessageSubmits = () => {

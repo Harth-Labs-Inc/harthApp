@@ -4,6 +4,7 @@ export default class OutsideClickHandler extends React.Component {
   clickCaptured = false;
   previousViewportHeight = window.visualViewport.height; // Store the previous viewport height
   hasResizedSinceClick = false; // Flag to track if resizing has occurred
+  mouseUpCaptured = false; // New flag for mouseup
 
   render() {
     if (typeof this.props.children === "function") {
@@ -25,6 +26,7 @@ export default class OutsideClickHandler extends React.Component {
     return {
       onMouseDown: this.innerClick,
       onTouchStart: this.innerClick,
+      onMouseUp: this.innerMouseUp,
     };
   }
 
@@ -33,15 +35,22 @@ export default class OutsideClickHandler extends React.Component {
     event.stopPropagation(); // Stop event propagation
   };
 
+  innerMouseUp = (event) => {
+    this.mouseUpCaptured = true;
+    event.stopPropagation();
+  };
+
   componentDidMount() {
     document.addEventListener("mousedown", this.documentClick);
     document.addEventListener("touchstart", this.documentClick);
+    document.addEventListener("mouseup", this.documentMouseUp);
     window.visualViewport.addEventListener("resize", this.handleViewportResize);
   }
 
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.documentClick);
     document.removeEventListener("touchstart", this.documentClick);
+    document.removeEventListener("mouseup", this.documentMouseUp);
     window.visualViewport.removeEventListener(
       "resize",
       this.handleViewportResize
@@ -65,5 +74,11 @@ export default class OutsideClickHandler extends React.Component {
   handleViewportResize = () => {
     this.hasResizedSinceClick = true;
     this.previousViewportHeight = window.visualViewport.height;
+  };
+  documentMouseUp = (event) => {
+    if (!this.mouseUpCaptured && this.props.onMouseUpOutside) {
+      this.props.onMouseUpOutside(event);
+    }
+    this.mouseUpCaptured = false;
   };
 }
