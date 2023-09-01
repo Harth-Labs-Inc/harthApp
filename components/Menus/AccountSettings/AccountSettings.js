@@ -6,9 +6,13 @@ import { HarthLogoLight } from "public/images/harth-logo-light";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
+import { useSocket } from "contexts/socket";
 
 const SettingsList = ({ toggleCurrentTab }) => {
   const { isMobile } = useContext(MobileContext);
+
+  const { APP_VERSION } = useSocket();
+
   const signOut = () => {
     localStorage.removeItem("token");
     window.location.pathname = "/";
@@ -49,11 +53,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
         Sign Out
       </button>
 
-      {/* {isMobile ? null : (
-        <button className={styles.menuItem} onClick={() => window.close()}>
-          Exit
-        </button>
-      )} */}
+      <p>App version: {APP_VERSION}</p>
     </div>
   );
 };

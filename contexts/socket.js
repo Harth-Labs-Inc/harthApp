@@ -517,6 +517,7 @@ export const SocketProvider = ({ children }) => {
         socketRef: socketRef.current,
         showHasUpdateButton,
         setShowHasUpdateButton,
+        APP_VERSION,
       }}
     >
       {children}
