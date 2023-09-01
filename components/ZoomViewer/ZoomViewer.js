@@ -1,4 +1,3 @@
-import React from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import styles from "./ZoomViewer.module.scss";
 import OutsideClickHandler from "components/Common/Modals/OutsideClick";

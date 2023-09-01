@@ -41,7 +41,6 @@ const ChatInput = (props) => {
 
   const {
     selectedEdit,
-    isReply,
     topicInputs,
     setTopicInputs,
     resetEdit,
