@@ -5,6 +5,9 @@ import OutsideClickHandler from "components/Common/Modals/OutsideClick";
 const ZoomViewer = ({ url, resetImageSLideshow }) => {
   return (
     <div className={styles.mainContainer}>
+      <button onClick={resetImageSLideshow} className={styles.button}>
+        close
+      </button>
       <div className={styles.imageContainer}>
         <OutsideClickHandler onMouseUpOutside={resetImageSLideshow}>
           <TransformWrapper>
