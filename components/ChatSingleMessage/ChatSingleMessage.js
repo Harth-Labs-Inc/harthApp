@@ -83,6 +83,7 @@ const ChatSingleMessage = (props) => {
     isEditing,
     toggleEditing,
     showImageSlideShow,
+    slideshowURLRef,
   } = props;
 
   const { user } = useAuth();
@@ -156,6 +157,7 @@ const ChatSingleMessage = (props) => {
         const db = await openDB(dbName, storeName);
         const data = await Promise.all(
           attachments.map(async (att) => {
+            slideshowURLRef.current.push(att);
             const cachedData = await getAttachment(
               db,
               storeName,
@@ -550,7 +552,7 @@ const ChatSingleMessage = (props) => {
                         onClick={(e) => {
                           e.stopPropagation();
                           if (!showImageSlideShow) {
-                            openImageSlideShow(idx, attachments);
+                            openImageSlideShow(attachments[idx]);
                           }
                         }}
                         onTouchStart={(event) => event.stopPropagation()}
@@ -747,7 +749,7 @@ const ChatSingleMessage = (props) => {
                       alt="message image"
                       onClick={(e) => {
                         e.stopPropagation();
-                        openImageSlideShow(idx, attachments);
+                        openImageSlideShow(attachments[idx]);
                       }}
                       onTouchStart={(event) => event.stopPropagation()}
                       onTouchEnd={(event) => event.stopPropagation()}

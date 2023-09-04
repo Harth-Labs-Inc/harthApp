@@ -26,6 +26,7 @@ const MessageWrapper = () => {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const [slideshowImage, setSlideshowImage] = useState(0);
 
   const { selectedTopic, selectedCommRef, keepSpinning } = useComms();
   const {
@@ -37,6 +38,7 @@ const MessageWrapper = () => {
   const { user } = useAuth();
 
   const messagesEndRef = useRef(null);
+  const slideshowURLRef = useRef([]);
   const { isMobile } = useContext(MobileContext);
 
   const router = useRouter();
@@ -207,24 +209,12 @@ const MessageWrapper = () => {
   const editMessage = (msg) => {
     setEditMessageObj(msg);
   };
-  const openImageSlideShow = async (idx, attachments) => {
-    let att = attachments[idx];
-    let name = { ...att }?.name || "";
-    if (name.includes("thumbnail")) {
-      name = name.replace("thumbnail", "full");
-    }
-    const data = await getDownloadURL(
-      name,
-      att.fileType,
-      "topic-message-attachments"
+  const openImageSlideShow = async (url) => {
+    const index = slideshowURLRef.current.findIndex(
+      (obj) => obj.name === url.name
     );
-    if (data) {
-      const { ok, downloadURL } = data;
-      if (ok) {
-        setShowImageSlideShow(true);
-        setImageSlideshowURL(downloadURL);
-      }
-    }
+    setSlideshowImage(index);
+    setShowImageSlideShow(true);
   };
   const resetImageSLideshow = () => {
     setImageSlideshowURL(null);
@@ -249,13 +239,35 @@ const MessageWrapper = () => {
       setPage((prevState) => prevState + 1);
     }
   };
+  const nextImageInSlideshow = (url) => {
+    const index = slideshowURLRef.current.findIndex(
+      (obj) => obj.name === url.name
+    );
+    if (index !== -1) {
+      const nextIndex = (index + 1) % slideshowURLRef.current.length;
+      setSlideshowImage(nextIndex);
+    }
+  };
+  const prevImageInSlideshow = (url) => {
+    const index = slideshowURLRef.current.findIndex(
+      (obj) => obj.name === url.name
+    );
+    if (index !== -1) {
+      const prevIndex =
+        (index - 1 + slideshowURLRef.current.length) %
+        slideshowURLRef.current.length;
+      setSlideshowImage(prevIndex);
+    }
+  };
 
   return (
     <>
       {showImageSlideShow ? (
         <ZoomViewer
           resetImageSLideshow={resetImageSLideshow}
-          url={[imageSlideshowURL]}
+          url={slideshowURLRef.current[slideshowImage]}
+          prevImageInSlideshow={prevImageInSlideshow}
+          nextImageInSlideshow={nextImageInSlideshow}
         />
       ) : null}
 
@@ -263,9 +275,10 @@ const MessageWrapper = () => {
         <div id={styles.ChatMessages} onScroll={handleScroll}>
           <div ref={messagesEndRef} />
           {currentMessages && currentMessages.length > 0 ? (
-            currentMessages.map((msg) => (
+            currentMessages.map((msg, index) => (
               <Fragment key={msg?._id}>
                 <ChatSingleMessage
+                  slideshowURLRef={slideshowURLRef}
                   msgReload={msgReload}
                   editMessageText={editMessage}
                   msg={msg}
@@ -277,6 +290,7 @@ const MessageWrapper = () => {
                   resetEdit={resetEdit}
                   isEditing={messageEditing === msg?._id ? true : false}
                   toggleEditing={toggleEditing}
+                  messageIndex={index}
                 />
               </Fragment>
             ))
