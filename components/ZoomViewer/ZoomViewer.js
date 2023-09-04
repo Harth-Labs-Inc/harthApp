@@ -80,13 +80,13 @@ const ZoomViewer = ({
         )}
       </div>
       <button
-        onClick={() => nextImageInSlideshow(url)}
+        onClick={() => prevImageInSlideshow(url)}
         className={styles.nextbutton}
       >
         {">"}
       </button>
       <button
-        onClick={() => prevImageInSlideshow(url)}
+        onClick={() => nextImageInSlideshow(url)}
         className={styles.prevbutton}
       >
         {"<"}
