@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getDownloadURL } from "requests/s3";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 
+/* eslint-disable */
 const ZoomViewer = ({
   url,
   resetImageSLideshow,

@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useContext, Fragment } from "react";
 import { useComms } from "../../contexts/comms";
 import { useSocket } from "../../contexts/socket";
 import { MobileContext } from "../../contexts/mobile";
-import { getDownloadURL } from "../../requests/s3";
 import { removeUnsavedMessages } from "../../requests/chat";
 import ChatInput from "../ChatInput/ChatInput";
 import ChatSingleMessage from "../ChatSingleMessage/ChatSingleMessage";
