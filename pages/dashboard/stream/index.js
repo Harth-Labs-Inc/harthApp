@@ -21,8 +21,8 @@ import {
 import { envUrls, videoSocketUrls } from "../../../constants/urls";
 
 import styles from "./Stream.module.scss";
-/* eslint-disable */
 
+/* eslint-disable */
 const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const { isMobile } = useContext(MobileContext);
 
@@ -30,7 +30,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const [socketID, setSocketID] = useState(null);
   const [chats, setChats] = useState([]);
   const [update, triggerUpdate] = useState(0);
-  // const [mapUpdate, triggerMapUpdate] = useState(0);
   const [uploadingAttachments, setUploadingAttachments] = useState([]);
   const [selectedHarth, setSelectedHarth] = useState(null);
   const [screenShareActive, setScreenShareActive] = useState(false);
@@ -1056,33 +1055,53 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       parentContainer.appendChild(audioContainer);
     }
   };
+  const requestFullscreen = (element) => {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
+  };
   const createCapture = (incomingStream, peer) => {
-    let existingVideo = document.getElementById(peer?.capturePeer);
-    if (!existingVideo) {
-      const parentContainer = document.getElementById(
-        "stream-window-container"
-      );
-      const videoContainer = document.createElement("div");
-      const video = document.createElement("video");
-      videoContainer.className = styles.videoContainer;
-      videoContainer.id = peer?.capturePeer;
-      video.srcObject = incomingStream;
-      video.id = `${peer?.socketID}_${peer?.capturePeer}`;
-      video.autoplay = true;
-      video.muted = true;
-      video.className = "video";
-      video.playsInline = true;
-      if (isMobile) {
+    const playButton = document.getElementById(`${peer?.socketID}_play-button`);
+    const isOwner = peer?.socketID === ownerData.current?.socketID;
+    if (!playButton && !isOwner) {
+      createPlayButton(peer);
+    } else {
+      let existingVideo = document.getElementById(peer?.capturePeer);
+      if (!existingVideo) {
+        const parentContainer = document.getElementById(
+          "stream-window-container"
+        );
+        const videoContainer = document.createElement("div");
+        const video = document.createElement("video");
+        videoContainer.className = styles.videoContainer;
+        videoContainer.id = peer?.capturePeer;
+        video.srcObject = incomingStream;
+        video.id = `${peer?.socketID}_${peer?.capturePeer}`;
+        video.autoplay = true;
+        video.muted = true;
+        video.className = "video";
+        video.playsInline = true;
         video.controls = true;
+
+        videoContainer.appendChild(video);
+        parentContainer.appendChild(videoContainer);
+        if (!isOwner && isMobile) {
+          requestFullscreen(video);
+        }
+
+        removeElement(`${peer?.socketID}_play-button`);
+        createStopButton(peer);
+        setPlayingStreams({
+          ...playingStreams,
+          [peer.socketID]: false,
+        });
       }
-      videoContainer.appendChild(video);
-      parentContainer.appendChild(videoContainer);
-      removeElement(`${peer?.socketID}_play-button`);
-      createStopButton(peer);
-      setPlayingStreams({
-        ...playingStreams,
-        [peer.socketID]: false,
-      });
     }
   };
   const createPlayButton = (peer) => {
