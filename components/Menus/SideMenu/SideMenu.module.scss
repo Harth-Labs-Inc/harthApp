@@ -17,6 +17,8 @@
     min-width: 56px;
     background-color: $ash;
     border-right: 1px solid $ash_medium;
+    border-top: 1px solid $ash_medium;
+    border-top-right-radius: 16px;
 
     .bottomHolder {
         position: absolute;

@@ -4,7 +4,7 @@ import axios from "axios";
 import Script from "next/script";
 import { generateID } from "services/helper";
 import { MobileContext } from "contexts/mobile";
-import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
+import VoiceControlBar from "components/Gathering/VoiceControlBar/VoiceControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
@@ -1472,6 +1472,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           selectedHarthIcon={selectedHarth?.iconKey}
           leaveMethod={leaveRoom}
           minimizeHandler={minimizeHandler}
+          type="voice"
         />
 
         <section className={styles.ContentContainer} id="video-container">
@@ -1496,7 +1497,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           </section>
         </section>
         <>
-          <GatherControlBar
+          <VoiceControlBar
             onLeaveHandler={leaveRoom}
             onToggleAudio={toggleAudio}
             onToggleChat={isMobile && toggleChat}
