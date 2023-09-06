@@ -510,7 +510,10 @@ const ChatSingleMessage = (props) => {
                 </p>
                 <p className={styles.Timestamp}>{timeStamp}</p>
               </span>
-              <div className={styles.Content}>
+              <div className={`
+                ${styles.Content}
+                ${isMobile ? styles.ContentMobile : null}
+              `}>
                 {(attachments || []).map(
                   ({ desiredWidth, desiredHeight, fileType }, idx) => {
                     if (fileType.includes("video")) {

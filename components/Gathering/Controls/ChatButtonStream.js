@@ -25,8 +25,8 @@ export const ChatButtonStream = (props) => {
                 ${isMobile ? styles.chatButtonMobile : styles.chatButtonDesktop} 
                 ${
                     buttonState == "on"
-                        ? styles.basicButtonActive
-                        : styles.basicButtonInactive
+                        ? styles.chatButtonActive
+                        : styles.chatButtonInactive
                 }
             `}
                 aria-label="Gathering Chat"

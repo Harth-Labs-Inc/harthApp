@@ -13,10 +13,11 @@
     display: flex;
     flex-direction: column;
     row-gap: 2px;
-    margin: 0px 0px 8px 0px;
-    background: $ash_heavy;
-    border-radius: 12px;
-    padding: 8px 8px 8px 8px;
+    margin: 0px 0px 0px 0px;
+    background: $ash;
+    //border-radius: 12px;
+    padding: 8px 8px 16px 8px;
+    border-top: 1px solid $ash_medium;
 
 
     &Text {
@@ -30,14 +31,20 @@
         padding: 8px 12px;
         @include chatText;
         color: $font_light;
-        background: $ash;
+        background: $ash_heavy;
         border: 0;
+        caret-color: $hot_salmon;
 
         white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
         white-space: -pre-wrap; /* Opera 4-6 */
         white-space: -o-pre-wrap; /* Opera 7 */
         word-wrap: break-word; /* Internet Explorer 5.5+ */
+
+        &::placeholder {
+            @include chatText;
+            color: darken($font_medium, 15%);
+        }
 
     }
 
@@ -72,7 +79,7 @@
                 cursor: pointer;
 
                 path {
-                    fill: $ash_medium;
+                    fill: $ash_light;
                 }
 
                 &Mobile {
@@ -82,7 +89,7 @@
                 }
 
                 &:hover {
-                    background-color: $black;
+                    background-color: $ash_heavy;
                 }
 
                 &.EditCancel {

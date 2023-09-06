@@ -1634,6 +1634,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           toggleHDSwitch={toggleHDSwitch}
           leaveMethod={leaveRoom}
           minimizeHandler={minimizeHandler}
+          type="party"
         />
 
         <section

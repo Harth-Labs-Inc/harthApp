@@ -2,7 +2,6 @@ import { useState, useContext, useRef } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import { MicButtonStream } from "../Controls/MicButtonStream";
 import { MoreButtonStream } from "../Controls/MoreButtonStream";
-import { StreamButtonStream } from "../Controls/StreamButtonStream";
 import { ChatButtonStream } from "../Controls/ChatButtonStream";
 import { LeaveButtonStream } from "../Controls/LeaveButtonStream";
 import { DiceBar } from "../GatherTools/DiceBar";
@@ -169,11 +168,6 @@ const VoiceControlBar = (props) => {
                             ) : null}
                         </div>
                     </div>
-
-                        <ChatButtonStream
-                            unreadMsg={unreadMsg}
-                            onPress={onToggleChat}
-                        />
                 </header>
             )}
 

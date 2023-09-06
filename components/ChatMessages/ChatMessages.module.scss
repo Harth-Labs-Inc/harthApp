@@ -37,7 +37,7 @@
     }
 
     @media screen and (max-width: 640px) {
-        padding-bottom: 100px;
+       // padding-bottom: 100px;
         padding-top: 100px;
     }
 }
@@ -52,7 +52,7 @@
 }
 
 .AdminMessage {
-    color: $hot_orange;
+    color: $hot_purple;
     @include worksans;
     font-weight: 700;
     font-size: 12px;
@@ -73,15 +73,16 @@
 .IncomingMessage {
     width: fit-content;
     max-width: 100%;
+    padding: 0px 24px 0px 12px;
     .Creator {
         @include chatProfile;
-        color: $silver-light;
+        color: $font_light;
         user-select: none;
         margin-right: 4px;
     }
     > p {
         margin: 0 0 12px 0;
-        padding: 8px 12px;
+        padding: 8px 12px 8px 12px;
         @include chatText;
         white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
@@ -129,7 +130,7 @@
 .SelfMessage {
     align-self: flex-end;
     //background-color: aqua;
-    padding: 0px 0px 0px 24px;
+        
     position: relative;
     > p {
         position: relative;
@@ -152,7 +153,7 @@
 }
 .IncomingMessage {
     > p {
-        background-color: $fuel;
+        background-color: $hot_salmon;
         margin-left: 40px;
         margin-top: -24px;
         margin-right: 12px;
@@ -195,11 +196,12 @@
     position: relative;
     text-align: center;
     padding: 4px 14px;
-    color: #fff;
-    font-size: 14px;
+    color: $font_light;
+    font-size: 12px;
+    @include worksans;
     line-height: 11px;
     text-transform: uppercase;
-    background-color: #ee5500;
+    background: $hot_salmon;
     border: 0;
     border-radius: 9px;
     width: max-content;

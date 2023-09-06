@@ -95,10 +95,12 @@
         width: 48px;
         border: 0;
         background-color: transparent;
+        border-radius: 6px;
+
 
         &:active {
             //border: solid 1px $white_80;
-            background-color: $black;
+            background-color: $ash_heavy;
         }
     }
 
@@ -207,10 +209,11 @@
         width: 48px;
         border: 0;
         background-color: transparent;
+        border-radius: 6px;
 
         &:active {
             //border: solid 1px $white_80;
-            background-color: $black;
+            background-color: $ash_heavy;
         }
     }
 
@@ -236,10 +239,8 @@
 
 
     &Active {
-        &:hover {
-            //border: solid 1px $white_80;
-            background-color: $ash;
-        }
+        background-color: $ash_heavy;
+
     }
 
     &Inactive {

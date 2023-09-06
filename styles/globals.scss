@@ -63,14 +63,8 @@ $black_90: rgba(0, 0, 0, 0.9);
 // Ash
 // Ash
 $ash: #28282e;
-
-$ash_heavy: #1a1a1f;
 $ash_heavy: darken($ash, 5%);
-
-$ash_medium: #48484e;
 $ash_medium: lighten($ash, 10%);
-
-$ash_light: #78787e;
 $ash_light: lighten($ash, 20%);
 
 

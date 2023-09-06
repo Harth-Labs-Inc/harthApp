@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: space-between;
     grid-area: header;
-    padding: 0px 12px 0px 0px;
+    padding: 0px 0px 0px 0px;
     border: 0;
     background-color: transparent;
     //column-gap: 16px;
@@ -22,7 +22,7 @@
         justify-content: space-between;
         background: $ash;
         width: 240px;
-        padding: 6px 8px;
+        padding: 6px 16px 6px 12px;
         border-top: 1px solid $ash_medium;
         border-right: 1px solid $ash_medium;
     }

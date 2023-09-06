@@ -337,20 +337,20 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               if (!element) {
                 let myElement = document.getElementById(info?.peerId);
                 if (myElement) {
-                  myElement.style.border = "1px solid #e46eb1";
+                  myElement.style.borderColor = "#3cc8a3";
                 }
               } else {
-                element.style.border = "1px solid #e46eb1";
+                element.style.borderColor = "#3cc8a3";
               }
             } else {
               let element = document.getElementById(info?.socketID);
               if (!element) {
                 let myElement = document.getElementById(info?.peerId);
                 if (myElement) {
-                  myElement.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                  myElement.style.borderColor = "transparent";
                 }
               } else {
-                element.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                element.style.borderColor = "transparent";
               }
             }
           } else {
@@ -1085,7 +1085,11 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         if (!parentContainer) {
           parentContainer = document.createElement("div");
           parentContainer.id = peer?.socketID;
-          parentContainer.className = styles.userContainer;
+          if (isMobile) {
+            parentContainer.className = styles.userContainerMobile;
+          } else {
+            parentContainer.className = styles.userContainer;
+          }
 
           const topContainer = document.createElement("div");
           topContainer.id = `${peer?.socketID}_TopContainer`;
@@ -1342,48 +1346,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       triggerUpdate();
     }
   };
-  // const createUnMuteButton = (peer) => {
-  //   removeElement(`${peer?.socketID}_mute-button`);
-  //   const parentContainer = document.getElementById(
-  //     `${peer?.socketID}_slider-container`
-  //   );
-  //   if (parentContainer) {
-  //     const button = document.createElement("button");
-  //     button.id = `${peer?.socketID}_mute-button`;
-  //     button.className = styles.unMuteButton;
-  //     button.setAttribute("aria-label", `unmute ${peer?.name}`);
-  //     button.setAttribute("data-title", `unmute ${peer?.name}`);
-  //     button.onclick = function () {
-  //       const audio = document.getElementById(`${peer?.peerId}_audio`);
-  //       if (audio) {
-  //         audio.play();
-  //         // createMuteButton(peer);
-  //       }
-  //     };
-  //     parentContainer.appendChild(button);
-  //   }
-  // };
-  // const createMuteButton = (peer) => {
-  //   removeElement(`${peer?.socketID}_mute-button`);
-  //   const parentContainer = document.getElementById(
-  //     `${peer?.socketID}_slider-container`
-  //   );
-  //   if (parentContainer) {
-  //     const button = document.createElement("button");
-  //     button.id = `${peer?.socketID}_mute-button`;
-  //     button.className = styles.muteButton;
-  //     button.setAttribute("aria-label", `mute ${peer?.name}`);
-  //     button.setAttribute("data-title", `mute ${peer?.name}`);
-  //     button.onclick = function () {
-  //       const audio = document.getElementById(`${peer?.peerId}_audio`);
-  //       if (audio) {
-  //         audio.pause();
-  //         createUnMuteButton(peer);
-  //       }
-  //     };
-  //     parentContainer.appendChild(button);
-  //   }
-  // };
+ 
   const createVolumeSlider = (peer) => {
     const parentContainer = document.getElementById(peer?.socketID);
     if (parentContainer) {
@@ -1467,21 +1430,45 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           onClick={leaveRoom}
           style={{ display: "none" }}
         />
-        <GatherHeader
+
+
+        <section className={styles.ContentContainer} id="video-container">
+          <section
+            className={`${styles.leftSide} ${
+              isMobile && styles.leftSideMobile
+            }`}
+          >
+                    <GatherHeader
           gatheringName={activeCallRoom?.roomName}
           selectedHarthIcon={selectedHarth?.iconKey}
           leaveMethod={leaveRoom}
           minimizeHandler={minimizeHandler}
           type="voice"
         />
+        <section 
+          id="leftcontainer"
+          className={`${styles.leftContainer} ${
+            isMobile && styles.leftContainerMobile
+          }`}
+        ></section>
+        
+        {!isMobile ? (
+          <>
+          <VoiceControlBar
+            onLeaveHandler={leaveRoom}
+            onToggleAudio={toggleAudio}
+            onToggleChat={isMobile && toggleChat}
+            unreadMsg={unreadMsg}
+            changeAudioDevice={changeAudioDevice}
+            roomId={roomId}
+            userInfo={(userInfo.current || {})[userName]}
+            roomType="voice"
+            hasAudioStream={localAudioStream.current}
+          />
+          </>
+        ) : (null)}
 
-        <section className={styles.ContentContainer} id="video-container">
-          <section
-            id="leftcontainer"
-            className={`${styles.leftContainer} ${
-              isMobile && styles.leftContainerMobile
-            }`}
-          ></section>
+          </section>
 
           <section
             id="chatContainer"
@@ -1497,6 +1484,8 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           </section>
         </section>
         <>
+        {isMobile ? (
+          <>
           <VoiceControlBar
             onLeaveHandler={leaveRoom}
             onToggleAudio={toggleAudio}
@@ -1508,7 +1497,11 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
             roomType="voice"
             hasAudioStream={localAudioStream.current}
           />
+          </>
+        ) : (null)}
+
         </>
+
       </main>
     </>
   );

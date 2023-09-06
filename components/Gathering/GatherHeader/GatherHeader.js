@@ -63,7 +63,7 @@ const GatherHeader = (props) => {
 
       )}
       
-      { type != ("voice" || "stream") && ( 
+      {type == "party" && ( 
         <div className={`
           ${styles.basic}
           ${isMobile ? styles.basicMobile : styles.basicDesktop}
