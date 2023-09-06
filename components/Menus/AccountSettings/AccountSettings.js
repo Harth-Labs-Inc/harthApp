@@ -35,6 +35,15 @@ const SettingsList = ({ toggleCurrentTab }) => {
           <IconChevronRight />
         </div>
       </button>
+      {/* <button
+        className={styles.menuItem}
+        //onClick={() => toggleCurrentTab("invites")}
+      >
+        Feedback
+        <div className={styles.iconHolder}>
+          <IconChevronRight />
+        </div>
+      </button> */}
       {isMobile ? (
         <button
           className={styles.menuItem}
@@ -53,7 +62,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
         Sign Out
       </button>
 
-      <p>App version: {APP_VERSION}</p>
+      <p className={styles.appVersion}>App version: {APP_VERSION}</p>
     </div>
   );
 };
