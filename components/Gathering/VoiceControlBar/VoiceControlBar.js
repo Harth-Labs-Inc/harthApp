@@ -14,31 +14,22 @@ import styles from "./voiceControlBar.module.scss";
 const VoiceControlBar = (props) => {
     const {
         onLeaveHandler,
-        //onToggleVideo,
         onToggleAudio,
-        onToggleScreenShare,
-        captureIsActice,
         onToggleChat,
         diceRollHandler,
         changeAudioDevice,
-        //changeVideoDevice,
         unreadMsg,
         roomId,
         mapChangeHandler,
         mapUpdate,
         hasAudioStream,
-        //hasVideoStream,
-        hasScreenShareStream,
     } = props;
     const [modal, setModal] = useState();
     const [showDiceModal, setShowDiceModal] = useState();
     const [showMapModal, setShowMapModal] = useState();
     const [audioList, setAudioList] = useState();
-    //const [videoList, setVideoList] = useState();
-
     const AudioDeviceListCount = useRef(0);
     const VideoDeviceListCount = useRef(0);
-
     const { isMobile } = useContext(MobileContext);
 
     const showModal = () => {
