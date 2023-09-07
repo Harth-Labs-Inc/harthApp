@@ -43,11 +43,9 @@
     padding: 0px 0px 0px 0px;
     background: $ash_heavy;
 
-
-
     @media (max-width: 640px) {
         height: var(--vh);
-        
+
         z-index: 500;
     }
 
@@ -73,6 +71,8 @@
             padding-top: 36px;
             padding-left: 8px;
             border-right: 1px solid $ash_medium;
+            //margin-top: -40px;
+            overflow-y: scroll;
 
             &Mobile {
                 width: 100%;
@@ -149,8 +149,6 @@
             margin-bottom: 6px;
             border-top-left-radius: 3px;
             border-bottom-left-radius: 3px;
-            
-        
 
             .topContainer {
                 display: flex;
@@ -181,7 +179,7 @@
                 margin-right: 8px;
                 border-radius: 50%;
                 object-fit: cover;
-                border: 0
+                border: 0;
             }
 
             &.ownerVideo {
@@ -337,7 +335,7 @@
             background-color: transparent;
             margin-bottom: 10px;
             border-top-left-radius: 3px;
-            border-bottom-left-radius: 3px;        
+            border-bottom-left-radius: 3px;
 
             .topContainer {
                 display: flex;
@@ -368,7 +366,7 @@
                 margin-right: 12px;
                 border-radius: 50%;
                 object-fit: cover;
-                border: 0
+                border: 0;
             }
 
             &.ownerVideo {
@@ -535,30 +533,95 @@
             }
         }
 
+        // .ChatPanelContainer {
+        //     top: 0;
+        //     z-index: 10;
+        //     position: fixed;
+        //     right: -100%;
+        //     display: flex;
+        //     flex-direction: column;
+        //     justify-content: space-between;
+        //     height: calc(100% - 50px);
+        //     border-radius: 18px;
+        //     margin: 0;
+        //     margin-right: 8px;
+        //     width: 0;
+        //     visibility: hidden;
+        //     transition: width 0.3s ease-in-out;
+        //     background: $ash_heavy;
+
+        //     &Open {
+        //         width: 420px;
+        //         margin-left: 12px;
+        //         padding: 0 8px;
+        //         visibility: visible;
+
+        //         &.rendering {
+        //             right: -100%;
+        //             transition: all 0.2s ease-in-out;
+        //         }
+        //         &.entered {
+        //             right: 0%;
+        //             transition: all 0.2s ease-in-out;
+        //         }
+        //     }
+
+        //     &Mobile {
+        //         position: absolute;
+        //         top: 0;
+        //         left: 100%;
+        //         margin: 0;
+        //         z-index: 1;
+        //         height: calc(100% - 20px);
+
+        //         &.ChatPanelContainerOpen {
+        //             width: 100%;
+        //             //margin-left: 10px;
+
+        //         }
+
+        //         &.rendering {
+        //             left: 100%;
+        //             transition: all 0.2s ease-in-out;
+        //         }
+        //         &.entered {
+        //             left: 0%;
+        //             transition: all 0.2s ease-in-out;
+        //         }
+        //     }
+        // }
+
         .ChatPanelContainer {
-            top: 0;
-            z-index: 10;
-            position: fixed;
-            right: -100%;
+            position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             height: calc(100% - 50px);
-            border: 1px solid rgba(256,256,256,0.05);
-		    background: rgba(256,256,256,0.05);
-		    backdrop-filter: blur(5px);
-  	        -webkit-backdrop-filter: blur(5px);
-            border-radius: 18px;
-            margin: 0;
-            margin-right: 8px;
             width: 0;
             visibility: hidden;
             transition: width 0.3s ease-in-out;
+            padding: 0px 0px 0px 0px;
+            border: 1px solid $ash_medium;
+            background: $ash_heavy;
+            //background: aqua;
+            border-radius: 12px;
+            margin: 0;
+            overflow: hidden;
+
+            &Mobile {
+                position: absolute;
+                left: 100%;
+                width: 100%;
+                height: calc(100% - 20px);
+                margin: 0 0px;
+                border-radius: 0;
+                border: 0;
+            }
 
             &Open {
                 width: 420px;
-                margin-left: 12px;
-                padding: 0 8px;
+                margin-right: 12px;
+                padding: 0 0px;
                 visibility: visible;
 
                 &.rendering {
@@ -567,31 +630,6 @@
                 }
                 &.entered {
                     right: 0%;
-                    transition: all 0.2s ease-in-out;
-                }
-            }
-
-            &Mobile {
-                position: absolute;
-                top: 0;
-                left: 100%;
-                margin: 0;
-                z-index: 1;
-                height: calc(100% - 20px);
-                
-
-                &.ChatPanelContainerOpen {
-                    width: calc(100% - 20px);
-                    margin-left: 10px;
-                
-                }
-
-                &.rendering {
-                    left: 100%;
-                    transition: all 0.2s ease-in-out;
-                }
-                &.entered {
-                    left: 0%;
                     transition: all 0.2s ease-in-out;
                 }
             }

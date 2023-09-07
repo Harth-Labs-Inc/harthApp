@@ -174,33 +174,26 @@
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
-            background-color: $white;
-            border: 0;
-            
+            border: 1px solid $ash_medium;
             border-radius: 18px;
             margin: 0;
             margin-right: 8px;
             width: 0;
             visibility: hidden;
             transition: width 0.3s ease-in-out;
-            //border: 1px solid rgba(256,256,256,0.05);
-		    background: $black;
-		    backdrop-filter: blur(5px);
-  	        -webkit-backdrop-filter: blur(5px);
+		    background: $ash_heavy;
+            overflow: hidden;
 
             body {
                 margin: 0;
                 padding: 0;
             }
 
-
-
-
             &Open {
                 width: 420px;
-                padding: 0 8px;
+                padding: 0px;
                 visibility: visible;
-
+                
                 &.rendering {
                     left: 100%;
                     transition: all 0.2s ease-in-out;
@@ -217,6 +210,7 @@
                 left: 100%;
                 z-index: 98;
                 height: calc(100% - 20px);
+                border: 0;
 
                 &.ChatPanelContainerOpen {
                     width: calc(100% - 20px);
@@ -242,7 +236,6 @@
             width: 120px;
             transform: scaleX(-1);
             z-index: 97;
-            background-color: transparent;
 
             &Alone {
                 bottom: 50%;

@@ -223,6 +223,7 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
           onDragLeave={(e) => {
             e.preventDefault();
           }}
+          placeholder="say something"
         ></textarea>
       </div>
         <div id={styles.ChatInputControls}>

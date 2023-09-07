@@ -11,16 +11,24 @@
     background-color: $ash_dark;
     button {
       position: fixed;
+      //height: 24px;
+      width: 24px;
+
       top: 15px;
       right:  15px;
       z-index: 5000000;
-      border: 1px solid $hot_salmon;
-      background-color: $hot_salmon;
-      color: white;
-      border-radius: 25px;
-      width: 60px;
-      font-size: 16px;
-      padding: 5px;
+      border: 1px solid $ash_light;
+      background: $ash;
+      color: $font_medium;
+      @include worksans;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform:uppercase;
+      border-radius: 99px;
+      width: fit-content;
+      //font-size: 16px;
+      padding: 4px 8px;
+      cursor: pointer;
     }
   }
   
@@ -48,14 +56,15 @@
     top: 50%;
     right: 10px;
     z-index: 500000000;
-    border: 1px solid $hot_salmon;
-    background-color: $hot_salmon;
-    color: white;
+    border: 1px solid $ash_light;
+    background-color: $ash_heavy;
+    color: $font_medium;
     border-radius: 25px;
-    width: 40px;
+    width: 36px;
+    height: 36px;
     font-size: 16px;
     font-weight: bold;
-    padding: 5px;
+    padding: 0px;
     cursor: pointer;
   }
   .prevbutton {
@@ -63,13 +72,14 @@
     top: 50%;
     left: 10px;
     z-index: 500000000;
-    border: 1px solid $hot_salmon;
-    background-color: $hot_salmon;
-    color: white;
+    border: 1px solid $ash_light;
+    background-color: $ash_heavy;
+    color: $font_medium;
     border-radius: 25px;
-    width: 40px;
+    width: 36px;
+    height: 36px;
     font-size: 16px;
     font-weight: bold;
-    padding: 5px;
+    padding: 0px;
     cursor: pointer;
   }

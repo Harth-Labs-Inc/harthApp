@@ -171,6 +171,9 @@
             white-space: pre-wrap;
             overflow-wrap: anywhere;
 
+            &Mobile {
+                @include chatTextMobile;
+            }
 
             .message-text {
                 margin: 0;
