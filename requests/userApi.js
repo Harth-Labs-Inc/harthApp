@@ -1,6 +1,17 @@
 import api from "../services/api";
 
 /* eslint-disable */
+export const sendFeedbackEmail = async (collectedData, userFeedback) => {
+  try {
+    const res = await api.post(`/api/users/sendFeedbackEmail`, {
+      collectedData,
+      userFeedback,
+    });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const loginAttempt = async (data) => {
   try {

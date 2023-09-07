@@ -1,0 +1,88 @@
+@import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
+
+
+.mainContainer {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: rgba(40, 40, 46,0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    color: white;
+    form{
+        padding: 5px;
+      
+    }
+}
+.successContainer {
+    h2 {
+        margin-top: 50px !important;  
+    }
+    p {
+        width: 75%;
+        margin: 0 auto;
+    }
+}
+.innerContainer {
+    width: 400px;
+    background-color: #28282e;
+    border: 1px solid #1a1a1f;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    min-height: 350px;
+    @media screen and (max-width: 640px) {
+        width: 90vw;
+    }
+
+    h2{
+        text-align: center;
+        margin-top: 0;
+    }
+}
+.closeBtn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer; 
+    color: white;
+}
+.contentContainer {
+    margin-top: 20px;
+    label {
+        margin-left: 20px;
+    }
+    textarea{
+        width: 90%;
+        margin-top: 10px; 
+        background-color: #48484e; 
+        border: none;
+        border-radius: 7px;
+        padding: 10px;
+    }
+}
+.inputContainer {
+    display: flex;
+    justify-content: center;
+}
+.submitContainer {
+    margin-top: 9px;
+    text-align: center;
+    button {
+        float: right;
+        margin-right: 20px;
+        border-radius: 25px;
+        border: none;
+        color: white;
+        background: $hot_salmon;
+        padding: 9px; 
+    }
+}

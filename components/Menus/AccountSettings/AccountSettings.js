@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { MobileContext } from "../../../contexts/mobile";
 
@@ -7,19 +7,27 @@ import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
 import { useSocket } from "contexts/socket";
+import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 
 const SettingsList = ({ toggleCurrentTab }) => {
-  const { isMobile } = useContext(MobileContext);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
+  const { isMobile } = useContext(MobileContext);
   const { APP_VERSION } = useSocket();
 
   const signOut = () => {
     localStorage.removeItem("token");
     window.location.pathname = "/";
   };
+  const toggleFeedbackModal = () => {
+    setShowFeedbackModal(!showFeedbackModal);
+  };
 
   return (
     <div className={styles.SettingsContainer}>
+      {showFeedbackModal ? (
+        <FeedbackModal onToggleModal={toggleFeedbackModal} />
+      ) : null}
       {!isMobile ? (
         <div className={styles.headerImage}>
           <HarthLogoLight />
@@ -57,6 +65,14 @@ const SettingsList = ({ toggleCurrentTab }) => {
       ) : (
         <SubSettings toggleCurrentTab={toggleCurrentTab} />
       )}
+
+      <button
+        style={{ color: "#d96fab" }}
+        className={styles.menuItem}
+        onClick={toggleFeedbackModal}
+      >
+        Submit Feedback
+      </button>
 
       <button className={styles.menuItem} onClick={() => signOut()}>
         Sign Out

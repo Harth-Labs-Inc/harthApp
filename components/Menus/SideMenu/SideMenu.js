@@ -1,9 +1,7 @@
 import { useContext, useState, useRef } from "react";
-
 import { useAuth } from "../../../contexts/auth";
 import { useComms } from "../../../contexts/comms";
 import { useSocket } from "../../../contexts/socket";
-
 import {
   deleteHarthByID,
   getComms,
@@ -12,22 +10,19 @@ import {
 import { MobileContext } from "../../../contexts/mobile";
 import { IconMenu } from "../../../resources/icons/IconMenu";
 import { IconInvite } from "resources/icons/IconInvite";
-//import { IconFeedback } from "resources/icons/IconFeedback";
 import { updateHarthData } from "../../../requests/community";
-
 import { Modal, SideModal } from "../../Common";
 import HarthEditModal from "../../HarthEditModal";
 import { CustomHarthContextMenu } from "../../CustomHarthContextMenu/CustomHarthContextMenu";
-
 import HarthDeleteModal from "../HarthSettings/HarthDeleteModal";
 import HarthLeaveModal from "../HarthSettings/HarthLeaveModal";
 import SettingsMenu from "../AccountSettings";
 import HarthList from "../HarthList/HarthList";
-
 import styles from "./SideMenu.module.scss";
-
 import CreateHarthName from "../../createHarthName/createHarthName";
 import CreateHarthProfile from "../../createHarthProfile/createHarthProfile";
+import { IconFeedback } from "resources/icons/IconFeedback";
+import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 
 const SideNav = (props) => {
   const { onToggleMenu, toggleNoHarthDetected } = props;
@@ -36,7 +31,7 @@ const SideNav = (props) => {
   const [showRenameHarthModal, setShowRenameHarthModal] = useState(false);
   const [showDeleteHarthModal, setShowDeleteHarthModal] = useState(false);
   const [showLeaveHarthModal, setShowLeaveHarthModal] = useState(false);
-
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [currentTab, setCurrentTab] = useState("");
 
   const [newHarth, setNewHarth] = useState(null);
@@ -195,6 +190,9 @@ const SideNav = (props) => {
     setNewHarth(null);
     setShowCreateHarthProfileModal(false);
   };
+  const toggleFeedbackModal = () => {
+    setShowFeedbackModal(!showFeedbackModal);
+  };
 
   if (isMobile) {
     return;
@@ -202,6 +200,12 @@ const SideNav = (props) => {
 
   return (
     <>
+      {showFeedbackModal ? (
+        <FeedbackModal
+          onToggleModal={toggleFeedbackModal}
+          disableOutsideClose={true}
+        />
+      ) : null}
       {showCreateHarthNameModal ? (
         <CreateHarthName
           talkingHeadMsg="Let's make a härth for you and your friends."
@@ -258,7 +262,6 @@ const SideNav = (props) => {
           />
         </Modal>
       ) : null}
-
       {openEditHarthMenu ? (
         <CustomHarthContextMenu
           user={user}
@@ -271,7 +274,9 @@ const SideNav = (props) => {
           onLeaveHandler={onLeaveHandler}
         />
       ) : null}
+
       <DisplaySettingsNav />
+
       <aside className={styles.SideNav} ref={leftNav}>
         <HarthList
           comms={comms}
@@ -284,13 +289,13 @@ const SideNav = (props) => {
         />
 
         <div className={styles.bottomHolder}>
-          {/* <button
-                        className={` ${styles.SettingsButton} ${styles.SettingsButtonFeedback} `}
-                        //onClick={toggleSettingsNav}
-                        aria-label="Toggle User Feedback menu"
-                    >
-                        <IconFeedback />
-                    </button> */}
+          <button
+            className={` ${styles.SettingsButton} ${styles.SettingsButtonFeedback} `}
+            onClick={toggleFeedbackModal}
+            aria-label="Toggle User Feedback menu"
+          >
+            <IconFeedback />
+          </button>
           <button
             className={` ${styles.SettingsButton} ${styles.SettingsButtonInvites} `}
             onClick={(e) => toggleSettingsNav(e, true)}
