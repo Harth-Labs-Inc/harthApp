@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import OutsideClickHandler from "../Common/Modals/OutsideClick";
 import styles from "./FeedbackModal.module.scss";
 import { sendFeedbackEmail } from "requests/userApi";
