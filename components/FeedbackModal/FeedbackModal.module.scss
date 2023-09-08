@@ -1,7 +1,14 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
-
+.fileContainer {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    label {
+        margin-left: 0px !important;  
+    }
+}
 .mainContainer {
     position: fixed;
     top: 0px;
@@ -35,7 +42,7 @@
     padding: 20px;
     border-radius: 8px;
     position: relative;
-    min-height: 350px;
+    height: 430px;
     @media screen and (max-width: 640px) {
         width: 90vw;
     }

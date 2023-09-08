@@ -1,11 +1,18 @@
 import api from "../services/api";
 
 /* eslint-disable */
-export const sendFeedbackEmail = async (collectedData, userFeedback) => {
+export const sendFeedbackEmail = async (
+  collectedData,
+  userFeedback,
+  screenshotBase64,
+  imageFormat
+) => {
   try {
     const res = await api.post(`/api/users/sendFeedbackEmail`, {
       collectedData,
       userFeedback,
+      screenshotBase64,
+      imageFormat,
     });
     return res.data;
   } catch (error) {

@@ -9,6 +9,7 @@ export const FeedbackModal = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [userFeedback, setUserFeedback] = useState("");
+  const [screenshot, setScreenshot] = useState(null);
 
   const closeModal = () => {
     onToggleModal();
@@ -85,6 +86,18 @@ export const FeedbackModal = (props) => {
     const registration = await navigator.serviceWorker.getRegistration();
     return registration ? "Activated" : "Not Activated";
   };
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64String = reader.result.split(",")[1];
+        const format = file.type.split("/")[1];
+        resolve({ base64: base64String, format });
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -100,15 +113,36 @@ export const FeedbackModal = (props) => {
         serviceWorkerStatus: await gatherServiceWorkerStatus(),
       };
 
-      await sendFeedbackEmail(collectedData, userFeedback);
+      let screenshotBase64;
+      let imageFormat;
+      if (screenshot) {
+        const fileData = await fileToBase64(screenshot);
+        screenshotBase64 = fileData.base64;
+        imageFormat = fileData.format;
+      }
+
+      await sendFeedbackEmail(
+        collectedData,
+        userFeedback,
+        screenshotBase64,
+        imageFormat
+      );
       setUserFeedback("");
       setIsComplete(true);
       setIsLoading(false);
     }
   };
+
   const inputChangeHandler = (e) => {
     const { value } = e.target;
     setUserFeedback(value);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.size <= 5000000) {
+      setScreenshot(file);
+    }
   };
 
   return (
@@ -134,6 +168,17 @@ export const FeedbackModal = (props) => {
           ) : (
             <>
               <div className={styles.contentContainer}>
+                <div className={styles.fileContainer}>
+                  <label htmlFor="screenshot">
+                    Attach a screenshot (optional)
+                  </label>
+                  <input
+                    type="file"
+                    id="screenshot"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                </div>
                 <label htmlFor="feedback">
                   What would you like to tell us?
                 </label>

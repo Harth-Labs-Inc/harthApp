@@ -1,4 +1,5 @@
 import AWS from "aws-sdk";
+
 AWS.config = {
   accessKeyId: "AKIARIGZHATFWEQ2TU4K",
   secretAccessKey: "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",
@@ -15,8 +16,14 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  const { collectedData, userFeedback } = obj;
-  const sendEmail = (collectedData, userFeedback) => {
+  const { collectedData, userFeedback, screenshotBase64, imageFormat } = obj;
+
+  const sendEmail = (
+    collectedData,
+    userFeedback,
+    screenshotBase64,
+    imageFormat
+  ) => {
     const emailHTML = `
         <h2>User Feedback</h2>
         <p>${userFeedback}</p>
@@ -56,6 +63,22 @@ export default async (req, res) => {
           </tbody>
         </table>
       `;
+
+    const attachments = [];
+    if (screenshotBase64) {
+      attachments.push({
+        filename: `screenshot.${imageFormat}`,
+        content: screenshotBase64,
+        encoding: "base64",
+      });
+    }
+    const mailOptions = {
+      from: "Härth Social <noreply@harthapp.com>",
+      to: ["phil@harthsocial.com", "help@harthapp.com"],
+      subject: "user feedback submitted",
+      html: emailHTML,
+      attachments: attachments,
+    };
     return new Promise((resolve, reject) => {
       let nodemailer = require("nodemailer");
 
@@ -64,23 +87,17 @@ export default async (req, res) => {
           apiVersion: "2010-12-1",
         }),
       });
-      transporter.sendMail(
-        {
-          from: "Härth Social <noreply@harthapp.com>",
-          to: ["phil@harthsocial.com", "help@harthapp.com"],
-          subject: "user feedback submitted",
-          html: emailHTML,
-        },
-        (mailErr, info) => {
-          if (mailErr) {
-            console.log(mailErr, "mailerror");
-            resolve(mailErr);
-          }
-          resolve(info);
+
+      transporter.sendMail(mailOptions, (mailErr, info) => {
+        if (mailErr) {
+          console.log(mailErr, "mailerror");
+          resolve(mailErr);
         }
-      );
+        resolve(info);
+      });
     });
   };
-  await sendEmail(collectedData, userFeedback);
+
+  await sendEmail(collectedData, userFeedback, screenshotBase64, imageFormat);
   return res.json({ msg: "successful", ok: 1 });
 };
