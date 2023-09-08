@@ -7,7 +7,6 @@ AWS.config = {
 };
 
 /* eslint-disable */
-
 export default async (req, res) => {
   let obj;
   try {
@@ -16,13 +15,20 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  const { collectedData, userFeedback, screenshotBase64, imageFormat } = obj;
+  const {
+    collectedData,
+    userFeedback,
+    screenshotBase64,
+    imageFormat,
+    userName,
+  } = obj;
 
   const sendEmail = (
     collectedData,
     userFeedback,
     screenshotBase64,
-    imageFormat
+    imageFormat,
+    userName
   ) => {
     const emailHTML = `
         <h2>User Feedback</h2>
@@ -75,7 +81,7 @@ export default async (req, res) => {
     const mailOptions = {
       from: "Härth Social <noreply@harthapp.com>",
       to: ["phil@harthsocial.com", "help@harthapp.com"],
-      subject: "user feedback submitted",
+      subject: `Feedback: ${userName}`,
       html: emailHTML,
       attachments: attachments,
     };
@@ -98,6 +104,12 @@ export default async (req, res) => {
     });
   };
 
-  await sendEmail(collectedData, userFeedback, screenshotBase64, imageFormat);
+  await sendEmail(
+    collectedData,
+    userFeedback,
+    screenshotBase64,
+    imageFormat,
+    userName
+  );
   return res.json({ msg: "successful", ok: 1 });
 };

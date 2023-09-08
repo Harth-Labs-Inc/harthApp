@@ -2,9 +2,12 @@ import { useState } from "react";
 import OutsideClickHandler from "../Common/Modals/OutsideClick";
 import styles from "./FeedbackModal.module.scss";
 import { sendFeedbackEmail } from "requests/userApi";
+import { useComms } from "contexts/comms";
 
 export const FeedbackModal = (props) => {
   const { onToggleModal, disableOutsideClose } = props;
+
+  const { profile } = useComms();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -125,7 +128,8 @@ export const FeedbackModal = (props) => {
         collectedData,
         userFeedback,
         screenshotBase64,
-        imageFormat
+        imageFormat,
+        profile?.name || ""
       );
       setUserFeedback("");
       setIsComplete(true);

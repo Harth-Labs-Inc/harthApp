@@ -14,7 +14,7 @@ import { socketUrls } from "../constants/urls";
 const SocketContext = createContext({});
 
 // -------------------- update version here ------------------------------------------------------------------------------
-const APP_VERSION = "1.0.0.7";
+const APP_VERSION = "1.0.0.8";
 // -----------------------------------------------------------------------------------------------------------------------
 
 /* eslint-disable */

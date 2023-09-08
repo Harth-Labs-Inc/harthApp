@@ -155,9 +155,10 @@ const ChatSingleMessage = (props) => {
     const FetchDownloadURL = async () => {
       if (attachments.length > 0) {
         const db = await openDB(dbName, storeName);
+        let tempAttch = [...attachments].reverse();
+        slideshowURLRef.current.push(...tempAttch);
         const data = await Promise.all(
           attachments.map(async (att) => {
-            slideshowURLRef.current.push(att);
             const cachedData = await getAttachment(
               db,
               storeName,
@@ -510,10 +511,12 @@ const ChatSingleMessage = (props) => {
                 </p>
                 <p className={styles.Timestamp}>{timeStamp}</p>
               </span>
-              <div className={`
+              <div
+                className={`
                 ${styles.Content}
                 ${isMobile ? styles.ContentMobile : null}
-              `}>
+              `}
+              >
                 {(attachments || []).map(
                   ({ desiredWidth, desiredHeight, fileType }, idx) => {
                     if (fileType.includes("video")) {

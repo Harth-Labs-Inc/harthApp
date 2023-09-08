@@ -10,8 +10,10 @@ const ZoomViewer = ({
   resetImageSLideshow,
   prevImageInSlideshow,
   nextImageInSlideshow,
+  slideshowURLRef,
 }) => {
   const [fullImage, setFullImage] = useState("");
+  const [mediaType, setMediaType] = useState("");
 
   const getFullImage = async (url) => {
     let name = url.name;
@@ -30,13 +32,30 @@ const ZoomViewer = ({
       }
     }
   };
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      resetImageSLideshow();
+    }
+  };
+
   useEffect(() => {
+    if (url.fileType.startsWith("image/")) {
+      setMediaType("image");
+    } else if (url.fileType.startsWith("video/")) {
+      setMediaType("video");
+    }
     getFullImage(url);
   }, [url]);
 
-  if (fullImage) {
-  }
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
 
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const index = slideshowURLRef?.findIndex((obj) => obj.name === url.name);
   return (
     <>
       <div className={styles.mainContainer}>
@@ -58,13 +77,26 @@ const ZoomViewer = ({
                 height: 100%;
               }
             `}</style>
-            <TransformWrapper>
-              {() => (
-                <TransformComponent>
-                  <img src={fullImage} alt="Zoomable content" />
-                </TransformComponent>
-              )}
-            </TransformWrapper>
+            {mediaType === "image" && (
+              <TransformWrapper>
+                {() => (
+                  <TransformComponent>
+                    <img src={fullImage} alt="Zoomable content" />
+                  </TransformComponent>
+                )}
+              </TransformWrapper>
+            )}
+            {mediaType === "video" && (
+              <video
+                width="80%"
+                height="80%"
+                controls
+                playsInline
+                muted
+                src={fullImage}
+                type={url.fileType}
+              ></video>
+            )}
           </div>
         ) : (
           <div
@@ -79,18 +111,22 @@ const ZoomViewer = ({
           </div>
         )}
       </div>
-      <button
-        onClick={() => prevImageInSlideshow(url)}
-        className={styles.nextbutton}
-      >
-        {">"}
-      </button>
-      <button
-        onClick={() => nextImageInSlideshow(url)}
-        className={styles.prevbutton}
-      >
-        {"<"}
-      </button>
+      {index < slideshowURLRef?.length - 1 && (
+        <button
+          onClick={() => nextImageInSlideshow(url)}
+          className={styles.prevbutton}
+        >
+          {"<"}
+        </button>
+      )}
+      {index > 0 && (
+        <button
+          onClick={() => prevImageInSlideshow(url)}
+          className={styles.nextbutton}
+        >
+          {">"}
+        </button>
+      )}
     </>
   );
 };

@@ -5,7 +5,8 @@ export const sendFeedbackEmail = async (
   collectedData,
   userFeedback,
   screenshotBase64,
-  imageFormat
+  imageFormat,
+  userName
 ) => {
   try {
     const res = await api.post(`/api/users/sendFeedbackEmail`, {
@@ -13,6 +14,7 @@ export const sendFeedbackEmail = async (
       userFeedback,
       screenshotBase64,
       imageFormat,
+      userName,
     });
     return res.data;
   } catch (error) {

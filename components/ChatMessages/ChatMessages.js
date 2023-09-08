@@ -267,6 +267,7 @@ const MessageWrapper = () => {
           url={slideshowURLRef.current[slideshowImage]}
           prevImageInSlideshow={prevImageInSlideshow}
           nextImageInSlideshow={nextImageInSlideshow}
+          slideshowURLRef={slideshowURLRef.current}
         />
       ) : null}
 
