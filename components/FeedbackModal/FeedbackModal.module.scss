@@ -28,11 +28,18 @@
 }
 .successContainer {
     h2 {
-        margin-top: 50px !important;  
+        //margin-top: 50px !important;  
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
+    
     p {
         width: 75%;
         margin: 0 auto;
+        @include worksans;
+        font-size: 14px;
+        text-align: center;
+        padding-bottom: 24px;
     }
 }
 .innerContainer {
