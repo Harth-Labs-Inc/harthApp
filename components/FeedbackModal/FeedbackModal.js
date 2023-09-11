@@ -172,6 +172,17 @@ export const FeedbackModal = (props) => {
           ) : (
             <>
               <div className={styles.contentContainer}>
+                <label htmlFor="feedback">
+                  What would you like to tell us?
+                </label>
+                <div className={styles.inputContainer}>
+                  <textarea
+                    onChange={inputChangeHandler}
+                    id="feedback"
+                    rows="13"
+                  ></textarea>
+                </div>
+                <br />
                 <div className={styles.fileContainer}>
                   <label htmlFor="screenshot">
                     Attach a screenshot (optional)
@@ -182,16 +193,6 @@ export const FeedbackModal = (props) => {
                     accept="image/*"
                     onChange={handleFileChange}
                   />
-                </div>
-                <label htmlFor="feedback">
-                  What would you like to tell us?
-                </label>
-                <div className={styles.inputContainer}>
-                  <textarea
-                    onChange={inputChangeHandler}
-                    id="feedback"
-                    rows="13"
-                  ></textarea>
                 </div>
               </div>
               <div className={styles.submitContainer}>

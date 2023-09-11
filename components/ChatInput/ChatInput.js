@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { IconSend } from "../../resources/icons/IconSend";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
+import { MobileContext } from "contexts/mobile";
 
 import {
   saveMessage,
@@ -32,7 +33,7 @@ const ChatInput = (props) => {
   const [selectedEditMsg, setSelectedEditMsg] = useState({});
   const [uploadingAttachments, setUploadingAttachments] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const { isMobile } = useContext(MobileContext);
   const [altKey, setAltKey] = useState(false);
 
   const { user } = useAuth();
@@ -399,7 +400,7 @@ const ChatInput = (props) => {
     if (!isSubmitting) {
       if (Object.keys(selectedEditMsg).length > 0) {
         return (
-          <div id={styles.ChatInputControlsRight}>
+          <div id={isMobile ? styles.ChatInputMobileControlsRight : styles.ChatInputControlsRight}>
             <button
               onClick={cancelEdit}
               className={styles.EditCancel}
@@ -443,7 +444,7 @@ const ChatInput = (props) => {
     }
   };
   return (
-    <div id={styles.ChatInput}>
+    <div id={isMobile ? styles.ChatInputMobile : styles.ChatInput}>
       <div className={styles.entryBox}>
         <ImageHolder
           attachments={attachments}
@@ -503,8 +504,8 @@ const ChatInput = (props) => {
           }}
         ></textarea>
       </div>
-      <div id={styles.ChatInputControls}>
-        <div id={styles.ChatInputControlsLeft}>
+      <div id={isMobile ? styles.ChatInputMobileControls : styles.ChatInputControls}>
+        <div id={isMobile ? styles.ChatInputMobileControlsLeft : styles.ChatInputControlsLeft}>
           <button onClick={triggerPicker} aria-label="add emoji reaction">
             <IconAddReactionNoFill />
           </button>

@@ -2,11 +2,11 @@
 @import "../../styles/fonts.scss";
 
 .fileContainer {
-    width: 90%;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    label {
-        margin-left: 0px !important;  
+    width: 100%;
+    input {
+        border: 0;
+        margin-top: 8px;
+        margin-bottom: 8px;
     }
 }
 .mainContainer {
@@ -20,9 +20,9 @@
     justify-content: center;
     align-items: center;
     z-index: 1;
-    color: white;
+    color: $font_light;
     form{
-        padding: 5px;
+        padding: 4px;
       
     }
 }
@@ -37,12 +37,12 @@
 }
 .innerContainer {
     width: 400px;
-    background-color: #28282e;
-    border: 1px solid #1a1a1f;
+    background-color: $ash;
+    border: 1px solid $ash_medium;
     padding: 20px;
     border-radius: 8px;
     position: relative;
-    height: 430px;
+    height: fit-content;
     @media screen and (max-width: 640px) {
         width: 90vw;
     }
@@ -50,6 +50,10 @@
     h2{
         text-align: center;
         margin-top: 0;
+        @include worksans;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 16px 0px;
     }
 }
 .closeBtn {
@@ -60,20 +64,31 @@
     border: none;
     font-size: 16px;
     cursor: pointer; 
-    color: white;
+    color: $ash_light;
 }
 .contentContainer {
-    margin-top: 20px;
+    padding: 0px 20px;
+    width: 100%;
+    //background: aquamarine;
     label {
-        margin-left: 20px;
+        //background: aqua;
+        @include worksans;
+        font-size: 14px;
+        font-weight: 600;
     }
     textarea{
-        width: 90%;
-        margin-top: 10px; 
-        background-color: #48484e; 
+        width: 100%;
+        margin-top: 8px; 
+        background-color: $ash_heavy;
         border: none;
         border-radius: 7px;
         padding: 10px;
+        @include worksans;
+        font-size: 14px;
+        color: $font_light;
+        overflow-y: scroll;
+        height: 220px;
+
     }
 }
 .inputContainer {
@@ -81,15 +96,19 @@
     justify-content: center;
 }
 .submitContainer {
-    margin-top: 9px;
-    text-align: center;
+    text-align: right;
+    padding-right: 20px;
+    padding-bottom: 12px;
+    width: 100%;
+    //background-color: azure;
     button {
-        float: right;
-        margin-right: 20px;
         border-radius: 25px;
         border: none;
-        color: white;
+        color: $font_light;
+        @include worksans;
+        font-size: 14px;
+        font-weight: 500;
         background: $hot_salmon;
-        padding: 9px; 
+        padding: 6px 12px; 
     }
 }
