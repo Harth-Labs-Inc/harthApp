@@ -80,7 +80,7 @@
                 cursor: pointer;
 
                 path {
-                    fill: $ash_medium;
+                    fill: $ash_light;
                 }
 
 
@@ -201,6 +201,184 @@
     }
 }
 
+#ChatInputMobile {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: $ash;
+    padding: 0px 0px 12px 0px;
+    border-bottom: none;
+
+
+    &Text {
+        resize: none;
+        display: block;
+        width: 100%;
+        min-height: 56px;
+        height: 56px;
+        max-height: calc(var(--vh) * 0.5);
+        margin: 0;
+        padding: 8px 12px;
+        @include chatTextMobile;
+        caret-color: $hot_salmon;
+        color: $font_light;
+        background: aqua;
+        border: 0;
+
+        white-space: pre-wrap; /* CSS3 */
+        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        word-wrap: break-word; /* Internet Explorer 5.5+ */
+
+        &::placeholder {
+            @include chatTextMobile ;
+            color: darken($font_medium, 15%);
+        }
+    }
+
+    .entryBox {
+        border-top: 1px solid $ash_medium;
+        border-bottom: 1px solid lighten($ash, 3%);
+        //border-radius: 6px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        padding: 0;
+        overflow: hidden;
+
+    }
+
+    &Controls {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px;
+        background: $ash;
+        //border: 1px solid $ash_medium;
+        //border-radius: 6px;
+        //border-top-left-radius: 0;
+        //border-top-right-radius: 0;
+        border-top: 0;
+
+        &Right,
+        &Left {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            column-gap: 12px;
+
+            > button {
+                position: relative;
+                margin: 0 0px;
+                height: 36px;
+                width: 36px;
+                padding: 6px;
+                background-color: transparent;
+                border-radius: 6px;
+                border: 0px;
+                cursor: pointer;
+
+                path {
+                    fill: $ash_light;
+                }
+
+
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover { 
+                            background-color: $ash_heavy;
+                            path {
+                                fill: $font_light;
+                            }
+                    }
+                }
+                
+
+
+                &.EditCancel {
+                    width: auto;
+                    height: fit-content;
+                    background-color: $ash_medium;
+                    border: 0;
+                    @include worksans;
+                    font-size: 12px;
+                    font-weight: 500;
+                    border-radius: 24px;
+                    color: $font_light;
+                    padding: 8px 12px;
+                    margin: auto;
+
+                    @media (hover: hover) and (pointer: fine) {
+                        &:hover { 
+                                background-color: $black;
+                        }
+                    }
+
+
+                }
+
+                &.SendActive {
+                    //border: 1px solid $silver-med;
+                    background-color: $hot_pink;
+                    path {
+                        fill: $font_light;
+                    }
+                }
+
+                &:before {
+                    @include x-y-center;
+                    color: $ash_30;
+                    font-size: 16px;
+                }
+
+                &.SendMessage {
+                    &:before {
+                        //@include font-icon($icon-check-circle);
+                        color: red;
+                    }
+                    &:not(:disabled) {
+                        &:before {
+                            color: $orange;
+                        }
+                    }
+                }
+            }
+        }
+
+        .input-style-wrapper {
+            button {
+                font-family: "Times New Roman", Times, serif;
+                font-size: 18px;
+            }
+            .style-bold {
+                font-weight: bold;
+            }
+            .style-italic {
+                font-style: italic;
+            }
+            .style-strike {
+                text-decoration: line-through;
+            }
+        }
+    }
+
+    .EmojiPicker {
+        position: absolute;
+        bottom: 100%;
+        z-index: 1;
+
+        #root {
+            background-color: $fuel;
+        }
+    }
+
+    .giphy-grid {
+        position: absolute;
+        bottom: 0;
+        z-index: 1;
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+}
+
 .imageBar {
     display: flex;
     flex-direction: row;
@@ -223,7 +401,8 @@
             border-radius: 8px;
             height: 80px;
             width: 80px;
-            border: 1px solid $fuel;
+            border: 1px solid $ash_light;
+            object-fit: contain;
         }
         .video{
             position: relative;
@@ -239,19 +418,19 @@
             top: 0;
             right: 0;
             z-index: 2;
-            height: 24px;
-            width: 24px;
+            height: 28px;
+            width: 28px;
             padding: 4px;
             border-top-left-radius: 0px;
             border-top-right-radius: 8px;
             border-bottom-right-radius: 0px;
             border-bottom-left-radius: 8px;
-            border: 0;
-            background-color: $ash_heavy;
+            border: 1px solid $ash_light;
+            background-color: $hot_pink;
             cursor: pointer;
 
             path {
-                fill: $ash_light;
+                fill: $font_light;
             }
         }
     }

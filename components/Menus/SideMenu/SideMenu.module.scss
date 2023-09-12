@@ -51,9 +51,11 @@
             }
     
     
-            &:hover {
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
                 background-color: $ash_heavy;
 
+                }
             }
     
             &Invites {
