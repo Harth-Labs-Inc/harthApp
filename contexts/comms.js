@@ -450,6 +450,8 @@ export const CommsProvider = ({
       setIsLoadingTopics(false);
       if (startingTopic) {
         setSelectedTopic(startingTopic);
+      } else if (!topics.length) {
+        setSelectedTopic({});
       }
     }
     return;
@@ -688,6 +690,8 @@ export const CommsProvider = ({
         keepSpinning,
         selectedTopicRef: selectedTopicRef.current,
         updateSelectedConv,
+        setSelectedcomm,
+        setComms,
       }}
     >
       {children}

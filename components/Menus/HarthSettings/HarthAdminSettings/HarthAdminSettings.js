@@ -55,6 +55,11 @@ const HarthAdminSettings = ({ onToggleModal }) => {
     changeSelectedCommFromChild(comms[0]);
     onCloseDeleteModal();
     onToggleModal();
+    let msg = {};
+    msg.updateType = "user left";
+    msg.user = user;
+    msg.harthID = newHarth._id;
+    emitUpdate(newHarth._id, msg, () => {});
   };
   const fileUploadHandler = (file) => {
     setNewFile(file);

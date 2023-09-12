@@ -6,10 +6,15 @@ import {
   getTopics,
   getExistingUnreadMessages,
   getExistingUnreadConvMessages,
+  getHarthByID,
 } from "../requests/community";
 import { getConversations } from "../requests/conversations";
 
 import { socketUrls } from "../constants/urls";
+import {
+  replaceHarthChatProfileNames,
+  replaceHarthChatProfileIcons,
+} from "requests/chat";
 
 const SocketContext = createContext({});
 
@@ -48,6 +53,7 @@ export const SocketProvider = ({ children }) => {
     fetchConversations,
     changeSelectedCommFromChild,
     selectedCommRef,
+    setSelectedcomm,
   } = useComms();
 
   const socketRef = useRef(null);
@@ -59,7 +65,6 @@ export const SocketProvider = ({ children }) => {
 
   const connectSocket = (user) => {
     if (!user) return;
-    console.log("Attempting to connect socket...");
     disconnectSocket();
 
     const token = localStorage.getItem("token");
@@ -75,14 +80,10 @@ export const SocketProvider = ({ children }) => {
     });
 
     tempSocket.on("connect", () => {
-      console.log("Socket connected.");
-
       if (document.hidden) {
-        console.log("Document is hidden. Disconnecting socket.");
         tempSocket.disconnect();
         return;
       }
-      console.log("Document is visible setting new socket");
       rebuildData();
       socketRef.current = tempSocket;
       setSocket(tempSocket);
@@ -293,7 +294,30 @@ export const SocketProvider = ({ children }) => {
             getUnreadConvMessages(user);
           }
           break;
-
+        case "new user joined":
+          refetchComms();
+          if (selectedCommRef.current?._id === incomingUpdate.harthID) {
+            getHarthByID(incomingUpdate.harthID).then((result) => {
+              const { ok, data } = result;
+              if (ok) {
+                setSelectedcomm(data);
+                selectedCommRef.current = data;
+              }
+            });
+          }
+          break;
+        case "user left":
+          refetchComms();
+          if (selectedCommRef.current?._id === incomingUpdate.harthID) {
+            getHarthByID(incomingUpdate.harthID).then((result) => {
+              const { ok, data } = result;
+              if (ok) {
+                setSelectedcomm(data);
+                selectedCommRef.current = data;
+              }
+            });
+          }
+          break;
         default:
           break;
       }
@@ -479,7 +503,7 @@ export const SocketProvider = ({ children }) => {
     socket.emit("leave", chatroomName, cb);
   };
   const emitUpdate = (chatroomName, update, cb) => {
-    socket.emit("Update", chatroomName, update, cb);
+    socketRef.current?.emit("Update", chatroomName, update, cb);
   };
   const emitUpdateFromRef = (chatroomName, update, cb) => {
     socketRef.current?.emit("Update", chatroomName, update, cb);
@@ -487,6 +511,54 @@ export const SocketProvider = ({ children }) => {
   const setMainAlertsFromChild = (alerts) => {
     setMainAlerts(alerts);
     mainAlertsRef.current = alerts;
+  };
+  const refreshTopicsChatName = async (id, userID, newName) => {
+    let elements = document.getElementsByClassName(`${id}_${userID}_name`);
+    for (let nameElement of elements) {
+      nameElement.innerHTML = newName;
+    }
+  };
+  const refreshTopicsChatIcon = async (id, userID, newIconKey) => {
+    let elements = document.getElementsByClassName(`${id}_${userID}`);
+    for (let imgELement of elements) {
+      imgELement.setAttribute("src", newIconKey);
+    }
+  };
+  const sendNewUserJoined = (id, newProfile) => {
+    let msg = {};
+    msg.updateType = "new user joined";
+    msg.user = newProfile;
+    msg.harthID = id;
+    emitUpdate(id, msg, () => {});
+    // update name in all references
+    replaceHarthChatProfileNames(id, newProfile.name, newProfile.userId);
+    refreshTopicsChatName(id, newProfile.name, newProfile.userId);
+    let namemessage = {
+      harthid: id,
+      userid: newProfile.userId,
+      newName: newProfile.name,
+    };
+    namemessage.updateType = "message profile name update";
+    emitUpdate(id, namemessage, async (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+
+    // update image in all references
+    replaceHarthChatProfileIcons(id, newProfile.iconKey, newProfile.userId);
+    refreshTopicsChatIcon(id, newProfile.userId, newProfile.iconKey);
+    let message = {
+      harthid: id,
+      userid: newProfile.userId,
+      newIconKey: newProfile.iconKey,
+    };
+    message.updateType = "message profile icon update";
+    emitUpdate(id, message, async (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
   };
 
   return (
@@ -518,6 +590,7 @@ export const SocketProvider = ({ children }) => {
         showHasUpdateButton,
         setShowHasUpdateButton,
         APP_VERSION,
+        sendNewUserJoined,
       }}
     >
       {children}

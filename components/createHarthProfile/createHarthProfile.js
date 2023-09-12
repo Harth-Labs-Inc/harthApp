@@ -8,6 +8,7 @@ import TalkingHead from "../TalkingHead/TalkingHead";
 import { Button, Modal } from "../Common";
 import { compressImage } from "../../requests/s3";
 import styles from "./CreateHarthProfile.module.scss";
+import { useSocket } from "contexts/socket";
 
 export default function CreateHarthProfile({
   talkingHeadMsg,
@@ -24,6 +25,8 @@ export default function CreateHarthProfile({
   const [isJoining, setIsJoining] = useState(false);
 
   const { refetchComms } = useComms();
+  const { sendNewUserJoined } = useSocket();
+
   const { user } = useAuth();
 
   const handleInputChange = (e) => {
@@ -77,7 +80,26 @@ export default function CreateHarthProfile({
         owner,
         muted: false,
       });
+
+      if ("users" in tempHarth) {
+        tempHarth.users.push({
+          userId: user._id,
+          iconKey: profileIconKey,
+          name: profileName,
+          admin: admin,
+          owner,
+          muted: false,
+        });
+      }
       localStorage.removeItem("inviteToken");
+      sendNewUserJoined(id, {
+        userId: user._id,
+        iconKey: profileIconKey,
+        name: profileName,
+        admin: admin,
+        owner,
+        muted: false,
+      });
       refetchComms(tempHarth, true);
       submitHandler();
       setIsJoining(false);
