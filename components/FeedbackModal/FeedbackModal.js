@@ -3,6 +3,7 @@ import OutsideClickHandler from "../Common/Modals/OutsideClick";
 import styles from "./FeedbackModal.module.scss";
 import { sendFeedbackEmail } from "requests/userApi";
 import { useComms } from "contexts/comms";
+import { generateID } from "services/helper";
 
 export const FeedbackModal = (props) => {
   const { onToggleModal, disableOutsideClose } = props;
@@ -107,6 +108,7 @@ export const FeedbackModal = (props) => {
     if (!isLoading) {
       setIsLoading(true);
       const collectedData = {
+        ticketID: generateID(),
         currentURL: window.location.href,
         networkInfo: gatherNetworkInfo(),
         supportedFeatures: gatherSupportedFeatures(),

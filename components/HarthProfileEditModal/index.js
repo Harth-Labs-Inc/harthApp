@@ -17,6 +17,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
   const [updatedProfile, setUpdatedProfile] = useState({});
   const [newFile, setNewFile] = useState(null);
   const [nameChanged, setNameCHanged] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setCommsFromChild, comms } = useComms();
   const { emitUpdate } = useSocket();
@@ -45,103 +46,107 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (newFile || nameChanged) {
-      let newIconKey = "";
-      if (newFile) {
-        await deleteWithPrefix(
-          `${harth._id}_${updatedProfile.userId}_`,
-          "community-profile-images"
-        );
-        let { name } = await uploadCustomNamedFile({
-          file: newFile,
-          bucket: "community-profile-images",
-          name: `${harth._id}_${updatedProfile.userId}_${new Date()}`,
-        });
-        if (name && newFile.type !== "image/gif") {
-          await compressImage(
-            name,
-            name,
-            "community-profile-images",
-            newFile.type,
-            150,
-            150
+    if (!isLoading) {
+      setIsLoading(true);
+      if (newFile || nameChanged) {
+        let newIconKey = "";
+        if (newFile) {
+          await deleteWithPrefix(
+            `${harth._id}_${updatedProfile.userId}_`,
+            "community-profile-images"
           );
+          let { name } = await uploadCustomNamedFile({
+            file: newFile,
+            bucket: "community-profile-images",
+            name: `${harth._id}_${updatedProfile.userId}_${new Date()}`,
+          });
+          if (name && newFile.type !== "image/gif") {
+            await compressImage(
+              name,
+              name,
+              "community-profile-images",
+              newFile.type,
+              150,
+              150
+            );
+          }
+          newIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${name}`;
         }
-        newIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${name}`;
-      }
 
-      let usersArr = [...harth.users];
+        let usersArr = [...harth.users];
 
-      Object.assign(
-        usersArr.find(
-          ({ userId }) => userId.toString() == updatedProfile.userId
-        ),
-        {
-          ...updatedProfile,
-          ["iconKey"]: newIconKey ? newIconKey : updatedProfile.iconKey,
-        }
-      );
-      harth.users = usersArr;
-      let newharth = { ...harth };
-      let { ok } = await updateHarthData(newharth);
-      if (ok) {
-        let commsArr = [...comms];
         Object.assign(
-          commsArr.find(({ _id }) => _id.toString() == newharth._id),
-          newharth
+          usersArr.find(
+            ({ userId }) => userId.toString() == updatedProfile.userId
+          ),
+          {
+            ...updatedProfile,
+            ["iconKey"]: newIconKey ? newIconKey : updatedProfile.iconKey,
+          }
         );
-        setCommsFromChild(commsArr);
+        harth.users = usersArr;
+        let newharth = { ...harth };
+        let { ok } = await updateHarthData(newharth);
+        if (ok) {
+          let commsArr = [...comms];
+          Object.assign(
+            commsArr.find(({ _id }) => _id.toString() == newharth._id),
+            newharth
+          );
+          setCommsFromChild(commsArr);
 
-        if (nameChanged) {
-          replaceHarthChatProfileNames(
-            newharth._id,
-            updatedProfile.name,
-            updatedProfile.userId
-          );
-          refreshTopicsChatName(
-            newharth._id,
-            updatedProfile.userId,
-            updatedProfile.name
-          );
-          let message = {
-            harthid: newharth._id,
-            userid: updatedProfile.userId,
-            newName: updatedProfile.name,
-          };
-          message.updateType = "message profile name update";
-          emitUpdate(newharth._id, message, async (err) => {
-            if (err) {
-              console.error(err);
-            }
-          });
-        }
+          if (nameChanged) {
+            replaceHarthChatProfileNames(
+              newharth._id,
+              updatedProfile.name,
+              updatedProfile.userId
+            );
+            refreshTopicsChatName(
+              newharth._id,
+              updatedProfile.userId,
+              updatedProfile.name
+            );
+            let message = {
+              harthid: newharth._id,
+              userid: updatedProfile.userId,
+              newName: updatedProfile.name,
+            };
+            message.updateType = "message profile name update";
+            emitUpdate(newharth._id, message, async (err) => {
+              if (err) {
+                console.error(err);
+              }
+            });
+          }
 
-        if (newIconKey) {
-          replaceHarthChatProfileIcons(
-            newharth._id,
-            newIconKey,
-            updatedProfile.userId
-          );
-          refreshTopicsChatIcon(
-            newharth._id,
-            updatedProfile.userId,
-            newIconKey
-          );
-          let message = {
-            harthid: newharth._id,
-            userid: updatedProfile.userId,
-            newIconKey,
-          };
-          message.updateType = "message profile icon update";
-          emitUpdate(newharth._id, message, async (err) => {
-            if (err) {
-              console.error(err);
-            }
-          });
+          if (newIconKey) {
+            replaceHarthChatProfileIcons(
+              newharth._id,
+              newIconKey,
+              updatedProfile.userId
+            );
+            refreshTopicsChatIcon(
+              newharth._id,
+              updatedProfile.userId,
+              newIconKey
+            );
+            let message = {
+              harthid: newharth._id,
+              userid: updatedProfile.userId,
+              newIconKey,
+            };
+            message.updateType = "message profile icon update";
+            emitUpdate(newharth._id, message, async (err) => {
+              if (err) {
+                console.error(err);
+              }
+            });
+          }
         }
+        setIsLoading(false);
       }
+      setHidden();
     }
-    setHidden();
   };
   const handleCancel = () => {
     setHidden();
@@ -195,6 +200,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
               type="submit"
               text="Update"
               className={styles.submitButton}
+              isLoading={isLoading}
             />
           </div>
         </form>
