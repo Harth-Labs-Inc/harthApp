@@ -2,6 +2,27 @@ import api from "../services/api";
 
 /* eslint-disable */
 
+export const getTopicsRecieverIds = async (message) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(
+      `/api/chat/getTopicsRecieverIds`,
+      {
+        message,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const removeUnsavedMessages = async (topicid, userid) => {
   try {
     const token = localStorage.getItem("token");

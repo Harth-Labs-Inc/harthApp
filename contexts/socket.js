@@ -19,7 +19,7 @@ import {
 const SocketContext = createContext({});
 
 // -------------------- update version here ------------------------------------------------------------------------------
-const APP_VERSION = "1.0.0.9";
+const APP_VERSION = "1.0.0.10";
 // -----------------------------------------------------------------------------------------------------------------------
 
 /* eslint-disable */
@@ -117,7 +117,19 @@ export const SocketProvider = ({ children }) => {
             incomingUpdate.socketID !== socket.id
           ) {
             setIncomingMsg(incomingUpdate);
-            setNewAlerts(incomingUpdate, "chat");
+            getExistingUnreadMessages(user._id).then((results) => {
+              const { data } = results;
+
+              if (data && data.length) {
+                const hasMatchingCommId = data.some(
+                  (message) => message.comm_id === selectedCommRef.current._id
+                );
+
+                if (hasMatchingCommId) {
+                  setNewAlerts(incomingUpdate, "chat");
+                }
+              }
+            });
           }
           break;
         case "message update":
@@ -460,13 +472,15 @@ export const SocketProvider = ({ children }) => {
     if (!ispullingUnreads) {
       setIspullingUnreads(true);
       getExistingUnreadMessages(user._id).then((results) => {
-        let { data } = results;
+        let { data, unfilteredData } = results;
         if (data) {
           if (data.length) {
             setNewAlerts(data[0], "chat");
+          }
+          if (unfilteredData.length) {
             let storedselectedTopicId =
               localStorage.getItem("selectedTopicId") || "";
-            data.forEach((message) => {
+            unfilteredData.forEach((message) => {
               if (
                 !newMessageIndicators.current[message.topic_id] &&
                 (message.topic_id !== storedselectedTopicId ||

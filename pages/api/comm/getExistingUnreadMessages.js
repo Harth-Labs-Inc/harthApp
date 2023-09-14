@@ -1,82 +1,108 @@
 import clientPromise from "../../../util/mongodb";
 import jwt from "jsonwebtoken";
-
+import { ObjectId } from "mongodb";
 /* eslint-disable */
 
 export default async (req, res) => {
-    let obj;
+  const obj = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+
+  const getData = async (db, id) => {
     try {
-        obj = JSON.parse(req.body);
-    } catch (e) {
-        obj = req.body;
+      return (
+        (await db
+          .collection("unread_messages")
+          .find({ user_id: id })
+          .toArray()) || []
+      );
+    } catch (err) {
+      return [];
     }
+  };
 
-    const getData = (db, id) => {
-        return new Promise((resolve, reject) => {
-            db.collection("unread_messages")
-                .find({ user_id: id })
-                .toArray(function (err, results) {
-                    if (err) {
-                        resolve([]);
-                    }
-                    if (results) {
-                        resolve(results);
-                    } else {
-                        resolve([]);
-                    }
-                });
-        });
-    };
+  const getTopicsByIds = async (db, topicIds) => {
+    try {
+      const objectIdArray = topicIds.map((id) => new ObjectId(id));
 
-    const client = await clientPromise;
-    const db = client.db("blarg");
+      return await db
+        .collection("topics")
+        .find({ _id: { $in: objectIdArray } })
+        .toArray();
+    } catch (err) {
+      return [];
+    }
+  };
+  const isTopicMutedForUser = (topic, userId) => {
+    const userInTopic = topic.members?.find((user) => user.user_id === userId);
+    return userInTopic && userInTopic.muted;
+  };
 
-    // authentication ---------------------------------
-    const findUser = (db, id) => {
-        return new Promise((resolve, reject) => {
-            let mongo = require("mongodb");
-            let o_id = new mongo.ObjectID(id);
-            db.collection("users")
-                .find({ _id: o_id })
-                .toArray(function (err, results) {
-                    if (err) {
-                        resolve(false);
-                    }
-                    resolve(results[0]);
-                });
-        });
-    };
-    const decode = (tokn) => {
-        return new Promise((resolve, reject) => {
-            resolve(jwt.verify(tokn, process.env.SECRET));
-        });
-    };
-    let authToken = req.headers["x-auth-token"];
-    if (!authToken) {
-        return res.json({ msg: "No token Found", ok: 0, lockDown: true });
-    }
-    let decodedToken = await decode(authToken);
-    if (!decodedToken) {
-        return res.json({ msg: "bad token", ok: 0, lockDown: true });
-    }
-    let { userId } = decodedToken;
-    if (!userId) {
-        return res.json({ msg: "Invalid Token", ok: 0, lockDown: true });
-    }
-    let user = await findUser(db, userId);
-    if (!user || !user.token || user == "undefined") {
-        return res.json({ msg: "No User Found", ok: 0, lockDown: true });
-    }
-    if (user.token != authToken) {
-        return res.json({ msg: "bad token", ok: 0, lockDown: true });
-    }
-    if (new Date() > new Date(user.token_expiration)) {
-        return res.json({ msg: "expired token", ok: 0, lockDown: true });
-    }
-    // passed authentication ------------------------------------------
-    let fetchResults = await getData(db, obj.id);
-    if (!fetchResults) {
-        return res.json({ msg: "Something Went Wrong", ok: 0 });
-    }
-    return res.json({ msg: "successful", ok: 1, data: fetchResults });
+  const client = await clientPromise;
+  const db = client.db("blarg");
+
+  // authentication ---------------------------------
+  const findUser = async (db, id) => {
+    const o_id = new ObjectId(id);
+    return db.collection("users").findOne({ _id: o_id });
+  };
+
+  const decode = async (token) => jwt.verify(token, process.env.SECRET);
+
+  const authToken = req.headers["x-auth-token"];
+  if (!authToken) {
+    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
+  }
+
+  let decodedToken;
+  try {
+    decodedToken = await decode(authToken);
+  } catch (error) {
+    return res.json({ msg: "bad token", ok: 0, lockDown: true });
+  }
+
+  const { userId } = decodedToken;
+  const user = await findUser(db, userId);
+  if (
+    !userId ||
+    !user ||
+    !user.token ||
+    user.token !== authToken ||
+    new Date() > new Date(user.token_expiration)
+  ) {
+    return res.json({
+      msg: "Invalid Token or No User Found or Expired Token",
+      ok: 0,
+      lockDown: true,
+    });
+  }
+
+  // passed authentication ------------------------------------------
+  let fetchResults = await getData(db, obj.id);
+  if (!fetchResults) {
+    return res.json({ msg: "Something Went Wrong", ok: 0 });
+  }
+
+  const uniqueTopicIds = [
+    ...new Set(fetchResults.map((result) => result.topic_id)),
+  ];
+
+  const topics = await getTopicsByIds(db, uniqueTopicIds);
+
+  const topicMutedStatus = {};
+  topics.forEach((topic) => {
+    topicMutedStatus[topic._id.toString()] = isTopicMutedForUser(
+      topic,
+      decodedToken.userId
+    );
+  });
+
+  const filteredResults = fetchResults.filter(
+    (result) => !topicMutedStatus[result.topic_id]
+  );
+
+  return res.json({
+    msg: "successful",
+    ok: 1,
+    data: filteredResults,
+    unfilteredData: fetchResults,
+  });
 };

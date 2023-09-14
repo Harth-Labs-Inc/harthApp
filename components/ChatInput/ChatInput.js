@@ -8,6 +8,7 @@ import {
   saveMessage,
   sendUnreadMessages,
   updateMessage,
+  getTopicsRecieverIds,
 } from "../../requests/chat";
 import { useComms } from "../../contexts/comms";
 import { useAuth } from "../../contexts/auth";
@@ -233,13 +234,12 @@ const ChatInput = (props) => {
             }
           }
 
-          let receiverIds = selectedCommRef.current.users
-            .filter((obj) => obj.userId !== user._id)
-            .map((obj) => obj.userId);
-
-          pushmessage.receiverIds = receiverIds;
-          console.log(pushmessage);
-          sendPushNotification(pushmessage);
+          getTopicsRecieverIds(newMessage).then(({ userIDsToNotify }) => {
+            if (userIDsToNotify && userIDsToNotify.length) {
+              pushmessage.receiverIds = userIDsToNotify;
+              sendPushNotification(pushmessage);
+            }
+          });
         } catch (error) {
           console.log(error);
         }
@@ -400,7 +400,13 @@ const ChatInput = (props) => {
     if (!isSubmitting) {
       if (Object.keys(selectedEditMsg).length > 0) {
         return (
-          <div id={isMobile ? styles.ChatInputMobileControlsRight : styles.ChatInputControlsRight}>
+          <div
+            id={
+              isMobile
+                ? styles.ChatInputMobileControlsRight
+                : styles.ChatInputControlsRight
+            }
+          >
             <button
               onClick={cancelEdit}
               className={styles.EditCancel}
@@ -504,8 +510,18 @@ const ChatInput = (props) => {
           }}
         ></textarea>
       </div>
-      <div id={isMobile ? styles.ChatInputMobileControls : styles.ChatInputControls}>
-        <div id={isMobile ? styles.ChatInputMobileControlsLeft : styles.ChatInputControlsLeft}>
+      <div
+        id={
+          isMobile ? styles.ChatInputMobileControls : styles.ChatInputControls
+        }
+      >
+        <div
+          id={
+            isMobile
+              ? styles.ChatInputMobileControlsLeft
+              : styles.ChatInputControlsLeft
+          }
+        >
           <button onClick={triggerPicker} aria-label="add emoji reaction">
             <IconAddReactionNoFill />
           </button>
