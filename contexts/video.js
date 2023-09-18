@@ -28,7 +28,7 @@ export const VideoProvider = ({ children }) => {
 
   const INITIAL_RECONNECT_INTERVAL = 500;
   let currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
-  const MAX_RECONNECT_INTERVAL = 60000;
+  const MAX_RECONNECT_INTERVAL = 2500;
 
   let isReconnecting = false;
 
