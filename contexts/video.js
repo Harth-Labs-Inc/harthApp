@@ -6,6 +6,7 @@ import { combineDateTime } from "../services/helper";
 import { useComms } from "./comms";
 import { useSocket } from "./socket";
 import { useAuth } from "./auth";
+import { useCallback } from "react";
 const VideoContext = createContext({});
 
 /* eslint-disable */
@@ -23,47 +24,104 @@ export const VideoProvider = ({ children }) => {
 
   const socketRef = useRef(null);
 
-  const connectSocket = (user) => {
-    if (!user) return;
+  // ------------------------ socket connection logic --------------------------------
 
-    disconnectSocket();
+  const INITIAL_RECONNECT_INTERVAL = 500;
+  let currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
+  const MAX_RECONNECT_INTERVAL = 60000;
 
+  let isReconnecting = false;
+
+  const connectSocket = useCallback(() => {
+    if (document.hidden || !user || !navigator.onLine) return;
+    isReconnecting = true;
     const token = localStorage.getItem("token");
     const URL = videoSocketUrls[process.env.NODE_ENV];
+
+    disconnectSocket();
 
     const tempSocket = io.connect(URL, {
       transports: ["websocket"],
       query: { token },
-      reconnection: true,
-      reconnectionAttempts: Infinity,
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 3000,
+      reconnection: false,
     });
 
     tempSocket.on("connect", () => {
       if (document.hidden) {
-        tempSocket.disconnect();
+        tempSocket.close();
         return;
       }
-
       socketRef.current = tempSocket;
       setSocket(tempSocket);
       setSocketID(tempSocket.id);
       setReconnected((prev) => !prev);
       setupListeners(tempSocket, user);
+      isReconnecting = false;
+      currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
     });
-    tempSocket.on("error", () => {
+
+    const handleErrorOrDisconnect = (message) => {
+      isReconnecting = false;
       disconnectSocket();
+      setTimeout(() => {
+        tryReconnect();
+      }, currentReconnectInterval);
+      currentReconnectInterval = Math.min(
+        currentReconnectInterval * 2,
+        MAX_RECONNECT_INTERVAL
+      );
+    };
+
+    tempSocket.on("connect_error", (error) => {
+      handleErrorOrDisconnect("Connection error: " + error);
+    });
+    tempSocket.on("error", (err) => {
+      handleErrorOrDisconnect("Socket encountered an error: " + err);
+    });
+    tempSocket.on("disconnect", (reason) => {
+      handleErrorOrDisconnect("Socket disconnected due to: " + reason);
     });
 
     return tempSocket;
-  };
+  }, [user]);
   const disconnectSocket = () => {
     if (socketRef.current) {
-      socketRef.current.io.reconnection = false;
-      socketRef.current.disconnect();
+      socketRef.current.close();
+      socketRef.current = null;
     }
   };
+  const tryReconnect = useCallback(() => {
+    if (
+      !isReconnecting &&
+      !document.hidden &&
+      user &&
+      navigator.onLine &&
+      !socketRef.current?.connected
+    ) {
+      connectSocket();
+    }
+  }, [connectSocket]);
+
+  useEffect(() => {
+    connectSocket();
+
+    function handleChange() {
+      tryReconnect();
+    }
+
+    window.addEventListener("visibilitychange", handleChange);
+    window.addEventListener("online", handleChange);
+    window.addEventListener("focus", handleChange);
+    return () => {
+      window.removeEventListener("visibilitychange", handleChange);
+      window.removeEventListener("online", handleChange);
+      window.addEventListener("focus", handleChange);
+      disconnectSocket();
+    };
+  }, [connectSocket, tryReconnect]);
+
+  // ------------------------ socket logic --------------------------------
+
   const setupListeners = (socket, user) => {
     if (!socket || !user) return;
     socket.off("broadcast");
@@ -106,46 +164,6 @@ export const VideoProvider = ({ children }) => {
 
     return;
   };
-
-  useEffect(() => {
-    function handleVisibilityChange() {
-      const hidden = document.hidden;
-      const connected = socketRef.current?.connected;
-
-      if (!hidden) {
-        if (!connected) {
-          manageSocketConnection();
-        }
-      }
-    }
-
-    function handleOnline() {
-      manageSocketConnection();
-    }
-
-    const manageSocketConnection = () => {
-      if (navigator.onLine && !document.hidden) {
-        connectSocket(user);
-      }
-    };
-
-    manageSocketConnection();
-
-    window.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("online", handleOnline);
-
-    return () => {
-      window.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("online", handleOnline);
-
-      if (socket) {
-        socket.disconnect();
-        setSocket(null);
-        socketRef.current = null;
-      }
-    };
-  }, [user]);
-
   const pushScheduledRoom = (data) => {
     if (socket) {
       socket.emit("new-scheduled-room", data);

@@ -1,4 +1,11 @@
-import { createContext, useState, useContext, useEffect, useRef } from "react";
+import {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import io from "socket.io-client";
 import { useAuth } from "./auth";
 import { useComms } from "./comms";
@@ -19,7 +26,7 @@ import {
 const SocketContext = createContext({});
 
 // -------------------- update version here ------------------------------------------------------------------------------
-const APP_VERSION = "1.0.0.10";
+const APP_VERSION = "1.0.0.11";
 // -----------------------------------------------------------------------------------------------------------------------
 
 /* eslint-disable */
@@ -63,48 +70,135 @@ export const SocketProvider = ({ children }) => {
   const newMessageIndicators = useRef({});
   const mainAlertsRef = useRef({});
 
-  const connectSocket = (user) => {
-    if (!user) return;
-    disconnectSocket();
+  // ------------------------ socket connection logic --------------------------------
 
-    const token = localStorage.getItem("token");
-    const URL = socketUrls[process.env.NODE_ENV];
+  const INITIAL_RECONNECT_INTERVAL = 500;
+  let currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
+  const MAX_RECONNECT_INTERVAL = 60000;
 
-    const tempSocket = io.connect(URL, {
-      transports: ["websocket"],
-      query: { token },
-      reconnection: true,
-      reconnectionAttempts: Infinity,
-      reconnectionDelay: 300,
-      reconnectionDelayMax: 2000,
-    });
+  let isReconnecting = false;
+  let ispullingVersioning = false;
+  let isCacheUpdateScheduled = false;
 
-    tempSocket.on("connect", () => {
-      if (document.hidden) {
-        tempSocket.disconnect();
-        return;
-      }
-      rebuildData();
-      socketRef.current = tempSocket;
-      setSocket(tempSocket);
-      setReconnected((prev) => !prev);
-      setupListeners(tempSocket, user);
-      checkForCacheUpdate();
-    });
+  const connectSocket = useCallback(
+    (shouldPullNewData) => {
+      if (document.hidden || !user || !navigator.onLine) return;
 
-    tempSocket.on("error", (err) => {
-      console.error("Socket encountered an error:", err);
+      console.log("is connecting....");
+      isReconnecting = true;
+      const token = localStorage.getItem("token");
+      const URL = socketUrls[process.env.NODE_ENV];
+
       disconnectSocket();
-    });
 
-    return tempSocket;
-  };
+      const tempSocket = io.connect(URL, {
+        transports: ["websocket"],
+        query: { token },
+        reconnection: false,
+      });
+
+      tempSocket.on("connect", () => {
+        console.log("connected");
+        if (document.hidden) {
+          tempSocket.close();
+          return;
+        }
+        rebuildData(shouldPullNewData);
+        socketRef.current = tempSocket;
+        setSocket(tempSocket);
+        setReconnected((prev) => !prev);
+        setupListeners(tempSocket, user);
+        checkForCacheUpdate();
+        isReconnecting = false;
+        currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
+      });
+
+      const handleErrorOrDisconnect = (message) => {
+        console.log(message);
+        isReconnecting = false;
+        disconnectSocket();
+        setTimeout(() => {
+          tryReconnect();
+        }, currentReconnectInterval);
+        currentReconnectInterval = Math.min(
+          currentReconnectInterval * 2,
+          MAX_RECONNECT_INTERVAL
+        );
+      };
+
+      tempSocket.on("connect_error", (error) => {
+        handleErrorOrDisconnect("Connection error: " + error);
+      });
+      tempSocket.on("error", (err) => {
+        handleErrorOrDisconnect("Socket encountered an error: " + err);
+      });
+      tempSocket.on("disconnect", (reason) => {
+        handleErrorOrDisconnect("Socket disconnected due to: " + reason);
+      });
+
+      return tempSocket;
+    },
+    [user]
+  );
+
   const disconnectSocket = () => {
     if (socketRef.current) {
-      socketRef.current.io.reconnection = false;
-      socketRef.current.disconnect();
+      socketRef.current.close();
+      socketRef.current = null;
     }
   };
+
+  const tryReconnect = useCallback(() => {
+    if (
+      !isReconnecting &&
+      !document.hidden &&
+      user &&
+      navigator.onLine &&
+      !socketRef.current?.connected
+    ) {
+      connectSocket(true);
+    }
+  }, [connectSocket]);
+
+  useEffect(() => {
+    connectSocket();
+
+    function handleChange() {
+      tryReconnect();
+      if (!isCacheUpdateScheduled) {
+        isCacheUpdateScheduled = true;
+        requestAnimationFrame(() => {
+          checkForCacheUpdate();
+          isCacheUpdateScheduled = false;
+        });
+      }
+    }
+
+    window.addEventListener("visibilitychange", handleChange);
+    window.addEventListener("online", handleChange);
+    window.addEventListener("focus", handleChange);
+    return () => {
+      window.removeEventListener("visibilitychange", handleChange);
+      window.removeEventListener("online", handleChange);
+      window.addEventListener("focus", handleChange);
+      disconnectSocket();
+    };
+  }, [connectSocket, tryReconnect]);
+
+  // ------------------------ socket logic --------------------------------
+
+  useEffect(() => {
+    if (selectedcomm) {
+      selectedHarthRef.current = selectedcomm;
+    }
+  }, [selectedcomm]);
+
+  useEffect(() => {
+    if (socket?.connected) {
+      join([...(comms || [])]);
+    }
+  }, [comms, socket?.connected, reconnected]);
+
   const setupListeners = (socket, user) => {
     if (!socket || !user) return;
     socket.off("new update");
@@ -337,9 +431,9 @@ export const SocketProvider = ({ children }) => {
 
     return;
   };
-  const rebuildData = () => {
+  const rebuildData = (shouldPullNewData) => {
     fetchUnreadData(user);
-    if (socketRef.current) {
+    if (shouldPullNewData) {
       changeSelectedCommFromChild(selectedCommRef.current, true);
     }
   };
@@ -348,84 +442,40 @@ export const SocketProvider = ({ children }) => {
     getUnreadConvMessages(user);
   };
   const checkForCacheUpdate = () => {
-    fetch("/version.txt?" + new Date().getTime())
-      .then((response) => response.text())
-      .then((version) => {
-        if (
-          typeof APP_VERSION === "undefined" ||
-          APP_VERSION.trim() !== version.trim()
-        ) {
+    if (!ispullingVersioning) {
+      ispullingVersioning = true;
+      fetch("/version.txt?" + new Date().getTime())
+        .then((response) => response.text())
+        .then((version) => {
           if (
-            "serviceWorker" in navigator &&
-            navigator.serviceWorker.controller
+            typeof APP_VERSION === "undefined" ||
+            APP_VERSION.trim() !== version.trim()
           ) {
-            const channel = new MessageChannel();
-            channel.port1.onmessage = (event) => {
-              if (event.data && event.data.type === "FORCE_UPDATE") {
-                setShowHasUpdateButton(true);
-              }
-            };
-            navigator.serviceWorker.controller.postMessage(
-              { type: "UPDATE_VERSION" },
-              [channel.port2]
-            );
-          } else {
-            setShowHasUpdateButton(true);
+            if (
+              "serviceWorker" in navigator &&
+              navigator.serviceWorker.controller
+            ) {
+              const channel = new MessageChannel();
+              channel.port1.onmessage = (event) => {
+                if (event.data && event.data.type === "FORCE_UPDATE") {
+                  setShowHasUpdateButton(true);
+                }
+              };
+              navigator.serviceWorker.controller.postMessage(
+                { type: "UPDATE_VERSION" },
+                [channel.port2]
+              );
+            } else {
+              setShowHasUpdateButton(true);
+            }
           }
-        }
-      });
+          ispullingVersioning = false;
+        })
+        .catch(() => {
+          ispullingVersioning = false;
+        });
+    }
   };
-
-  useEffect(() => {
-    function handleVisibilityChange() {
-      const hidden = document.hidden;
-      const connected = socketRef.current?.connected;
-
-      if (!hidden) {
-        if (!connected) {
-          manageSocketConnection();
-        } else {
-          checkForCacheUpdate();
-        }
-      }
-    }
-
-    function handleOnline() {
-      manageSocketConnection();
-    }
-
-    const manageSocketConnection = () => {
-      if (navigator.onLine && !document.hidden) {
-        connectSocket(user);
-      }
-    };
-    manageSocketConnection();
-
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("visibilitychange", handleVisibilityChange);
-
-      if (socket) {
-        socket.disconnect();
-        setSocket(null);
-      }
-    };
-  }, [user]);
-
-  useEffect(() => {
-    if (selectedcomm) {
-      selectedHarthRef.current = selectedcomm;
-    }
-  }, [selectedcomm]);
-
-  useEffect(() => {
-    if (socket?.connected) {
-      join([...(comms || [])]);
-    }
-  }, [comms, socket?.connected, reconnected]);
-
   const setNewAlerts = (incomingUpdate, alertType) => {
     let alerts = { ...mainAlertsRef.current };
     let id =
