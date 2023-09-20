@@ -12,9 +12,14 @@ export default async (req, res) => {
 
   const { token, selectedHarthID, selectedPage, deviceKey } = obj;
 
+  const client = await clientPromise;
+  const db = client.db("blarg");
+
   if (!token) {
+    await db.command({ ping: 1 });
+
     return res.json({
-      msg: "No token provided, function is warmed up.",
+      msg: "function and DB warmed up.",
       ok: 0,
     });
   }
@@ -24,9 +29,6 @@ export default async (req, res) => {
 
   const { userId } = decodedToken;
   if (!userId) return res.json({ msg: "Invalid Token", ok: 0 });
-
-  const client = await clientPromise;
-  const db = client.db("blarg");
 
   const [user, subscriptions] = await Promise.all([
     db.collection("users").findOne({ _id: new ObjectId(userId) }),
