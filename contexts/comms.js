@@ -394,8 +394,10 @@ export const CommsProvider = ({
 
     const { ok, topics } = result;
     if (ok) {
+      console.log(1);
       let startingTopic;
       if (!isMobile || repullMessages) {
+        console.log(2);
         for (let topic of topics) {
           for (let member of topic.members) {
             if (member.user_id == user._id) {
@@ -408,24 +410,30 @@ export const CommsProvider = ({
 
         let storedHarthData = localStorage.getItem("harthData");
         if (storedHarthData) {
+          console.log(3);
+
           try {
             const parsedStoredHarthData = JSON.parse(storedHarthData);
-            const matchingHarth = parsedStoredHarthData[comid] || {};
+            if (parsedStoredHarthData) {
+              const matchingHarth = parsedStoredHarthData[comid] || {};
 
-            if (matchingHarth.selected_topic) {
-              const matchingTopic = matchingHarth.selected_topic;
-              if (matchingTopic) {
-                for (let member of matchingTopic.members) {
-                  if (member.user_id == user._id) {
-                    if (!member.hidden) {
-                      startingTopic = matchingTopic;
+              if (matchingHarth.selected_topic) {
+                const matchingTopic = matchingHarth.selected_topic;
+                if (matchingTopic) {
+                  for (let member of matchingTopic.members) {
+                    if (member.user_id == user._id) {
+                      if (!member.hidden) {
+                        startingTopic = matchingTopic;
+                      }
                     }
                   }
                 }
               }
             }
           } catch (error) {
-            console.log();
+            console.log(4);
+
+            console.log(error);
           }
         }
       }
@@ -446,6 +454,8 @@ export const CommsProvider = ({
           }
         }
       }
+      console.log(5);
+
       setTopics(topics);
       setIsLoadingTopics(false);
       if (startingTopic) {
