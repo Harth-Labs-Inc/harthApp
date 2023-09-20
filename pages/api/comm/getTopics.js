@@ -1,4 +1,6 @@
 import clientPromise from "../../../util/mongodb";
+import getClientWithCheck from "../../../util/getMongoClientWithCheck";
+
 import jwt from "jsonwebtoken";
 
 /* eslint-disable */
@@ -52,7 +54,8 @@ export default async (req, res) => {
     });
   };
 
-  const client = await clientPromise;
+  const client = await getClientWithCheck(clientPromise);
+
   const db = client.db("blarg");
 
   // authentication ---------------------------------

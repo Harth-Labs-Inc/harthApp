@@ -1,4 +1,6 @@
 import clientPromise from "../../../util/mongodb";
+import getClientWithCheck from "../../../util/getMongoClientWithCheck";
+
 import jwt from "jsonwebtoken";
 import aws from "aws-sdk";
 
@@ -23,7 +25,8 @@ export default async (req, res) => {
     Bucket: obj.bucket,
     Prefix: obj.prefix,
   };
-  const client = await clientPromise;
+  const client = await getClientWithCheck(clientPromise);
+
   const db = client.db("blarg");
 
   // authentication ---------------------------------

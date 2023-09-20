@@ -1,4 +1,6 @@
 import clientPromise from "../../../util/mongodb";
+import getClientWithCheck from "../../../util/getMongoClientWithCheck";
+
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
@@ -15,7 +17,8 @@ export default async (req, res) => {
 
   const { topic_id, comm_id, creator_id } = message;
 
-  const client = await clientPromise;
+  const client = await getClientWithCheck(clientPromise);
+
   const db = client.db("blarg");
 
   // Authentication

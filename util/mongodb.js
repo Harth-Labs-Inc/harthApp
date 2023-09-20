@@ -20,13 +20,11 @@ const options = {
 let client;
 
 const connectClient = async (retries = 2) => {
-  if (client && client.topology.isConnected()) {
-    console.log("Has existing");
+  if (client && client.topology?.isConnected()) {
     return client;
   }
 
   if (client && !client.topology.isConnected()) {
-    console.log("Has existing but not connected");
     await client.close();
     client = null;
   }
@@ -35,7 +33,6 @@ const connectClient = async (retries = 2) => {
 
   try {
     await client.connect();
-    console.log("built new");
     return client;
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
@@ -46,7 +43,6 @@ const connectClient = async (retries = 2) => {
     }
 
     if (retries > 0) {
-      console.log(`Retrying connection. Attempts left: ${retries - 1}`);
       await new Promise((res) => setTimeout(res, 1500));
       return connectClient(retries - 1);
     }

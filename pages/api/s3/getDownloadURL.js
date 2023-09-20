@@ -1,4 +1,6 @@
 import clientPromise from "../../../util/mongodb";
+import getClientWithCheck from "../../../util/getMongoClientWithCheck";
+
 import jwt from "jsonwebtoken";
 import aws from "aws-sdk";
 import { ObjectId } from "mongodb";
@@ -18,7 +20,8 @@ const findUser = async (db, id) => {
 /* eslint-disable */
 
 export default async (req, res) => {
-  const client = await clientPromise;
+  const client = await getClientWithCheck(clientPromise);
+
   const db = client.db("blarg");
 
   let obj;
