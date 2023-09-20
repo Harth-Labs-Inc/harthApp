@@ -1,4 +1,6 @@
 import clientPromise from "../../../util/mongodb";
+import getClientWithCheck from "../../../util/getMongoClientWithCheck";
+
 import { generateOTP } from "../../../services/helper";
 
 /* eslint-disable */
@@ -65,7 +67,8 @@ export default async (req, res) => {
     });
   };
 
-  const client = await clientPromise;
+  const client = await getClientWithCheck(clientPromise);
+
   const db = client.db("blarg");
   let user = await findUser(db, obj.email);
 

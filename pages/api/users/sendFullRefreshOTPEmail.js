@@ -1,4 +1,6 @@
 import clientPromise from "../../../util/mongodb";
+import getClientWithCheck from "../../../util/getMongoClientWithCheck";
+
 import { generateOTP } from "../../../services/helper";
 import jwt from "jsonwebtoken";
 import { Validator } from "node-input-validator";
@@ -244,7 +246,8 @@ export default async (req, res) => {
   if (!userId) {
     return res.json({ msg: "Invalid Token", ok: 0, lockDown: true });
   }
-  const client = await clientPromise;
+  const client = await getClientWithCheck(clientPromise);
+
   const db = client.db("blarg");
   //check user
   let user = await findUser(db, userId);

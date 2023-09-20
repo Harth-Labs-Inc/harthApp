@@ -14,31 +14,43 @@ if (!uri) {
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 2000,
 };
 
 let client;
 
-const getClient = async () => {
-  if (!client) {
-    client = new MongoClient(uri, options);
-    try {
-      await client.connect();
-    } catch (error) {
-      client = null;
-      throw error;
-    }
-  } else if (!client.topology.isConnected()) {
-    try {
-      await client.connect();
-    } catch (error) {
-      client = null;
-      throw error;
-    }
+const connectClient = async (retries = 2) => {
+  if (client && client.topology?.isConnected()) {
+    return client;
   }
 
-  return client;
+  if (client && !client.topology.isConnected()) {
+    await client.close();
+    client = null;
+  }
+
+  client = new MongoClient(uri, options);
+
+  try {
+    await client.connect();
+    return client;
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+
+    if (client) {
+      await client.close();
+      client = null;
+    }
+
+    if (retries > 0) {
+      await new Promise((res) => setTimeout(res, 1500));
+      return connectClient(retries - 1);
+    }
+
+    throw error;
+  }
 };
 
-const clientPromise = getClient();
+const clientPromise = connectClient();
 
 export default clientPromise;
