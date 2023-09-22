@@ -466,13 +466,17 @@ export const SocketProvider = ({ children }) => {
                 [channel.port2]
               );
             } else {
-              setShowHasUpdateButton(true);
+              ispullingVersioning = false;
+              setShowHasUpdateButton(false);
             }
           }
           ispullingVersioning = false;
         })
         .catch(() => {
           ispullingVersioning = false;
+          if (showHasUpdateButton) {
+            setShowHasUpdateButton(false);
+          }
         });
     }
   };
