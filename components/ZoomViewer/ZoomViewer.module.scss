@@ -9,26 +9,42 @@
     height: 100vh;
     width: 100vw;
     background-color: $ash_dark;
+
     button {
       position: fixed;
-      //height: 24px;
-      width: 24px;
-
       top: 15px;
       right:  15px;
       z-index: 5000000;
-      border: 1px solid $ash_light;
-      background: $ash;
+      height: 28px;
+      width: fit-content;
+      border: 1px solid $ash_medium;
+      background: $ash_dark;
       color: $font_medium;
       @include worksans;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 600;
       text-transform:uppercase;
       border-radius: 99px;
-      width: fit-content;
-      //font-size: 16px;
-      padding: 4px 8px;
+      padding: 0px 10px;
       cursor: pointer;
+    }
+
+    .download {
+      position: fixed;
+      top: 15px;
+      right:  86px;
+      z-index: 5000000;
+      height: 28px;
+      width: 28px;
+      border: 1px solid $ash_medium;
+      background: $ash_dark;
+      border-radius: 99px;
+      padding: 4px;
+      cursor: pointer;
+
+      path {
+        fill: $font_medium;
+      }
     }
   }
   
@@ -56,30 +72,38 @@
     top: 50%;
     right: 10px;
     z-index: 500000000;
-    border: 1px solid $ash_light;
+    border: 1px solid $ash_medium;
     background-color: $ash_heavy;
     color: $font_medium;
     border-radius: 25px;
     width: 36px;
     height: 36px;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 0px;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
     cursor: pointer;
+    
+    path {
+      fill: $font_medium;
+    }
   }
   .prevbutton {
     position: fixed;
     top: 50%;
     left: 10px;
     z-index: 500000000;
-    border: 1px solid $ash_light;
+    border: 1px solid $ash_medium;
     background-color: $ash_heavy;
     color: $font_medium;
     border-radius: 25px;
     width: 36px;
     height: 36px;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 0px;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
     cursor: pointer;
+    
+    path {
+      fill: $font_medium;
+    }
   }

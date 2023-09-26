@@ -3,6 +3,9 @@ import styles from "./ZoomViewer.module.scss";
 import { useEffect, useState } from "react";
 import { getDownloadURL } from "requests/s3";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
+import { IconChevronLeft } from "resources/icons/IconChevronLeft";
+import { IconChevronRight } from "resources/icons/IconChevronRight";
+//import { IconDownload } from "resources/icons/IconDownload";
 
 /* eslint-disable */
 const ZoomViewer = ({
@@ -59,6 +62,9 @@ const ZoomViewer = ({
   return (
     <>
       <div className={styles.mainContainer}>
+        {/* <button onClick={} className={styles.download}>
+          <IconDownload />
+        </button> */}
         <button onClick={resetImageSLideshow} className={styles.button}>
           close
         </button>
@@ -116,7 +122,7 @@ const ZoomViewer = ({
           onClick={() => nextImageInSlideshow(url)}
           className={styles.prevbutton}
         >
-          {"<"}
+          <IconChevronLeft />
         </button>
       )}
       {index > 0 && (
@@ -124,7 +130,7 @@ const ZoomViewer = ({
           onClick={() => prevImageInSlideshow(url)}
           className={styles.nextbutton}
         >
-          {">"}
+          <IconChevronRight />
         </button>
       )}
     </>

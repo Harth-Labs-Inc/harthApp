@@ -38,7 +38,7 @@
 @mixin titleNav {
   font-family: var(--Work_Sans-font);
   font-weight: 400;
-  font-size: 11px;
+  font-size: 10px;
   line-height: 100%;
 }
 
@@ -102,20 +102,20 @@
 @mixin chatText {
   //font-family: var(--Open_Sans-font);
   font-family: var(--Rubik-font);
-  font-weight: 400;
+  font-weight: 300;
   font-size: 14px;
-  line-height: 140%;
-  letter-spacing: 0.05em;
+  line-height: 130%;
+  letter-spacing: 0.03em;
   text-rendering: optimizeLegibility;
 }
 
 @mixin chatTextMobile {
   //font-family: var(--Open_Sans-font);
   font-family: var(--Rubik-font);
-  font-weight: 400;
+  font-weight: 300;
   font-size: 15px;
-  line-height: 140%;
-  letter-spacing: 0.05em;
+  line-height: 130%;
+  letter-spacing: 0.03em;
   text-rendering: optimizeLegibility;
 }
 
