@@ -5,7 +5,7 @@ import { getDownloadURL } from "requests/s3";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 import { IconChevronRight } from "resources/icons/IconChevronRight";
-//import { IconDownload } from "resources/icons/IconDownload";
+import { IconDownload } from "resources/icons/IconDownload";
 
 /* eslint-disable */
 const ZoomViewer = ({
@@ -58,13 +58,26 @@ const ZoomViewer = ({
     };
   }, []);
 
+  const download = async () => {
+    const response = await fetch(fullImage);
+    const blob = await response.blob();
+    const newurl = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = newurl;
+    a.download = "harth.jpg";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(newurl);
+  };
+
   const index = slideshowURLRef?.findIndex((obj) => obj.name === url.name);
   return (
     <>
       <div className={styles.mainContainer}>
-        {/* <button onClick={} className={styles.download}>
-          <IconDownload />
-        </button> */}
+        <button className={styles.download}>
+          <IconDownload clickHandler={download} />
+        </button>
         <button onClick={resetImageSLideshow} className={styles.button}>
           close
         </button>
