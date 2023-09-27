@@ -23,13 +23,25 @@ const Chat = () => {
         <>
           <div
             id="mainchatContainer"
-            style={{ width: "100%", position: "relative" }}
+            style={{ width: "100vw", position: "relative" }}
           >
             <div className={styles.topicHolderMobile}>
               <TopicsNav handleMobileChat={handleMobileChat} />
             </div>
           </div>
-          <TransitionGroup>
+          {Object.keys(selectedTopic || {})?.length ? (
+            <div id="mainchatContainer" className={styles.chatHolderMobile}>
+              <MobileChatHeader
+                selectedTopic={selectedTopic}
+                handleMobileChat={handleMobileChat}
+                toggleTopicEditModal
+              />
+              <ChatMessages />
+            </div>
+          ) : (
+            <></>
+          )}
+          {/* <TransitionGroup>
             <CSSTransition
               key={Object.keys(selectedTopic || {})?.length ? "chat" : "topics"}
               timeout={300}
@@ -48,7 +60,7 @@ const Chat = () => {
                 <></>
               )}
             </CSSTransition>
-          </TransitionGroup>
+          </TransitionGroup> */}
         </>
       ) : (
         <div id="mainchatContainer" className={styles.MainChatContainer}>
