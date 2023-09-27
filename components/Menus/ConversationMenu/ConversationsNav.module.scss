@@ -9,7 +9,7 @@
     background-color: $ash;
     height: 100%;
     overflow-y: scroll;
-    border-right: 1px solid $ash_medium;
+    //border-right: 1px solid $ash_medium;
 
     .notopic {
         @include worksans;
@@ -23,7 +23,7 @@
         border: 0;
         width: 100%;
         padding: 75px 16px 24px 16px;
-        background-color: $ash_heavy;
+        background-color: $ash_dark;
         .notopic {
             @include worksans;
             color: $font_medium;
