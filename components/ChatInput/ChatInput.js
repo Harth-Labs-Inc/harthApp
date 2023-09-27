@@ -86,7 +86,7 @@ const ChatInput = (props) => {
       if (heightDifference > 0) {
         setOffsetY(-heightDifference);
       } else {
-        setOffsetY(0);
+        setOffsetY(heightDifference);
       }
     };
 
