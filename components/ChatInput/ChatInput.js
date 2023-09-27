@@ -162,10 +162,14 @@ const ChatInput = (props) => {
     const textValue = textRef.current.value;
 
     if (!textValue.trim() || !isMobile || emojiPickerState) {
+      setOffsetY(0);
       return;
     }
 
-    if (!allowBlur) {
+    if (allowBlur) {
+      setOffsetY(0);
+      return;
+    } else {
       e.preventDefault();
       textRef.current.focus();
     }
