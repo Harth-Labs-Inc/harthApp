@@ -53,23 +53,16 @@ function MyApp({ Component, pageProps }) {
     const preventDragStart = (event) => {
       event.preventDefault();
     };
-    const handleResize = () => {
-      const vh = window.innerHeight;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    };
 
     setVhValue();
-    handleResize();
-
     document.addEventListener("dragstart", preventDragStart);
-    window.addEventListener("resize", handleResize);
+
     const timeoutId = setTimeout(() => {
       setVhValue();
     }, 1000);
     return () => {
       clearTimeout(timeoutId);
       document.removeEventListener("dragstart", preventDragStart);
-      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
