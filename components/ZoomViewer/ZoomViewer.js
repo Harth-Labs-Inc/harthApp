@@ -6,6 +6,7 @@ import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader"
 import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 import { IconChevronRight } from "resources/icons/IconChevronRight";
 import { IconDownload } from "resources/icons/IconDownload";
+import { fetchImage } from "services/helper";
 
 /* eslint-disable */
 const ZoomViewer = ({
@@ -59,8 +60,17 @@ const ZoomViewer = ({
   }, []);
 
   const download = async () => {
-    const response = await fetch(fullImage);
-    const blob = await response.blob();
+    let name = url.name;
+    if (name.includes("thumbnail")) {
+      name = name.replace("thumbnail", "full");
+    }
+
+    const fetchedData = await getDownloadURL(
+      name,
+      url.fileType,
+      "topic-message-attachments"
+    );
+    const blob = await fetchImage(fetchedData.downloadURL);
     const newurl = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.style.display = "none";
