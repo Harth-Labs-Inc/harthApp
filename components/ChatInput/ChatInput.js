@@ -38,6 +38,8 @@ const ChatInput = (props) => {
   const [altKey, setAltKey] = useState(false);
   const [allowBlur, setAllowBlur] = useState(false);
 
+  const [offsetY, setOffsetY] = useState(0);
+
   const { user } = useAuth();
   const { selectedcomm, selectedTopic, selectedCommRef } = useComms();
   const { emitUpdate, setIncomingMsg, setNewAlerts, socketID } = useSocket();
@@ -71,6 +73,28 @@ const ChatInput = (props) => {
 
   useEffect(() => {
     originalHeightRef.current = textRef.current.style.height;
+    const handleResize = () => {
+      const vh = parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue("--vh"),
+        10
+      );
+
+      const heightDifference = vh - window.innerHeight;
+      console.log("vh", vh);
+      console.log("window.innerHeight", window.innerHeight);
+      console.log("heightDifference", heightDifference);
+      if (heightDifference > 0) {
+        setOffsetY(-heightDifference);
+      } else {
+        setOffsetY(0);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -487,6 +511,7 @@ const ChatInput = (props) => {
     <div
       ref={inputBoxContainerRef}
       id={isMobile ? styles.ChatInputMobile : styles.ChatInput}
+      style={{ transform: `translateY(${offsetY}px)` }}
     >
       <div className={styles.entryBox}>
         <ImageHolder
