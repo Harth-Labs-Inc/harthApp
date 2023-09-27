@@ -330,7 +330,7 @@ const MessageWrapper = () => {
         ) : null}
       </div>
       {isMobile ? (
-        <>
+        <div className={styles.InputMobile}>
           <ChatInput
             selectedEdit={editMessageObj}
             isReply={false}
@@ -339,7 +339,7 @@ const MessageWrapper = () => {
             resetEdit={resetEdit}
             toggleEditing={toggleEditing}
           ></ChatInput>
-        </>
+        </div>
       ) : null}
     </>
   );

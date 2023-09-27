@@ -138,18 +138,10 @@ const ChatInput = (props) => {
     const textValue = textRef.current.value;
 
     if (!textValue.trim() || !isMobile || emojiPickerState) {
-      if (inputBoxContainerRef.current) {
-        inputBoxContainerRef.current.style.bottom = "0px";
-      }
       return;
     }
 
-    if (allowBlur) {
-      if (inputBoxContainerRef.current) {
-        inputBoxContainerRef.current.style.bottom = "0px";
-      }
-      return;
-    } else {
+    if (!allowBlur) {
       e.preventDefault();
       textRef.current.focus();
     }
@@ -495,7 +487,6 @@ const ChatInput = (props) => {
     <div
       ref={inputBoxContainerRef}
       id={isMobile ? styles.ChatInputMobile : styles.ChatInput}
-      style={isMobile ? { position: "fixed", bottom: 0 } : {}}
     >
       <div className={styles.entryBox}>
         <ImageHolder
@@ -515,17 +506,7 @@ const ChatInput = (props) => {
             inputHandler(e);
             calcHeight();
           }}
-          onFocus={() => {
-            const initialViewportHeight = window.innerHeight;
-            setTimeout(() => {
-              const keyboardHeight = initialViewportHeight - window.innerHeight;
-              console.log("keyboardHeight", keyboardHeight);
-              if (inputBoxContainerRef.current) {
-                inputBoxContainerRef.current.style.bottom = `${keyboardHeight}px`;
-              }
-            }, 100);
-            calcHeight();
-          }}
+          onFocus={() => calcHeight()}
           value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
           onKeyDown={(e) => {
             let input = topicInputs[selectedTopic?._id] || "";
