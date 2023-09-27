@@ -71,6 +71,22 @@ const ChatInput = (props) => {
 
   useEffect(() => {
     originalHeightRef.current = textRef.current.style.height;
+    const handleResize = () => {
+      console.log(document.activeElement.tagName);
+      if (
+        document.activeElement.tagName === "TEXTAREA" ||
+        document.activeElement.tagName === "INPUT"
+      ) {
+        window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
