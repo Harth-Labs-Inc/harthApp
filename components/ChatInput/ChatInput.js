@@ -36,6 +36,7 @@ const ChatInput = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { isMobile } = useContext(MobileContext);
   const [altKey, setAltKey] = useState(false);
+  const [allowBlur, setAllowBlur] = useState(false);
 
   const { user } = useAuth();
   const { selectedcomm, selectedTopic, selectedCommRef } = useComms();
@@ -49,6 +50,7 @@ const ChatInput = (props) => {
     toggleEditing,
   } = props;
 
+  const inputBoxContainerRef = useRef();
   const textRef = useRef();
   const fileRef = useRef();
   const attRefs = useRef([]);
@@ -85,7 +87,23 @@ const ChatInput = (props) => {
     }
   }, [selectedEditMsg?._id]);
 
-  // input only related
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        inputBoxContainerRef.current &&
+        !inputBoxContainerRef.current.contains(event.target)
+      ) {
+        setAllowBlur(true);
+      }
+    };
+
+    document.addEventListener("touchstart", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [inputBoxContainerRef]);
+
   const calcHeight = (reset) => {
     const textarea = textRef.current;
 
@@ -116,7 +134,20 @@ const ChatInput = (props) => {
       textarea.style.overflowY = "auto";
     }
   };
+  const handleBlur = (e) => {
+    const textValue = textRef.current.value;
 
+    if (!textValue.trim() || !isMobile || emojiPickerState) {
+      return;
+    }
+
+    if (!allowBlur) {
+      e.preventDefault();
+      textRef.current.focus();
+    }
+
+    setAllowBlur(false);
+  };
   const resetHeight = () => {
     textRef.current.style.height = originalHeightRef.current;
     textRef.current.style.overflowY = "auto";
@@ -163,6 +194,7 @@ const ChatInput = (props) => {
   const inputHandler = (e) => {
     const { value } = e.target;
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: value });
+    setAllowBlur(false);
   };
   const cancelEdit = () => {
     setUploadingAttachments([]);
@@ -248,6 +280,7 @@ const ChatInput = (props) => {
     return true;
   };
   const broadcastMessage = async (message) => {
+    setAllowBlur(true);
     setUploadingAttachments([]);
     setAttachments([]);
     message.updateType = "new message";
@@ -449,8 +482,12 @@ const ChatInput = (props) => {
       }
     }
   };
+
   return (
-    <div id={isMobile ? styles.ChatInputMobile : styles.ChatInput}>
+    <div
+      ref={inputBoxContainerRef}
+      id={isMobile ? styles.ChatInputMobile : styles.ChatInput}
+    >
       <div className={styles.entryBox}>
         <ImageHolder
           attachments={attachments}
@@ -464,6 +501,7 @@ const ChatInput = (props) => {
           ref={textRef}
           autoComplete="off"
           autoCorrect="off"
+          onBlur={handleBlur}
           onChange={(e) => {
             inputHandler(e);
             calcHeight();
