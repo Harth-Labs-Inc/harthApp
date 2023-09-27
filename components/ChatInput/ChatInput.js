@@ -80,13 +80,15 @@ const ChatInput = (props) => {
       );
 
       const heightDifference = vh - window.innerHeight;
-      console.log("vh", vh);
-      console.log("window.innerHeight", window.innerHeight);
-      console.log("heightDifference", heightDifference);
-      if (heightDifference > 0) {
-        setOffsetY(-heightDifference);
+      let isFocused = textRef.current === document.activeElement;
+      if (isFocused) {
+        if (heightDifference > 0) {
+          setOffsetY(-heightDifference);
+        } else {
+          setOffsetY(heightDifference);
+        }
       } else {
-        setOffsetY(heightDifference);
+        setOffsetY(0);
       }
     };
 
