@@ -12,26 +12,17 @@
 }
 
 .chatHolderMobile {
-    position: relative;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 11;
-    height:  100vh;
+    height: var(--vh);
     width: 100vw;
     background: aqua;
-    animation: slideOutToLeft 0.3s ease forwards; 
 }
 
 .topicHolderDesktop {
     position: relative;
     height: 100%;
     overflow: auto;
-}
-@keyframes slideOutToLeft {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(-100%);
-    }
 }

@@ -5,7 +5,7 @@ import MobileChatHeader from "../../../components/Topics/MobileChatHeader/Mobile
 import ChatMessages from "../../../components/ChatMessages/ChatMessages";
 import { MobileContext } from "../../../contexts/mobile.js";
 import styles from "./chatPage.module.scss";
-// import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const Chat = () => {
   const { isMobile } = useContext(MobileContext);
@@ -23,25 +23,13 @@ const Chat = () => {
         <>
           <div
             id="mainchatContainer"
-            style={{ width: "100vw", position: "relative" }}
+            style={{ width: "100%", position: "relative" }}
           >
             <div className={styles.topicHolderMobile}>
               <TopicsNav handleMobileChat={handleMobileChat} />
             </div>
           </div>
-          {Object.keys(selectedTopic || {})?.length ? (
-            <div id="mainchatContainer" className={styles.chatHolderMobile}>
-              <MobileChatHeader
-                selectedTopic={selectedTopic}
-                handleMobileChat={handleMobileChat}
-                toggleTopicEditModal
-              />
-              <ChatMessages />
-            </div>
-          ) : (
-            <></>
-          )}
-          {/* <TransitionGroup>
+          <TransitionGroup>
             <CSSTransition
               key={Object.keys(selectedTopic || {})?.length ? "chat" : "topics"}
               timeout={300}
@@ -60,7 +48,7 @@ const Chat = () => {
                 <></>
               )}
             </CSSTransition>
-          </TransitionGroup> */}
+          </TransitionGroup>
         </>
       ) : (
         <div id="mainchatContainer" className={styles.MainChatContainer}>
