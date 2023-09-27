@@ -91,11 +91,24 @@ const ChatInput = (props) => {
         setOffsetY(0);
       }
     };
+    const preventTouchScroll = (e) => {
+      if (
+        textRef.current &&
+        textRef.current === document.activeElement &&
+        window.innerWidth <= 640
+      ) {
+        e.preventDefault();
+      }
+    };
 
     window.addEventListener("resize", handleResize);
+    window.addEventListener("touchmove", preventTouchScroll, {
+      passive: false,
+    });
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("touchmove", preventTouchScroll);
     };
   }, []);
 
@@ -537,7 +550,10 @@ const ChatInput = (props) => {
             inputHandler(e);
             calcHeight();
           }}
-          onFocus={() => calcHeight()}
+          onFocus={() => {
+            setAllowBlur(false);
+            calcHeight();
+          }}
           value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
           onKeyDown={(e) => {
             let input = topicInputs[selectedTopic?._id] || "";
