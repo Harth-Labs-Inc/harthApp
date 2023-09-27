@@ -271,7 +271,7 @@ const MessageWrapper = () => {
         />
       ) : null}
 
-      <div className={styles.Holder}>
+      <div className={styles.Holder} id="messageResizer">
         <div id={styles.ChatMessages} onScroll={handleScroll}>
           <div ref={messagesEndRef} />
           {currentMessages && currentMessages.length > 0 ? (

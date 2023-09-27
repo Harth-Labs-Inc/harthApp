@@ -81,14 +81,25 @@ const ChatInput = (props) => {
 
       const heightDifference = vh - window.innerHeight;
       let isFocused = textRef.current === document.activeElement;
+      const messageContainer = document.getElementById("messageResizer");
+
       if (isFocused) {
         if (heightDifference > 0) {
           setOffsetY(-heightDifference);
+          if (messageContainer) {
+            messageContainer.style.transform = `translateY(${-heightDifference}px)`;
+          }
         } else {
           setOffsetY(heightDifference);
+          if (messageContainer) {
+            messageContainer.style.transform = `translateY(${heightDifference}px)`;
+          }
         }
       } else {
         setOffsetY(0);
+        if (messageContainer) {
+          messageContainer.style.transform = "";
+        }
       }
     };
     const preventTouchScroll = (e) => {
@@ -175,14 +186,21 @@ const ChatInput = (props) => {
   };
   const handleBlur = (e) => {
     const textValue = textRef.current.value;
+    const messageContainer = document.getElementById("messageResizer");
 
     if (!textValue.trim() || !isMobile || emojiPickerState) {
       setOffsetY(0);
+      if (messageContainer) {
+        messageContainer.style.transform = "";
+      }
       return;
     }
 
     if (allowBlur) {
       setOffsetY(0);
+      if (messageContainer) {
+        messageContainer.style.transform = "";
+      }
       return;
     } else {
       e.preventDefault();
