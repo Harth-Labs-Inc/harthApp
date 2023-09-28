@@ -81,7 +81,7 @@ export const putImageInBucket = async (url, reader, fileType) => {
   }
 };
 
-export const getDownloadURL = async (name, fileType, bucket) => {
+export const getDownloadURL = async (name, fileType, bucket, isAttachment) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -91,6 +91,7 @@ export const getDownloadURL = async (name, fileType, bucket) => {
         name,
         fileType,
         bucket,
+        isAttachment,
       },
       {
         headers: {

@@ -59,6 +59,11 @@ const ZoomViewer = ({
     };
   }, []);
 
+  const extractFileExtension = (filename) => {
+    const parts = filename.split(".");
+    return parts.length > 1 ? parts.pop() : null;
+  };
+
   const download = async () => {
     let name = url.name;
     if (name.includes("thumbnail")) {
@@ -68,17 +73,19 @@ const ZoomViewer = ({
     const fetchedData = await getDownloadURL(
       name,
       url.fileType,
-      "topic-message-attachments"
+      "topic-message-attachments",
+      true
     );
-    const blob = await fetchImage(fetchedData.downloadURL);
-    const newurl = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.style.display = "none";
-    a.href = newurl;
-    a.download = "harth.jpg";
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(newurl);
+    console.log(fetchedData);
+    if (fetchedData && fetchedData.ok && fetchedData.downloadURL) {
+      const extension = extractFileExtension(name);
+      const a = document.createElement("a");
+      a.href = fetchedData.downloadURL;
+      a.download = `harth_social.${extension}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   };
 
   const index = slideshowURLRef?.findIndex((obj) => obj.name === url.name);

@@ -82,23 +82,35 @@ const ChatInput = (props) => {
       const heightDifference = vh - window.innerHeight;
       let isFocused = textRef.current === document.activeElement;
       const messageContainer = document.getElementById("messageResizer");
-
+      const chatHeaderContainer = document.getElementById("chatHeader");
+      console.log("isFocused: ", isFocused);
+      console.log("heightDifference: ", heightDifference);
+      console.log(vh, window.innerHeight);
       if (isFocused) {
         if (heightDifference > 0) {
           setOffsetY(-heightDifference);
           if (messageContainer) {
             messageContainer.style.transform = `translateY(${-heightDifference}px)`;
           }
+          if (chatHeaderContainer) {
+            chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
+          }
         } else {
           setOffsetY(heightDifference);
           if (messageContainer) {
             messageContainer.style.transform = `translateY(${heightDifference}px)`;
+          }
+          if (chatHeaderContainer) {
+            chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
           }
         }
       } else {
         setOffsetY(0);
         if (messageContainer) {
           messageContainer.style.transform = "";
+        }
+        if (chatHeaderContainer) {
+          chatHeaderContainer.style.transform = "";
         }
       }
     };
@@ -187,11 +199,15 @@ const ChatInput = (props) => {
   const handleBlur = (e) => {
     const textValue = textRef.current.value;
     const messageContainer = document.getElementById("messageResizer");
+    const chatHeaderContainer = document.getElementById("chatHeader");
 
     if (!textValue.trim() || !isMobile || emojiPickerState) {
       setOffsetY(0);
       if (messageContainer) {
         messageContainer.style.transform = "";
+      }
+      if (chatHeaderContainer) {
+        chatHeaderContainer.style.transform = "";
       }
       return;
     }
@@ -200,6 +216,9 @@ const ChatInput = (props) => {
       setOffsetY(0);
       if (messageContainer) {
         messageContainer.style.transform = "";
+      }
+      if (chatHeaderContainer) {
+        chatHeaderContainer.style.transform = "";
       }
       return;
     } else {
@@ -250,6 +269,14 @@ const ChatInput = (props) => {
     return null;
   };
   const triggerPicker = () => {
+    if (
+      textRef.current &&
+      textRef.current === document.activeElement &&
+      window.innerWidth <= 640
+    ) {
+      setAllowBlur(true);
+      textRef.current.blur();
+    }
     setEmojiPicker(!emojiPickerState);
   };
   const inputHandler = (e) => {
@@ -574,6 +601,7 @@ const ChatInput = (props) => {
           }}
           value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
           onKeyDown={(e) => {
+            console.log("e.key", e.key);
             let input = topicInputs[selectedTopic?._id] || "";
             if (e.altKey) {
               setAltKey(true);

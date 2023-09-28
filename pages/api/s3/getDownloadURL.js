@@ -34,7 +34,10 @@ export default async (req, res) => {
   const s3Params = {
     Bucket: obj.bucket,
     Key: obj.name,
-    ContentType: obj.type,
+    ResponseContentDisposition: obj.isAttachment
+      ? `attachment; filename=${obj.name}`
+      : `inline`,
+    ResponseContentType: obj.fileType || obj.type,
   };
 
   const authToken = req.headers["x-auth-token"];

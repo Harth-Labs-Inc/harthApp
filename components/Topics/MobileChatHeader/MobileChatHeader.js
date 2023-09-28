@@ -163,11 +163,14 @@ const MobileChatHeader = ({ handleMobileChat, selectedTopic }) => {
         </Modal>
       ) : null}
 
-      <div className={styles.MobileChatHeader}>
+      <div className={styles.MobileChatHeader} id="chatHeader">
         <button onClick={handleBackToNav} aria-label="back">
           <IconChevronLeft />
         </button>
-        <p><span className={styles.emojiHolder}>{selectedTopic.marker}</span>{selectedTopic.title}</p>
+        <p>
+          <span className={styles.emojiHolder}>{selectedTopic.marker}</span>
+          {selectedTopic.title}
+        </p>
         <button onClick={handleEditTopicMenu} aria-label="topic menu">
           <IconMoreDots />
         </button>
