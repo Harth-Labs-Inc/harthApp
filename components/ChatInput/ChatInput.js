@@ -37,7 +37,6 @@ const ChatInput = (props) => {
   const { isMobile } = useContext(MobileContext);
   const [altKey, setAltKey] = useState(false);
   const [allowBlur, setAllowBlur] = useState(false);
-
   const [offsetY, setOffsetY] = useState(0);
 
   const { user } = useAuth();
@@ -57,6 +56,7 @@ const ChatInput = (props) => {
   const fileRef = useRef();
   const attRefs = useRef([]);
   const originalHeightRef = useRef();
+  const lastTriggered = useRef(null);
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -151,7 +151,11 @@ const ChatInput = (props) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (textRef.current && !textRef.current.contains(event.target)) {
+      if (
+        inputBoxContainerRef.current &&
+        !inputBoxContainerRef.current.contains(event.target)
+      ) {
+        console.log("allow blur clicked outside");
         setAllowBlur(true);
       }
     };
@@ -161,7 +165,7 @@ const ChatInput = (props) => {
     return () => {
       document.removeEventListener("touchstart", handleClickOutside);
     };
-  }, [textRef]);
+  }, [inputBoxContainerRef]);
 
   const calcHeight = (reset) => {
     const textarea = textRef.current;
@@ -254,9 +258,6 @@ const ChatInput = (props) => {
       );
     }
     return null;
-  };
-  const triggerPicker = () => {
-    setEmojiPicker((prevState) => !prevState);
   };
   const inputHandler = (e) => {
     const { value } = e.target;
@@ -549,6 +550,17 @@ const ChatInput = (props) => {
       }
     }
   };
+  const triggerPicker = (event) => {
+    const now = Date.now();
+    if (lastTriggered.current && now - lastTriggered.current < 300) {
+      return;
+    }
+
+    lastTriggered.current = now;
+    console.log("Triggered!");
+    setAllowBlur(true);
+    setEmojiPicker((prevState) => !prevState);
+  };
 
   return (
     <div
@@ -637,7 +649,11 @@ const ChatInput = (props) => {
               : styles.ChatInputControlsLeft
           }
         >
-          <button onClick={triggerPicker} aria-label="add emoji reaction">
+          <button
+            onMouseDown={triggerPicker}
+            onTouchStart={triggerPicker}
+            aria-label="add emoji reaction"
+          >
             <IconAddReactionNoFill />
           </button>
           <EmojiPicker />
