@@ -93,7 +93,7 @@ const ChatInput = (props) => {
             messageContainer.style.transform = `translateY(${-heightDifference}px)`;
           }
           if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
+            chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
           }
         } else {
           setOffsetY(heightDifference);
@@ -101,7 +101,7 @@ const ChatInput = (props) => {
             messageContainer.style.transform = `translateY(${heightDifference}px)`;
           }
           if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
+            chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
           }
         }
       } else {
@@ -269,6 +269,9 @@ const ChatInput = (props) => {
     return null;
   };
   const triggerPicker = () => {
+    setTimeout(() => {
+      setEmojiPicker(!emojiPickerState);
+    }, 300);
     if (
       textRef.current &&
       textRef.current === document.activeElement &&
@@ -277,7 +280,6 @@ const ChatInput = (props) => {
       setAllowBlur(true);
       textRef.current.blur();
     }
-    setEmojiPicker(!emojiPickerState);
   };
   const inputHandler = (e) => {
     const { value } = e.target;
@@ -601,7 +603,6 @@ const ChatInput = (props) => {
           }}
           value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
           onKeyDown={(e) => {
-            console.log("e.key", e.key);
             let input = topicInputs[selectedTopic?._id] || "";
             if (e.altKey) {
               setAltKey(true);
