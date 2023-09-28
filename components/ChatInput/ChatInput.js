@@ -58,6 +58,7 @@ const ChatInput = (props) => {
   const originalHeightRef = useRef();
   const lastTriggered = useRef(null);
   const lastTriggeredImage = useRef(null);
+  const currentWindowHeight = useRef(null);
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -84,28 +85,13 @@ const ChatInput = (props) => {
       let isFocused = textRef.current === document.activeElement;
       const messageContainer = document.getElementById("messageResizer");
       const chatHeaderContainer = document.getElementById("chatHeader");
-      console.log("isFocused: ", isFocused);
-      console.log("heightDifference: ", heightDifference);
-      console.log(vh, window.innerHeight);
-      if (isFocused) {
-        if (heightDifference > 0) {
-          setOffsetY(-heightDifference);
-          if (messageContainer) {
-            messageContainer.style.transform = `translateY(${-heightDifference}px)`;
-          }
-          if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
-          }
-        } else {
-          setOffsetY(heightDifference);
-          if (messageContainer) {
-            messageContainer.style.transform = `translateY(${heightDifference}px)`;
-          }
-          if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
-          }
-        }
-      } else {
+      console.log(currentWindowHeight.current, window.innerHeight);
+      if (
+        currentWindowHeight.current &&
+        currentWindowHeight.current < window.innerHeight
+      ) {
+        console.log("is lower");
+
         setOffsetY(0);
         if (messageContainer) {
           messageContainer.style.transform = "";
@@ -113,7 +99,37 @@ const ChatInput = (props) => {
         if (chatHeaderContainer) {
           chatHeaderContainer.style.transform = "";
         }
+      } else {
+        console.log("is not lower");
+        if (isFocused) {
+          if (heightDifference > 0) {
+            setOffsetY(-heightDifference);
+            if (messageContainer) {
+              messageContainer.style.transform = `translateY(${-heightDifference}px)`;
+            }
+            if (chatHeaderContainer) {
+              chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
+            }
+          } else {
+            setOffsetY(heightDifference);
+            if (messageContainer) {
+              messageContainer.style.transform = `translateY(${heightDifference}px)`;
+            }
+            if (chatHeaderContainer) {
+              chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
+            }
+          }
+        } else {
+          setOffsetY(0);
+          if (messageContainer) {
+            messageContainer.style.transform = "";
+          }
+          if (chatHeaderContainer) {
+            chatHeaderContainer.style.transform = "";
+          }
+        }
       }
+      currentWindowHeight.current = window.innerHeight;
     };
     const preventTouchScroll = (e) => {
       if (
@@ -125,6 +141,7 @@ const ChatInput = (props) => {
       }
     };
 
+    currentWindowHeight.current = window.innerHeight;
     window.addEventListener("resize", handleResize);
     window.addEventListener("touchmove", preventTouchScroll, {
       passive: false,
@@ -237,7 +254,6 @@ const ChatInput = (props) => {
     }
 
     lastTriggeredImage.current = now;
-    console.log("Triggered!");
     setAllowBlur(true);
     fileRef.current.click();
   };
@@ -566,7 +582,6 @@ const ChatInput = (props) => {
     }
 
     lastTriggered.current = now;
-    console.log("Triggered!");
     setAllowBlur(true);
     setEmojiPicker((prevState) => !prevState);
   };
