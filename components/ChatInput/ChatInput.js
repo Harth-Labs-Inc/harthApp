@@ -200,8 +200,9 @@ const ChatInput = (props) => {
     const textValue = textRef.current.value;
     const messageContainer = document.getElementById("messageResizer");
     const chatHeaderContainer = document.getElementById("chatHeader");
-
+    console.log(1);
     if (!textValue.trim() || !isMobile) {
+      console.log(2);
       setOffsetY(0);
       if (messageContainer) {
         messageContainer.style.transform = "";
@@ -213,6 +214,7 @@ const ChatInput = (props) => {
     }
 
     if (allowBlur) {
+      console.log(3);
       setOffsetY(0);
       if (messageContainer) {
         messageContainer.style.transform = "";
@@ -269,14 +271,19 @@ const ChatInput = (props) => {
     return null;
   };
   const triggerPicker = () => {
-    if (
-      textRef.current &&
-      textRef.current === document.activeElement &&
-      window.innerWidth <= 640
-    ) {
+    console.log(textRef.current, textRef.current === document.activeElement);
+    if (textRef.current && textRef.current === document.activeElement) {
+      console.log("resetting blur");
       setAllowBlur(true);
+      textRef.current.blur();
+
+      setTimeout(() => {
+        console.log("setting picker state");
+        setEmojiPicker((prevState) => !prevState);
+      }, 300);
+    } else {
+      setEmojiPicker((prevState) => !prevState);
     }
-    setEmojiPicker((prevState) => !prevState);
   };
   const inputHandler = (e) => {
     const { value } = e.target;
@@ -600,16 +607,18 @@ const ChatInput = (props) => {
           }}
           value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
           onKeyDown={(e) => {
-            console.log(e.key);
             let input = topicInputs[selectedTopic?._id] || "";
             if (e.altKey) {
               setAltKey(true);
             }
-            if (
-              (e.key === "Enter" && altKey) ||
-              (e.key === "Enter" && isMobile)
-            ) {
+            if (e.key === "Enter" && altKey) {
               input = input + "\r\n";
+              setTopicInputs({
+                ...topicInputs,
+                [selectedTopic?._id]: input,
+              });
+            } else if (e.key === "Enter" && isMobile) {
+              input = input + "\n";
               setTopicInputs({
                 ...topicInputs,
                 [selectedTopic?._id]: input,
