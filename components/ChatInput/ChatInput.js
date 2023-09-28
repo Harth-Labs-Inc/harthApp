@@ -201,7 +201,7 @@ const ChatInput = (props) => {
     const messageContainer = document.getElementById("messageResizer");
     const chatHeaderContainer = document.getElementById("chatHeader");
 
-    if (!textValue.trim() || !isMobile || emojiPickerState) {
+    if (!textValue.trim() || !isMobile) {
       setOffsetY(0);
       if (messageContainer) {
         messageContainer.style.transform = "";
@@ -269,9 +269,6 @@ const ChatInput = (props) => {
     return null;
   };
   const triggerPicker = () => {
-    setTimeout(() => {
-      setEmojiPicker(!emojiPickerState);
-    }, 300);
     if (
       textRef.current &&
       textRef.current === document.activeElement &&
@@ -279,8 +276,14 @@ const ChatInput = (props) => {
     ) {
       setAllowBlur(true);
       textRef.current.blur();
+      setTimeout(() => {
+        setEmojiPicker((prevState) => !prevState);
+      }, 300);
+    } else {
+      setEmojiPicker((prevState) => !prevState);
     }
   };
+
   const inputHandler = (e) => {
     const { value } = e.target;
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: value });
@@ -603,6 +606,7 @@ const ChatInput = (props) => {
           }}
           value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
           onKeyDown={(e) => {
+            console.log(e.key);
             let input = topicInputs[selectedTopic?._id] || "";
             if (e.altKey) {
               setAltKey(true);
