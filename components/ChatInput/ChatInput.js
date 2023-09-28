@@ -550,7 +550,7 @@ const ChatInput = (props) => {
       }
     }
   };
-  const triggerPicker = (event) => {
+  const triggerPicker = () => {
     const now = Date.now();
     if (lastTriggered.current && now - lastTriggered.current < 300) {
       return;
