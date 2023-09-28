@@ -151,10 +151,7 @@ const ChatInput = (props) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        inputBoxContainerRef.current &&
-        !inputBoxContainerRef.current.contains(event.target)
-      ) {
+      if (textRef.current && !textRef.current.contains(event.target)) {
         setAllowBlur(true);
       }
     };
@@ -164,7 +161,7 @@ const ChatInput = (props) => {
     return () => {
       document.removeEventListener("touchstart", handleClickOutside);
     };
-  }, [inputBoxContainerRef]);
+  }, [textRef]);
 
   const calcHeight = (reset) => {
     const textarea = textRef.current;
@@ -201,7 +198,7 @@ const ChatInput = (props) => {
     const messageContainer = document.getElementById("messageResizer");
     const chatHeaderContainer = document.getElementById("chatHeader");
     console.log(1);
-    if (!textValue.trim() || !isMobile) {
+    if (!textValue.trim() || !isMobile || allowBlur) {
       console.log(2);
       setOffsetY(0);
       if (messageContainer) {
@@ -212,21 +209,9 @@ const ChatInput = (props) => {
       }
       return;
     }
-
-    if (allowBlur) {
-      console.log(3);
-      setOffsetY(0);
-      if (messageContainer) {
-        messageContainer.style.transform = "";
-      }
-      if (chatHeaderContainer) {
-        chatHeaderContainer.style.transform = "";
-      }
-      return;
-    } else {
-      e.preventDefault();
-      textRef.current.focus();
-    }
+    console.log(3);
+    e.preventDefault();
+    textRef.current.focus();
 
     setAllowBlur(false);
   };
@@ -271,19 +256,7 @@ const ChatInput = (props) => {
     return null;
   };
   const triggerPicker = () => {
-    console.log(textRef.current, textRef.current === document.activeElement);
-    if (textRef.current && textRef.current === document.activeElement) {
-      console.log("resetting blur");
-      setAllowBlur(true);
-      textRef.current.blur();
-
-      setTimeout(() => {
-        console.log("setting picker state");
-        setEmojiPicker((prevState) => !prevState);
-      }, 300);
-    } else {
-      setEmojiPicker((prevState) => !prevState);
-    }
+    setEmojiPicker((prevState) => !prevState);
   };
   const inputHandler = (e) => {
     const { value } = e.target;
