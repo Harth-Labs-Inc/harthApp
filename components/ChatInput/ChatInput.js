@@ -57,6 +57,7 @@ const ChatInput = (props) => {
   const attRefs = useRef([]);
   const originalHeightRef = useRef();
   const lastTriggered = useRef(null);
+  const lastTriggeredImage = useRef(null);
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -230,6 +231,14 @@ const ChatInput = (props) => {
     }
   };
   const openFileSelector = () => {
+    const now = Date.now();
+    if (lastTriggeredImage.current && now - lastTriggeredImage.current < 300) {
+      return;
+    }
+
+    lastTriggeredImage.current = now;
+    console.log("Triggered!");
+    setAllowBlur(true);
     fileRef.current.click();
   };
   const addAttachment = (file) => {
@@ -657,7 +666,11 @@ const ChatInput = (props) => {
             <IconAddReactionNoFill />
           </button>
           <EmojiPicker />
-          <button aria-label="attach an image" onClick={openFileSelector}>
+          <button
+            aria-label="attach an image"
+            onMouseDown={openFileSelector}
+            onTouchStart={openFileSelector}
+          >
             <IconImage />
           </button>
           <input
