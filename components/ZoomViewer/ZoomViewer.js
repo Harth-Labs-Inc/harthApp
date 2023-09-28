@@ -6,7 +6,6 @@ import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader"
 import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 import { IconChevronRight } from "resources/icons/IconChevronRight";
 import { IconDownload } from "resources/icons/IconDownload";
-import { fetchImage } from "services/helper";
 
 /* eslint-disable */
 const ZoomViewer = ({
