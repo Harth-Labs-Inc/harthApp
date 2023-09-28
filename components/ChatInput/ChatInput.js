@@ -275,15 +275,9 @@ const ChatInput = (props) => {
       window.innerWidth <= 640
     ) {
       setAllowBlur(true);
-      textRef.current.blur();
-      setTimeout(() => {
-        setEmojiPicker((prevState) => !prevState);
-      }, 300);
-    } else {
-      setEmojiPicker((prevState) => !prevState);
     }
+    setEmojiPicker((prevState) => !prevState);
   };
-
   const inputHandler = (e) => {
     const { value } = e.target;
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: value });
@@ -611,7 +605,10 @@ const ChatInput = (props) => {
             if (e.altKey) {
               setAltKey(true);
             }
-            if (e.key === "Enter" && altKey) {
+            if (
+              (e.key === "Enter" && altKey) ||
+              (e.key === "Enter" && isMobile)
+            ) {
               input = input + "\r\n";
               setTopicInputs({
                 ...topicInputs,

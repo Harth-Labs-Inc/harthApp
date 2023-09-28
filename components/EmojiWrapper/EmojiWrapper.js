@@ -42,6 +42,7 @@ export const EmojiWrapper = (props) => {
             className={"attach-emoji"}
             onEmojiSelect={addEmoji}
             dynamicWidth={true}
+            autoFocus={true}
             emojiButtonColors={[
               "rgba(187, 126, 196, 0.8)",
               "rgb(13, 161, 181, .8)",
