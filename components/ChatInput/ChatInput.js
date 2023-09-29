@@ -79,7 +79,7 @@ const ChatInput = (props) => {
   useEffect(() => {
     originalHeightRef.current = textRef.current.style.height;
     if (isMobile) {
-      function handleChange() {
+      const handleChange = () => {
         if (document.hidden) {
           const messageContainer = document.getElementById("messageResizer");
           const chatHeaderContainer = document.getElementById("chatHeader");
@@ -97,8 +97,7 @@ const ChatInput = (props) => {
             textRef.current.blur();
           }
         }
-      }
-
+      };
       const handleResize = () => {
         const vh = parseInt(
           getComputedStyle(document.documentElement).getPropertyValue("--vh"),
