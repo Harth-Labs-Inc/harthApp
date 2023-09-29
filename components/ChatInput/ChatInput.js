@@ -158,7 +158,7 @@ const ChatInput = (props) => {
                   chatHeaderContainer.style.transform = "";
                 }
                 resizeInitialShift.current = false;
-              }, 300);
+              }, 150);
             }
           }
         } else {
