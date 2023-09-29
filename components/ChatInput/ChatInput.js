@@ -113,7 +113,9 @@ const ChatInput = (props) => {
                 chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
               }
             }
-            resizeInitialShift.current = true;
+            if (heightDifference !== 0) {
+              resizeInitialShift.current = true;
+            }
           } else if (currentHeightRef.current < window.innerHeight) {
             setOffsetY(0);
             if (messageContainer) {
