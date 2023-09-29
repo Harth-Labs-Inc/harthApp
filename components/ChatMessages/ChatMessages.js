@@ -23,6 +23,8 @@ const MessageWrapper = () => {
   const [messageEditing, setMessageEditing] = useState();
   const [scrollLock, setScrollLock] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
+
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [slideshowImage, setSlideshowImage] = useState(0);
@@ -258,6 +260,9 @@ const MessageWrapper = () => {
       setSlideshowImage(prevIndex);
     }
   };
+  const toggleOverlay = (shouldShow) => {
+    setShowOverlay(shouldShow);
+  };
 
   return (
     <>
@@ -330,16 +335,33 @@ const MessageWrapper = () => {
         ) : null}
       </div>
       {isMobile ? (
-        <div className={styles.InputMobile}>
-          <ChatInput
-            selectedEdit={editMessageObj}
-            isReply={false}
-            topicInputs={topicInputs}
-            setTopicInputs={setTopicInputs}
-            resetEdit={resetEdit}
-            toggleEditing={toggleEditing}
-          ></ChatInput>
-        </div>
+        <>
+          {showOverlay ? (
+            <div
+              id="overlay"
+              style={{
+                height: "100vh",
+                width: "100vw",
+                position: "fixed",
+                top: 0,
+                left: 0,
+                background: "transparent",
+                zIndex: 1,
+              }}
+            ></div>
+          ) : null}
+          <div className={styles.InputMobile}>
+            <ChatInput
+              toggleOverlay={toggleOverlay}
+              selectedEdit={editMessageObj}
+              isReply={false}
+              topicInputs={topicInputs}
+              setTopicInputs={setTopicInputs}
+              resetEdit={resetEdit}
+              toggleEditing={toggleEditing}
+            ></ChatInput>
+          </div>
+        </>
       ) : null}
     </>
   );

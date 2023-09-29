@@ -31,11 +31,17 @@ export default async (req, res) => {
     obj = req.body;
   }
 
+  const extractFileExtension = (filename) => {
+    const parts = filename.split(".");
+    return parts.length > 1 ? parts.pop() : null;
+  };
+
+  const extension = extractFileExtension(obj.name);
   const s3Params = {
     Bucket: obj.bucket,
     Key: obj.name,
     ResponseContentDisposition: obj.isAttachment
-      ? `attachment; filename=${obj.name}`
+      ? `attachment; filename=Harth.${extension}`
       : `inline`,
     ResponseContentType: obj.fileType || obj.type,
   };

@@ -75,7 +75,6 @@ const ZoomViewer = ({
       "topic-message-attachments",
       true
     );
-    console.log(fetchedData);
     if (fetchedData && fetchedData.ok && fetchedData.downloadURL) {
       const extension = extractFileExtension(name);
       const a = document.createElement("a");

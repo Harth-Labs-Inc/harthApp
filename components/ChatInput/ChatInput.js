@@ -49,6 +49,7 @@ const ChatInput = (props) => {
     setTopicInputs,
     resetEdit,
     toggleEditing,
+    toggleOverlay,
   } = props;
 
   const inputBoxContainerRef = useRef();
@@ -84,9 +85,7 @@ const ChatInput = (props) => {
       let isFocused = textRef.current === document.activeElement;
       const messageContainer = document.getElementById("messageResizer");
       const chatHeaderContainer = document.getElementById("chatHeader");
-      console.log("isFocused: ", isFocused);
-      console.log("heightDifference: ", heightDifference);
-      console.log(vh, window.innerHeight);
+
       if (isFocused) {
         if (heightDifference > 0) {
           setOffsetY(-heightDifference);
@@ -199,12 +198,11 @@ const ChatInput = (props) => {
     }
   };
   const handleBlur = (e) => {
-    const textValue = textRef.current.value;
     const messageContainer = document.getElementById("messageResizer");
     const chatHeaderContainer = document.getElementById("chatHeader");
-    console.log(1);
-    if (!textValue.trim() || !isMobile || allowBlur) {
-      console.log(2);
+
+    if (!isMobile || allowBlur) {
+      toggleOverlay(false);
       setOffsetY(0);
       if (messageContainer) {
         messageContainer.style.transform = "";
@@ -214,7 +212,7 @@ const ChatInput = (props) => {
       }
       return;
     }
-    console.log(3);
+
     e.preventDefault();
     textRef.current.focus();
 
@@ -573,7 +571,7 @@ const ChatInput = (props) => {
     <div
       ref={inputBoxContainerRef}
       id={isMobile ? styles.ChatInputMobile : styles.ChatInput}
-      style={{ transform: `translateY(${offsetY}px)` }}
+      style={{ transform: `translateY(${offsetY}px)`, zIndex: 2 }}
     >
       <div className={styles.entryBox}>
         <ImageHolder
@@ -594,6 +592,7 @@ const ChatInput = (props) => {
             calcHeight();
           }}
           onFocus={() => {
+            toggleOverlay(true);
             setAllowBlur(false);
             calcHeight();
           }}
