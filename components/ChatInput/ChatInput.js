@@ -28,6 +28,25 @@ import { sendPushNotification } from "requests/subscriptions";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 import { generatePushMessage } from "services/helper";
 
+const throttle = (func, limit = 300) => {
+  let lastFunc;
+  let lastRan;
+  return function (...args) {
+    if (!lastRan) {
+      func.apply(this, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(function () {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(this, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+};
+
 const ChatInput = (props) => {
   const [attachments, setAttachments] = useState([]);
   const [emojiPickerState, setEmojiPicker] = useState(false);
@@ -78,7 +97,7 @@ const ChatInput = (props) => {
   useEffect(() => {
     originalHeightRef.current = textRef.current.style.height;
     if (isMobile) {
-      const handleResize = () => {
+      const handleResize = throttle(() => {
         const vh = parseInt(
           getComputedStyle(document.documentElement).getPropertyValue("--vh"),
           10
@@ -136,7 +155,7 @@ const ChatInput = (props) => {
           }
         }
         currentHeightRef.current = window.innerHeight;
-      };
+      });
       const preventTouchScroll = (e) => {
         if (
           textRef.current &&
