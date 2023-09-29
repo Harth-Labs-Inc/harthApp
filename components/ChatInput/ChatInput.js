@@ -79,6 +79,24 @@ const ChatInput = (props) => {
   useEffect(() => {
     originalHeightRef.current = textRef.current.style.height;
     if (isMobile) {
+      function handleChange() {
+        if (document.hidden) {
+          setAllowBlur(true);
+          setOffsetY(0);
+          ignoreNextResize = false;
+          resizeInitialShift.current = false;
+          if (messageContainer) {
+            messageContainer.style.transform = "";
+          }
+          if (chatHeaderContainer) {
+            chatHeaderContainer.style.transform = "";
+          }
+          if (textRef.current) {
+            textRef.current.blur();
+          }
+        }
+      }
+
       const handleResize = () => {
         const vh = parseInt(
           getComputedStyle(document.documentElement).getPropertyValue("--vh"),
@@ -148,6 +166,7 @@ const ChatInput = (props) => {
         }
       };
 
+      window.addEventListener("visibilitychange", handleChange);
       window.addEventListener("resize", handleResize);
       window.addEventListener("touchmove", preventTouchScroll, {
         passive: false,
@@ -155,6 +174,7 @@ const ChatInput = (props) => {
 
       return () => {
         window.removeEventListener("resize", handleResize);
+        window.removeEventListener("visibilitychange", handleChange);
         window.removeEventListener("touchmove", preventTouchScroll);
       };
     }
