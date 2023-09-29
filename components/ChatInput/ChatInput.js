@@ -61,6 +61,7 @@ const ChatInput = (props) => {
   const lastTriggeredImage = useRef(null);
   const resizeInitialShift = useRef(false);
   const currentHeightRef = useRef(0);
+  let ignoreNextResize = false;
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -117,14 +118,21 @@ const ChatInput = (props) => {
               resizeInitialShift.current = true;
             }
           } else {
-            setOffsetY(0);
-            if (messageContainer) {
-              messageContainer.style.transform = "";
+            if (ignoreNextResize) {
+              console.log("reseting");
+              ignoreNextResize = false;
+              setOffsetY(0);
+              if (messageContainer) {
+                messageContainer.style.transform = "";
+              }
+              if (chatHeaderContainer) {
+                chatHeaderContainer.style.transform = "";
+              }
+              resizeInitialShift.current = false;
+            } else {
+              console.log("ignorign");
+              ignoreNextResize = true;
             }
-            if (chatHeaderContainer) {
-              chatHeaderContainer.style.transform = "";
-            }
-            resizeInitialShift.current = false;
           }
         } else {
           setOffsetY(0);
