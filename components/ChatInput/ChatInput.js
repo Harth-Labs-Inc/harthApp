@@ -61,7 +61,8 @@ const ChatInput = (props) => {
   const lastTriggeredImage = useRef(null);
   const resizeInitialShift = useRef(false);
   const currentHeightRef = useRef(0);
-  let ignoreNextResize = false;
+  const ignoreNextResize = useRef(false);
+  let closeTimer = null;
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -85,7 +86,7 @@ const ChatInput = (props) => {
           const chatHeaderContainer = document.getElementById("chatHeader");
           setAllowBlur(true);
           setOffsetY(0);
-          ignoreNextResize = false;
+          ignoreNextResize.current = false;
           resizeInitialShift.current = false;
           if (messageContainer) {
             messageContainer.style.transform = "";
@@ -108,7 +109,7 @@ const ChatInput = (props) => {
         let isFocused = textRef.current === document.activeElement;
         const messageContainer = document.getElementById("messageResizer");
         const chatHeaderContainer = document.getElementById("chatHeader");
-        console.log(resizeInitialShift.current, ignoreNextResize);
+        console.log(resizeInitialShift.current, ignoreNextResize.current);
         if (isFocused) {
           if (!resizeInitialShift.current) {
             if (heightDifference > 0) {
@@ -132,8 +133,11 @@ const ChatInput = (props) => {
               resizeInitialShift.current = true;
             }
           } else {
-            if (ignoreNextResize) {
-              ignoreNextResize = false;
+            if (ignoreNextResize.current) {
+              if (closeTimer) {
+                clearTimeout(closeTimer);
+              }
+              ignoreNextResize.current = false;
               setOffsetY(0);
               if (messageContainer) {
                 messageContainer.style.transform = "";
@@ -143,7 +147,18 @@ const ChatInput = (props) => {
               }
               resizeInitialShift.current = false;
             } else {
-              ignoreNextResize = true;
+              ignoreNextResize.current = true;
+              closeTimer = setTimeout(() => {
+                ignoreNextResize.current = false;
+                setOffsetY(0);
+                if (messageContainer) {
+                  messageContainer.style.transform = "";
+                }
+                if (chatHeaderContainer) {
+                  chatHeaderContainer.style.transform = "";
+                }
+                resizeInitialShift.current = false;
+              }, 300);
             }
           }
         } else {
@@ -252,7 +267,7 @@ const ChatInput = (props) => {
         toggleOverlay(false);
       }
       resizeInitialShift.current = false;
-      ignoreNextResize = false;
+      ignoreNextResize.current = false;
       setOffsetY(0);
       if (messageContainer) {
         messageContainer.style.transform = "";
