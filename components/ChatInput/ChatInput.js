@@ -81,6 +81,8 @@ const ChatInput = (props) => {
     if (isMobile) {
       function handleChange() {
         if (document.hidden) {
+          const messageContainer = document.getElementById("messageResizer");
+          const chatHeaderContainer = document.getElementById("chatHeader");
           setAllowBlur(true);
           setOffsetY(0);
           ignoreNextResize = false;
