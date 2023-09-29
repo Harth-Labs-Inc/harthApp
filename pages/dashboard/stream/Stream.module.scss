@@ -533,64 +533,6 @@
             }
         }
 
-        // .ChatPanelContainer {
-        //     top: 0;
-        //     z-index: 10;
-        //     position: fixed;
-        //     right: -100%;
-        //     display: flex;
-        //     flex-direction: column;
-        //     justify-content: space-between;
-        //     height: calc(100% - 50px);
-        //     border-radius: 18px;
-        //     margin: 0;
-        //     margin-right: 8px;
-        //     width: 0;
-        //     visibility: hidden;
-        //     transition: width 0.3s ease-in-out;
-        //     background: $ash_heavy;
-
-        //     &Open {
-        //         width: 420px;
-        //         margin-left: 12px;
-        //         padding: 0 8px;
-        //         visibility: visible;
-
-        //         &.rendering {
-        //             right: -100%;
-        //             transition: all 0.2s ease-in-out;
-        //         }
-        //         &.entered {
-        //             right: 0%;
-        //             transition: all 0.2s ease-in-out;
-        //         }
-        //     }
-
-        //     &Mobile {
-        //         position: absolute;
-        //         top: 0;
-        //         left: 100%;
-        //         margin: 0;
-        //         z-index: 1;
-        //         height: calc(100% - 20px);
-
-        //         &.ChatPanelContainerOpen {
-        //             width: 100%;
-        //             //margin-left: 10px;
-
-        //         }
-
-        //         &.rendering {
-        //             left: 100%;
-        //             transition: all 0.2s ease-in-out;
-        //         }
-        //         &.entered {
-        //             left: 0%;
-        //             transition: all 0.2s ease-in-out;
-        //         }
-        //     }
-        // }
-
         .ChatPanelContainer {
             position: relative;
             display: flex;
@@ -603,7 +545,6 @@
             padding: 0px 0px 0px 0px;
             border: 1px solid $ash_medium;
             background: $ash_heavy;
-            //background: aqua;
             border-radius: 12px;
             margin: 0;
             overflow: hidden;

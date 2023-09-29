@@ -43,7 +43,6 @@
 }
 
 .NoPosts {
-    //background-color: aqua;
     width: fit-content;
     max-width: 100%;
     margin: auto;
@@ -128,7 +127,6 @@
 
 .SelfMessage {
     align-self: flex-end;
-    //background-color: aqua;
     padding: 0px 0px 0px 24px;
     position: relative;
     > p {
@@ -162,7 +160,6 @@
     .TimeStamp {
         display: flex;
         align-items: flex-start;
-        //background-color: aqua;
         color: $silver-heavy;
         @include timeStamp;
         font-size: 11px;
@@ -210,7 +207,6 @@
         position: absolute;
         bottom: 0;
         z-index: 1;
-        //background-color: aqua;
     }
 
     &Desktop {
@@ -423,7 +419,6 @@
     }
 
     .diceRow {
-        //background-color: aqua;
         position: relative;
         display: flex;
         flex-direction: row;
@@ -523,7 +518,6 @@
             text-align: center;
             width: 64px;
             color: $oxygen;
-            //background-color: aqua;
         }
 
         .attributeContainer {

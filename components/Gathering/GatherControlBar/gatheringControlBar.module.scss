@@ -26,7 +26,6 @@
         display: flex;
         align-items: center;
         column-gap: 16px;
-        //background-color: aqua;
     }
 
     .spacerSmall {
@@ -50,10 +49,8 @@
     justify-content: space-evenly;
     grid-area: header;
     padding: 0px 8px 24px 0px;
-    //height:104px;
     border: 0;
     width: 100%;
-    //background-color: aqua;
 
     .spacerLarge {
         display: flex;
@@ -120,7 +117,6 @@
         //height:104px;
         border: 0;
         width: 100%;
-        //background-color: aqua;
     
         .spacerLarge {
             display: flex;

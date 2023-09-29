@@ -3,17 +3,9 @@
 
 .GatheringSchedule {
     width: 300px;
-    //background-color: aqua;
     padding-top: 8px;
     display: flex;
     flex-direction: column;
-    //gap: 8px;
-
-    // &Title {
-    //     @include interfaceH3;
-    //     margin-bottom: 24px;
-    //     text-align: center;
-    // }
 
     &RoomName {
         @include contentH1;
@@ -60,7 +52,6 @@
 
         .date {
             width: fit-content;
-            //background-color: aqua;
 
             &::placeholder {
                 color: $fuel_30;
@@ -69,7 +60,6 @@
 
         .time {
             width: fit-content;
-            //background-color: aquamarine;
         }
     }
 
@@ -84,7 +74,6 @@
         text-transform: capitalize;
 
         &Select {
-            //@include interfaceR2;
             position: relative;
             display: flex;
             align-items: center;

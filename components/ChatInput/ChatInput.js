@@ -202,7 +202,10 @@ const ChatInput = (props) => {
     const chatHeaderContainer = document.getElementById("chatHeader");
 
     if (!isMobile || allowBlur) {
-      toggleOverlay(false);
+      if (toggleOverlay) {
+        toggleOverlay(false);
+      }
+
       setOffsetY(0);
       if (messageContainer) {
         messageContainer.style.transform = "";
@@ -592,7 +595,10 @@ const ChatInput = (props) => {
             calcHeight();
           }}
           onFocus={() => {
-            toggleOverlay(true);
+            if (toggleOverlay) {
+              toggleOverlay(true);
+            }
+
             setAllowBlur(false);
             calcHeight();
           }}
