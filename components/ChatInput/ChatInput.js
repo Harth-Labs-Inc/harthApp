@@ -90,6 +90,11 @@ const ChatInput = (props) => {
         const chatHeaderContainer = document.getElementById("chatHeader");
 
         if (isFocused) {
+          console.log(
+            `${vh} - ${window.innerHeight}: ${heightDifference}`,
+            currentHeightRef.current,
+            resizeInitialShift.current
+          );
           if (!resizeInitialShift.current) {
             if (heightDifference > 0) {
               setOffsetY(-heightDifference);
