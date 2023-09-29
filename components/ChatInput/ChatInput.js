@@ -108,7 +108,7 @@ const ChatInput = (props) => {
         let isFocused = textRef.current === document.activeElement;
         const messageContainer = document.getElementById("messageResizer");
         const chatHeaderContainer = document.getElementById("chatHeader");
-
+        console.log(resizeInitialShift.current, ignoreNextResize);
         if (isFocused) {
           if (!resizeInitialShift.current) {
             if (heightDifference > 0) {
