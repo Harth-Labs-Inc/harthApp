@@ -116,7 +116,7 @@ const ChatInput = (props) => {
             if (heightDifference !== 0) {
               resizeInitialShift.current = true;
             }
-          } else if (currentHeightRef.current < window.innerHeight) {
+          } else {
             setOffsetY(0);
             if (messageContainer) {
               messageContainer.style.transform = "";
