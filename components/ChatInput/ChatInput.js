@@ -91,11 +91,6 @@ const ChatInput = (props) => {
         const chatHeaderContainer = document.getElementById("chatHeader");
 
         if (isFocused) {
-          console.log(
-            `${vh} - ${window.innerHeight}: ${heightDifference}`,
-            currentHeightRef.current,
-            resizeInitialShift.current
-          );
           if (!resizeInitialShift.current) {
             if (heightDifference > 0) {
               setOffsetY(-heightDifference);
@@ -119,7 +114,6 @@ const ChatInput = (props) => {
             }
           } else {
             if (ignoreNextResize) {
-              console.log("reseting");
               ignoreNextResize = false;
               setOffsetY(0);
               if (messageContainer) {
@@ -130,7 +124,6 @@ const ChatInput = (props) => {
               }
               resizeInitialShift.current = false;
             } else {
-              console.log("ignorign");
               ignoreNextResize = true;
             }
           }
@@ -237,7 +230,8 @@ const ChatInput = (props) => {
       if (toggleOverlay) {
         toggleOverlay(false);
       }
-
+      resizeInitialShift.current = false;
+      ignoreNextResize = false;
       setOffsetY(0);
       if (messageContainer) {
         messageContainer.style.transform = "";
