@@ -59,6 +59,8 @@ const ChatInput = (props) => {
   const originalHeightRef = useRef();
   const lastTriggered = useRef(null);
   const lastTriggeredImage = useRef(null);
+  const resizeInitialShift = useRef(false);
+  const currentHeightRef = useRef(0);
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -75,65 +77,80 @@ const ChatInput = (props) => {
 
   useEffect(() => {
     originalHeightRef.current = textRef.current.style.height;
-    const handleResize = () => {
-      const vh = parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue("--vh"),
-        10
-      );
+    if (isMobile) {
+      const handleResize = () => {
+        const vh = parseInt(
+          getComputedStyle(document.documentElement).getPropertyValue("--vh"),
+          10
+        );
 
-      const heightDifference = vh - window.innerHeight;
-      let isFocused = textRef.current === document.activeElement;
-      const messageContainer = document.getElementById("messageResizer");
-      const chatHeaderContainer = document.getElementById("chatHeader");
+        const heightDifference = vh - window.innerHeight;
+        let isFocused = textRef.current === document.activeElement;
+        const messageContainer = document.getElementById("messageResizer");
+        const chatHeaderContainer = document.getElementById("chatHeader");
 
-      if (isFocused) {
-        if (heightDifference > 0) {
-          setOffsetY(-heightDifference);
-          if (messageContainer) {
-            messageContainer.style.transform = `translateY(${-heightDifference}px)`;
-          }
-          if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
+        if (isFocused) {
+          if (!resizeInitialShift.current) {
+            if (heightDifference > 0) {
+              setOffsetY(-heightDifference);
+              if (messageContainer) {
+                messageContainer.style.transform = `translateY(${-heightDifference}px)`;
+              }
+              if (chatHeaderContainer) {
+                chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
+              }
+            } else {
+              setOffsetY(heightDifference);
+              if (messageContainer) {
+                messageContainer.style.transform = `translateY(${heightDifference}px)`;
+              }
+              if (chatHeaderContainer) {
+                chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
+              }
+            }
+            resizeInitialShift.current = true;
+          } else if (currentHeightRef.current < window.innerHeight) {
+            setOffsetY(0);
+            if (messageContainer) {
+              messageContainer.style.transform = "";
+            }
+            if (chatHeaderContainer) {
+              chatHeaderContainer.style.transform = "";
+            }
+            resizeInitialShift.current = false;
           }
         } else {
-          setOffsetY(heightDifference);
+          setOffsetY(0);
           if (messageContainer) {
-            messageContainer.style.transform = `translateY(${heightDifference}px)`;
+            messageContainer.style.transform = "";
           }
           if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
+            chatHeaderContainer.style.transform = "";
           }
         }
-      } else {
-        setOffsetY(0);
-        if (messageContainer) {
-          messageContainer.style.transform = "";
+        currentHeightRef.current = window.innerHeight;
+      };
+      const preventTouchScroll = (e) => {
+        if (
+          textRef.current &&
+          textRef.current === document.activeElement &&
+          window.innerWidth <= 640
+        ) {
+          e.preventDefault();
         }
-        if (chatHeaderContainer) {
-          chatHeaderContainer.style.transform = "";
-        }
-      }
-    };
-    const preventTouchScroll = (e) => {
-      if (
-        textRef.current &&
-        textRef.current === document.activeElement &&
-        window.innerWidth <= 640
-      ) {
-        e.preventDefault();
-      }
-    };
+      };
 
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("touchmove", preventTouchScroll, {
-      passive: false,
-    });
+      window.addEventListener("resize", handleResize);
+      window.addEventListener("touchmove", preventTouchScroll, {
+        passive: false,
+      });
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("touchmove", preventTouchScroll);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+        window.removeEventListener("touchmove", preventTouchScroll);
+      };
+    }
+  }, [isMobile]);
 
   useEffect(() => {
     setTopicInputs({
