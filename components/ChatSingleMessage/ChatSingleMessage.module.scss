@@ -65,7 +65,7 @@
 
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: lighten($ash_heavy, 3%);
+                background-color: $silver-xlight;
             }
         }
 
@@ -93,6 +93,10 @@
         width: fit-content;
         border-radius: 50%;
         user-select: none;
+        border: 2px solid $silver-med;
+        // box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+        //         0 2px 2px hsl(0deg 0% 0% / 0.075),
+        //         0 4px 4px hsl(0deg 0% 0% / 0.075);
     }
     .emoji-mart {
         position: absolute;
@@ -150,7 +154,7 @@
             padding: 6px 0px 0px 0px;
             .Creator {
                 @include chatProfile;
-                color: $font_light;
+                color: $font_dark;
                 user-select: none;
             }
             .Timestamp {
@@ -165,7 +169,7 @@
             width: fit-content;
             padding-top: 4px;
             max-width: 100%;
-            color: $font_light;
+            color: $font_dark;
             @include chatText;
             border: 0;
             white-space: pre-wrap;

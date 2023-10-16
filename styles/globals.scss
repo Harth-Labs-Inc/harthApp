@@ -3,7 +3,7 @@
 
 //Text Colors
 $font_light: #fafafa;
-$font_medium: #bababa;
+$font_medium: #aaaaaa;
 $font_dark: #000000;
 
 
@@ -62,10 +62,14 @@ $black_90: rgba(0, 0, 0, 0.9);
 
 // Ash
 // Ash
-$ash: #28282e;
-$ash_heavy: darken($ash, 5%);
+$ash: #444653;
+$ash_heavy: darken($ash, 15%);
 $ash_medium: lighten($ash, 10%);
 $ash_light: lighten($ash, 20%);
+$ash_ultralight: lighten($ash, 80%);
+
+//Cobal
+$cobal: #343543;
 
 
 $ash_80: rgba(40, 40, 40, 0.8);
@@ -77,7 +81,7 @@ $ash_20: rgba(40, 40, 40, 0.2);
 $ash_10: rgba(40, 40, 40, 0.1);
 $ash_05: rgba(40, 40, 40, 0.05);
 $ash_border: #3e3e3e;
-$ash_ultralight: #e8e8e8;
+
 
 $ash_dark: #080808;
 

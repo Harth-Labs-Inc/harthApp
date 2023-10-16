@@ -7,7 +7,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: $ash_heavy;
+    background: $white;
     padding: 0px 16px 12px 16px;
     border-bottom: none;
 
@@ -23,8 +23,8 @@
         padding: 8px 12px;
         @include chatText;
         caret-color: $hot_salmon;
-        color: $font_light;
-        background: lighten($ash_heavy, 2%);
+        color: $font_dark;
+        background: $white;
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
@@ -54,7 +54,7 @@
         display: flex;
         justify-content: space-between;
         padding: 4px;
-        background: lighten($ash_heavy, 2%);
+        background: $white;
         border: 1px solid $ash_medium;
         border-radius: 6px;
         border-top-left-radius: 0;

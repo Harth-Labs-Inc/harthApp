@@ -1,8 +1,15 @@
 
 @mixin harthTitle1 {
   font-family: var(--COOPBL-font);
+  font-family: var(--Oswald-font);
+  font-family: var(--Rubik-font);
+  font-family: var(--Mulish-font);
   //font-family: var(--Rubik-font);
-  //font-weight: 800;
+  //font-family: var(--Albert_Sans-font);
+  //font-family: var(--Comfortaa-font);
+  //font-family: var(--Roboto-font);
+  //font-family: var(--Quicksand-font);
+  font-weight: 900;
   font-size: 26px;
   letter-spacing: 0.05em;
   line-height: 26px;
@@ -102,9 +109,17 @@
 @mixin chatText {
   //font-family: var(--Open_Sans-font);
   font-family: var(--Rubik-font);
+  font-family: var(--Noto_Sans-font);
+  font-family: var(--Montserrat-font);
+  font-family: var(--Albert_Sans-font);
+  font-family: var(--Comfortaa-font);
+  font-family: var(--Roboto-font);
+  font-family: var(--Quicksand-font);
+  font-family: var(--Mulish-font);
+  
   font-weight: 300;
   font-size: 14px;
-  line-height: 130%;
+  line-height: 125%;
   letter-spacing: 0.03em;
   text-rendering: optimizeLegibility;
 }

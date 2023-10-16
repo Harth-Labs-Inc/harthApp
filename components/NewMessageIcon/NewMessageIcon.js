@@ -18,7 +18,7 @@ const NewMessageIcon = () => {
     <p
       id="addnewindicator"
       className={styles.ScrollButton}
-      style={{ color: "white", margin: "0 auto" }}
+      style={{ color: "white", margin: "12px auto" }}
     >
       new
     </p>

@@ -30,7 +30,7 @@
         align-items: center;
         justify-content: flex-start;
         width: fit-content;
-        color: $font_medium;
+        color: $font_dark;
         @include topicTitle;
         padding: 0px 28px 0px 8px;
         gap: 10px;
@@ -111,11 +111,11 @@
     }
 
     &Active {
-        background-color: $ash_heavy;
+        background-color: $silver-light;
 
         .label {
             //font-weight: 800;
-            color: $font_light;
+            color: $font_dark;
         }
         .moreMenu {
             visibility: visible;

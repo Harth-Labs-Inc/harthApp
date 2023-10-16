@@ -15,10 +15,13 @@
     width: 56px;
     height: var(--vh);
     min-width: 56px;
-    background-color: $ash;
-    border-right: 1px solid $ash_medium;
-    border-top: 1px solid $ash_medium;
+    background-color: $silver-xlight;
+    //border-right: 1px solid $cobal;
+    //border: 2px solid $cobal;
+    border-left: 0;
     border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    box-shadow: inset -2px 2px 4px $silver-light;
 
     .bottomHolder {
         position: absolute;
@@ -28,8 +31,9 @@
         bottom: 0px;
         height: fit-content;
         width: 100%;
-        background-color: $ash;
+        background-color: $silver-xlight;
         //border-top: 1px solid $ash_medium;
+        border-bottom-right-radius: 16px;
         z-index: 1;
         padding: 12px 0px 12px 0px;
         gap: 8px;

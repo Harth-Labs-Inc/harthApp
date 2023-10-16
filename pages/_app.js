@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 // import { Analytics } from "@vercel/analytics/react";
-import { Work_Sans, Rubik } from "next/font/google";
+import { Work_Sans, Rubik, Oswald, Noto_Sans, Montserrat, Albert_Sans, Chivo, Comfortaa, Roboto, Quicksand, Mulish } from "next/font/google";
 import localFont from "next/font/local";
 import Head from "next/head";
 import "../styles/Styles.modules.scss";
@@ -19,9 +19,65 @@ const work_Sans = Work_Sans({
   preload: false,
 });
 
+const albert_Sans = Albert_Sans({
+  subsets: ["latin"],
+  variable: "--Albert_Sans-font",
+  preload: false,
+});
+
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  variable: "--Quicksand-font",
+  preload: false,
+});
+
+const mulish = Mulish({
+  subsets: ["latin"],
+  variable: "--Mulish-font",
+  preload: false,
+});
+
+const chivo = Chivo({
+  subsets: ["latin"],
+  variable: "--Chivo-font",
+  preload: false,
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--Montserrat-font",
+  preload: false,
+});
+
+const noto = Noto_Sans({
+  subsets: ["latin"],
+  variable: "--Noto_Sans-font",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  preload: false,
+});
+
 const rubik = Rubik({
   subsets: ["latin"],
   variable: "--Rubik-font",
+  preload: false,
+});
+
+const oswald = Oswald({
+  subsets: ["latin"],
+  variable: "--Oswald-font",
+  preload: false,
+});
+
+const comfortaa = Comfortaa({
+  subsets: ["latin"],
+  variable: "--Comfortaa-font",
+  preload: false,
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  variable: "--Roboto-font",
+  weight: ["300", "400", "500", "700", "900"],
   preload: false,
 });
 
@@ -35,6 +91,15 @@ const coopbl = localFont({
 fontClassNames.push(coopbl.className);
 fontClassNames.push(work_Sans.variable);
 fontClassNames.push(rubik.variable);
+fontClassNames.push(oswald.variable);
+fontClassNames.push(noto.variable);
+fontClassNames.push(montserrat.variable);
+fontClassNames.push(chivo.variable);
+fontClassNames.push(albert_Sans.variable);
+fontClassNames.push(comfortaa.variable);
+fontClassNames.push(roboto.variable);
+fontClassNames.push(quicksand.variable);
+fontClassNames.push(mulish.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
