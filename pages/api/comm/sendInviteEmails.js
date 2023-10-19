@@ -26,7 +26,7 @@ const generateToken = (email, selectedHarth) => {
 };
 
 const saveInvite = (db, data, invites) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const o_id = new ObjectId(data._id);
     delete data._id;
 
