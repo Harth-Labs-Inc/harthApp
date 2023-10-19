@@ -51,7 +51,8 @@ export default async (req, res) => {
   }
 
   let match = harth.invitesArray.find(
-    ({ invite_tkn, email }) => token === invite_tkn && user.email === email
+    ({ invite_tkn, email }) =>
+      token === invite_tkn && user.email.toLowerCase() === email.toLowerCase()
   );
 
   if (!match) {
