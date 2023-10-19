@@ -23,6 +23,7 @@ import CreateHarthName from "../../createHarthName/createHarthName";
 import CreateHarthProfile from "../../createHarthProfile/createHarthProfile";
 import { IconFeedback } from "resources/icons/IconFeedback";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
+import InviteComp from "../AccountSettings/Invite";
 
 const SideNav = (props) => {
   const { onToggleMenu, toggleNoHarthDetected } = props;
@@ -33,6 +34,7 @@ const SideNav = (props) => {
   const [showLeaveHarthModal, setShowLeaveHarthModal] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [currentTab, setCurrentTab] = useState("");
+  const [showInviteModal, setShowInviteModal] = useState(false);
 
   const [newHarth, setNewHarth] = useState(null);
   const [showCreateHarthNameModal, setShowCreateHarthNameModal] =
@@ -193,6 +195,9 @@ const SideNav = (props) => {
   const toggleFeedbackModal = () => {
     setShowFeedbackModal(!showFeedbackModal);
   };
+  const toggleInviteModal = () => {
+    setShowInviteModal(!showInviteModal);
+  };
 
   if (isMobile) {
     return;
@@ -200,6 +205,9 @@ const SideNav = (props) => {
 
   return (
     <>
+      {showInviteModal ? (
+        <InviteComp toggleCurrentPage={toggleInviteModal} />
+      ) : null}
       {showFeedbackModal ? (
         <FeedbackModal
           onToggleModal={toggleFeedbackModal}
@@ -298,7 +306,7 @@ const SideNav = (props) => {
           </button>
           <button
             className={` ${styles.SettingsButton} ${styles.SettingsButtonInvites} `}
-            onClick={(e) => toggleSettingsNav(e, true)}
+            onClick={toggleInviteModal}
             aria-label="Toggle Invites menu"
           >
             <IconInvite />

@@ -1,0 +1,242 @@
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
+
+.backdrop{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: rgba(40, 40, 46,0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    color: $font_light;
+}
+
+.innerContainer {
+    width: 400px;
+    background-color: $ash;
+    border: 1px solid $ash_medium;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    height: fit-content;
+    @media screen and (max-width: 640px) {
+        width: 90vw;
+    }
+
+    h2{
+        text-align: center;
+        margin-top: 0;
+        @include worksans;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 0px 0px 16px 0px;
+    }
+    label{
+        margin-bottom: 3px;
+    }
+}
+
+.closeBtn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer; 
+    color: $ash_light;
+}
+.dropdownheader {
+    border: 2px solid #404049;
+    border-radius: 15px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 5px;
+
+}
+.dropdownSelected {
+    display: flex;
+    margin: 5px;
+    img{
+        border-radius: 15px;
+    }
+    span{
+        padding-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+.arrow{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid #404049;
+    border-left: 1px solid #404049;
+    padding-left: 7px;
+}
+.dropdownoptions {
+    position: absolute;
+    background-color: #28282e;
+    z-index: 1;
+    width: 80%;
+    left: 11%;
+    padding: 10px;
+    max-height: 250px;
+    overflow: scroll;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-left-width: 1px;
+    border-left-color: #404049;
+    border-left-style: solid;
+    border-right-width: 1px;
+    border-right-color: #404049;
+    border-right-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #404049;
+    border-bottom-style: solid;
+}
+.dropdownoption {
+    display: flex;
+    margin-bottom: 6px;
+    span{
+        padding-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+  
+}
+.dropdownoption :hover{
+    background-color: #404049;
+    cursor: pointer;
+}
+.harthdropdown {
+    margin-bottom: 20px;
+}
+.emailinput {
+    border: 2px solid #404049;
+    border-radius: 15px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 21px;
+    overflow: scroll;
+    input {
+        color: $font_light;
+        width: 200px;
+        border-radius: 7px;
+        padding: 5px;
+        margin: 5px;
+        background: #404049;
+        border: none;
+    }
+   
+}
+.enteredemails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.innerenteredemails{
+    display: flex;
+}
+.email{
+    display: flex;  
+    span{
+        margin: 0px 3px 0px 1px;
+    }
+}
+
+.cancel{
+    padding: 14px 20px;
+    font-family: var(--Work_Sans-font);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: #bababa;
+    position: relative;
+    border: none;
+    border-radius: 9999px;
+    outline: none;
+    outline-style: none;
+    -moz-outline-style: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgb(64, 64, 73);
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    width: 50%;
+}
+
+.submit {
+    padding: 14px 20px;
+    font-family: var(--Work_Sans-font);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: #bababa;
+    position: relative;
+    border: none;
+    border-radius: 9999px;
+    outline: none;
+    outline-style: none;
+    -moz-outline-style: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgb(64, 64, 73);
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    background-color: $hot_salmon;
+}
+
+.loader  {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: transparent;
+    border: 4px solid transparent;
+    border-top-color: #404049;
+    border-radius: 50%;
+    animation: spinner 1s ease infinite;
+}
+.text {
+    padding: $gutter;
+    color: $text-black;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: left;
+    background-color: transparent;
+}
+
+@keyframes spinner {
+    from {
+      transform: rotate(0turn);
+    }
+  
+    to {
+      transform: rotate(1turn);
+    }
+  }

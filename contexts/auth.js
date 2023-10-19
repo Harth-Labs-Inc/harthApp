@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
-  let { invite, tkn } = router.query;
 
   const fetchUserFromToken = async (token, reroute) => {
     const prevID = localStorage.getItem("selectedHarthID");
@@ -68,17 +67,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const invite = params.get("invite");
+    const tkn = params.get("tkn");
+
+    if (invite && tkn) {
+      localStorage.setItem("inviteToken", tkn);
+    }
+
     if (router.pathname == "/_error") {
       router.push("/");
     }
     const token = localStorage.getItem("token");
     fetchUserFromToken(token);
   }, []);
-  useEffect(() => {
-    if (invite && tkn) {
-      localStorage.setItem("inviteToken", tkn);
-    }
-  }, [invite, tkn]);
 
   const setContextUser = (user) => {
     setUser(user);

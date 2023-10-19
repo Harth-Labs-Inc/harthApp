@@ -1,139 +1,277 @@
 import { useRef, useState, useEffect } from "react";
-
 import { useComms } from "../../../contexts/comms";
-import { generateInvite } from "../../../requests/community";
-
-import { envUrls } from "../../../constants/urls";
-
-import { Button, BackButton } from "../../Common";
-
-import styles from "./SettingsMenu.module.scss";
-
-const URLS = envUrls;
+import { sendInviteEmails } from "../../../requests/community";
+import styles from "./inviteModal.module.scss";
 
 const InviteComp = (props) => {
-    const { comms, setCommsFromChild } = useComms();
-    const [COMMS, SETCOMMS] = useState([]);
-    // const [selectedHarth, setSelectedHarth] = useState("");
-    const { toggleCurrentPage } = props;
+  const { comms, setCommsFromChild, selectedCommRef } = useComms();
+  const [COMMS, SETCOMMS] = useState([]);
+  const [selectedHarth, setSelectedHarth] = useState({});
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [enteredEmails, setEnteredEmails] = useState([]);
+  const [submitError, setSubmitError] = useState(null);
+  const [formatError, setFormatError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
-    const commsRef = useRef([]);
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    const handleBack = () => {
-        toggleCurrentPage("");
-    };
+  const { toggleCurrentPage } = props;
 
-    const handleClick = async (comm) => {
-        const data = await generateInvite(comm);
-        const { ok, user } = data;
-        if (ok) {
-            let index = comms.findIndex((com) => {
-                return com._id === user._id;
-            });
-            if (index >= 0) {
-                let arr = [...COMMS];
-                arr[index] = user;
-                commsRef.current = arr;
-                SETCOMMS(arr);
-            }
-        }
-    };
+  const commsRef = useRef([]);
 
-    const copyInviteToClipboard = (url) => {
-        if ("clipboard" in navigator) {
-            navigator.clipboard.writeText(url);
-        } else {
-            document.execCommand("copy", true, url);
-        }
-    };
-
-    useEffect(() => {
-        if (comms) {
-            commsRef.current = comms;
-            SETCOMMS(comms);
-        }
-    }, [comms]);
-
-    useEffect(() => {
-        return () => {
-            setCommsFromChild(commsRef.current);
-        };
-    }, []);
-
-    if (!comms) {
-        return <p>...loading</p>;
+  useEffect(() => {
+    if (comms) {
+      commsRef.current = comms;
+      SETCOMMS(comms);
     }
-
-    if (!comms.length) {
-        return <p>No harths found</p>;
+  }, [comms]);
+  useEffect(() => {
+    if (selectedCommRef.current) {
+      setSelectedHarth(selectedCommRef.current);
     }
+  }, [selectedCommRef.current]);
+  useEffect(() => {
+    return () => {
+      setCommsFromChild(commsRef.current);
+    };
+  }, []);
 
-    return (
-        <div className={styles.SettingsContainer}>
-            <div className={styles.SettingsContainerHeader}>
-                <BackButton clickHandler={handleBack} />
-                <p>Invites</p>
-            </div>
-            <div className={styles.SettingsContainerText}>
-                Create an invite and send the link<br />to your friends
-            </div>
-            
-            <div className={styles.InviteList}>
-                {COMMS.map((comm) => {
-                    let { iconKey, name, invite_tkn, invite_expiration } = comm;
-                    let validCode = false;
-                    let url = "";
-                    if (invite_expiration) {
-                        let today = new Date();
-                        let expirationDate = new Date(invite_expiration);
-                        if (today < expirationDate) {
-                            if (invite_tkn) {
-                                validCode = true;
-                                url = `${
-                                    /* eslint-disable-next-line */
-                                    URLS[process.env.NODE_ENV]
-                                }/?invite=true&tkn=${invite_tkn}`;
-                            }
-                        }
-                    }
+  const handleBack = () => {
+    toggleCurrentPage("");
+  };
+  const handleHarthChange = (harth) => {
+    setSelectedHarth(harth);
+    toggleDropdown(false);
+  };
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+  const handleInputChange = (e) => {
+    setEmailInput(e.target.value);
+    setSubmitError(null);
+    setFormatError(null);
+  };
+  const handleInputKeyPress = (e) => {
+    if (e.key === "Enter" || e.key === "," || e.key === "Tab") {
+      e.preventDefault();
 
-                    return (
-                        <div key={comm.id} className={styles.InviteListItem}>
-                            <div className={styles.InviteListItemInfo}>
-                                <img
-                                    loading="lazy"
-                                    src={iconKey || ""}
-                                    className={styles.InviteListItemInfoImage}
-                                />
-                                <p className={styles.InviteListItemInfoName}>
-                                    {name}
-                                </p>
-                            </div>
-                            {!validCode ? (
-                                <Button
-                                    text="Create Invite"
-                                    onClick={() => handleClick(comm)}
-                                />
-                            ) : (
-                                <div className={styles.InviteListItemCode}>
-                                    <p className={styles.InviteListItemCodeUrl}>
-                                        {url}
-                                    </p>
-                                    <button
-                                        onClick={() =>
-                                            copyInviteToClipboard(url)
-                                        }
-                                    >
-                                        Copy
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
+      const newEmail = emailInput.trim();
+      if (newEmail && emailRegex.test(newEmail)) {
+        if (!enteredEmails.includes(newEmail)) {
+          setEnteredEmails([...enteredEmails, newEmail]);
+        }
+
+        setEmailInput("");
+        setFormatError(null);
+      } else if (newEmail && !emailRegex.test(newEmail)) {
+        setFormatError(true);
+      }
+    }
+  };
+  const handleEmailDelete = (emailToDelete) => {
+    const updatedEmails = enteredEmails.filter(
+      (email) => email !== emailToDelete
     );
+    setEnteredEmails(updatedEmails);
+  };
+  const submitHandler = async () => {
+    let emails = enteredEmails;
+
+    const newEmail = emailInput.trim();
+    if (newEmail && emailRegex.test(newEmail)) {
+      if (!emails.includes(newEmail)) {
+        emails = [...emails, newEmail];
+      }
+    }
+
+    if (!emails.length) {
+      setSubmitError("Please enter an email");
+      return;
+    }
+
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      await sendInviteEmails({ selectedHarth, enteredEmails: emails });
+      setEnteredEmails(emails);
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+    }
+  };
+  const resetHandler = () => {
+    setEmailInput("");
+    setEnteredEmails([]);
+    setSubmitError(null);
+    setFormatError(null);
+    setIsSubmitting(false);
+    setSubmitSuccess(false);
+    setSelectedHarth(selectedCommRef.current);
+  };
+  if (!comms) {
+    return <p>...loading</p>;
+  }
+
+  if (!comms.length) {
+    return <p>No harths found</p>;
+  }
+
+  return (
+    <div className={styles.backdrop}>
+      <div className={styles.innerContainer}>
+        {!submitSuccess ? (
+          <>
+            <h2>Send an Invite</h2>
+            <button className={styles.closeBtn} onClick={handleBack}>
+              X
+            </button>
+            <div className={styles.InviteList}>
+              <div className={styles.harthdropdown}>
+                <label htmlFor="harthSelect">Select a Harth</label>
+                <div className={styles.dropdownheader} onClick={toggleDropdown}>
+                  <div className={styles.dropdownSelected}>
+                    {selectedHarth?.iconKey && (
+                      <img
+                        style={{ height: "50px", width: "50px" }}
+                        src={selectedHarth.iconKey}
+                        alt={selectedHarth.name}
+                        className="harth-iconKey"
+                      />
+                    )}
+                    <span>{selectedHarth?.name}</span>
+                  </div>
+
+                  <span className={styles.arrow}>&#9660;</span>
+                </div>
+                {isDropdownOpen && (
+                  <div className={styles.dropdownoptions}>
+                    {COMMS.map((harth) => (
+                      <div
+                        className={styles.dropdownoption}
+                        key={harth._id}
+                        onClick={() => handleHarthChange(harth)}
+                      >
+                        {harth.iconKey && (
+                          <img
+                            style={{ height: "50px", width: "50px" }}
+                            src={harth.iconKey}
+                            alt={harth.name}
+                            className="harth-iconKey"
+                          />
+                        )}
+                        <span>{harth.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <label htmlFor="harthSelect">Recipient Email</label>
+              <p
+                style={{
+                  fontSize: "14px",
+                  display: "flex",
+                  color: "#9b0022",
+                }}
+              >
+                {formatError ? "Invalid format" : ""}
+              </p>
+              <div className={styles.emailinput}>
+                <input
+                  type="text"
+                  placeholder="email@email.com"
+                  value={emailInput}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyPress}
+                />
+                <div className={styles.enteredemails}>
+                  <div className={styles.innerenteredemails}>
+                    {enteredEmails.map((email, index) => (
+                      <div className={styles.email} key={index}>
+                        {email}
+                        <button
+                          className="delete-email-button"
+                          onClick={() => handleEmailDelete(email)}
+                        >
+                          X
+                        </button>
+                        {index !== enteredEmails.length - 1 ? (
+                          <span>,</span>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p
+              style={{
+                fontSize: "14px",
+                display: "flex",
+                justifyContent: "center",
+                color: "#9b0022",
+              }}
+            >
+              {submitError ? "Please add an email" : ""}
+            </p>
+            <button className={styles.submit} onClick={submitHandler}>
+              {!isSubmitting ? (
+                <span className={styles.text}>Invite</span>
+              ) : (
+                <span className={styles.loader} />
+              )}
+            </button>
+            <button className={styles.cancel} onClick={handleBack}>
+              Cancel
+            </button>
+          </>
+        ) : (
+          <>
+            <h2>Invite Sent!</h2>
+            <button className={styles.closeBtn} onClick={handleBack}>
+              X
+            </button>
+
+            <p style={{ textAlign: "center" }}>Your invite has been sent to:</p>
+            <div style={{ fontSize: "15px", textAlign: "center" }}>
+              {enteredEmails.join(", ")}
+            </div>
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "14px",
+                color: "#404049",
+                margin: "10px 0px",
+              }}
+            >
+              Invite will expire in 48 hours.
+            </p>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-around",
+              }}
+            >
+              <button
+                style={{ left: "unset", transform: "unset" }}
+                className={styles.cancel}
+                onClick={handleBack}
+              >
+                Cancel
+              </button>
+              <button
+                style={{ left: "unset", transform: "unset" }}
+                className={styles.submit}
+                onClick={resetHandler}
+              >
+                <span className={styles.text}>Send Another Invite</span>
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default InviteComp;

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 
 import { MobileContext } from "../../../contexts/mobile";
+import InviteComp from "../AccountSettings/Invite";
 
 import { HarthLogoLight } from "public/images/harth-logo-light";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
@@ -11,6 +12,7 @@ import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 
 const SettingsList = ({ toggleCurrentTab }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
 
   const { isMobile } = useContext(MobileContext);
   const { APP_VERSION } = useSocket();
@@ -22,9 +24,15 @@ const SettingsList = ({ toggleCurrentTab }) => {
   const toggleFeedbackModal = () => {
     setShowFeedbackModal(!showFeedbackModal);
   };
+  const toggleInviteModal = () => {
+    setShowInviteModal(!showInviteModal);
+  };
 
   return (
     <div className={styles.SettingsContainer}>
+      {showInviteModal ? (
+        <InviteComp toggleCurrentPage={toggleInviteModal} />
+      ) : null}
       {showFeedbackModal ? (
         <FeedbackModal onToggleModal={toggleFeedbackModal} />
       ) : null}
@@ -36,7 +44,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
 
       <button
         className={` ${styles.menuItem} ${styles.menuItemInvites}`}
-        onClick={() => toggleCurrentTab("invites")}
+        onClick={toggleInviteModal}
       >
         Invites
         <div className={styles.iconHolder}>

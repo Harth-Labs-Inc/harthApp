@@ -2,6 +2,26 @@ import api from "../services/api";
 
 /* eslint-disable */
 
+export const sendInviteEmails = async (data) => {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await api.post(
+      `/api/comm/sendInviteEmails`,
+      {
+        data,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const updateHarthData = async (data) => {
   const token = localStorage.getItem("token");
   try {

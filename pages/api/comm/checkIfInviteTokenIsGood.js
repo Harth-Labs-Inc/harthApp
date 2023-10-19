@@ -33,22 +33,31 @@ export default async (req, res) => {
       resolve(jwt.verify(tokn, process.env.SECRET));
     });
   };
+
   let decodedToken = await decode(token);
   if (!decodedToken) res.json({ msg: "Invalid Token", ok: 0 });
 
-  let { comm_id } = decodedToken;
-  if (!comm_id) res.json({ msg: "Invalid Token", ok: 0 });
+  let { id } = decodedToken;
+  if (!id) res.json({ msg: "Invalid Token", ok: 0 });
   const client = await getClientWithCheck(clientPromise);
-
   const db = client.db("blarg");
-  let harth = await findHarth(db, comm_id);
-  if (!harth) {
-    return res.json({ msg: "No User Found", ok: 0 });
+  let harth = await findHarth(db, id);
+
+  if (!harth || !harth.invitesArray) {
+    return res.json({ msg: "No Harth Found", ok: 0 });
   }
-  if (harth.invite_tkn != token) {
+  if (!user || !user.email) {
+    return res.json({ msg: "No user Found", ok: 0 });
+  }
+
+  let match = harth.invitesArray.find(
+    ({ invite_tkn, email }) => token === invite_tkn && user.email === email
+  );
+
+  if (!match) {
     return res.json({ msg: "bad token", ok: 0 });
   }
-  if (new Date() > new Date(harth.invite_expiration)) {
+  if (new Date() > new Date(match.invite_expiration)) {
     return res.json({ msg: "expired token", ok: 0 });
   }
   let userAlreadyInHarth = harth.users.find((usr) => usr.userId == user._id);
@@ -56,5 +65,5 @@ export default async (req, res) => {
     return res.json({ msg: "already in harth", ok: 0 });
   }
 
-  return res.json({ msg: "harth found", harth, ok: 1 });
+  return res.json({ msg: "All good!", ok: 1, harth });
 };

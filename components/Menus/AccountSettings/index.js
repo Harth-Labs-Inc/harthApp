@@ -9,16 +9,6 @@ const SettingsMenu = ({
     let comp;
     /* eslint-disable */
     switch (currentTab) {
-      case "invites":
-        const InviteComp = dynamic(() => import("./Invite"), {
-          loading: () => null,
-        });
-        comp = InviteComp ? (
-          <InviteComp
-            toggleCurrentPage={toggleCurrentTabClosed || toggleCurrentTab}
-          />
-        ) : null;
-        break;
       case "accountprofile":
         const AccountProfile = dynamic(() => import("./AccountProfile"), {
           loading: () => null,

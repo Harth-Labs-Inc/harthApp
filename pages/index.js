@@ -191,6 +191,7 @@ const dashboard = () => {
             } else {
               setShowCreateHarthNameModal(false);
             }
+            router.push(router.pathname, undefined, { shallow: true });
           }
         }
         testToken();
