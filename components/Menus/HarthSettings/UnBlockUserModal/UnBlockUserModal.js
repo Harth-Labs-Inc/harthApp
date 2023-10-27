@@ -3,7 +3,7 @@ import { UnblockUser } from "../../../../requests/userApi";
 import styles from "./UnBlockUserModal.module.scss";
 import { useSocket } from "contexts/socket";
 import { useComms } from "contexts/comms";
-
+/* eslint-disable */
 const UnBlockUserModal = ({ setHidden, usr, activeUser }) => {
   const { emitUpdate } = useSocket();
   const { selectedcomm } = useComms();

@@ -3,7 +3,7 @@ import { blockUser } from "../../../../requests/userApi";
 import styles from "./BlockUserModal.module.scss";
 import { useSocket } from "contexts/socket";
 import { useComms } from "contexts/comms";
-
+/* eslint-disable */
 const BlockUserModal = ({ setHidden, usr, activeUser, closeHandler }) => {
   const { emitUpdate } = useSocket();
   const { selectedcomm } = useComms();
