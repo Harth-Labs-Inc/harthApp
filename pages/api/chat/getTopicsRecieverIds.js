@@ -38,7 +38,7 @@ export default async (req, res) => {
     errorMsg = "Invalid Token or No User Found or Expired Token.";
     return res.json({ msg: errorMsg, ok: 0 });
   }
-
+  // Authentication
   const topic = await db
     .collection("topics")
     .findOne({ _id: new ObjectId(topic_id) });
@@ -49,7 +49,7 @@ export default async (req, res) => {
   const community = await db
     .collection("communities")
     .findOne({ _id: new ObjectId(comm_id) });
-  const userIDsToNotify = community.users
+  const communityUserIds = community.users
     .filter(
       (user) =>
         topicMemberIds.includes(user.userId) &&
@@ -57,6 +57,19 @@ export default async (req, res) => {
         user.userId !== creator_id
     )
     .map((user) => user.userId);
+
+  const users = await db
+    .collection("users")
+    .find({
+      _id: { $in: communityUserIds.map((id) => new ObjectId(id)) },
+      $and: [
+        { "BlockedList.userId": { $ne: creator_id } },
+        { _id: { $ne: new ObjectId(user._id) } },
+      ],
+    })
+    .toArray();
+
+  const userIDsToNotify = users.map((userDoc) => userDoc._id.toString());
 
   return res.json({
     msg: errorMsg || "successful",

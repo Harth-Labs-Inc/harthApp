@@ -4,7 +4,7 @@ import { sendInviteEmails } from "../../../requests/community";
 import styles from "./inviteModal.module.scss";
 
 const InviteComp = (props) => {
-  const { comms, setCommsFromChild, selectedCommRef } = useComms();
+  const { comms, setCommsFromChild, selectedCommRef, profile } = useComms();
   const [COMMS, SETCOMMS] = useState([]);
   const [selectedHarth, setSelectedHarth] = useState({});
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -93,7 +93,7 @@ const InviteComp = (props) => {
 
     if (!isSubmitting) {
       setIsSubmitting(true);
-      await sendInviteEmails({ selectedHarth, enteredEmails: emails });
+      await sendInviteEmails({ selectedHarth, enteredEmails: emails, profile });
       setEnteredEmails(emails);
       setIsSubmitting(false);
       setSubmitSuccess(true);

@@ -39,7 +39,7 @@ self.addEventListener("push", function (event) {
     dir: "ltr",
     lang: "en-US",
     vibrate: [100, 50, 200],
-    icon: "/icons/icon-150x150.png",
+    icon: "/icons/icon-96x96.png",
     badge: "/icons/icon-96x96.png",
     data: { url: "https://www.harth.social/" },
   };
@@ -52,7 +52,7 @@ self.addEventListener("push", function (event) {
     dir: "ltr",
     lang: "en-US",
     vibrate: [100, 50, 200],
-    icon: "/icons/icon-150x150.png",
+    icon: data.creatorImage || "/icons/icon-96x96.png",
     badge: "/icons/icon-96x96.png",
     data: {
       url: data.openUrl,

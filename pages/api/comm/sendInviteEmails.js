@@ -12,17 +12,38 @@ AWS.config = {
   region: "us-east-1",
 };
 
-const generateToken = (email, selectedHarth) => {
+const generateToken = (
+  email,
+  selectedHarth,
+  senderID,
+  senderName = "",
+  iconKey = ""
+) => {
   const dateSuffix = new Date().toISOString().replace(/[^0-9]/g, "");
   const expirationDate = new Date();
   expirationDate.setUTCDate(expirationDate.getUTCDate() + 2);
 
   const token = jwt.sign(
-    { email, dateSuffix, id: selectedHarth._id, expirationDate },
+    {
+      email,
+      dateSuffix,
+      id: selectedHarth._id,
+      expirationDate,
+      senderID,
+      senderName,
+      iconKey,
+    },
     process.env.SECRET
   );
 
-  return { invite_tkn: token, invite_expiration: expirationDate, email };
+  return {
+    invite_tkn: token,
+    invite_expiration: expirationDate,
+    email,
+    senderID,
+    senderName,
+    iconKey,
+  };
 };
 
 const saveInvite = (db, data, invites) => {
@@ -88,7 +109,7 @@ export default async (req, res) => {
 
   const obj = req.body === "string" ? JSON.parse(req.body) : req.body;
 
-  const { selectedHarth, enteredEmails } = obj.data;
+  const { selectedHarth, enteredEmails, profile } = obj.data;
 
   const client = await getClientWithCheck(clientPromise);
   const db = client.db("blarg");
@@ -112,9 +133,23 @@ export default async (req, res) => {
   }
 
   // Authentication end
+  const blockedUsers = await db
+    .collection("users")
+    .find({
+      BlockedList: { $elemMatch: { userId: userId } },
+    })
+    .toArray();
 
-  const tokens = enteredEmails.map((email) =>
-    generateToken(email, selectedHarth)
+  const blockedEmails = blockedUsers.map((userDoc) =>
+    userDoc.email.toLowerCase()
+  );
+
+  const filteredEmails = enteredEmails.filter(
+    (email) => !blockedEmails.includes(email.toLowerCase())
+  );
+
+  const tokens = filteredEmails.map((email) =>
+    generateToken(email, selectedHarth, userId, profile?.name, profile?.iconKey)
   );
   await saveInvite(db, selectedHarth, tokens);
 

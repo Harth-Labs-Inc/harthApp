@@ -26,7 +26,7 @@ import {
 const SocketContext = createContext({});
 
 // -------------------- update version here ------------------------------------------------------------------------------
-const APP_VERSION = "1.0.0.13";
+const APP_VERSION = "1.0.0.14";
 // -----------------------------------------------------------------------------------------------------------------------
 
 /* eslint-disable */
@@ -44,7 +44,7 @@ export const SocketProvider = ({ children }) => {
   const [ispullingUnreads, setIspullingUnreads] = useState(false);
   const [showHasUpdateButton, setShowHasUpdateButton] = useState(false);
 
-  const { user } = useAuth();
+  const { user, setContextUser } = useAuth();
   const {
     setTopics,
     setSelectedTopic,
@@ -84,7 +84,6 @@ export const SocketProvider = ({ children }) => {
     (shouldPullNewData) => {
       if (document.hidden || !user || !navigator.onLine) return;
 
-      console.log("is connecting....");
       isReconnecting = true;
       const token = localStorage.getItem("token");
       const URL = socketUrls[process.env.NODE_ENV];
@@ -98,7 +97,6 @@ export const SocketProvider = ({ children }) => {
       });
 
       tempSocket.on("connect", () => {
-        console.log("connected");
         if (document.hidden) {
           tempSocket.close();
           return;
@@ -210,25 +208,37 @@ export const SocketProvider = ({ children }) => {
             incomingUpdate.creator_id !== user._id ||
             incomingUpdate.socketID !== socket.id
           ) {
-            setIncomingMsg(incomingUpdate);
-            getExistingUnreadMessages(user._id).then((results) => {
-              const { data } = results;
+            const blockedUserIds = user.BlockedList
+              ? user.BlockedList.map((blocked) => blocked.userId)
+              : [];
 
-              if (data && data.length) {
-                const hasMatchingCommId = data.some(
-                  (message) => message.comm_id === selectedCommRef.current._id
-                );
+            if (!blockedUserIds.includes(incomingUpdate.creator_id)) {
+              setIncomingMsg(incomingUpdate);
+              getExistingUnreadMessages(user._id).then((results) => {
+                const { data } = results;
 
-                if (hasMatchingCommId) {
-                  setNewAlerts(incomingUpdate, "chat");
+                if (data && data.length) {
+                  const hasMatchingCommId = data.some(
+                    (message) => message.comm_id === selectedCommRef.current._id
+                  );
+
+                  if (hasMatchingCommId) {
+                    setNewAlerts(incomingUpdate, "chat");
+                  }
                 }
-              }
-            });
+              });
+            }
           }
           break;
         case "message update":
-          setIncomingMsgUpdate(incomingUpdate);
-          setNewAlerts(incomingUpdate, "chat");
+          const blockedUserIdstemp = user.BlockedList
+            ? user.BlockedList.map((blocked) => blocked.userId)
+            : [];
+
+          if (!blockedUserIdstemp.includes(incomingUpdate.creator_id)) {
+            setIncomingMsgUpdate(incomingUpdate);
+            setNewAlerts(incomingUpdate, "chat");
+          }
 
           break;
         case "message profile icon update":
@@ -336,6 +346,13 @@ export const SocketProvider = ({ children }) => {
           }
 
           break;
+        case "selected user full user reload":
+          if (incomingUpdate?.userID == user?._id) {
+            setContextUser(incomingUpdate?.newUser);
+            rebuildData(true);
+          }
+
+          break;
         case "new room":
           setIncomingRoom(incomingUpdate);
           break;
@@ -346,7 +363,25 @@ export const SocketProvider = ({ children }) => {
           let isForYou = incomingUpdate.users?.find(
             (usr) => usr.userId == user._id
           );
-          if (isForYou) {
+          let shouldBeBlocked = false;
+
+          const newblockedUserIds = user.BlockedList
+            ? user.BlockedList.map((blocked) => blocked.userId)
+            : [];
+          const otherUsers = incomingUpdate.users?.filter(
+            (u) => u.userId !== user._id.toString()
+          );
+
+          if (
+            otherUsers.length === 1 &&
+            newblockedUserIds.includes(otherUsers[0].userId)
+          ) {
+            shouldBeBlocked = true;
+          }
+          if (otherUsers.every((u) => newblockedUserIds.includes(u.userId))) {
+            shouldBeBlocked = true;
+          }
+          if (isForYou && !shouldBeBlocked) {
             setNewAlerts(incomingUpdate, "message");
             let newConversationsResult = await getConversations(
               incomingUpdate?.harthId,
@@ -363,13 +398,19 @@ export const SocketProvider = ({ children }) => {
                 selectedHarthRef.current._id
             );
           }
-          if (
-            (incomingUpdate.creator_id !== user._id ||
-              incomingUpdate.socketID !== socket.id) &&
-            incomingUpdate.userIDS?.includes(user._id)
-          ) {
-            setIncomingConversationMessagesHandler(incomingUpdate);
-            setNewAlerts(incomingUpdate, "message");
+          const blockedUserIds = user.BlockedList
+            ? user.BlockedList.map((blocked) => blocked.userId)
+            : [];
+
+          if (!blockedUserIds.includes(incomingUpdate.creator_id)) {
+            if (
+              (incomingUpdate.creator_id !== user._id ||
+                incomingUpdate.socketID !== socket.id) &&
+              incomingUpdate.userIDS?.includes(user._id)
+            ) {
+              setIncomingConversationMessagesHandler(incomingUpdate);
+              setNewAlerts(incomingUpdate, "message");
+            }
           }
 
           break;
