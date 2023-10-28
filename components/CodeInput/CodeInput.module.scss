@@ -9,13 +9,13 @@
 }
 
 .CodeInputCharacter {
-    color: $font_light;
-    font-family: "Rubik", sans-serif;
+    color: $font_main;
+    @include rubik;
     font-size: 36px;
     font-weight: 500;
     line-height: 40px;
-    background-color: $black;
-    border: 4px solid;
+    background-color: $background;
+    border: 4px solid $border_basic;
     border-radius: 8px;
 
     display: flex;
@@ -23,6 +23,10 @@
     justify-content: center;
     
     &Inactive {
-        border-color: $ash_light;
+        border-color: $border_basic;
+    }
+
+    &Selected{
+        border-color: $hot_salmon;
     }
 }

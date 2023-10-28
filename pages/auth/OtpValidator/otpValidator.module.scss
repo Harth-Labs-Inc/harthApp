@@ -5,24 +5,25 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
+    //justify-content: center;
     height: var(--vh);
     max-width: 360px;
     margin: 0 auto;
     padding: 24px 24px 56px 24px;
     overflow: auto;
+
     &Text {
-        @include worksans;
+        @include systemFont;
         font-size: 14px;
-        color: $font_light;
+        color: $font_main;
         margin: 12px 0 16px;
         text-align: center;
     }
     &SubText {
-        @include worksans;
-        font-size: 12px;
+        @include systemFont;
+        font-size: 14px;
         margin-top: 4px;
-        color: $font_medium;
+        color: $font_muted;
         text-align: center;
     }
 
@@ -38,12 +39,12 @@
     }
 
     &Logo {
-        display: flex;
-        justify-content: flex-start;
-        width: 96px;
-        max-width: 96px;
-        margin-bottom: 36px;
-        margin-right: auto;
+      width: 80px;
+      max-width: 80px;
+      margin-bottom: 40px;
+      //margin-top: 28px;
+      margin-right: auto;
+      margin-left: auto;
     }
 }
 .fadeIn {

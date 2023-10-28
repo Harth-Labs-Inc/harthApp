@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-
-import { HarthLogoLight } from "../../../public/images/harth-logo-light";
+import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { addUser, sendOtpEmailToUser } from "../../../requests/userApi";
 import { Button } from "../../../components/Common";
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import TalkingHead from "../../../components/TalkingHead/TalkingHead";
-
 import styles from "./createAccount.module.scss";
 
 const CreateAccount = () => {
@@ -92,7 +90,7 @@ const CreateAccount = () => {
     <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
       <div className={styles.CreateModuleContent}>
         <div className={styles.CreateModuleLogo}>
-          <HarthLogoLight />
+          <HarthLogoDark />
         </div>
         <TalkingHead text={bubbleText} />
         <form onSubmit={handleSubmit(submitHandler)}>
@@ -149,6 +147,7 @@ const CreateAccount = () => {
             tier="primary"
             type="submit"
             text="Sign Up"
+            className={styles.signupButton}
             fullWidth
             onClick={() => {
               setSubmissionType("create");

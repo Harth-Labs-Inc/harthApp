@@ -3,7 +3,7 @@
 .IconUploader {
     position: relative;
     margin: 0 auto;
-    border: 4px dashed $ash_medium;
+    border: 4px dashed $border_basic;
     padding: 1px;
     display: flex;
     align-items: center;
@@ -33,6 +33,7 @@
             width: 80px;
             object-fit: cover;
             border-radius: 9999px;
+            //border: 1px solid $border_light;
         }
         .iconHolder {
             top: -10px;
@@ -50,6 +51,7 @@
             height: 72px;
             object-fit: cover;
             border-radius: 10px;
+            //border: 1px solid $border_light;
         }
 
         .iconHolder {

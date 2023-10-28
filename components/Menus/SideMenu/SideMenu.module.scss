@@ -123,19 +123,24 @@
         text-align: left;
         padding: 4px 20px;
         border: 0;
-        border-bottom: solid 1px $ash_medium;
+        border-bottom: solid 1px $border_basic;
         margin: 0;
-        @include menuSubTitle;
-        color: $font_medium;
+        @include systemFont;
+        font-size: 14px;
+        color: $font_main;
 
     }
 
     .headerImage {
-        width: 124px;
-        max-width: 124px;
+
         margin: auto;
         margin-top: 40px; 
         margin-bottom: 40px; 
+        //background-color: aqua;
+        svg {
+            height: 36px;
+            max-width: 148px;
+        }
 
     }
 
@@ -150,7 +155,7 @@
     .settings {
         position: relative;
         bottom: 0;
-        border-top: 1px solid $ash_medium;
+        border-top: 1px solid $border_basic;
     }
 
 

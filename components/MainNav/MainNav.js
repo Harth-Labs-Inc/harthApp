@@ -28,7 +28,7 @@ const MainNav = (props) => {
   } = useSocket();
 
   // const unreadMessagesOther = true;
-
+ 
   useEffect(() => {
     if (selectedCommRef.current && mainAlerts[selectedCommRef.current?._id]) {
       let alerts = mainAlerts[selectedCommRef.current?._id];
@@ -207,7 +207,7 @@ const MainNav = (props) => {
               {currentPage == "message" ? (
                 <IconMessage />
               ) : (
-                <IconMessageMuted />
+                <IconMessageMuted /> 
               )}
             </div>
             <div className={styles.title}>DMs</div>

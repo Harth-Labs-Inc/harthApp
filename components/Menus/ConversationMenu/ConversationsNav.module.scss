@@ -23,7 +23,7 @@
         border: 0;
         width: 100%;
         padding: 75px 16px 24px 16px;
-        background-color: $ash_dark;
+        background-color: $background;
         .notopic {
             @include worksans;
             color: $font_medium;
@@ -46,18 +46,8 @@
     }
 
     &TitleMobile {
-        position: relative;
-        @include smallTitleMobile;
-        padding: 1px 2px;
-        border-radius: 4px;
-        //background-color: $white;
-        width: fit-content;
-        text-transform: uppercase;
-        color: $font_light;
-        //margin-bottom: 8px;
-        user-select: none ;
-        margin-top: 0px;
-        margin-bottom: 12px;
+        display: none;
+
     }
 
     &Container {
@@ -146,23 +136,23 @@
         position: relative;
         display: block;
         cursor: pointer;
-        height: 32px;
-        width: 32px;
+        height: 40px;
+        width: 40px;
         border-radius: 99px;
-        border: 1px solid $ash_medium;
-        padding: 7px;
-        margin-left: 16px;
-        margin-top: 20px;
+        border: 0;
+        padding: 2px;
+        margin-left: 18px;
+        margin-top: 24px;
         margin-bottom: 36px;
         transition: opacity;
-        background-color: transparent;
+        background-color: $border_basic;
         
         path {
-            fill: $ash_medium;
+            fill: $background;
         }
         
         &:active{
-            background-color: $silver-med;
+            background-color: $button_main_press;
         }
 
     }

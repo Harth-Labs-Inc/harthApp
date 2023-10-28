@@ -11,16 +11,18 @@
     border: 0;
     border-radius:8px;
     background-color: transparent;
-    margin-bottom: 4px;
+
+    //margin-bottom: 4px;
     cursor: pointer;
     //border: 1px solid $fuel;
+    border: 2px solid $border_basic;
 
     .label {
         display: flex;
         align-items: center;
         text-align: left;
         @include topicTitle;
-        color: $font_medium;
+        color: $font_main;
         height: 32px;
         margin-left: 10px;
         width: fit-content;
@@ -44,12 +46,12 @@
             width: 38px;
             border-radius: 9999px;
             border:0;
-            border: 2px solid $ash;
+            border: 1px solid $border_light;
             user-select: none;
 
             &Mobile {
-                height: 42px;
-                width: 42px;
+                height: 48px;
+                width: 48px;
             }
         }
     }
@@ -58,7 +60,6 @@
     &Mobile {
         margin-bottom: 12px;
         padding: 10px 8px 14px 12px;
-        border: 0;
         .moreMenu {
             display: none;
         }
@@ -69,7 +70,7 @@
         }
 
         &:active {
-            background-color: $ash;
+            background-color: $background_offset;
 
         }
         
@@ -119,20 +120,15 @@
 
     }
     &Active {
-        background-color: $ash_heavy;
+        background-color: $border_basic;
 
         .moreMenu {
             visibility: visible;
         }
         .label {
-            color: $font_light;
+            color: $font_main;
         }
 
-        .participantElement {    
-            .avatar {
-                border-color: $ash_heavy;
-            }
-        }
 
     }
 

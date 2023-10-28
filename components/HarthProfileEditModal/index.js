@@ -167,8 +167,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
   return (
     <Modal onToggleModal={setHidden} show={true}>
       <div className={styles.mainContainer}>
-        {/* <div className={styles.title}>This is your avatar for</div>
-                <div className={styles.harth}>{harth.name}</div> */}
+        <div className={styles.title}>Your Profile</div>
         <IconUploader
           shape="circle"
           id={harth?._id || ""}
@@ -176,7 +175,9 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
           name={name}
           changeHandler={fileUploadHandler}
         />
+        
         <form onSubmit={submitHandler} className={styles.form}>
+          <div className={styles.label}>Name</div>
           <input
             placeholder={name || "Profile Name"}
             value={name}
@@ -188,7 +189,8 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
           />
           <div
             className={styles.helpText}
-          >{`Tip: This is your avatar for ${harth.name} only. Switch härths to customize all your different avatars.`}</div>
+          >{`This is your profile for ${harth.name} only. Switch härths to customize all your different profiles.`}
+          </div>
           <div className={styles.buttonBar}>
             <Button
               text="Cancel"

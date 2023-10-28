@@ -1,6 +1,35 @@
 //app colors
 @import "./utility/ui-mixins";
 
+
+//Consolodated
+$fuel: #271623;
+$red_stove: #642838;
+
+$font_light: #fafafa;
+$font_dark: $fuel;
+
+$font_main: $font_dark;
+$font_reverse: $font_light;
+$font_muted: #8a7892;
+
+
+$background: #ffffff;
+$background_reverse: #000000;
+$background_offset: darken($background, 5%);
+
+$button_main: $red_stove;
+$button_main_press: darken($button_main, 10%);
+
+
+$border_basic: darken($background, 10%);
+$border_light: darken($background, 5%);
+$border_heavy: darken($background, 40%);
+
+
+$border_basic: #E2E2F2; 
+
+
 //Text Colors
 $font_light: #fafafa;
 $font_medium: #bababa;
@@ -165,8 +194,6 @@ $hot_salmon_light: lighten($hot_salmon, 15%);
 // ========================
 $alert_red: #bb0000;
 
-// Light background
-$background_light: #f2f5eb;
 
 // ========================
 // Overlays

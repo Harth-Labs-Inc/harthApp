@@ -8,7 +8,7 @@
     flex-direction: column;
     height: calc(var(--vh) - 56px);
     width: 100%;
-    background: $ash_heavy;
+    background: $background;
     //padding-left: 8px;
 
     @media screen and (max-width: 640px) {
@@ -236,7 +236,7 @@
         position: absolute;
         bottom: 0;
         z-index: 2;
-        background: #28282e;
+        //background: #28282e;
     }
 
     &Desktop {

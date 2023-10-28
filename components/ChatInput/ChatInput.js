@@ -603,7 +603,12 @@ const ChatInput = (props) => {
         );
       } else {
         return (
-          <div id={styles.ChatInputControlsRight}>
+          <div id={
+            isMobile
+              ? styles.ChatInputMobileControlsRight
+              : styles.ChatInputControlsRight
+            }
+            >
             <button
               disabled={isDisabled}
               className={

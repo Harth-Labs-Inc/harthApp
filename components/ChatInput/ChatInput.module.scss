@@ -23,8 +23,8 @@
         padding: 8px 12px;
         @include chatText;
         caret-color: $hot_salmon;
-        color: $font_light;
-        background: lighten($ash_heavy, 2%);
+        color: $font_main;
+        background: $background_offset;
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
@@ -205,7 +205,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: $ash;
+    background: $background;
     padding: 0px 0px 12px 0px;
     border-bottom: none;
 
@@ -221,7 +221,7 @@
         padding: 8px 12px;
         @include chatTextMobile;
         caret-color: $hot_salmon;
-        color: $font_light;
+        color: $font_main;
         border: 0;
 
         white-space: pre-wrap; /* CSS3 */
@@ -232,13 +232,13 @@
 
         &::placeholder {
             @include chatTextMobile ;
-            color: darken($font_medium, 15%);
+            color: $font_muted;
         }
     }
 
     .entryBox {
-        border-top: 1px solid $ash_medium;
-        border-bottom: 1px solid lighten($ash, 3%);
+        border-top: 1px solid $border_basic;
+        border-bottom: 1px solid $border_basic;
         //border-radius: 6px;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
@@ -250,8 +250,8 @@
     &Controls {
         display: flex;
         justify-content: space-between;
-        padding: 4px;
-        background: $ash;
+        padding: 6px 8px;
+        background: $background;
         //border: 1px solid $ash_medium;
         //border-radius: 6px;
         //border-top-left-radius: 0;
@@ -263,29 +263,29 @@
             position: relative;
             display: flex;
             flex-direction: row;
-            column-gap: 12px;
+            column-gap: 24px;
 
             > button {
                 position: relative;
                 margin: 0 0px;
-                height: 36px;
-                width: 36px;
-                padding: 6px;
+                height: 44px;
+                width: 44px;
+                padding: 7px;
                 background-color: transparent;
-                border-radius: 6px;
+                border-radius: 999px;
                 border: 0px;
                 cursor: pointer;
 
                 path {
-                    fill: $ash_light;
+                    fill: $font_muted;
                 }
 
 
                 @media (hover: hover) and (pointer: fine) {
                     &:hover { 
-                            background-color: $ash_heavy;
+                            background-color: $background_offset;
                             path {
-                                fill: $font_light;
+                                fill: $font_main;
                             }
                     }
                 }
@@ -318,7 +318,7 @@
                     //border: 1px solid $silver-med;
                     background-color: $hot_pink;
                     path {
-                        fill: $font_light;
+                        fill: $background;
                     }
                 }
 
@@ -386,9 +386,9 @@
     row-gap: 8px;
     justify-content: flex-start;
     width: auto;
-    background: lighten($ash_heavy, 2%);
+    background: $background;
     padding: 8px;
-    border-bottom: 1px solid $ash_medium;
+    border-bottom: 1px solid $border_basic;
 
     .imageContainer {
         position: relative;
@@ -400,7 +400,7 @@
             border-radius: 8px;
             height: 80px;
             width: 80px;
-            border: 1px solid $ash_light;
+            border: 1px solid $border_light;
             object-fit: contain;
         }
         .video{
@@ -409,7 +409,7 @@
             border-radius: 8px;
             height: 80px;
             width: 80px;
-            border: 1px solid #271623;
+            border: 1px solid $border_light;
             object-fit: contain; 
         }
         button {
@@ -424,7 +424,7 @@
             border-top-right-radius: 8px;
             border-bottom-right-radius: 0px;
             border-bottom-left-radius: 8px;
-            border: 1px solid $ash_light;
+            border: 1px solid $border_basic;
             background-color: $hot_pink;
             cursor: pointer;
 

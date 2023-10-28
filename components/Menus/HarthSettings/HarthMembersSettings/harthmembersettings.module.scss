@@ -14,16 +14,18 @@
         column-gap: 12px;
         justify-content: space-between;
         align-items: center;
-        background-color: $ash_heavy;
+        background-color: $background;
         width: 100%;
         height: 56px;
         padding: 4px 8px 4px 8px;
         border-radius: 12px;
         margin-top:8px;
+        border: 2px solid $border_basic;
 
         &Active {
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
+            border-bottom: 0;
 
         }
 
@@ -32,8 +34,9 @@
             flex-direction: column;
 
             @include chatProfile;
-            font-size: 14px;
-            color: $font_light;
+            font-weight: 400;
+            font-size: 16px;
+            color: $font_main;
             width: 100%;
             //padding-top: 10px;
             p{
@@ -65,24 +68,19 @@
             padding: 6px;
 
             path {
-                fill: $ash_medium;
+                fill: $font_main;
             }
 
             &Desktop {
                 &:hover {
-                    background: $ash_heavy;
-                    path {
-                        fill: $ash_light;
-                    }
+                    background: $border_basic;
                 }
             }
 
             &Mobile {
                 &:active {
-                    background: $ash_heavy;
-                    path {
-                        fill: $ash_light;
-                    }
+                    background: $border_basic;
+
                 }
             }
 
@@ -98,24 +96,29 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $ash_heavy;
-        padding: 0px 20px;
+        background-color: $background;
+        padding: 0px 16px;
         border-top-left-radius: 0px;
         border-top-right-radius: 0px;
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
         border: 0px;
+        border: 2px solid $border_basic;
+        border-top: 0;
 
         .makeAdmin {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             align-items: center;
             //background-color: aquamarine;
-            column-gap: 6px;
+            gap: 2px;
+            margin-top: 12px;
     
             p {
-                @include worksans;
-                color: $font_light;
+                @include systemFont;
+                font-size: 11px;
+                letter-spacing: 0;
+                color: $font_main;
 
             }
     
@@ -137,10 +140,11 @@
         border-radius: 12px;
         padding: 0px 8px 0px 8px;
         background-color: transparent;
-        border: 1px dashed $ash_medium;
+        border: 2px dashed $border_basic;
         margin-top: 8px;
         @include chatProfile;
-        color: $font_medium;
+        font-weight: 400;
+        color: $font_muted;
 
         .numberHolder {
             display: flex;
@@ -153,9 +157,9 @@
             border-radius: 9999px;
             align-items: center;
             justify-content: center;
-            background-color: $ash_heavy;
-            color: $ash_medium;
-            @include worksans;
+            background-color: $border_basic;
+            color: $font_muted;
+            @include systemFont;
             font-size: 20px;
             font-weight: 700;
         }

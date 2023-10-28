@@ -35,7 +35,7 @@
 
     &Title {
         @include menuSubTitle;
-        color: $ash_light;
+        color: $font_main;
         width: calc(100% - 16px);
         margin-top: 24px;
         padding: 4px 0px;
@@ -182,16 +182,16 @@
 
     background-color: transparent;
     @include menuText;
-    color: $font_light;
+    color: $font_main;
 
     &Invites {
-        color: $hot_salmon;
-        font-weight: 600;
+        color: $hot_pink;
+        //font-weight: 600;
 
     }
     @media (hover: hover) and (pointer: fine) {
         &:hover {
-            background-color: $fuel_10;
+            background-color: $background_offset;
         }
     }
 
@@ -199,7 +199,7 @@
         height: 24px;
         width: 24px;
         path {
-            fill: $font_medium;
+            fill: $font_main;
         }
     }
 }
@@ -208,7 +208,7 @@
     display: flex;
     @include interfaceH4;
     width: 100%;
-    border: 0px solid $fuel;
+    border: 0px solid $font_main;
     border-bottom-width: 1px;
     align-items: flex-end;
     padding-bottom: 4px;

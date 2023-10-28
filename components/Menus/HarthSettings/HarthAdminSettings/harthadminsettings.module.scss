@@ -16,8 +16,9 @@
 }
 
 .justTitle {
-    @include harthTitle2;
-    color: $font_light;
+    @include harthTitle;
+    font-size: 24px;
+    color: $font_main;
     text-align: center;
     margin-top: 16px;
     margin-bottom: 16px;
@@ -28,6 +29,10 @@
     width: 100%;
     margin-top: 32px;
 
+    input {
+        border: 0;
+    }
+
     &Content {
         display: flex;
         justify-content: center;
@@ -37,21 +42,23 @@
     .textEntry {
         margin: 0;
         width: 220px;
-        padding: 8.5px 20px;
-        background-color: $black;
-        border: 1px solid $ash_medium;
+        padding: 0px 2px 0px 8px;
+        background-color: $border_basic;
+        //border: 1px solid $ash_medium;
         border-radius: 8px 0 0 8px;
-        @include harthTitleSmall;
-        color: $font_light;
+        @include harthTitle;
+        overflow: hidden;
+        font-size: 20px;
+        color: $font_main;
     }
     .formSubmit {
         width: 96px;;
         padding: 8px ;
-        background-color: $ash_heavy;
+        background-color: $button_main;
         border-radius: 0 8px 8px 0;
-        color: $hot_salmon;
+        color: $background;
         @include buttonLarge;
-        border: 1px solid $ash_medium;
+        border: 0;
         outline: none;
         outline-style: none;
         -moz-outline-style: none; 
@@ -59,11 +66,11 @@
         cursor: pointer;
 
         &:hover {
-            background-color: $black;
+            background-color: $button_main_press;
         }
 
         &:active {
-            background-color: $black;
+            background-color: $button_main_press;
         }
     }
 }

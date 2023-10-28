@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 // import { Analytics } from "@vercel/analytics/react";
-import { Work_Sans, Rubik } from "next/font/google";
+import { Work_Sans, Rubik, PT_Sans, Paytone_One, Open_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import Head from "next/head";
 import "../styles/Styles.modules.scss";
@@ -19,9 +19,29 @@ const work_Sans = Work_Sans({
   preload: false,
 });
 
+const open_Sans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--Open_Sans-font",
+  preload: false,
+});
+
 const rubik = Rubik({
   subsets: ["latin"],
   variable: "--Rubik-font",
+  preload: false,
+}); 
+
+const ptsans = PT_Sans({
+  subsets: ["latin"],
+  variable: "--PT_Sans-font",
+  weight: ["400", "700"],
+  preload: false,
+});
+
+const paytone = Paytone_One({
+  subsets: ["latin"],
+  variable: "--Paytone_One-font",
+  weight: ["400"],
   preload: false,
 });
 
@@ -34,7 +54,10 @@ const coopbl = localFont({
 
 fontClassNames.push(coopbl.className);
 fontClassNames.push(work_Sans.variable);
+fontClassNames.push(open_Sans.variable);
 fontClassNames.push(rubik.variable);
+fontClassNames.push(ptsans.variable);
+fontClassNames.push(paytone.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -225,7 +248,7 @@ function MyApp({ Component, pageProps }) {
           href="/icons/icon-1024x1024.png"
         />
 
-        <meta name="theme-color" content="#28282e" />
+        <meta name="theme-color" content="#ffffff" />
 
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

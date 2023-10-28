@@ -12,12 +12,12 @@
 
 @keyframes blur-in {
     from {
-        background-color: transparent;
-        //backdrop-filter: blur(0px) grayscale(0%);
+        background: transparent;
+        backdrop-filter: blur(0px);
     }
     to {
-        background-color: $black_20;
-        //backdrop-filter: blur(2px) grayscale(60%);
+        background: linear-gradient(to bottom, transparent, $border_basic, transparent);
+        backdrop-filter: blur(4px);
     }
 }
 
@@ -55,13 +55,20 @@
 
     &Mid {
         position: absolute;
+        width: 100%;
         top: 49%;
         left: 50%;
         transform: translate3d(-50%, -50%, 0);
         padding: 0px;
-        background-color: $ash;
-        border-radius: 12px;
-        border: 1px solid $ash_medium;
+        background-color: $background;
+        //border-radius: 12px;
+        border-top: 1px solid $border_basic;
+        border-bottom: 1px solid $border_basic;
+
+        // box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+        //         0 2px 2px hsl(0deg 0% 0% / 0.075),
+        //         0 4px 4px hsl(0deg 0% 0% / 0.075);
+
         &Dark {
             background-color: $ash;
         }
@@ -76,7 +83,8 @@
         top: 0;
         height: var(--vh);
         width: 356px;
-        background-color: $ash;
+        background-color: $background;
+        border-right: 1px solid $border_basic;
         overflow: hidden;
         padding-bottom: 28px;
         border-radius: 0 0px 0px 0;

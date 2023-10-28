@@ -67,7 +67,7 @@
                     transform: translate3d(-50%, 0, 0);
                     padding: 6px 0px;
                     border-radius: 8px;
-                    background-color: $ash_medium;
+                    background-color: $background_reverse;
                     content: "Pick an Emoji";
                     @include mouseover;
                 }
@@ -82,7 +82,7 @@
                     transform: translate3d(-50%, 0, 0);
                     border-left: 8px solid transparent;
                     border-right: 8px solid transparent;
-                    border-top: 10px solid $ash_medium;
+                    border-top: 10px solid $background_reverse;
                 }
             }
         }

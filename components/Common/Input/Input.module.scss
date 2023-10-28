@@ -10,6 +10,7 @@
         padding: 6px;
         border: 0;
         border-bottom: 1px solid $fuel;
+        text-transform: none;
 
         &::placeholder {
             color: $font_medium;
@@ -18,12 +19,13 @@
 
     &ErrorMessage {
         display: flex;
-        @include worksans;
+        @include systemFont;
         justify-content: flex-start;
         align-items: center;
         padding: 6px 2px 6px 2px;
         
         color: $alert_red;
+        font-size: 14px;
         height: 24px;
         max-height: 24px;
     }

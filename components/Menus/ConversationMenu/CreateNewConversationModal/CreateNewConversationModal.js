@@ -91,7 +91,7 @@ export default function CreateNewConversationModal({ toggleModal }) {
   return (
     <Modal onToggleModal={toggleModal}>
       <div className={styles.mainContainer}>
-        <div className={styles.title}>New conversation</div>
+        <div className={styles.title}>New Message</div>
         <form
           ref={formRef}
           onSubmit={handleSubmit(onSubmit)}

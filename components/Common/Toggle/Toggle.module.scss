@@ -11,9 +11,9 @@
       max-height: 26px;
       width: 44px;
       border-radius: 9999px;
-      border: 1px solid $ash_medium;
+      border: 0;
       margin: 0;
-      background-color: $black;
+      background-color: $border_basic;
       transition: background-color 0.3s;
     }
 
@@ -67,7 +67,7 @@
   &Checked {
     .ToggleContainer {
       &Background {
-        background-color: $ash_heavy;
+        background-color: $border_basic;
       }
       &Circle {
         left: calc(100% - 20px);

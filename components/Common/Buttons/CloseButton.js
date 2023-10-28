@@ -13,7 +13,7 @@ export const CloseButton = (props) => {
                 ${styles.closeButton}
                 ${isMobile ? styles.closeButtonMobile : styles.closeButtonDesktop}
             `} onClick={onClick}>
-                <div style={{ height: 24, width: 24 }}>
+                <div >
                     <IconClose />
                 </div>
             </button>

@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    background-color: $ash;      
+    background-color: $background;      
 
     &TitleHolder {
         display: flex;
@@ -151,7 +151,7 @@
                     content: "";
                     background-color: $hot_salmon;
                     border-radius: 9999px;
-                    border: 1px solid $ash_heavy;
+                    border: 1px solid $background;
                 }
 
             }
@@ -163,7 +163,7 @@
             width: 100%;
             text-align: center;
             user-select: none;
-            color: $font_medium;
+            color: $font_muted;
         }
 
 
@@ -230,7 +230,7 @@
             .Mobile & {
 
                 .title {
-                    color: $font_light;
+                    color: $font_main; 
                 }
 
             }
@@ -244,8 +244,8 @@
         height: 76px;
         align-items: flex-start;
         padding: 0px;
-        //border-top: 1px solid $ash_medium;
-        background-color: $ash;
+        border: 0;
+        border-top: 1px solid $border_basic;
 
 
     }

@@ -289,7 +289,8 @@ const TopicsNav = (props) => {
                 ${styles.TopicsNav}
                 ${isMobile && styles.TopicsNavMobile}
                 `}
-      >
+      > 
+        {!isMobile ? (
         <p
           className={
             isMobile ? styles.TopicsNavTitleMobile : styles.TopicsNavTitle
@@ -297,6 +298,9 @@ const TopicsNav = (props) => {
         >
           Chats
         </p>
+        ) : (null)
+        }
+
         {isLoadingTopics ? (
           <div>
             <SpinningLoader spinnerOnly={true} />
