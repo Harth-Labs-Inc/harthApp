@@ -17,7 +17,7 @@
     }
     to {
         background: linear-gradient(to bottom, transparent, $border_basic, transparent);
-        backdrop-filter: blur(4px);
+        backdrop-filter: blur(12px);
     }
 }
 

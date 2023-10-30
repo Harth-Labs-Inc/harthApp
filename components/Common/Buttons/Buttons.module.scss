@@ -124,10 +124,10 @@
     }
 
     &:disabled {
-        color: $ash;
-        background-color: $ash_heavy;
+        color: $border_basic;
+        background-color: $background;
         cursor: default;
-        border: 1px solid $ash_medium;
+        border: 1px solid $border_basic;
     }
 
     &Loading {
@@ -203,7 +203,7 @@
     position: relative;
     align-items: center;
     column-gap: 8px;
-    background: $ash_heavy;
+    background: $background;
     border-radius: 8px;
     padding: 0 8px;
     border: 0;

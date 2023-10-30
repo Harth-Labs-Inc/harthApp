@@ -14,8 +14,8 @@
 
     //margin-bottom: 4px;
     cursor: pointer;
-    //border: 1px solid $fuel;
-    border: 2px solid $border_basic;
+    border-bottom: 1px solid $border_light;
+    border-radius: 0;
 
     .label {
         display: flex;
@@ -58,8 +58,8 @@
     
 
     &Mobile {
-        margin-bottom: 12px;
-        padding: 10px 8px 14px 12px;
+        margin-bottom: 4px;
+        padding: 12px 8px 20px 12px;
         .moreMenu {
             display: none;
         }
@@ -71,6 +71,7 @@
 
         &:active {
             background-color: $background_offset;
+            border-radius: 8px;
 
         }
         

@@ -208,6 +208,7 @@
     background: $background;
     padding: 0px 0px 12px 0px;
     border-bottom: none;
+    border-radius: 0;
 
 
     &Text {
@@ -222,7 +223,9 @@
         @include chatTextMobile;
         caret-color: $hot_salmon;
         color: $font_main;
+        background: $background_offset;
         border: 0;
+        border-radius: 0;
 
         white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
@@ -237,13 +240,14 @@
     }
 
     .entryBox {
-        border-top: 1px solid $border_basic;
-        border-bottom: 1px solid $border_basic;
+        //border-top: 1px solid $border_basic;
+        border-bottom: 1px solid $background;
         //border-radius: 6px;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         padding: 0;
         overflow: hidden;
+    
 
     }
 
@@ -251,7 +255,7 @@
         display: flex;
         justify-content: space-between;
         padding: 6px 8px;
-        background: $background;
+        background: transparent;
         //border: 1px solid $ash_medium;
         //border-radius: 6px;
         //border-top-left-radius: 0;
@@ -289,7 +293,12 @@
                             }
                     }
                 }
-                
+                &:active { 
+                    background-color: $border_basic;
+                    path {
+                        fill: $font_main;
+                    }
+                }
 
 
                 &.EditCancel {
@@ -386,9 +395,10 @@
     row-gap: 8px;
     justify-content: flex-start;
     width: auto;
-    background: $background;
+    background: $background_offset;
     padding: 8px;
-    border-bottom: 1px solid $border_basic;
+    //border-top: 1px solid $border_basic;
+    border-bottom: 1px solid $background;
 
     .imageContainer {
         position: relative;

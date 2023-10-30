@@ -3,16 +3,14 @@
 
 .TopicsNav {
     position: relative;
-    width: 250px;
+    width: 264px;
     min-width: 250px;
     padding: 12px 8px 0px 12px;
-    background-color: $ash;
+    background-color: $background;
     height: 100%;
     overflow-y: scroll;
     border: 0;
-    //border-right: 1px solid $ash_medium;
-    //background: linear-gradient(100deg, lighten($warm_blue, 50%), lighten($hot_pink, 32%));  
-  
+    border-right: 1px solid $border_basic;
 
     .notopic { 
         @include worksans;
@@ -110,19 +108,24 @@
         position: relative;
         display: block;
         cursor: pointer;
-        height: 24px;
-        width: 24px;
+        height: 28px;
+        width: 28px;
         border-radius: 99px;
-        border: 1px solid $ash_medium;
-        padding: 4px;
-        margin-left: 10px;
+        border: 0;
+        padding: 0px;
+        margin-left: 6px;
         margin-top: 8px;
         margin-bottom: 4px;
         transition: opacity;
-        background-color: transparent;
+        
+        background-color: $border_basic;
         
         path {
-            fill: $ash_medium;
+            fill: $background;
+        }
+        
+        &:active{
+            background-color: $button_main_press;
         }
 
         &::before {
@@ -134,11 +137,11 @@
             content: "new chat";
             width: 80px;
             height: 24px;
-            top: 0px;
-            left: 34px;
-            background-color: $ash_medium;
+            top: 2px;
+            left: 38px;
+            background-color: $background_reverse;
             border-radius: 2px;
-            @include worksans;
+            @include systemFont;
             letter-spacing: 0.05em;
             font-size: 12px;
             font-weight: 400;
@@ -150,23 +153,19 @@
             position: absolute;
             opacity: 0;
             content: " ";
-            top: 0px;
-            left: 28px;
+            top: 2px;
+            left: 32px;
             width: 0;
             height: 0;
             border-top: 12px solid transparent;
             border-bottom: 12px solid transparent;
-            border-right: 12px solid $ash_medium;
+            border-right: 12px solid $background_reverse;
             z-index: 9;
         }
         
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: lighten($ash_medium, 30%);
-                border-color: lighten($ash_medium, 30%);
-                path {
-                    fill: darken($ash_medium, 10%);
-                }
+                background-color: $button_main_press;
 
                 &::before {
                     opacity: 1;

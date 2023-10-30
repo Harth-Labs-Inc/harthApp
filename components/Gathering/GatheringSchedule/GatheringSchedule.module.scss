@@ -2,32 +2,49 @@
 @import "../../../styles/globals.scss";
 
 .GatheringSchedule {
-    margin-top: -16px;
+    //margin-top: -16px;
+    width: 100%;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+
+    .title {
+        @include overlayMenuTitle;
+        width: 100%;
+        text-align: left;
+        margin-top: 8px;
+        margin-bottom: 40px;
+        color: $font_main;
+    }
 
     &SubTitle {
-        @include worksans;
-        margin-top: 28px;
-        margin-bottom: 12px;
-        color: $font_light;
+        @include systemFont;
+        margin-top: 16px;
+        color: $font_main;
     }
 
     &DateTime {
         display: flex;
-        gap: 8px;
-        color: $font_light;
+        gap: 16px;
+        color: $font_main;
 
         input {
-            text-align: center;
-            @include worksans;
-            font-size: 14px;
-            color: $font_light;
-            border: 1px solid $ash_medium;
-            border-radius: 999px;
-            background: $ash;
-            resize: none;
-            padding: 8px;
-
-        }
+            width: 50%;
+            height: 56px;
+            background-color: $border_basic;
+            color: $font_main;
+            @include systemFont;
+            font-size: 16px;
+            padding: 0px 16px;
+            border: 0;
+            border-radius: 6px;
+          }
+          ::-webkit-calendar-picker-indicator {
+            background-color: $background;
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+          }
 
         
     }
@@ -35,70 +52,70 @@
     &Input {
         text-align: center;
         @include roomTitle;
-        color: $font_light;
-        border: 1px solid $ash_medium;
-        border-radius: 999px;
-        background: $ash;
+        color: $font_main;
+        border: 0;
+        border-radius: 6px;
+        height: 56px;
+        background: $border_basic;
         resize: none;
         padding: 8px;
         margin-bottom: -12px;
 
+        caret-color: $hot_salmon;
         &::placeholder {
-            color: $fuel_light;
+            color: $font_muted;
+
         }
     }
     
     .description {
         width: 100%;
         height: 88px;
-        @include worksans;
+        @include systemFont;
         font-size: 14px;
-        color: $font_light;
-        border: 1px solid $ash_medium;
-        border-radius: 8px;
-        background: $ash;
-        padding: 8px;
+        color: $font_main;
+        border: 0;
+        border-radius: 6px;
+        background: $border_basic;
+        padding: 12px;
         word-wrap: normal;
         resize: none;
     }
 
     &Type {
         display: flex;
-        gap: 12px;
+        justify-content: space-between;
+        gap: 6px;
 
         &Select {
             position: relative;
-            @include worksans;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            font-size: 12px;
-            position: relative;
+            @include systemFont;
+            //font-weight: 700;
+            //letter-spacing: 0.06em;
+            //font-size: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 4px;
             width: 100%;
-            height: 36px;
-            padding-right: 6px;
-            padding-left: 48px;
-            color: $font_medium;
-            background: $ash;
-            border: 1px solid $ash_medium;
+            color: $font_muted;
+            background: $background;
+            border: 1px solid $border_basic;
             border-radius: 99px;
             cursor: pointer;
+            padding: 2px 0px 2px 8px;;
 
             span {
-                position: absolute;
-                left: 8px;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 36px;
-                height: 36px;
+                width: 40px;
+                height: 40px;
                 border-radius: 999px;
                 border: 1px solid transparent;
-                padding: 4px;
-
                 opacity: .5;
-                filter: grayscale(1)
+                filter: grayscale(.9);
+
+                svg {
+                    height: 38px;
+                    width: 38px;
+                }
                 
             }
 
@@ -110,9 +127,9 @@
             }
 
             &.Active {
-                color: $font_light;
-                background-color: $black;
+                box-shadow: 4px 4px 0px $hot_purple; 
                 //border: 1px solid transparent;
+                color: $font_main;
                 span {
                     opacity: 1;
                     filter: grayscale(0)
@@ -128,8 +145,14 @@
         margin-top: 24px;
 
         button {
-            background: $black;
-            border: 1px solid $ash_medium;
+            background: $button_main;
+            color: $background;
+            border: 0;
+
+            &:active {
+                background: $button_main;
+
+            }
         }
 
         .delete {
@@ -137,28 +160,22 @@
             min-width: 48px;
             height: 48px;
             padding: 6px;
-            border: 1px solid $ash_medium;
+            border: 0;
             border-radius: 4px;
-            background: $black;
+            background: $button_main;
 
             path {
-                fill: $ash_light;
+                fill: $background;
             }
 
             &:hover {
-                background-color: $alert_red;
+                background: $alert_red;
 
-                path {
-                    fill: $font_light;
-                }
             }
 
             &:active {
-                background-color: $alert_red;
+                background: $alert_red;
 
-                path {
-                    fill: $font_light;
-                }
             }
         }
     }

@@ -177,8 +177,8 @@ const Video = () => {
         <div
           className={
             isMobile
-              ? styles.gatheringSectionMobile
-              : styles.gatheringSectionTop
+              ? styles.gatheringSectionRemove
+              : styles.gatheringSection
           }
         >
           GATHERINGS

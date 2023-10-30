@@ -60,6 +60,16 @@ const SettingsList = ({ toggleCurrentTab }) => {
           <IconChevronRight />
         </div>
       </button> */}
+
+      <button
+        style={{ color: "#d96fab" }}
+        className={styles.menuItem}
+        onClick={toggleFeedbackModal}
+      >
+        Submit Feedback
+      </button>
+
+
       {isMobile ? (
         <button
           className={styles.menuItem}
@@ -74,13 +84,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
         <SubSettings toggleCurrentTab={toggleCurrentTab} />
       )}
 
-      <button
-        style={{ color: "#d96fab" }}
-        className={styles.menuItem}
-        onClick={toggleFeedbackModal}
-      >
-        Submit Feedback
-      </button>
+
 
       <button className={styles.menuItem} onClick={() => signOut()}>
         Sign Out

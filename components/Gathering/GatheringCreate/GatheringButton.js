@@ -30,7 +30,7 @@ export const GatheringButton = (props) => {
             }}
         >
             <div className={styles.iconHolder} ><Icon /></div>
-            <div className={styles.text}>{type}</div>
+            {/* <div className={styles.text}>{type}</div> */}
 
         </button>
     );

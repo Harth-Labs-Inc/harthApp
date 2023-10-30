@@ -115,6 +115,20 @@ const MainNav = (props) => {
           isMobile ? styles.Mobile : styles.Desktop
         }`}
       >
+        {isMobile ? null : (
+          <div className={styles.MainNavTitleHolder}>
+            <button
+              className={styles.MainNavHarthButton}
+              onClick={handleHarthMenu}
+              aria-label="Current Harth Settings"
+            >
+              {selectedcomm?.name}
+              <div className={styles.iconHolder}>
+                <IconExpand />
+              </div>
+            </button>
+          </div>
+        )}
         <div
           className={`
                     ${styles.MainNavPages} 
@@ -213,20 +227,7 @@ const MainNav = (props) => {
             <div className={styles.title}>DMs</div>
           </button>
         </div>
-        {isMobile ? null : (
-          <div className={styles.MainNavTitleHolder}>
-            <button
-              className={styles.MainNavHarthButton}
-              onClick={handleHarthMenu}
-              aria-label="Current Harth Settings"
-            >
-              {selectedcomm?.name}
-              <div className={styles.iconHolder}>
-                <IconExpand />
-              </div>
-            </button>
-          </div>
-        )}
+        
       </header>
     </>
   );

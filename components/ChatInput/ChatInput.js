@@ -651,7 +651,7 @@ const ChatInput = (props) => {
           uploading={uploadingAttachments}
         />
         <textarea
-          id={styles.ChatInputText}
+          id={isMobile ? styles.ChatInputMobileText : styles.ChatInputText}
           placeholder="say something"
           ref={textRef}
           autoComplete="off"

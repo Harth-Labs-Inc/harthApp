@@ -52,28 +52,24 @@
 
 
 @mixin titleNav {
-  font-family: var(--Work_Sans-font);
   font-family: var(--PT_Sans-font);
   font-weight: 400;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 100%;
 }
 
 @mixin titleNavMobile {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--PT_Sans-font);
   font-weight: 400;
   font-size: 12px;
   line-height: 100%;
 }
 
 @mixin smallTitle {
-  //font-family: "Work Sans", sans-serif;
-  font-family: var(--Rubik-font);
-  font-weight: 700;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  //line-height: 125%;
-  //text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+  font-family: var(--PT_Sans-font);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
 }
 
 @mixin smallTitleMobile {
@@ -88,9 +84,9 @@
 @mixin topicTitle {
   //font-family: "Work Sans", sans-serif;
   font-family: var(--Rubik-font);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.03em;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.01em;
   //line-height: 125%;
   //text-rendering: optimizeLegibility;
   user-select: none;
@@ -249,16 +245,16 @@
   font-weight: 900;
   font-size: 26px;
   letter-spacing: 0;
-  line-height: 115%;
+  line-height: 100%;
   //text-rendering: optimizeLegibility;
 }
 
 @mixin roomTitleMobile {
   font-family: var(--Rubik-font);
   font-weight: 900;
-  font-size: 30px;
+  font-size: 36px;
   letter-spacing: 0;
-  line-height: 115%;
+  line-height: 100%;
   //text-rendering: optimizeLegibility;
 }
 

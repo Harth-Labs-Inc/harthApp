@@ -8,7 +8,7 @@
     flex-direction: column;
     height: calc(var(--vh) - 56px);
     width: 100%;
-    background: $ash_heavy;
+    background: $background;
 
     @media screen and (max-width: 640px) {
         height: var(--vh);

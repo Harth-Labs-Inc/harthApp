@@ -304,8 +304,10 @@
 }
 
 .appVersion {
-    @include worksans;
-    color: $font_medium;
+    @include systemFont;
+    font-size: 12px;
+    letter-spacing: 0;
+    color: $font_muted;
 }
 
 .spacer {

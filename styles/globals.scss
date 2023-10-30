@@ -5,6 +5,7 @@
 //Consolodated
 $fuel: #271623;
 $red_stove: #642838;
+$ash: #28282e;
 
 $font_light: #fafafa;
 $font_dark: $fuel;
@@ -18,16 +19,13 @@ $background: #ffffff;
 $background_reverse: #000000;
 $background_offset: darken($background, 5%);
 
-$button_main: $red_stove;
-$button_main_press: darken($button_main, 10%);
+$button_main: $ash;
+$button_main_press: darken($button_main, 20%);
 
 
 $border_basic: darken($background, 10%);
 $border_light: darken($background, 5%);
 $border_heavy: darken($background, 40%);
-
-
-$border_basic: #E2E2F2; 
 
 
 //Text Colors
@@ -91,7 +89,7 @@ $black_90: rgba(0, 0, 0, 0.9);
 
 // Ash
 // Ash
-$ash: #28282e;
+
 $ash_heavy: darken($ash, 5%);
 $ash_medium: lighten($ash, 10%);
 $ash_light: lighten($ash, 20%);

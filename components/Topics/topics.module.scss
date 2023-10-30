@@ -9,12 +9,13 @@
     height: fit-content;
     width: fit-content;
     width: 100%;
-    padding: 12px 2px 12px 8px;
     border: 0;
     border-radius: 8px;
     background-color: transparent;
     margin-bottom: 4px;
     cursor: pointer;
+
+    border-radius: 0px;
 
     border-bottom: 1px solid $border_light;
 
@@ -34,11 +35,10 @@
         width: fit-content;
         color: $font_main;
         @include topicTitle;
-        padding: 0px 28px 0px 8px;
         gap: 10px;
         user-select: none;
         width: 100%;
-        //background-color: aqua;
+        padding: 0px 8px 0px 0px;
 
         span {
             padding: 4px 0px;
@@ -51,7 +51,7 @@
         width: 100%;
         gap: 2px;
         flex-wrap: wrap;
-        padding: 0px 8px 4px 44px;
+        padding: 0px 8px 4px 36px;
         margin-top: -2px;
         img {
             width: 28px;
@@ -74,6 +74,7 @@
 
 
     &Desktop {
+        padding: 8px 2px 8px 8px;
         .moreMenu {
             position: absolute;
             visibility: hidden;
@@ -88,23 +89,23 @@
             border-radius: 999px;
             background-color: transparent;
             border: 1px solid transparent;
+
             cursor: pointer;
             path {
-                fill: $ash_light;
+                fill: $font_main;
             }
 
             &:hover {
-                background-color: $ash;
-                path {
-                    fill: lighten($ash_light, 30%);
-                }
+                background-color: $background;
+
             }
 
         }
         
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: $ash_heavy;
+                background-color: $border_light;
+                border-radius: 8px;
 
                 .moreMenu {
                     visibility: visible;
@@ -116,9 +117,8 @@
 
     &Active {
         background-color: $border_light;
-
+        border-radius: 8px;
         .label {
-            //font-weight: 800;
             color: $font_main;
         }
         .moreMenu {
@@ -131,11 +131,7 @@
     }
 
     &Mobile {
-        //padding: 6px 4px;
-        //margin-bottom: 4px;
-        border-radius: 0px;
-
-
+        padding: 12px 2px 12px 8px;
         .moreMenu {
             display: none;
         }
@@ -169,7 +165,7 @@
     &Alert {
         .label {
             //@include topicTitleActive;
-            font-weight: 800;
+            font-weight: 700;
             color: $font_main;
         }
     }
