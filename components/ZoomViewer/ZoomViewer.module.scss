@@ -8,7 +8,7 @@
     z-index: 500000;
     height: 100vh;
     width: 100vw;
-    background-color: $ash_dark;
+    background-color: $background;
 
     button {
       position: fixed;
@@ -17,17 +17,18 @@
       z-index: 5000000;
       height: 28px;
       width: fit-content;
-      border: 1px solid $ash_medium;
-      background: $ash_dark;
-      color: $font_medium;
-      @include worksans;
+      border: 1px solid $ash_light;
+      background: $ash;
+      color: $font_light;
+      @include systemFont;
       font-size: 12px;
-      font-weight: 600;
       text-transform:uppercase;
       border-radius: 99px;
       padding: 0px 10px;
       cursor: pointer;
     }
+
+
 
     .download {
       position: fixed;
@@ -36,17 +37,17 @@
       z-index: 5000000;
       height: 28px;
       width: 28px;
-      border: 1px solid $ash_medium;
-      background: $ash_dark;
+      border: 1px solid $ash_light;
+      background: $ash;
       border-radius: 99px;
       padding: 4px;
       cursor: pointer;
 
       path {
-        fill: $font_medium;
+        fill: $font_light;
       }
     }
-  }
+}
   
   .imageContainer {
     display: flex;
@@ -72,10 +73,9 @@
     top: 50%;
     right: 10px;
     z-index: 500000000;
-    border: 1px solid $ash_medium;
-    background-color: $ash_heavy;
-    color: $font_medium;
-    border-radius: 25px;
+    border: 1px solid $ash_light;
+    background-color: $ash;
+    border-radius: 999px;
     width: 36px;
     height: 36px;
     padding: 5px;
@@ -84,7 +84,7 @@
     cursor: pointer;
     
     path {
-      fill: $font_medium;
+      fill: $font_light;
     }
   }
   .prevbutton {
@@ -92,10 +92,9 @@
     top: 50%;
     left: 10px;
     z-index: 500000000;
-    border: 1px solid $ash_medium;
-    background-color: $ash_heavy;
-    color: $font_medium;
-    border-radius: 25px;
+    border: 1px solid $ash_light;
+    background-color: $ash;
+    border-radius: 999px;
     width: 36px;
     height: 36px;
     padding: 5px;
@@ -104,6 +103,6 @@
     cursor: pointer;
     
     path {
-      fill: $font_medium;
+      fill: $font_light;
     }
   }

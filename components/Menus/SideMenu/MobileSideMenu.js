@@ -1,10 +1,7 @@
 import { useComms } from "../../../contexts/comms";
 import { useSocket } from "../../../contexts/socket";
 import { SideModal } from "../../Common";
-
 import HarthList from "../HarthList/HarthList";
-
-//import { HarthLogoLight } from "../../../public/images/harth-logo-light";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
 import styles from "./SideMenu.module.scss";
 

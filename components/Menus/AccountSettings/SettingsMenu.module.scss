@@ -19,33 +19,35 @@
         align-items: center;
         width: 100%;
         background-color: transparent;
-        color: $fuel;
-        padding-right: 40px;
+        color: $font_main;
+        padding-right: 16px;
+        padding-bottom: 16px;
         p {
             width: 100%;
-            @include menuTitle;
-            text-align: center;
-            color: $font_light;
+            @include overlayMenuTitle;
+            font-size: 44px;
+            text-align: right;
+            color: $font_main;
         }
 
         path {
-            fill: $font_medium;
+            fill: $font_main;
         }
     }
 
     &Title {
-        @include menuSubTitle;
+        @include systemFont;
         color: $font_main;
         width: calc(100% - 16px);
         margin-top: 24px;
         padding: 4px 0px;
-        border-bottom: 1px solid $ash_light;
+        border-bottom: 1px solid $border_basic;
         text-transform: capitalize;
     }
 
     &Text {
-        @include worksans;
-        color: $font_light;
+        @include systemFont;
+        color: $font_main;
         width: 80%;
         margin-top: 12px;
         text-align: center;
@@ -119,7 +121,7 @@
                 white-space: nowrap;
                 @include worksans;
                 font-size: 13px;
-                color: $font_medium;
+                color: $font_muted;
                 user-select: text;
             }
 
@@ -148,9 +150,17 @@
 }
 
 .headerImage {
-    width: 140px;
-    max-width: 140px;
-    margin: 56px 0 56px 0;
+
+    margin-top: 48px; 
+    margin-bottom: 64px; 
+    //background-color: aqua;
+    svg {
+        height: 48px;
+        //max-width: 148px;
+    }
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 .settingsHeader {
@@ -184,11 +194,7 @@
     @include menuText;
     color: $font_main;
 
-    &Invites {
-        color: $hot_pink;
-        //font-weight: 600;
-
-    }
+    
     @media (hover: hover) and (pointer: fine) {
         &:hover {
             background-color: $background_offset;
@@ -201,6 +207,22 @@
         path {
             fill: $font_main;
         }
+    }
+
+    &Invites {
+        color: $hot_purple;
+        //font-weight: 600;
+        justify-content: flex-start;
+        gap: 12px;
+
+        .iconHolder {
+            height: 28px;
+            width: 28px;
+            path {
+                fill: $hot_purple;
+            }
+        }
+
     }
 }
 
@@ -232,27 +254,34 @@
     column-gap: 4px;
     justify-content:space-between;
     align-items: center;
-    width: 100%;
-    padding: 4px 12px;
-    @include chatText;
-    color: $font_light;
+    width: calc(100% - 16px);
+    height: 56px;
+    padding: 0px 12px;
+    @include systemFont;
+    font-weight: 700;
+    letter-spacing: 0;
+    font-size: 16px;
+    color: $font_main;
+    background: transparent;
+    border-radius: 6px;
+    text-wrap:  wrap;
 
     path {
-        fill: $ash_medium;
+        fill: $font_main;
     }
 
     button {
         &:hover {
-            background-color: $black;
+            background-color: $button_main_press;
             path {
-                fill: $ash_light;
+                fill: $background;
             }
         }
 
         &:active {
-            background-color: $black;
+            background-color: $button_main_press;
             path {
-                fill: $ash_light;
+                fill: $background;
             }
         }
     }
@@ -267,20 +296,20 @@
     align-items: center;
     width: 100%;
     padding: 48px 12px 24px 12px;
-    //background-color: aquamarine;
-    @include chatText;
-    color: $fuel;
+
 
     .inputEdit {
         border-radius: 4px;
-        background-color: black;
-        border: 1px solid $ash_medium;
-        height: 40px;
-        color: $font_light;
+        background-color: $border_basic;
+        border: 1px solid $border_heavy;
+        height: 56px;
+        @include systemFont;
+        font-size: 16px;
+        color: $font_main;
         caret-color: $hot_salmon;
         margin: 0;
         &::placeholder {
-            color: $font_medium;
+            color: $font_muted;
 
         }
     
@@ -295,8 +324,8 @@
     }
     .cancelButton {
         background-color: transparent;
-        color: $font_medium;
-        border: 1px solid $ash_medium;
+        color: $font_muted;
+        border: 1px solid $border_basic;
         
     
     }

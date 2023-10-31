@@ -9,19 +9,24 @@ export const SetNotifications = ({
     <div className={styles.MainContainer}>
       <div className={styles.title}>Turn on Notifications</div>
 
-      <div className={styles.subtext}>
-        Enabling notifications will allow you to recieve alerts when your
-        friends post something new
+    {permissionDenied 
+      ? (
+        <p className={styles.error}>
+          It looks like your notifications are disabled. <br /> <br />Please double check and try again or press don't allow to not see this again.
+        </p>
+      ) : (
+        <div className={styles.subtext}>
+          Enabling notifications will allow you to recieve alerts when your
+          friends post something new
+        </div>
+      )}
+
+      <div className={styles.actionBar}>
+        <button onClick={request}>Enable Notifications</button>
+        <button className={styles.cancel} onClick={refuseNotifcations}>
+          Don&apos;t Allow
+        </button>
       </div>
-      <p className={styles.subtext} style={{ color: "#d96fab" }}>
-        {permissionDenied
-          ? "It looks like your notifications are disabled. Please double check and try again or press don't allow to not see this again."
-          : null}
-      </p>
-      <button onClick={request}>Enable Notifications</button>
-      <button className={styles.cancel} onClick={refuseNotifcations}>
-        Don&apos;t Allow
-      </button>
     </div>
   );
 };

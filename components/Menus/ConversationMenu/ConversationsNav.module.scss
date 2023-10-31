@@ -38,7 +38,7 @@
         position: relative;
         @include smallTitle;
         text-transform: uppercase;
-        color: $font_light;
+        color: $font_main;
         user-select: none;
         margin-left: 8px;
         margin-top: 12px;
@@ -99,7 +99,7 @@
             letter-spacing: 0.05em;
             font-size: 12px;
             font-weight: 400;
-            color: $font_light;
+            color: $font_main;
             z-index: 10;
         }
 

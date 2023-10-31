@@ -38,7 +38,7 @@ export default function HarthInviteAcceptModal({
                 <div className={styles.harthHolder}>
                     <img src={invitedHarth?.iconKey} loading="lazy" />
                     <div className={styles.harthTitle}>
-                        {invitedHarth?.name} harth name
+                        {invitedHarth?.name}
                     </div>
                 </div>
                 <form onSubmit={invitationAcceptHandler}>

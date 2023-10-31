@@ -13,8 +13,9 @@
     border-right: 1px solid $border_basic;
 
     .notopic { 
-        @include worksans;
+        @include systemFont;
         color: $font_muted;
+        font-size: 12px;
         width: 100%;
         text-align: left;
         padding: 12px 12px 8px 12px;
@@ -25,11 +26,11 @@
         width: 100%;
         background: $background;
 
-        padding: 75px 16px 24px 16px;
+        padding: 75px 16px 88px 16px;
 
         .notopic {
-            @include worksans;
-            color: $font_medium;
+            @include systemFont;
+            color: $font_muted;
             font-size: 14px;
             width: 100%;
             text-align: left;
@@ -65,29 +66,31 @@
 
     &Hidden {
         position: relative;
-        @include smallTitle;
+        @include systemFont;
+        font-size: 12px;
         margin-left: 4px;
         margin-top: 20px;
         margin-bottom: 8px;
         background-color: transparent;
         text-transform: uppercase;
-        color: $font_medium;
+        color: $font_muted;
         border: 0;
         cursor: pointer;
         user-select: none;
 
         &Mobile {
-            @include smallTitleMobile;
+            @include systemFont;
+            font-size: 14px;
             margin-top: 8px;
             margin-bottom: 12px;
         }
 
         &:hover {
-            color: $font_light;
+            color: $font_main;
         }
 
         &Active {
-            color: $font_light;
+            color: $font_main;
 
         }
     }
@@ -145,7 +148,7 @@
             letter-spacing: 0.05em;
             font-size: 12px;
             font-weight: 400;
-            color: $font_light;
+            color: $font_main;
             z-index: 10;
         }
 

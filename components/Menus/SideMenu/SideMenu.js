@@ -226,7 +226,7 @@ const SideNav = (props) => {
       ) : null}
       {showCreateHarthProfileModal ? (
         <CreateHarthProfile
-          talkingHeadMsg={`Enter a name and select an image for your profile for this härth.`}
+          talkingHeadMsg={`Enter a name and select an image for your profile for this härth`}
           footer="Each härth has a unique profile. Customize each profile to match your härth."
           placeholder="profile name"
           submitText="Join"

@@ -181,10 +181,9 @@
     }
   
     .emptyMessage {
-      color: $font_medium;
-      @include worksans;
+      color: $font_muted;
+      @include systemFont;
       font-size: 14px;
-      font-weight: 800;
       margin-left: auto;
       margin-right: auto;
       padding-right: 8px;
@@ -266,8 +265,8 @@
       }
   
       &Active {
-          background: $black;
-          color: $font_medium;
+          background: $button_main_press;
+          color: $background;
 
       }
   

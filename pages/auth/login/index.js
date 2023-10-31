@@ -6,7 +6,6 @@ import { sendOtpEmailToUser, loginAttempt } from "../../../requests/userApi";
 
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import { Button } from "Common";
-import { HarthLogoLight } from "../../../public/images/harth-logo-light";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
 
 import styles from "./login.module.scss";
