@@ -40,7 +40,7 @@ self.addEventListener("push", function (event) {
     lang: "en-US",
     vibrate: [100, 50, 200],
     icon: "/icons/icon-96x96.png",
-    badge: "/icons/icon-96x96.png",
+    badge: "https://harth-assets.s3.us-east-2.amazonaws.com/icon_64x64.png",
     data: { url: "https://www.harth.social/" },
   };
 
@@ -53,7 +53,7 @@ self.addEventListener("push", function (event) {
     lang: "en-US",
     vibrate: [100, 50, 200],
     icon: data.creatorImage || "/icons/icon-96x96.png",
-    badge: "/icons/icon-96x96.png",
+    badge: "https://harth-assets.s3.us-east-2.amazonaws.com/icon_64x64.png",
     data: {
       url: data.openUrl,
     },

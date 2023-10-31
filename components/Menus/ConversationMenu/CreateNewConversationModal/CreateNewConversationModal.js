@@ -12,6 +12,7 @@ import styles from "./CreateNewConversationModal.module.scss";
 
 export default function CreateNewConversationModal({ toggleModal }) {
   const [userList, setUserList] = useState([]);
+  const blockedListRef = useRef();
 
   const {
     register,
@@ -20,7 +21,7 @@ export default function CreateNewConversationModal({ toggleModal }) {
   } = useForm();
 
   const { user } = useAuth();
-  const { selectedcomm } = useComms();
+  const { selectedcomm, conversations, setSelectedConversation } = useComms();
   const { emitUpdate } = useSocket();
 
   const formRef = useRef();
@@ -28,6 +29,10 @@ export default function CreateNewConversationModal({ toggleModal }) {
   useEffect(() => {
     getCurrentUsers();
   }, []);
+
+  useEffect(() => {
+    blockedListRef.current = user?.BlockedList?.map(({ userId }) => userId);
+  }, [user?.BlockedList]);
 
   const getCurrentUsers = async () => {
     const results = await getHarthByID(selectedcomm._id);
@@ -37,54 +42,57 @@ export default function CreateNewConversationModal({ toggleModal }) {
     setUserList(users);
   };
 
+  const arraysHaveSameUsers = (array1, array2) => {
+    const sortedArray1 = array1.map((user) => user.userId).sort();
+    const sortedArray2 = array2.map((user) => user.userId).sort();
+
+    return JSON.stringify(sortedArray1) === JSON.stringify(sortedArray2);
+  };
+
   const onSubmit = async (data) => {
-    let userArray = [];
-    let isArrray = Array.isArray(data.users);
-    if (isArrray) {
-      userArray = data.users.map((usr) => {
-        let userObj = {};
+    if (!Array.isArray(data.users) && !data.users) return;
 
+    const userArray = (Array.isArray(data.users) ? data.users : [data.users])
+      .map((usr) => {
         try {
-          userObj = JSON.parse(usr);
+          return JSON.parse(usr);
         } catch (error) {
-          userObj = {};
+          console.error("Failed to parse user:", error);
+          return null;
         }
+      })
+      .filter(Boolean);
 
-        return userObj;
-      });
-    } else if (data.users) {
+    const creator = selectedcomm.users?.find((usr) => usr.userId === user?._id);
+    if (creator) userArray.push(creator);
+
+    const existingConversation = conversations.find((conversation) =>
+      arraysHaveSameUsers(userArray, conversation.OriginalUsers)
+    );
+
+    if (!existingConversation) {
+      const conversation = {
+        users: userArray,
+        OriginalUsers: userArray,
+        harthId: selectedcomm._id,
+      };
+
       try {
-        let parsedUser = JSON.parse(data.users);
-        if (parsedUser) {
-          userArray = [parsedUser];
+        const { id } = await saveConversation(conversation);
+        if (id) {
+          conversation._id = id;
+          toggleModal();
+          conversation.updateType = "new conversation";
+          emitUpdate(selectedcomm._id, conversation, (err) => {
+            if (err) console.error(err);
+          });
         }
       } catch (error) {
-        userArray = [];
+        console.error("Failed to save conversation:", error);
       }
-    }
-
-    let creator = selectedcomm.users?.find((usr) => usr.userId === user?._id);
-
-    if (creator) {
-      userArray.push(creator);
-    }
-
-    let conversation = {
-      users: userArray,
-      OriginalUsers: userArray,
-      harthId: selectedcomm._id,
-    };
-    let { id } = await saveConversation(conversation);
-    if (id) {
-      conversation._id = id;
+    } else {
       toggleModal();
-      conversation.updateType = "new conversation";
-      emitUpdate(selectedcomm._id, conversation, async (err) => {
-        if (err) {
-          console.error(err);
-        }
-        // let { ok } = status;
-      });
+      setSelectedConversation(existingConversation);
     }
   };
 
@@ -102,7 +110,10 @@ export default function CreateNewConversationModal({ toggleModal }) {
             {userList &&
               userList
                 ?.filter((usr) => {
-                  return usr.userId !== user._id;
+                  return (
+                    usr.userId !== user._id &&
+                    !blockedListRef.current?.includes(usr.userId)
+                  );
                 })
                 .map((usr) => {
                   return (

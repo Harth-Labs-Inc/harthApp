@@ -215,8 +215,9 @@ const HarthMembersSettings = () => {
                   <p>{membershipStatus}</p>
                 </div>
 
-                <button
-                  className={` 
+                {usr.userId != user._id ? (
+                  <button
+                    className={` 
                                             ${styles.adminButton}
                                             ${
                                               isMobile
@@ -224,10 +225,11 @@ const HarthMembersSettings = () => {
                                                 : styles.adminButtonDesktop
                                             }
                                         `}
-                  onClick={() => toggleAdminPanel(usr)}
-                >
-                  <IconMoreDots />
-                </button>
+                    onClick={() => toggleAdminPanel(usr)}
+                  >
+                    <IconMoreDots />
+                  </button>
+                ) : null}
               </div>
 
               {showAdminPanel && selectedMembers?.includes(usr.userId) ? (
