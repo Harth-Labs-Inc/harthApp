@@ -3,7 +3,7 @@
 .IconUploader {
     position: relative;
     margin: 0 auto;
-    border: 4px dashed $border_basic;
+    border: 4px dashed $hot_purple;
     padding: 1px;
     display: flex;
     align-items: center;
@@ -24,6 +24,7 @@
     }
 
     &.Circle {
+        border-color: $border_basic;
         height: 88px;
         width: 88px;
         border-radius: 50%;

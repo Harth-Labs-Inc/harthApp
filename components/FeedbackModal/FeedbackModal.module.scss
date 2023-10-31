@@ -24,7 +24,7 @@
     backdrop-filter: blur(12px);
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    z-index: 1000;
 
     form{
         padding: 4px;
@@ -63,11 +63,12 @@
 
 }
 .innerContainer {
-    width: 400px;
+    position: relative;
+    width: 360px;
     background-color: $background;
     border: 1px solid $border_basic;
     padding: 20px;
-    border-radius: 8px;
+    //border-radius: 8px;
     position: relative;
     height: fit-content;
     @media screen and (max-width: 640px) {
@@ -119,7 +120,7 @@
         font-size: 14px;
         color: $font_main;
         overflow-y: scroll;
-        height: 180px;
+        height: 120px;
         resize: none;
 
     }

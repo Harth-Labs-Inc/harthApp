@@ -7,15 +7,14 @@
     align-items: center;
     justify-content: space-between;
     height: 56px;
-    min-height: 56px;
-    max-height: 56px;
+    //min-height: 56px;
+    //max-height: 56px;
     width: 100%;
     padding-right: 12px;
     //padding-left: 16px;
-    border-bottom: 1px solid $border_basic;
-    background: $background;
+    //border-bottom: 1px solid $border_basic;
+    background: linear-gradient(to bottom, $background 55%, transparent 100%);
     z-index: 10;
-
 
 
     .avatarDesktop {
@@ -101,6 +100,7 @@
         }
 
     }
+    
     .MobileNavTitle {
         display: flex;
         flex-direction: row;
@@ -119,6 +119,7 @@
         padding-left: 0px;
         padding-right: 8px;
         padding-bottom: 6px;
+        margin: 0;
 
         background: $background;
 
@@ -163,7 +164,7 @@
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.03em;
-    text-transform:uppercase;
+    text-transform:capitalize;
     //background-color: aqua;
     
 

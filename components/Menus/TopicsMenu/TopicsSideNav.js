@@ -290,7 +290,7 @@ const TopicsNav = (props) => {
                 ${isMobile && styles.TopicsNavMobile}
                 `}
       > 
-        {!isMobile ? (
+        {/* {!isMobile ? (
         <p
           className={
             isMobile ? styles.TopicsNavTitleMobile : styles.TopicsNavTitle
@@ -299,7 +299,7 @@ const TopicsNav = (props) => {
           Chats
         </p>
         ) : (null)
-        }
+        } */}
 
         {isLoadingTopics ? (
           <div>
@@ -368,7 +368,7 @@ const TopicsNav = (props) => {
                 );
               })}
             {topicsArr.length < 1 ? (
-              <div className={styles.notopic}>Select below to add a topic</div>
+              <div className={styles.notopic}>Select below to start a new chat</div>
             ) : null}
             <button
               id="create_topic"

@@ -20,7 +20,7 @@
 @mixin harthTitle {  
   font-family: var(--Paytone_One-font);
   //font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
 }
  
 
@@ -45,7 +45,7 @@
 
 @mixin talkingHead {
   font-family: var(--COOPBL-font);
-  font-size: 16px;
+  font-size: 20px;
   letter-spacing: 0.05em;
   line-height: 18px;
 }
@@ -199,7 +199,7 @@
   font-family: var(--Work_Sans-font);
   font-weight: 800;
   font-size: 64px;
-  line-height: 80%;
+  line-height: 85%;
   letter-spacing: 0.01em;
   text-shadow: 3px 3px 0 $hot_purple;
   //text-rendering: optimizeLegibility;
@@ -278,7 +278,6 @@
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -.05em;
-  color: rgb(61, 87, 134);
   cursor: pointer;
 }
 

@@ -6,7 +6,7 @@ import { IconMessage } from "resources/icons/IconMessage";
 import { IconMessageMuted } from "resources/icons/IconMessageMuted";
 import { IconChat } from "resources/icons/IconChat";
 import { IconChatMuted } from "resources/icons/IconChatMuted";
-import { IconExpand } from "resources/icons/IconExpand";
+import { IconHome } from "resources/icons/IconHome";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
@@ -124,7 +124,7 @@ const MainNav = (props) => {
             >
               {selectedcomm?.name}
               <div className={styles.iconHolder}>
-                <IconExpand />
+                <IconHome />
               </div>
             </button>
           </div>
@@ -133,6 +133,7 @@ const MainNav = (props) => {
           className={`
                     ${styles.MainNavPages} 
                     ${isMobile && styles.MainNavPagesMobile}
+                    ${currentPage == "gather" && styles.MainNavPagesRounded}
 
                 `}
         >
@@ -151,15 +152,15 @@ const MainNav = (props) => {
           >
             <div
               className={`
-                            ${styles.iconHolder} 
-                            ${
-                              mainAlerts[selectedCommRef.current?._id] &&
-                              mainAlerts[selectedCommRef.current?._id]?.chat &&
-                              currentPage != "chat" &&
-                              styles.iconHolderUnreadMessage
-                            }
+                ${styles.iconHolder} 
+                ${
+                  mainAlerts[selectedCommRef.current?._id] &&
+                  mainAlerts[selectedCommRef.current?._id]?.chat &&
+                  currentPage != "chat" &&
+                  styles.iconHolderUnreadMessage
+                }
 
-                            `}
+                `}
             >
               {currentPage == "chat" ? <IconChat /> : <IconChatMuted />}
             </div>

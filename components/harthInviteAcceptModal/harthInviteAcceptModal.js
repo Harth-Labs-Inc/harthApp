@@ -33,12 +33,12 @@ export default function HarthInviteAcceptModal({
     return (
         <Modal onToggleModal={() => {}} blockBackground={true}>
             <div className={styles.mainContainer}>
-                <div className={styles.title}>New Härth Invite</div>
+                <div className={styles.title}>Join a härth</div>
                 <TalkingHead text={talkingHeadMsg} />
                 <div className={styles.harthHolder}>
                     <img src={invitedHarth?.iconKey} loading="lazy" />
                     <div className={styles.harthTitle}>
-                        {invitedHarth?.name}
+                        {invitedHarth?.name} harth name
                     </div>
                 </div>
                 <form onSubmit={invitationAcceptHandler}>

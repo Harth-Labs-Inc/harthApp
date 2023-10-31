@@ -2,11 +2,16 @@
 @import "../../../styles/globals.scss";
 
 .Desktop {  
-  border-radius: 24px;
+  border-radius: 16px;
   width: 336px;
-  background: $ash;
-  border: 1px solid $ash_medium;
-  padding: 16px;
+  height: fit-content;
+  background: $background;
+  border: 0;
+  overflow: hidden;
+  box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+                0 2px 2px hsl(0deg 0% 0% / 0.075),
+                0 4px 4px hsl(0deg 0% 0% / 0.075);
+  padding: 0px;
 
 }
 
@@ -14,7 +19,6 @@
   border-radius: 16px;
   width: 100%;
   background: $background;
-  border: 1px solid $hot_purple;
   border: 0;
   overflow: hidden;
   box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
@@ -169,9 +173,9 @@
       width: 40px;
       border-radius: 999px;
       padding: 0;
-      background-color: $warm_blue;
-      color: $font_light;
-      @include worksans;
+      background-color: $border_basic;
+      color: $font_main;
+      @include systemFont;
       font-size: 14px;
       font-weight: 500;
     }

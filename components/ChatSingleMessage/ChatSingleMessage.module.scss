@@ -24,15 +24,21 @@
 .ChatParentContainer {
     max-width: 100%;
     width: 100%;
-    border-radius: 8px;
+    //border-radius: 8px;
     transform: translateZ(0);
 
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: $background_offset;
+        }
+    }
+
     &.Editing {
-        background-color: $hot_pink;
+        background-color: lighten($hot_pink, 10%);
 
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: $hot_pink;
+                background-color: lighten($hot_pink, 10%);
             }
         }
 
@@ -62,12 +68,7 @@
 
     &Desktop {
         padding: 8px 20px 12px 20px;
-
-        @media (hover: hover) and (pointer: fine) {
-            &:hover {
-                background-color: lighten($ash_heavy, 3%);
-            }
-        }
+        
 
         .UserIcon {
             img {
@@ -272,13 +273,14 @@
                     @media (hover: hover) and (pointer: fine) {
                     &:hover {
                         cursor: pointer;
+                        background-color: $border_heavy;
                     }
                 }
                 }
 
                 &Mobile {
                     &:active {
-                        background: $border_light;
+                        background: $border_heavy;
                     }
                 }
             }
@@ -300,20 +302,22 @@
                     height: 20px;
                 }
                 path {
-                    fill: $font_main;
+                    fill: $font_muted;
                 }
 
                 &Desktop {
                     &:hover {
-                        border-color: $ash;
+                        background-color: $border_heavy;
                         cursor: pointer;
-                        scale: 1.02;
+                        path {
+                            fill: $font_main;
+                        }
                     }
                 }
 
                 &Mobile {
                     &:active {
-                        border-color: $ash;
+                        background-color: $border_heavy;
                     }
                 }
             }
@@ -325,36 +329,35 @@
         z-index: 10;
         display: flex;
         flex-direction: row;
-        gap: 4px;
+        gap: 6px;
         top: -8px;
         right: 16px;
-        background-color: $ash_medium;
+        background-color: $background;
         border-radius: 8px;
-        padding: 2px;
-        border: 1px solid $ash_medium;
+        padding: 4px;
+        border: 1px solid $border_basic;
 
         > button {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 28px;
-            width: 28px;
+            height: 32px;
+            width: 32px;
             border-radius: 10px;
             background-color: transparent;
             cursor: pointer;
             border: 0;
-            padding: 4px;
+            padding: 5px;
             overflow: hidden;
 
             path {
-                fill: $font_light;
+                fill: $font_muted;
             }
 
             &:hover {
-                scale: 1.1;
                 path {
-                    fill: $font_light;
+                    fill: $font_main;
                 }
             }
         }

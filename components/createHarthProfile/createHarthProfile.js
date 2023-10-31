@@ -57,7 +57,7 @@ export default function CreateHarthProfile({
         );
         profileIconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${s3Upload.name}`;
       } else {
-        profileIconKey = "/images/harth_placeholder.png";
+        profileIconKey = "/images/profile_default.png";
       }
       let admin = false;
       let owner = false;
@@ -121,7 +121,7 @@ export default function CreateHarthProfile({
   return (
     <Modal onToggleModal={togglemodal}>
       <div className={styles.mainContainer}>
-        <div className={styles.title}>Create your avatar</div>
+        <div className={styles.title}>Create a profile</div>
         <TalkingHead text={talkingHeadMsg} />
         <div className={styles.imageHolder}>
           <IconUploader

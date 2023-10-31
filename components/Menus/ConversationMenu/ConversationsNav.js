@@ -71,7 +71,7 @@ const ConversationsNav = ({
                 ${isMobile && styles.ConversationsNavMobile}
                 `}
       >
-        <p
+        {/* <p
           className={
             isMobile
               ? styles.ConversationsNavTitleMobile
@@ -79,7 +79,7 @@ const ConversationsNav = ({
           }
         >
           Messages
-        </p>
+        </p> */}
         {isLoadingConversations ? (
           <div>
             <SpinningLoader spinnerOnly={true} />

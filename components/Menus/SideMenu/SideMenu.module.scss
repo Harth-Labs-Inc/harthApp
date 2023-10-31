@@ -15,7 +15,7 @@
     width: 56px;
     height: var(--vh);
     min-width: 56px;
-    background-color: $background;
+    background-color: $background_offset;
     border-right: 1px solid $border_basic;
     //border-top: 1px solid $ash_medium;
     //border-top-right-radius: 16px;
@@ -29,7 +29,7 @@
         bottom: 0px;
         height: fit-content;
         width: 100%;
-        background-color: $background;
+        background-color: $background_offset;
         //border-top: 1px solid $ash_medium;
         z-index: 1;
         padding: 12px 0px 12px 0px;
@@ -49,24 +49,29 @@
     
     
             path {
-                fill: $ash_light;
+                fill: $font_main;
             }
     
     
             @media (hover: hover) and (pointer: fine) {
                 &:hover {
-                background-color: $ash_heavy;
+                background-color: $button_main_press;
+                path {
+                    fill: $background_offset;
+                }
 
                 }
             }
     
             &Invites {
                 path{
-                    fill: $hot_salmon;
+                    fill: $hot_purple;
                 }
                 @media (hover: hover) and (pointer: fine) {
                     &:hover {
-
+                        path{
+                            fill: $hot_purple;
+                        }
                         &::before {
                             position: absolute;
                             display: flex;
@@ -77,13 +82,13 @@
                             top: 3px;
                             left: 38px;
                             padding: 6px 10px;
-                            background-color: $black;
+                            background-color: $background_reverse;
                             border-radius: 2px;
                             @include worksans;
                             letter-spacing: 0.05em;
                             font-size: 12px;
                             font-weight: 400;
-                            color: $font_light;
+                            color: $font_reverse;
                             z-index: 10;
                         }
                 
@@ -96,7 +101,52 @@
                             height: 0;
                             border-top: 12px solid transparent;
                             border-bottom: 12px solid transparent;
-                            border-right: 12px solid $black;
+                            border-right: 12px solid $background_reverse;
+                            z-index: 9;
+                        }
+                    }
+                }
+            }
+
+            &Feedback {
+                path{
+                    fill: $hot_purple;
+                }
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover {
+                        path{
+                            fill: $hot_purple;
+                        }
+                        &::before {
+                            position: absolute;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            content: "Send Feedback";
+                            width: fit-content;
+                            top: 3px;
+                            left: 38px;
+                            padding: 6px 10px;
+                            background-color: $background_reverse;
+                            border-radius: 2px;
+                            @include worksans;
+                            letter-spacing: 0.05em;
+                            font-size: 12px;
+                            font-weight: 400;
+                            color: $font_reverse;
+                            z-index: 10;
+                        }
+                
+                        &::after {
+                            position: absolute;
+                            content: " ";
+                            top: 4px;
+                            left: 32px;
+                            width: 0;
+                            height: 0;
+                            border-top: 12px solid transparent;
+                            border-bottom: 12px solid transparent;
+                            border-right: 12px solid $background_reverse;
                             z-index: 9;
                         }
                     }

@@ -12,7 +12,12 @@ const IconUploader = ({ shape, icon, changeHandler }) => {
 
     useEffect(() => {
         if (!icon) {
-            setImage("/images/harth_placeholder.png");
+            if (shape === "circle") {
+                setImage("/images/profile_default.png");
+            }
+            else {
+                setImage("/images/harth_default.png");
+            }
         }
     }, []);
 

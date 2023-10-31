@@ -126,7 +126,12 @@ const GatheringSchedule = (props) => {
     return (
         <Modal onToggleModal={props.closeHandler}>
             <form className={styles.GatheringSchedule} onSubmit={handleSubmit(scheduleGathering)}>
+                
+            {props.type === "edit" ? (
+                <p className={styles.title}>Edit gathering {isSubmitting && "yes"}</p>
+            ) : (
                 <p className={styles.title}>Create a gathering {isSubmitting && "yes"}</p>
+            )}
                 <p className={styles.GatheringScheduleSubTitle}>Enter a name</p>
                 <input
                     {...register("roomName", { required: true })}

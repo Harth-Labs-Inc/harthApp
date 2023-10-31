@@ -18,11 +18,15 @@
 .Desktop {
     border-radius: 16px;
     overflow: hidden;
-    height: fit-content;
-    background-color: $ash;
-    border: 1px solid $ash_medium;
-    padding: 12px;
+    background-color: $background;
+    border: 1px solid $border_basic;
+    padding: 0px;
     width: 336px;
+    height: fit-content;
+    box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+                0 2px 2px hsl(0deg 0% 0% / 0.075),
+                0 4px 4px hsl(0deg 0% 0% / 0.075);
+                //0 8px 8px hsl(0deg 0% 0% / 0.075);
 }
 
 
@@ -129,8 +133,8 @@
     max-width: 340px;
     background: transparent;
     border: 0;
-    padding: 8px 24px 0px 24px;
-
+    padding: 0px 32px 0px 32px;
+    margin-top: -16px;
     .Mobile & {
         padding: 0px 24px 0px 24px;
         margin-top: -16px;
@@ -145,7 +149,7 @@
     gap: 12px;
     margin: 0;
     border: 0;
-
+    padding: 12px 12px;
     .Mobile & {
         //height: 40px;
         padding: 16px 16px;
@@ -215,14 +219,15 @@
     border-radius: 99px;
     cursor: pointer;
     color: $font_muted;
-    background: $background;
+    background: $background_offset;
+    
 
     .iconHolder {
         opacity: .4;
         filter: grayscale(80%);
         margin-left: auto;
         margin-right: auto;
-
+        scale: .8;
         svg {
             width: 56px;
             height: 56px;
@@ -231,10 +236,10 @@
 
     &.voice {
         .iconHolder {
-            width: 52px;
+            width: 44px;
             svg {
-                width: 52px;
-                height: 52px;
+                width: 44px;
+                height: 44px;
             }
 
             .Mobile & {
@@ -250,10 +255,10 @@
 
     &.stream {
         .iconHolder {
-            width: 44px;
+            width: 48px;
             svg {
-                width: 44px;
-                height: 44px;
+                width: 48px;
+                height: 48px;
             }
 
             .Mobile & {
@@ -269,10 +274,10 @@
 
     &.party {
         .iconHolder {
-            width: 38px;
+            width: 46px;
                 svg {
-                    width: 64px;
-                    height: 64px;
+                    width: 46px;
+                    height: 46px;
                 }
             .Mobile & {
                 width: 56px;
@@ -289,7 +294,9 @@
     .Desktop & {
         &:hover {
             color: $font_main;
-
+            border-color: $border_heavy;
+            //box-shadow: 4px 4px 0px $hot_purple; 
+            background: $background;
             .iconHolder {
                 opacity: 1;
                 filter: grayscale(0);
@@ -312,14 +319,15 @@
 
 
     &.Active {
-        //background-color: $black;
+        background-color: $background;
         color: $font_main;
-        border-color: $border_light;
-        box-shadow: 4px 4px 0px $hot_purple; 
+        border-color: $border_heavy;
+        //box-shadow: 3px 3px 0px $hot_purple; 
 
         .iconHolder {
             opacity: 1;
             filter: grayscale(0);
+            scale: 1;
         }
         
     }

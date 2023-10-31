@@ -52,7 +52,7 @@ export default function CreateHarthName({
             );
             newHarth.iconKey = `https://community-profile-images.s3.us-east-2.amazonaws.com/${comms3Upload.name}`;
         } else {
-            newHarth.iconKey = "/images/harth_placeholder.png";
+            newHarth.iconKey = "/images/harth_default.png";
         }
 
         submitHandler(newHarth);

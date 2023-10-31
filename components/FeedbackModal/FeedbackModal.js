@@ -159,7 +159,6 @@ export const FeedbackModal = (props) => {
       >
         <form onSubmit={submitHandler} className={styles.innerContainer}>
           <h2>Submit Feedback</h2>
-
           <button className={styles.closeBtn} onClick={closeModal}>
             <IconClose />
           </button>

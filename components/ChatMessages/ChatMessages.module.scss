@@ -6,10 +6,11 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    height: calc(var(--vh) - 56px);
+    height: calc(var(--vh) - 24px);
     width: 100%;
     background: $background;
     //padding-left: 8px;
+    margin-top: -32px;
 
     @media screen and (max-width: 640px) {
         height: var(--vh);
@@ -30,7 +31,7 @@
     padding: 24px 0px;
     overflow-y: scroll;
     -ms-overflow-style: none;
-    color: $fuel;
+    color: $font_main;
 
     &::-webkit-scrollbar {
         display: none;
@@ -294,167 +295,9 @@
     border-top: 1px solid $oxygen_10;
 }
 
-.mapContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 
-    row-gap: 8px;
-    border: 0;
-    border-top: 1px solid $oxygen_10;
-    background-color: $ash;
-    width: 320px;
-    height: 260px;
-    padding: 0px 0px 24px 0px;
 
-    .icon {
-        height: 48px;
-        width: 48px;
 
-        path {
-            fill: $oxygen;
-        }
-    }
-
-    .label {
-        @include rubik;
-        font-size: 16px;
-        font-weight: 400;
-        margin-bottom: 24px;
-        text-align: center;
-        color: $oxygen;
-    }
-}
-
-.mapContainerActive {
-    overflow: hidden;
-    position: relative;
-    width: auto;
-    height: auto;
-    max-width: 540px;
-    max-height: 540px;
-    background-color: $ash;
-    z-index: 100;
-
-    .bottomBar {
-        position: absolute;
-        background-color: $overlay_dark;
-        width: 100%;
-        height: 44px;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        button {
-            background-color: $overlay_dark;
-            color: $oxygen;
-            &:hover {
-                //color: $oxygen;
-                background-color: $black;
-                backdrop-filter: blur(4px);
-                border-color: $oxygen_80;
-            }
-        }
-    }
-}
-
-.mobileMapContainer {
-    position: relative;
-    display: flex;
-    overflow: hidden;
-    flex-direction: column;
-    row-gap: 8px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 0;
-    background-color: $overlay_dark;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    width: 100%;
-    padding: 12px 0px 64px 0px;
-
-    .icon {
-        height: 64px;
-        width: 64px;
-        path {
-            fill: $oxygen;
-        }
-    }
-
-    .label {
-        @include interfaceH2;
-        color: $oxygen;
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .grabber {
-        background-color: $white_50;
-        border-radius: 9999px;
-        height: 4px;
-        width: 48px;
-        margin-bottom: 40px;
-    }
-
-    .closeBar {
-        display: flex;
-        width: 100%;
-        justify-content: flex-end;
-        justify-items: end;
-        align-content: flex-end;
-        padding: 0px 12px;
-        margin-bottom: 8px;
-    }
-    &Active {
-        position: relative;
-        padding: 0px;
-
-        .bottomBar {
-            position: relative;
-            width: 100%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-top: 12px;
-        }
-    }
-}
-
-.mobileDiceContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    row-gap: 24px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 0;
-    background-color: $overlay_dark;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    width: 100%;
-    padding: 12px 0px 48px 0px;
-
-    .grabber {
-        background-color: $white_50;
-        border-radius: 9999px;
-        height: 4px;
-        width: 48px;
-    }
-
-    .diceRow {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        column-gap: 24px;
-    }
-}
 
 .topBar {
     background-color: $black_20;
