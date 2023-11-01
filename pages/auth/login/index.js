@@ -52,11 +52,12 @@ const Login = () => {
         <input
           {...register("email", { required: true })}
           placeholder="Enter your email"
-          autocapitalize="none"
-
+          autoCapitalize="none"
         />
         <ErrorMessage
-          errorMsg={errors.email ? "Enter a valid email to login." : errorMessage}
+          errorMsg={
+            errors.email ? "Enter a valid email to login." : errorMessage
+          }
         />
         {/* {errorMessage === "Invalid Email" ? (
           // <div className={styles.accountCreateAlert}>Do you need to create an account?
@@ -95,7 +96,7 @@ const Login = () => {
             target="_blank"
             rel="noreferrer"
           >
-            Terms of Service 
+            Terms of Service
           </a>
           &nbsp;and&nbsp;
           <a
