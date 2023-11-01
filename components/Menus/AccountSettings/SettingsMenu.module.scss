@@ -88,8 +88,9 @@
             }
 
             &Name {
-                @include harthTitle2;
-                color: $font_light;
+                @include harthTitle;
+                color: $font_main;
+                
             }
         }
 

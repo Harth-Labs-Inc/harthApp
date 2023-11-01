@@ -17,7 +17,19 @@
 
     border-radius: 0px;
 
-    border-bottom: 1px solid $border_light;
+    //border-bottom: 1px solid $border_light;
+
+    &::after {
+        position: absolute;
+        bottom: -1px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 1px;
+        width: 92%;
+        content: "";
+        background-color: $border_light;
+
+    }
 
     .emojiHolder {
         width: fit-content;
@@ -74,7 +86,7 @@
 
 
     &Desktop {
-        padding: 8px 2px 8px 8px;
+        padding: 6px 2px 6px 8px;
         .moreMenu {
             position: absolute;
             visibility: hidden;
@@ -159,6 +171,10 @@
             // .label {
             //     color: $white;
             // }
+        }
+
+        &::after {
+            width: 94%;    
         }
     }
 

@@ -7,9 +7,12 @@
     flex-direction: column;
     justify-content: center;
     min-width: 300px;
-    row-gap: 16px;
-    @include rubik;
-    font-size: 14px;
+    row-gap: 8px;
+    @include systemFont;
+    font-size: 16px;
+    width: 330px;
+    margin-left: auto;
+    margin-right: auto;
 
     .title {
         @include overlayMenuTitle;
@@ -17,29 +20,30 @@
         text-align: center;
         margin-top: 8px;
         margin-bottom: 20px;
-        color: $alert_red;
+        color: $font_main;
+        text-transform: uppercase;
     }
 
     .harthImage {
         height: 56px;
         width: 56px;
         border-radius: 8px;
-        border: 1px solid $fuel_50;
+        border: 1px solid $border_basic;
         margin-top: 12px;
     }
     .harthName {
         margin-top: -6px;
         margin-bottom: 12px;
-        font-weight: 500;
-        @include harthTitleSmall;
+        @include harthTitle;
+        font-size: 28px;
     }
 
     .text {
         width: 90%;
         text-align: center;
-        color: $fuel_50;
-        font-size: 12px;;
-        text-transform:uppercase;
+        color: $font_muted;
+        font-size: 14px;;
+        //text-transform:capitalize;
     }
 
     .form {
@@ -54,14 +58,17 @@
         align-items: flex-end;
         column-gap: 8px;
         margin-top: 16px;
+        width: 100%;
 
         .cancelButton {
             width: 96px;
+            height: 52px;
             // min-width: 88px;
         }
 
         .submitButton {
             width: 100%;
+            height: 52px;
         }
     }
 }

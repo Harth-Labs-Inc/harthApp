@@ -52,10 +52,10 @@
     transition: all 0.2s;
     background-color: transparent;
     path {
-        fill: $ash_light;
+        fill: $font_main;
     }
     &:hover {
-        background-color: $oxygen_10;
+        background-color: $border_basic;
     }
 }
 
@@ -117,7 +117,7 @@
         font-weight: 500;
     }
     &Small {
-        padding: 6px 16px;
+        padding: 4px 8px;
         @include systemFont;
         font-size: 14px;
         font-weight: 500;

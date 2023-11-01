@@ -234,7 +234,6 @@ const HarthMembersSettings = () => {
 
               {showAdminPanel && selectedMembers?.includes(usr.userId) ? (
                 <div className={styles.adminPanel}>
-                  <div style={{ display: "flex" }}>
                     {hasAdminControls ? (
                       <Button
                         tier="secondary"
@@ -244,7 +243,6 @@ const HarthMembersSettings = () => {
                         isDisabled={usr.userId == user._id}
                       />
                     ) : null}
-                    <div style={{ marginLeft: "4px" }}>
                       {user.BlockedList?.find(
                         ({ userId }) => userId == usr.userId
                       ) ? (
@@ -265,11 +263,9 @@ const HarthMembersSettings = () => {
                           isDisabled={usr.userId == user._id}
                         />
                       )}
-                    </div>
-                  </div>
+
 
                   {hasAdminControls ? (
-                    <div style={{ paddingLeft: "30px" }}>
                       <div className={styles.makeAdmin}>
                         <Toggle
                           onToggleChange={() => toggleAdminHandler(usr)}
@@ -278,7 +274,6 @@ const HarthMembersSettings = () => {
                         />
                         <p>Make Admin</p>
                       </div>
-                    </div>
                   ) : null}
                 </div>
               ) : null}

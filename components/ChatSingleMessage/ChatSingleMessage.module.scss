@@ -211,7 +211,7 @@
             white-space: pre-wrap;
             @include url;
             word-break: break-all;
-            color: lighten($hot_blue, 15%);
+            color: lighten($hot_blue, 10%);
         }
 
         &Reactions {

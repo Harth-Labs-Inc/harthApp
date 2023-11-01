@@ -35,17 +35,18 @@ const UnBlockUserModal = ({ setHidden, usr, activeUser }) => {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.title}>!Confirm UnBlock!</div>
-      <p>
-        "Are you sure you want to UNBLOCK {usr?.name}. UnBlocking will allow the
-        user to send Direct Messages to you and send Invites to new h&auml;rths.
-      </p>
+      
       <img className={styles.userImage} src={usr?.iconKey} loading="lazy" />
       <p className={styles.userName}>{usr?.name}</p>
-
+      <p>
+        Are you sure you want to UNBLOCK {usr?.name}. UnBlocking will allow the
+        user to send Direct Messages to you and send you Invites to new h&auml;rths.
+      </p>
       <form onSubmit={submitHandler} className={styles.form}>
         <div className={styles.buttonBar}>
           <Button
             text="Cancel"
+            tier="secondary"
             onClick={handleCancel}
             className={styles.cancelButton}
           />

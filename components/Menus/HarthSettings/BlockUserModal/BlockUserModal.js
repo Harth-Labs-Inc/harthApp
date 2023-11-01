@@ -37,28 +37,29 @@ const BlockUserModal = ({ setHidden, usr, activeUser, closeHandler }) => {
 
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.title}>!Confirm Removal!</div>
+      <div className={styles.title}>Block User</div>
+      
+      <img className={styles.userImage} src={usr?.iconKey} loading="lazy" />
+      <p className={styles.userName}>{usr?.name}</p>
       <p>
         Are you sure you want to BLOCK {usr?.name}. Blocking disables the
         ability of a user to send Direct Message to you and send Invites to new
         h&auml;rths.
       </p>
-      <img className={styles.userImage} src={usr?.iconKey} loading="lazy" />
-      <p className={styles.userName}>{usr?.name}</p>
-
       <form onSubmit={submitHandler} className={styles.form}>
         <div className={styles.buttonBar}>
           <Button
             text="Cancel"
+            tier = "secondary"
             onClick={handleCancel}
             className={styles.cancelButton}
           />
           <Button type="submit" text="Block" className={styles.submitButton} />
-          <Button
+          {/* <Button
             type="submit"
             text="Block & Report"
             className={styles.submitButton}
-          />
+          /> */}
         </div>
       </form>
     </div>

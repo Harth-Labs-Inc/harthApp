@@ -37,6 +37,8 @@
             border-right: 1px solid $border_basic;
             
             background: $background;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             .iconHolder {
                 position: absolute;

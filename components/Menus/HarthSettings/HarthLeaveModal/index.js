@@ -13,7 +13,7 @@ const HarthLeaveModal = ({ setHidden, submitHarthChange, harth }) => {
 
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.title}>!Confirm Leave!</div>
+            <div className={styles.title}>Confirm Leave</div>
             <p>You are about to leave:</p>
             <img
                 className={styles.harthImage}
