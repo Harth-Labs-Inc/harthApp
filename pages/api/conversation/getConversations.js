@@ -80,6 +80,26 @@ export default async (req, res) => {
 
   let conversations = await getConversations(db, commId, UserId);
 
+  const blockedUserIds = user.BlockedList
+    ? user.BlockedList.map((blocked) => blocked.userId)
+    : [];
+  conversations = conversations.filter((conversation) => {
+    const otherUsers = conversation.users.filter((u) => u.userId !== UserId);
+
+    if (
+      otherUsers.length === 1 &&
+      blockedUserIds.includes(otherUsers[0].userId)
+    ) {
+      return false;
+    }
+
+    if (otherUsers.every((u) => blockedUserIds.includes(u.userId))) {
+      return false;
+    }
+
+    return true;
+  });
+
   return res.json({
     msg: "conversations found",
     ok: 1,

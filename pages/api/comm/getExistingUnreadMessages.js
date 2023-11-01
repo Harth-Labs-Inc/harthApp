@@ -98,9 +98,21 @@ export default async (req, res) => {
     );
   });
 
-  const filteredResults = fetchResults.filter(
+  let filteredResults = fetchResults.filter(
     (result) => !topicMutedStatus[result.topic_id]
   );
+  const blockedListWithDates = user.BlockedList || [];
+
+  filteredResults = filteredResults.filter((message) => {
+    const blockedDate = blockedListWithDates.find(
+      (blocked) => blocked.userId === message.creator_id
+    )?.blockedDate;
+
+    if (!blockedDate || new Date(message.date) <= new Date(blockedDate)) {
+      return true;
+    }
+    return false;
+  });
 
   return res.json({
     msg: "successful",

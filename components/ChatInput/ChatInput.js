@@ -391,7 +391,7 @@ const ChatInput = (props) => {
         try {
           let pushmessage = generatePushMessage({
             ...newMessage,
-            pushTitle: `New message from ${newMessage.creator_name}`,
+            pushTitle: `${newMessage.creator_name}`,
             env: process.env.NODE_ENV,
             ignoreSelf: true,
             type: "chat",

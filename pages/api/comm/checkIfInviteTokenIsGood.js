@@ -37,7 +37,8 @@ export default async (req, res) => {
   let decodedToken = await decode(token);
   if (!decodedToken) res.json({ msg: "Invalid Token", ok: 0 });
 
-  let { id } = decodedToken;
+  let { id, senderID, senderName, iconKey } = decodedToken;
+
   if (!id) res.json({ msg: "Invalid Token", ok: 0 });
   const client = await getClientWithCheck(clientPromise);
   const db = client.db("blarg");
@@ -66,5 +67,10 @@ export default async (req, res) => {
     return res.json({ msg: "already in harth", ok: 0 });
   }
 
-  return res.json({ msg: "All good!", ok: 1, harth });
+  return res.json({
+    msg: "All good!",
+    ok: 1,
+    harth,
+    sender: { senderID, senderName, iconKey },
+  });
 };

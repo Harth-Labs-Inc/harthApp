@@ -3,7 +3,7 @@ import { useComms } from "../../../../contexts/comms";
 import { useAuth } from "../../../../contexts/auth";
 
 import styles from "./harthnotificationsettings.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getTopics } from "requests/community";
 import { getConversations } from "requests/conversations";
 
@@ -129,6 +129,121 @@ const HarthNotificationSettings = () => {
     }
   }
 
+  const participants = useMemo(() => {
+    return ConvArr?.map((conv) => {
+      let userIndex = conv.users.findIndex(({ userId }) => {
+        return userId == user._id;
+      });
+
+      let profile;
+      let isMuted;
+
+      if (userIndex >= 0) {
+        profile = conv.users[userIndex];
+        isMuted = profile?.muted;
+      }
+
+      if (isHarthMuted) {
+        isMuted = true;
+      }
+
+      return (
+        <div className={styles.individualConvRow} key={`${conv._id}`}>
+          <div style={{ padding: "3px 0" }}>
+            {conv.OriginalUsers
+              ? conv.OriginalUsers?.map((e) => {
+                  if (e.userId !== profile.userId) {
+                    let creator = selectedcomm.users?.find(
+                      (usr) => usr.userId === e.userId
+                    );
+                    return (
+                      <div key={e.userId} className={styles.participantElement}>
+                        <img
+                          className={`
+                            ${styles.avatar} 
+                            ${selectedcomm?._id}_${e.userId}
+                          `}
+                          src={creator?.iconKey}
+                          loading="eager"
+                        />
+                        <div
+                          className={[
+                            styles.label,
+                            `${selectedcomm._id}_${e.userId}_name`,
+                          ].join(" ")}
+                        >
+                          {creator?.name}
+                        </div>
+                      </div>
+                    );
+                  }
+                  return null;
+                })
+              : conv.users?.map((e) => {
+                  let creator = selectedcomm.users?.find(
+                    (usr) => usr.userId === e.userId
+                  );
+                  if (e.userId == profile?.userId) {
+                    return (
+                      <div key={e.userId} className={styles.participantElement}>
+                        <img
+                          className={`
+                              ${styles.avatar}
+                              ${selectedcomm?._id}_${profile?.userId}
+                            `}
+                          src={creator?.iconKey}
+                          loading="eager"
+                        />
+                        <div
+                          className={[
+                            styles.label,
+                            `${selectedcomm._id}_${profile?.userId}_name`,
+                          ]}
+                        >
+                          {creator?.name}
+                        </div>
+                      </div>
+                    );
+                  }
+                  return (
+                    <div key={e.userId} className={styles.participantElement}>
+                      <img
+                        className={`
+                          ${styles.avatar} 
+                          ${selectedcomm?._id}_${e.userId}
+                        `}
+                        src={creator?.iconKey}
+                        loading="eager"
+                      />
+                      <div
+                        className={[
+                          styles.label,
+                          `${selectedcomm._id}_${e.userId}_name`,
+                        ].join(" ")}
+                      >
+                        {creator?.name}
+                      </div>
+                    </div>
+                  );
+                })}
+          </div>
+          <Toggle
+            onToggleChange={() => muteConvHandler(conv)}
+            toggleName="chat"
+            isChecked={!isMuted}
+          ></Toggle>
+        </div>
+      );
+    });
+  }, [
+    ConvArr,
+    user._id,
+    user.muted,
+    isHarthMuted,
+    selectedcomm,
+    muteConvHandler,
+  ]);
+
   return (
     <>
       <div className={styles.listHolder}>
@@ -184,121 +299,7 @@ const HarthNotificationSettings = () => {
           <p>Messages</p>
           {/* <Toggle /> */}
         </div>
-        <div className={styles.chatListHolder}>
-          {ConvArr?.map((conv) => {
-            let userIndex = conv.users.findIndex(({ userId }) => {
-              return userId == user._id;
-            });
-
-            let profile;
-            let isMuted;
-
-            if (userIndex >= 0) {
-              profile = conv.users[userIndex];
-              isMuted = profile?.muted;
-            }
-
-            if (isHarthMuted) {
-              isMuted = true;
-            }
-            return (
-              <div className={styles.individualConvRow} key={`${conv._id}`}>
-                <div style={{ padding: "3px 0" }}>
-                  {conv.OriginalUsers
-                    ? conv.OriginalUsers?.map((e) => {
-                        if (e.userId !== profile.userId) {
-                          let creator = selectedcomm.users?.find(
-                            (usr) => usr.userId === e.userId
-                          );
-                          return (
-                            <div
-                              key={e.userId}
-                              className={styles.participantElement}
-                            >
-                              <img
-                                className={`
-                                  ${styles.avatar} 
-                                  ${selectedcomm?._id}_${e.userId}
-                                  `}
-                                src={creator?.iconKey}
-                                loading="eager"
-                              />
-                              <div
-                                className={[
-                                  styles.label,
-                                  `${selectedcomm._id}_${e.userId}_name`,
-                                ].join(" ")}
-                              >
-                                {creator?.name}
-                              </div>
-                            </div>
-                          );
-                        }
-                        return null;
-                      })
-                    : conv.users?.map((e) => {
-                        let creator = selectedcomm.users?.find(
-                          (usr) => usr.userId === e.userId
-                        );
-                        if (e.userId == profile?.userId) {
-                          return (
-                            <div
-                              key={e.userId}
-                              className={styles.participantElement}
-                            >
-                              <img
-                                className={`
-                                            ${styles.avatar}
-                                            ${selectedcomm?._id}_${profile?.userId}
-                                            `}
-                                src={creator?.iconKey}
-                                loading="eager"
-                              />
-                              <div
-                                className={[
-                                  styles.label,
-                                  `${selectedcomm._id}_${profile?.userId}_name`,
-                                ]}
-                              >
-                                {creator?.name}
-                              </div>
-                            </div>
-                          );
-                        }
-                        return (
-                          <div
-                            key={e.userId}
-                            className={styles.participantElement}
-                          >
-                            <img
-                              className={`
-                                ${styles.avatar} 
-                                ${selectedcomm?._id}_${e.userId}
-                                `}
-                              src={creator?.iconKey}
-                              loading="eager"
-                            />
-                            <div
-                              className={[
-                                styles.label,
-                                `${selectedcomm._id}_${e.userId}_name`,
-                              ].join(" ")}
-                            >
-                              {creator?.name}
-                            </div>
-                          </div>
-                        );
-                      })}
-                </div>
-                <Toggle
-                  onToggleChange={() => muteConvHandler(conv)}
-                  toggleName="chat"
-                  isChecked={!isMuted}
-                ></Toggle>
-              </div>
-            );
-          })}
-        </div>
+        <div className={styles.chatListHolder}>{participants}</div>
       </div>
     </>
   );

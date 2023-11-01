@@ -1,6 +1,34 @@
 import api from "../services/api";
 
 /* eslint-disable */
+
+export const UnblockUser = async (data) => {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await api.post(`/api/users/UnblockUser`, data, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const blockUser = async (data) => {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await api.post(`/api/users/blockUser`, data, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const sendFeedbackEmail = async (
   collectedData,
   userFeedback,

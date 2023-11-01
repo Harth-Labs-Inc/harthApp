@@ -14,6 +14,7 @@ import {
   saveConversationMessage,
   addKeyToConversationDB,
   updateConversationMessage,
+  getConvoRecieverIds,
 } from "../../requests/conversations";
 import {
   getUploadURL,
@@ -116,40 +117,66 @@ export const ConversationMessages = () => {
     setLoading(true);
     setPage(1);
     setCurrentMessages([]);
+    let shouldBeBlocked = false;
+
+    const newblockedUserIds = user.BlockedList
+      ? user.BlockedList.map((blocked) => blocked.userId)
+      : [];
+    const otherUsers = selectedConversation?.users?.filter(
+      (u) => u.userId !== user._id.toString()
+    );
+
+    if (
+      otherUsers?.length === 1 &&
+      newblockedUserIds.includes(otherUsers[0].userId)
+    ) {
+      shouldBeBlocked = true;
+    }
+    if (otherUsers?.every((u) => newblockedUserIds.includes(u.userId))) {
+      shouldBeBlocked = true;
+    }
+
     if (selectedConversation && selectedConversation._id) {
-      (async () => {
-        let data = await getconversationMessagesByID(
-          selectedConversation._id,
-          1,
-          25
-        );
-        const { ok, fetchResults } = data;
-        if (ok) {
-          setCurrentMessages(sortMessages([...fetchResults]));
-          setHasMore(fetchResults.length > 0);
-          setLoading(false);
-        } else {
-          setCurrentMessages([]);
-          setPage(1);
-          setLoading(false);
-        }
-        removeUnsavedConvMessages(selectedConversation._id, user._id).then(
-          () => {
-            let message = {};
-            message.updateType = "reload same User conv unreads";
-            message.user_id = user._id;
-            emitUpdateFromRef(
-              selectedCommRef.current?._id,
-              message,
-              async (err) => {
-                if (err) {
-                  console.error(err);
-                }
-              }
-            );
+      if (shouldBeBlocked) {
+        setCurrentMessages([]);
+        setPage(1);
+        setLoading(false);
+      } else {
+        (async () => {
+          let data = await getconversationMessagesByID(
+            selectedConversation._id,
+            1,
+            25
+          );
+
+          const { ok, fetchResults } = data;
+          if (ok) {
+            setCurrentMessages(sortMessages([...fetchResults]));
+            setHasMore(fetchResults.length > 0);
+            setLoading(false);
+          } else {
+            setCurrentMessages([]);
+            setPage(1);
+            setLoading(false);
           }
-        );
-      })();
+          removeUnsavedConvMessages(selectedConversation._id, user._id).then(
+            () => {
+              let message = {};
+              message.updateType = "reload same User conv unreads";
+              message.user_id = user._id;
+              emitUpdateFromRef(
+                selectedCommRef.current?._id,
+                message,
+                async (err) => {
+                  if (err) {
+                    console.error(err);
+                  }
+                }
+              );
+            }
+          );
+        })();
+      }
     } else {
       setLoading(false);
     }
@@ -291,16 +318,24 @@ export const ConversationMessages = () => {
       try {
         let pushmessage = generatePushMessage({
           ...newMessage,
-          pushTitle: `New message from ${newMessage.creator_name}`,
+          pushTitle: `${newMessage.creator_name}`,
           env: process.env.NODE_ENV,
           ignoreSelf: true,
           type: "message",
         });
-        let receiverIds = selectedConversation.users
-          ?.filter((obj) => obj.userId !== user._id)
-          .map((obj) => obj.userId);
-        pushmessage.receiverIds = receiverIds;
-        sendPushNotification(pushmessage);
+
+        if (!pushmessage.message) {
+          pushmessage.message = "";
+
+          if (hasAttachments) {
+            pushmessage.message = "Check out the new image!";
+          }
+        }
+
+        getConvoRecieverIds(newMessage).then(({ userIDsToNotify }) => {
+          pushmessage.receiverIds = userIDsToNotify;
+          sendPushNotification(pushmessage);
+        });
       } catch (error) {
         console.log(error);
       }

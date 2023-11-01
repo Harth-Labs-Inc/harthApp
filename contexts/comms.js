@@ -187,7 +187,7 @@ export const CommsProvider = ({
           }
         }
       } catch (error) {
-        console.log();
+        console.log(error);
       }
     }
 
@@ -388,16 +388,12 @@ export const CommsProvider = ({
 
   const grabTopics = async (comid, repullMessages) => {
     setIsLoadingTopics(true);
-    console.log("pulling topics....");
     let result = await getTopics(comid, user._id);
-    console.log("topics results: ", result);
 
     const { ok, topics } = result;
     if (ok) {
-      console.log(1);
       let startingTopic;
       if (!isMobile || repullMessages) {
-        console.log(2);
         for (let topic of topics) {
           for (let member of topic.members) {
             if (member.user_id == user._id) {
@@ -410,8 +406,6 @@ export const CommsProvider = ({
 
         let storedHarthData = localStorage.getItem("harthData");
         if (storedHarthData) {
-          console.log(3);
-
           try {
             const parsedStoredHarthData = JSON.parse(storedHarthData);
             if (parsedStoredHarthData) {
@@ -431,8 +425,6 @@ export const CommsProvider = ({
               }
             }
           } catch (error) {
-            console.log(4);
-
             console.log(error);
           }
         }
@@ -454,7 +446,6 @@ export const CommsProvider = ({
           }
         }
       }
-      console.log(5);
 
       setTopics(topics);
       setIsLoadingTopics(false);
@@ -580,6 +571,7 @@ export const CommsProvider = ({
     let isInChatOrDM = localStorage.getItem("isInChatOrDM");
 
     if (currentPage === "message") {
+      resetConversations();
       fetchConversations(com._id);
       resetTopics();
     }

@@ -48,6 +48,7 @@ const dashboard = () => {
   const [showCreateHarthProfileModal, setShowCreateHarthProfileModal] =
     useState(false);
   const [showInviteAcceptModal, setShowInviteAcceptModal] = useState(false);
+  const [invitedSender, setInvitedSender] = useState(null);
   const [showInviteProfileModal, setShowInviteProfileModal] = useState(false);
   const [inviteTKN, setInviteTKN] = useState(false);
   const [showNotButton, setShowNotButton] = useState(false);
@@ -181,6 +182,7 @@ const dashboard = () => {
           if (results?.ok) {
             setShowCreateHarthNameModal(false);
             setInvitedHarth({ ...results?.harth });
+            setInvitedSender({ ...results?.sender });
             setShowInviteAcceptModal(true);
           } else {
             localStorage.removeItem("inviteToken");
@@ -208,6 +210,7 @@ const dashboard = () => {
       setInviteTKN(null);
       setShowCreateHarthNameModal(false);
       setInvitedHarth(null);
+      setInvitedSender(null);
     };
   }, [loading]);
 
@@ -276,6 +279,7 @@ const dashboard = () => {
   const resetNewInviteHarth = () => {
     localStorage.removeItem("inviteToken");
     setInvitedHarth(null);
+    setInvitedSender(null);
     setShowInviteProfileModal(false);
     setShowInviteAcceptModal(false);
   };
@@ -395,6 +399,7 @@ const dashboard = () => {
                     }
                   }}
                   invitedHarth={invitedHarth}
+                  invitedSender={invitedSender}
                 />
               ) : null}
               {showInviteProfileModal ? (

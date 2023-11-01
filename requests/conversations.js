@@ -2,6 +2,27 @@ import api from "../services/api";
 
 /* eslint-disable */
 
+export const getConvoRecieverIds = async (message) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(
+      `/api/conversation/getConvoRecieverIds`,
+      {
+        message,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const removeUnsavedConvMessages = async (convId, userid) => {
   try {
     const token = localStorage.getItem("token");

@@ -97,6 +97,7 @@ const ChatSingleMessage = (props) => {
     if (typeof text !== "string") {
       return "";
     }
+
     const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
     const emojiRegexPattern = emojiRegex();
     const parts =
@@ -104,46 +105,67 @@ const ChatSingleMessage = (props) => {
         /(https?:\/\/[^\s]+|www\.[^\s]+|[\p{Emoji_Presentation}\uFE0F]+|\s+|[^\p{Emoji_Presentation}\uFE0F\s]+)/gu
       ) || [];
 
+    const allEmojis = parts.every((part) =>
+      emojiRegexPattern.test(part.trim())
+    );
+
     const wrappedText = parts.map((part, index) => {
-      if (!part) return null;
+      if (!part) return "";
 
-      if (urlRegex.test(part)) {
+      const isURL = urlRegex.test(part);
+      const isEmoji = emojiRegexPattern.test(part);
+      const isEmojiTrimmed = emojiRegexPattern.test(part.trim());
+      const isWhitespace = /^\s+$/.test(part);
+
+      if (isURL) {
         const properURL = part.startsWith("www") ? "http://" + part : part;
-
         return (
-          <a key={`url_${index}`} href={properURL} target="_blank">
+          <a
+            key={`url_${index}`}
+            href={properURL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {part}
           </a>
         );
-      } else if (emojiRegexPattern.test(part)) {
+      } else if (isEmoji) {
         return (
           <span
             key={`emoji_${index}`}
             className={styles.MessageEmoji}
             style={{
               display: "inline-block",
-              fontSize: "20px",
+              fontSize: allEmojis ? "40px" : "20px",
+              margin: allEmojis ? "15px 0px" : "",
             }}
           >
             {part}
           </span>
         );
-      } else if (part.length) {
-        if (/^\s+$/.test(part)) {
-          return part;
-        }
-
+      } else if (isEmojiTrimmed) {
         return (
           <span
-            key={`url_${index}`}
+            key={`emoji_${index}`}
+            className={styles.MessageEmoji}
             style={{
               display: "inline-block",
+              fontSize: allEmojis ? "50px" : "20px",
+              margin: allEmojis ? "20px 0px 0px 0px" : "",
             }}
           >
+            {part}
+          </span>
+        );
+      } else if (!isWhitespace) {
+        return (
+          <span key={`text_${index}`} style={{ display: "inline-block" }}>
             {part}
           </span>
         );
       }
+
+      return part;
     });
 
     return <div style={{ display: "block", width: "100%" }}>{wrappedText}</div>;

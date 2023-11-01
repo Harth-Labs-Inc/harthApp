@@ -1055,23 +1055,18 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       parentContainer.appendChild(audioContainer);
     }
   };
-  const requestFullscreen = (element) => {
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-    }
-  };
+
   const createCapture = (incomingStream, peer) => {
     const playButton = document.getElementById(`${peer?.socketID}_play-button`);
     const isOwner = peer?.socketID === ownerData.current?.socketID;
     if (!playButton && !isOwner) {
       createPlayButton(peer);
     } else {
+      let shouldFullScreen = false;
+      if (!isOwner && isMobile) {
+        shouldFullScreen = true;
+      }
+
       let existingVideo = document.getElementById(peer?.capturePeer);
       if (!existingVideo) {
         const parentContainer = document.getElementById(
@@ -1079,7 +1074,12 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         );
         const videoContainer = document.createElement("div");
         const video = document.createElement("video");
-        videoContainer.className = styles.videoContainer;
+        const backButton = document.createElement("button");
+        const muteButton = document.createElement("button");
+
+        videoContainer.className = shouldFullScreen
+          ? styles.fullscreenVideoContainer
+          : styles.videoContainer;
         videoContainer.id = peer?.capturePeer;
         video.srcObject = incomingStream;
         video.id = `${peer?.socketID}_${peer?.capturePeer}`;
@@ -1087,13 +1087,31 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         video.muted = true;
         video.className = "video";
         video.playsInline = true;
-        video.controls = true;
+
+        if (shouldFullScreen) {
+          backButton.innerText = "<";
+          backButton.className = styles.backButton;
+          backButton.onclick = () => {
+            let stopButton = document.getElementById(
+              `${peer?.socketID}_play-button`
+            );
+            if (stopButton) {
+              stopButton.click();
+            }
+          };
+          videoContainer.appendChild(backButton);
+
+          muteButton.className = styles.muteButton;
+          muteButton.innerText = "Unmute";
+          muteButton.onclick = () => {
+            video.muted = !video.muted;
+            muteButton.innerText = video.muted ? "Unmute" : "Mute";
+          };
+          videoContainer.appendChild(muteButton);
+        }
 
         videoContainer.appendChild(video);
         parentContainer.appendChild(videoContainer);
-        if (!isOwner && isMobile) {
-          requestFullscreen(video);
-        }
 
         removeElement(`${peer?.socketID}_play-button`);
         createStopButton(peer);
@@ -1495,7 +1513,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       };
       sliderContainer.appendChild(input);
       parentContainer.appendChild(sliderContainer);
-      // createMuteButton(peer);
     }
   };
   const createVolumeContainer = (peer, owner) => {

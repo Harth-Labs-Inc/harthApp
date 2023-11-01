@@ -109,6 +109,28 @@ export default async (req, res) => {
           users: { $elemMatch: { userId: user._id } },
         })
         .toArray();
+
+      const blockedUserIds = user.BlockedList
+        ? user.BlockedList.map((blocked) => blocked.userId)
+        : [];
+      conversations = conversations.filter((conversation) => {
+        const otherUsers = conversation.users.filter(
+          (u) => u.userId !== user._id.toString()
+        );
+
+        if (
+          otherUsers.length === 1 &&
+          blockedUserIds.includes(otherUsers[0].userId)
+        ) {
+          return false;
+        }
+
+        if (otherUsers.every((u) => blockedUserIds.includes(u.userId))) {
+          return false;
+        }
+
+        return true;
+      });
     }
   }
 

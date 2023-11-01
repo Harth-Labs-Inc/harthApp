@@ -138,21 +138,20 @@ const HarthList = ({
                   </button>
                 ) : null}
               </li>
-              {modal ? (
-                <Modal onToggleModal={() => {}}>
-                  <HarthSettings
-                    communityName={selectedcomm?.name}
-                    communityId={selectedcomm?._id}
-                    onToggleModal={showModal}
-                  />
-                </Modal>
-              ) : (
-                ""
-              )}
             </div>
           );
         })}
-
+      {modal ? (
+        <Modal onToggleModal={() => {}}>
+          <HarthSettings
+            communityName={selectedcomm?.name}
+            communityId={selectedcomm?._id}
+            onToggleModal={showModal}
+          />
+        </Modal>
+      ) : (
+        ""
+      )}
       <li className={styles.NewHarth}>
         <button onClick={toggleCreateComm}>
           <IconAdd />
