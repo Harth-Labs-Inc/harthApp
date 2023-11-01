@@ -59,7 +59,7 @@ export default function HarthInviteAcceptModal({
       ) : (
         <Modal onToggleModal={() => {}} blockBackground={true}>
           <div className={styles.mainContainer}>
-            <div className={styles.title}>New Härth Invite</div>
+            <div className={styles.title}>Härth Invite</div>
             <TalkingHead text={talkingHeadMsg} />
             <div className={styles.harthHolder}>
               <img src={invitedHarth?.iconKey} loading="lazy" />
