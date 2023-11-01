@@ -1,4 +1,13 @@
 
+@mixin systemFont {
+  font-family: var(--Work_Sans-font);
+  //font-family: var(--Rubik-font);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+
+}
+
 @mixin harthTitle1 {
   font-family: var(--COOPBL-font);
   //font-family: var(--Rubik-font);
@@ -7,6 +16,14 @@
   letter-spacing: 0.05em;
   line-height: 26px;
 }
+
+@mixin harthTitle {  
+  font-family: var(--Paytone_One-font);
+  //font-weight: 700;
+  letter-spacing: 0.03em;
+}
+ 
+
 
 @mixin harthTitle2 {
   font-family: var(--COOPBL-font);
@@ -19,7 +36,6 @@
 
 @mixin harthTitleSmall {
   font-family: var(--COOPBL-font);
-  font-family: var(--COOPBL-font);
   //font-family: var(--Work_Sans-font);
   //font-family: var(--Rubik-font);
   font-size: 18px;
@@ -29,34 +45,31 @@
 
 @mixin talkingHead {
   font-family: var(--COOPBL-font);
-  font-size: 16px;
+  font-size: 20px;
   letter-spacing: 0.05em;
   line-height: 18px;
 }
 
 
 @mixin titleNav {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--PT_Sans-font);
   font-weight: 400;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 100%;
 }
 
 @mixin titleNavMobile {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--PT_Sans-font);
   font-weight: 400;
   font-size: 12px;
   line-height: 100%;
 }
 
 @mixin smallTitle {
-  //font-family: "Work Sans", sans-serif;
-  font-family: var(--Rubik-font);
-  font-weight: 700;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  //line-height: 125%;
-  //text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+  font-family: var(--PT_Sans-font);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
 }
 
 @mixin smallTitleMobile {
@@ -71,9 +84,9 @@
 @mixin topicTitle {
   //font-family: "Work Sans", sans-serif;
   font-family: var(--Rubik-font);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.03em;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.01em;
   //line-height: 125%;
   //text-rendering: optimizeLegibility;
   user-select: none;
@@ -92,7 +105,7 @@
 @mixin topicTitleMobile {
   //font-family: "Work Sans", sans-serif;
   font-family: var(--Rubik-font);
-  font-weight: 600;
+  font-weight: 400;
   font-size: 16px;
   letter-spacing: 0.03em;
   //line-height: 125%;
@@ -100,8 +113,8 @@
 }
 
 @mixin chatText {
-  //font-family: var(--Open_Sans-font);
-  font-family: var(--Rubik-font);
+  font-family: var(--Open_Sans-font);
+  //font-family: var(--Rubik-font);
   font-weight: 300;
   font-size: 14px;
   line-height: 130%;
@@ -110,19 +123,19 @@
 }
 
 @mixin chatTextMobile {
-  //font-family: var(--Open_Sans-font);
-  font-family: var(--Rubik-font);
+  font-family: var(--Open_Sans-font);
+  //font-family: var(--Rubik-font);
   font-weight: 300;
-  font-size: 15px;
-  line-height: 130%;
-  letter-spacing: 0.03em;
+  font-size: 16px;
+  line-height: 135%;
+  letter-spacing: 0.04em;
   text-rendering: optimizeLegibility;
 }
 
 @mixin chatProfile {
   font-family: var(--Rubik-font);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.02em;
   line-height: 12px;
   //text-rendering: optimizeLegibility;
@@ -130,15 +143,15 @@
 
 @mixin reactionLabel {
   font-family: var(--Rubik-font);
-  font-weight: 500;
-  font-size: 13px;
-  letter-spacing: 0.02em;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.05em;
 }
 
 @mixin timeStamp {
   font-family: var(--Rubik-font);
   font-weight: 400;
-  font-size: 11px;
+  font-size: 12px;
   //letter-spacing: 0.01em;
   letter-spacing: 0.02em;
   line-height: 12px;
@@ -175,7 +188,7 @@
 
 @mixin menuText {
   font-family: var(--Work_Sans-font);
-  font-weight: 500;
+  font-weight: 400;
   font-size: 14px;
   letter-spacing: 0.05em;
   line-height: 125%;
@@ -184,10 +197,11 @@
 
 @mixin overlayMenuTitle {
   font-family: var(--Work_Sans-font);
-  font-weight: 600;
-  font-size: 28px;
-  letter-spacing: 0.02em;
-  line-height: 28px;
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 85%;
+  letter-spacing: 0.01em;
+  text-shadow: 3px 3px 0 $hot_purple;
   //text-rendering: optimizeLegibility;
 }
 
@@ -231,16 +245,16 @@
   font-weight: 900;
   font-size: 26px;
   letter-spacing: 0;
-  line-height: 115%;
+  line-height: 100%;
   //text-rendering: optimizeLegibility;
 }
 
 @mixin roomTitleMobile {
   font-family: var(--Rubik-font);
   font-weight: 900;
-  font-size: 30px;
+  font-size: 36px;
   letter-spacing: 0;
-  line-height: 115%;
+  line-height: 100%;
   //text-rendering: optimizeLegibility;
 }
 
@@ -252,12 +266,18 @@
   //text-rendering: optimizeLegibility;
 }
 
+@mixin ptsans {
+  font-family: var(--PT_Sans-font);
+  font-weight: 400;
+  font-size: 12px;
+  //text-rendering: optimizeLegibility;
+}
+
 @mixin url {
   font-family: var(--Work_Sans-font);
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -.05em;
-  color: rgb(61, 87, 134);
   cursor: pointer;
 }
 

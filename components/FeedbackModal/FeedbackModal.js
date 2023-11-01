@@ -4,6 +4,7 @@ import styles from "./FeedbackModal.module.scss";
 import { sendFeedbackEmail } from "requests/userApi";
 import { useComms } from "contexts/comms";
 import { generateID } from "services/helper";
+import { IconClose } from "resources/icons/IconClose";
 
 export const FeedbackModal = (props) => {
   const { onToggleModal, disableOutsideClose } = props;
@@ -158,17 +159,21 @@ export const FeedbackModal = (props) => {
       >
         <form onSubmit={submitHandler} className={styles.innerContainer}>
           <h2>Submit Feedback</h2>
-
           <button className={styles.closeBtn} onClick={closeModal}>
-            X
+            <IconClose />
           </button>
 
           {isComplete ? (
             <div className={styles.successContainer}>
-              <h2>Thank you for your feedback</h2>
+              <p>Thank you for your feedback</p>
               <p>
                 We appreciate you taking the time to help us make Härth a better
                 place.
+              </p>
+              <p style={{width: 100}}>
+              <button onClick={closeModal}>
+                Close
+              </button>
               </p>
             </div>
           ) : (

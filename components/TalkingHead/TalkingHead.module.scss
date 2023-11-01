@@ -63,7 +63,7 @@
             padding: 12px;
             margin-bottom: 84px;
             text-align: center;
-            background-color: $white;
+            background-color: $border_basic;
             //border: solid 2px $fuel;
             border-radius: 24px;
             border-bottom-right-radius: 0;
@@ -71,8 +71,8 @@
         }
         &Text {
             @include chatText;
-            font-size: 14px;
-            color: $fuel;
+            font-size: 16px;
+            color: $font_main;
         }
 
         .WizardBackground {

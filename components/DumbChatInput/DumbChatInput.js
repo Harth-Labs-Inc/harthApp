@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { IconSend } from "../../resources/icons/IconSend";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
 import { IconImage } from "../../resources/icons/IconImage";
 import ImageHolder from "../ChatInput/ImageHolder";
 import styles from "./DumbChatInput.module.scss";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
+import { MobileContext } from "contexts/mobile";
 
 const DumbChatInput = (props) => {
   const [attachments, setAttachments] = useState([]);
@@ -31,6 +32,8 @@ const DumbChatInput = (props) => {
   const fileRef = useRef();
   const attRefs = useRef([]);
   const originalHeightRef = useRef();
+
+  const { isMobile } = useContext(MobileContext);
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -183,7 +186,12 @@ const DumbChatInput = (props) => {
     if (!isSubmitting) {
       if (Object.keys(selectedEditMsg).length > 0) {
         return (
-          <div id={styles.ChatInputControlsRight}>
+          <div id={
+            isMobile
+              ? styles.ChatInputMobileControlsRight
+              : styles.ChatInputControlsRight
+            }
+            >
             <button
               onClick={cancelEdit}
               aria-label="cancel chat message"
@@ -207,7 +215,12 @@ const DumbChatInput = (props) => {
         );
       } else {
         return (
-          <div id={styles.ChatInputControlsRight}>
+          <div id={
+            isMobile
+              ? styles.ChatInputMobileControlsRight
+              : styles.ChatInputControlsRight
+            }
+            >
             <button
               disabled={isDisabled}
               aria-label="send chat message"
@@ -234,7 +247,10 @@ const DumbChatInput = (props) => {
   };
 
   return (
-    <div id={styles.ChatInput}>
+    <div 
+      id={isMobile ? styles.ChatInputMobile : styles.ChatInput}
+    
+    >
       <div className={styles.entryBox}>
         <ImageHolder
           attachments={attachments}
@@ -243,7 +259,7 @@ const DumbChatInput = (props) => {
           uploading={uploading}
         />
         <textarea
-          id={styles.ChatInputText}
+          id={isMobile ? styles.ChatInputMobileText : styles.ChatInputText}
           placeholder="say something"
           ref={textRef}
           onChange={(e) => {
@@ -293,8 +309,18 @@ const DumbChatInput = (props) => {
           }}
         ></textarea>
       </div>
-      <div id={styles.ChatInputControls}>
-        <div id={styles.ChatInputControlsLeft}>
+      <div
+        id={
+          isMobile ? styles.ChatInputMobileControls : styles.ChatInputControls
+        }
+      >
+        <div
+          id={
+            isMobile
+              ? styles.ChatInputMobileControlsLeft
+              : styles.ChatInputControlsLeft
+          }
+        >
           <button onClick={triggerPicker} aria-label="add emoji reaction">
             <IconAddReactionNoFill />
           </button>

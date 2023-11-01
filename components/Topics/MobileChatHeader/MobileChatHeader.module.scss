@@ -14,10 +14,12 @@
     height: 56px;
     min-height: 56px;
     max-height: 56px;
-    background-color: $ash;
-    color: $font_light;
-    //border-bottom: 1px solid $ash_medium;
+    background-color: $background;
+    color: $font_main;
+    border-bottom: 1px solid $border_basic;
     @include topicTitle;
+    font-size: 14px;
+    font-weight: 500;
 
     .emojiHolder {
         padding-right: 8px;
@@ -42,11 +44,15 @@
 
 
         path {
-            fill: $font_light;
+            fill: $font_main;
         }
 
         &:active {
-            background-color: lighten($ash_heavy, 5%);
+            background-color: $button_main_press;
+            
+            path {
+                fill: $background;
+            }
         }
 
     }

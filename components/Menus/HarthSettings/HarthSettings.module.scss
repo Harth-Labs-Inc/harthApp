@@ -12,13 +12,15 @@
     max-height: 460px;
     margin-bottom: -23px;
     background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
 
     .Loading {
         color: transparent;
         margin: auto;
         padding-bottom: 80px;
         p {
-            color: $font_medium;
+            color: $font_main;
             @include worksans;
             font-size: 13px;
         }
@@ -52,21 +54,29 @@
         
 
         .title {
-            @include harthTitle1;
-            color: $font_light;
+            @include harthTitle;
+            color: $font_main;
+            font-size: 32px;
             width: 100%;
             text-align: center;
             padding: 0px 0px 0px 8px;
             user-select: none;
             overflow: hidden;
             text-overflow: ellipsis;
+            text-shadow: 3px 3px 0 $hot_purple;
         }
 
         .buttonHolder {
             position: absolute;
-            right: -20px;
-            top:-20px;
+            right: -6px;
+            top:-16px;
             padding: 2px;
+
+            button {
+                width: 36px;
+                height: 36px;
+                padding: 6px;
+            }
 
         }
         }
@@ -80,7 +90,7 @@
         column-gap: 8px;
         border:0;
         padding: 0px 12px;
-        border-bottom: 1px solid $ash_medium;
+        border-bottom: 1px solid $border_basic;
     
         .tabButton {
             position: relative;
@@ -91,7 +101,7 @@
             gap: 4px;
             @include worksans;
             font-size: 12px;
-            color: $font_medium;
+            color: $font_muted;
             font-weight: 500;
             letter-spacing: 0.02em;
             width: 100%;
@@ -108,14 +118,14 @@
                 width: 20px;
             }
             path {
-                fill: $ash_medium;
+                fill: $font_muted;
             }
 
             &Active {
-                border-color: $white;
-                color: $font_light;
+                border-color: $font_main;
+                color: $font_main;
                 path {
-                    fill: $white;
+                    fill: $font_main;
                 }
             }
             

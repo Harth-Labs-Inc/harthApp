@@ -6,15 +6,18 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    height: calc(var(--vh) - 56px);
+    height: calc(var(--vh) - 24px);
     width: 100%;
-    background: $ash_heavy;
+    background: $background;
+    //padding-left: 8px;
+    margin-top: -32px;
 
     @media screen and (max-width: 640px) {
+        margin: 0;
         height: var(--vh);
-        //padding: 8px;
-        padding-bottom: 88px;
-        padding-top: 56px;
+        padding: 0px;
+        padding-top: 24px;
+        padding-bottom: 16px;
     }
 }
 
@@ -36,9 +39,8 @@
     }
 
     @media screen and (max-width: 640px) {
-        // min-height: calc(100% - 80px);
-        padding-top: 0;
-        padding-bottom: 85px;
+       padding-bottom: 100px;
+        padding-top: 100px;
     }
 }
 
@@ -264,71 +266,7 @@
     border-top: 1px solid $oxygen_10;
 }
 
-.mapContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 
-    row-gap: 8px;
-    border: 0;
-    border-top: 1px solid $oxygen_10;
-    background-color: $ash;
-    width: 320px;
-    height: 260px;
-    padding: 0px 0px 24px 0px;
-
-    .icon {
-        height: 48px;
-        width: 48px;
-
-        path {
-            fill: $oxygen;
-        }
-    }
-
-    .label {
-        @include rubik;
-        font-size: 16px;
-        font-weight: 400;
-        margin-bottom: 24px;
-        text-align: center;
-        color: $oxygen;
-    }
-}
-
-.mapContainerActive {
-    overflow: hidden;
-    position: relative;
-    width: auto;
-    height: auto;
-    max-width: 540px;
-    max-height: 540px;
-    background-color: $ash;
-    z-index: 100;
-
-    .bottomBar {
-        position: absolute;
-        background-color: $overlay_dark;
-        width: 100%;
-        height: 44px;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        button {
-            background-color: $overlay_dark;
-            color: $oxygen;
-            &:hover {
-                //color: $oxygen;
-                background-color: $black;
-                backdrop-filter: blur(4px);
-                border-color: $oxygen_80;
-            }
-        }
-    }
-}
 
 .mobileMapContainer {
     position: relative;

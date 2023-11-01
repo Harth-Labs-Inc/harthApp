@@ -9,12 +9,15 @@
     height: fit-content;
     width: fit-content;
     width: 100%;
-    padding: 6px 2px;
     border: 0;
     border-radius: 8px;
     background-color: transparent;
     margin-bottom: 4px;
     cursor: pointer;
+
+    border-radius: 0px;
+
+    border-bottom: 1px solid $border_light;
 
     .emojiHolder {
         width: fit-content;
@@ -30,12 +33,12 @@
         align-items: center;
         justify-content: flex-start;
         width: fit-content;
-        color: $font_medium;
+        color: $font_main;
         @include topicTitle;
-        padding: 0px 28px 0px 8px;
         gap: 10px;
         user-select: none;
         width: 100%;
+        padding: 0px 8px 0px 0px;
 
         span {
             padding: 4px 0px;
@@ -48,17 +51,18 @@
         width: 100%;
         gap: 2px;
         flex-wrap: wrap;
-        padding: 0px 8px 4px 44px;
+        padding: 0px 8px 4px 36px;
         margin-top: -2px;
         img {
             width: 28px;
             height: 28px;
             border-radius: 999px;
+            border: 1px solid $border_light;
         }
 
         &Mobile {
             margin-top: -4px;
-            padding: 0px 8px 4px 64px;
+            padding: 0px 8px 4px 48px;
 
             img {
                 width: 36px;
@@ -70,6 +74,7 @@
 
 
     &Desktop {
+        padding: 8px 2px 8px 8px;
         .moreMenu {
             position: absolute;
             visibility: hidden;
@@ -84,23 +89,23 @@
             border-radius: 999px;
             background-color: transparent;
             border: 1px solid transparent;
+
             cursor: pointer;
             path {
-                fill: $ash_light;
+                fill: $font_main;
             }
 
             &:hover {
-                background-color: $ash;
-                path {
-                    fill: lighten($ash_light, 30%);
-                }
+                background-color: $background;
+
             }
 
         }
         
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: $ash_heavy;
+                background-color: $border_light;
+                border-radius: 8px;
 
                 .moreMenu {
                     visibility: visible;
@@ -111,27 +116,22 @@
     }
 
     &Active {
-        background-color: $ash_heavy;
-
+        background-color: $border_light;
+        border-radius: 8px;
         .label {
-            //font-weight: 800;
-            color: $font_light;
+            color: $font_main;
         }
         .moreMenu {
             visibility: visible;
         }
         &:hover {
-            background-color: $ash_heavy;
+            background-color: $border_light;
 
         }
     }
 
     &Mobile {
-        padding: 6px 4px;
-        margin-bottom: 4px;
-        border-radius: 8px;
-
-
+        padding: 12px 2px 12px 8px;
         .moreMenu {
             display: none;
         }
@@ -139,20 +139,23 @@
             width: fit-content;
             height: fit-content;
             line-height: 100%;
-            font-size: 32px;
+            font-size: 28px;
 
         }
         .label {
             @include topicTitleMobile;
-            padding: 0px 8px 0px 12px;
-            gap: 16px;
+            padding: 0px 8px 0px 0px;
+            //gap: 16px;
             span {
-                padding: 8px 0px;
+                padding: 8px 0px; 
+                //background: $background;
+                //border-radius: 99px;
             }
         }
 
         &:active {
-            background-color: $ash;
+            background-color: $border_light;
+            border-radius: 8px;
             // .label {
             //     color: $white;
             // }
@@ -162,8 +165,8 @@
     &Alert {
         .label {
             //@include topicTitleActive;
-            //font-weight: 800;
-            color: $font_light;
+            font-weight: 700;
+            color: $font_main;
         }
     }
 }

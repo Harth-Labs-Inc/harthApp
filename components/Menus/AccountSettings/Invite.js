@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useComms } from "../../../contexts/comms";
 import { sendInviteEmails } from "../../../requests/community";
 import styles from "./inviteModal.module.scss";
+import { IconClose } from "resources/icons/IconClose";
 
 const InviteComp = (props) => {
   const { comms, setCommsFromChild, selectedCommRef, profile } = useComms();
@@ -121,10 +122,13 @@ const InviteComp = (props) => {
       <div className={styles.innerContainer}>
         {!submitSuccess ? (
           <>
-            <h2>Send an Invite</h2>
+          <div className={styles.heading}>Send an Invite</div>
+            
+
             <button className={styles.closeBtn} onClick={handleBack}>
-              X
+              <IconClose />
             </button>
+
             <div className={styles.InviteList}>
               <div className={styles.harthdropdown}>
                 <label htmlFor="harthSelect">Select a Harth</label>
@@ -132,7 +136,7 @@ const InviteComp = (props) => {
                   <div className={styles.dropdownSelected}>
                     {selectedHarth?.iconKey && (
                       <img
-                        style={{ height: "50px", width: "50px" }}
+                        style={{ height: "48px", width: "48px" }}
                         src={selectedHarth.iconKey}
                         alt={selectedHarth.name}
                         className="harth-iconKey"
@@ -153,7 +157,7 @@ const InviteComp = (props) => {
                       >
                         {harth.iconKey && (
                           <img
-                            style={{ height: "50px", width: "50px" }}
+                            style={{ height: "48px", width: "48px" }}
                             src={harth.iconKey}
                             alt={harth.name}
                             className="harth-iconKey"
@@ -166,13 +170,7 @@ const InviteComp = (props) => {
                 )}
               </div>
               <label htmlFor="harthSelect">Recipient Email</label>
-              <p
-                style={{
-                  fontSize: "14px",
-                  display: "flex",
-                  color: "#9b0022",
-                }}
-              >
+              <p>
                 {formatError ? "Invalid format" : ""}
               </p>
               <div className={styles.emailinput}>
@@ -187,9 +185,7 @@ const InviteComp = (props) => {
                   <div className={styles.innerenteredemails}>
                     {enteredEmails.map((email, index) => (
                       <div className={styles.email} key={index}>
-                        {email}
                         <button
-                          className="delete-email-button"
                           onClick={() => handleEmailDelete(email)}
                         >
                           X
@@ -197,74 +193,61 @@ const InviteComp = (props) => {
                         {index !== enteredEmails.length - 1 ? (
                           <span>,</span>
                         ) : null}
+                        {email}
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
-            <p
-              style={{
-                fontSize: "14px",
-                display: "flex",
-                justifyContent: "center",
-                color: "#9b0022",
-              }}
-            >
+
+            <p className={styles.error}>
               {submitError ? "Please add an email" : ""}
             </p>
-            <button className={styles.submit} onClick={submitHandler}>
-              {!isSubmitting ? (
-                <span className={styles.text}>Invite</span>
-              ) : (
-                <span className={styles.loader} />
-              )}
-            </button>
-            <button className={styles.cancel} onClick={handleBack}>
-              Cancel
-            </button>
+
+            <div className={styles.actionBar}>
+              <button className={styles.cancel} onClick={handleBack}>
+                Cancel
+              </button>
+              <button className={styles.submit} onClick={submitHandler}>
+                {!isSubmitting ? (
+                  "Invite"
+                ) : (
+                  <span className={styles.loader} />
+                )}
+              </button>
+            </div>
           </>
         ) : (
           <>
-            <h2>Invite Sent!</h2>
+            <div className={` ${styles.heading} ${styles.headingCenter} `}>Invite Sent!</div>
             <button className={styles.closeBtn} onClick={handleBack}>
               X
             </button>
-
-            <p style={{ textAlign: "center" }}>Your invite has been sent to:</p>
-            <div style={{ fontSize: "15px", textAlign: "center" }}>
-              {enteredEmails.join(", ")}
+            <div className={styles.success}>
+              <p>Your invite has been sent to:</p>
+              <p>
+                {enteredEmails.join(", ")}
+              </p>
+              < br />
+              < br />
+              <p>
+                Invite will expire in 48 hours.
+              </p>
             </div>
-            <p
-              style={{
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#404049",
-                margin: "10px 0px",
-              }}
-            >
-              Invite will expire in 48 hours.
-            </p>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-around",
-              }}
-            >
+
+            <div className={styles.actionBar}>
               <button
-                style={{ left: "unset", transform: "unset" }}
                 className={styles.cancel}
                 onClick={handleBack}
               >
                 Cancel
               </button>
               <button
-                style={{ left: "unset", transform: "unset" }}
                 className={styles.submit}
                 onClick={resetHandler}
               >
-                <span className={styles.text}>Send Another Invite</span>
+                <p>Send Another Invite</p>
               </button>
             </div>
           </>

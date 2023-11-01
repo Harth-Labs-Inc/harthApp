@@ -197,13 +197,13 @@ const DashboardLayout = (props) => {
                     className={styles.UpdateLater}
                     onClick={updateCacheWithoutReload}
                   >
-                    update later
+                    Update Later
                   </button>
                   <button
                     className={styles.UpdateNow}
                     onClick={updateCacheWithReload}
                   >
-                    update now
+                    Update Now
                   </button>
                 </div>
               </div>
@@ -273,20 +273,20 @@ const DashboardLayout = (props) => {
       {showHasUpdateButton ? (
         <div className={styles.updateMain}>
           <div className={styles.buttonwrapper}>
-            <div className={styles.button}>
+            <div className={styles.content}>
               <p>Update available!</p>
               <div className={styles.updateContainer}>
                 <button
                   className={styles.UpdateLater}
                   onClick={updateCacheWithoutReload}
                 >
-                  update later
+                  Update Later
                 </button>
                 <button
                   className={styles.UpdateNow}
                   onClick={updateCacheWithReload}
                 >
-                  update now
+                  Update Now
                 </button>
               </div>
             </div>

@@ -216,7 +216,7 @@ const SideNav = (props) => {
       ) : null}
       {showCreateHarthNameModal ? (
         <CreateHarthName
-          talkingHeadMsg="Let's make a härth for you and your friends."
+          talkingHeadMsg="Select an icon and give your härth a name"
           footer="Tip: You can change your härth name and image at any time"
           placeholder="härth name"
           submitText="Create"
@@ -226,9 +226,9 @@ const SideNav = (props) => {
       ) : null}
       {showCreateHarthProfileModal ? (
         <CreateHarthProfile
-          talkingHeadMsg={`Enter the name you would like to be called in ${newHarth.name}. Don't forget to add a picture.`}
-          footer="Tip: Since each härth has a unique avatar, choose one that represents who you want to be for this härth."
-          placeholder="avatar name"
+          talkingHeadMsg={`Enter a name and select an image for your profile for this härth`}
+          footer="Each härth has a unique profile. Customize each profile to match your härth."
+          placeholder="profile name"
           submitText="Join"
           submitHandler={resetNewHarth}
           harth={newHarth}

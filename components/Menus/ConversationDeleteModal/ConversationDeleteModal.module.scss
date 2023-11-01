@@ -26,10 +26,10 @@
     .conversation {
         @include topicTitle;
         font-size: 18px;
-        background-color: $warm_blue;
+        background-color: $border_basic;
         width: fit-content;
         padding: 12px 16px;
-        color: $oxygen;
+        color: $font_main;
         border-radius: 999px;
     }
 

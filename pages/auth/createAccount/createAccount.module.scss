@@ -14,41 +14,44 @@
     overflow-y: auto;
 
     .label {
-      @include worksans;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
+      @include systemFont;
+      font-size: 14px;
+      font-weight: 400;
+      //letter-spacing: 0.02em;
       text-align: center;
       margin-bottom: 4px;
-      margin-top: 4px;
-      color: $font_medium;
+      margin-top: 12px;
+      color: $font_main;
       text-align: left;
   }
   
-    input {
-      width: 100%;
-      border-radius: 4px;
-      background-color: black;
-      border: 1px solid $ash_medium;
-      height: 40px;
-      padding-left: 12px;
-      color: $font_light;
-      caret-color: $hot_salmon;
-      &::placeholder {
-          color: $font_medium;
+  input {
+    border-radius: 4px;
+    background-color: $border_basic;
+    border: 0;
+    height: 56px;
+    padding: 0px 12px; 
+    @include rubik;
+    font-weight: 400;
+    font-size: 16px;
+    color: $font_main;
+    caret-color: $hot_salmon;
+    &::placeholder {
+        color: $font_muted;
 
-      }
     }
+
+}
 
     input[type="date"]{
-      width: 100%;
-      background-color: $black;
-      color: $font_medium;
-      @include worksans;
-      font-size: 14px;
+      width: 200px;
+      background-color: $border_basic;
+      color: $font_main;
+      @include rubik;
+      font-size: 16px;
     }
     ::-webkit-calendar-picker-indicator {
-      background-color: $ash_medium;
+      background-color: $background;
       padding: 6px;
       border-radius: 4px;
       cursor: pointer;
@@ -56,13 +59,15 @@
 
 
 
-
+    .signupButton {
+      margin-top: 12px;
+    }
     
   
     .small {
-        @include worksans;
+        @include systemFont;
         font-size: 12px;
-        color: $font_medium;
+        color: $font_muted;
         text-align: center;
     }
 
@@ -79,15 +84,15 @@
     }
 
     &Disclaimer {
-        @include worksans;
+        @include systemFont;
         font-size: 12px;
         width: 316px;
         text-align: center;
         margin: 12px auto 20px;
-        color: $font_medium;
+        color: $font_muted;
 
         a {
-          color: $font_medium;
+          color: $font_muted;
         }
     }
 
@@ -97,13 +102,12 @@
     }
 
     &Logo {
-        display: flex;
-        justify-content: flex-start;
-        width: 96px;
-        max-width: 96px;
-        margin-bottom: 20px;
-        margin-top: 5px;
+        width: 80px;
+        max-width: 80px;
+        margin-bottom: 28px;
+        margin-top: 28px;
         margin-right: auto;
+        margin-left: auto;
     }
 }
 .fadeIn {

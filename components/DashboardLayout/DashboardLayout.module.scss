@@ -4,43 +4,48 @@
 
 .updateMain {
   position: fixed;
-  top: 5px;
-  right: 5px;
+  top: 8px;
+  right: 8px;
   z-index: 50000;
-  width: 250px;
-  color: $font_light;
-  border-radius: 7px;
+  width: 284px;
+  border-radius: 6px;
 }
 
 .buttonwrapper {
   position: relative;
 }
 
-.button {
+.content {
   display: block;
   text-transform: uppercase;
-  padding: 5px 15px;
-  background-color: $ash_heavy;
-  color: white;
-	border-radius: 7px;
+  padding: 12px 12px;
+  background-color: $background;
+	border-radius: 8px;
   border: 0px;
   cursor: pointer;
+
+  p {
+    color: $font_main;
+    @include overlayMenuTitle;
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
 }
 
 .buttonbg {
   position: absolute;
   top: 0;
   left: 0;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  background: linear-gradient(90deg, #FD823A 0%, #d96fab 30.43%, #ff6b66 68.23%, #ff6b66 100%);
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  background: linear-gradient(90deg, $hot_purple 0%, $hot_pink 30.43%, $hot_blue 68.23%, $hot_salmon 100%);
   background-size: 600% 600%;
-  border-radius: 7px;
+  border-radius: 8px;
   animation: AnimateBorder 4s ease infinite;
   -webkit-animation: AnimateBorder 4s ease infinite;
   -moz-animation: AnimateBorder 4s ease infinite;
   z-index: -1;
-  transform: translate(-2px, -2px);
+  transform: translate(-4px, -4px);
   transition: filter 0.3s ease-in;
 }
 
@@ -69,25 +74,38 @@
 .updateContainer {
   display: flex;
   justify-content: flex-end;
-  margin: 5px 2px;
+  //margin: 5px 2px;
+  align-items: flex-end;
+
   button {
-    border: 1px solid #48484e;
-    border-radius: 5px;
+    border: 0;
+    border-radius: 999px;
     background-color: transparent;
-    letter-spacing: 0.05em;
-    font-size: 12px;
-    font-weight: 400;
-    color: #fafafa;
-    padding: 5px;
+    letter-spacing: 0.03em;
+    @include systemFont;
+    font-size: 14px;
+    padding: 6px 12px;
     width: max-content;
     cursor: pointer;
   }
   button:hover {
-    background-color: $hot_salmon;
+    background-color: $button_main_press;
+    color: $background;
+    border-color: $button_main_press;
   }
 
   .UpdateNow{
-    margin-left: 5px;
+    margin-left: 8px;
+    background: $button_main;
+    color: $background;
+    height: 40px;
+  }
+
+  .UpdateLater{
+    background: $background;
+    color: $font_muted;
+    border: 1px solid $border_basic;
+    height: 32px;
   }
 }
 

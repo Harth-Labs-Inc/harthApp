@@ -4,26 +4,28 @@
 .inputComponent {
     max-width: 100%;
     input {
-        @include contentR2;
+        @include systemFont;
         width: 100%;
         margin: 0 0 4px;
         padding: 6px;
         border: 0;
-        border-bottom: 1px solid $fuel;
+        border-bottom: 1px solid $border_basic;
+        text-transform: none;
 
         &::placeholder {
-            color: $font_medium;
+            color: $font_muted;
         }
     }
 
     &ErrorMessage {
         display: flex;
-        @include worksans;
+        @include systemFont;
         justify-content: flex-start;
         align-items: center;
         padding: 6px 2px 6px 2px;
         
         color: $alert_red;
+        font-size: 14px;
         height: 24px;
         max-height: 24px;
     }
@@ -43,7 +45,7 @@
 
 
         &::placeholder {
-            color: $font_medium;
+            color: $font_muted;
         }
     }
 

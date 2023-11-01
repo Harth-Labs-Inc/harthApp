@@ -44,18 +44,19 @@
     height: 56px;
     min-height: 56px;
     max-height: 56px;
-    background-color: $ash;
+    background-color: $background;
     color: $fuel;
     font-size: 14px;
     font-weight: 600;
     //backdrop-filter: blur(12px);
-    border-bottom: 1px solid $ash_medium;
+    border-bottom: 1px solid $border_basic;
     @include topicTitleActive;
 
     .people {
         display: flex;
         flex-direction: row;
         overflow: hidden;
+
     }
     button {
         height: 44px;
@@ -71,11 +72,14 @@
         -webkit-tap-highlight-color: transparent; 
 
         path {
-            fill: $ash_light;
+            fill: $font_main;
         }
 
         &:active {
-            background-color: $ash_heavy;
+            background-color: $button_main_press;
+            path {
+                fill: $background;
+            }
         }
     }
 }

@@ -3,20 +3,19 @@
 
 .TopicsNav {
     position: relative;
-    width: 250px;
+    width: 264px;
     min-width: 250px;
-    padding: 12px 8px 0px 12px;
-    background-color: $ash;
+    padding: 60px 8px 0px 12px;
+    background-color: $background;
     height: 100%;
     overflow-y: scroll;
     border: 0;
-    //border-right: 1px solid $ash_medium;
-    //background: linear-gradient(100deg, lighten($warm_blue, 50%), lighten($hot_pink, 32%));  
+    border-right: 1px solid $border_basic;
 
-
-    .notopic {
-        @include worksans;
-        color: $font_medium;
+    .notopic { 
+        @include systemFont;
+        color: $font_muted;
+        font-size: 12px;
         width: 100%;
         text-align: left;
         padding: 12px 12px 8px 12px;
@@ -25,13 +24,13 @@
     &Mobile {
         border: 0;
         width: 100%;
-        background: $ash_dark;
+        background: $background;
 
-        padding: 75px 16px 24px 16px;
+        padding: 75px 16px 88px 16px;
 
         .notopic {
-            @include worksans;
-            color: $font_medium;
+            @include systemFont;
+            color: $font_muted;
             font-size: 14px;
             width: 100%;
             text-align: left;
@@ -44,7 +43,7 @@
         position: relative;
         @include smallTitle;
         text-transform: uppercase;
-        color: $font_light;
+        color: $font_main;
         user-select: none;
         margin-left: 8px;
         margin-top: 12px;
@@ -56,11 +55,9 @@
         @include smallTitleMobile;
         padding: 1px 2px;
         border-radius: 4px;
-        //background-color: $white;
         width: fit-content;
         text-transform: uppercase;
-        color: $font_light;
-        //margin-bottom: 8px;
+        color: $font_main;
         user-select: none ;
         margin-top: 0px;
         margin-bottom: 12px;
@@ -69,29 +66,31 @@
 
     &Hidden {
         position: relative;
-        @include smallTitle;
+        @include systemFont;
+        font-size: 12px;
         margin-left: 4px;
         margin-top: 20px;
         margin-bottom: 8px;
         background-color: transparent;
         text-transform: uppercase;
-        color: $font_medium;
+        color: $font_muted;
         border: 0;
         cursor: pointer;
         user-select: none;
 
         &Mobile {
-            @include smallTitleMobile;
+            @include systemFont;
+            font-size: 14px;
             margin-top: 8px;
             margin-bottom: 12px;
         }
 
         &:hover {
-            color: $font_light;
+            color: $font_main;
         }
 
         &Active {
-            color: $font_light;
+            color: $font_main;
 
         }
     }
@@ -112,19 +111,24 @@
         position: relative;
         display: block;
         cursor: pointer;
-        height: 24px;
-        width: 24px;
+        height: 28px;
+        width: 28px;
         border-radius: 99px;
-        border: 1px solid $ash_medium;
-        padding: 4px;
-        margin-left: 10px;
+        border: 0;
+        padding: 0px;
+        margin-left: 6px;
         margin-top: 8px;
         margin-bottom: 4px;
         transition: opacity;
-        background-color: transparent;
+        
+        background-color: $border_basic;
         
         path {
-            fill: $ash_medium;
+            fill: $background;
+        }
+        
+        &:active{
+            background-color: $button_main_press;
         }
 
         &::before {
@@ -133,18 +137,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            content: "new topic";
+            content: "new chat";
             width: 80px;
             height: 24px;
-            top: 0px;
-            left: 34px;
-            background-color: $ash_medium;
+            top: 2px;
+            left: 38px;
+            background-color: $background_reverse;
             border-radius: 2px;
-            @include worksans;
+            @include systemFont;
             letter-spacing: 0.05em;
             font-size: 12px;
             font-weight: 400;
-            color: $font_light;
+            color: $font_main;
             z-index: 10;
         }
 
@@ -152,23 +156,19 @@
             position: absolute;
             opacity: 0;
             content: " ";
-            top: 0px;
-            left: 28px;
+            top: 2px;
+            left: 32px;
             width: 0;
             height: 0;
             border-top: 12px solid transparent;
             border-bottom: 12px solid transparent;
-            border-right: 12px solid $ash_medium;
+            border-right: 12px solid $background_reverse;
             z-index: 9;
         }
         
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: lighten($ash_medium, 30%);
-                border-color: lighten($ash_medium, 30%);
-                path {
-                    fill: darken($ash_medium, 10%);
-                }
+                background-color: $button_main_press;
 
                 &::before {
                     opacity: 1;
@@ -191,20 +191,20 @@
         height: 32px;
         width: 32px;
         border-radius: 99px;
-        border: 1px solid $ash_medium;
-        padding: 7px;
-        margin-left: 16px;
+        border: 0;
+        padding: 2px;
+        margin-left: 8px;
         margin-top: 20px;
         margin-bottom: 36px;
         transition: opacity;
-        background-color: transparent;
+        background-color: $border_basic;
         
         path {
-            fill: $ash_light;
+            fill: $background;
         }
         
         &:active{
-            background-color: $ash;
+            background-color: $button_main_press;
         }
 
     }

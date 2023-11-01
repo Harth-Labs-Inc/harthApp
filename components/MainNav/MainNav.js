@@ -6,7 +6,7 @@ import { IconMessage } from "resources/icons/IconMessage";
 import { IconMessageMuted } from "resources/icons/IconMessageMuted";
 import { IconChat } from "resources/icons/IconChat";
 import { IconChatMuted } from "resources/icons/IconChatMuted";
-import { IconExpand } from "resources/icons/IconExpand";
+import { IconHome } from "resources/icons/IconHome";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
@@ -28,7 +28,7 @@ const MainNav = (props) => {
   } = useSocket();
 
   // const unreadMessagesOther = true;
-
+ 
   useEffect(() => {
     if (selectedCommRef.current && mainAlerts[selectedCommRef.current?._id]) {
       let alerts = mainAlerts[selectedCommRef.current?._id];
@@ -115,10 +115,25 @@ const MainNav = (props) => {
           isMobile ? styles.Mobile : styles.Desktop
         }`}
       >
+        {isMobile ? null : (
+          <div className={styles.MainNavTitleHolder}>
+            <button
+              className={styles.MainNavHarthButton}
+              onClick={handleHarthMenu}
+              aria-label="Current Harth Settings"
+            >
+              {selectedcomm?.name}
+              <div className={styles.iconHolder}>
+                <IconHome />
+              </div>
+            </button>
+          </div>
+        )}
         <div
           className={`
                     ${styles.MainNavPages} 
                     ${isMobile && styles.MainNavPagesMobile}
+                    ${currentPage == "gather" && styles.MainNavPagesRounded}
 
                 `}
         >
@@ -137,15 +152,15 @@ const MainNav = (props) => {
           >
             <div
               className={`
-                            ${styles.iconHolder} 
-                            ${
-                              mainAlerts[selectedCommRef.current?._id] &&
-                              mainAlerts[selectedCommRef.current?._id]?.chat &&
-                              currentPage != "chat" &&
-                              styles.iconHolderUnreadMessage
-                            }
+                ${styles.iconHolder} 
+                ${
+                  mainAlerts[selectedCommRef.current?._id] &&
+                  mainAlerts[selectedCommRef.current?._id]?.chat &&
+                  currentPage != "chat" &&
+                  styles.iconHolderUnreadMessage
+                }
 
-                            `}
+                `}
             >
               {currentPage == "chat" ? <IconChat /> : <IconChatMuted />}
             </div>
@@ -207,26 +222,13 @@ const MainNav = (props) => {
               {currentPage == "message" ? (
                 <IconMessage />
               ) : (
-                <IconMessageMuted />
+                <IconMessageMuted /> 
               )}
             </div>
             <div className={styles.title}>DMs</div>
           </button>
         </div>
-        {isMobile ? null : (
-          <div className={styles.MainNavTitleHolder}>
-            <button
-              className={styles.MainNavHarthButton}
-              onClick={handleHarthMenu}
-              aria-label="Current Harth Settings"
-            >
-              {selectedcomm?.name}
-              <div className={styles.iconHolder}>
-                <IconExpand />
-              </div>
-            </button>
-          </div>
-        )}
+        
       </header>
     </>
   );

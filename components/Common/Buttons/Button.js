@@ -12,14 +12,14 @@ export const Button = (props) => {
     type = "button",
     size = "large",
     isLoading = false,
-    forcedColor = "#404049",
+    //forcedColor = "#404049",
   } = props;
 
   /* eslint-disable */
 
   return (
     <button
-      style={{ background: forcedColor ? forcedColor : "" }}
+      //style={{ background: forcedColor ? forcedColor : "" }}
       type={type}
       className={`
                 ${styles.button} 

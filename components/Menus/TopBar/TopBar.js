@@ -7,7 +7,7 @@ import HarthProfileEditModal from "../../HarthProfileEditModal";
 import UserIcon from "../../UserIcon/userIcon";
 
 const TopBar = (props) => {
-  const { children, onToggleMenu } = props;
+  const { children, onToggleMenu, currentPage } = props;
   const [showEditUserModal, setShowEditUserModal] = useState(false);
 
   const { selectedcomm, profile, hasRoomMinimized, handleOpenMInimizedRoom } =
@@ -51,8 +51,16 @@ const TopBar = (props) => {
             >
               <img src={selectedcomm?.iconKey} loading="eager" />
             </button>
+ 
+            <div className={styles.titleHolder}>
+              <div className={styles.TopBarName}>{selectedcomm?.name}</div>
+              <div className={styles.SectionMobile}>
+                {currentPage == "chat" && "chats"}
+                {currentPage == "gather" && "gather"}
+                {currentPage == "message" && "messages"}
+              </div>
+              </div>
 
-            <div className={styles.TopBarName}>{selectedcomm?.name}</div>
           </div>
         ) : null}
         {children}

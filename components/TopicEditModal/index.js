@@ -77,7 +77,7 @@ const TopicEditModal = ({ setHidden, topic, submitTopicChange }) => {
 
     return (
         <div className={styles.mainContainer}>
-            <div className={styles.title}>Rename topic</div>
+            <div className={styles.title}>Edit chat</div>
             <form
                 onSubmit={handleSubmit(submitHandler)}
                 className={styles.CreateTopic}
@@ -119,7 +119,7 @@ const TopicEditModal = ({ setHidden, topic, submitTopicChange }) => {
                     <Button
                         fullWidth
                         size="large"
-                        text="Rename"
+                        text="Update"
                         type="submit"
                     />
                 </div>

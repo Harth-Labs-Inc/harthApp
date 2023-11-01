@@ -8,8 +8,11 @@
     justify-content: center;
     min-width: 300px;
     row-gap: 16px;
-    @include worksans;
+    @include systemFont;
     font-size: 14px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
 
     .title {
         @include overlayMenuTitle;
@@ -17,27 +20,32 @@
         text-align: center;
         margin-top: 8px;
         margin-bottom: 20px;
-        color: $alert_red;
+        //color: $alert_red;
+        
+
+
     }
 
     .harthImage {
-        height: 56px;
-        width: 56px;
+        height: 72px;
+        width: 72px;
         border-radius: 8px;
         margin-top: 12px;
+        border: 1px solid $border_light;
     }
     .harthName {
         margin-top: -6px;
         margin-bottom: 12px;
         font-weight: 500;
-        @include harthTitleSmall;
-        color: $font_light;
+        @include harthTitle;
+        font-size: 20px;
+        color: $font_main;
     }
 
     .text {
         width: 90%;
         text-align: center;
-        color: $font_medium;
+        color: $font_muted;
         font-size: 12px;;
     }
 

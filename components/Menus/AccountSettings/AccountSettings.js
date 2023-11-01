@@ -2,13 +2,14 @@ import { useContext, useState } from "react";
 
 import { MobileContext } from "../../../contexts/mobile";
 import InviteComp from "../AccountSettings/Invite";
-
-import { HarthLogoLight } from "public/images/harth-logo-light";
+import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
 import { useSocket } from "contexts/socket";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
+import { IconFeedback } from "resources/icons/IconFeedback";
+import { IconInvite } from "resources/icons/IconInvite";
 
 const SettingsList = ({ toggleCurrentTab }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -38,7 +39,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
       ) : null}
       {!isMobile ? (
         <div className={styles.headerImage}>
-          <HarthLogoLight />
+          <HarthLogoDark />
         </div>
       ) : null}
 
@@ -46,10 +47,10 @@ const SettingsList = ({ toggleCurrentTab }) => {
         className={` ${styles.menuItem} ${styles.menuItemInvites}`}
         onClick={toggleInviteModal}
       >
-        Invites
         <div className={styles.iconHolder}>
-          <IconChevronRight />
+          <IconInvite />
         </div>
+        Invites
       </button>
       {/* <button
         className={styles.menuItem}
@@ -60,6 +61,18 @@ const SettingsList = ({ toggleCurrentTab }) => {
           <IconChevronRight />
         </div>
       </button> */}
+
+      <button
+        className={` ${styles.menuItem} ${styles.menuItemInvites}`}
+        onClick={toggleFeedbackModal}
+      >
+        <div className={styles.iconHolder}>
+          <IconFeedback />
+        </div>
+        Submit Feedback
+      </button>
+
+
       {isMobile ? (
         <button
           className={styles.menuItem}
@@ -74,13 +87,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
         <SubSettings toggleCurrentTab={toggleCurrentTab} />
       )}
 
-      <button
-        style={{ color: "#d96fab" }}
-        className={styles.menuItem}
-        onClick={toggleFeedbackModal}
-      >
-        Submit Feedback
-      </button>
+
 
       <button className={styles.menuItem} onClick={() => signOut()}>
         Sign Out

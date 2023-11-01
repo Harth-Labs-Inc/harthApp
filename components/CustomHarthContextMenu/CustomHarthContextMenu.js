@@ -70,7 +70,7 @@ export const CustomHarthContextMenu = ({
                                 onClick={onRenameHandler}
                             >
                                 <IconEditNoFill fill="#fff" />
-                                Rename
+                                Edit
                             </button>
                             <button
                                 className={styles.CustomContextMenuButton}

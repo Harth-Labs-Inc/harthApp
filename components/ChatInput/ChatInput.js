@@ -603,7 +603,12 @@ const ChatInput = (props) => {
         );
       } else {
         return (
-          <div id={styles.ChatInputControlsRight}>
+          <div id={
+            isMobile
+              ? styles.ChatInputMobileControlsRight
+              : styles.ChatInputControlsRight
+            }
+            >
             <button
               disabled={isDisabled}
               className={
@@ -646,7 +651,7 @@ const ChatInput = (props) => {
           uploading={uploadingAttachments}
         />
         <textarea
-          id={styles.ChatInputText}
+          id={isMobile ? styles.ChatInputMobileText : styles.ChatInputText}
           placeholder="say something"
           ref={textRef}
           autoComplete="off"

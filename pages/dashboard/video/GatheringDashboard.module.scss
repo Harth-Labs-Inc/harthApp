@@ -13,16 +13,31 @@
 
 .gatheringPage {
     position: relative;
-    background-color: $white;
+    background: $background;
     height:100%;
     width: 100%;
     overflow-y: scroll;
-    padding: 52px 8px 0px 12px;
-    background: $ash_heavy;
+    padding: 56px 8px 0px 12px;
+    margin-top: 0px;
+
+    &::after {
+        content: "";
+        width: 100%;
+        height: 36px;
+        background: linear-gradient(to bottom, $background 30%, transparent);
+        //background: aqua;
+        position: fixed;
+        top: 48px;
+        left: 264px;
+    }
 
     &Mobile {
-        padding: 75px 16px 80px 16px;
-        background: $ash_dark;
+        padding: 75px 12px 80px 12px;
+        margin-top: 0px;
+
+        &::after {
+            display: none;
+        }
     }
 
 
@@ -50,31 +65,15 @@
     }
 
     
-    .gatheringSectionTop {
-        position: fixed;
-        width: 250px;
-        height: 40px;
-        padding: 16px 0px 0px 20px;
-        @include smallTitle;
-        text-transform: uppercase;
-        color: $font_light;
-        user-select: none ;
-        margin-left: -12px;
-        margin-top: -44px;
-        margin-bottom: 8px;
-        background: $ash;
-        border: 1px solid $ash_medium;
-        border-top: 0;
-        border-left: 0;
-        border-bottom-right-radius: 32px;
-        z-index: 1;
+    .gatheringSectionRemove {
+        display: none;
 
     }
     .gatheringSection {
         position: relative;
-        @include smallTitle;
-        text-transform: uppercase;
-        color: $font_light;
+        @include systemFont;
+        //text-transform: uppercase;
+        color: $font_main;
         width: fit-content;
         user-select: none ;
         margin-left: 8px;
@@ -85,15 +84,14 @@
 
     .gatheringSectionMobile {
         position: relative;
-        @include smallTitleMobile;
-        border-radius: 4px;
-        padding: 1px 2px;
+        @include systemFont;
+        font-size: 16px;
+        padding: 24px 0px 8px 8px;
         width: fit-content;
-        text-transform: uppercase;
-        color: $font_light;
+        //text-transform: uppercase;
+        color: $font_main;
         user-select: none ;
-        margin-top: 0px;
-        margin-bottom: 12px;
+
     }
 
 

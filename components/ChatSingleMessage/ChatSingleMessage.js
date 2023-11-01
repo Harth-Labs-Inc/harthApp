@@ -31,12 +31,12 @@ const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <linearGradient id="g">
-      <stop stop-color="#2f1d2a" offset="20%" />
-      <stop stop-color="#282828" offset="50%" />
-      <stop stop-color="#2f1d2a" offset="70%" />
+      <stop stop-color="rgba(255, 134, 130, .1)" offset="20%" />
+      <stop stop-color="rgba(255, 134, 130, .2)" offset="50%" />
+      <stop stop-color="rgba(255, 134, 130, .1)" offset="70%" />
     </linearGradient>
   </defs>
-  <rect width="${w}" height="${h}" fill="#333" />
+  
   <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
 </svg>`;
 

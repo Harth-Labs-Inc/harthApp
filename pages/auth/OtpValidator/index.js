@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
-import { HarthLogoLight } from "../../../public/images/harth-logo-light";
-
+import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { useAuth } from "../../../contexts/auth";
 import {
   verifyOtp,
@@ -105,7 +103,7 @@ const OtpValidator = (props) => {
   return (
     <div className={`${styles.OtpModule} ${styles.fadeIn}`}>
       <div className={styles.OtpModuleLogo}>
-        <HarthLogoLight />
+        <HarthLogoDark />
       </div>
       <TalkingHead textArray={helpText} />
       <p className={styles.OtpModuleText}>

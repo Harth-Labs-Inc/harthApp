@@ -114,7 +114,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
         classNames={styles.CreateNewTopicModal}
       >
         <div className={styles.mainContainer}>
-          <div className={styles.title}>New topic</div>
+          <div className={styles.title}>New chat</div>
           <form
             className={styles.CreateTopic}
             onSubmit={handleSubmit(createNewTopic)}
@@ -130,14 +130,14 @@ export default function CreateNewTopicModal({ toggleModal }) {
 
               <input
                 {...register("topicName", { required: true })}
-                placeholder="Topic name"
+                placeholder="Name your chat"
                 type="text"
                 autoComplete="off"
               />
             </div>
             <div className={styles.error}>
               <ErrorMessage
-                errorMsg={errors.topicName ? "You must set a topic name" : null}
+                errorMsg={errors.topicName ? "You must name your chat" : null}
               />
             </div>
             <div className={styles.reminder}>

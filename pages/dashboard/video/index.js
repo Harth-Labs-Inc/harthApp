@@ -174,15 +174,15 @@ const Video = () => {
             room={newRoomData}
           />
         )}
-        <div
+        {/* <div
           className={
             isMobile
-              ? styles.gatheringSectionMobile
-              : styles.gatheringSectionTop
+              ? styles.gatheringSectionRemove
+              : styles.gatheringSection
           }
         >
           GATHERINGS
-        </div>
+        </div> */}
         <div className={styles.roomContainer}>
           <GatheringCreate
             createRoomFormSubmit={createRoomFormSubmit}
@@ -213,13 +213,14 @@ const Video = () => {
             );
           })}
         </div>
-        {scheduledcallRooms ? (
+        {(scheduledcallRooms.length > 0) ? (
           <p
             className={
               isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
             }
           >
-            UPCOMING
+            The future 
+
           </p>
         ) : null}
 

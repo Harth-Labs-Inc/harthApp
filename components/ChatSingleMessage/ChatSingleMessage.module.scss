@@ -24,15 +24,21 @@
 .ChatParentContainer {
     max-width: 100%;
     width: 100%;
-    border-radius: 8px;
+    //border-radius: 8px;
     transform: translateZ(0);
 
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background-color: $background_offset;
+        }
+    }
+
     &.Editing {
-        background-color: $hot_pink;
+        background-color: lighten($hot_pink, 10%);
 
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: $hot_pink;
+                background-color: lighten($hot_pink, 10%);
             }
         }
 
@@ -62,12 +68,7 @@
 
     &Desktop {
         padding: 8px 20px 12px 20px;
-
-        @media (hover: hover) and (pointer: fine) {
-            &:hover {
-                background-color: lighten($ash_heavy, 3%);
-            }
-        }
+        
 
         .UserIcon {
             img {
@@ -79,10 +80,10 @@
     }
 
     &Mobile {
-        padding: 8px 20px 12px 20px;
+        padding: 8px 12px 12px 12px;
 
         &:active {
-            background-color: $ash;
+            background-color: $background_offset;
         }
 
 
@@ -150,11 +151,11 @@
             padding: 6px 0px 0px 0px;
             .Creator {
                 @include chatProfile;
-                color: $font_light;
+                color: $font_main;
                 user-select: none;
             }
             .Timestamp {
-                color: $font_medium;
+                color: $font_muted;
                 @include timeStamp;
                 user-select: none;
             }
@@ -165,7 +166,7 @@
             width: fit-content;
             padding-top: 4px;
             max-width: 100%;
-            color: $font_light;
+            color: $font_main;
             @include chatText;
             border: 0;
             white-space: pre-wrap;
@@ -238,22 +239,22 @@
                 //width: 48px;
                 font-size: 24px;
                 text-align: center;
-                background-color: $ash;
+                background-color: $border_basic;
                 border-radius: 99px;
                 margin: 0;
                 border: 0;
                 user-select: none;
-                padding: 0px 8px;
+                padding: 0px 6px;
 
                 .label {
-                    color: $font_medium;
+                    color: $font_main;
                     @include reactionLabel;
                 }
                 &Owner {
-                    background-color: $ash_medium;
-                    .label {
-                        color: $font_light;
-                    }
+                    //background-color: $ash_medium;
+                    //.label {
+                    //    color: $font_light;
+                    //}
                 }
                 &Data {
                     position: absolute;
@@ -272,13 +273,14 @@
                     @media (hover: hover) and (pointer: fine) {
                     &:hover {
                         cursor: pointer;
+                        background-color: $border_heavy;
                     }
                 }
                 }
 
                 &Mobile {
                     &:active {
-                        background: $ash_medium;
+                        background: $border_heavy;
                     }
                 }
             }
@@ -293,26 +295,29 @@
                 margin: 0;
                 border: 0;
                 user-select: none;
-                background-color: $ash;
+                background-color: $border_basic;
+                //border: 1px solid $border_basic;
                 svg {
                     width: 20px;
                     height: 20px;
                 }
                 path {
-                    fill: $font_medium;
+                    fill: $font_muted;
                 }
 
                 &Desktop {
                     &:hover {
-                        border-color: $ash;
+                        background-color: $border_heavy;
                         cursor: pointer;
-                        scale: 1.02;
+                        path {
+                            fill: $font_main;
+                        }
                     }
                 }
 
                 &Mobile {
                     &:active {
-                        border-color: $ash;
+                        background-color: $border_heavy;
                     }
                 }
             }
@@ -324,36 +329,35 @@
         z-index: 10;
         display: flex;
         flex-direction: row;
-        gap: 4px;
+        gap: 6px;
         top: -8px;
         right: 16px;
-        background-color: $ash_medium;
+        background-color: $background;
         border-radius: 8px;
-        padding: 2px;
-        border: 1px solid $ash_medium;
+        padding: 4px;
+        border: 1px solid $border_basic;
 
         > button {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 28px;
-            width: 28px;
+            height: 32px;
+            width: 32px;
             border-radius: 10px;
             background-color: transparent;
             cursor: pointer;
             border: 0;
-            padding: 4px;
+            padding: 5px;
             overflow: hidden;
 
             path {
-                fill: $font_light;
+                fill: $font_muted;
             }
 
             &:hover {
-                scale: 1.1;
                 path {
-                    fill: $font_light;
+                    fill: $font_main;
                 }
             }
         }
@@ -387,7 +391,7 @@
     background-color: transparent;
     //border-radius: 12px;
     width: 100%;
-    //max-width: 100%;
+    max-width: 460px;
     user-select: none;
     height: 300px;
     overflow: hidden;
@@ -410,8 +414,10 @@
         justify-content: flex-start;
         width: 100%;
         height: 16px;
+        overflow: hidden;
         padding: 0px;
-        margin-bottom: 6px;
+        //margin-bottom: 6px;
+        //background: aqua;
 
         img {
             margin: 0;
@@ -425,29 +431,32 @@
 
         .siteTitle {
             margin-left: 6px;
-            @include worksans;
+            @include systemFont;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
             font-size: 12px;
-            line-height: 100%;
-            font-weight: 800;
-            color: $font_light;
+            //line-height: 100%;
+            font-weight: 500;
+            letter-spacing: 0;
+            color: $font_main;
+            //background-color: aquamarine;
 
         }
     }
 
     .titleWrapper {
-        max-height: 40px;
+        max-height: 56px;
         overflow: hidden;
         text-decoration: none;
         cursor: pointer;
+        //background: aqua;
 
         p {
-            color: $font_light;
-            @include worksans;
-            font-weight: 600;
+            color: $font_main;
+            @include systemFont;
+            font-weight: 700;
             letter-spacing: 0em;
             line-height: 120%;
             font-size: 14px;
@@ -481,16 +490,17 @@
     .description {
         //flex: 1;
         width: 100%;
-        @include worksans;
+        @include systemFont;
         line-height: 115%;
         font-weight: 400;
         font-size: 12px;
         letter-spacing: 0em;
         margin-bottom: 4px;
-        color: $font_medium;
+        color: $font_muted;
         overflow: hidden;
         text-overflow: ellipsis;
         display: inline-block;
+        max-height: 42px;
     }
 }
 

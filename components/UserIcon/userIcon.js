@@ -45,7 +45,7 @@ const UserIcon = ({
               className={`${styles.userIconImage} ${iconClass} ${
                 !shouldIgnoreUserId ? `${selectedcomm?._id}_${user?._id}` : ""
               } `}
-              src={img ? img : "/images/harth_placeholder.png"}
+              src={img ? img : "/images/profile_default.png"}
               alt="profile image"
               loading="eager"
               height={dimensions.height}
@@ -66,7 +66,7 @@ const UserIcon = ({
             className={`${styles.userIconImage} ${iconClass} ${
               !shouldIgnoreUserId ? `${selectedcomm?._id}_${user?._id}` : ""
             }`}
-            src={img ? img : "/images/harth_placeholder.png"}
+            src={img ? img : "/images/profile_default.png"}
             alt="profile image"
             loading="eager"
             height={dimensions.height}

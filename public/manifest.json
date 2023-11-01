@@ -54,8 +54,8 @@
     "start_url": "https://www.harth.social/",
     "display": "fullscreen",
     "scope": "/",
-    "background_color": "#28282e",
-    "theme_color": "#28282e",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
     "dir": "ltr",
     "lang": "en",
     "categories": ["social"]

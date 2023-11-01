@@ -12,15 +12,16 @@
     width: 100%;
     height: 100%;
     border:0;
+    gap: 4px;
     &:not(:last-child) {
         margin-bottom: -6px;
     }
     .avatar {
-        height: 25px;
-        width: 25px;
+        height: 28px;
+        width: 28px;
         border-radius: 9999px;
         border:0;
-        border: 2px solid $ash;
+        border: 1px solid $border_light;
         user-select: none;
     }
 }
@@ -38,17 +39,17 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $ash_heavy;
+        background-color: $background;
         width: 100%;
         height: 48px;
-        @include worksans;
+        @include systemFont;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 700;
         letter-spacing: 0.03em;
         padding: 0px 8px 0px 12px;
         border-radius: 8px;
-        //border: 1px solid $ash_medium;
-        color: $font_light;
+        border: 2px solid $border_basic;
+        color: $font_main;
 
     }
     
@@ -57,13 +58,15 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $ash_medium;
-        color: $font_light;
+        background-color: transparent;
+        border: 2px solid $border_basic;
+        color: $font_main;
         border-radius: 6px;
         width: 100%;
         height: 40px;
         padding: 0px 16px 0px 16px;
         @include topicTitle;
+        font-weight: 400;
 
     }
     .individualConvRow {
@@ -71,13 +74,15 @@
         flex-direction: row;
         justify-content:space-between;
         align-items: center;
-        background-color: $ash_medium;
-        color: $font_light;
+        background-color: transparent;
+        border: 2px solid $border_basic;
+        color: $font_main;
         border-radius: 6px;
         width: 100%;
         height: max-content;
         padding: 0px 16px 0px 16px;
         @include topicTitle; 
+        font-weight: 400;
     }
 
     .chatListHolder{

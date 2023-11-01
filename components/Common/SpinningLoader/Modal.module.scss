@@ -10,12 +10,12 @@
     height: var(--vh);
     width: 100vw;
     overflow: hidden;
-    background: $ash;  
+    background: $background;  
     &Dark {
-      background: $ash;  
+      background: $background;  
 
     &p {
-      color: $font_light;
+      color: $font_main;
     }
 }
 

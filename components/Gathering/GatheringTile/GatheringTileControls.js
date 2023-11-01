@@ -15,7 +15,7 @@ const GatheringTileControls = ({
                 //tier="primary"
                 className={styles.ActionBarSubmit}
             >
-                {cardType === "schedule" ? "Join" : "Enter"}
+                {cardType === "schedule" ? "Join" : "Join"}
             </button>
         );
     }

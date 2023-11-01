@@ -5,7 +5,9 @@
     position: realtive;
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 330px;
+    margin-left: auto;
+    margin-right: auto;
 
     .title {
         @include overlayMenuTitle;
@@ -13,7 +15,7 @@
         text-align: left;
         margin-top: 8px;
         margin-bottom: 40px;
-        color: $font_light;
+        color: $font_main;
     }
     .EmojiPicker {
         position: fixed;
@@ -46,18 +48,18 @@
             position: relative;
             padding: 0;
             //padding-bottom: 2px;
-            min-width: 48px;
-            width: 48px;
-            min-height: 48px;
-            height: 48px;
+            min-width: 56px;
+            width: 56px;
+            min-height: 56px;
+            height: 56px;
 
             border-radius: 8px;
-            border: 0;
-            border: 1px solid $ash_medium;
-            background-color: $ash;
+            border: 4px dashed $font_main;
+            background-color: transparent;
+
 
             &:hover {
-                background-color: $fuel_10;
+                border-color: $hot_pink;
 
                 &::before {
                     position: absolute;
@@ -67,7 +69,7 @@
                     transform: translate3d(-50%, 0, 0);
                     padding: 6px 0px;
                     border-radius: 8px;
-                    background-color: $ash_medium;
+                    background-color: $background_reverse;
                     content: "Pick an Emoji";
                     @include mouseover;
                 }
@@ -82,18 +84,32 @@
                     transform: translate3d(-50%, 0, 0);
                     border-left: 8px solid transparent;
                     border-right: 8px solid transparent;
-                    border-top: 10px solid $ash_medium;
+                    border-top: 10px solid $background_reverse;
                 }
+            }
+
+            &:active {
+                border-color: $hot_pink;
             }
         }
 
+        .TopicEmoji {
+            font-size: 36px;
+        }
+
         input {
-            @include topicTitleActive;
-            color: $font_light;
-            border-color: $ash_medium;
+            @include topicTitle;
+            font-size: 18px;
+            font-weight: 400;
+            height: 56px;
+
+            color: $font_main;
+            border: 4px solid $font_main;
+            border-radius: 6px;
+            background: transparent;
             caret-color: $hot_salmon;
             &::placeholder {
-                color: $font_medium;
+                color: $font_muted;
             }
         }
     }
@@ -117,3 +133,4 @@
         margin-top: 48px;
     }
 }
+

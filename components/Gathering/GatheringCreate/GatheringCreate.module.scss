@@ -3,13 +3,14 @@
 
 .Mobile {
     width: 100%;
-    border-radius: 24px;
+    border-radius: 16px;
     overflow: hidden;
-    height: fit-content;
-    background-color: $ash;
-    padding: 24px;
-    width: 100%;
-    border: 1px solid $ash_medium;
+    background-color: $background;
+    border: 1px solid $border_basic;
+    box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+                0 2px 2px hsl(0deg 0% 0% / 0.075),
+                0 4px 4px hsl(0deg 0% 0% / 0.075),
+                0 8px 8px hsl(0deg 0% 0% / 0.075);
 
 
 }
@@ -17,11 +18,15 @@
 .Desktop {
     border-radius: 16px;
     overflow: hidden;
-    height: fit-content;
-    background-color: $ash;
-    border: 1px solid $ash_medium;
-    padding: 12px;
+    background-color: $background;
+    border: 1px solid $border_basic;
+    padding: 0px;
     width: 336px;
+    height: fit-content;
+    box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+                0 2px 2px hsl(0deg 0% 0% / 0.075),
+                0 4px 4px hsl(0deg 0% 0% / 0.075);
+                //0 8px 8px hsl(0deg 0% 0% / 0.075);
 }
 
 
@@ -30,40 +35,69 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: fit-content;
     padding: 0px;
     margin: 0;
     border: 0;
     gap: 0px;
-
-    .details {
+    background-color: $background;
+    
+    .Top {
+        position: relative;
         width: 100%;
-        background: darken($ash, 3%);
-        padding: 12px;
-        border-radius: 12px;
-        //border: 1px solid $ash;
-    }
-
-    input {
-        text-align: center;
-        width: 100%;
-        @include roomTitle;
-        border-radius: 999px;
-        background-color: darken($ash, 10%);
-        //border: 1px solid $ash;
-        height: 52px;
-        color: $font_light;
-        caret-color: $hot_salmon;
-        margin: 0;
+        height: 108px;
+        background-color: $oxygen;
+        overflow: hidden;
         
-        &::placeholder {
-            color: darken($font_medium, 20%);
-
+        svg {
+          width: 200px;
+          height: 200px;
         }
-    }
-}
 
- 
+        .voice {
+            position: absolute;
+                top: -50px;
+                left: -40px;
+        }
+
+        .stream {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .party {
+            position: absolute;
+            top: -50px;
+            right: -40px;
+        }
+
+        input {
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -60%, 0);
+            text-align: center;
+            width: 90%;
+            @include roomTitle;
+            font-weight: 700;
+            border-radius: 999px;
+            background-color: $background;
+            border: 1px solid $border_basic;
+            height: 56px;
+            color: $font_main;
+            caret-color: $hot_salmon;
+            margin: 0;
+
+            
+            &::placeholder {
+                color: $font_muted;
+    
+            }
+        } 
+    }    
+}
 
 
 .LabelHolder {
@@ -73,98 +107,89 @@
     flex-direction: column;
     background: transparent;
     border: 0;
-    margin-top: 8px;
-    margin-bottom: 6px;
+    padding: 8px 0px 12px 0px;
 
     p {
-        @include worksans;
-        color: $font_light;
-        //font-weight: 600;
-        font-size: 11px;
+        @include systemFont;
+        color: $font_main;
+        font-size: 14px;
         text-align: center;
         user-select: none;
 
     }
 
     .Mobile & {
-        margin-top: 12px;
-        margin-bottom: 10px;
+        padding: 8px 0px 16px 0px;
         p {
-            font-size: 12px;
+            font-size: 14px;
         }
     }
 }
 
 .Type {
     display: flex;
+    justify-content: space-between;
     width: 100%;
-    background-color: transparent;
+    max-width: 340px;
+    background: transparent;
     border: 0;
-    margin-top: 6px;
-
+    padding: 0px 32px 0px 32px;
+    margin-top: -16px;
     .Mobile & {
-        margin-top: 12px;
+        padding: 0px 24px 0px 24px;
+        margin-top: -16px;
     }
 }
 
 .Launch {
     display: flex;
+    justify-content: flex-end;
     width: 100%;
     background-color: transparent;
     gap: 12px;
     margin: 0;
-    height: 36px;
     border: 0;
-    margin-top: 12px;
-
+    padding: 12px 12px;
     .Mobile & {
-        height: 40px;
-        margin-top: 16px;
+        //height: 40px;
+        padding: 16px 16px;
     }
 
 }
+
 
 .Submit {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    width: 50%;
-    height: 100%;
-    color: $font_medium;
-    background: $ash_heavy;
+    width: 120px;
+    height: 44px;
+    color: $background;
+    background: $button_main;
     border-radius: 99px;
     cursor: pointer;
-    @include worksans;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    font-weight: 600;
+    @include systemFont;
     border: 0;
 
-    path {
-        fill: $font_medium;
-    }
-
-    svg {
-        width: 20px;
-    }
-
     &Schedule {
-        color: $font_medium;
+        width: 64px;
+
+        svg {
+            width: 24px;
+        }
+
         path {
-            fill: $font_medium;
+            fill: $background;
         }
 
     }
 
     .Desktop & {
+        font-size: 14px;
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background: darken($ash_dark, 3%);
-                color: $font_light;
-                path {
-                    fill: $font_light;
-                }
+                background: $button_main_press;
             }
         }
     }
@@ -176,11 +201,8 @@
         }
 
         &:active {
-            background: $hot_salmon;
-            color: $font_light;
-            path {
-                fill: $font_light;
-            }
+            background: $button_main_press;
+
         }
     }
 
@@ -189,82 +211,92 @@
 
 .GatheringButton {
     position: relative;
-    height: 60px;
-    width: 100%;
+    height: 72px;
+    width: 72px;
     padding: 0;
     background: transparent;
-    border: 0;
+    border: 1px solid $border_basic;
+    border-radius: 99px;
     cursor: pointer;
-    color: $ash_medium;
-
-
+    color: $font_muted;
+    background: $background_offset;
+    
 
     .iconHolder {
         opacity: .4;
-        filter: grayscale(100%);
-        height: 48px;
+        filter: grayscale(80%);
         margin-left: auto;
         margin-right: auto;
-    }
-
-    .Mobile & {
-        height: 60px;
-        
-        .iconHolder {
-            height: 48px;
+        scale: .8;
+        svg {
+            width: 56px;
+            height: 56px;
         }
     }
 
     &.voice {
         .iconHolder {
-            width: 36px;
+            width: 44px;
+            svg {
+                width: 44px;
+                height: 44px;
+            }
 
             .Mobile & {
-                width: 40px;
+                width: 52px;
+                svg {
+                    width: 52px;
+                    height: 52px;
+                }
+
             }
         }
     }
 
     &.stream {
         .iconHolder {
-            width: 44px;
+            width: 48px;
+            svg {
+                width: 48px;
+                height: 48px;
+            }
 
             .Mobile & {
-                width: 46px;
+                width: 60px;
+
+                svg {
+                    width: 60px;
+                    height: 60px;
+                }
             }
         }
     }
 
     &.party {
         .iconHolder {
-            width: 38px;
-
+            width: 46px;
+                svg {
+                    width: 46px;
+                    height: 46px;
+                }
             .Mobile & {
-                width: 42px;
+                width: 56px;
+
+                svg {
+                    width: 56px;
+                    height: 56px;
+                }
             }
         }
     }
     
-    .text {
-        @include worksans;
-        letter-spacing: 0.02em;
-        font-size: 10px;
-        font-weight: 600;
-        text-align: center;
-        text-transform: capitalize;
-        margin-top: -2px;
-
-        .Mobile & {
-            margin-top: 0;
-        }
-    }
-
-
 
     .Desktop & {
         &:hover {
-            color: $font_light;
-
+            color: $font_main;
+            border-color: $border_heavy;
+            //box-shadow: 4px 4px 0px $hot_purple; 
+            background: $background;
             .iconHolder {
                 opacity: 1;
                 filter: grayscale(0);
@@ -274,7 +306,9 @@
 
     .Mobile & {
         &:active {
-            color: $font_light;
+            color: $font_main;
+            border-color: $border_light;
+            //box-shadow: 4px 4px 0px $hot_purple; 
 
             .iconHolder {
                 opacity: 1;
@@ -285,12 +319,15 @@
 
 
     &.Active {
-        //background-color: $black;
-        color: $font_light;
+        background-color: $background;
+        color: $font_main;
+        border-color: $border_heavy;
+        //box-shadow: 3px 3px 0px $hot_purple; 
 
         .iconHolder {
             opacity: 1;
             filter: grayscale(0);
+            scale: 1;
         }
         
     }

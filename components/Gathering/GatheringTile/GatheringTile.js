@@ -105,59 +105,68 @@ export const GatheringTile = (props) => {
 
     return scheduleDate;
   };
+
+  const dayFormat = () => {
+    let date =
+    new Date(localDate) ||
+    combineDateTime(room.gatheringDate, room.gatheringTime);
+    const dayOfWeek = date.toLocaleDateString([], {
+      weekday: "short",
+    });
+
+    return dayOfWeek;
+  };
   /* eslint-disable */
 
   return (
     <div className={isMobile ? styles.Mobile : styles.Desktop}>
       <div className={styles.Top}>
-        <div className={styles.iconHolder}>
-          <Icon />
-        </div>
-        <p className={styles.name}>{room.roomName}</p>
-      </div>
-
-      <div className={styles.Bottom}>
+        <Icon />
         <div className={styles.Info}>
           {cardType === "schedule" ? (
             <>
-              <div>
-                <p className={styles.time}>{localTime || room.gatheringTime}</p>
-              </div>
+              <p className={styles.time}>{localTime || room.gatheringTime}</p>
+              <p className={styles.day}>{dayFormat()}</p>
               <p className={styles.date}>{dateFormat()}</p>
             </>
           ) : (
             <div className={styles.now}>NOW</div>
           )}
         </div>
+        
+      </div>
 
-        <div className={styles.Details}>
-          <div className={styles.AttendeeWrapper}>
-            {peers.length > 0 ? (
-              peers.map((peer, idx) => {
-                return (
-                  <div key={`${peer.id}${idx}`}>
-                    {peer.img ? (
-                      <div className={styles.profileImage} title={peer.name}>
-                        <img src={peer.img} loading="eager" />
-                      </div>
-                    ) : (
-                      <div className={styles.empty} title={peer.name}>
-                        ?
-                      </div>
-                    )}
-                  </div>
-                );
-              })
-            ) : (
-              <>
-                <div className={styles.emptyMessage}>( empty )</div>
-              </>
-            )}
-          </div>
+      <div className={styles.Bottom}>
+        
+        <p className={styles.name}>{room.roomName}</p>
 
-          <p className={styles.description}>{room.gatheringDescription}</p>
+        <p className={styles.description}>{room.gatheringDescription}</p>
 
-          <div className={styles.ActionBar}>
+        <div className={styles.AttendeeWrapper}>
+          {peers.length > 0 ? (
+            peers.map((peer, idx) => {
+              return (
+                <div key={`${peer.id}${idx}`}>
+                  {peer.img ? (
+                    <div className={styles.profileImage} title={peer.name}>
+                      <img src={peer.img} loading="eager" />
+                    </div>
+                  ) : (
+                    <div className={styles.empty} title={peer.name}>
+                      ?
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          ) : (
+            <>
+              <div className={styles.emptyMessage}>( empty )</div>
+            </>
+          )}
+        </div>
+
+        <div className={styles.ActionBar}>
             {owner && cardType === "schedule" ? (
               <button
                 onClick={() => editScheduleRoom(room)}
@@ -174,8 +183,9 @@ export const GatheringTile = (props) => {
               handleDropRoom={handleDropRoom}
               owner={owner}
             />
-          </div>
         </div>
+
+          
       </div>
     </div>
   );

@@ -7,10 +7,10 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: $ash_heavy;
-    padding: 0px 16px 12px 16px;
+    background: $background;
+    padding: 0px 0px 4px 0px;
     border-bottom: none;
-
+    border-radius: 0;
 
     &Text {
         resize: none;
@@ -20,12 +20,13 @@
         height: 56px;
         max-height: calc(var(--vh) * 0.5);
         margin: 0;
-        padding: 8px 12px;
+        padding: 8px 24px;
         @include chatText;
         caret-color: $hot_salmon;
-        color: $font_light;
-        background: lighten($ash_heavy, 2%);
+        color: $font_main;
+        background: $background_offset;
         border: 0;
+        border-radius: 0;
 
         white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
@@ -34,17 +35,14 @@
         word-wrap: break-word; /* Internet Explorer 5.5+ */
 
         &::placeholder {
-            @include chatText;
-            color: darken($font_medium, 15%);
+            @include chatText ;
+            color: $font_muted;
         }
     }
 
     .entryBox {
-        border: 1px solid $ash_medium;
-        border-bottom: 1px solid lighten($ash, 3%);
-        border-radius: 6px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+        border-top: 1px solid $border_basic;
+        border-radius: 0px;
         padding: 0;
         overflow: hidden;
 
@@ -53,12 +51,10 @@
     &Controls {
         display: flex;
         justify-content: space-between;
-        padding: 4px;
-        background: lighten($ash_heavy, 2%);
-        border: 1px solid $ash_medium;
-        border-radius: 6px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
+        padding: 4px 16px 4px 16px;
+        background: $background;
+        border: 0;
+        border-radius: 0px;
         border-top: 0;
 
         &Right,
@@ -71,26 +67,27 @@
             > button {
                 position: relative;
                 margin: 0 0px;
-                height: 32px;
-                width: 32px;
-                padding: 5px;
+                height: 36px;
+                width: 36px;
+                padding: 6px;
                 background-color: transparent;
-                border-radius: 6px;
+                border-radius: 99px;
                 border: 0px;
                 cursor: pointer;
 
                 path {
-                    fill: $ash_light;
+                    fill: $border_heavy;
                 }
 
 
                 @media (hover: hover) and (pointer: fine) {
                     &:hover { 
-                            background-color: $ash_heavy;
-                            path {
-                                fill: $font_light;
-                            }
+                        background-color: $button_main_press;
+                        path {
+                            fill: $background;
+                        }
                     }
+                    
                 }
                 
 
@@ -98,19 +95,21 @@
                 &.EditCancel {
                     width: auto;
                     height: fit-content;
-                    background-color: $ash_medium;
+                    background-color: transparent;
                     border: 0;
-                    @include worksans;
-                    font-size: 12px;
+                    @include systemFont;
+                    font-size: 14px;
                     font-weight: 500;
                     border-radius: 24px;
-                    color: $font_light;
+                    color: $font_muted;
                     padding: 8px 12px;
                     margin: auto;
+                    border: 1px solid $border_basic;
 
                     @media (hover: hover) and (pointer: fine) {
                         &:hover { 
-                                background-color: $black;
+                            background-color: $button_main_press;
+                            color: $background;
                         }
                     }
 
@@ -205,9 +204,10 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: $ash;
+    background: $background;
     padding: 0px 0px 12px 0px;
     border-bottom: none;
+    border-radius: 0;
 
 
     &Text {
@@ -221,8 +221,10 @@
         padding: 8px 12px;
         @include chatTextMobile;
         caret-color: $hot_salmon;
-        color: $font_light;
+        color: $font_main;
+        background: $background_offset;
         border: 0;
+        border-radius: 0;
 
         white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
@@ -232,30 +234,27 @@
 
         &::placeholder {
             @include chatTextMobile ;
-            color: darken($font_medium, 15%);
+            color: $font_muted;
         }
     }
 
     .entryBox {
-        border-top: 1px solid $ash_medium;
-        border-bottom: 1px solid lighten($ash, 3%);
+        border-top: 1px solid $border_basic;
+        border-bottom: 1px solid $background;
         //border-radius: 6px;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         padding: 0;
         overflow: hidden;
+    
 
     }
 
     &Controls {
         display: flex;
         justify-content: space-between;
-        padding: 4px;
-        background: $ash;
-        //border: 1px solid $ash_medium;
-        //border-radius: 6px;
-        //border-top-left-radius: 0;
-        //border-top-right-radius: 0;
+        padding: 6px 16px;
+        background: transparent;
         border-top: 0;
 
         &Right,
@@ -263,51 +262,58 @@
             position: relative;
             display: flex;
             flex-direction: row;
-            column-gap: 12px;
+            column-gap: 24px;
 
             > button {
                 position: relative;
                 margin: 0 0px;
-                height: 36px;
-                width: 36px;
-                padding: 6px;
+                height: 44px;
+                width: 44px;
+                padding: 7px;
                 background-color: transparent;
-                border-radius: 6px;
+                border-radius: 999px;
                 border: 0px;
                 cursor: pointer;
 
                 path {
-                    fill: $ash_light;
+                    fill: $border_heavy;
                 }
 
 
                 @media (hover: hover) and (pointer: fine) {
                     &:hover { 
-                            background-color: $ash_heavy;
-                            path {
-                                fill: $font_light;
-                            }
+                        background-color: $button_main_press;
+                        path {
+                            fill: $background;
+                        }
                     }
                 }
-                
+                &:active { 
+                    background-color: $button_main_press;
+                    path {
+                        fill: $background;
+                    }
+                }
 
 
                 &.EditCancel {
                     width: auto;
                     height: fit-content;
-                    background-color: $ash_medium;
+                    background-color: transparent;
                     border: 0;
-                    @include worksans;
-                    font-size: 12px;
-                    font-weight: 500;
-                    border-radius: 24px;
-                    color: $font_light;
+                    @include systemFont;
+                    font-size: 14px;
+                    
+                    border-radius: 99px;
+                    color: $font_muted;
                     padding: 8px 12px;
                     margin: auto;
+                    border: 1px solid $border_basic;
 
                     @media (hover: hover) and (pointer: fine) {
                         &:hover { 
-                                background-color: $black;
+                            background-color: $button_main_press;
+                            color: $background;
                         }
                     }
 
@@ -318,7 +324,7 @@
                     //border: 1px solid $silver-med;
                     background-color: $hot_pink;
                     path {
-                        fill: $font_light;
+                        fill: $background;
                     }
                 }
 
@@ -386,9 +392,10 @@
     row-gap: 8px;
     justify-content: flex-start;
     width: auto;
-    background: lighten($ash_heavy, 2%);
+    background: $background_offset;
     padding: 8px;
-    border-bottom: 1px solid $ash_medium;
+    //border-top: 1px solid $border_basic;
+    border-bottom: 1px solid $background;
 
     .imageContainer {
         position: relative;
@@ -400,7 +407,7 @@
             border-radius: 8px;
             height: 80px;
             width: 80px;
-            border: 1px solid $ash_light;
+            border: 1px solid $border_light;
             object-fit: contain;
         }
         .video{
@@ -409,7 +416,7 @@
             border-radius: 8px;
             height: 80px;
             width: 80px;
-            border: 1px solid #271623;
+            border: 1px solid $border_light;
             object-fit: contain; 
         }
         button {
@@ -424,7 +431,7 @@
             border-top-right-radius: 8px;
             border-bottom-right-radius: 0px;
             border-bottom-left-radius: 8px;
-            border: 1px solid $ash_light;
+            border: 1px solid $border_basic;
             background-color: $hot_pink;
             cursor: pointer;
 

@@ -6,7 +6,7 @@ import { sendOtpEmailToUser, loginAttempt } from "../../../requests/userApi";
 
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import { Button } from "Common";
-import { HarthLogoLight } from "../../../public/images/harth-logo-light";
+import { HarthLogoDark } from "public/images/harth-logo-dark";
 
 import styles from "./login.module.scss";
 
@@ -43,20 +43,23 @@ const Login = () => {
   return (
     <div className={`${styles.loginModule} ${styles.fadeIn}`}>
       <div className={styles.logoHolder}>
-        <HarthLogoLight />
+        <HarthLogoDark />
       </div>
 
-      <div className={styles.greeting}>Where friends gather</div>
+      <div className={styles.greeting}>make a better place</div>
       <form onSubmit={handleSubmit(submitHandler)}>
         <p className={styles.label}>Login</p>
         <input
           {...register("email", { required: true })}
           placeholder="Enter your email"
+          autoCapitalize="none"
         />
         <ErrorMessage
-          errorMsg={errors.email ? "Enter your email to login." : errorMessage}
+          errorMsg={
+            errors.email ? "Enter a valid email to login." : errorMessage
+          }
         />
-        {errorMessage === "Invalid Email" ? (
+        {/* {errorMessage === "Invalid Email" ? (
           // <div className={styles.accountCreateAlert}>Do you need to create an account?
           //     <button
           //         onClick={() => {
@@ -74,7 +77,7 @@ const Login = () => {
             <br />
             <a href="https://www.harthsocial.com/">www.harthsocial.com</a>
           </div>
-        ) : null}
+        ) : null} */}
         <Button
           className={styles.loginButton}
           type="submit"
@@ -93,7 +96,7 @@ const Login = () => {
             target="_blank"
             rel="noreferrer"
           >
-            Terms of Service 
+            Terms of Service
           </a>
           &nbsp;and&nbsp;
           <a
