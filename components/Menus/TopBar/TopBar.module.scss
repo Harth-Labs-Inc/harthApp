@@ -52,13 +52,14 @@
 
         img {
             position: relative;
-            height: 56px;
-            min-height: 56px;
-            width: 56px;
-            min-width: 56px;
+            height: 52px;
+            min-height: 52px;
+            width: 52px;
+            min-width: 52px;
             border-radius: 8px;
             z-index: 1;
             border: 1px solid $border_basic;
+            border: 0;
         }
 
         &UnreadMessage {
