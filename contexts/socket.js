@@ -14,6 +14,7 @@ import {
   getExistingUnreadMessages,
   getExistingUnreadConvMessages,
   getHarthByID,
+  checkForAdminReports,
 } from "../requests/community";
 import { getConversations } from "../requests/conversations";
 
@@ -43,6 +44,7 @@ export const SocketProvider = ({ children }) => {
   const [reconnected, setReconnected] = useState(false);
   const [ispullingUnreads, setIspullingUnreads] = useState(false);
   const [showHasUpdateButton, setShowHasUpdateButton] = useState(false);
+  const [showAdminReportIcon, setShowAdminReportIcon] = useState(false);
 
   const { user, setContextUser } = useAuth();
   const {
@@ -61,6 +63,7 @@ export const SocketProvider = ({ children }) => {
     changeSelectedCommFromChild,
     selectedCommRef,
     setSelectedcomm,
+    profile,
   } = useComms();
 
   const socketRef = useRef(null);
@@ -107,6 +110,7 @@ export const SocketProvider = ({ children }) => {
         setReconnected((prev) => !prev);
         setupListeners(tempSocket, user);
         checkForCacheUpdate();
+        pullForIcon();
         isReconnecting = false;
         currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
       });
@@ -197,6 +201,20 @@ export const SocketProvider = ({ children }) => {
     }
   }, [comms, socket?.connected, reconnected]);
 
+  const pullForIcon = async () => {
+    const isAdmin = profile?.admin || profile?.owner || false;
+
+    if (isAdmin) {
+      if (selectedcomm?._id) {
+        const { ok } = await checkForAdminReports({
+          comm_id: selectedcomm._id,
+        });
+        setShowAdminReportIcon(!!ok);
+      }
+    } else {
+      setShowAdminReportIcon(false);
+    }
+  };
   const setupListeners = (socket, user) => {
     if (!socket || !user) return;
     socket.off("new update");
@@ -238,6 +256,15 @@ export const SocketProvider = ({ children }) => {
           if (!blockedUserIdstemp.includes(incomingUpdate.creator_id)) {
             setIncomingMsgUpdate(incomingUpdate);
             setNewAlerts(incomingUpdate, "chat");
+            if (
+              selectedCommRef.current?._id == incomingUpdate.comm_id &&
+              incomingUpdate.flagged &&
+              !incomingUpdate.approvedByAdmin &&
+              !incomingUpdate.approvedByAdminKeepBlurred &&
+              (profileRef?.owner || profileRef?.admin)
+            ) {
+              setShowAdminReportIcon(true);
+            }
           }
 
           break;
@@ -417,7 +444,15 @@ export const SocketProvider = ({ children }) => {
         case "conversation message update":
           setIncomingConversationMsgUpdate(incomingUpdate);
           setNewAlerts(incomingUpdate, "message");
-
+          if (
+            selectedCommRef.current?._id == incomingUpdate.comm_id &&
+            incomingUpdate.flagged &&
+            !incomingUpdate.approvedByAdmin &&
+            !incomingUpdate.approvedByAdminKeepBlurred &&
+            (profileRef?.owner || profileRef?.admin)
+          ) {
+            setShowAdminReportIcon(true);
+          }
           break;
         case "gather alert":
           setNewAlerts(incomingUpdate, "gather");
@@ -700,6 +735,9 @@ export const SocketProvider = ({ children }) => {
         setShowHasUpdateButton,
         APP_VERSION,
         sendNewUserJoined,
+        showAdminReportIcon,
+        setShowAdminReportIcon,
+        pullForIcon,
       }}
     >
       {children}

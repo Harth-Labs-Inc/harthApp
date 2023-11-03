@@ -1,6 +1,29 @@
 @import "../../../styles/globals.scss";
 @import "../../../styles/fonts.scss";
 
+@keyframes slideInFromRight {
+    0% {
+        right: -100%; /* starting from outside the viewport */
+    }
+    100% {
+        right: 0;
+    }
+}
+
+.notificationTray {
+    height: 100vh;
+    display: flex;
+    position: absolute;
+    right: -100%;
+    animation: slideInFromRight 0.5s forwards;
+    width: 400px;
+    z-index: 11;
+    background: white;
+
+}
+.notificationTrayMobile {
+    width: 100vw;  
+}
 .TopBar {
     display: flex;
     flex-direction: row;
@@ -110,7 +133,6 @@
         //border-top: 1px solid $border_basic;
     }
 }
-
 .titleHolder {
     display: flex;
     flex-direction: column;
@@ -131,7 +153,6 @@
     word-break: break-all;
 
 }
-
 .Section {
     @include rubik;
     color: $font_main;
@@ -139,7 +160,6 @@
     font-weight: 400;
 
 }
-
 .SectionMobile {
 
     @include titleNav;
@@ -152,9 +172,6 @@
     
 
 }
-
-
-
 .TopBarStreaming {
     width: 48px;
     height: 36px;
@@ -169,15 +186,126 @@
 
     animation: pulse 2s infinite;
 }
-
 .holder {
     position: relative;
     right: 0px;
     display: flex;
+    align-items: center;
     flex-direction: row;
     gap: 8px;
 }
+.TopBarReport {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 3px;
 
+    path {
+        fill: $hot_purple;
+        animation: pulseAndShake 2s infinite;
+    }
+
+    .reportSVG, .loadingSVG {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .loadingSVG {
+        transform: scale(0.3);
+        opacity: 0;
+        width: 24px;
+        height: 24px;
+    }
+
+    &:hover {
+        background-color: transparent;
+        border: 0;
+
+        path {
+            animation-play-state: paused;
+        }
+    }
+
+    .reportSVG.clicked {
+        animation: spinShrinkFadeOut .5s forwards;
+    }
+
+    .loadingSVG.clicked {
+        animation: fadeInGrowAndSpin .5s forwards, continuousSpin 1s .5s infinite;
+    }
+    .loadingSVG path {
+        animation-play-state: paused;
+    }
+}
+@keyframes pulseAndShake {
+    0%, 100% {
+        transform: scale(1) translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: scale(1) translateY(0) rotate(0deg);
+    }
+    35%, 45%, 55% {
+        transform: scale(1) translateY(-3%) rotate(0);
+    }
+    40%, 50%, 60% {
+        transform: scale(1) translateY(3%) rotate(0);
+    }
+    70% {
+        transform: scale(1) translateY(0) rotate(0deg);
+    }
+}
+@keyframes spinShrinkFadeOut {
+    0% {
+        transform: scale(0.7) rotate(0deg);
+        opacity: 1;
+    }
+    30% {
+        opacity: 0;
+        transform: scale(0.4) rotate(144deg);
+    }
+    100% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+@keyframes fadeInGrowAndSpin {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(0deg);
+    }
+    10% {
+        opacity: 0;
+        transform: scale(0.3) rotate(180deg);
+    }
+    20% {
+        opacity: 0.3;
+        transform: scale(0.3) rotate(180deg);
+    }
+    40% {
+        opacity: 0.5;
+        transform: scale(0.3) rotate(180deg);
+    }
+    60% {
+        opacity: 0.5;
+        transform: scale(0.7) rotate(180deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(360deg);
+    }
+}
+@keyframes continuousSpin {
+    0% {
+        transform: rotate(360deg); 
+    }
+    100% {
+        transform: rotate(720deg); 
+    }
+}
 @keyframes pulse {
     0% {
         background-color: $hot_pink;
