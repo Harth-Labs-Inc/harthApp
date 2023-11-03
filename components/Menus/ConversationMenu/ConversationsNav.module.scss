@@ -88,8 +88,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            content: "new chat";
-            width: 80px;
+            content: "new message";
+            width: 108px;
             height: 24px;
             top: 2px;
             left: 38px;
@@ -99,7 +99,7 @@
             letter-spacing: 0.05em;
             font-size: 12px;
             font-weight: 400;
-            color: $font_main;
+            color: $background;
             z-index: 10;
         }
 

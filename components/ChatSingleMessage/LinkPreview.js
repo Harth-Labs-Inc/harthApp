@@ -124,6 +124,7 @@ export const LinkPreview = ({ message }) => {
                                     title={title}
                                     allowFullScreen
                                     loading="lazy"
+                                    className={styles.videoFrame}
                                 />
                             ) : image || favicon ? (
                                 <img
