@@ -16,8 +16,10 @@ const FlagConfirmationModal = ({ setHidden, flagSubmitHandler }) => {
       <div className={styles.mainContainer}>
         <div className={styles.title}>Flag post</div>
         <p>
-          Are you sure you want to Flag this? Flagging disables the ability to
-          view a post until approval.
+          Flagging will send this post to the administrator of this härth for review. While the post is in review, other memebers will not be able to view the contents of the message. 
+        </p>
+        <p>
+          Are you sure to want to flag this post?
         </p>
         <form onSubmit={submitHandler} className={styles.form}>
           <div className={styles.buttonBar}>

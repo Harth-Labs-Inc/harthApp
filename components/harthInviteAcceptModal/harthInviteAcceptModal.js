@@ -68,26 +68,29 @@ export default function HarthInviteAcceptModal({
             <form onSubmit={invitationAcceptHandler}>
               <p className={styles.footer}>{footer}</p>
               <div className={styles.buttonBar}>
+                <div className={styles.sub}>
+                  <Button
+                    tier="primary"
+                    fullWidth
+                    text={submitText}
+                    type="submit"
+                    isLoading={isSubmitting}
+                  />
+                  <Button
+                    tier="secondary"
+                    fullWidth
+                    text="Don't Accept"
+                    onClick={closeHandler}
+                  />
+                </div>
                 <Button
-                  tier="primary"
-                  fullWidth
-                  text={submitText}
-                  type="submit"
-                  isLoading={isSubmitting}
-                />
-                <Button
-                  tier="primary"
-                  fullWidth
-                  text="Don't Accept"
-                  onClick={closeHandler}
-                />
-                <Button
-                  tier="primary"
+                  tier="secondary"
                   fullWidth
                   text={`Block all invites from ${
                     invitedSender?.senderName || "sender"
                   }`}
                   onClick={toggleBlockModal}
+                  size="small"
                 />
               </div>
             </form>

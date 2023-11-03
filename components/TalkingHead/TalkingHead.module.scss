@@ -63,16 +63,16 @@
             padding: 12px;
             margin-bottom: 84px;
             text-align: center;
-            background-color: $border_basic;
-            //border: solid 2px $fuel;
+            background-color: #ffffff;
+            border: solid 2px $fuel;
             border-radius: 24px;
             border-bottom-right-radius: 0;
             overflow-wrap: anywhere;
         }
         &Text {
-            @include chatText;
-            font-size: 16px;
-            color: $font_main;
+            @include talkingHead;
+            font-size: 18px;
+            color: $font_dark;
         }
 
         .WizardBackground {

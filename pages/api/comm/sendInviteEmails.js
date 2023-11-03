@@ -70,7 +70,7 @@ const saveInvite = (db, data, invites) => {
   });
 };
 
-const sendInvitationEmail = (email, token) => {
+const sendInvitationEmail = (email, token, name) => {
   const URLS = envUrls;
 
   const mailOptions = {
@@ -78,10 +78,125 @@ const sendInvitationEmail = (email, token) => {
     to: email,
     subject: "Invitation to Join",
     html: `
-        <p>You've been invited to join our community!</p>
-        <p><a href="${
+
+    <div style="width: 355px; padding: 24px 12px; margin-left: auto; margin-right: auto; background: #ffffff;">
+          <div
+            style="
+              width: 100%;
+              padding: 0;
+              padding-top: 24px;
+              padding-bottom: 24px;
+              text-align: center;
+              margin: 0;
+              background: #2f1d2a;
+            "
+          >
+              <img 
+                src="https://images.squarespace-cdn.com/content/6324af2b1cf55f7c7acccaa1/985d2269-17fb-4e14-9125-da3a0d86339c/Ha%CC%88rth-Logo-Light.png?content-type=image%2Fpng" 
+                alt="Harth Logo"
+                style="
+                  padding: 0;
+                  height: 36px;
+                  margin-left: auto;
+                  margin-right: auto;
+                "
+              />
+          </div>
+
+          <p
+            style="
+              font-style: normal;
+              font-weight: 600;
+              font-size: 1.4em;
+              letter-spacing: 0.02em;
+              color: #2f1d2a;
+              text-align: center;
+              padding-top: 24px;
+              padding-bottom: 12px;
+            "
+          >
+            You have been invited to join<br />
+            ${name}
+          </p>
+        <p
+        style="
+              background: #aa68c8;
+              padding: 10px 0px;
+              width: 180px;
+              border-radius: 99px;
+              text-align: center;
+              margin-left: auto;
+              margin-right: auto;
+            "
+          ><a href="${
           URLS[process.env.NODE_ENV]
-        }?invite=true&tkn=${token}">Join Now</a></p>
+          }?invite=true&tkn=${token}"
+        
+            style="
+              font-style: normal;
+              font-size: 16px;
+              letter-spacing: 0.02em;
+              color: #ffffff;
+              text-decoration: none;
+            ">
+          Join Now</a></p>
+          <p
+            style="
+              font-style: normal;
+              font-size: .9em;
+              letter-spacing: 0.02em;
+              color: #7a7a7a;
+              text-align: center;
+            ">
+            _This invite will expire in 48hrs_
+            <br />
+            <br />
+            </p>
+          <span
+            style="
+              font-style: normal;
+              font-size: .9em;
+              letter-spacing: 0.02em;
+              color: #7a7a7a;
+              text-align: left;
+            ">
+            If you did not request this email, you can safely ignore it. Please do not reply to this email. This address is not monitored
+          </span>
+          <br />
+          <br />
+          <a 
+          href="https://www.harthsocial.com"
+          style="
+            font-style: normal;
+            font-size: .9em;
+            letter-spacing: 0.02em;
+            color: #7a7a7a;
+          ">
+          www.harthsocial.com
+        </a>
+        <br />
+        <br />
+          <br />
+          <a 
+            style="
+              font-style: normal;
+              font-size: .9em;
+              letter-spacing: 0.02em;
+              color: #7a7a7a;
+              text-align: left;
+            "
+            href="https://www.harthsocial.com/terms">Terms of Service</a>
+          <br />
+          <p
+            style="
+              font-style: normal;
+              font-size: .9em;
+              letter-spacing: 0.02em;
+              color: #7a7a7a;
+              text-align: left;
+            "> ©2023 Harth Labs Inc. All rights reserved.</p>
+          </div>
+        
       `,
   };
 
@@ -155,7 +270,7 @@ export default async (req, res) => {
 
   Promise.all(
     tokens.map(({ invite_tkn, email }) =>
-      sendInvitationEmail(email, invite_tkn)
+      sendInvitationEmail(email, invite_tkn, selectedHarth.name)
     )
   );
 

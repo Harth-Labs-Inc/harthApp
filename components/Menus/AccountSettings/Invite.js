@@ -231,8 +231,11 @@ const InviteComp = (props) => {
               </p>
               < br />
               < br />
-              <p>
-                Invite will expire in 48 hours.
+              <p className={styles.sub}>
+                Invites may take up to 15m to be delivered
+                <br /><br />
+                _This invite expires in 48 hours_ 
+
               </p>
             </div>
 
@@ -241,7 +244,7 @@ const InviteComp = (props) => {
                 className={styles.cancel}
                 onClick={handleBack}
               >
-                Cancel
+                Done
               </button>
               <button
                 className={styles.submit}

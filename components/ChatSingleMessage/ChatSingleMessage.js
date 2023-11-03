@@ -32,9 +32,9 @@ const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <linearGradient id="g">
-      <stop stop-color="rgba(255, 134, 130, .1)" offset="20%" />
-      <stop stop-color="rgba(255, 134, 130, .2)" offset="50%" />
-      <stop stop-color="rgba(255, 134, 130, .1)" offset="70%" />
+      <stop stop-color="rgba(200, 200, 200, .1)" offset="20%" />
+      <stop stop-color="rgba(200, 200, 200, .2)" offset="50%" />
+      <stop stop-color="rgba(200, 200, 200, .1)" offset="70%" />
     </linearGradient>
   </defs>
   
@@ -735,7 +735,7 @@ const ChatSingleMessage = (props) => {
                 {flagged && !approvedByAdmin && !isReportPost && (
                   <div className={styles.overlay}>
                     <div className={styles.flagMessage}>
-                      This post has been flagged by a user as inappropriate
+                      This post has been flagged by a user as inappropriate and is awaiting review by an administrator.
                     </div>
                   </div>
                 )}
@@ -951,7 +951,7 @@ const ChatSingleMessage = (props) => {
               {flagged && !approvedByAdmin && !isReportPost && (
                 <div className={styles.overlay}>
                   <div className={styles.flagMessage}>
-                    This post has been flagged by a user as inappropriate
+                  This post has been flagged by a user as inappropriate and is awaiting review by an administrator.
                   </div>
                 </div>
               )}
