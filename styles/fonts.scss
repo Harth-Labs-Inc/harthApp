@@ -25,7 +25,7 @@
 
 
 @mixin titleNav {
-  font-family: var(--PT_Sans-font);
+  font-family: var(--DM_Sans-font);
   font-weight: 400;
   font-size: 12px;
   line-height: 100%;
@@ -33,7 +33,7 @@
 }
 
 @mixin titleNavMobile {
-  font-family: var(--PT_Sans-font);
+  font-family: var(--DM_Sans-font);
   font-weight: 400;
   font-size: 12px;
   line-height: 100%;
@@ -41,7 +41,7 @@
 }
 
 @mixin smallTitle {
-  font-family: var(--PT_Sans-font);
+  font-family: var(--DM_Sans-font);
   font-weight: 400;
   font-size: 14px;
   line-height: 100%;
@@ -89,9 +89,8 @@
 }
 
 @mixin chatText {
-  font-family: var(--Open_Sans-font);
-  //font-family: var(--Rubik-font);
-  font-weight: 300;
+  font-family: var(--Raleway-font);
+  font-weight: 400;
   font-size: 14px;
   line-height: 130%;
   letter-spacing: 0.03em;
@@ -99,12 +98,11 @@
 }
 
 @mixin chatTextMobile {
-  font-family: var(--Open_Sans-font);
-  //font-family: var(--Rubik-font);
-  font-weight: 300;
+  font-family: var(--Raleway-font);
+  font-weight: 400;
   font-size: 16px;
   line-height: 135%;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-rendering: optimizeLegibility;
 }
 
@@ -242,8 +240,8 @@
   //text-rendering: optimizeLegibility;
 }
 
-@mixin ptsans {
-  font-family: var(--PT_Sans-font);
+@mixin dmsans {
+  font-family: var(--DM_Sans-font);
   font-weight: 400;
   font-size: 12px;
   //text-rendering: optimizeLegibility;

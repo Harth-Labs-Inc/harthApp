@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 // import { Analytics } from "@vercel/analytics/react";
-import { Work_Sans, Rubik, PT_Sans, Paytone_One, Open_Sans } from "next/font/google";
+import { Work_Sans, Rubik, Raleway, Paytone_One, Open_Sans, DM_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import Head from "next/head";
 import "../styles/Styles.modules.scss";
@@ -31,9 +31,17 @@ const rubik = Rubik({
   preload: false,
 }); 
 
-const ptsans = PT_Sans({
+const rale = Raleway({
   subsets: ["latin"],
-  variable: "--PT_Sans-font",
+  variable: "--Raleway-font",
+ // weight: ["300", "400", "700"],
+  preload: false,
+}); 
+
+
+const dmsans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--DM_Sans-font",
   weight: ["400", "700"],
   preload: false,
 });
@@ -56,8 +64,9 @@ fontClassNames.push(coopbl.className);
 fontClassNames.push(work_Sans.variable);
 fontClassNames.push(open_Sans.variable);
 fontClassNames.push(rubik.variable);
-fontClassNames.push(ptsans.variable);
+fontClassNames.push(dmsans.variable);
 fontClassNames.push(paytone.variable);
+fontClassNames.push(rale.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
