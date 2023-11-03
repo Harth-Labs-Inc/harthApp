@@ -1,7 +1,10 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
+.isDisabled{
+    opacity: 0.2;
 
+}
 .TopicButtonClickWrapper {
     position: relative;
     z-index: 3;

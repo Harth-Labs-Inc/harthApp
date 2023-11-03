@@ -192,7 +192,11 @@ const MessageWrapper = () => {
             if (tempMsgs[index]) {
               tempMsgs[index].reactions = incomingMsgUpdate.reactions;
               tempMsgs[index].reactionsData = incomingMsgUpdate.reactionsData;
-
+              tempMsgs[index].flagged = incomingMsgUpdate.flagged;
+              tempMsgs[index].approvedByAdmin =
+                incomingMsgUpdate.approvedByAdmin;
+              tempMsgs[index].approvedByAdminKeepBlurred =
+                incomingMsgUpdate.approvedByAdminKeepBlurred;
               tempMsgs[index].flames = incomingMsgUpdate.flames;
               tempMsgs[index].message = incomingMsgUpdate.message;
             }
@@ -296,6 +300,7 @@ const MessageWrapper = () => {
                   isEditing={messageEditing === msg?._id ? true : false}
                   toggleEditing={toggleEditing}
                   messageIndex={index}
+                  postCollection="messages"
                 />
               </Fragment>
             ))

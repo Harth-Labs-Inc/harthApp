@@ -263,7 +263,11 @@ export const ConversationMessages = () => {
                 incomingConversationMsgUpdate.reactions;
               tempMsgs[index].reactionsData =
                 incomingConversationMsgUpdate.reactionsData;
-
+              tempMsgs[index].flagged = incomingConversationMsgUpdate.flagged;
+              tempMsgs[index].approvedByAdmin =
+                incomingConversationMsgUpdate.approvedByAdmin;
+              tempMsgs[index].approvedByAdminKeepBlurred =
+                incomingConversationMsgUpdate.approvedByAdminKeepBlurred;
               tempMsgs[index].flames = incomingConversationMsgUpdate.flames;
               tempMsgs[index].message = incomingConversationMsgUpdate.message;
             }
@@ -522,6 +526,7 @@ export const ConversationMessages = () => {
                   resetEdit={resetEdit}
                   isEditing={messageEditing === msg?._id ? true : false}
                   toggleEditing={toggleEditing}
+                  postCollection="conversation_messages"
                 />
               </Fragment>
             ))

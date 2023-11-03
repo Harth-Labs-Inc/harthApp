@@ -14,6 +14,8 @@ export const CustomMessageContextMenu = ({
   showEditButton,
   removeCB,
   isPressing,
+  disableFLagIcon,
+  flagMessageHandler,
 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const contextRef = useRef(null);
@@ -110,6 +112,16 @@ export const CustomMessageContextMenu = ({
               Remove
             </button>
           ) : null}
+
+          <button
+            disabled={disableFLagIcon}
+            className={`${styles.CustomContextMenuButton} ${
+              disableFLagIcon ? styles.isDisabled : ""
+            }`}
+            onClick={flagMessageHandler}
+          >
+            Flag
+          </button>
         </div>
       </OutsideClickHandler>
     </div>

@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, useRef, Fragment } from "react";
 import Image from "next/image";
 import { MobileContext } from "contexts/mobile";
 import { getDownloadURL } from "../../requests/s3";
-import { deleteMessage, updateMessage } from "../../requests/chat";
+import { deleteMessage, updateMessage, flagPost } from "../../requests/chat";
 import {
   updateConversationMessage,
   deleteConversationMessage,
@@ -26,6 +26,7 @@ import { CustomMessageContextMenu } from "components/CustomMessageContextMenu/Cu
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 import emojiRegex from "emoji-regex";
 import NewMessageIcon from "components/NewMessageIcon/NewMessageIcon";
+import FlagConfirmationModal from "components/FlagConfirmationModal/FlagConfirmationModal";
 
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -55,6 +56,7 @@ const ChatSingleMessage = (props) => {
   const [isPressing, setIsPressing] = useState(false);
   const [showLongPressMenu, setShowLongPressMenu] = useState(false);
   const [showMessageInfoMobile, setShowMessageInfoMobile] = useState(false);
+  const [showFlagConfirmation, setShowFlagConfirmation] = useState(false);
 
   const touchEndTimestamp = useRef(0);
   const touchThreshold = 100;
@@ -73,6 +75,8 @@ const ChatSingleMessage = (props) => {
     message,
     attachments = [],
     reactionsData = [],
+    flagged,
+    approvedByAdmin,
   } = props.msg;
   const {
     editMessageText,
@@ -84,6 +88,8 @@ const ChatSingleMessage = (props) => {
     toggleEditing,
     showImageSlideShow,
     slideshowURLRef,
+    postCollection,
+    isReportPost,
   } = props;
 
   const { user } = useAuth();
@@ -460,6 +466,12 @@ const ChatSingleMessage = (props) => {
     }
     updateMsg();
   };
+  const toggleShowFlagConfirmation = () => {
+    setShowFlagConfirmation((prev) => !prev);
+  };
+  const flagMessageHandler = () => {
+    toggleShowFlagConfirmation();
+  };
   const closeLongPressMenu = (e, isDisabled) => {
     if (
       Date.now() - touchEndTimestamp.current > touchThreshold ||
@@ -469,17 +481,49 @@ const ChatSingleMessage = (props) => {
       setShowLongPressMenu(false);
     }
   };
+  const flagSubmitHandler = async () => {
+    props.msg.flagged = true;
+    props.msg.approvedByAdmin = false;
+    props.msg.approvedByAdminKeepBlurred = false;
+    let msg = props.msg;
+    await flagPost({ msg, postCollection });
+    if (postCollection == "messages") {
+      msg.updateType = "message update";
+      msg.action = "update";
+    } else {
+      msg.updateType = "conversation message update";
+      msg.action = "update";
+    }
+    emitUpdate(selectedcomm._id, msg, async (err) => {
+      if (err) {
+        console.error(err);
+      }
+      toggleShowFlagConfirmation();
+      if (showLongPressMenu) {
+        setShowLongPressMenu(false);
+      }
+    });
+  };
+
   let addNewIndicator =
     newMessageIndicators[props.msg.topic_id] == props.msg._id &&
     !document.getElementById("addnewindicator");
 
   let timeStamp = getTimeStamp();
+
   if (!selectedcomm) {
     return null;
   }
+
   if (isMobile) {
     return (
       <Fragment>
+        {showFlagConfirmation ? (
+          <FlagConfirmationModal
+            setHidden={toggleShowFlagConfirmation}
+            flagSubmitHandler={flagSubmitHandler}
+          />
+        ) : null}
         {showLongPressMenu ? (
           <CustomMessageContextMenu
             closeModal={closeLongPressMenu}
@@ -490,6 +534,8 @@ const ChatSingleMessage = (props) => {
             showEditButton={creator_id == user._id}
             removeCB={deleteMsg}
             isPressing={isPressing}
+            flagMessageHandler={flagMessageHandler}
+            disableFLagIcon={flagged}
           />
         ) : null}
         <EmojiPicker />
@@ -533,117 +579,129 @@ const ChatSingleMessage = (props) => {
                 </p>
                 <p className={styles.Timestamp}>{timeStamp}</p>
               </span>
-              <div
-                className={`
+              <div className={styles.postWrapper}>
+                <div
+                  className={
+                    flagged && !approvedByAdmin && !isReportPost
+                      ? styles.blur
+                      : ""
+                  }
+                >
+                  <div
+                    className={`
                 ${styles.Content}
                 ${isMobile ? styles.ContentMobile : null}
               `}
-              >
-                {(attachments || []).map(
-                  ({ desiredWidth, desiredHeight, fileType }, idx) => {
-                    if (fileType.includes("video")) {
-                      return (
-                        <video
-                          key={idx}
-                          width="280"
-                          height="280"
-                          controls
-                          playsInline
-                          muted
-                          src={urls[idx]}
-                          type={fileType}
-                        ></video>
-                      );
-                    }
-
-                    return urls[idx] ? (
-                      <Image
-                        key={idx}
-                        className="active-image"
-                        src={urls[idx]}
-                        width={
-                          desiredWidth && desiredWidth <= 280
-                            ? desiredWidth
-                            : 280
+                  >
+                    {(attachments || []).map(
+                      ({ desiredWidth, desiredHeight, fileType }, idx) => {
+                        if (fileType.includes("video")) {
+                          return (
+                            <video
+                              key={idx}
+                              width="280"
+                              height="280"
+                              controls
+                              playsInline
+                              muted
+                              src={urls[idx]}
+                              type={fileType}
+                            ></video>
+                          );
                         }
-                        height={desiredHeight || 280}
-                        placeholder="blur"
-                        blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                          shimmer(
-                            desiredWidth && desiredWidth <= 280
-                              ? desiredWidth
-                              : 280,
-                            desiredHeight || 280
-                          )
-                        )}`}
-                        alt="message image"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (!showImageSlideShow) {
-                            openImageSlideShow(attachments[idx]);
-                          }
-                        }}
+
+                        return urls[idx] ? (
+                          <Image
+                            key={idx}
+                            className="active-image"
+                            src={urls[idx]}
+                            width={
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280
+                            }
+                            height={desiredHeight || 280}
+                            placeholder="blur"
+                            blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                              shimmer(
+                                desiredWidth && desiredWidth <= 280
+                                  ? desiredWidth
+                                  : 280,
+                                desiredHeight || 280
+                              )
+                            )}`}
+                            alt="message image"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (!showImageSlideShow) {
+                                openImageSlideShow(attachments[idx]);
+                              }
+                            }}
+                            onTouchStart={(event) => event.stopPropagation()}
+                            onTouchEnd={(event) => event.stopPropagation()}
+                          />
+                        ) : (
+                          <Image
+                            key={idx}
+                            className="active-image"
+                            src={`data:image/svg+xml;base64,${toBase64(
+                              shimmer(
+                                desiredWidth && desiredWidth <= 280
+                                  ? desiredWidth
+                                  : 280,
+                                desiredHeight || 280
+                              )
+                            )}`}
+                            width={
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280
+                            }
+                            height={desiredHeight || 280}
+                            alt="message image"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            onTouchStart={(event) => event.stopPropagation()}
+                            onTouchEnd={(event) => event.stopPropagation()}
+                          />
+                        );
+                      }
+                    )}
+
+                    <div id={`message-content${messageID}`}>
+                      {formatMessage(message)}
+                      <LinkPreview
+                        message={message}
+                        messageID={messageID}
                         onTouchStart={(event) => event.stopPropagation()}
                         onTouchEnd={(event) => event.stopPropagation()}
                       />
-                    ) : (
-                      <Image
-                        key={idx}
-                        className="active-image"
-                        src={`data:image/svg+xml;base64,${toBase64(
-                          shimmer(
-                            desiredWidth && desiredWidth <= 280
-                              ? desiredWidth
-                              : 280,
-                            desiredHeight || 280
-                          )
-                        )}`}
-                        width={
-                          desiredWidth && desiredWidth <= 280
-                            ? desiredWidth
-                            : 280
+                    </div>
+                  </div>
+                  {reactionsData && reactionsData.length > 0 ? (
+                    <div
+                      className={styles.BodyReactions}
+                      onTouchStart={(event) => event.stopPropagation()}
+                      onTouchEnd={(event) => event.stopPropagation()}
+                    >
+                      {[...(reactionsData || [])].map((data, index) => {
+                        const { reaction, userId, name } = data;
+                        let isReactionOwner = false;
+                        if (userId == user._id) {
+                          isReactionOwner = true;
                         }
-                        height={desiredHeight || 280}
-                        alt="message image"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        onTouchStart={(event) => event.stopPropagation()}
-                        onTouchEnd={(event) => event.stopPropagation()}
-                      />
-                    );
-                  }
-                )}
 
-                <div id={`message-content${messageID}`}>
-                  {formatMessage(message)}
-                  <LinkPreview
-                    message={message}
-                    messageID={messageID}
-                    onTouchStart={(event) => event.stopPropagation()}
-                    onTouchEnd={(event) => event.stopPropagation()}
-                  />
-                </div>
-              </div>
-              {reactionsData && reactionsData.length > 0 ? (
-                <div
-                  className={styles.BodyReactions}
-                  onTouchStart={(event) => event.stopPropagation()}
-                  onTouchEnd={(event) => event.stopPropagation()}
-                >
-                  {[...(reactionsData || [])].map((data, index) => {
-                    const { reaction, userId, name } = data;
-                    let isReactionOwner = false;
-                    if (userId == user._id) {
-                      isReactionOwner = true;
-                    }
-
-                    return (
-                      <button
-                        onClick={(e) =>
-                          ExistingReactionClickHandler(data, isReactionOwner, e)
-                        }
-                        className={` 
+                        return (
+                          <button
+                            onClick={(e) =>
+                              ExistingReactionClickHandler(
+                                data,
+                                isReactionOwner,
+                                e
+                              )
+                            }
+                            className={` 
                                                 ${styles.BodyReactionsEmoji}
                                                 ${
                                                   styles.BodyReactionsEmojiMobile
@@ -654,25 +712,34 @@ const ChatSingleMessage = (props) => {
                                                     : null
                                                 }
                                             `}
-                        key={index}
-                      >
-                        {reaction}
-                        <span className={styles.label}>{name}</span>
-                      </button>
-                    );
-                  })}
+                            key={index}
+                          >
+                            {reaction}
+                            <span className={styles.label}>{name}</span>
+                          </button>
+                        );
+                      })}
 
-                  <button
-                    className={` 
+                      <button
+                        className={` 
                                       ${styles.BodyReactionsAddReaction}
                                       ${styles.BodyReactionsAddReactionMobile}
                                   `}
-                    onClick={triggerPicker}
-                  >
-                    <IconAddReactionNoFill />
-                  </button>
+                        onClick={triggerPicker}
+                      >
+                        <IconAddReactionNoFill />
+                      </button>
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+                {flagged && !approvedByAdmin && !isReportPost && (
+                  <div className={styles.overlay}>
+                    <div className={styles.flagMessage}>
+                      This post has been flagged by a user as inappropriate
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -684,8 +751,15 @@ const ChatSingleMessage = (props) => {
       </Fragment>
     );
   }
+
   return (
     <>
+      {showFlagConfirmation ? (
+        <FlagConfirmationModal
+          setHidden={toggleShowFlagConfirmation}
+          flagSubmitHandler={flagSubmitHandler}
+        />
+      ) : null}
       <div
         className={`
     ${styles.ChatParentContainer}
@@ -715,6 +789,8 @@ const ChatSingleMessage = (props) => {
             deleteMsg={deleteMsg}
             editBarSelection={editBarSelection}
             triggerPicker={triggerPicker}
+            flagMessageHandler={flagMessageHandler}
+            disableFLagIcon={flagged}
           />
           <span className={styles.UserIcon}>
             <UserIcon
@@ -738,96 +814,112 @@ const ChatSingleMessage = (props) => {
               </p>
               <p className={styles.Timestamp}>{timeStamp}</p>
             </span>
-            <div className={styles.Content}>
-              {(attachments || []).map(
-                ({ desiredWidth, desiredHeight, fileType }, idx) => {
-                  if (fileType.includes("video")) {
-                    return (
-                      <video
-                        key={idx}
-                        width="320"
-                        height="240"
-                        controls
-                        playsInline
-                        muted
-                        src={urls[idx]}
-                        type={fileType}
-                      ></video>
-                    );
-                  }
-
-                  return urls[idx] ? (
-                    <Image
-                      key={idx}
-                      className="active-image"
-                      src={urls[idx]}
-                      width={
-                        desiredWidth && desiredWidth <= 280 ? desiredWidth : 280
-                      }
-                      height={desiredHeight || 280}
-                      placeholder="blur"
-                      blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                        shimmer(
-                          desiredWidth && desiredWidth <= 280
-                            ? desiredWidth
-                            : 280,
-                          desiredHeight || 280
-                        )
-                      )}`}
-                      alt="message image"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openImageSlideShow(attachments[idx]);
-                      }}
-                      onTouchStart={(event) => event.stopPropagation()}
-                      onTouchEnd={(event) => event.stopPropagation()}
-                    />
-                  ) : (
-                    <Image
-                      key={idx}
-                      className="active-image"
-                      src={`data:image/svg+xml;base64,${toBase64(
-                        shimmer(
-                          desiredWidth && desiredWidth <= 280
-                            ? desiredWidth
-                            : 280,
-                          desiredHeight || 280
-                        )
-                      )}`}
-                      width={
-                        desiredWidth && desiredWidth <= 280 ? desiredWidth : 280
-                      }
-                      height={desiredHeight || 280}
-                      alt="message image"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      onTouchStart={(event) => event.stopPropagation()}
-                      onTouchEnd={(event) => event.stopPropagation()}
-                    />
-                  );
+            <div className={styles.postWrapper}>
+              <div
+                className={
+                  flagged && !approvedByAdmin && !isReportPost
+                    ? styles.blur
+                    : ""
                 }
-              )}
-              <div id={`message-content${messageID}`}>
-                {formatMessage(message)}
-                <LinkPreview message={message} messageID={messageID} />
-              </div>
-            </div>
-            {reactionsData && reactionsData.length > 0 ? (
-              <div className={styles.BodyReactions}>
-                {[...(reactionsData || [])].map((data, index) => {
-                  const { reaction, userId, id, name } = data;
-                  let isReactionOwner = false;
-                  if (userId == user._id) {
-                    isReactionOwner = true;
-                  }
-
-                  return (
-                    <button
-                      onClick={(e) =>
-                        ExistingReactionClickHandler(data, isReactionOwner, e)
+              >
+                <div className={styles.Content}>
+                  {(attachments || []).map(
+                    ({ desiredWidth, desiredHeight, fileType }, idx) => {
+                      if (fileType.includes("video")) {
+                        return (
+                          <video
+                            key={idx}
+                            width="320"
+                            height="240"
+                            controls
+                            playsInline
+                            muted
+                            src={urls[idx]}
+                            type={fileType}
+                          ></video>
+                        );
                       }
-                      className={` 
+
+                      return urls[idx] ? (
+                        <Image
+                          key={idx}
+                          className="active-image"
+                          src={urls[idx]}
+                          width={
+                            desiredWidth && desiredWidth <= 280
+                              ? desiredWidth
+                              : 280
+                          }
+                          height={desiredHeight || 280}
+                          placeholder="blur"
+                          blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                            shimmer(
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280,
+                              desiredHeight || 280
+                            )
+                          )}`}
+                          alt="message image"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openImageSlideShow(attachments[idx]);
+                          }}
+                          onTouchStart={(event) => event.stopPropagation()}
+                          onTouchEnd={(event) => event.stopPropagation()}
+                        />
+                      ) : (
+                        <Image
+                          key={idx}
+                          className="active-image"
+                          src={`data:image/svg+xml;base64,${toBase64(
+                            shimmer(
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280,
+                              desiredHeight || 280
+                            )
+                          )}`}
+                          width={
+                            desiredWidth && desiredWidth <= 280
+                              ? desiredWidth
+                              : 280
+                          }
+                          height={desiredHeight || 280}
+                          alt="message image"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          onTouchStart={(event) => event.stopPropagation()}
+                          onTouchEnd={(event) => event.stopPropagation()}
+                        />
+                      );
+                    }
+                  )}
+                  <div id={`message-content${messageID}`}>
+                    {formatMessage(message)}
+                    <LinkPreview message={message} messageID={messageID} />
+                  </div>
+                </div>
+                {reactionsData && reactionsData.length > 0 ? (
+                  <div className={styles.BodyReactions}>
+                    {[...(reactionsData || [])].map((data, index) => {
+                      const { reaction, userId, id, name } = data;
+                      let isReactionOwner = false;
+                      if (userId == user._id) {
+                        isReactionOwner = true;
+                      }
+
+                      return (
+                        <button
+                          onClick={(e) =>
+                            ExistingReactionClickHandler(
+                              data,
+                              isReactionOwner,
+                              e
+                            )
+                          }
+                          className={` 
                                           ${styles.BodyReactionsEmoji}
                                           ${styles.BodyReactionsEmojiDesktop} 
                                           ${
@@ -836,24 +928,34 @@ const ChatSingleMessage = (props) => {
                                               : null
                                           }
                                       `}
-                      key={id}
-                    >
-                      {reaction} <span className={styles.label}>{name}</span>
-                    </button>
-                  );
-                })}
+                          key={id}
+                        >
+                          {reaction}
+                          <span className={styles.label}>{name}</span>
+                        </button>
+                      );
+                    })}
 
-                <button
-                  className={` 
+                    <button
+                      className={` 
                                   ${styles.BodyReactionsAddReaction}
                                   ${styles.BodyReactionsAddReactionDesktop}
                               `}
-                  onClick={triggerPicker}
-                >
-                  <IconAddReactionNoFill />
-                </button>
+                      onClick={triggerPicker}
+                    >
+                      <IconAddReactionNoFill />
+                    </button>
+                  </div>
+                ) : null}
               </div>
-            ) : null}
+              {flagged && !approvedByAdmin && !isReportPost && (
+                <div className={styles.overlay}>
+                  <div className={styles.flagMessage}>
+                    This post has been flagged by a user as inappropriate
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

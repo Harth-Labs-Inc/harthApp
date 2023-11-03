@@ -2,6 +2,48 @@ import api from "../services/api";
 
 /* eslint-disable */
 
+export const updateFlaggedPost = async (data) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(`/api/chat/updateFlaggedPost`, data, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const unflagPost = async (data) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(`/api/chat/unflagPost`, data, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const flagPost = async (data) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(`/api/chat/flagPost`, data, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const getTopicsRecieverIds = async (message) => {
   try {
     const token = localStorage.getItem("token");
