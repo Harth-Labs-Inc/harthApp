@@ -54,6 +54,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
           }
         }),
       ].filter(Boolean),
+      topic_creator_id: user._id,
       title: data.topicName,
       invites: [],
       contentAge: data.contentAge,
@@ -75,7 +76,6 @@ export default function CreateNewTopicModal({ toggleModal }) {
           if (err) {
             console.error(err);
           }
-          // let { ok } = status;
         });
       }
     }

@@ -289,18 +289,7 @@ const TopicsNav = (props) => {
                 ${styles.TopicsNav}
                 ${isMobile && styles.TopicsNavMobile}
                 `}
-      > 
-        {/* {!isMobile ? (
-        <p
-          className={
-            isMobile ? styles.TopicsNavTitleMobile : styles.TopicsNavTitle
-          }
-        >
-          Chats
-        </p>
-        ) : (null)
-        } */}
-
+      >
         {isLoadingTopics ? (
           <div>
             <SpinningLoader spinnerOnly={true} />
@@ -368,7 +357,9 @@ const TopicsNav = (props) => {
                 );
               })}
             {topicsArr.length < 1 ? (
-              <div className={styles.notopic}>Select below to start a new chat</div>
+              <div className={styles.notopic}>
+                Select below to start a new chat
+              </div>
             ) : null}
             <button
               id="create_topic"

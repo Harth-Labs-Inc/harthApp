@@ -142,7 +142,7 @@ const ChatSingleMessage = (props) => {
             className={styles.MessageEmoji}
             style={{
               display: "inline-block",
-              fontSize: allEmojis ? "40px" : "20px",
+              fontSize: allEmojis ? "26px" : "20px",
               margin: allEmojis ? "15px 0px" : "",
             }}
           >
@@ -156,7 +156,7 @@ const ChatSingleMessage = (props) => {
             className={styles.MessageEmoji}
             style={{
               display: "inline-block",
-              fontSize: allEmojis ? "50px" : "20px",
+              fontSize: allEmojis ? "26px" : "20px",
               margin: allEmojis ? "20px 0px 0px 0px" : "",
             }}
           >
@@ -536,6 +536,7 @@ const ChatSingleMessage = (props) => {
             isPressing={isPressing}
             flagMessageHandler={flagMessageHandler}
             disableFLagIcon={flagged}
+            isSuperAdmin={profile?.owner || profile?.admin || false}
           />
         ) : null}
         <EmojiPicker />
@@ -735,7 +736,8 @@ const ChatSingleMessage = (props) => {
                 {flagged && !approvedByAdmin && !isReportPost && (
                   <div className={styles.overlay}>
                     <div className={styles.flagMessage}>
-                      This post has been flagged by a user as inappropriate and is awaiting review by an administrator.
+                      This post has been flagged by a user as inappropriate and
+                      is awaiting review by an administrator.
                     </div>
                   </div>
                 )}
@@ -791,6 +793,7 @@ const ChatSingleMessage = (props) => {
             triggerPicker={triggerPicker}
             flagMessageHandler={flagMessageHandler}
             disableFLagIcon={flagged}
+            isSuperAdmin={profile?.owner || profile?.admin || false}
           />
           <span className={styles.UserIcon}>
             <UserIcon
@@ -951,7 +954,8 @@ const ChatSingleMessage = (props) => {
               {flagged && !approvedByAdmin && !isReportPost && (
                 <div className={styles.overlay}>
                   <div className={styles.flagMessage}>
-                  This post has been flagged by a user as inappropriate and is awaiting review by an administrator.
+                    This post has been flagged by a user as inappropriate and is
+                    awaiting review by an administrator.
                   </div>
                 </div>
               )}
