@@ -8,12 +8,12 @@ import { ObjectId } from "mongodb";
 export default async (req, res) => {
   const obj = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
-  const getData = async (db, id) => {
+  const getData = async (db, id, blockedList) => {
     try {
       return (
         (await db
           .collection("unread_conv_messages")
-          .find({ user_id: id })
+          .find({ user_id: id, creator_id: { $nin: blockedList } })
           .toArray()) || []
       );
     } catch (err) {
@@ -78,7 +78,9 @@ export default async (req, res) => {
   }
 
   // passed authentication ------------------------------------------
-  let fetchResults = await getData(db, obj.id);
+  const blockedList = user.BlockedList.map((blocked) => blocked.userId) || [];
+
+  let fetchResults = await getData(db, obj.id, blockedList);
   if (!fetchResults) {
     return res.json({ msg: "Something Went Wrong", ok: 0 });
   }
@@ -99,12 +101,6 @@ export default async (req, res) => {
   let filteredResults = fetchResults.filter(
     (result) => !convMutedStatus[result.conversation_id]
   );
-
-  const blockedList = user.BlockedList.map((blocked) => blocked.userId) || [];
-
-  filteredResults = filteredResults.filter((message) => {
-    return !blockedList.includes(message.creator_id);
-  });
 
   return res.json({ msg: "successful", ok: 1, data: filteredResults });
 };

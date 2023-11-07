@@ -1,6 +1,6 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
-
+import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 /* eslint-disable */
@@ -22,18 +22,18 @@ export default async (req, res) => {
   const key = crypto.scryptSync(encryptionKey, "salt", 32);
   const iv = Buffer.alloc(16, 0);
 
-  const getMsgs = async (db, id, page = 1, limit = 25) => {
+  const getMsgs = async (db, id, page = 1, limit = 25, blockedList) => {
     const skip = (page - 1) * limit;
     return await db
       .collection("conversation_messages")
-      .find({ conversation_id: id })
+      .find({ conversation_id: id, creator_id: { $nin: blockedList } })
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray();
   };
 
-  const decrypt = async (data) => {
+  const decrypt = (data) => {
     const { encryptedMessage } = data;
     if (encryptedMessage) {
       const decipher = crypto.createDecipheriv(algorithm, key, iv);
@@ -45,63 +45,45 @@ export default async (req, res) => {
   };
 
   const decryptMessages = async (msgs) => {
-    return await Promise.all(msgs.map((message) => decrypt(message)));
+    return msgs.map(decrypt);
   };
 
   const client = await getClientWithCheck(clientPromise);
-
   const db = client.db("blarg");
 
-  // authentication ---------------------------------
-  const findUser = (db, id) => {
-    return new Promise((resolve) => {
-      let mongo = require("mongodb");
-      let o_id = new mongo.ObjectId(id);
-      db.collection("users")
-        .find({ _id: o_id })
-        .toArray(function (err, results) {
-          if (err) {
-            resolve(false);
-          }
-          resolve(results[0]);
-        });
-    });
-  };
-  const decode = (tokn) => {
-    return new Promise((resolve) => {
-      resolve(jwt.verify(tokn, process.env.SECRET));
-    });
-  };
-  let decodedToken = await decode(authToken);
-  if (!decodedToken) {
-    return res.json({ msg: "bad token", ok: 0, lockDown: true });
-  }
-  let { userId } = decodedToken;
-  if (!userId) {
+  // Authentication
+  let user;
+  try {
+    const decodedToken = jwt.verify(authToken, process.env.SECRET);
+    const userId = decodedToken?.userId;
+    if (!userId) {
+      return res.json({ msg: "Invalid user ID", ok: 0, lockDown: true });
+    }
+    user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
+  } catch (error) {
     return res.json({ msg: "Invalid Token", ok: 0, lockDown: true });
   }
-  let user = await findUser(db, userId);
-  if (!user || !user.token || user == "undefined") {
-    return res.json({ msg: "No User Found", ok: 0, lockDown: true });
-  }
-  if (user.token != authToken) {
-    return res.json({ msg: "bad token", ok: 0, lockDown: true });
-  }
-  if (new Date() > new Date(user.token_expiration)) {
-    return res.json({ msg: "expired token", ok: 0, lockDown: true });
-  }
-  // passed authentication ------------------------------------------
 
-  let fetchResults = await getMsgs(db, obj.id, obj.page, obj.limit);
+  if (
+    !user ||
+    user.token !== authToken ||
+    new Date() > new Date(user.token_expiration)
+  ) {
+    return res.json({ msg: "Authentication failed", ok: 0, lockDown: true });
+  }
+  // Authentication end
+  const blockedList = user.BlockedList.map((blocked) => blocked.userId) || [];
+
+  let fetchResults = await getMsgs(
+    db,
+    obj.id,
+    obj.page,
+    obj.limit,
+    blockedList
+  );
   if (!fetchResults) {
     return res.json({ msg: "Something Went Wrong", ok: 0 });
   }
-
-  const blockedList = user.BlockedList.map((blocked) => blocked.userId) || [];
-
-  fetchResults = fetchResults.filter((message) => {
-    return !blockedList.includes(message.creator_id);
-  });
 
   let decryptedMessages = await decryptMessages(fetchResults);
   return res.json({
