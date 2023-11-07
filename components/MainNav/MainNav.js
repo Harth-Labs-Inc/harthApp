@@ -162,7 +162,7 @@ const MainNav = (props) => {
 
                 `}
             >
-              {currentPage == "chat" ? <IconChat /> : <IconChatMuted />}
+              <IconChat />
             </div>
             <div className={styles.title}>Chats</div>
           </button>
@@ -190,7 +190,7 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              {currentPage == "gather" ? <IconGather /> : <IconGatherMuted />}
+              <IconGather />
             </div>
             <div className={styles.title}>Gather</div>
           </button>
@@ -219,11 +219,7 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              {currentPage == "message" ? (
                 <IconMessage />
-              ) : (
-                <IconMessageMuted /> 
-              )}
             </div>
             <div className={styles.title}>DMs</div>
           </button>

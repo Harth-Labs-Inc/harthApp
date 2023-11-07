@@ -383,8 +383,8 @@ const dashboard = () => {
               ) : null}
               {showInviteAcceptModal ? (
                 <HarthInviteAcceptModal
-                  talkingHeadMsg="You have been invited to join a new härth"
-                  footer="Remember to be safe and only accept invites from people that you know."
+                  talkingHeadMsg="Be safe and only accept invites from people that you know."
+                  footer="You have been invited to join a new härth"
                   submitText="Accept Invite"
                   submitHandler={goodInviteHandler}
                   tkn={tkn || inviteTKN || ""}

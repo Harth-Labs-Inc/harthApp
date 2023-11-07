@@ -144,10 +144,10 @@
 }
 .TopBarName {
     @include harthTitle;
-    font-size: 26px;
-    line-height: 32px;
-    height: 32px;
-    max-height: 32px;
+    font-size: 24px;
+    line-height: 28px;
+    height: 28px;
+    max-height: 28px;
     color: $font_main;
     //background-color: aqua;
     overflow: hidden;

@@ -130,6 +130,8 @@
         z-index: 1;
         
         .iconHolder {
+            filter: grayscale(.95);
+            opacity: .3;
             transition: scale 0.2s ease-in-out;
             position: relative;
             height: 22px;
@@ -214,6 +216,10 @@
         }
 
         &.Active {
+            .iconHolder {
+                filter: grayscale(0);
+                opacity: 1;
+            }
 
             .Desktop & {
                 .title {
