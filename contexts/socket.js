@@ -376,7 +376,7 @@ export const SocketProvider = ({ children }) => {
         case "selected user full user reload":
           if (incomingUpdate?.userID == user?._id) {
             setContextUser(incomingUpdate?.newUser);
-            rebuildData(true);
+            partialReloadFromBlock();
           }
 
           break;
@@ -511,6 +511,16 @@ export const SocketProvider = ({ children }) => {
     fetchUnreadData(user);
     if (shouldPullNewData) {
       changeSelectedCommFromChild(selectedCommRef.current, true);
+    }
+  };
+  const partialReloadFromBlock = async () => {
+    const selectedPage = localStorage.getItem("selectedPage");
+    if (selectedPage == "message" && selectedCommRef.current?._id) {
+      let newConversationsResult = await getConversations(
+        selectedCommRef.current?._id,
+        user._id
+      );
+      setConversations(newConversationsResult.conversations);
     }
   };
   const fetchUnreadData = (user) => {
