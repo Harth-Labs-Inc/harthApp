@@ -234,46 +234,44 @@ const HarthMembersSettings = () => {
 
               {showAdminPanel && selectedMembers?.includes(usr.userId) ? (
                 <div className={styles.adminPanel}>
-                    {hasAdminControls ? (
-                      <Button
-                        tier="secondary"
-                        size="small"
-                        onClick={() => handleKickMenu(usr)}
-                        text="Kick User"
-                        isDisabled={usr.userId == user._id}
-                      />
-                    ) : null}
-                      {user.BlockedList?.find(
-                        ({ userId }) => userId == usr.userId
-                      ) ? (
-                        <Button
-                          tier="secondary"
-                          size="small"
-                          onClick={() => handleUnBlockMenu(usr)}
-                          text="UnBlock User"
-                          isDisabled={usr.userId == user._id}
-                          forcedColor="#9b0022"
-                        />
-                      ) : (
-                        <Button
-                          tier="secondary"
-                          size="small"
-                          onClick={() => handleBlockMenu(usr)}
-                          text="Block User"
-                          isDisabled={usr.userId == user._id}
-                        />
-                      )}
-
+                  {hasAdminControls ? (
+                    <Button
+                      tier="secondary"
+                      size="small"
+                      onClick={() => handleKickMenu(usr)}
+                      text="Kick User"
+                      isDisabled={usr.userId == user._id}
+                    />
+                  ) : null}
+                  {user.BlockedList?.find(
+                    ({ userId }) => userId == usr.userId
+                  ) ? (
+                    <Button
+                      tier="secondary"
+                      size="small"
+                      onClick={() => handleUnBlockMenu(usr)}
+                      text="UnBlock User"
+                      isDisabled={usr.userId == user._id}
+                    />
+                  ) : (
+                    <Button
+                      tier="secondary"
+                      size="small"
+                      onClick={() => handleBlockMenu(usr)}
+                      text="Block User"
+                      isDisabled={usr.userId == user._id}
+                    />
+                  )}
 
                   {hasAdminControls ? (
-                      <div className={styles.makeAdmin}>
-                        <Toggle
-                          onToggleChange={() => toggleAdminHandler(usr)}
-                          toggleName="chat"
-                          isChecked={isAdmin}
-                        />
-                        <p>Make Admin</p>
-                      </div>
+                    <div className={styles.makeAdmin}>
+                      <Toggle
+                        onToggleChange={() => toggleAdminHandler(usr)}
+                        toggleName="chat"
+                        isChecked={isAdmin}
+                      />
+                      <p>Make Admin</p>
+                    </div>
                   ) : null}
                 </div>
               ) : null}

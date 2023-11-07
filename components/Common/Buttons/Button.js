@@ -1,25 +1,22 @@
 import styles from "./Buttons.module.scss";
 
+/* eslint-disable */
 export const Button = (props) => {
   const {
     text,
     isDisabled = false,
     fullWidth = false,
     tier = "primary",
-    textLabel, // required if no text is passed
+    textLabel,
     className,
     onClick,
     type = "button",
     size = "large",
     isLoading = false,
-    //forcedColor = "#404049",
   } = props;
-
-  /* eslint-disable */
 
   return (
     <button
-      //style={{ background: forcedColor ? forcedColor : "" }}
       type={type}
       className={`
                 ${styles.button} 

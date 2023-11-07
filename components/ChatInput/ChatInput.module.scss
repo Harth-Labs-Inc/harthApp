@@ -3,6 +3,54 @@
 
 
 
+.LoadingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  }
+  
+  .Spinner {
+    pointer-events: none;
+    width: 36px;
+    transition: transform 0.3s ease;
+    position: relative;
+    &::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        background-color: transparent;
+        border: 4px solid transparent;
+        border-top-color: $hot_pink;
+        border-radius: 50%;
+        animation: spinner 1s ease infinite;
+    }
+  }
+  
+  .CancelButton {
+    transition: transform 0.3s ease;
+  }
+
+
+
+  
+@keyframes spinner {
+    from {
+      transform: rotate(0turn);
+    }
+  
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
 #ChatInput {
     width: 100%;
     display: flex;
@@ -117,7 +165,6 @@
                 }
 
                 &.SendActive {
-                    //border: 1px solid $silver-med;
                     background-color: $hot_pink;
                     path {
                         fill: $font_light;
@@ -130,26 +177,7 @@
                     font-size: 16px;
                 }
 
-                // &.AttachEmoji {
-                //   &:before {
-                //     @include font-icon($icon-emoji);
-                //   }
-                // }
-                // &.AttachGif {
-                //   &:before {
-                //     @include font-icon($icon-gif);
-                //   }
-                // }
-                // &.AttachFile {
-                //   &:before {
-                //     @include font-icon($icon-upload);
-                //   }
-                // }
-                // &.CancelEdit {
-                //   &:before {
-                //     @include font-icon($icon-cancel);
-                //   }
-                // }
+         
                 &.SendMessage {
                     &:before {
                         //@include font-icon($icon-check-circle);

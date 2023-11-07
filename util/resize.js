@@ -1,62 +1,44 @@
 export const resize = (container, isMobile, isActiveScreenShare) => {
   let children = container.children;
+  let paddingSize = 4;
+  let borderSize = 1;
+  let spacing = (paddingSize + borderSize) * 2;
 
-  let max = 0;
-  let i = 1;
-  while (i < 5000) {
-    let area = getArea(i, container);
-    if (area === false) {
-      max = i - 1;
-      break;
-    }
-    i++;
+  let aspectRatio = 16 / 9;
+
+  let rows, columns;
+
+  if (!isMobile && !isActiveScreenShare) {
+    rows = Math.ceil(Math.sqrt(children.length));
+    columns = Math.ceil(children.length / rows);
+  } else {
+    rows = children.length;
+    columns = 1;
   }
 
-  max = max - 4 * 2;
+  let maxVideoWidth =
+    (container.offsetWidth - (columns - 1) * spacing) / columns;
+  let maxVideoHeight = (container.offsetHeight - (rows - 1) * spacing) / rows;
 
-  for (var s = 0; s < children.length; s++) {
-    let element = children[s];
-    if (children.length === 1) {
-      element.style.width = isMobile ? "100%" : `${max}px`;
-      element.style.maxHeight = "100%";
-    } else if (children.length === 2) {
-      const width = isMobile ? "100%" : `${max / 2}px`;
-      const height = `calc(50% - 8px)`;
-      element.style.width = width;
-      element.style.maxHeight = height;
-    } else if (children.length < 7) {
-      const divisor = Math.ceil(children.length / 2);
-      const width =
-        !isActiveScreenShare && isMobile && children.length <= 2
-          ? "100%"
-          : `${max / 2}px`;
-      element.style.width = width;
-      element.style.minWidth = "calc(50% - 16px)";
-      element.style.maxHeight = `calc(100% / ${divisor} - 8px)`;
-    } else if (children.length > 6) {
-      const divisor = Math.ceil(children.length / 3);
-      element.style.width = `${max / 3}px`;
-      element.style.minWidth = "calc(33.333% - 16px)";
-      element.style.maxHeight = `calc(100% / ${divisor} - 8px)`;
+  let videoWidth, videoHeight;
+  if (!isMobile && maxVideoWidth > maxVideoHeight * aspectRatio) {
+    videoHeight = maxVideoHeight;
+    videoWidth = videoHeight * aspectRatio;
+  } else if (!isMobile) {
+    videoWidth = maxVideoWidth;
+    videoHeight = videoWidth / aspectRatio;
+  }
+
+  for (let i = 0; i < children.length; i++) {
+    let element = children[i];
+    if (isMobile) {
+      element.style.width = "100%";
+      element.style.height = `calc(${
+        container.offsetWidth / aspectRatio
+      }px - ${spacing}px)`;
+    } else {
+      element.style.width = `${videoWidth}px`;
+      element.style.height = `${videoHeight}px`;
     }
   }
-};
-
-const getArea = (increment, container) => {
-  let containerHeight = container.offsetHeight - 4 * 2;
-  let containerWidth = container.offsetWidth - 4 * 2;
-  let children = container.children;
-  let i = 0;
-  let w = 0;
-  let h = increment + 4 * 2;
-  while (i < children.length) {
-    if (w + increment > containerWidth) {
-      w = 0;
-      h = h + increment + 4 * 2;
-    }
-    w = w + increment + 4 * 2;
-    i++;
-  }
-  if (h > containerHeight || increment > containerWidth) return false;
-  else return increment;
 };
