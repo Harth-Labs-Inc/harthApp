@@ -219,7 +219,7 @@ export const SocketProvider = ({ children }) => {
     if (!socket || !user) return;
     socket.off("new update");
     socket.on("new update", async ({ updateType, ...incomingUpdate }) => {
-      let activeTopic = JSON.parse(localStorage.getItem("selected_topic"));
+      let activeTopicId = localStorage.getItem("selectedTopicId");
       switch (updateType) {
         case "new message":
           if (
@@ -336,7 +336,8 @@ export const SocketProvider = ({ children }) => {
 
           deleteResult.then(({ topics }) => {
             if (topics) {
-              if (activeTopic?._id === incomingUpdate?.topic?._id) {
+              console.log(activeTopicId, incomingUpdate?.topic?._id);
+              if (activeTopicId === incomingUpdate?.topic?._id) {
                 setSelectedTopic(topics[0] || {});
               }
               setTopics(topics);
@@ -348,8 +349,7 @@ export const SocketProvider = ({ children }) => {
           let editResult = await getTopics(incomingUpdate?.comm?._id, user._id);
 
           editResult?.topics?.filter(Boolean).forEach((topic) => {
-            if (topic?._id === activeTopic?._id) {
-              localStorage.setItem("selected_topic", JSON.stringify(topic));
+            if (topic?._id === activeTopicId) {
               setSelectedTopic(topic);
             }
           });

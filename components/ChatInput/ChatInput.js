@@ -566,19 +566,40 @@ const ChatInput = (props) => {
       ((topicInputs && topicInputs[selectedTopic?._id]) || "").trim().length ===
         0 && attachments.length == 0;
 
-    if (isSubmitting) {
-      isDisabled = true;
-    }
-    if (!isSubmitting) {
-      if (Object.keys(selectedEditMsg).length > 0) {
-        return (
-          <div
-            id={
-              isMobile
-                ? styles.ChatInputMobileControlsRight
-                : styles.ChatInputControlsRight
-            }
-          >
+    const isEditing = Object.keys(selectedEditMsg).length > 0;
+
+    const sendMessageOrCancelEdit = () => {
+      if (isDisabled) {
+        cancelEdit();
+      } else if (isEditing) {
+        updateMsg();
+      } else {
+        submitMessageLogic();
+      }
+    };
+
+    return (
+      <div
+        id={
+          isMobile
+            ? styles.ChatInputMobileControlsRight
+            : styles.ChatInputControlsRight
+        }
+      >
+        {isSubmitting && (
+          <div className={styles.LoadingContainer}>
+            {/* <button
+              onClick={cancelEdit}
+              className={styles.CancelButton}
+              aria-label="cancel sending message"
+            >
+              cancel
+            </button> */}
+            <div className={styles.Spinner}></div>
+          </div>
+        )}
+        {!isSubmitting && isEditing && (
+          <>
             <button
               onClick={cancelEdit}
               className={styles.EditCancel}
@@ -589,42 +610,24 @@ const ChatInput = (props) => {
             <button
               className={styles.SendActive}
               aria-label="send chat message"
-              onClick={() => {
-                if (isDisabled) {
-                  cancelEdit();
-                } else {
-                  updateMsg();
-                }
-              }}
+              onClick={sendMessageOrCancelEdit}
             >
               <IconSend />
             </button>
-          </div>
-        );
-      } else {
-        return (
-          <div id={
-            isMobile
-              ? styles.ChatInputMobileControlsRight
-              : styles.ChatInputControlsRight
-            }
-            >
-            <button
-              disabled={isDisabled}
-              className={
-                topicInputs[selectedTopic?._id] ? styles.SendActive : ""
-              }
-              aria-label="send chat message"
-              onClick={() => {
-                submitMessageLogic();
-              }}
-            >
-              <IconSend />
-            </button>
-          </div>
-        );
-      }
-    }
+          </>
+        )}
+        {!isSubmitting && !isEditing && (
+          <button
+            disabled={isDisabled}
+            className={topicInputs[selectedTopic?._id] ? styles.SendActive : ""}
+            aria-label="send chat message"
+            onClick={sendMessageOrCancelEdit}
+          >
+            <IconSend />
+          </button>
+        )}
+      </div>
+    );
   };
   const triggerPicker = () => {
     const now = Date.now();

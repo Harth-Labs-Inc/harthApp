@@ -53,6 +53,7 @@
             }
 
             &Mobile {
+                overflow: scroll;
                 &.peerContainerActive {
                     flex-wrap: unset;
                     flex-direction: column;

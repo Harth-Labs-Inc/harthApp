@@ -112,14 +112,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     if (container) {
       resize(container, isMobile, isActiveScreenShare);
     }
-  }, [
-    width,
-    showChatPannel,
-    chats,
-    screenShareActive,
-    isActiveScreenShare,
-    isMobile,
-  ]);
+  }, [width, chats, screenShareActive, isActiveScreenShare, isMobile]);
 
   useEffect(() => {
     if (!loading && user) {

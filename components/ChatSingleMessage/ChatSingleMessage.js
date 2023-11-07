@@ -143,7 +143,7 @@ const ChatSingleMessage = (props) => {
             style={{
               display: "inline-block",
               fontSize: allEmojis ? "26px" : "20px",
-              margin: allEmojis ? "15px 0px" : "",
+              margin: allEmojis ? "10px 0px" : "",
             }}
           >
             {part}
@@ -157,7 +157,7 @@ const ChatSingleMessage = (props) => {
             style={{
               display: "inline-block",
               fontSize: allEmojis ? "26px" : "20px",
-              margin: allEmojis ? "20px 0px 0px 0px" : "",
+              margin: allEmojis ? "10px 0px 0px 0px" : "",
             }}
           >
             {part}
