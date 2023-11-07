@@ -64,12 +64,11 @@
         width: fit-content;
         background-color: transparent;
         border-radius: 16px;
-        border: 0;
-        background-color: transparent;
         padding: 0px;
         padding-left: 8px;
         padding-right: 2px;
         //border: 1px solid $silver-med;
+        border: 0;
         user-select: none;
 
 
@@ -82,7 +81,7 @@
             border-radius: 8px;
             z-index: 1;
             border: 1px solid $border_basic;
-            border: 0;
+            //border: 0;
         }
 
         &UnreadMessage {
@@ -95,7 +94,7 @@
                 height: 16px;
                 width: 4px;
                 content: "";
-                background-color: $hot_salmon;
+                background-color: $hot_purple;
                 border-radius: 9999px;
             }
         }

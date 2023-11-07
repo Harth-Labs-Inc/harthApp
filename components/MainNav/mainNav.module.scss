@@ -130,23 +130,28 @@
         z-index: 1;
         
         .iconHolder {
-            filter: grayscale(.95);
-            opacity: .3;
+            
             transition: scale 0.2s ease-in-out;
             position: relative;
             height: 22px;
             width: 22px;
+
+            svg {
+                filter: grayscale(.95);
+                opacity: .3;
+            }
+
             &UnreadMessage {
                 position: relative;
                 &:before {
                     position: absolute;
-                    top: -2px;
-                    right: -2px;
+                    top: -3px;
+                    right: -3px;
                     z-index: 2;
                     height: 7px;
                     width: 7px;
                     content: "";
-                    background-color: $hot_salmon;
+                    background-color: $hot_purple;
                     border-radius: 9999px;
                     border: 1px solid $background;
                 }
@@ -217,8 +222,11 @@
 
         &.Active {
             .iconHolder {
-                filter: grayscale(0);
-                opacity: 1;
+                svg {
+                    filter: grayscale(0);
+                    opacity: 1;
+
+                }
             }
 
             .Desktop & {

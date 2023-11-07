@@ -1,10 +1,35 @@
 //app colors
 @import "./utility/ui-mixins";
 
+// Hot Blue
+$hot_blue: #0d75ca;
+
+
+// Hot Green
+$hot_green: #3cc8a3;
+
+// Hot Purple
+$hot_purple: #aa68c8;
+
+// Hot Pink
+$hot_pink: #d96fab;
+
+// Hot Orange
+$hot_orange: #FD823A;
+
+// Hot Red
+$hot_red: #e11934;
+
+
+$hot_salmon: #ff6b66;
+
+
 
 //Consolodated
 $fuel: #271623;
 $ash: #28282e;
+
+
 
 $font_light: #fafafa;
 $font_dark: $fuel;
@@ -18,8 +43,8 @@ $background: #ffffff;
 $background_reverse: #000000;
 $background_offset: darken($background, 3%);
 
-$button_main: $ash;
-$button_main_press: darken($button_main, 20%);
+$button_main: darken($hot_purple, 30%);
+$button_main_press: darken($button_main, 10%);
 
 
 $border_basic: darken($background, 12%);
@@ -130,28 +155,6 @@ $fuel_3: rgba(47, 29, 42, 0.03);
 //Muted Text
 $muted_text: #aeb4b8;
 
-
-// Hot Blue
-$hot_blue: #0d75ca;
-
-
-// Hot Green
-$hot_green: #3cc8a3;
-
-// Hot Purple
-$hot_purple: #aa68c8;
-
-// Hot Pink
-$hot_pink: #d96fab;
-
-// Hot Orange
-$hot_orange: #FD823A;
-
-// Hot Red
-$hot_red: #e11934;
-
-
-$hot_salmon: #ff6b66;
 
 
 // ========================
