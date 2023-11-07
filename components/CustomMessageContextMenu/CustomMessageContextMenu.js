@@ -17,6 +17,7 @@ export const CustomMessageContextMenu = ({
   disableFLagIcon,
   flagMessageHandler,
   isSuperAdmin,
+  blockUserHandler,
 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const contextRef = useRef(null);
@@ -123,6 +124,15 @@ export const CustomMessageContextMenu = ({
           >
             Flag
           </button>
+          {!showEditButton ? (
+            <button
+              disabled={isDisabled}
+              className={`${styles.CustomContextMenuButton}`}
+              onClick={blockUserHandler}
+            >
+              Block
+            </button>
+          ) : null}
         </div>
       </OutsideClickHandler>
     </div>

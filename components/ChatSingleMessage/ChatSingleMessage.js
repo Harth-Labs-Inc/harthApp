@@ -27,6 +27,8 @@ import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 import emojiRegex from "emoji-regex";
 import NewMessageIcon from "components/NewMessageIcon/NewMessageIcon";
 import FlagConfirmationModal from "components/FlagConfirmationModal/FlagConfirmationModal";
+import BlockUserModal from "components/Menus/HarthSettings/BlockUserModal/BlockUserModal";
+import { Modal } from "Common";
 
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -57,6 +59,7 @@ const ChatSingleMessage = (props) => {
   const [showLongPressMenu, setShowLongPressMenu] = useState(false);
   const [showMessageInfoMobile, setShowMessageInfoMobile] = useState(false);
   const [showFlagConfirmation, setShowFlagConfirmation] = useState(false);
+  const [showBlockModal, setShowBlockModal] = useState(false);
 
   const touchEndTimestamp = useRef(0);
   const touchThreshold = 100;
@@ -504,6 +507,12 @@ const ChatSingleMessage = (props) => {
       }
     });
   };
+  const blockUserHandler = async () => {
+    setShowBlockModal(!showBlockModal);
+  };
+  const closeInviteFromBlock = () => {
+    setShowBlockModal(false);
+  };
 
   let addNewIndicator =
     newMessageIndicators[props.msg.topic_id] == props.msg._id &&
@@ -518,6 +527,20 @@ const ChatSingleMessage = (props) => {
   if (isMobile) {
     return (
       <Fragment>
+        {showBlockModal ? (
+          <Modal>
+            <BlockUserModal
+              setHidden={setShowBlockModal}
+              closeHandler={closeInviteFromBlock}
+              usr={{
+                name: creator_name,
+                userId: creator_id,
+                iconKey: creator_image,
+              }}
+              activeUser={user}
+            />
+          </Modal>
+        ) : null}
         {showFlagConfirmation ? (
           <FlagConfirmationModal
             setHidden={toggleShowFlagConfirmation}
@@ -537,6 +560,8 @@ const ChatSingleMessage = (props) => {
             flagMessageHandler={flagMessageHandler}
             disableFLagIcon={flagged}
             isSuperAdmin={profile?.owner || profile?.admin || false}
+            blockUserHandler={blockUserHandler}
+            blockName={creator_name}
           />
         ) : null}
         <EmojiPicker />
@@ -753,9 +778,22 @@ const ChatSingleMessage = (props) => {
       </Fragment>
     );
   }
-
   return (
     <>
+      {showBlockModal ? (
+        <Modal>
+          <BlockUserModal
+            setHidden={setShowBlockModal}
+            closeHandler={closeInviteFromBlock}
+            usr={{
+              name: creator_name,
+              userId: creator_id,
+              iconKey: creator_image,
+            }}
+            activeUser={user}
+          />
+        </Modal>
+      ) : null}
       {showFlagConfirmation ? (
         <FlagConfirmationModal
           setHidden={toggleShowFlagConfirmation}
@@ -794,6 +832,8 @@ const ChatSingleMessage = (props) => {
             flagMessageHandler={flagMessageHandler}
             disableFLagIcon={flagged}
             isSuperAdmin={profile?.owner || profile?.admin || false}
+            blockUserHandler={blockUserHandler}
+            blockName={creator_name}
           />
           <span className={styles.UserIcon}>
             <UserIcon

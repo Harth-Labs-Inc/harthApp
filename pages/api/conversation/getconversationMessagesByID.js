@@ -97,16 +97,10 @@ export default async (req, res) => {
     return res.json({ msg: "Something Went Wrong", ok: 0 });
   }
 
-  const blockedListWithDates = user.BlockedList || [];
-  fetchResults = fetchResults.filter((message) => {
-    const blockedDate = blockedListWithDates.find(
-      (blocked) => blocked.userId === message.creator_id
-    )?.blockedDate;
+  const blockedList = user.BlockedList.map((blocked) => blocked.userId) || [];
 
-    if (!blockedDate || new Date(message.date) <= new Date(blockedDate)) {
-      return true;
-    }
-    return false;
+  fetchResults = fetchResults.filter((message) => {
+    return !blockedList.includes(message.creator_id);
   });
 
   let decryptedMessages = await decryptMessages(fetchResults);

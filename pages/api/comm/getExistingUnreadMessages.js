@@ -101,17 +101,10 @@ export default async (req, res) => {
   let filteredResults = fetchResults.filter(
     (result) => !topicMutedStatus[result.topic_id]
   );
-  const blockedListWithDates = user.BlockedList || [];
 
+  const blockedList = user.BlockedList.map((blocked) => blocked.userId) || [];
   filteredResults = filteredResults.filter((message) => {
-    const blockedDate = blockedListWithDates.find(
-      (blocked) => blocked.userId === message.creator_id
-    )?.blockedDate;
-
-    if (!blockedDate || new Date(message.date) <= new Date(blockedDate)) {
-      return true;
-    }
-    return false;
+    return !blockedList.includes(message.creator_id);
   });
 
   return res.json({

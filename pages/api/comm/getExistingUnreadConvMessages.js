@@ -99,16 +99,11 @@ export default async (req, res) => {
   let filteredResults = fetchResults.filter(
     (result) => !convMutedStatus[result.conversation_id]
   );
-  const blockedListWithDates = user.BlockedList || [];
-  filteredResults = filteredResults.filter((message) => {
-    const blockedDate = blockedListWithDates.find(
-      (blocked) => blocked.userId === message.creator_id
-    )?.blockedDate;
 
-    if (!blockedDate || new Date(message.date) <= new Date(blockedDate)) {
-      return true;
-    }
-    return false;
+  const blockedList = user.BlockedList.map((blocked) => blocked.userId) || [];
+
+  filteredResults = filteredResults.filter((message) => {
+    return !blockedList.includes(message.creator_id);
   });
 
   return res.json({ msg: "successful", ok: 1, data: filteredResults });

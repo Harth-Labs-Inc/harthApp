@@ -4,6 +4,7 @@ import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFi
 
 import styles from "./ChatSingleMessage.module.scss";
 import FlagIcon from "resources/icons/Flag";
+import BlockIcon from "resources/icons/Block";
 
 const EditBar = ({
   showEditBar,
@@ -16,6 +17,8 @@ const EditBar = ({
   flagMessageHandler,
   disableFLagIcon,
   isSuperAdmin,
+  blockUserHandler,
+  blockName,
 }) => {
   if (showEditBar && showEditBar == _id) {
     if (creator_id == user_id || isSuperAdmin) {
@@ -47,6 +50,11 @@ const EditBar = ({
               <FlagIcon />
             </button>
           )}
+          {creator_id != user_id ? (
+            <button value="block" title="block user" onClick={blockUserHandler}>
+              <BlockIcon blockName={blockName} />
+            </button>
+          ) : null}
         </div>
       );
     } else {
@@ -70,6 +78,11 @@ const EditBar = ({
               <FlagIcon />
             </button>
           )}
+          {creator_id != user_id ? (
+            <button value="block" title="block user" onClick={blockUserHandler}>
+              <BlockIcon blockName={blockName} />
+            </button>
+          ) : null}
         </div>
       );
     }
