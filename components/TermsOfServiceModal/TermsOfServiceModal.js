@@ -11,7 +11,6 @@ const TermsOfServiceModal = ({
   submitHandler,
   isSubmitting,
   includeWelcome,
-  inAppStyle,
 }) => {
   const { register, handleSubmit, watch, setValue } = useForm();
 
