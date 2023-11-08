@@ -1423,7 +1423,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   return (
     <>
       <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
-      {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
+      {!isFinishedInitialSetup ? <SpinningLoader /> : null}
       <main className={styles.VoiceWindow}>
         <button
           id="mobile_minimized_closer"

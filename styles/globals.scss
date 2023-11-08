@@ -43,7 +43,8 @@ $background: #ffffff;
 $background_reverse: #000000;
 $background_offset: darken($background, 3%);
 
-$button_main: darken($hot_purple, 30%);
+//$button_main: linear-gradient(darken($hot_purple, 35%) darken($hot_purple, 1%));
+$button_main: darken($hot_purple, 33%);
 $button_main_press: darken($button_main, 10%);
 
 

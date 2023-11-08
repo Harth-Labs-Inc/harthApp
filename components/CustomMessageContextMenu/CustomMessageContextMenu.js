@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-
 import OutsideClickHandler from "../Common/Modals/OutsideClick";
-
 import styles from "./CustomMessageContextMenu.module.scss";
 import { copyToClipboard } from "services/helper";
+import { IconAddReactionNoFill } from "resources/icons/IconAddReactionNoFill";
+import { IconEditNoFill } from "resources/icons/IconEditNoFill";
+import { IconDeleteNoFill } from "resources/icons/IconDeleteNoFill";
+import FlagIcon from "resources/icons/Flag";
+import { IconCopy } from "resources/icons/IconCopy";
+
 
 export const CustomMessageContextMenu = ({
   closeModal,
@@ -82,7 +86,7 @@ export const CustomMessageContextMenu = ({
             className={styles.CustomContextMenuButton}
             onClick={addReactionHandler}
           >
-            Add Reaction
+            <IconAddReactionNoFill /> Add Reaction
           </button>
           {hasTextForClipboard ? (
             <button
@@ -92,7 +96,7 @@ export const CustomMessageContextMenu = ({
               onClick={copyTextHandler}
               style={{ backgroundColor: isCopied ? "green" : "" }}
             >
-              {isCopied ? "Copied!" : "Copy Text"}
+              <IconCopy /> {isCopied ? "Copied!" : "Copy Text"}
             </button>
           ) : null}
           {showEditButton ? (
@@ -101,7 +105,7 @@ export const CustomMessageContextMenu = ({
               className={styles.CustomContextMenuButton}
               onClick={editHandler}
             >
-              Edit
+              <IconEditNoFill /> Edit
             </button>
           ) : null}
           {showEditButton || isSuperAdmin ? (
@@ -110,7 +114,7 @@ export const CustomMessageContextMenu = ({
               className={styles.CustomContextMenuButton}
               onClick={removeHandler}
             >
-              Remove
+              <IconDeleteNoFill /> Remove
             </button>
           ) : null}
 
@@ -121,7 +125,7 @@ export const CustomMessageContextMenu = ({
             }`}
             onClick={flagMessageHandler}
           >
-            Flag
+            <FlagIcon /> Flag
           </button>
         </div>
       </OutsideClickHandler>

@@ -21,17 +21,15 @@ const EditBar = ({
     if (creator_id == user_id || isSuperAdmin) {
       return (
         <div className={styles.Controls}>
-          <button value="delete" onClick={deleteMsg} title="delete">
-            <IconDeleteNoFill />
+                    <button value="reaction" title="reaction" onClick={triggerPicker}>
+            <IconAddReactionNoFill />
           </button>
           {creator_id == user_id ? (
             <button value="edit" onClick={editBarSelection} title="edit">
               <IconEditNoFill />
             </button>
           ) : null}
-          <button value="reaction" title="reaction" onClick={triggerPicker}>
-            <IconAddReactionNoFill />
-          </button>
+
           {disableFLagIcon ? (
             <button
               disabled
@@ -47,6 +45,9 @@ const EditBar = ({
               <FlagIcon />
             </button>
           )}
+                    <button value="delete" onClick={deleteMsg} title="delete">
+            <IconDeleteNoFill />
+          </button>
         </div>
       );
     } else {

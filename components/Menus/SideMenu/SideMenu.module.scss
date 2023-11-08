@@ -173,12 +173,13 @@
     .text {
         width: 100%;
         text-align: left;
-        padding: 4px 20px;
+        padding: 4px 24px;
         border: 0;
         border-bottom: solid 1px $border_basic;
         margin: 0;
         @include systemFont;
         font-size: 14px;
+        font-weight: 400;
         color: $font_main;
 
     }

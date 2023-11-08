@@ -41,7 +41,7 @@
     width: 100%;
     border: 0;
     padding: 0;
-    background: $ash_heavy;
+    background: $background;
 
         @media (max-width: 640px) {
             height: var(--vh);
@@ -72,7 +72,7 @@
             width: 240px;
             min-width: 240px;
             user-select: none;
-            background-color: $ash;
+            background-color: $background;
             //height: 100%;
             //border-right: 1px solid $ash_medium;
 
@@ -86,9 +86,9 @@
             height: 100%;
             user-select: none;
             overflow-y: scroll;
-            background: $ash;
+            background: $background;
             padding: 10px 8px;
-            border-right: 1px solid $ash_medium;
+            border-right: 1px solid $border_basic;
             &Mobile {
                 width: 100%;
                 border: 0;
@@ -126,7 +126,7 @@
             }
 
             .peerName {
-                color: $font_light;
+                color: $font_main;
                 @include topicTitle;
             }
 

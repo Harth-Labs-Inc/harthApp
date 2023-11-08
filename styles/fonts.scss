@@ -1,10 +1,11 @@
 
 @mixin systemFont {
   font-family: var(--Work_Sans-font);
-  //font-family: var(--Rubik-font);
+  //font-family: var(--Noto_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 14px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
 
 }
 
@@ -144,6 +145,7 @@
 
 @mixin menuTitle {
   font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.05em;
@@ -153,6 +155,7 @@
 
 @mixin menuSubTitle {
   font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -161,10 +164,11 @@
 }
 
 @mixin menuText {
-  font-family: var(--Work_Sans-font);
+  //font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 14px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   line-height: 125%;
   //text-rendering: optimizeLegibility;
 }
@@ -172,7 +176,7 @@
 @mixin overlayMenuTitle {
   font-family: var(--Work_Sans-font);
   font-weight: 800;
-  font-size: 64px;
+  font-size: 52px;
   line-height: 85%;
   letter-spacing: 0.01em;
   text-shadow: 3px 3px 0 $hot_purple;
