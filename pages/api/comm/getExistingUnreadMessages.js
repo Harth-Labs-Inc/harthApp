@@ -79,7 +79,7 @@ export default async (req, res) => {
   }
 
   // passed authentication ------------------------------------------
-  const blockedList = user.BlockedList.map((blocked) => blocked.userId) || [];
+  const blockedList = user?.BlockedList?.map((blocked) => blocked.userId) || [];
 
   let fetchResults = await getData(db, obj.id, blockedList);
   if (!fetchResults) {

@@ -72,7 +72,7 @@ export default async (req, res) => {
     return res.json({ msg: "Authentication failed", ok: 0, lockDown: true });
   }
   // Authentication end
-  const blockedList = user.BlockedList.map((blocked) => blocked.userId) || [];
+  const blockedList = user?.BlockedList?.map((blocked) => blocked.userId) || [];
 
   let fetchResults = await getMsgs(
     db,
