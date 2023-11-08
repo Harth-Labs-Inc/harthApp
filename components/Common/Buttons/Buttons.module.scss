@@ -1,6 +1,20 @@
 @import "../../../styles/globals.scss";
 @import "../../../styles/fonts.scss";
 
+.purple {
+    color: $font_light;
+    background: $hot_purple !important;
+    border: 0;
+    &:hover {
+        background-color: $button_main_press;
+    }
+
+    &:active {
+        background-color: $button_main_press;
+    }
+
+}
+
 .closeButton {
     position: relative;
     padding: 12px;

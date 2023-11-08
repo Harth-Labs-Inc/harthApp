@@ -2,6 +2,29 @@ import api from "../services/api";
 
 /* eslint-disable */
 
+export const updateUser = async (data) => {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await api.post(`/api/users/updateUser`, data, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkForMatchingEmail = async (formData) => {
+  try {
+    const res = await api.post("/api/users/checkForMatchingEmail", formData);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const UnblockUser = async (data) => {
   const token = localStorage.getItem("token");
   try {

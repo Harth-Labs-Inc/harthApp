@@ -9,6 +9,7 @@ import { Button } from "Common";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
 
 import styles from "./login.module.scss";
+import { useAuth } from "contexts/auth";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState();
@@ -20,6 +21,7 @@ const Login = () => {
   } = useForm();
 
   const router = useRouter();
+  const { setNewUser } = useAuth();
 
   const submitHandler = async (data) => {
     setIsSubmitting(true);
@@ -27,13 +29,8 @@ const Login = () => {
     const { ok, user } = results;
     if (ok) {
       await sendOtpEmailToUser({ user, subject: "Login Verification" });
-      router.push(
-        {
-          pathname: "/auth/OtpValidator",
-          query: { user: JSON.stringify(user) },
-        },
-        "/about/OtpValidator"
-      );
+      setNewUser(user);
+      router.push("/auth/OtpValidator");
     } else {
       setErrorMessage("Invalid Email");
     }

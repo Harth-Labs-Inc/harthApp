@@ -13,7 +13,12 @@ export const Button = (props) => {
     type = "button",
     size = "large",
     isLoading = false,
+    backgroundColor,
   } = props;
+
+  const colorObj = {
+    purple: styles.purple,
+  };
 
   return (
     <button
@@ -29,6 +34,11 @@ export const Button = (props) => {
                 ${fullWidth ? styles.buttonFullWidth : ""}
                 ${className}
                 ${isLoading && tier == "primary" ? styles.buttonLoading : null}
+                ${
+                  backgroundColor && colorObj[backgroundColor] && !isDisabled
+                    ? colorObj[backgroundColor]
+                    : null
+                }
             `}
       disabled={isDisabled || isLoading}
       aria-label={textLabel}

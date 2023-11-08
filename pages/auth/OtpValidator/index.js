@@ -22,33 +22,27 @@ const OtpValidator = (props) => {
     closeModal,
     parentSubmit,
   } = props;
+  const router = useRouter();
+  const { getInitialData, newUser: tempUser } = useAuth();
+
   const [newUser, setNewUser] = useState();
   const [hasResent, setHasResent] = useState(false);
   /* eslint-disable-next-line */
   const [isResending, setIsResending] = useState(false);
   const [badCode, setBadCode] = useState(false);
-
-  const router = useRouter();
-  const { user } = router.query;
-
-  const { getInitialData } = useAuth();
-
-  useEffect(() => {
-    if (user) {
-      setNewUser(JSON.parse(user));
-    }
-    if (userForModal) {
-      setNewUser(userForModal);
-    }
-  }, [user, userForModal]);
-
   const [inviteCode, setInviteCode] = useState();
   const [helpText, setHelpText] = useState([
     "Enter the secret code I just sent you.",
   ]);
-  const inputChangeHandler = (text) => {
-    setInviteCode(text);
-  };
+
+  useEffect(() => {
+    if (tempUser) {
+      setNewUser(tempUser);
+    }
+    if (userForModal) {
+      setNewUser(userForModal);
+    }
+  }, [tempUser, userForModal]);
 
   useEffect(() => {
     if (inviteCode?.length === 6) {
@@ -56,6 +50,9 @@ const OtpValidator = (props) => {
     }
   }, [inviteCode]);
 
+  const inputChangeHandler = (text) => {
+    setInviteCode(text);
+  };
   const handlerSubmit = async () => {
     let result = await verifyOtp({ inviteCode, newUser });
     let { ok } = result;
@@ -97,7 +94,7 @@ const OtpValidator = (props) => {
   };
 
   if (!newUser) {
-    return <p>...Loading</p>;
+    return null;
   }
 
   return (

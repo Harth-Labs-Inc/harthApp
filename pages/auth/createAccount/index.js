@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
-import { addUser, sendOtpEmailToUser } from "../../../requests/userApi";
+import { checkForMatchingEmail } from "../../../requests/userApi";
 import { Button } from "../../../components/Common";
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 import styles from "./createAccount.module.scss";
+import { useAuth } from "contexts/auth";
 
 const CreateAccount = () => {
   const router = useRouter();
+
+  const { setNewUser } = useAuth();
 
   const [submissionType, setSubmissionType] = useState();
   const [customErrors, setCustomErrors] = useState({
@@ -45,32 +48,30 @@ const CreateAccount = () => {
   } = useForm();
 
   const submitHandler = async (data) => {
+    setCustomErrors({
+      email: "",
+      match: "",
+    });
     setIsSubmitting(true);
     if (submissionType == "create") {
-      const response = await addUser(data);
-      const { ok, errors, user } = response;
+      const response = await checkForMatchingEmail(data);
+      const { ok, errors } = response;
 
       if (!ok) {
         setCustomErrors(errors);
       } else {
-        sendOTPEmail(user);
+        const newUser = {
+          ...data,
+          comms: [],
+          rooms: [],
+          showFirstTimeUser: true,
+        };
+        setNewUser(newUser);
+        router.push("/auth/TOS");
       }
     }
     setIsSubmitting(false);
   };
-
-  const sendOTPEmail = async (user) => {
-    await sendOtpEmailToUser({ user, subject: "Email Verification" });
-    user.showFirstTimeUser = true;
-    router.push(
-      {
-        pathname: "/auth/OtpValidator",
-        query: { user: JSON.stringify(user) },
-      },
-      "/about/OtpValidator"
-    );
-  };
-
   const handleEmailError = () => {
     if (errors?.email?.type === "required") return "You must enter your email";
     if (errors?.email?.type === "pattern")
@@ -146,7 +147,7 @@ const CreateAccount = () => {
           <Button
             tier="primary"
             type="submit"
-            text="Sign Up"
+            text="Continue"
             className={styles.signupButton}
             fullWidth
             onClick={() => {

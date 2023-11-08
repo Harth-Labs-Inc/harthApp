@@ -11,6 +11,9 @@ import { useVideo } from "contexts/video";
 import { useAuth } from "contexts/auth";
 import { useComms } from "contexts/comms";
 import { useSocket } from "contexts/socket";
+import { Modal } from "Common";
+import TermsOfServiceModal from "components/TermsOfServiceModal/TermsOfServiceModal";
+import { updateUser } from "../../requests/userApi";
 
 const Party = dynamic(() => import("../../pages/dashboard/party/index"), {
   loading: () => null,
@@ -52,6 +55,8 @@ const DashboardLayout = (props) => {
     closeActiveRoomFromMobile,
     minimizeHandler,
     hasRoomMinimized,
+    showTermsOfServiceModal,
+    approvedTosHandler,
   } = useComms();
   const { getInitialCallRooms, socketID, callRooms } = useVideo();
   const { user } = useAuth();
@@ -151,6 +156,15 @@ const DashboardLayout = (props) => {
     e.stopPropagation();
     setShowHasUpdateButton(false);
   };
+  const updateTos = async () => {
+    const { data } = await updateUser({
+      userIdForUpdate: user._id,
+      update: { termsOfServiceApproved: true },
+    });
+    if (data.ok && data.updatedUser) {
+      approvedTosHandler();
+    }
+  };
 
   if (isMobile) {
     let previous = prePageRef.current;
@@ -187,6 +201,16 @@ const DashboardLayout = (props) => {
 
     return (
       <>
+        {showTermsOfServiceModal ? (
+          <Modal onToggleModal={() => {}}>
+            <TermsOfServiceModal
+              buttonText="I Agree"
+              submitHandler={updateTos}
+              isSubmitting={false}
+              includeWelcome={true}
+            />
+          </Modal>
+        ) : null}
         {showHasUpdateButton ? (
           <div className={styles.updateMain}>
             <div className={styles.buttonwrapper}>
@@ -269,53 +293,65 @@ const DashboardLayout = (props) => {
   }
 
   return (
-    <main className={styles.Dashboard}>
-      {showHasUpdateButton ? (
-        <div className={styles.updateMain}>
-          <div className={styles.buttonwrapper}>
-            <div className={styles.content}>
-              <p>Update available!</p>
-              <div className={styles.updateContainer}>
-                <button
-                  className={styles.UpdateLater}
-                  onClick={updateCacheWithoutReload}
-                >
-                  Update Later
-                </button>
-                <button
-                  className={styles.UpdateNow}
-                  onClick={updateCacheWithReload}
-                >
-                  Update Now
-                </button>
-              </div>
-            </div>
-            <div className={styles.buttonbg}></div>
-          </div>
-        </div>
-      ) : null}
-      <SideNav
-        menuOpen={menuActive}
-        onToggleMenu={toggleMenu}
-        setShowCreateHarthNameModal={setShowCreateHarthNameModal}
-        toggleNoHarthDetected={toggleNoHarthDetected}
-      />
-      <div className={styles.DashboardContent}>
-        <TopBar currentPage={currentPage}>
-          <MainNav
-            onToggleMenu={toggleMenu}
-            changePage={changePageHandler}
-            currentPage={currentPage}
+    <>
+      {showTermsOfServiceModal ? (
+        <Modal onToggleModal={() => {}}>
+          <TermsOfServiceModal
+            buttonText="I Agree"
+            submitHandler={updateTos}
+            isSubmitting={false}
+            includeWelcome={true}
           />
-        </TopBar>
-        <section
-          className={`${styles.DashboardContentWrapper} ${styles.Desktop}`}
-          id="content_wrapper"
-        >
-          {children}
-        </section>
-      </div>
-    </main>
+        </Modal>
+      ) : null}
+      <main className={styles.Dashboard}>
+        {showHasUpdateButton ? (
+          <div className={styles.updateMain}>
+            <div className={styles.buttonwrapper}>
+              <div className={styles.content}>
+                <p>Update available!</p>
+                <div className={styles.updateContainer}>
+                  <button
+                    className={styles.UpdateLater}
+                    onClick={updateCacheWithoutReload}
+                  >
+                    Update Later
+                  </button>
+                  <button
+                    className={styles.UpdateNow}
+                    onClick={updateCacheWithReload}
+                  >
+                    Update Now
+                  </button>
+                </div>
+              </div>
+              <div className={styles.buttonbg}></div>
+            </div>
+          </div>
+        ) : null}
+        <SideNav
+          menuOpen={menuActive}
+          onToggleMenu={toggleMenu}
+          setShowCreateHarthNameModal={setShowCreateHarthNameModal}
+          toggleNoHarthDetected={toggleNoHarthDetected}
+        />
+        <div className={styles.DashboardContent}>
+          <TopBar currentPage={currentPage}>
+            <MainNav
+              onToggleMenu={toggleMenu}
+              changePage={changePageHandler}
+              currentPage={currentPage}
+            />
+          </TopBar>
+          <section
+            className={`${styles.DashboardContentWrapper} ${styles.Desktop}`}
+            id="content_wrapper"
+          >
+            {children}
+          </section>
+        </div>
+      </main>
+    </>
   );
 };
 

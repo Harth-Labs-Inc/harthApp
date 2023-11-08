@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [CREATOR, setCREATOR] = useState(null);
   const [SELECTEDCOMM, setSELECTEDCOMM] = useState(null);
   const [SUBSCRIPTION, setSUBSCRIPTION] = useState(null);
+  const [newUser, setNewUser] = useState(null);
 
   const [TOPICS, setTOPICS] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,6 +41,7 @@ export const AuthProvider = ({ children }) => {
         subscriptions,
       } = data;
       if (ok) {
+        setNewUser(null);
         setUser(user);
         setLoading(false);
         setComms(comms);
@@ -52,14 +54,22 @@ export const AuthProvider = ({ children }) => {
           router.push("/");
         }
       } else {
-        if (!["/auth/createAccount", "/auth/login"].includes(router.pathname)) {
+        if (
+          !["/auth/createAccount", "/auth/login", "/auth/TOS"].includes(
+            router.pathname
+          )
+        ) {
           router.push("/auth/createAccount");
         }
 
         setLoading(false);
       }
     } else {
-      if (!["/auth/createAccount", "/auth/login"].includes(router.pathname)) {
+      if (
+        !["/auth/createAccount", "/auth/login", "/auth/TOS"].includes(
+          router.pathname
+        )
+      ) {
         router.push("/auth/createAccount");
       }
       setLoading(false);
@@ -93,6 +103,8 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        newUser,
+        setNewUser,
         isAuthenticated: !!user,
         user,
         loading,

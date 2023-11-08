@@ -41,8 +41,13 @@ export const CommsProvider = ({
   const [activeRoom, setActiveRoom] = useState(null);
   const [isLoadingTopics, setIsLoadingTopics] = useState(null);
   const [isLoadingConversations, setIsLoadingConversations] = useState(null);
+  const [showTermsOfServiceModal, setShowTermsOfServiceModal] = useState(false);
 
   const { user } = useAuth();
+
+  const [hasApprovedTos, setHasApprovedTos] = useState(
+    user?.termsOfServiceApproved
+  );
 
   const selectedCommRef = useRef(SELECTEDCOMM);
   const profileRef = useRef(CREATOR);
@@ -79,6 +84,9 @@ export const CommsProvider = ({
   useEffect(() => {
     if (selectedcomm) {
       if (user) {
+        if (!hasApprovedTos) {
+          setShowTermsOfServiceModal(true);
+        }
         if (!gather_window) {
           setTopicChange(0);
           grabRooms(selectedcomm._id);
@@ -385,7 +393,6 @@ export const CommsProvider = ({
     }
     return;
   };
-
   const grabTopics = async (comid, repullMessages) => {
     setIsLoadingTopics(true);
     let result = await getTopics(comid, user._id);
@@ -636,10 +643,16 @@ export const CommsProvider = ({
     }
     setHasRoomMinimized(true);
   };
+  const approvedTosHandler = () => {
+    setHasApprovedTos(true);
+    setShowTermsOfServiceModal(false);
+  };
 
   return (
     <CommsContext.Provider
       value={{
+        approvedTosHandler,
+        showTermsOfServiceModal,
         changeSelectedCommFromChild,
         updateLocalSelectedHarth,
         updateSelectedHarth,
