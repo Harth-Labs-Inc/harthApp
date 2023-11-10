@@ -18,7 +18,7 @@ const TopBar = (props) => {
   const [isPullingReports, setIsPullingReports] = useState(false);
   const [reportPosts, setReportPosts] = useState(null);
 
-  const { startTour, lastStepIndex, endTour, activeTour, tourKey, skipStep } =
+  const { startTour, lastStepIndex, endTour, activeTour, tourKey } =
     useTourManager();
 
   const {

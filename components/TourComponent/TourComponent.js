@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTourManager } from "../../contexts/tour";
 import Tour from "react-joyride";
-
+/* eslint-disable */
 const TourComponent = React.memo(() => {
   const { activeTour, nextStep, prevStep, skipStep } = useTourManager();
   const overlayRef = useRef(null);

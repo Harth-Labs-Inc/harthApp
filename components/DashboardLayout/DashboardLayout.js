@@ -37,8 +37,7 @@ const DashboardLayout = (props) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
   const { isMobile } = useContext(MobileContext);
 
-  const { activeTour, startTour, endTour, lastStepIndex, skipStep, tourKey } =
-    useTourManager();
+  const { activeTour, startTour, endTour, lastStepIndex } = useTourManager();
 
   const {
     changePage,
