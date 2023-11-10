@@ -35,7 +35,8 @@
     width: 100%;
     padding-right: 12px;
     //padding-left: 16px;
-    //border-bottom: 1px solid $border_basic;
+    border-bottom: 1px solid $border_basic;
+    border-top: 1px solid $border_basic;
     background: linear-gradient(to bottom, $background 55%, transparent 100%);
     z-index: 10;
 
@@ -129,7 +130,7 @@
         margin: 0;
 
         background: $background;
-
+        border: 0;
         border-bottom: 1px solid $border_basic;
         //border-top: 1px solid $border_basic;
     }

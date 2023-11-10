@@ -122,10 +122,10 @@ const MainNav = (props) => {
               onClick={handleHarthMenu}
               aria-label="Current Harth Settings"
             >
-              {selectedcomm?.name}
-              <div className={styles.iconHolder}>
-                <IconHome />
-              </div>
+               <p>{selectedcomm?.name}</p>
+                <div className={styles.iconHolder}>
+                  <IconHome />
+                </div>
             </button>
           </div>
         )}
@@ -164,7 +164,7 @@ const MainNav = (props) => {
             >
               {currentPage == "chat" ? <IconChat /> : <IconChatMuted />}
             </div>
-            <div className={styles.title}>Chats</div>
+            <div className={styles.title}>Topics</div>
           </button>
 
           <button
@@ -225,7 +225,7 @@ const MainNav = (props) => {
                 <IconMessageMuted /> 
               )}
             </div>
-            <div className={styles.title}>DMs</div>
+            <div className={styles.title}>Messages</div>
           </button>
         </div>
         
