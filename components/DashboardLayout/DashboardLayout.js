@@ -132,7 +132,12 @@ const DashboardLayout = (props) => {
   }, [forceHarthCreation]);
 
   useEffect(() => {
-    if (hasApprovedTos && !hasFinishedFirstUseTour && mobileMenuOpen != null) {
+    if (
+      hasApprovedTos &&
+      !hasFinishedFirstUseTour &&
+      mobileMenuOpen != null &&
+      isMobile
+    ) {
       if (lastStepIndex == 0) {
         if (mobileMenuOpen && activeTour) {
           endTour();
@@ -141,7 +146,7 @@ const DashboardLayout = (props) => {
         }
       }
     }
-  }, [mobileMenuOpen, hasApprovedTos, hasFinishedFirstUseTour]);
+  }, [mobileMenuOpen, hasApprovedTos, hasFinishedFirstUseTour, isMobile]);
 
   const toggleMenu = () => {
     if (isMobile) {

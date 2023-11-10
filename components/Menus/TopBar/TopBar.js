@@ -39,16 +39,17 @@ const TopBar = (props) => {
   }, [profile]);
 
   useEffect(() => {
-    if (profile) {
+    if (profile && isMobile) {
       if (hasApprovedTos && !hasFinishedFirstUseTour && lastStepIndex == null) {
         startTour("fisrtUse", 0);
       }
     }
-  }, [profile, hasApprovedTos, hasFinishedFirstUseTour, tourKey]);
+  }, [profile, hasApprovedTos, hasFinishedFirstUseTour, tourKey, isMobile]);
 
   useEffect(() => {
     if (
       hasApprovedTos &&
+      isMobile &&
       !hasFinishedFirstUseTour &&
       showEditUserModal != null &&
       lastStepIndex == 1
@@ -63,7 +64,13 @@ const TopBar = (props) => {
         }
       }
     }
-  }, [showEditUserModal, hasApprovedTos, hasFinishedFirstUseTour, tourKey]);
+  }, [
+    showEditUserModal,
+    hasApprovedTos,
+    hasFinishedFirstUseTour,
+    tourKey,
+    isMobile,
+  ]);
 
   const editUserModalHandler = () => {
     setShowEditUserModal((prevState) => !prevState);

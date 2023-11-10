@@ -58,6 +58,7 @@ const Video = () => {
 
   useEffect(() => {
     if (
+      isMobile &&
       hasApprovedTos &&
       hasFinishedFirstUseTour &&
       !activeTour &&
@@ -68,7 +69,13 @@ const Video = () => {
         startTour("firstGather", 0);
       }, 150);
     }
-  }, [currentPage, hasApprovedTos, hasFinishedFirstUseTour, activeTour]);
+  }, [
+    currentPage,
+    hasApprovedTos,
+    hasFinishedFirstUseTour,
+    activeTour,
+    isMobile,
+  ]);
 
   const joinRoom = (data) => {
     const urls = envUrls;

@@ -245,6 +245,7 @@ const ChatSingleMessage = (props) => {
   useEffect(() => {
     if (
       _id &&
+      isMobile &&
       hasApprovedTos &&
       hasFinishedFirstUseTour &&
       !activeTour &&
@@ -254,7 +255,7 @@ const ChatSingleMessage = (props) => {
         startTour("firstPost", 0);
       }, 150);
     }
-  }, [_id, hasApprovedTos, hasFinishedFirstUseTour]);
+  }, [_id, hasApprovedTos, hasFinishedFirstUseTour, isMobile]);
 
   useEffect(() => {
     if (
