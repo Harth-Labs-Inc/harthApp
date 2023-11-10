@@ -11,6 +11,8 @@ import { useAuth } from "contexts/auth";
 import { generateID, urlBase64ToUint8Array } from "services/helper";
 import { saveUserSubscription } from "requests/subscriptions";
 import { SetNotifications } from "components/Alerts/SetNotifications/SetNotifications";
+import { TourProvider } from "contexts/tour";
+import TourComponent from "components/TourComponent/TourComponent";
 
 /* eslint-disable */
 
@@ -355,10 +357,10 @@ const dashboard = () => {
             <VideoProvider>
               {showCreateHarthNameModal ? (
                 <CreateHarthName
-                talkingHeadMsg="Select an icon and give your härth a name"
-                footer="Tip: You can change your härth name and image at any time"
-                placeholder="härth name"
-                submitText="Create"
+                  talkingHeadMsg="Select an icon and give your härth a name"
+                  footer="Tip: You can change your härth name and image at any time"
+                  placeholder="härth name"
+                  submitText="Create"
                   closeHandler={async () => {
                     let result = await getComms(user);
                     const { ok, comms } = result;
@@ -373,9 +375,9 @@ const dashboard = () => {
               ) : null}
               {showCreateHarthProfileModal ? (
                 <CreateHarthProfile
-                talkingHeadMsg={`Enter a name and select an image for your profile for this härth`}
-                footer="Each härth has a unique profile. Customize each profile to match your härth."
-                 placeholder="profile name"
+                  talkingHeadMsg={`Enter a name and select an image for your profile for this härth`}
+                  footer="Each härth has a unique profile. Customize each profile to match your härth."
+                  placeholder="profile name"
                   submitText="Join"
                   submitHandler={resetNewHarth}
                   harth={newHarth}
@@ -424,16 +426,19 @@ const dashboard = () => {
                 />
               ) : null}
 
-              <DashboardLayout
-                changePage={changePageHandler}
-                currentPage={currentPage}
-                setShowCreateHarthNameModal={setShowCreateHarthNameModal}
-                user={user}
-                toggleNoHarthDetected={toggleNoHarthDetected}
-                swReg={swReg}
-              >
-                {page}
-              </DashboardLayout>
+              <TourProvider>
+                <TourComponent />
+                <DashboardLayout
+                  changePage={changePageHandler}
+                  currentPage={currentPage}
+                  setShowCreateHarthNameModal={setShowCreateHarthNameModal}
+                  user={user}
+                  toggleNoHarthDetected={toggleNoHarthDetected}
+                  swReg={swReg}
+                >
+                  {page}
+                </DashboardLayout>
+              </TourProvider>
             </VideoProvider>
           </SocketProvider>
         </CommsProvider>

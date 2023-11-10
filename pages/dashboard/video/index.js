@@ -11,6 +11,7 @@ import { GatherLoading } from "../../../components/Gathering/GatherLoading/Gathe
 import styles from "./GatheringDashboard.module.scss";
 import { generatePushMessage } from "services/helper";
 import { sendPushNotification } from "requests/subscriptions";
+import { useTourManager } from "contexts/tour";
 
 const Video = () => {
   const [socketData, setSocketData] = useState({});
@@ -21,7 +22,15 @@ const Video = () => {
   });
   const [newEditRoomData, setEditRoomData] = useState();
   const { isMobile } = useContext(MobileContext);
-  const { selectedcomm, openMobileRoom, handleOpenMInimizedRoom } = useComms();
+  const {
+    currentPage,
+    selectedcomm,
+    openMobileRoom,
+    handleOpenMInimizedRoom,
+    hasApprovedTos,
+    hasFinishedFirstUseTour,
+    hasFinishedFirstGatherTour,
+  } = useComms();
   const {
     getInitialCallRooms,
     socketID,
@@ -30,6 +39,8 @@ const Video = () => {
     scheduledcallRooms,
   } = useVideo();
   const { user } = useAuth();
+
+  const { activeTour, startTour } = useTourManager();
 
   useEffect(() => {
     if (socketID && selectedcomm) {
@@ -44,6 +55,20 @@ const Video = () => {
       getInitialCallRooms(data);
     }
   }, [socketID, selectedcomm]);
+
+  useEffect(() => {
+    if (
+      hasApprovedTos &&
+      hasFinishedFirstUseTour &&
+      !activeTour &&
+      !hasFinishedFirstGatherTour &&
+      currentPage == "gather"
+    ) {
+      setTimeout(() => {
+        startTour("firstGather", 0);
+      }, 150);
+    }
+  }, [currentPage, hasApprovedTos, hasFinishedFirstUseTour, activeTour]);
 
   const joinRoom = (data) => {
     const urls = envUrls;
@@ -174,16 +199,7 @@ const Video = () => {
             room={newRoomData}
           />
         )}
-        {/* <div
-          className={
-            isMobile
-              ? styles.gatheringSectionRemove
-              : styles.gatheringSection
-          }
-        >
-          GATHERINGS
-        </div> */}
-        <div className={styles.roomContainer}>
+        <div className={styles.roomContainer} id="tourFirstUse_gather">
           <GatheringCreate
             createRoomFormSubmit={createRoomFormSubmit}
             createScheduleRoom={triggerNewRoom}
@@ -213,14 +229,13 @@ const Video = () => {
             );
           })}
         </div>
-        {(scheduledcallRooms.length > 0) ? (
+        {scheduledcallRooms.length > 0 ? (
           <p
             className={
               isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
             }
           >
-            The future 
-
+            The future
           </p>
         ) : null}
 

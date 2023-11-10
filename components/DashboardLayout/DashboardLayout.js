@@ -14,6 +14,7 @@ import { useSocket } from "contexts/socket";
 import { Modal } from "Common";
 import TermsOfServiceModal from "components/TermsOfServiceModal/TermsOfServiceModal";
 import { updateUser } from "../../requests/userApi";
+import { useTourManager } from "contexts/tour";
 
 const Party = dynamic(() => import("../../pages/dashboard/party/index"), {
   loading: () => null,
@@ -33,8 +34,11 @@ const dynamicRoom = {
 
 const DashboardLayout = (props) => {
   const [menuActive, setmenuActive] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(null);
   const { isMobile } = useContext(MobileContext);
+
+  const { activeTour, startTour, endTour, lastStepIndex, skipStep, tourKey } =
+    useTourManager();
 
   const {
     changePage,
@@ -57,6 +61,8 @@ const DashboardLayout = (props) => {
     hasRoomMinimized,
     showTermsOfServiceModal,
     approvedTosHandler,
+    hasFinishedFirstUseTour,
+    hasApprovedTos,
   } = useComms();
   const { getInitialCallRooms, socketID, callRooms } = useVideo();
   const { user } = useAuth();
@@ -125,6 +131,18 @@ const DashboardLayout = (props) => {
       setShowCreateHarthNameModal(true);
     }
   }, [forceHarthCreation]);
+
+  useEffect(() => {
+    if (hasApprovedTos && !hasFinishedFirstUseTour && mobileMenuOpen != null) {
+      if (lastStepIndex == 0) {
+        if (mobileMenuOpen && activeTour) {
+          endTour();
+        } else {
+          startTour("fisrtUse", 1);
+        }
+      }
+    }
+  }, [mobileMenuOpen, hasApprovedTos, hasFinishedFirstUseTour]);
 
   const toggleMenu = () => {
     if (isMobile) {

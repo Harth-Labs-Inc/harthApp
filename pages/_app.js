@@ -1,6 +1,13 @@
 import { useRouter } from "next/router";
-// import { Analytics } from "@vercel/analytics/react";
-import { Work_Sans, Rubik, Raleway, Paytone_One, Open_Sans, DM_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import {
+  Work_Sans,
+  Rubik,
+  Raleway,
+  Paytone_One,
+  Open_Sans,
+  DM_Sans,
+} from "next/font/google";
 import localFont from "next/font/local";
 import Head from "next/head";
 import "../styles/Styles.modules.scss";
@@ -29,15 +36,14 @@ const rubik = Rubik({
   subsets: ["latin"],
   variable: "--Rubik-font",
   preload: false,
-}); 
+});
 
 const rale = Raleway({
   subsets: ["latin"],
   variable: "--Raleway-font",
- // weight: ["300", "400", "700"],
+  // weight: ["300", "400", "700"],
   preload: false,
-}); 
-
+});
 
 const dmsans = DM_Sans({
   subsets: ["latin"],
@@ -271,7 +277,7 @@ function MyApp({ Component, pageProps }) {
           </GatheringFormProvider>
         </AuthProvider>
       </ResponsiveProvider>
-      {/* <Analytics /> */}
+      <Analytics />
     </main>
   );
 }

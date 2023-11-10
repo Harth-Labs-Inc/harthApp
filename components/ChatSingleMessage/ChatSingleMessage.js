@@ -29,6 +29,7 @@ import NewMessageIcon from "components/NewMessageIcon/NewMessageIcon";
 import FlagConfirmationModal from "components/FlagConfirmationModal/FlagConfirmationModal";
 import BlockUserModal from "components/Menus/HarthSettings/BlockUserModal/BlockUserModal";
 import { Modal } from "Common";
+import { useTourManager } from "contexts/tour";
 
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -93,12 +94,22 @@ const ChatSingleMessage = (props) => {
     slideshowURLRef,
     postCollection,
     isReportPost,
+    isFirst,
   } = props;
 
   const { user } = useAuth();
   const { emitUpdate, newMessageIndicators } = useSocket();
-  const { selectedcomm, selectedTopic, profile, selectedConversation } =
-    useComms();
+  const {
+    selectedcomm,
+    selectedTopic,
+    profile,
+    selectedConversation,
+    hasFinishedFirstUseTour,
+    hasFinishedFirstPostTour,
+    hasApprovedTos,
+  } = useComms();
+
+  const { activeTour, startTour, skipStep, tourKey } = useTourManager();
 
   const newMessageIndicatorRef = useRef();
 
@@ -187,7 +198,7 @@ const ChatSingleMessage = (props) => {
       if (attachments.length > 0) {
         const db = await openDB(dbName, storeName);
         let tempAttch = [...attachments].reverse();
-        slideshowURLRef.current.push(...tempAttch);
+        slideshowURLRef?.current?.push(...tempAttch);
         const data = await Promise.all(
           attachments.map(async (att) => {
             const cachedData = await getAttachment(
@@ -230,6 +241,33 @@ const ChatSingleMessage = (props) => {
       setUrls([]);
     };
   }, [attachments]);
+
+  useEffect(() => {
+    if (
+      _id &&
+      hasApprovedTos &&
+      hasFinishedFirstUseTour &&
+      !activeTour &&
+      !hasFinishedFirstPostTour
+    ) {
+      setTimeout(() => {
+        startTour("firstPost", 0);
+      }, 150);
+    }
+  }, [_id, hasApprovedTos, hasFinishedFirstUseTour]);
+
+  useEffect(() => {
+    if (
+      showLongPressMenu &&
+      activeTour &&
+      hasApprovedTos &&
+      hasFinishedFirstUseTour &&
+      !hasFinishedFirstPostTour &&
+      tourKey == "firstPost"
+    ) {
+      skipStep();
+    }
+  }, [showLongPressMenu]);
 
   useEffect(() => {
     return () => {
@@ -406,7 +444,6 @@ const ChatSingleMessage = (props) => {
     }
   };
   const triggerPicker = (e) => {
-    console.log(messageInfoRef.current);
     e.preventDefault();
     e.stopPropagation();
     setEmojiPicker(!emojiPickerState);
@@ -566,6 +603,7 @@ const ChatSingleMessage = (props) => {
         ) : null}
         <EmojiPicker />
         <div
+          id={isFirst ? "tourFirstUse_post" : ""}
           ref={messageInfoRef}
           className={`
             ${styles.ChatParentContainer}

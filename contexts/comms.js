@@ -45,9 +45,22 @@ export const CommsProvider = ({
 
   const { user } = useAuth();
 
+  // ----------- first time triggers --------------------------------
+
   const [hasApprovedTos, setHasApprovedTos] = useState(
     user?.termsOfServiceApproved
   );
+  const [hasFinishedFirstUseTour, setHasFinishedFirstUseTour] = useState(
+    user?.firstUseTourApproved
+  );
+  const [hasFinishedFirstPostTour, setHasFinishedFirstPostTour] = useState(
+    user?.firstPostTourApproved
+  );
+  const [hasFinishedFirstGatherTour, setHasFinishedFirstGatherTour] = useState(
+    user?.firstGatherTourApproved
+  );
+
+  // ----------- first time triggers --------------------------------
 
   const selectedCommRef = useRef(SELECTEDCOMM);
   const profileRef = useRef(CREATOR);
@@ -647,10 +660,39 @@ export const CommsProvider = ({
     setHasApprovedTos(true);
     setShowTermsOfServiceModal(false);
   };
+  const toggleHasFinishedFirstUseTour = (value) => {
+    if (value) {
+      setHasFinishedFirstUseTour(value);
+    } else {
+      setHasFinishedFirstUseTour((prevVal) => !prevVal);
+    }
+  };
+  const toggleHasFinishedFirstPostTour = (value) => {
+    if (value) {
+      setHasFinishedFirstPostTour(value);
+    } else {
+      setHasFinishedFirstPostTour((prevVal) => !prevVal);
+    }
+  };
+  const toggleHasFinishedFirstGatherTour = (value) => {
+    if (value) {
+      setHasFinishedFirstGatherTour(value);
+    } else {
+      setHasFinishedFirstGatherTour((prevVal) => !prevVal);
+    }
+  };
 
   return (
     <CommsContext.Provider
       value={{
+        currentPage,
+        hasFinishedFirstGatherTour,
+        toggleHasFinishedFirstGatherTour,
+        hasApprovedTos,
+        hasFinishedFirstPostTour,
+        toggleHasFinishedFirstPostTour,
+        hasFinishedFirstUseTour,
+        toggleHasFinishedFirstUseTour,
         approvedTosHandler,
         showTermsOfServiceModal,
         changeSelectedCommFromChild,

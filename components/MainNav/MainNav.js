@@ -13,13 +13,20 @@ import { useComms } from "../../contexts/comms";
 
 import styles from "./mainNav.module.scss";
 import { useSocket } from "../../contexts/socket";
+import { useTourManager } from "contexts/tour";
 
+/* eslint-disable */
 const MainNav = (props) => {
   const { changePage, currentPage, onToggleMenu } = props;
   const [modal, setModal] = useState(false);
 
   const { isMobile } = useContext(MobileContext);
-  const { selectedcomm, selectedCommRef } = useComms();
+  const {
+    selectedcomm,
+    selectedCommRef,
+    hasApprovedTos,
+    hasFinishedFirstUseTour,
+  } = useComms();
   const {
     mainAlerts,
     setMainAlertsFromChild,
@@ -27,8 +34,8 @@ const MainNav = (props) => {
     unreadMessagesRef,
   } = useSocket();
 
-  // const unreadMessagesOther = true;
- 
+  const { skipStep, activeTour, lastStepIndex, tourKey } = useTourManager();
+
   useEffect(() => {
     if (selectedCommRef.current && mainAlerts[selectedCommRef.current?._id]) {
       let alerts = mainAlerts[selectedCommRef.current?._id];
@@ -90,7 +97,7 @@ const MainNav = (props) => {
 
   let hasLive = false;
   let schedules = [];
-  /* eslint-disable */
+
   if (currentPage !== "gather") {
     let gather = mainAlerts[selectedCommRef.current?._id]?.gather;
     hasLive = gather?.hasLive;
@@ -111,6 +118,18 @@ const MainNav = (props) => {
       )}
 
       <header
+        onClick={() => {
+          if (
+            hasApprovedTos &&
+            !hasFinishedFirstUseTour &&
+            tourKey == "fisrtUse" &&
+            activeTour &&
+            lastStepIndex == 2
+          ) {
+            skipStep();
+          }
+        }}
+        id="tourFirstUse_harthPageSwitcher"
         className={`${styles.MainNav} ${
           isMobile ? styles.Mobile : styles.Desktop
         }`}
@@ -222,13 +241,12 @@ const MainNav = (props) => {
               {currentPage == "message" ? (
                 <IconMessage />
               ) : (
-                <IconMessageMuted /> 
+                <IconMessageMuted />
               )}
             </div>
             <div className={styles.title}>DMs</div>
           </button>
         </div>
-        
       </header>
     </>
   );

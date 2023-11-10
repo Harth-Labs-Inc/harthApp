@@ -509,7 +509,7 @@ export const ConversationMessages = () => {
         <div id={styles.ChatMessages} onScroll={handleScroll}>
           <div ref={messagesEndRef} />
           {currentMessages && currentMessages.length > 0 ? (
-            currentMessages.map((msg) => (
+            currentMessages.map((msg, idex) => (
               <Fragment key={msg?._id}>
                 <ChatSingleMessage
                   msgReload={msgReload}
@@ -527,6 +527,7 @@ export const ConversationMessages = () => {
                   isEditing={messageEditing === msg?._id ? true : false}
                   toggleEditing={toggleEditing}
                   postCollection="conversation_messages"
+                  isFirst={idex == 0}
                 />
               </Fragment>
             ))

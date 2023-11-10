@@ -4,18 +4,12 @@ import {
   saveAcountSettingsUpdates,
   sendFullRefreshOTPEmail,
 } from "../../../requests/userApi";
-import {
-  // getBraintreeToken,
-  submitBraintreePurchase,
-} from "../../../requests/braintree";
 
 import { Button, BackButton, EditButton, Modal } from "../../Common";
 
 import OtpValidator from "../../../pages/auth/OtpValidator";
 
 import styles from "./SettingsMenu.module.scss";
-import { useRef } from "react";
-import { useEffect } from "react";
 
 const AccountProfile = (props) => {
   const { toggleCurrentPage } = props;
@@ -25,29 +19,8 @@ const AccountProfile = (props) => {
   /* eslint-disable-next-line */
   const [originalData, setOriginalData] = useState({ ...user });
   const [showOTPModal, setShowOTPModal] = useState(false);
-  const [paymentInstance, setPaymentInstance] = useState();
-  const [paymentNonce, setPaymentNonce] = useState();
   const [error, setError] = useState("");
 
-  const dropinContainerRef = useRef(null);
-
-  useEffect(() => {
-    addBraintreeScript();
-  }, []);
-
-  const addBraintreeScript = () => {
-    const script = document.createElement("script");
-    script.src =
-      "https://js.braintreegateway.com/web/dropin/1.31.0/js/dropin.min.js";
-    script.async = true;
-    script.onload = () => {
-      console.log("Braintree script loaded successfully");
-    };
-    script.onerror = () => {
-      console.error("Failed to load Braintree script");
-    };
-    document.head.appendChild(script);
-  };
   const toggleCurrentSetting = (name) => {
     setCurrentTab(name);
   };
@@ -109,113 +82,10 @@ const AccountProfile = (props) => {
       setError(results.msg);
     }
   };
-  // const startPaymentProcess = async () => {
-  //   teardownBraintreeUI();
-
-  //   const { clientToken } = await getBraintreeToken();
-
-  //   if (clientToken) {
-  //     window.braintree.dropin.create(
-  //       {
-  //         authorization: clientToken,
-  //         container: dropinContainerRef.current,
-  //         paymentOptionPriority: [
-  //           "card",
-  //           "paypal",
-  //           "venmo",
-  //           "applePay",
-  //           "googlePay",
-  //         ],
-  //       },
-  //       (_, instance) => {
-  //         if (instance) {
-  //           setPaymentInstance(instance);
-  //         }
-  //       }
-  //     );
-  //   }
-  // };
-  const handlePaymentNonce = async () => {
-    if (!paymentInstance) {
-      return;
-    }
-
-    paymentInstance.requestPaymentMethod((err, payload) => {
-      if (err) {
-        console.log("Error requesting payment method: ", err);
-        return;
-      }
-      setPaymentNonce(payload);
-    });
-  };
-  const teardownBraintreeUI = () => {
-    if (paymentInstance) {
-      paymentInstance.teardown((err) => {
-        if (!err) {
-          setPaymentInstance(null);
-        }
-      });
-    }
-  };
-  const resetPayment = () => {
-    setPaymentNonce(null);
-    teardownBraintreeUI();
-  };
-  const handlePurchase = async () => {
-    const { ok } = await submitBraintreePurchase({
-      paymentNonce,
-      amount: "0.01",
-    });
-    if (ok) {
-      resetPayment();
-    }
-  };
 
   if (!currentTab) {
     return (
       <>
-        <div
-          id="payment_modal"
-          ref={dropinContainerRef}
-          style={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            zIndex: paymentInstance || paymentNonce ? 1 : 0,
-            transform: "translate3d(-50%,-50%, 0)",
-            background:
-              paymentInstance || paymentNonce ? "white" : "transparent",
-            minHeight: paymentInstance ? 400 : paymentNonce ? 280 : 0,
-            minWidth: paymentInstance ? 400 : paymentNonce ? 280 : 0,
-            padding: "10px",
-          }}
-        >
-          {paymentNonce ? (
-            <button
-              style={{
-                display: "block",
-                bottom: "10px",
-                right: "10px",
-                position: "absolute",
-              }}
-              onClick={handlePurchase}
-            >
-              Purchase
-            </button>
-          ) : paymentInstance ? (
-            <button
-              style={{
-                display: "block",
-                bottom: "10px",
-                right: "10px",
-                position: "absolute",
-              }}
-              onClick={handlePaymentNonce}
-            >
-              Continue
-            </button>
-          ) : null}
-        </div>
         <div className={styles.SettingsContainer}>
           <div className={styles.SettingsContainerHeader}>
             <BackButton clickHandler={handleBack} />
@@ -243,10 +113,6 @@ const AccountProfile = (props) => {
               <EditButton clickHandler={() => toggleCurrentSetting("dob")} />
             </div>
           </div>
-
-          {/* <div>
-            <button onClick={startPaymentProcess}>Upgrade!</button>
-          </div> */}
         </div>
       </>
     );

@@ -301,6 +301,7 @@ const MessageWrapper = () => {
                   toggleEditing={toggleEditing}
                   messageIndex={index}
                   postCollection="messages"
+                  isFirst={index == 0}
                 />
               </Fragment>
             ))
