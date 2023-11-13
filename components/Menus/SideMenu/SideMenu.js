@@ -286,6 +286,7 @@ const SideNav = (props) => {
       <DisplaySettingsNav />
 
       <aside className={styles.SideNav} ref={leftNav}>
+        <div className={styles.holder}>
         <HarthList
           comms={comms}
           selectedcomm={selectedcomm}
@@ -297,13 +298,13 @@ const SideNav = (props) => {
         />
 
         <div className={styles.bottomHolder}>
-          <button
+          {/* <button
             className={` ${styles.SettingsButton} ${styles.SettingsButtonFeedback} `}
             onClick={toggleFeedbackModal}
             aria-label="Toggle User Feedback menu"
           >
             <IconFeedback />
-          </button>
+          </button> */}
           <button
             className={` ${styles.SettingsButton} ${styles.SettingsButtonInvites} `}
             onClick={toggleInviteModal}
@@ -318,6 +319,7 @@ const SideNav = (props) => {
           >
             <IconMenu />
           </button>
+        </div>
         </div>
       </aside>
     </>

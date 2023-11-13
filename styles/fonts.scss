@@ -1,31 +1,30 @@
+
 @mixin systemFont {
-  font-family: var(--Work_Sans-font);
-  //font-family: var(--Rubik-font);
-  font-weight: 400;
+  font-family: var(--Ambit-font);
   font-size: 14px;
-  letter-spacing: 0.05em;
+  //letter-spacing: 0.02em;
 }
 
 @mixin harthTitle {
-  font-family: var(--Paytone_One-font);
+  font-family: var(--Tobias_Regular-font);
   //font-weight: 700;
-  letter-spacing: 0.03em;
-  text-rendering: optimizeLegibility;
+  //letter-spacing: 0.03em;
+  //text-rendering: optimizeLegibility;
 }
 
 @mixin talkingHead {
-  font-family: var(--COOPBL-font);
+  font-family: var(--Ambit-font);
   font-size: 20px;
   letter-spacing: 0.01em;
-  line-height: 22px;
+  line-height: 105%;
 }
 
 @mixin titleNav {
-  font-family: var(--DM_Sans-font);
-  font-weight: 400;
-  font-size: 16px;
+  font-family: var(--Ambit-font);
+  font-size: 12px;
   line-height: 100%;
-  text-rendering: optimizeLegibility;
+  letter-spacing: .05em;
+  //text-transform: uppercase;
 }
 
 @mixin titleNavMobile {
@@ -86,10 +85,10 @@
 
 @mixin chatText {
   font-family: var(--Raleway-font);
-  font-weight: 400;
+  font-family: var(--Ambit-font);
   font-size: 14px;
-  line-height: 130%;
-  letter-spacing: 0.03em;
+  line-height: 120%;
+  //letter-spacing: 0.03em;
   text-rendering: optimizeLegibility;
 }
 

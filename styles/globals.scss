@@ -5,6 +5,7 @@
 //Consolodated
 $fuel: #271623;
 $ash: #28282e;
+$oxygen: #fcfff6;
 
 $font_light: #fafafa;
 $font_dark: $fuel;
@@ -14,17 +15,20 @@ $font_reverse: $font_light;
 $font_muted: #8a7892;
 
 
-$background: #ffffff;
-$background_reverse: #000000;
+$background: $oxygen;
+$background_reverse: $fuel;
 $background_offset: darken($background, 3%);
+$background_page: #fff;
+$background_page_offset: darken($background_page, 3%);
+$background_behind: $fuel;
 
 $button_main: $ash;
 $button_main_press: darken($button_main, 20%);
 
 
-$border_basic: darken($background, 10%);
-$border_light: darken($background, 5%);
-$border_heavy: darken($background, 20%);
+$border_basic: lighten($ash, 75%);
+$border_light: lighten($ash, 80%);
+$border_heavy: lighten($ash, 50%);
 
 
 //Text Colors
@@ -35,7 +39,7 @@ $font_dark: #000000;
 
 
 // Oxygen
-$oxygen: #fcfff6;
+
 $oxygen_5: rgba(252, 255, 246, 0.05);
 $oxygen_10: rgba(252, 255, 246, 0.1);
 $oxygen_20: rgba(252, 255, 246, 0.2);

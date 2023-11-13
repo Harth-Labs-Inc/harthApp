@@ -11,15 +11,26 @@
 }
 .SideNav {
     position: relative;
-    padding: 12px 0px 96px 0px;
+    padding: 0px 0px;
     width: 56px;
     height: var(--vh);
     min-width: 56px;
-    background-color: $background_offset;
-    border-right: 1px solid $border_basic;
+    background-color: transparent;
+    //border-right: 1px solid $border_basic;
     //border-top: 1px solid $ash_medium;
-    //border-top-right-radius: 16px;
+    //border-top-right-radius: 8px;
     //border-bottom-right-radius: 16px;
+
+    .holder {
+        position: relative;
+        background-color: $fuel;
+        height: 100%;
+        padding: 36px 0px 96px 0px;
+        border-top-right-radius: 56px;
+        border-bottom-right-radius: 56px;
+        border: 1px solid $border_basic;
+        border-left: 0;
+    }
 
     .bottomHolder {
         position: absolute;
@@ -29,12 +40,12 @@
         bottom: 0px;
         height: fit-content;
         width: 100%;
-        background-color: $background_offset;
+        background-color: $fuel;
         //border-top: 1px solid $ash_medium;
         z-index: 1;
-        padding: 12px 0px 12px 0px;
+        padding: 12px 0px 40px 0px;
         gap: 8px;
-        //border-bottom-right-radius: 16px;
+        border-bottom-right-radius: 56px;
 
         .SettingsButton {
             position: relative;
@@ -49,7 +60,7 @@
     
     
             path {
-                fill: $font_main;
+                fill: $font_light;
             }
     
     

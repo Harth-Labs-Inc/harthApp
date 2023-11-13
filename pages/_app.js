@@ -60,6 +60,30 @@ const coopbl = localFont({
   preload: true,
 });
 
+const ambit = localFont({
+  src: "../public/fonts/Ambit-Regular.ttf",
+  variable: "--Ambit-font",
+  preload: true,
+});
+
+const ambitBold = localFont({
+  src: "../public/fonts/Ambit-Bold.ttf",
+  variable: "--Ambit_Bold-font",
+  preload: true,
+});
+
+const ambitLight = localFont({
+  src: "../public/fonts/Ambit-Light.ttf",
+  variable: "--Ambit_Light-font",
+  preload: true,
+});
+
+const tobias = localFont({
+  src: "../public/fonts/Tobias-Regular.ttf",
+  variable: "--Tobias_Regular-font",
+  preload: true,
+});
+
 fontClassNames.push(coopbl.className);
 fontClassNames.push(work_Sans.variable);
 fontClassNames.push(open_Sans.variable);
@@ -67,6 +91,10 @@ fontClassNames.push(rubik.variable);
 fontClassNames.push(dmsans.variable);
 fontClassNames.push(paytone.variable);
 fontClassNames.push(rale.variable);
+fontClassNames.push(ambit.variable);
+fontClassNames.push(ambitBold.variable);
+fontClassNames.push(ambitLight.variable);
+fontClassNames.push(tobias.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -257,7 +285,7 @@ function MyApp({ Component, pageProps }) {
           href="/icons/icon-1024x1024.png"
         />
 
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#fcfff6" />
 
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
