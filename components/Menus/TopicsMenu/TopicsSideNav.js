@@ -358,7 +358,7 @@ const TopicsNav = (props) => {
               })}
             {topicsArr.length < 1 ? (
               <div className={styles.notopic}>
-                Select below to start a new chat
+                Select below to create a new topic
               </div>
             ) : null}
             <button

@@ -27,7 +27,8 @@
         height: 1px;
         width: 92%;
         content: "";
-        background-color: $border_light;
+        //background-color: $border_light;
+        background: linear-gradient(90deg, $border_light, transparent 70%);
 
     }
 

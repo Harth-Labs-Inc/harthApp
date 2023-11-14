@@ -7,6 +7,7 @@ import {
   Paytone_One,
   Open_Sans,
   DM_Sans,
+  Noto_Serif_JP,
 } from "next/font/google";
 import localFont from "next/font/local";
 import Head from "next/head";
@@ -23,6 +24,13 @@ const fontClassNames = [];
 const work_Sans = Work_Sans({
   subsets: ["latin"],
   variable: "--Work_Sans-font",
+  preload: false,
+});
+
+const noto_serif = Noto_Serif_JP({
+  subsets: ["latin"],
+  variable: "--Noto_Serif_JP-font",
+  weight: ["200", "300", "400", "600"],
   preload: false,
 });
 
@@ -73,6 +81,7 @@ fontClassNames.push(rubik.variable);
 fontClassNames.push(dmsans.variable);
 fontClassNames.push(paytone.variable);
 fontClassNames.push(rale.variable);
+fontClassNames.push(noto_serif.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

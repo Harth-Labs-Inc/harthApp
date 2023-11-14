@@ -6,6 +6,38 @@
 $fuel: #271623;
 $ash: #28282e;
 
+
+// Hot Blue
+$hot_blue: #0d75ca;
+//$hot_blue: #80d2ed;
+
+// Hot Green
+$hot_green: #3cc8a3;
+//$hot_green: #61c4be;
+
+// Hot Purple
+$hot_purple: #aa68c8;
+//$hot_purple: #c79ac6;
+
+// Hot Pink
+$hot_pink: #d96fab;
+//$hot_pink: #f28dba;
+
+// Hot Orange
+$hot_orange: #FD823A;
+//$hot_orange: #f8aa7d;
+
+// Hot Red
+$hot_red: #e11934;
+//$hot_red: #f2757c;
+
+
+$hot_salmon: #ff6b66;
+
+$alert_red: #bb0000;
+
+
+
 $font_light: #fafafa;
 $font_dark: $fuel;
 
@@ -17,6 +49,8 @@ $font_muted: #8a7892;
 $background: #ffffff;
 $background_reverse: #000000;
 $background_offset: darken($background, 3%);
+$background_sidebar: #eaeaef;
+$background_sidebar: darken($background, 10%);
 
 $button_main: $ash;
 $button_main_press: darken($button_main, 20%);
@@ -24,7 +58,7 @@ $button_main_press: darken($button_main, 20%);
 
 $border_basic: darken($background, 10%);
 $border_light: darken($background, 5%);
-$border_heavy: darken($background, 20%);
+$border_heavy: darken($background, 15%);
 
 
 //Text Colors
@@ -131,33 +165,81 @@ $fuel_3: rgba(47, 29, 42, 0.03);
 $muted_text: #aeb4b8;
 
 
-// Hot Blue
-$hot_blue: #0d75ca;
-
-
-// Hot Green
-$hot_green: #3cc8a3;
-
-// Hot Purple
-$hot_purple: #aa68c8;
-
-// Hot Pink
-$hot_pink: #d96fab;
-
-// Hot Orange
-$hot_orange: #FD823A;
-
-// Hot Red
-$hot_red: #e11934;
-
-
-$hot_salmon: #ff6b66;
 
 
 // ========================
-// System
+// Mixins
 // ========================
-$alert_red: #bb0000;
+@mixin buttonPrimary {
+  background: linear-gradient(45deg, $hot_purple, darken($hot_purple, 30%));
+  border: 0;
+  color: $font_light;
+  @include systemFont;
+  letter-spacing: 0.02em;
+  font-size: 16px;
+  height: 48px;
+  width: fit-content;
+  margin: 0;
+  border-radius: 999px;
+  padding: 0px 18px;
+  cursor: pointer;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { 
+      background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
+    } 
+  }
+
+  &:active {
+    background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
+  }
+}
+
+@mixin buttonSecondary{
+  background: $background;
+  color: $font_muted;
+  border: 1px solid $border_heavy;
+  @include systemFont;
+  letter-spacing: 0.02em;
+  font-size: 16px;
+  height: 48px;
+  width: fit-content;
+  margin: 0;
+  border-radius: 999px;
+  padding: 0px 18px;
+  cursor: pointer;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { 
+      background: $background_offset;
+    }
+  }
+
+  &:active {
+    background: $background_offset;
+  }
+}
+
+@mixin buttonSystem{
+
+}
+
+@mixin buttonColorFade {
+  background: linear-gradient(45deg, $hot_purple, darken($hot_purple, 30%));
+  border: 0;
+  margin: 0;
+  cursor: pointer;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { 
+      background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
+    } 
+  }
+
+  &:active {
+    background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
+  }
+}
 
 
 // ========================

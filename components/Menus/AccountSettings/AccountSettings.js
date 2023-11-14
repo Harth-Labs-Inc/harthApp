@@ -9,7 +9,7 @@ import SubSettings from "./SubSettings";
 import { useSocket } from "contexts/socket";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 import { IconFeedback } from "resources/icons/IconFeedback";
-import { IconInvite } from "resources/icons/IconInvite";
+import { IconInviteEmail } from "resources/icons/IconInviteEmail";
 
 const SettingsList = ({ toggleCurrentTab }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -48,9 +48,9 @@ const SettingsList = ({ toggleCurrentTab }) => {
         onClick={toggleInviteModal}
       >
         <div className={styles.iconHolder}>
-          <IconInvite />
+          <IconInviteEmail />
         </div>
-        Invites
+        Send an Invite
       </button>
       {/* <button
         className={styles.menuItem}
@@ -62,15 +62,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
         </div>
       </button> */}
 
-      <button
-        className={` ${styles.menuItem} ${styles.menuItemInvites}`}
-        onClick={toggleFeedbackModal}
-      >
-        <div className={styles.iconHolder}>
-          <IconFeedback />
-        </div>
-        Submit Feedback
-      </button>
+      
 
 
       {isMobile ? (
@@ -87,7 +79,15 @@ const SettingsList = ({ toggleCurrentTab }) => {
         <SubSettings toggleCurrentTab={toggleCurrentTab} />
       )}
 
-
+<button
+        className={styles.menuItem}
+        onClick={toggleFeedbackModal}
+      >
+        {/* <div className={styles.iconHolder}>
+          <IconFeedback />
+        </div> */}
+        Submit Feedback
+      </button>
 
       <button className={styles.menuItem} onClick={() => signOut()}>
         Sign Out

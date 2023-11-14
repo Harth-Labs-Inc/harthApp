@@ -11,32 +11,36 @@
     list-style-type: none;
     overflow-y: scroll;
     
+    
 
     .Item {
         position: relative;
         display: flex;
         width: 100%;
-        height: 48px;
+        height: 40px;
         justify-content: center;
         align-items: center;
 
         &Button {
             opacity: 1;
+            outline: 0;
             position: relative;
             height: 38px;
             width: 38px;
-            padding: 0px;
-            background-color: transparent;
-            border-radius: 11px;
+            padding: 0;
+            background: transparent;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
-            border: 2px solid transparent;
+            border: 2px solid $background_sidebar;
             transition: all 0.1s ease-in-out;
-            &:hover {
-                //padding: 2px;
-                opacity: 1;
-                border-color: $font_main;
-                //border-color: $silver_med;
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    //padding: 2px;
+                    opacity: 1;
+                    border-color: $font_main;
+                    //border-color: $silver_med;
+                }
             }
 
         }
@@ -52,8 +56,8 @@
             img {
                 width: 100%;
                 height: 100%;
-                border-radius: 8px;
-                border: 2px solid $background;
+                border-radius: 10px;
+                border: 2px solid transparent;
                 
             }
             
@@ -64,6 +68,10 @@
             button {
                 opacity: 1;
                 border-color: $font_main;
+
+                // img {
+                //     border: 0;
+                // }
                 //padding: 0px;
                 //box-shadow: 2px 2px 0 $hot_purple;
             }
@@ -93,7 +101,7 @@
         height: 24px;
         width: 24px;
         border: 0px;
-        margin-top: 8px;
+        margin-top: 6px;
         margin-bottom: 24px;
         margin-left: auto;
         margin-right: auto;
@@ -105,20 +113,23 @@
             align-items: center;
             height: 100%;
             width: 100%;
-            //border: 1px solid $ash_medium;
-            border: 0;
+            border: 1px solid darken($background_sidebar, 15%);
             border-radius: 8px; 
-            background: $border_heavy;
-            padding: 0px;
+            //background: $border_heavy;
+            background: $border_basic;
+            padding: 2px;
             cursor: pointer;
             path {
-                fill: $background_offset;
+                fill: darken($background_sidebar, 20%);
             }
 
             @media (hover: hover) and (pointer: fine) {
                 &:hover {
-                    background-color: $button_main_press;
-
+                    background-color: darken($background_sidebar, 7%);
+                    border-color: darken($background_sidebar, 25%);;
+                    path {
+                        fill: darken($background_sidebar, 30%);
+                    }
                 }
             }
         }

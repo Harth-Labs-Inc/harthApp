@@ -15,9 +15,9 @@
     width: 56px;
     height: var(--vh);
     min-width: 56px;
-    background-color: $background_offset;
-    border-right: 1px solid $border_basic;
-    //border-top: 1px solid $ash_medium;
+    background-color: $background_sidebar;
+    border-right: 1px solid $border_heavy;
+    border-top: 1px solid $border_basic;
     //border-top-right-radius: 16px;
     //border-bottom-right-radius: 16px;
 
@@ -29,18 +29,18 @@
         bottom: 0px;
         height: fit-content;
         width: 100%;
-        background-color: $background_offset;
+        background-color: $background_sidebar;
         //border-top: 1px solid $ash_medium;
         z-index: 1;
         padding: 12px 0px 12px 0px;
-        gap: 8px;
+        gap: 4px;
         //border-bottom-right-radius: 16px;
 
         .SettingsButton {
             position: relative;
-            height: 32px;
-            width: 32px;
-            padding: 4px;
+            height: 36px;
+            width: 36px;
+            padding: 6px;
             background-color: transparent;
             border: 0;
             border-radius: 6px;
@@ -49,15 +49,16 @@
     
     
             path {
-                fill: $font_main;
+                fill: $font_muted;
             }
     
     
             @media (hover: hover) and (pointer: fine) {
                 &:hover {
-                background-color: $button_main_press;
+                background-color: $border_heavy;
+                border-color: $border_light;
                 path {
-                    fill: $background_offset;
+                    fill: $font_main;
                 }
 
                 }
@@ -65,7 +66,7 @@
     
             &Invites {
                 path{
-                    fill: $hot_purple;
+                    fill: unset;
                 }
                 @media (hover: hover) and (pointer: fine) {
                     &:hover {
@@ -150,6 +151,28 @@
                             z-index: 9;
                         }
                     }
+                }
+            }
+    
+        }
+
+        .InviteButton {
+            position: relative;
+            height: 36px;
+            width: 36px;
+            padding: 4px;
+            background-color: transparent;
+            border: 0;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            cursor: pointer;
+    
+    
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    background-color: $border_heavy;
+                    border-color: $border_light;
+
                 }
             }
     

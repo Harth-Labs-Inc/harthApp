@@ -88,7 +88,7 @@ const ConversationsNav = ({
           <>
             {conversations < 1 ? (
               <div className={styles.notopic}>
-                Select below to start a new message
+                Select below to create a new message
               </div>
             ) : null}
             <div className={styles.ConversationsNavContainer}>

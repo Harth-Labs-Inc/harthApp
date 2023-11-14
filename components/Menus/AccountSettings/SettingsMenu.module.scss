@@ -205,23 +205,29 @@
     .iconHolder {
         height: 24px;
         width: 24px;
-        path {
-            fill: $font_main;
-        }
+        // path {
+        //     fill: $font_main;
+        // }
     }
 
     &Invites {
-        color: $hot_purple;
+        color: $font-main;
         //font-weight: 600;
         justify-content: flex-start;
-        gap: 12px;
+        gap: 8px;
+        border: 1px solid $border_basic;
+        width: 90%;
+        height: fit-content;
+        padding: 12px 8px;
+        margin-bottom: 24px;
 
         .iconHolder {
-            height: 28px;
-            width: 28px;
-            path {
-                fill: $hot_purple;
-            }
+            height: 40px;
+            width: 40px;
+            //margin-left: -6px;
+            // path {
+            //     fill: $hot_purple;
+            // }
         }
 
     }
