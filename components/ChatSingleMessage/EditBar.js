@@ -23,6 +23,9 @@ const EditBar = ({
 }) => {
   const [showMoreButtons, setShowMoreButtons] = useState(false);
 
+  let flagButton = null;
+  let blockButton = null;
+
   if (showEditBar && showEditBar === _id) {
     const reactionButton = (
       <button value="reaction" title="reaction" onClick={triggerPicker}>
@@ -49,7 +52,7 @@ const EditBar = ({
         </button>
       );
 
-      const flagButton = (
+      flagButton = (
         disableFLagIcon ? (
           <button
             disabled
@@ -67,7 +70,7 @@ const EditBar = ({
         )
       );
 
-      const blockButton = (
+      blockButton = (
         creator_id !== user_id ? (
           <button value="block" title="block user" onClick={blockUserHandler}>
             <BlockIcon blockName={blockName} />
