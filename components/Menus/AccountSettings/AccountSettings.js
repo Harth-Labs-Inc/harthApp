@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-
 import { MobileContext } from "../../../contexts/mobile";
 import InviteComp from "../AccountSettings/Invite";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
@@ -8,7 +7,6 @@ import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
 import { useSocket } from "contexts/socket";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
-import { IconFeedback } from "resources/icons/IconFeedback";
 import { IconInviteEmail } from "resources/icons/IconInviteEmail";
 
 const SettingsList = ({ toggleCurrentTab }) => {

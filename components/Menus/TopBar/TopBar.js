@@ -13,7 +13,8 @@ import { useSocket } from "contexts/socket";
 import { useTourManager } from "contexts/tour";
 
 const TopBar = (props) => {
-  const { children, onToggleMenu, currentPage } = props;
+  //const { children, onToggleMenu, currentPage } = props;
+  const { children, onToggleMenu } = props;
   const [showEditUserModal, setShowEditUserModal] = useState(null);
   const [isPullingReports, setIsPullingReports] = useState(false);
   const [reportPosts, setReportPosts] = useState(null);

@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from "react";
 import { useComms } from "../../../contexts/comms";
 import { sendInviteEmails } from "../../../requests/community";
 import styles from "./inviteModal.module.scss";
-import { IconClose } from "resources/icons/IconClose";
 import { IconInviteEmail } from "resources/icons/IconInviteEmail";
 
 const InviteComp = (props) => {

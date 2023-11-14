@@ -9,7 +9,6 @@ import {
 } from "../../../requests/community";
 import { MobileContext } from "../../../contexts/mobile";
 import { IconMenu } from "../../../resources/icons/IconMenu";
-import { IconInvite } from "resources/icons/IconInvite";
 import { updateHarthData } from "../../../requests/community";
 import { Modal, SideModal } from "../../Common";
 import HarthEditModal from "../../HarthEditModal";
@@ -21,7 +20,6 @@ import HarthList from "../HarthList/HarthList";
 import styles from "./SideMenu.module.scss";
 import CreateHarthName from "../../createHarthName/createHarthName";
 import CreateHarthProfile from "../../createHarthProfile/createHarthProfile";
-import { IconFeedback } from "resources/icons/IconFeedback";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 import InviteComp from "../AccountSettings/Invite";
 import { IconInviteEmail } from "resources/icons/IconInviteEmail";

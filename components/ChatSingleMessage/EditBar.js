@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { IconDeleteNoFill } from "../../resources/icons/IconDeleteNoFill";
 import { IconEditNoFill } from "../../resources/icons/IconEditNoFill";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
