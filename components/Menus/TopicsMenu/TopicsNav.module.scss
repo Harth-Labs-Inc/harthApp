@@ -198,10 +198,11 @@
         margin-top: 24px;
         margin-bottom: 36px;
         transition: opacity;
-        background-color: $border_basic;
+        background-color: transparent;
+        border: 1px solid $border_heavy;
         
         path {
-            fill: $background;
+            fill: $border_heavy;
         }
         
         &:active{

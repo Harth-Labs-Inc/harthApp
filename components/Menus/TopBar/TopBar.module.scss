@@ -30,19 +30,22 @@
     align-items: center;
     justify-content: space-between;
     height: 56px;
-    //min-height: 56px;
-    //max-height: 56px;
     width: 100%;
     padding-right: 12px;
-    //padding-left: 16px;
-    //border-bottom: 1px solid $border_basic;
-    background: linear-gradient(to bottom, $background 55%, transparent 100%);
+    background: transparent;
     z-index: 10;
-
+    border-top: 1px solid $border_basic;
 
     .avatarDesktop {
         //margin-top: 2px;
         background-color: transparent;
+
+        img {
+            box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+                0 2px 2px hsl(0deg 0% 0% / 0.075),
+                0 4px 4px hsl(0deg 0% 0% / 0.075),
+                0 6px 6px hsl(0deg 0% 0% / 0.075);
+        }
         
 
     }
@@ -81,8 +84,7 @@
             min-width: 52px;
             border-radius: 8px;
             z-index: 1;
-            border: 1px solid $border_basic;
-            border: 0;
+            border: 1px solid $border_light;
         }
 
         &UnreadMessage {
@@ -129,7 +131,7 @@
         margin: 0;
 
         background: $background;
-
+        border: 0;
         border-bottom: 1px solid $border_basic;
         //border-top: 1px solid $border_basic;
     }
@@ -143,15 +145,17 @@
     padding-bottom: 2px;
 }
 .TopBarName {
+//    width: 100%;
     @include harthTitle;
     font-size: 26px;
-    line-height: 32px;
-    height: 32px;
-    max-height: 32px;
+    line-height: 30px;
+    height: 30px;
+    max-height: 30px;
     color: $font_main;
     //background-color: aqua;
     overflow: hidden;
-    word-break: break-all;
+//    text-wrap: nowrap;
+    text-overflow: ellipsis;
 
 }
 .Section {

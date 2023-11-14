@@ -69,11 +69,9 @@
                 opacity: 1;
                 border-color: $font_main;
 
-                // img {
-                //     border: 0;
-                // }
-                //padding: 0px;
-                //box-shadow: 2px 2px 0 $hot_purple;
+                img {
+                    border: 0;
+                }
             }
 
 
@@ -130,6 +128,7 @@
                     path {
                         fill: darken($background_sidebar, 30%);
                     }
+
                 }
             }
         }

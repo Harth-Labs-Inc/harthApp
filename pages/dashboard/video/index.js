@@ -242,7 +242,7 @@ const Video = () => {
               isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
             }
           >
-            The future
+            Scheduled
           </p>
         ) : null}
 

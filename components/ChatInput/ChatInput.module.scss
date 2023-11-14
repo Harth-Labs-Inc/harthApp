@@ -56,7 +56,7 @@
     display: flex;
     flex-direction: column;
     background: $background;
-    padding: 0px 0px 4px 0px;
+    padding: 0px 0px 0px 0px;
     border-bottom: none;
     border-radius: 0;
 
@@ -100,10 +100,10 @@
         display: flex;
         justify-content: space-between;
         padding: 4px 16px 4px 16px;
-        background: $background;
+        background: $background_offset;
         border: 0;
         border-radius: 0px;
-        border-top: 0;
+        border-top: 1px solid $border_basic;
 
         &Right,
         &Left {
@@ -124,7 +124,7 @@
                 cursor: pointer;
 
                 path {
-                    fill: $border_heavy;
+                    fill: darken($background, 25%)
                 }
 
 
@@ -165,7 +165,7 @@
                 }
 
                 &.SendActive {
-                    background-color: $hot_pink;
+                    background: radial-gradient($hot_pink, darken($hot_pink, 15%));
                     path {
                         fill: $font_light;
                     }
@@ -233,7 +233,7 @@
     display: flex;
     flex-direction: column;
     background: $background;
-    padding: 0px 0px 12px 0px;
+    padding: 0px 0px 0px 0px;
     border-bottom: none;
     border-radius: 0;
 
@@ -268,7 +268,7 @@
 
     .entryBox {
         border-top: 1px solid $border_basic;
-        border-bottom: 1px solid $background;
+        border-bottom: 1px solid $border_basic;
         //border-radius: 6px;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
@@ -281,8 +281,8 @@
     &Controls {
         display: flex;
         justify-content: space-between;
-        padding: 6px 16px;
-        background: transparent;
+        padding: 6px 16px 16px 16px;
+        background: $background_offset;
         border-top: 0;
 
         &Right,
@@ -350,15 +350,8 @@
 
                 &.SendActive {
                     //border: 1px solid $silver-med;
-                    background-color: $hot_pink;
-                    path {
-                        fill: $background;
-                    }
-                }
-
-                &.SendActive {
-                    //border: 1px solid $silver-med;
-                    background-color: $hot_pink;
+                    //background-color: $hot_pink;
+                    background: radial-gradient($hot_pink, darken($hot_pink, 15%));
                     path {
                         fill: $background;
                     }

@@ -142,11 +142,11 @@ const TopBar = (props) => {
 
             <div className={styles.titleHolder}>
               <div className={styles.TopBarName}>{selectedcomm?.name}</div>
-              <div className={styles.SectionMobile}>
+              {/* <div className={styles.SectionMobile}>
                 {currentPage == "chat" && "chats"}
                 {currentPage == "gather" && "gather"}
                 {currentPage == "message" && "messages"}
-              </div>
+              </div> */}
             </div>
           </div>
         ) : null}

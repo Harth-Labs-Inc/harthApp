@@ -385,7 +385,7 @@
             justify-content: center;
             height: 32px;
             width: 32px;
-            border-radius: 10px;
+            border-radius: 8px;
             background-color: transparent;
             cursor: pointer;
             border: 0;
@@ -396,11 +396,22 @@
                 fill: $font_muted;
             }
 
-            &:hover {
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    path {
+                        fill: $font_main;
+                    }
+                    background-color: $border_basic;
+                }
+            }
+
+            &:active {
                 path {
                     fill: $font_main;
                 }
+                background-color: $border_basic;
             }
+
         }
     }
 }

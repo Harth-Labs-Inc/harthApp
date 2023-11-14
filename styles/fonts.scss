@@ -10,6 +10,7 @@
   font-family: var(--Rubik-font);
   font-weight: 800;
   letter-spacing: 0em;
+  line-height: 110%;
   text-rendering: optimizeLegibility;
 }
 
@@ -167,10 +168,10 @@
 }
 
 @mixin menuText {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 14px;
-  letter-spacing: 0.05em;
+  //letter-spacing: 0.05em;
   line-height: 125%;
   //text-rendering: optimizeLegibility;
 }

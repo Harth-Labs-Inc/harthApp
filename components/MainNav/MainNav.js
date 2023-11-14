@@ -1,11 +1,8 @@
 import { useState, useContext, useEffect } from "react";
 import { MobileContext } from "../../contexts/mobile";
 import { IconGather } from "resources/icons/IconGather";
-import { IconGatherMuted } from "resources/icons/IconGatherMuted";
 import { IconMessage } from "resources/icons/IconMessage";
-import { IconMessageMuted } from "resources/icons/IconMessageMuted";
 import { IconChat } from "resources/icons/IconChat";
-import { IconChatMuted } from "resources/icons/IconChatMuted";
 import { IconHome } from "resources/icons/IconHome";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
@@ -162,6 +159,7 @@ const MainNav = (props) => {
             aria-label="Community Chat"
             className={`
                             ${styles.MainNavPageButton} 
+                            ${styles.MainNavPageButtonChat} 
                             ${currentPage == "chat" && styles.Active}
 
                         `}
@@ -181,7 +179,7 @@ const MainNav = (props) => {
 
                 `}
             >
-              {currentPage == "chat" ? <IconChat /> : <IconChatMuted />}
+              <IconChat />
             </div>
             <div className={styles.title}>Topics</div>
           </button>
@@ -192,6 +190,7 @@ const MainNav = (props) => {
             aria-label="Gather"
             className={`
                             ${styles.MainNavPageButton} 
+                            ${styles.MainNavPageButtonGather} 
                             ${currentPage == "gather" ? styles.Active : null} 
                         `}
             onClick={() => {
@@ -209,7 +208,7 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              {currentPage == "gather" ? <IconGather /> : <IconGatherMuted />}
+              <IconGather /> 
             </div>
             <div className={styles.title}>Gather</div>
           </button>
@@ -220,6 +219,7 @@ const MainNav = (props) => {
             aria-label="Private Messages"
             className={`
                             ${styles.MainNavPageButton} 
+                            ${styles.MainNavPageButtonMessage} 
                             ${currentPage == "message" ? styles.Active : null} 
                         `}
             onClick={() => {
@@ -238,11 +238,7 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              {currentPage == "message" ? (
                 <IconMessage />
-              ) : (
-                <IconMessageMuted />
-              )}
             </div>
             <div className={styles.title}>Messages</div>
           </button>
