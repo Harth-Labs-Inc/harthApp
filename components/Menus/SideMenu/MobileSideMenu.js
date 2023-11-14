@@ -71,7 +71,7 @@ const MobileSideNav = (props) => {
         <div className={styles.headerImage}>
           <HarthLogoDark />
         </div>
-        <div className={styles.text}>Your härths</div>
+        <div className={styles.text}>Your groups</div>
         <DisplaySettingsNav />
         <div className={styles.harthList}>
           <HarthList
