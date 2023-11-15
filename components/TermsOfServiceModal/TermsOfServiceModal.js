@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { Button } from "../Common";
 import TalkingHead from "../TalkingHead/TalkingHead";
 

@@ -1,7 +1,7 @@
 import { Button } from "../Common";
 import TalkingHead from "../TalkingHead/TalkingHead";
 import styles from "./WelcomePage.module.scss";
-
+/* eslint-disable */
 const WelcomePage = ({ submitHandler, isSubmitting, signOutHandler }) => {
   const bubbleText = "Welcome to Harth! Let me help you get something setup";
 

@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { checkForMatchingEmail } from "../../../requests/userApi";
 import { Button, Modal } from "../../../components/Common";
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
-import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 import styles from "./createAccount.module.scss";
 import { useAuth } from "contexts/auth";
 
