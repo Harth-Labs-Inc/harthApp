@@ -226,21 +226,18 @@ const InviteComp = (props) => {
           ) : (
             <>
               <div className={` ${styles.heading} ${styles.headingCenter} `}>Invite Sent!</div>
-              <button className={styles.closeBtn} onClick={handleBack}>
+              {/* <button className={styles.closeBtn} onClick={handleBack}>
                 X
-              </button>
+              </button> */}
               <div className={styles.success}>
+                <br />
                 <p>Your invite has been sent to:</p>
                 <p>
                   {enteredEmails.join(", ")}
                 </p>
                 < br />
-                < br />
                 <p className={styles.sub}>
-                  Invites may take up to 15m to be delivered
-                  <br /><br />
-                  _This invite expires in 48 hours_ 
-
+                  Invites may take up to 15m to be delivered. This invite expires in 48 hours.
                 </p>
               </div>
 

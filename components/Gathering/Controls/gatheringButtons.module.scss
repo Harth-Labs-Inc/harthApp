@@ -93,8 +93,8 @@
 
     &Large {
         padding: 10px;
-        height: 52px;
-        width: 52px;
+        height: 56px;
+        width: 56px;
 
         &:active {
             //border: solid 1px $white_80;
@@ -339,6 +339,44 @@
     }
     &:active {
         background-color: $ash_heavy;
+    }
+}
+
+.leaveButtonMobile {
+    position: relative;
+    height: 56px;
+    width: 56px;
+    padding: 13px;
+    border: 0;
+    //border: 1px solid $white_20;
+    border-radius: 0px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    cursor: pointer;
+    background-color: $background;
+
+    path {
+        fill: $ash_light;
+    }
+    &:active {
+        //background-color: $ash_heavy;
+        background-color: $background;
+        path {
+            fill: $hot_pink;
+        }
+        &::after {
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            content: "";
+            background-color: $hot_pink;
+            border-radius: 99px;
+            height: 4px;
+            width: 50%;
+        }
+
+
     }
 }
 
