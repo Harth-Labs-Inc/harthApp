@@ -5,14 +5,15 @@
 
 .basic {
     &Mobile {
+        position: relative;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        height: 44px;
-        min-height: 44px;
+        height: 56px;
+        min-height: 56px;
         width: 100%;
-        padding: 0px 12px 0px 12px;
+        padding: 0px 12px 0px 4px;
         //background-color: $fuel;
         z-index: 10;
     
@@ -28,11 +29,66 @@
             align-items: center;
             column-gap: 8px;
             @include roomTitle;
-            font-size: 14px;
+            font-size: 16px;
             color: $font_medium;
             user-select: none;
         }
-    
+
+        .leave {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+
+        }
+        .curveLeft {
+            position: relative;
+            background-color: $background;
+            width: 12px;
+            height: 100%;
+
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
+                width: 12px;
+                height: 100%;
+                background-color: $ash;
+                border-top-right-radius: 999px;
+            }
+
+        }
+
+        .curveRight {
+            position: relative;
+            background-color: $background;
+            width: 12px;
+            height: 100%;
+
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
+                width: 12px;
+                height: 100%;
+                background-color: $ash;
+                border-top-left-radius: 999px;
+            }
+
+        }
+
+        // button {
+        //     position: relative;
+        //     background: $background;
+        //     height: 100%;
+        //     width: 56px;
+        //     padding: 12px;
+        //     border-top-right-radius: 0;
+        //     border-top-left-radius: 0;
+
+        // }
     
     }
     
@@ -69,10 +125,10 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        height: 48px;
-        min-height: 48px;
+        height: 64px;
+        min-height: 64px;
         width: 100%;
-        padding: 0px 12px 0px 12px;
+        padding: 0px 4px 0px 12px;
         background-color: $ash;
         border-bottom: 1px solid $ash_medium;
         z-index: 10;
@@ -86,9 +142,10 @@
         .iconHolder {
             width: 40px;
             min-width: 40px;
-            height: 32px;
-            padding-right: 8px;
+
+
         }
+
     
         .labelHolder {
             display: flex;
@@ -96,9 +153,54 @@
             align-items: center;
             column-gap: 8px;
             @include roomTitle;
-            font-size: 14px;
+            font-size: 16px;
             color: $font_medium;
             user-select: none;
+        }
+
+        .leave {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+
+        }
+        .curveLeft {
+            position: relative;
+            background-color: $background;
+            width: 12px;
+            height: 100%;
+
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
+                width: 12px;
+                height: 100%;
+                background-color: $ash;
+                border-top-right-radius: 999px;
+            }
+
+        }
+
+        .curveRight {
+            position: relative;
+            background-color: $background;
+            width: 12px;
+            height: 100%;
+
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
+                width: 12px;
+                height: 100%;
+                background-color: $ash;
+                border-top-left-radius: 999px;
+            }
+
         }
     
     
@@ -160,13 +262,60 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        height: 48px;
-        min-height: 48px;
+        height: 64px;
+        min-height: 64px;
         width: 100%;
-        padding: 0px 12px 0px 12px;
+        padding: 0px 4px 0px 12px;
         background-color: $ash;
         border-bottom: 1px solid $ash_medium;
         z-index: 10;
+
+
+        .leave {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+
+        }
+        .curveLeft {
+            position: relative;
+            background-color: $background;
+            width: 12px;
+            height: 100%;
+
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
+                width: 12px;
+                height: 100%;
+                background-color: $ash;
+                border-top-right-radius: 999px;
+            }
+
+        }
+
+        .curveRight {
+            position: relative;
+            background-color: $background;
+            width: 12px;
+            height: 100%;
+
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
+                width: 12px;
+                height: 100%;
+                background-color: $ash;
+                border-top-left-radius: 999px;
+            }
+
+        }
+        
     
         .mobileSpacer {
             height: 28px;
@@ -177,8 +326,10 @@
         .iconHolder {
             width: 40px;
             min-width: 40px;
-            height: 32px;
-            padding-right: 8px;
+            //height: 32px;
+            //padding-right: 8px;
+
+
         }
     
         .labelHolder {
@@ -187,7 +338,7 @@
             align-items: center;
             column-gap: 8px;
             @include roomTitle;
-            font-size: 14px;
+            font-size: 16px;
             color: $font_medium;
             user-select: none;
         }
@@ -259,23 +410,25 @@
     display: flex;
     flex-direction: column;
     background-color: transparent;
-    gap: 8px;
-    width: 280px;
+    gap: 16px;
+    width: 100%;
+    padding: 12px 0px;
+
 
     .menuItem {
         display: flex;
         flex-direction: row;
         align-items: center;
         width: 100%;
-        height: 48px;
+        height: 56px;
         gap: 16px;
-        padding: 0px 12px;
+        padding: 0px 16px;
         border: 0;
         border-radius: 8px;
         background-color: $ash_medium;
         svg {
-            height: 24px;
-            width: 24px;
+            height: 28px;
+            width: 28px;
         }
 
         path {
@@ -284,7 +437,7 @@
 
         p {
             @include rubik;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 400;
             color: $font_light;
         }

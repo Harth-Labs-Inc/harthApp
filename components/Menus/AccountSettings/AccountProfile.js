@@ -89,7 +89,7 @@ const AccountProfile = (props) => {
         <div className={styles.SettingsContainer}>
           <div className={styles.SettingsContainerHeader}>
             <BackButton clickHandler={handleBack} />
-            <p>Your Account</p>
+            <p>Your<br />Account</p>
           </div>
 
           <div className={styles.sectionContainer}>

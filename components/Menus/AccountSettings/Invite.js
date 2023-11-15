@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useComms } from "../../../contexts/comms";
 import { sendInviteEmails } from "../../../requests/community";
 import styles from "./inviteModal.module.scss";
-import { IconClose } from "resources/icons/IconClose";
+import { IconInviteEmail } from "resources/icons/IconInviteEmail";
 
 const InviteComp = (props) => {
   const { comms, setCommsFromChild, selectedCommRef, profile } = useComms();
@@ -120,141 +120,144 @@ const InviteComp = (props) => {
   return (
     <div className={styles.backdrop}>
       <div className={styles.innerContainer}>
-        {!submitSuccess ? (
-          <>
-          <div className={styles.heading}>Send an Invite</div>
+        <div className={styles.content}>
+          {!submitSuccess ? (
+            <>
+            <div className={styles.heading}>
+              <div className={styles.imageHeader}><IconInviteEmail /></div>
+              <p>Send<br />an Invite</p>
+            </div>
             
+              
 
-            <button className={styles.closeBtn} onClick={handleBack}>
-              <IconClose />
-            </button>
+              {/* <button className={styles.closeBtn} onClick={handleBack}>
+                <IconClose />
+              </button> */}
 
-            <div className={styles.InviteList}>
-              <div className={styles.harthdropdown}>
-                <label htmlFor="harthSelect">Select a Harth</label>
-                <div className={styles.dropdownheader} onClick={toggleDropdown}>
-                  <div className={styles.dropdownSelected}>
-                    {selectedHarth?.iconKey && (
-                      <img
-                        style={{ height: "48px", width: "48px" }}
-                        src={selectedHarth.iconKey}
-                        alt={selectedHarth.name}
-                        className="harth-iconKey"
-                      />
-                    )}
-                    <span>{selectedHarth?.name}</span>
+              <div className={styles.InviteList}>
+                <div className={styles.harthdropdown}>
+                  <label className={styles.labelText} htmlFor="harthSelect">Select a Harth</label>
+                  <div className={styles.dropdownheader} onClick={toggleDropdown}>
+                    <div className={styles.dropdownSelected}>
+                      {selectedHarth?.iconKey && (
+                        <img
+                          style={{ height: "48px", width: "48px" }}
+                          src={selectedHarth.iconKey}
+                          alt={selectedHarth.name}
+                          className="harth-iconKey"
+                        />
+                      )}
+                      <span>{selectedHarth?.name}</span>
+                    </div>
+
+                    <span className={styles.arrow}>&#9660;</span>
                   </div>
-
-                  <span className={styles.arrow}>&#9660;</span>
-                </div>
-                {isDropdownOpen && (
-                  <div className={styles.dropdownoptions}>
-                    {COMMS.map((harth) => (
-                      <div
-                        className={styles.dropdownoption}
-                        key={harth._id}
-                        onClick={() => handleHarthChange(harth)}
-                      >
-                        {harth.iconKey && (
-                          <img
-                            style={{ height: "48px", width: "48px" }}
-                            src={harth.iconKey}
-                            alt={harth.name}
-                            className="harth-iconKey"
-                          />
-                        )}
-                        <span>{harth.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <label htmlFor="harthSelect">Recipient Email</label>
-              <p>
-                {formatError ? "Invalid format" : ""}
-              </p>
-              <div className={styles.emailinput}>
-                <input
-                  type="text"
-                  placeholder="email@email.com"
-                  value={emailInput}
-                  onChange={handleInputChange}
-                  onKeyDown={handleInputKeyPress}
-                />
-                <div className={styles.enteredemails}>
-                  <div className={styles.innerenteredemails}>
-                    {enteredEmails.map((email, index) => (
-                      <div className={styles.email} key={index}>
-                        <button
-                          onClick={() => handleEmailDelete(email)}
+                  {isDropdownOpen && (
+                    <div className={styles.dropdownoptions}>
+                      {COMMS.map((harth) => (
+                        <div
+                          className={styles.dropdownoption}
+                          key={harth._id}
+                          onClick={() => handleHarthChange(harth)}
                         >
-                          X
-                        </button>
-                        {index !== enteredEmails.length - 1 ? (
-                          <span>,</span>
-                        ) : null}
-                        {email}
-                      </div>
-                    ))}
+                          {harth.iconKey && (
+                            <img
+                              style={{ height: "48px", width: "48px" }}
+                              src={harth.iconKey}
+                              alt={harth.name}
+                              className="harth-iconKey"
+                            />
+                          )}
+                          <span>{harth.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <label className={styles.labelText} htmlFor="harthSelect">Recipient Email</label>
+                <p>
+                  {formatError ? "Invalid format" : ""}
+                </p>
+                <div className={styles.emailinput}>
+                  <input
+                    type="text"
+                    placeholder="email@email.com"
+                    value={emailInput}
+                    onChange={handleInputChange}
+                    onKeyDown={handleInputKeyPress}
+                  />
+                  <div className={styles.enteredemails}>
+                    <div className={styles.innerenteredemails}>
+                      {enteredEmails.map((email, index) => (
+                        <div className={styles.email} key={index}>
+                          <button
+                            onClick={() => handleEmailDelete(email)}
+                          >
+                            X
+                          </button>
+                          {index !== enteredEmails.length - 1 ? (
+                            <span>,</span>
+                          ) : null}
+                          {email}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <p className={styles.error}>
-              {submitError ? "Please add an email" : ""}
-            </p>
-
-            <div className={styles.actionBar}>
-              <button className={styles.cancel} onClick={handleBack}>
-                Cancel
-              </button>
-              <button className={styles.submit} onClick={submitHandler}>
-                {!isSubmitting ? (
-                  "Invite"
-                ) : (
-                  <span className={styles.loader} />
-                )}
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className={` ${styles.heading} ${styles.headingCenter} `}>Invite Sent!</div>
-            <button className={styles.closeBtn} onClick={handleBack}>
-              X
-            </button>
-            <div className={styles.success}>
-              <p>Your invite has been sent to:</p>
-              <p>
-                {enteredEmails.join(", ")}
+              <p className={styles.error}>
+                {submitError ? "Please add an email" : ""}
               </p>
-              < br />
-              < br />
-              <p className={styles.sub}>
-                Invites may take up to 15m to be delivered
-                <br /><br />
-                _This invite expires in 48 hours_ 
 
-              </p>
-            </div>
+              <div className={styles.actionBar}>
+                <button className={styles.cancel} onClick={handleBack}>
+                  Cancel
+                </button>
+                <button className={styles.submit} onClick={submitHandler}>
+                  {!isSubmitting ? (
+                    "Send Invite"
+                  ) : (
+                    <span className={styles.loader} />
+                  )}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={` ${styles.heading} ${styles.headingCenter} `}>Invite Sent!</div>
+              {/* <button className={styles.closeBtn} onClick={handleBack}>
+                X
+              </button> */}
+              <div className={styles.success}>
+                <br />
+                <p>Your invite has been sent to:</p>
+                <p>
+                  {enteredEmails.join(", ")}
+                </p>
+                < br />
+                <p className={styles.sub}>
+                  Invites may take up to 15m to be delivered. This invite expires in 48 hours.
+                </p>
+              </div>
 
-            <div className={styles.actionBar}>
-              <button
-                className={styles.cancel}
-                onClick={handleBack}
-              >
-                Done
-              </button>
-              <button
-                className={styles.submit}
-                onClick={resetHandler}
-              >
-                <p>Send Another Invite</p>
-              </button>
-            </div>
-          </>
-        )}
+              <div className={styles.actionBar}>
+                <button
+                  className={styles.cancel}
+                  onClick={handleBack}
+                >
+                  Done
+                </button>
+                <button
+                  className={styles.submit}
+                  onClick={resetHandler}
+                >
+                  <p>Send Another Invite</p>
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

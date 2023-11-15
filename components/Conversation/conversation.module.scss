@@ -14,8 +14,21 @@
 
     //margin-bottom: 4px;
     cursor: pointer;
-    border-bottom: 1px solid $border_light;
+    //border-bottom: 1px solid $border_light;
     border-radius: 0;
+
+    &::after {
+        position: absolute;
+        bottom: -1px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 1px;
+        width: 92%;
+        content: "";
+        //background-color: $border_light;
+        background: linear-gradient(90deg, $border_light, transparent 70%);
+
+    }
 
     .label {
         display: flex;
@@ -122,7 +135,7 @@
 
     }
     &Active {
-        background-color: $border_basic;
+        background-color: $border_light;
         border-radius: 6px;
         .moreMenu {
             visibility: visible;

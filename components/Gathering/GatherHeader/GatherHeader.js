@@ -46,7 +46,15 @@ const GatherHeader = (props) => {
           <div className={styles.iconHolder}><RoomStream /></div>
           <div className={styles.labelHolder}>{gatheringName}</div>
 
-          {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : null}
+          {isMobile ? (
+          <>
+          <div className={styles.leave}>
+            <div className={styles.curveLeft}></div>
+            <LeaveButtonMobile onClick={showMobileMenu} />
+            <div className={styles.curveRight}></div>
+          </div>
+          </>
+          ) : null}
         </div>
       )}
       
@@ -58,7 +66,15 @@ const GatherHeader = (props) => {
           <div className={styles.iconHolder}><RoomVoice /></div>
           <div className={styles.labelHolder}>{gatheringName}</div>
 
-          {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : null}
+          {isMobile ? (
+          <>
+          <div className={styles.leave}>
+            <div className={styles.curveLeft}></div>
+            <LeaveButtonMobile onClick={showMobileMenu} />
+            <div className={styles.curveRight}></div>
+          </div>
+          </>
+          ) : null}
         </div>
 
       )}
@@ -69,7 +85,15 @@ const GatherHeader = (props) => {
           ${isMobile ? styles.basicMobile : styles.basicDesktop}
         `}>          
           
-          {isMobile ? <LeaveButtonMobile onClick={showMobileMenu} /> : null}
+          {isMobile ? (
+            <>
+            <div className={styles.leave}>
+              <div className={styles.curveLeft}></div>
+              <LeaveButtonMobile onClick={showMobileMenu} />
+              <div className={styles.curveRight}></div>
+            </div>
+            </>
+          ) : null}
 
           <div className={styles.labelHolder}>{gatheringName}</div>
 

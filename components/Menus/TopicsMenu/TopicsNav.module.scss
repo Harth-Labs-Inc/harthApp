@@ -3,7 +3,7 @@
 
 .TopicsNav {
     position: relative;
-    width: 264px;
+    width: 296px;
     min-width: 250px;
     padding: 52px 8px 0px 12px;
     background-color: $background;
@@ -66,11 +66,10 @@
 
     &Hidden {
         position: relative;
-        @include systemFont;
-        font-size: 12px;
+        @include eyebrow;
         margin-left: 4px;
         margin-top: 20px;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
         background-color: transparent;
         text-transform: uppercase;
         color: $font_muted;
@@ -79,14 +78,15 @@
         user-select: none;
 
         &Mobile {
-            @include systemFont;
-            font-size: 14px;
+            font-size: 12px;
             margin-top: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
-        &:hover {
-            color: $font_main;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                color: $font_main;
+            }
         }
 
         &Active {
@@ -111,20 +111,21 @@
         position: relative;
         display: block;
         cursor: pointer;
-        height: 26px;
-        width: 26px;
+        height: 24px;
+        width: 24px;
         border-radius: 99px;
         border: 0;
         padding: 0px;
-        margin-left: 8px;
+        margin-left: 9px;
         margin-top: 12px;
         margin-bottom: 4px;
         transition: opacity;
         
-        background-color: $border_basic;
+        background-color: transparent;
+        border: 1px solid $border_heavy;
         
         path {
-            fill: $background;
+            fill: $border_heavy;
         }
         
         &:active{
@@ -137,11 +138,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            content: "new chat";
+            content: "new topic";
             width: 80px;
             height: 24px;
-            top: 2px;
-            left: 38px;
+            top: 0px;
+            left: 32px;
             background-color: $background_reverse;
             border-radius: 2px;
             @include systemFont;
@@ -156,8 +157,8 @@
             position: absolute;
             opacity: 0;
             content: " ";
-            top: 2px;
-            left: 32px;
+            top: 0px;
+            left: 24px;
             width: 0;
             height: 0;
             border-top: 12px solid transparent;
@@ -197,10 +198,11 @@
         margin-top: 24px;
         margin-bottom: 36px;
         transition: opacity;
-        background-color: $border_basic;
+        background-color: transparent;
+        border: 1px solid $border_heavy;
         
         path {
-            fill: $background;
+            fill: $border_heavy;
         }
         
         &:active{

@@ -5,7 +5,7 @@ export const LeaveButtonMobile = (props) => {
     const { onClick } = props;
     return (
         <>
-            <button className={styles.controlButtonMobile} onClick={onClick}>
+            <button className={styles.leaveButtonMobile} onClick={onClick}>
                 <div height="100%" width="100%">
                     <IconPower />
                 </div>

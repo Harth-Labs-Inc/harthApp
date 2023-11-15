@@ -6,11 +6,11 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    height: calc(var(--vh) - 24px);
+    height: calc(var(--vh) - 0px);
     width: 100%;
     background: $background;
     //padding-left: 8px;
-    margin-top: -32px;
+    margin-top: -56px;
 
     @media screen and (max-width: 640px) {
         height: var(--vh);

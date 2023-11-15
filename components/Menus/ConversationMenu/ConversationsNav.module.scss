@@ -3,8 +3,8 @@
 
 .ConversationsNav {
     position: relative;
-    width: 264px;
-    min-width: 250px;
+    width: 296px;
+    min-width: 296px;
     padding: 56px 12px 0px 12px;
     background-color: $background;
     height: 100%;
@@ -66,16 +66,17 @@
         width: 28px;
         border-radius: 99px;
         border: 0;
-        padding: 0px;
+        padding: 2px;
         margin-left: 12px;
         margin-top: 16px;
         margin-bottom: 4px;
         transition: opacity;
         
-        background-color: $border_basic;
+        background-color: transparent;
+        border: 1px solid $border_heavy;
         
         path {
-            fill: $background;
+            fill: $border_heavy;
         }
         
         &:active{
@@ -148,10 +149,11 @@
         margin-top: 28px;
         margin-bottom: 36px;
         transition: opacity;
-        background-color: $border_basic;
+        background-color: transparent;
+        border: 1px solid $border_heavy;
         
         path {
-            fill: $background;
+            fill: $border_heavy;
         }
         
         &:active{

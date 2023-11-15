@@ -64,7 +64,8 @@ const HarthSettings = (props) => {
     <>
       <div className={styles.mainContainer}>
         <div className={styles.topBar}>
-          <div className={styles.title}>{communityName}</div>
+          <div className={styles.harthName}>{communityName}</div>
+          <div className={styles.title}>Settings</div>
           <div className={styles.buttonHolder}>
             <CloseButton onClick={onToggleModal} />
           </div>

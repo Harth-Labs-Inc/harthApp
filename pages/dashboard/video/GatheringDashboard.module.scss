@@ -14,25 +14,26 @@
 .gatheringPage {
     position: relative;
     background: $background;
-    height:100%;
+    height: calc(100% + 56px);
     width: 100%;
     overflow-y: scroll;
-    padding: 56px 8px 0px 12px;
+    padding: 108px 8px 0px 12px;
     margin-top: 0px;
+    margin-top: -56px;
 
-    &::after {
-        content: "";
-        width: 100%;
-        height: 36px;
-        background: linear-gradient(to bottom, $background 30%, transparent);
-        //background: aqua;
-        position: fixed;
-        top: 48px;
-        left: 264px;
-    }
+    // &::after {
+    //     content: "";
+    //     width: 100%;
+    //     height: 36px;
+    //     background: linear-gradient(to bottom, $background 30%, transparent);
+    //     //background: aqua;
+    //     position: fixed;
+    //     top: 48px;
+    //     left: 264px;
+    // }
 
     &Mobile {
-        padding: 75px 12px 80px 12px;
+        padding: 84px 12px 156px 12px;
         margin-top: 0px;
 
         &::after {
@@ -44,9 +45,9 @@
     .roomContainer {
         display: flex;
         flex-wrap: wrap;
-        gap: 24px;
+        gap: 16px;
         margin-bottom: 40px;
-        margin-top: 12px;
+        margin-top: 0px;
         padding: 0px 8px;
         //justify-content: center;
 
@@ -86,7 +87,7 @@
         position: relative;
         @include systemFont;
         font-size: 16px;
-        padding: 24px 0px 8px 8px;
+        padding: 0px 0px 8px 8px;
         width: fit-content;
         //text-transform: uppercase;
         color: $font_main;

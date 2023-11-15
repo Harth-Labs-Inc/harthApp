@@ -177,7 +177,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
         />
         
         <form onSubmit={submitHandler} className={styles.form}>
-          <div className={styles.label}>Name</div>
+          <div className={styles.label}>Display Name</div>
           <input
             placeholder={name || "Profile Name"}
             value={name}
@@ -189,7 +189,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
           />
           <div
             className={styles.helpText}
-          >{`This is your profile for ${harth.name} only. Switch härths to customize all your different profiles.`}
+          >{`This is your display name for the group, ${harth.name}.`}
           </div>
           <div className={styles.buttonBar}>
             <Button

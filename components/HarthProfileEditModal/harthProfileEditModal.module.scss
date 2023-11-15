@@ -35,8 +35,8 @@
     }
     .textEntry {
         width: 90%;
-        @include topicTitleActive;
-        font-size: 24px;
+        @include topicTitle;
+        font-size: 18px;
         text-align: center;
         //margin-top: 24px;
         height: 48px;
@@ -58,7 +58,7 @@
         width: 100%;
         margin: 4px auto;
         
-        color: $font_main;
+        color: $font_muted;
         @include systemFont;
         font-size: 12px;
         overflow-wrap: anywhere;
