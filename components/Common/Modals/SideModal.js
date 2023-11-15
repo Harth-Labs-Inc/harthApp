@@ -42,8 +42,7 @@ export const SideModal = (props) => {
 
   return (
     <div
-      // id={id}
-      className={`${styles.Modal} modal modal_open sideModalContainer`}
+      className={`${styles.Modal} modal modal_open sideModalContainer ${styles.sideModalContainer}`}
     >
       <OutsideClickHandler
         onClickOutside={closeToolTip}
