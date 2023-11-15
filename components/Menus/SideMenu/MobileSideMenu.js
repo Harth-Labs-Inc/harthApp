@@ -33,7 +33,7 @@ const MobileSideNav = (props) => {
     setShowCreateHarthNameModal(true);
     setTimeout(() => {
       onToggleMenu();
-    }, 100);
+    }, 200);
   };
   const toggleSettingsNav = () => {
     setShowSettingsNav(!ShowSettingsNav);

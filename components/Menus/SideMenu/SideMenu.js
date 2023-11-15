@@ -186,7 +186,7 @@ const SideNav = (props) => {
     setShowCreateHarthProfileModal(true);
     setTimeout(() => {
       setShowCreateHarthNameModal(false);
-    }, 100);
+    }, 200);
   };
   const resetNewHarth = () => {
     const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");
@@ -207,7 +207,7 @@ const SideNav = (props) => {
     setShowCreateHarthNameModal(true);
     setTimeout(() => {
       setShowCreateHarthProfileModal(false);
-    }, 100);
+    }, 200);
   };
 
   if (isMobile) {

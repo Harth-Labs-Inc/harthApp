@@ -16,29 +16,14 @@ import TourComponent from "components/TourComponent/TourComponent";
 import WelcomePage from "components/WelcomePage/WelcomePage";
 import { Modal } from "Common";
 import CreateHarthTopicStep from "components/createHarthTopicStep/createHarthTopicStep";
+import CreateHarthProfile from "components/createHarthProfile/createHarthProfile";
+import CreateHarthName from "components/createHarthName/createHarthName";
+import HarthInviteAcceptModal from "components/harthInviteAcceptModal/harthInviteAcceptModal";
 
 /* eslint-disable */
 
 const DashboardLayout = dynamic(
   () => import("components/DashboardLayout/DashboardLayout"),
-  {
-    loading: () => null,
-  }
-);
-const CreateHarthName = dynamic(
-  () => import("components/createHarthName/createHarthName"),
-  {
-    loading: () => null,
-  }
-);
-const CreateHarthProfile = dynamic(
-  () => import("components/createHarthProfile/createHarthProfile"),
-  {
-    loading: () => null,
-  }
-);
-const HarthInviteAcceptModal = dynamic(
-  () => import("components/harthInviteAcceptModal/harthInviteAcceptModal"),
   {
     loading: () => null,
   }
@@ -295,7 +280,7 @@ const dashboard = () => {
     setShowCreateHarthProfileModal(true);
     setTimeout(() => {
       setShowCreateHarthNameModal(false);
-    }, 100);
+    }, 200);
   };
   const resetNewHarth = () => {
     const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");
@@ -321,7 +306,7 @@ const dashboard = () => {
     setShowInviteProfileModal(true);
     setTimeout(() => {
       setShowInviteAcceptModal(false);
-    }, 100);
+    }, 200);
   };
   const toggleNoHarthDetected = (bool) => {
     if (bool) {
@@ -345,13 +330,13 @@ const dashboard = () => {
     setShowCreateHarthNameModal(true);
     setTimeout(() => {
       setShowCreateHarthProfileModal(false);
-    }, 100);
+    }, 200);
   };
   const backToInviteNameModal = () => {
     setShowInviteAcceptModal(true);
     setTimeout(() => {
       setShowInviteProfileModal(false);
-    }, 100);
+    }, 200);
   };
 
   if (loading) {
