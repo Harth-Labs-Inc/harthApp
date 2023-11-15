@@ -18,6 +18,7 @@ export const Button = (props) => {
 
   const colorObj = {
     purple: styles.purple,
+    gray: styles.gray,
   };
 
   return (

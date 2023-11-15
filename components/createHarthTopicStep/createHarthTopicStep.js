@@ -1,17 +1,22 @@
-import { useForm } from "react-hook-form";
 import { useState } from "react";
-import ErrorMessage from "../../../Common/Input/ErrorMessage";
-import { Button, Modal } from "../../../Common";
-import { useComms } from "../../../../contexts/comms";
-import { useAuth } from "../../../../contexts/auth";
-import { useSocket } from "../../../../contexts/socket";
+import { useAuth } from "../../contexts/auth";
+import { useComms } from "../../contexts/comms";
+import TalkingHead from "../TalkingHead/TalkingHead";
+import { Button, Modal } from "../Common";
+import ErrorMessage from "../Common/Input/ErrorMessage";
+import styles from "./createHarthTopicStep.module.scss";
+import { useSocket } from "contexts/socket";
+import { useForm } from "react-hook-form";
 import { IconArrowLeft } from "resources/icons/IconArrowLeft";
-import { saveTopics } from "../../../../requests/community";
-import { addRoomToUsers } from "../../../../requests/rooms";
-import styles from "./CreateNewTopicModal.module.scss";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
+import { saveTopics } from "../../requests/community";
+import { addRoomToUsers } from "../../requests/rooms";
 
-export default function CreateNewTopicModal({ toggleModal }) {
+export default function CreateHarthTopicStep({
+  closeHandler,
+  ignoreFadeIn,
+  backgroundColor,
+}) {
   const [emojiPickerState, setEmojiPicker] = useState(false);
   const [Emoji, setEmoji] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +27,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
   } = useForm();
 
   const { user } = useAuth();
-  const { selectedcomm, setTopic, selectedTopic } = useComms();
+  const { selectedcomm } = useComms();
   const { emitUpdate } = useSocket();
 
   const createNewTopic = async (data) => {
@@ -65,10 +70,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
     const { ok, id } = saveResults;
     if (ok) {
       topic._id = id;
-      toggleModal();
-      if (!selectedTopic?._id) {
-        setTopic(topic);
-      }
+
       if (id) {
         await addRoomToUsers(userIds, id);
         topic.updateType = "new topic";
@@ -76,6 +78,9 @@ export default function CreateNewTopicModal({ toggleModal }) {
           if (err) {
             console.error(err);
           }
+          setTimeout(() => {
+            togglemodal();
+          }, 300);
         });
       }
     }
@@ -106,15 +111,26 @@ export default function CreateNewTopicModal({ toggleModal }) {
       );
     }
   };
+  const togglemodal = () => {
+    closeHandler();
+  };
 
   return (
     <>
-      <Modal
-        onToggleModal={toggleModal}
-        classNames={styles.CreateNewTopicModal}
-      >
+      <Modal onToggleModal={togglemodal} ignoreFadeIn={ignoreFadeIn}>
         <div className={styles.mainContainer}>
-          <div className={styles.title}>New topic</div>
+          <div className={styles.title}>Create a topic</div>
+          <div className={styles.lineParent}>
+            <div className={`${styles.line} ${styles.lineActive}`}></div>
+            <div className={`${styles.line} ${styles.lineActive}`}></div>
+            <div className={`${styles.line} ${styles.lineActive}`}></div>
+          </div>
+          <TalkingHead
+            text={
+              "Give me a topic that you and your friends like to talk about."
+            }
+          />
+
           <form
             className={styles.CreateTopic}
             onSubmit={handleSubmit(createNewTopic)}
@@ -130,7 +146,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
 
               <input
                 {...register("topicName", { required: true })}
-                placeholder="games, memes, soccer, ect..."
+                placeholder="games, memes, food, ect..."
                 type="text"
                 autoComplete="off"
               />
@@ -148,19 +164,23 @@ export default function CreateNewTopicModal({ toggleModal }) {
                 Don&rsquo;t forget to add an emoji!
               </span>
             </div>
+            <div className={styles.helpText}>
+              You can always edit or add more topics later.
+            </div>
             <div className={styles.CreateTopicButtons}>
               <Button
                 size="large"
                 tier="secondary"
-                text="Cancel"
-                onClick={toggleModal}
+                text="Close"
+                onClick={togglemodal}
               />
               <Button
                 fullWidth
                 size="large"
-                text="Create"
+                text="Add"
                 type="submit"
                 isLoading={isLoading}
+                backgroundColor={backgroundColor}
               />
             </div>
           </form>

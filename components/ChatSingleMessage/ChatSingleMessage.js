@@ -107,6 +107,7 @@ const ChatSingleMessage = (props) => {
     hasFinishedFirstUseTour,
     hasFinishedFirstPostTour,
     hasApprovedTos,
+    initialLoadAllGood,
   } = useComms();
 
   const { activeTour, startTour, skipStep, tourKey } = useTourManager();
@@ -244,6 +245,7 @@ const ChatSingleMessage = (props) => {
 
   useEffect(() => {
     if (
+      initialLoadAllGood &&
       _id &&
       isMobile &&
       hasApprovedTos &&
@@ -255,7 +257,13 @@ const ChatSingleMessage = (props) => {
         startTour("firstPost", 0);
       }, 150);
     }
-  }, [_id, hasApprovedTos, hasFinishedFirstUseTour, isMobile]);
+  }, [
+    _id,
+    hasApprovedTos,
+    hasFinishedFirstUseTour,
+    isMobile,
+    initialLoadAllGood,
+  ]);
 
   useEffect(() => {
     if (

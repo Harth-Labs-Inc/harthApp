@@ -4,41 +4,47 @@ import OutsideClickHandler from "./OutsideClick";
 import styles from "./Modal.module.scss";
 
 export const Modal = (props) => {
-    const {
-        children,
-        id,
-        onToggleModal,
-        isDark = false,
-        classNames,
-        hasPadding = true,
-        containerStyle,
-        blockBackground = false,
-    } = props;
+  const {
+    children,
+    id,
+    onToggleModal,
+    isDark = false,
+    classNames,
+    hasPadding = true,
+    containerStyle,
+    blockBackground = false,
+    ignoreFadeIn,
+  } = props;
 
-    const ref = useRef();
+  const ref = useRef();
 
-    const closeModal = () => {
-        onToggleModal();
-    };
+  const closeModal = () => {
+    onToggleModal();
+  };
 
-    return (
-        <div id={id} className={`${styles.Modal} ${classNames} ${blockBackground && styles.ModalBlock}`}>
-            <OutsideClickHandler
-                onClickOutside={closeModal}
-                onFocusOutside={closeModal}
-            >
-                <section
-                    ref={ref}
-                    className={`
+  return (
+    <div
+      id={id}
+      className={`${styles.Modal} ${classNames} ${
+        blockBackground && styles.ModalBlock
+      } ${ignoreFadeIn ? styles.ignoreFadeIn : ""}`}
+    >
+      <OutsideClickHandler
+        onClickOutside={closeModal}
+        onFocusOutside={closeModal}
+      >
+        <section
+          ref={ref}
+          className={`
                         ${styles.ModalMid} 
                         ${isDark && styles.ModalMidDark}
                         ${hasPadding && styles.ModalMidPadding}
                         ${containerStyle}
                     `}
-                >
-                    <div className="modal_body">{children}</div>
-                </section>
-            </OutsideClickHandler>
-        </div>
-    );
+        >
+          <div className="modal_body">{children}</div>
+        </section>
+      </OutsideClickHandler>
+    </div>
+  );
 };

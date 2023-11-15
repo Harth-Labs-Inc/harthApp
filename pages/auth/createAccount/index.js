@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { checkForMatchingEmail } from "../../../requests/userApi";
-import { Button } from "../../../components/Common";
+import { Button, Modal } from "../../../components/Common";
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 import styles from "./createAccount.module.scss";
@@ -83,109 +82,99 @@ const CreateAccount = () => {
     if (errors?.dob?.type === "olderThanThirteen")
       return "You must be at least 13 years old to register";
   };
-
-  const bubbleText =
-    "Welcome to the early release of Härth. Enter your details below to create an account.";
-
   return (
-    <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
-      <div className={styles.CreateModuleContent}>
-        <div className={styles.CreateModuleLogo}>
-          <HarthLogoDark />
-        </div>
-        <TalkingHead text={bubbleText} />
-        <form onSubmit={handleSubmit(submitHandler)}>
-          <p className={styles.label}>Full Name</p>
-          <input
-            {...register("fullName", { required: true })}
-            type="text"
-            placeholder="Name"
-          />
-          {errors.fullName ? (
-            <ErrorMessage
-              errorMsg={errors.fullName ? "You must enter your name" : null}
+    <Modal onToggleModal={() => {}} ignoreFadeIn={true}>
+      <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
+        <div className={styles.CreateModuleContent}>
+          <h3>Create an Account</h3>
+          <form onSubmit={handleSubmit(submitHandler)}>
+            <p className={styles.label}>Email</p>
+            <input
+              {...register("email", {
+                required: true,
+                /* eslint-disable-next-line */
+                pattern: /.*\@.*\.\w{2,3}/g,
+              })}
+              type="email"
+              placeholder="Email"
             />
-          ) : null}
+            {errors.email ? (
+              <ErrorMessage
+                errorMsg={errors.email ? handleEmailError() : null}
+              />
+            ) : null}
 
-          <p className={styles.label}>Email</p>
-          <input
-            {...register("email", {
-              required: true,
-              /* eslint-disable-next-line */
-              pattern: /.*\@.*\.\w{2,3}/g,
-            })}
-            type="email"
-            placeholder="Email"
-          />
-          {errors.email ? (
-            <ErrorMessage errorMsg={errors.email ? handleEmailError() : null} />
-          ) : null}
-
-          <p className={styles.label}>Date of Birth</p>
-          <input
-            {...register("dob", {
-              required: true,
-              validate: {
-                olderThanThirteen: (v) => calculateAge(v) > 12,
-              },
-            })}
-            type="date"
-            max={todayMax}
-            min={new Date("1/1/1910").toISOString().split("T")[0]}
-          />
-          <div className={styles.small}>
-            Enter your birthday for age verification. Your birthday will not be
-            publicly displayed.
-          </div>
-          {errors.dob ? (
-            <ErrorMessage errorMsg={errors.dob ? handleDobError() : null} />
-          ) : null}
-          {customErrors ? (
-            <ErrorMessage errorMsg={customErrors ? customErrors.match : null} />
-          ) : null}
-
-          <Button
-            tier="primary"
-            type="submit"
-            text="Continue"
-            className={styles.signupButton}
-            fullWidth
-            onClick={() => {
-              setSubmissionType("create");
-            }}
-            isLoading={isSubmitting}
-          />
-        </form>
-        <p className={styles.CreateModuleDisclaimer}>
-          By continuing, you are agreeing to our Customer&nbsp;
-          <a
-            href="https://harthsocial.com/terms"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Terms of Service
-          </a>
-          &nbsp;and&nbsp;
-          <a
-            href="https://harthsocial.com/privacy"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Privacy Policy
-          </a>
-          .
-        </p>
-        <Button
-          tier="secondary"
-          size="small"
-          text="Already have an account?"
-          onClick={() => {
-            router.push("/auth/login");
-          }}
-          className={styles.CreateModuleLinkToSignin}
-        />
+            <p className={styles.label}>Date of Birth</p>
+            <input
+              {...register("dob", {
+                required: true,
+                validate: {
+                  olderThanThirteen: (v) => calculateAge(v) > 12,
+                },
+              })}
+              type="date"
+              max={todayMax}
+              min={new Date("1/1/1910").toISOString().split("T")[0]}
+            />
+            <div className={styles.small}>
+              Enter your birthday for age verification. Your birthday will not
+              be publicly displayed.
+            </div>
+            {errors.dob ? (
+              <ErrorMessage errorMsg={errors.dob ? handleDobError() : null} />
+            ) : null}
+            {customErrors ? (
+              <ErrorMessage
+                errorMsg={customErrors ? customErrors.match : null}
+              />
+            ) : null}
+            <div className={styles.buttonBar}>
+              <Button
+                tier="secondary"
+                type="button"
+                text="Back"
+                className={styles.cancelButton}
+                onClick={() => {
+                  router.push("/auth/welcome");
+                }}
+                isDisabled={isSubmitting}
+              />
+              <Button
+                tier="primary"
+                type="submit"
+                text="Next"
+                className={styles.submitButton}
+                fullWidth
+                onClick={() => {
+                  setSubmissionType("create");
+                }}
+                isLoading={isSubmitting}
+                backgroundColor={"purple"}
+              />
+            </div>
+          </form>
+          <p className={styles.CreateModuleDisclaimer}>
+            By continuing, you are agreeing to our Customer&nbsp;
+            <a
+              href="https://harthsocial.com/terms"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Terms of Service
+            </a>
+            &nbsp;and&nbsp;
+            <a
+              href="https://harthsocial.com/privacy"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Privacy Policy
+            </a>
+            .
+          </p>
+        </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 

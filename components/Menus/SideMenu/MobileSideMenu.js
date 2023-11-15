@@ -30,8 +30,10 @@ const MobileSideNav = (props) => {
   };
 
   const toggleCreateComm = () => {
-    onToggleMenu();
     setShowCreateHarthNameModal(true);
+    setTimeout(() => {
+      onToggleMenu();
+    }, 100);
   };
   const toggleSettingsNav = () => {
     setShowSettingsNav(!ShowSettingsNav);

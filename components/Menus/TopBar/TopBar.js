@@ -28,6 +28,7 @@ const TopBar = (props) => {
     handleOpenMInimizedRoom,
     hasFinishedFirstUseTour,
     hasApprovedTos,
+    initialLoadAllGood,
   } = useComms();
   const { isMobile } = useContext(MobileContext);
   const { showAdminReportIcon, pullForIcon } = useSocket();
@@ -39,15 +40,23 @@ const TopBar = (props) => {
   }, [profile]);
 
   useEffect(() => {
-    if (profile && isMobile) {
+    if (profile && isMobile && initialLoadAllGood) {
       if (hasApprovedTos && !hasFinishedFirstUseTour && lastStepIndex == null) {
         startTour("fisrtUse", 0);
       }
     }
-  }, [profile, hasApprovedTos, hasFinishedFirstUseTour, tourKey, isMobile]);
+  }, [
+    profile,
+    hasApprovedTos,
+    hasFinishedFirstUseTour,
+    tourKey,
+    isMobile,
+    initialLoadAllGood,
+  ]);
 
   useEffect(() => {
     if (
+      initialLoadAllGood &&
       hasApprovedTos &&
       isMobile &&
       !hasFinishedFirstUseTour &&
@@ -65,6 +74,7 @@ const TopBar = (props) => {
       }
     }
   }, [
+    initialLoadAllGood,
     showEditUserModal,
     hasApprovedTos,
     hasFinishedFirstUseTour,

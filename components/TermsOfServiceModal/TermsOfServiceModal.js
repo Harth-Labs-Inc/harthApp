@@ -5,18 +5,17 @@ import TalkingHead from "../TalkingHead/TalkingHead";
 
 import styles from "./TermsOfServiceModal.module.scss";
 import CheckIcon from "resources/icons/check";
+import { useRouter } from "next/router";
 
-const TermsOfServiceModal = ({
-  buttonText,
-  submitHandler,
-  isSubmitting,
-  includeWelcome,
-}) => {
+const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
   const { register, handleSubmit, watch, setValue } = useForm();
+
+  const router = useRouter();
 
   const termsOfServiceChecked = watch("termsOfServiceApproved");
 
-  const bubbleText = "Help us create a better place";
+  const bubbleText =
+    "Help us create a better space by treating others with respect.";
 
   const toggleCheckbox = () => {
     setValue("termsOfServiceApproved", !termsOfServiceChecked);
@@ -25,10 +24,7 @@ const TermsOfServiceModal = ({
   return (
     <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
       <div className={styles.CreateModuleContent}>
-        <div className={styles.CreateModuleLogo}>
-          {includeWelcome ? <h2>Welcome to</h2> : null}
-          <HarthLogoDark />
-        </div>
+        <h3>User Agreement</h3>
         <TalkingHead text={bubbleText} />
         <p className={styles.label}>
           By continuing to use Harth, you agree to treat others with respect by
@@ -63,17 +59,28 @@ const TermsOfServiceModal = ({
               </a>
             </span>
           </label>
-
-          <Button
-            tier="primary"
-            type="submit"
-            text={buttonText}
-            className={styles.signupButton}
-            fullWidth
-            isLoading={isSubmitting}
-            isDisabled={!termsOfServiceChecked}
-            backgroundColor={termsOfServiceChecked ? "purple" : false}
-          />
+          <div className={styles.buttonBar}>
+            <Button
+              tier="secondary"
+              type="button"
+              text="Back"
+              className={styles.cancelButton}
+              onClick={() => {
+                router.push("/auth/createAccount");
+              }}
+              isDisabled={isSubmitting}
+            />
+            <Button
+              tier="primary"
+              type="submit"
+              text={buttonText}
+              className={styles.submitButton}
+              fullWidth
+              isLoading={isSubmitting}
+              isDisabled={!termsOfServiceChecked}
+              backgroundColor={termsOfServiceChecked ? "purple" : false}
+            />
+          </div>
         </form>
       </div>
     </div>

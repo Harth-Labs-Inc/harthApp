@@ -1,6 +1,11 @@
 @import "../../styles/fonts.scss";
 @import "../../styles/globals.scss";
 
+
+.backIcon {
+    position: absolute;
+}
+
 .mainContainer {
     display: flex;
     flex-direction: column;
@@ -9,6 +14,35 @@
     margin-right: auto;
     max-height: 580px;
     overflow-y: scroll;
+
+    
+    .lineParent {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin: 10px 0px 25px 0px;
+    }
+
+    .lineActive {
+        background-color: $hot_purple !important;
+    }
+    
+    .line {
+        flex-grow: 1; 
+        margin: 0 10px; 
+        background-color: $ash;
+        height: 3px;
+    }
+    
+ 
+    .lineParent .line:first-child {
+        margin-left: 0;
+    }
+    
+    .lineParent .line:last-child {
+        margin-right: 0;
+    }
+    
 
     .title {
         @include overlayMenuTitle;

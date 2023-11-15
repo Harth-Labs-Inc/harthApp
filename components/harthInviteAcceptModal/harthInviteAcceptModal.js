@@ -17,6 +17,7 @@ export default function HarthInviteAcceptModal({
   footer,
   invitedHarth,
   invitedSender,
+  ignoreFadeIn,
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
@@ -57,9 +58,17 @@ export default function HarthInviteAcceptModal({
           />
         </Modal>
       ) : (
-        <Modal onToggleModal={() => {}} blockBackground={true}>
+        <Modal
+          onToggleModal={() => {}}
+          blockBackground={true}
+          ignoreFadeIn={ignoreFadeIn}
+        >
           <div className={styles.mainContainer}>
-            <div className={styles.title}>Härth Invite</div>
+            <div className={styles.title}>Accept your invite</div>
+            <div className={styles.lineParent}>
+              <div className={`${styles.line} ${styles.lineActive}`}></div>
+              <div className={styles.line}></div>
+            </div>
             <TalkingHead text={talkingHeadMsg} />
             <div className={styles.harthHolder}>
               <img src={invitedHarth?.iconKey} loading="lazy" />

@@ -2,15 +2,15 @@
 @import "../../../styles/globals.scss";
 
 .loginModule {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    height: var(--vh);
+
     max-width: 360px;
     margin: 0 auto;
-    padding: 24px 24px;
-    overflow: auto;
+
+
+    h3 {
+        text-align: left !important;
+        width: 100%;
+      }
 
     .label {
         @include systemFont;
@@ -127,6 +127,22 @@
             text-transform: uppercase;
         }
     }
+    .buttonBar {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 98%;
+        column-gap: 8px;
+        margin-top: 24px;
+      
+        .cancelButton {
+            width: 96px;
+        }
+      
+        .submitButton {
+            width: 100%;
+        }
+      }
 }
 
 .fadeIn {
