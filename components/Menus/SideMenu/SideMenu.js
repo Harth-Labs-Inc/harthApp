@@ -23,6 +23,7 @@ import CreateHarthProfile from "../../createHarthProfile/createHarthProfile";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 import InviteComp from "../AccountSettings/Invite";
 import { IconInviteEmail } from "resources/icons/IconInviteEmail";
+import CreateHarthTopicStep from "components/createHarthTopicStep/createHarthTopicStep";
 
 const SideNav = (props) => {
   const { onToggleMenu, toggleNoHarthDetected } = props;
@@ -34,7 +35,8 @@ const SideNav = (props) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [currentTab, setCurrentTab] = useState("");
   const [showInviteModal, setShowInviteModal] = useState(false);
-
+  const [showCreateHarthTopicModal, setShowCreateHarthTopicModal] =
+    useState(false);
   const [newHarth, setNewHarth] = useState(null);
   const [showCreateHarthNameModal, setShowCreateHarthNameModal] =
     useState(false);
@@ -180,8 +182,10 @@ const SideNav = (props) => {
   };
   const harthNameCreationHandler = async (harth) => {
     setNewHarth(harth);
-    setShowCreateHarthNameModal(false);
     setShowCreateHarthProfileModal(true);
+    setTimeout(() => {
+      setShowCreateHarthNameModal(false);
+    }, 200);
   };
   const resetNewHarth = () => {
     const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");
@@ -196,6 +200,13 @@ const SideNav = (props) => {
   };
   const toggleInviteModal = () => {
     setShowInviteModal(!showInviteModal);
+  };
+
+  const backToHarthNameModal = () => {
+    setShowCreateHarthNameModal(true);
+    setTimeout(() => {
+      setShowCreateHarthProfileModal(false);
+    }, 200);
   };
 
   if (isMobile) {
@@ -215,22 +226,45 @@ const SideNav = (props) => {
       ) : null}
       {showCreateHarthNameModal ? (
         <CreateHarthName
-          talkingHeadMsg="Select an icon and give your härth a name"
-          footer="Tip: You can change your härth name and image at any time"
-          placeholder="härth name"
-          submitText="Create"
+          talkingHeadMsg="give your group a name and upload an image that represents it"
+          footer="Don't stress. You can change your group name and image at any time."
+          placeholder="greedy gamers, spellslingers, etc..."
+          submitText="Next"
           closeHandler={() => setShowCreateHarthNameModal(false)}
           submitHandler={harthNameCreationHandler}
+          ignoreFadeIn={true}
+          backgroundColor={"purple"}
         />
       ) : null}
       {showCreateHarthProfileModal ? (
         <CreateHarthProfile
-          talkingHeadMsg={`Enter a name and select an image for your profile for this härth`}
-          footer="Each härth has a unique profile. Customize each profile to match your härth."
-          placeholder="profile name"
-          submitText="Join"
-          submitHandler={resetNewHarth}
+          talkingHeadMsg={`Tell me what you want to be called in this group`}
+          footer="You have a different name and profile image for every group you join"
+          placeholder="your name"
+          submitText="Create"
+          submitHandler={() => {
+            setShowCreateHarthTopicModal(true);
+            setTimeout(() => {
+              resetNewHarth();
+            }, 200);
+          }}
           harth={newHarth}
+          flowStepCount="3"
+          backgroundColor={"purple"}
+          ignoreFadeIn={true}
+          backHandler={backToHarthNameModal}
+        />
+      ) : null}
+      {showCreateHarthTopicModal ? (
+        <CreateHarthTopicStep
+          submitHandler={() => {
+            setShowCreateHarthTopicModal(false);
+          }}
+          harth={newHarth}
+          ignoreFadeIn={true}
+          flowStepCount="3"
+          backgroundColor={"purple"}
+          closeHandler={() => setShowCreateHarthTopicModal(false)}
         />
       ) : null}
       {showDeleteHarthModal ? (
@@ -306,11 +340,9 @@ const SideNav = (props) => {
           <button
             //className={` ${styles.SettingsButton} ${styles.SettingsButtonInvites} `}
             className={styles.InviteButton}
-
             onClick={toggleInviteModal}
             aria-label="Toggle Invites menu"
           >
-            
             <IconInviteEmail />
           </button>
           <button

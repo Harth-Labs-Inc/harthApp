@@ -55,22 +55,28 @@ export const AuthProvider = ({ children }) => {
         }
       } else {
         if (
-          !["/auth/createAccount", "/auth/login", "/auth/TOS"].includes(
-            router.pathname
-          )
+          ![
+            "/auth/createAccount",
+            "/auth/login",
+            "/auth/TOS",
+            "/auth/welcome",
+          ].includes(router.pathname)
         ) {
-          router.push("/auth/createAccount");
+          router.push("/auth/welcome");
         }
 
         setLoading(false);
       }
     } else {
       if (
-        !["/auth/createAccount", "/auth/login", "/auth/TOS"].includes(
-          router.pathname
-        )
+        ![
+          "/auth/createAccount",
+          "/auth/login",
+          "/auth/TOS",
+          "/auth/welcome",
+        ].includes(router.pathname)
       ) {
-        router.push("/auth/createAccount");
+        router.push("/auth/welcome");
       }
       setLoading(false);
     }

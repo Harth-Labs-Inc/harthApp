@@ -2,7 +2,7 @@ import React from "react";
 
 export default class OutsideClickHandler extends React.Component {
   clickCaptured = false;
-  previousViewportHeight = window.visualViewport.height; // Store the previous viewport height
+  previousViewportHeight = null; // Store the previous viewport height
   hasResizedSinceClick = false; // Flag to track if resizing has occurred
   mouseUpCaptured = false; // New flag for mouseup
 
@@ -41,6 +41,7 @@ export default class OutsideClickHandler extends React.Component {
   };
 
   componentDidMount() {
+    this.previousViewportHeight = window.visualViewport.height;
     document.addEventListener("mousedown", this.documentClick);
     document.addEventListener("touchstart", this.documentClick);
     document.addEventListener("mouseup", this.documentMouseUp);

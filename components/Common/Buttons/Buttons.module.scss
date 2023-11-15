@@ -15,6 +15,19 @@
 
 }
 
+.gray {
+    color: $font_light;
+    background: $ash_border !important;
+    border: 0;
+    &:hover {
+        background-color: $button_main_press;
+    }
+
+    &:active {
+        background-color: $button_main_press;
+    } 
+}
+
 .closeButton {
     position: relative;
     padding: 12px;

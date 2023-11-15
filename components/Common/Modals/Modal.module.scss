@@ -1,6 +1,15 @@
 @import "../../../styles/fonts.scss";
 @import "../../../styles/globals.scss";
 
+.ignoreFadeIn {
+  
+            background: linear-gradient(to bottom, transparent, $border_basic, transparent);
+            backdrop-filter: blur(30px);
+            animation-name: none !important;
+            animation-duration: 0s !important;
+    
+}
+
 .rendering {
     left: -356px;
     transition: all 0.2s ease-in-out;
@@ -17,7 +26,7 @@
     }
     to {
         background: linear-gradient(to bottom, transparent, $border_basic, transparent);
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(30px);
     }
 }
 
@@ -44,7 +53,6 @@
     animation-duration: 0.2s;
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
-
     &Block {
         animation-name: blur-in-block;
     }
@@ -61,14 +69,8 @@
         transform: translate3d(-50%, -50%, 0);
         padding: 0px;
         background-color: $background;
-        //border-radius: 12px;
         border-top: 1px solid $border_basic;
         border-bottom: 1px solid $border_basic;
-
-        // box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-        //         0 2px 2px hsl(0deg 0% 0% / 0.075),
-        //         0 4px 4px hsl(0deg 0% 0% / 0.075);
-
         &Dark {
             background-color: $ash;
         }

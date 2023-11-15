@@ -3,16 +3,10 @@
 
 
 .CreateModule {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: flex-start;
+
     max-width: 360px;
     margin: 0 auto;
-    padding: 24px 24px 56px 24px;
-    overflow:hidden;
-    overflow-y: auto;
-    background-color: $background;
+ 
 
     a {
       color: inherit;
@@ -105,15 +99,27 @@ p {
     }
 
     &Content {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-        max-width: 340px;
-        margin: auto;
+      max-width: 340px;
+      margin: auto;
 
 
-    }
+  }
+.buttonBar {
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+width: 98%;
+column-gap: 8px;
+margin-top: 24px;
+
+.cancelButton {
+    width: 96px;
+}
+
+.submitButton {
+    width: 100%;
+}
+}
 
     &Disclaimer {
         @include systemFont;

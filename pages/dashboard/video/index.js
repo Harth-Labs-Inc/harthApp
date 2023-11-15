@@ -30,6 +30,7 @@ const Video = () => {
     hasApprovedTos,
     hasFinishedFirstUseTour,
     hasFinishedFirstGatherTour,
+    initialLoadAllGood,
   } = useComms();
   const {
     getInitialCallRooms,
@@ -44,13 +45,13 @@ const Video = () => {
 
   useEffect(() => {
     if (socketID && selectedcomm) {
-      let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
+      let creator = selectedcomm.users?.find((usr) => usr.userId === user._id);
       let data = {};
       data.icon = creator?.iconKey;
       data.name = creator?.name;
       data.harthid = selectedcomm._id;
       data.socketId = socketID;
-      data.harthName = selectedcomm.name;
+      data.harthName = selectedcomm?.name;
       setSocketData(data);
       getInitialCallRooms(data);
     }
@@ -58,6 +59,7 @@ const Video = () => {
 
   useEffect(() => {
     if (
+      initialLoadAllGood &&
       isMobile &&
       hasApprovedTos &&
       hasFinishedFirstUseTour &&
@@ -70,7 +72,7 @@ const Video = () => {
       }, 150);
     }
   }, [
-    currentPage,
+    initialLoadAllGood && currentPage,
     hasApprovedTos,
     hasFinishedFirstUseTour,
     activeTour,

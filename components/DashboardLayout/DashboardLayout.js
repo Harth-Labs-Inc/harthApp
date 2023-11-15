@@ -62,6 +62,7 @@ const DashboardLayout = (props) => {
     approvedTosHandler,
     hasFinishedFirstUseTour,
     hasApprovedTos,
+    initialLoadAllGood,
   } = useComms();
   const { getInitialCallRooms, socketID, callRooms } = useVideo();
   const { user } = useAuth();
@@ -133,6 +134,7 @@ const DashboardLayout = (props) => {
 
   useEffect(() => {
     if (
+      initialLoadAllGood &&
       hasApprovedTos &&
       !hasFinishedFirstUseTour &&
       mobileMenuOpen != null &&
@@ -146,7 +148,13 @@ const DashboardLayout = (props) => {
         }
       }
     }
-  }, [mobileMenuOpen, hasApprovedTos, hasFinishedFirstUseTour, isMobile]);
+  }, [
+    mobileMenuOpen,
+    hasApprovedTos,
+    hasFinishedFirstUseTour,
+    isMobile,
+    initialLoadAllGood,
+  ]);
 
   const toggleMenu = () => {
     if (isMobile) {

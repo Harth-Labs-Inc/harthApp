@@ -13,29 +13,17 @@ import { saveUserSubscription } from "requests/subscriptions";
 import { SetNotifications } from "components/Alerts/SetNotifications/SetNotifications";
 import { TourProvider } from "contexts/tour";
 import TourComponent from "components/TourComponent/TourComponent";
+import WelcomePage from "components/WelcomePage/WelcomePage";
+import { Modal } from "Common";
+import CreateHarthTopicStep from "components/createHarthTopicStep/createHarthTopicStep";
+import CreateHarthProfile from "components/createHarthProfile/createHarthProfile";
+import CreateHarthName from "components/createHarthName/createHarthName";
+import HarthInviteAcceptModal from "components/harthInviteAcceptModal/harthInviteAcceptModal";
 
 /* eslint-disable */
 
 const DashboardLayout = dynamic(
   () => import("components/DashboardLayout/DashboardLayout"),
-  {
-    loading: () => null,
-  }
-);
-const CreateHarthName = dynamic(
-  () => import("components/createHarthName/createHarthName"),
-  {
-    loading: () => null,
-  }
-);
-const CreateHarthProfile = dynamic(
-  () => import("components/createHarthProfile/createHarthProfile"),
-  {
-    loading: () => null,
-  }
-);
-const HarthInviteAcceptModal = dynamic(
-  () => import("components/harthInviteAcceptModal/harthInviteAcceptModal"),
   {
     loading: () => null,
   }
@@ -57,6 +45,8 @@ const dashboard = () => {
   const [hasNotificationsDisabled, setHasNotificationsDisabled] =
     useState(false);
   const [keepSpinning, setKeepSpinning] = useState(true);
+  const [showCreateHarthTopicModal, setShowCreateHarthTopicModal] =
+    useState(false);
 
   const {
     user,
@@ -75,6 +65,17 @@ const dashboard = () => {
   } = router;
 
   const [currentPage, setCurrentPage] = useState(null);
+  const [skipWelcomePage, setSkipWelcomePage] = useState(user?.comms?.length);
+  const [allowPastWelcome, setAllowPastWelcome] = useState(false);
+
+  const [
+    finishedNotificationChecksApproved,
+    setFinishedNotificationChecksApproved,
+  ] = useState(false);
+  const [
+    firstHarthOrInviteChecksApproved,
+    setFirstHarthOrInviteChecksApproved,
+  ] = useState(false);
 
   useEffect(() => {
     if (navigator && "serviceWorker" in navigator) {
@@ -103,6 +104,10 @@ const dashboard = () => {
   }, []);
 
   useEffect(() => {
+    setSkipWelcomePage(user?.comms?.length);
+  }, [user?.comms]);
+
+  useEffect(() => {
     async function checkSubscription() {
       if (swReg && "pushManager" in swReg && user) {
         const subscription = await swReg.pushManager.getSubscription();
@@ -114,7 +119,11 @@ const dashboard = () => {
           saveCurrentSubscription(subscription);
         } else if (!subscription) {
           showNotificationButtonIfNotDenied();
+        } else {
+          setFinishedNotificationChecksApproved(true);
         }
+      } else {
+        setFinishedNotificationChecksApproved(true);
       }
     }
 
@@ -124,6 +133,7 @@ const dashboard = () => {
         deviceKey = generateID();
         localStorage.setItem("deviceKey", deviceKey);
       }
+      setFinishedNotificationChecksApproved(true);
       saveUserSubscription({
         sub: subscription,
         userId: user._id,
@@ -137,11 +147,14 @@ const dashboard = () => {
       );
       if (!hasDeniedNotifications) {
         setShowNotButton(true);
+      } else {
+        setFinishedNotificationChecksApproved(true);
       }
     }
-
-    checkSubscription();
-  }, [swReg, user, SUBSCRIPTION]);
+    if (firstHarthOrInviteChecksApproved) {
+      checkSubscription();
+    }
+  }, [swReg, user, SUBSCRIPTION, firstHarthOrInviteChecksApproved]);
 
   useEffect(() => {
     let storedinviteTKN = localStorage.getItem("inviteToken");
@@ -159,11 +172,8 @@ const dashboard = () => {
         setKeepSpinning(true);
       }
 
-      let prevPage = localStorage.getItem("selectedPage");
-      let page = prevPage || "chat";
-      if (openFromPush && type) {
-        page = type;
-      }
+      let prevPage = localStorage.getItem("selectedPage") || "chat";
+      let page = openFromPush && type ? type : prevPage;
       changePageHandler(page);
 
       const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");
@@ -194,6 +204,7 @@ const dashboard = () => {
               setShowCreateHarthNameModal(true);
             } else {
               setShowCreateHarthNameModal(false);
+              setFirstHarthOrInviteChecksApproved(true);
             }
             router.push(router.pathname, undefined, { shallow: true });
           }
@@ -205,6 +216,7 @@ const dashboard = () => {
         if (showCreateHarthNameModal) {
           setShowCreateHarthNameModal(false);
         }
+        setFirstHarthOrInviteChecksApproved(true);
       }
     }
 
@@ -238,6 +250,7 @@ const dashboard = () => {
       deviceKey,
     });
     setShowNotButton(false);
+    setFinishedNotificationChecksApproved(true);
   };
   const requestNotificationPermisson = async () => {
     try {
@@ -247,10 +260,12 @@ const dashboard = () => {
         subcribeToPushService();
       } else {
         setHasNotificationsDisabled(true);
+        setFinishedNotificationChecksApproved(true);
       }
     } catch (error) {
       console.log(error);
       setHasNotificationsDisabled(true);
+      setFinishedNotificationChecksApproved(true);
     }
   };
   const changePageHandler = (pg) => {
@@ -262,8 +277,10 @@ const dashboard = () => {
   };
   const harthNameCreationHandler = async (harth) => {
     setNewHarth(harth);
-    setShowCreateHarthNameModal(false);
     setShowCreateHarthProfileModal(true);
+    setTimeout(() => {
+      setShowCreateHarthNameModal(false);
+    }, 200);
   };
   const resetNewHarth = () => {
     const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");
@@ -275,7 +292,6 @@ const dashboard = () => {
     if (inviteTKN || tkn) {
       setInviteTKN(null);
       setShowCreateHarthNameModal(false);
-      setShowInviteAcceptModal(true);
     }
   };
   const resetNewInviteHarth = () => {
@@ -286,9 +302,11 @@ const dashboard = () => {
     setShowInviteAcceptModal(false);
   };
   const goodInviteHandler = (harth) => {
-    setShowInviteAcceptModal(false);
     setInvitedHarth({ ...harth });
     setShowInviteProfileModal(true);
+    setTimeout(() => {
+      setShowInviteAcceptModal(false);
+    }, 200);
   };
   const toggleNoHarthDetected = (bool) => {
     if (bool) {
@@ -298,153 +316,240 @@ const dashboard = () => {
   const refuseNotifcations = () => {
     localStorage.setItem("hasDeniedNotifications", true);
     setShowNotButton(false);
+    setFinishedNotificationChecksApproved(true);
+  };
+  const toggleAllowPastWelcome = () => {
+    setAllowPastWelcome(true);
+  };
+  const signOutHandler = () => {
+    localStorage.removeItem("token");
+    window.location.pathname = "/";
+  };
+
+  const backToHarthNameModal = () => {
+    setShowCreateHarthNameModal(true);
+    setTimeout(() => {
+      setShowCreateHarthProfileModal(false);
+    }, 200);
+  };
+  const backToInviteNameModal = () => {
+    setShowInviteAcceptModal(true);
+    setTimeout(() => {
+      setShowInviteProfileModal(false);
+    }, 200);
   };
 
   if (loading) {
     return <SpinningLoader />;
   }
-  if (user && currentPage) {
-    let page;
-    switch (currentPage) {
-      case "chat":
-        const DynamicChat = dynamic(() => import("./dashboard/chat"), {
-          loading: () => null,
-        });
-        page = DynamicChat ? <DynamicChat /> : null;
-        break;
-      case "gather":
-        const DynamicVideo = dynamic(() => import("./dashboard/video"), {
-          loading: () => null,
-        });
-        page = DynamicVideo ? <DynamicVideo /> : null;
-        break;
-      case "message":
-        const DynamicMessage = dynamic(() => import("./dashboard/message"), {
-          loading: () => null,
-        });
-        page = DynamicMessage ? <DynamicMessage /> : null;
-        break;
-      default:
-        page = null;
-        break;
-    }
 
-    return (
-      <>
-        {keepSpinning ? (
-          <div id="pushSpinner">
-            <SpinningLoader />
-          </div>
-        ) : null}
-        <CommsProvider
-          keepSpinning={keepSpinning}
-          CommsArr={Comms}
-          CREATOR={CREATOR}
-          SELECTEDCOMM={SELECTEDCOMM}
-          TOPICS={TOPICS}
-          currentPage={currentPage}
-          ConversationsArray={Conversations}
-        >
-          {showNotButton ? (
-            <SetNotifications
-              permissionDenied={hasNotificationsDisabled}
-              request={requestNotificationPermisson}
-              refuseNotifcations={refuseNotifcations}
-            />
+  if (user) {
+    if (!skipWelcomePage && !allowPastWelcome) {
+      return (
+        <Modal onToggleModal={() => {}}>
+          <WelcomePage
+            submitHandler={toggleAllowPastWelcome}
+            signOutHandler={signOutHandler}
+          />
+        </Modal>
+      );
+    } else if (currentPage) {
+      let page;
+      switch (currentPage) {
+        case "chat":
+          const DynamicChat = dynamic(() => import("./dashboard/chat"), {
+            loading: () => null,
+          });
+          page = DynamicChat ? <DynamicChat /> : null;
+          break;
+        case "gather":
+          const DynamicVideo = dynamic(() => import("./dashboard/video"), {
+            loading: () => null,
+          });
+          page = DynamicVideo ? <DynamicVideo /> : null;
+          break;
+        case "message":
+          const DynamicMessage = dynamic(() => import("./dashboard/message"), {
+            loading: () => null,
+          });
+          page = DynamicMessage ? <DynamicMessage /> : null;
+          break;
+        default:
+          page = null;
+          break;
+      }
+
+      return (
+        <>
+          {keepSpinning ? (
+            <div id="pushSpinner">
+              <SpinningLoader />
+            </div>
           ) : null}
+          <CommsProvider
+            keepSpinning={keepSpinning}
+            CommsArr={Comms}
+            CREATOR={CREATOR}
+            SELECTEDCOMM={SELECTEDCOMM}
+            TOPICS={TOPICS}
+            currentPage={currentPage}
+            ConversationsArray={Conversations}
+            initialLoadAllGood={
+              firstHarthOrInviteChecksApproved &&
+              (user.firstUseTourApproved || finishedNotificationChecksApproved)
+            }
+          >
+            {showNotButton ? (
+              <SetNotifications
+                permissionDenied={hasNotificationsDisabled}
+                request={requestNotificationPermisson}
+                refuseNotifcations={refuseNotifcations}
+              />
+            ) : null}
 
-          <SocketProvider swReg={swReg}>
-            <VideoProvider>
-              {showCreateHarthNameModal ? (
-                <CreateHarthName
-                  talkingHeadMsg="Select an icon and give your härth a name"
-                  footer="Tip: You can change your härth name and image at any time"
-                  placeholder="härth name"
-                  submitText="Create"
-                  closeHandler={async () => {
-                    let result = await getComms(user);
-                    const { ok, comms } = result;
-                    if (!ok || !comms || !comms.length) {
-                      setShowCreateHarthNameModal(true);
-                    } else {
-                      setShowCreateHarthNameModal(false);
+            <SocketProvider swReg={swReg}>
+              <VideoProvider>
+                {showCreateHarthNameModal ? (
+                  <CreateHarthName
+                    talkingHeadMsg="give your group a name and upload an image that represents it"
+                    footer="Don't stress. You can change your group name and image at any time."
+                    placeholder="greedy gamers, spellslingers, etc..."
+                    submitText="Next"
+                    closeHandler={async () => {
+                      let result = await getComms(user);
+                      const { ok, comms } = result;
+                      if (!ok || !comms || !comms.length) {
+                        setShowCreateHarthNameModal(true);
+                      } else {
+                        setFirstHarthOrInviteChecksApproved(true);
+                        setShowCreateHarthNameModal(false);
+                      }
+                    }}
+                    changeCancelToBack={user?.comms?.length ? false : true}
+                    submitHandler={harthNameCreationHandler}
+                    backHandler={
+                      user?.comms?.length
+                        ? null
+                        : () => {
+                            setAllowPastWelcome(false);
+                          }
                     }
-                  }}
-                  submitHandler={harthNameCreationHandler}
-                />
-              ) : null}
-              {showCreateHarthProfileModal ? (
-                <CreateHarthProfile
-                  talkingHeadMsg={`Enter a name and select an image for your profile for this härth`}
-                  footer="Each härth has a unique profile. Customize each profile to match your härth."
-                  placeholder="profile name"
-                  submitText="Join"
-                  submitHandler={resetNewHarth}
-                  harth={newHarth}
-                />
-              ) : null}
-              {showInviteAcceptModal ? (
-                <HarthInviteAcceptModal
-                  talkingHeadMsg="You have been invited to join a new härth"
-                  footer="Remember to be safe and only accept invites from people that you know."
-                  submitText="Accept Invite"
-                  submitHandler={goodInviteHandler}
-                  tkn={tkn || inviteTKN || ""}
-                  user={user}
-                  closeHandler={async () => {
-                    resetNewInviteHarth();
-                    window.history.replaceState(null, null, "/");
-                    let result = await getComms(user);
-                    const { ok, comms } = result;
-                    if (!ok || !comms || !comms.length) {
-                      toggleNoHarthDetected(true);
-                    }
-                  }}
-                  invitedHarth={invitedHarth}
-                  invitedSender={invitedSender}
-                />
-              ) : null}
-              {showInviteProfileModal ? (
-                <CreateHarthProfile
-                  header="harth"
-                  talkingHeadMsg={`Enter a name and select an image for your profile for this härth`}
-                  footer="Each härth has a unique profile. Customize each profile to match your härth."
-                  placeholder="profile name"
-                  submitText="Join"
-                  submitHandler={resetNewInviteHarth}
-                  harth={invitedHarth}
-                  invite={true}
-                  closeHandler={async () => {
-                    resetNewInviteHarth();
-                    window.history.replaceState(null, null, "/");
-                    let result = await getComms(user);
-                    const { ok, comms } = result;
-                    if (!ok || !comms || !comms.length) {
-                      toggleNoHarthDetected(true);
-                    }
-                  }}
-                />
-              ) : null}
+                    ignoreFadeIn={true}
+                    backgroundColor={"purple"}
+                  />
+                ) : null}
+                {showCreateHarthProfileModal ? (
+                  <CreateHarthProfile
+                    talkingHeadMsg={`Tell me what you want to be called in this group`}
+                    footer="You have a different name and profile image for every group you join"
+                    placeholder="your name"
+                    submitText="Create"
+                    submitHandler={() => {
+                      setShowCreateHarthTopicModal(true);
+                      setTimeout(() => {
+                        setAllowPastWelcome(false);
+                        setSkipWelcomePage(true);
+                        setFirstHarthOrInviteChecksApproved(true);
+                        resetNewHarth();
+                      }, 200);
+                    }}
+                    harth={newHarth}
+                    ignoreFadeIn={true}
+                    flowStepCount="3"
+                    backgroundColor={"purple"}
+                    backHandler={backToHarthNameModal}
+                  />
+                ) : null}
+                {showCreateHarthTopicModal ? (
+                  <CreateHarthTopicStep
+                    submitHandler={() => {
+                      setShowCreateHarthTopicModal(false);
+                    }}
+                    harth={newHarth}
+                    ignoreFadeIn={true}
+                    flowStepCount="3"
+                    backgroundColor={"purple"}
+                    closeHandler={() => setShowCreateHarthTopicModal(false)}
+                  />
+                ) : null}
+                {showInviteAcceptModal ? (
+                  <HarthInviteAcceptModal
+                    talkingHeadMsg="Remember to only accept invites from people you know"
+                    footer=""
+                    submitText="Accept Invite"
+                    submitHandler={goodInviteHandler}
+                    tkn={tkn || inviteTKN || ""}
+                    user={user}
+                    closeHandler={async () => {
+                      resetNewInviteHarth();
+                      window.history.replaceState(null, null, "/");
+                      let result = await getComms(user);
+                      const { ok, comms } = result;
+                      if (!ok || !comms || !comms.length) {
+                        toggleNoHarthDetected(true);
+                      } else {
+                        setFirstHarthOrInviteChecksApproved(true);
+                      }
+                    }}
+                    invitedHarth={invitedHarth}
+                    invitedSender={invitedSender}
+                    ignoreFadeIn={true}
+                  />
+                ) : null}
+                {showInviteProfileModal ? (
+                  <CreateHarthProfile
+                    header="harth"
+                    talkingHeadMsg={`Tell me what you want to be called in this group`}
+                    footer="You have a different name and profile image for every group you join"
+                    placeholder="your name"
+                    submitText="Join"
+                    submitHandler={() => {
+                      setFirstHarthOrInviteChecksApproved(true);
+                      resetNewInviteHarth();
+                    }}
+                    harth={invitedHarth}
+                    invite={true}
+                    closeHandler={async () => {
+                      resetNewInviteHarth();
+                      window.history.replaceState(null, null, "/");
+                      let result = await getComms(user);
+                      const { ok, comms } = result;
+                      if (!ok || !comms || !comms.length) {
+                        toggleNoHarthDetected(true);
+                      } else {
+                        setFirstHarthOrInviteChecksApproved(true);
+                      }
+                    }}
+                    ignoreFadeIn={true}
+                    flowStepCount="2"
+                    backgroundColor={"purple"}
+                    backHandler={backToInviteNameModal}
+                  />
+                ) : null}
 
-              <TourProvider>
-                <TourComponent />
-                <DashboardLayout
-                  changePage={changePageHandler}
-                  currentPage={currentPage}
-                  setShowCreateHarthNameModal={setShowCreateHarthNameModal}
-                  user={user}
-                  toggleNoHarthDetected={toggleNoHarthDetected}
-                  swReg={swReg}
-                >
-                  {page}
-                </DashboardLayout>
-              </TourProvider>
-            </VideoProvider>
-          </SocketProvider>
-        </CommsProvider>
-      </>
-    );
+                <TourProvider>
+                  <TourComponent />
+                  <DashboardLayout
+                    changePage={changePageHandler}
+                    currentPage={currentPage}
+                    setShowCreateHarthNameModal={setShowCreateHarthNameModal}
+                    user={user}
+                    toggleNoHarthDetected={toggleNoHarthDetected}
+                    swReg={swReg}
+                  >
+                    {page}
+                  </DashboardLayout>
+                </TourProvider>
+              </VideoProvider>
+            </SocketProvider>
+          </CommsProvider>
+        </>
+      );
+    } else {
+      return null;
+    }
   }
+
   return null;
 };
 

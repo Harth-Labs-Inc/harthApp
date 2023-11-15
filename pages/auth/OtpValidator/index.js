@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { useAuth } from "../../../contexts/auth";
 import {
   verifyOtp,
@@ -8,9 +7,8 @@ import {
   sendOtpEmailToUser,
   loginAttempt,
 } from "../../../requests/userApi";
-import TalkingHead from "../../../components/TalkingHead/TalkingHead";
 import CodeInput from "../../../components/CodeInput/CodeInput";
-import { Button } from "../../../components/Common";
+import { Button, Modal } from "../../../components/Common";
 
 import styles from "./otpValidator.module.scss";
 
@@ -31,9 +29,11 @@ const OtpValidator = (props) => {
   const [isResending, setIsResending] = useState(false);
   const [badCode, setBadCode] = useState(false);
   const [inviteCode, setInviteCode] = useState();
+  /* eslint-disable-next-line */
   const [helpText, setHelpText] = useState([
     "Enter the secret code I just sent you.",
   ]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (tempUser) {
@@ -54,29 +54,35 @@ const OtpValidator = (props) => {
     setInviteCode(text);
   };
   const handlerSubmit = async () => {
-    let result = await verifyOtp({ inviteCode, newUser });
-    let { ok } = result;
-    if (ok) {
-      if (isInModal) {
-        parentSubmit();
-      } else {
-        const data = await login(newUser);
-        const { ok, tkn } = data;
-        if (ok) {
-          setBadCode(false);
-          setHelpText(["SUCCESS!!"]);
-          localStorage.setItem("token", tkn);
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      let result = await verifyOtp({ inviteCode, newUser });
+      let { ok } = result;
+      if (ok) {
+        if (isInModal) {
+          parentSubmit();
+          setIsSubmitting(false);
+        } else {
+          const data = await login(newUser);
+          const { ok, tkn } = data;
+          if (ok) {
+            setBadCode(false);
+            setHelpText(["SUCCESS!!"]);
+            setIsSubmitting(false);
 
-          if (newUser.showFirstTimeUser) {
-            localStorage.setItem("showFirstTimeUser", true);
+            localStorage.setItem("token", tkn);
+            if (newUser.showFirstTimeUser) {
+              localStorage.setItem("showFirstTimeUser", true);
+            }
+            getInitialData(tkn);
           }
-          getInitialData(tkn);
         }
+      } else {
+        setIsSubmitting(false);
+        setBadCode(true);
+        setInviteCode("");
+        setHelpText(["Whoa, hold up.", "That code you entered was wrong."]);
       }
-    } else {
-      setBadCode(true);
-      setInviteCode("");
-      setHelpText(["Whoa, hold up.", "That code you entered was wrong."]);
     }
   };
   const resendOTP = async () => {
@@ -98,55 +104,64 @@ const OtpValidator = (props) => {
   }
 
   return (
-    <div className={`${styles.OtpModule} ${styles.fadeIn}`}>
-      <div className={styles.OtpModuleLogo}>
-        <HarthLogoDark />
-      </div>
-      <TalkingHead textArray={helpText} />
-      <p className={styles.OtpModuleText}>
-        Enter the security code we just sent to{" "}
-        {alternativeEmail || newUser?.email}
-      </p>
-      <CodeInput onChange={inputChangeHandler} codeInput={inviteCode} />
-      {hasResent ? (
-        <>
-          <p className={styles.OtpModuleSubText}>Your code has been resent.</p>
-          <p className={styles.OtpModuleSubText}>
-            Please wait up to 15 minutes for your code to arrive and remember to
-            check your spam folder.
-          </p>
-        </>
-      ) : (
-        <p className={styles.OtpModuleSubText}>
-          {badCode ? (
-            <span style={{ color: "red" }}>Invalid code</span>
-          ) : (
-            "Didn't get the code? Check your spam folder."
-          )}
+    <Modal onToggleModal={() => {}} ignoreFadeIn={true}>
+      <div className={`${styles.OtpModule} ${styles.fadeIn}`}>
+        <h3>Security Check</h3>
+        <figure>
+          <img src="/images/emailLogo (1).svg" />
+        </figure>
+        <h4>Check your email</h4>
+        <p className={styles.OtpModuleText}>
+          Enter the security code we just sent to{" "}
+          {alternativeEmail || newUser?.email}
         </p>
-      )}
+        <div className={styles.codeWrapper}>
+          {isSubmitting ? <div className={styles.isSubmitting}></div> : null}
+          <CodeInput onChange={inputChangeHandler} codeInput={inviteCode} />
+        </div>
 
-      <div className={styles.OtpModuleButtons}>
-        <Button
-          tier="secondary"
-          size="small"
-          text={isInModal ? "close" : "Start over"}
-          onClick={() => {
-            if (isInModal) {
-              closeModal();
-            } else {
-              router.push("/auth/createAccount");
-            }
-          }}
-        />
-        <Button
-          onClick={resendOTP}
-          tier="secondary"
-          size="small"
-          text="Resend the code"
-        />
+        {hasResent ? (
+          <>
+            <p className={styles.OtpModuleSubText}>
+              Your code has been resent.
+            </p>
+            <p className={styles.OtpModuleSubText}>
+              Please wait up to 15 minutes for your code to arrive and remember
+              to check your spam folder.
+            </p>
+          </>
+        ) : (
+          <p className={styles.OtpModuleSubText}>
+            {badCode ? (
+              <span style={{ color: "red" }}>Invalid code</span>
+            ) : (
+              "Didn't get the code? Check your spam folder."
+            )}
+          </p>
+        )}
+
+        <div className={styles.OtpModuleButtons}>
+          <Button
+            tier="secondary"
+            size="small"
+            text={isInModal ? "close" : "Start over"}
+            onClick={() => {
+              if (isInModal) {
+                closeModal();
+              } else {
+                router.push("/auth/welcome");
+              }
+            }}
+          />
+          <Button
+            onClick={resendOTP}
+            tier="secondary"
+            size="small"
+            text="Resend the code"
+          />
+        </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 

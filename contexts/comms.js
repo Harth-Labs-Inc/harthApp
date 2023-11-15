@@ -22,6 +22,7 @@ export const CommsProvider = ({
   currentPage,
   ConversationsArray,
   keepSpinning,
+  initialLoadAllGood,
 }) => {
   const [comms, setComms] = useState(CommsArr);
   const [selectedcomm, setSelectedcomm] = useState(SELECTEDCOMM);
@@ -590,12 +591,12 @@ export const CommsProvider = ({
   const changeSelectedCommFromChild = (com, repullMessages) => {
     let isInChatOrDM = localStorage.getItem("isInChatOrDM");
 
-    if (currentPage === "message") {
+    if (currentPage === "message" && com?._id) {
       resetConversations();
       fetchConversations(com._id);
       resetTopics();
     }
-    if (currentPage === "chat") {
+    if (currentPage === "chat" && com?._id) {
       grabTopics(com._id, isInChatOrDM && repullMessages);
       resetConversations();
     }
@@ -685,6 +686,7 @@ export const CommsProvider = ({
   return (
     <CommsContext.Provider
       value={{
+        initialLoadAllGood,
         currentPage,
         hasFinishedFirstGatherTour,
         toggleHasFinishedFirstGatherTour,

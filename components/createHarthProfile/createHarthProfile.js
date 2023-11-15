@@ -19,6 +19,10 @@ export default function CreateHarthProfile({
   harth,
   invite,
   closeHandler,
+  ignoreFadeIn,
+  flowStepCount,
+  backgroundColor,
+  backHandler,
 }) {
   const [newFile, setNewFile] = useState(null);
   const [profileName, setProfileName] = useState("");
@@ -68,6 +72,7 @@ export default function CreateHarthProfile({
         let commDbUpload = await saveCommunity(tempHarth);
         if (commDbUpload.ok) {
           id = commDbUpload.id;
+          tempHarth._id = commDbUpload.id;
         }
       } else if (tempHarth._id) {
         id = tempHarth._id;
@@ -100,7 +105,7 @@ export default function CreateHarthProfile({
         owner,
         muted: false,
       });
-      refetchComms(tempHarth, true);
+      await refetchComms(tempHarth, true);
       submitHandler();
       setIsJoining(false);
     }
@@ -119,9 +124,14 @@ export default function CreateHarthProfile({
   };
 
   return (
-    <Modal onToggleModal={togglemodal}>
+    <Modal onToggleModal={togglemodal} ignoreFadeIn={ignoreFadeIn}>
       <div className={styles.mainContainer}>
-        <div className={styles.title}>Create a profile</div>
+        <div className={styles.title}>Give yourself a name</div>
+        <div className={styles.lineParent}>
+          <div className={`${styles.line} ${styles.lineActive}`}></div>
+          <div className={`${styles.line} ${styles.lineActive}`}></div>
+          {flowStepCount == "3" ? <div className={styles.line}></div> : null}
+        </div>
         <TalkingHead text={talkingHeadMsg} />
         <div className={styles.imageHolder}>
           <IconUploader
@@ -146,11 +156,19 @@ export default function CreateHarthProfile({
           <div className={styles.helpText}>{footer}</div>
           <div className={styles.buttonBar}>
             <Button
+              tier="secondary"
+              fullWidth
+              text="back"
+              onClick={backHandler}
+              className={styles.cancelButton}
+            />
+            <Button
               tier="primary"
               fullWidth
               text={submitText}
               type="submit"
               isLoading={isJoining}
+              backgroundColor={backgroundColor}
             />
           </div>
         </form>
