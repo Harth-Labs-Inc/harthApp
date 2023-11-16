@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { IconDeleteNoFill } from "../../resources/icons/IconDeleteNoFill";
 import { IconEditNoFill } from "../../resources/icons/IconEditNoFill";
 import { IconAddReactionNoFill } from "../../resources/icons/IconAddReactionNoFill";
-import { IconMoreDots } from 'resources/icons/IconMoreDots';
+import { IconMoreDots } from "resources/icons/IconMoreDots";
 import styles from "./ChatSingleMessage.module.scss";
 import FlagIcon from "resources/icons/Flag";
 import BlockIcon from "resources/icons/Block";
@@ -22,10 +22,6 @@ const EditBar = ({
   blockName,
 }) => {
   const [showMoreButtons, setShowMoreButtons] = useState(false);
-
-  let flagButton = null;
-  let blockButton = null;
-
   if (showEditBar && showEditBar === _id) {
     const reactionButton = (
       <button value="reaction" title="reaction" onClick={triggerPicker}>
@@ -34,10 +30,37 @@ const EditBar = ({
     );
 
     const moreButton = (
-      <button value="more" title="more" onClick={() => setShowMoreButtons(true)}>
+      <button
+        value="more"
+        title="more"
+        onClick={() => setShowMoreButtons(true)}
+      >
         <IconMoreDots />
       </button>
     );
+
+    const flagButton = disableFLagIcon ? (
+      <button
+        disabled
+        value="flag"
+        title="flag"
+        onClick={flagMessageHandler}
+        className={styles.disabledFlag}
+      >
+        <FlagIcon />
+      </button>
+    ) : (
+      <button value="flag" title="flag" onClick={flagMessageHandler}>
+        <FlagIcon />
+      </button>
+    );
+
+    const blockButton =
+      creator_id !== user_id ? (
+        <button value="block" title="block user" onClick={blockUserHandler}>
+          <BlockIcon blockName={blockName} />
+        </button>
+      ) : null;
 
     if (creator_id === user_id || isSuperAdmin) {
       const deleteButton = (
@@ -52,32 +75,6 @@ const EditBar = ({
         </button>
       );
 
-      flagButton = (
-        disableFLagIcon ? (
-          <button
-            disabled
-            value="flag"
-            title="flag"
-            onClick={flagMessageHandler}
-            className={styles.disabledFlag}
-          >
-            <FlagIcon />
-          </button>
-        ) : (
-          <button value="flag" title="flag" onClick={flagMessageHandler}>
-            <FlagIcon />
-          </button>
-        )
-      );
-
-      blockButton = (
-        creator_id !== user_id ? (
-          <button value="block" title="block user" onClick={blockUserHandler}>
-            <BlockIcon blockName={blockName} />
-          </button>
-        ) : null
-      );
-
       return (
         <div className={styles.Controls}>
           {reactionButton}
@@ -88,7 +85,9 @@ const EditBar = ({
               {flagButton}
               {blockButton}
             </>
-          ) : moreButton}
+          ) : (
+            moreButton
+          )}
         </div>
       );
     } else {
@@ -100,7 +99,9 @@ const EditBar = ({
               {flagButton}
               {blockButton}
             </>
-          ) : moreButton}
+          ) : (
+            moreButton
+          )}
         </div>
       );
     }

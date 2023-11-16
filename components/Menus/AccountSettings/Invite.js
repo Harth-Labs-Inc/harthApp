@@ -123,12 +123,16 @@ const InviteComp = (props) => {
         <div className={styles.content}>
           {!submitSuccess ? (
             <>
-            <div className={styles.heading}>
-              <div className={styles.imageHeader}><IconInviteEmail /></div>
-              <p>Send<br />an Invite</p>
-            </div>
-            
-              
+              <div className={styles.heading}>
+                <div className={styles.imageHeader}>
+                  <IconInviteEmail />
+                </div>
+                <p>
+                  Send
+                  <br />
+                  an Invite
+                </p>
+              </div>
 
               {/* <button className={styles.closeBtn} onClick={handleBack}>
                 <IconClose />
@@ -136,8 +140,13 @@ const InviteComp = (props) => {
 
               <div className={styles.InviteList}>
                 <div className={styles.harthdropdown}>
-                  <label className={styles.labelText} htmlFor="harthSelect">Select a Harth</label>
-                  <div className={styles.dropdownheader} onClick={toggleDropdown}>
+                  <label className={styles.labelText} htmlFor="harthSelect">
+                    Select a Harth
+                  </label>
+                  <div
+                    className={styles.dropdownheader}
+                    onClick={toggleDropdown}
+                  >
                     <div className={styles.dropdownSelected}>
                       {selectedHarth?.iconKey && (
                         <img
@@ -174,10 +183,10 @@ const InviteComp = (props) => {
                     </div>
                   )}
                 </div>
-                <label className={styles.labelText} htmlFor="harthSelect">Recipient Email</label>
-                <p>
-                  {formatError ? "Invalid format" : ""}
-                </p>
+                <label className={styles.labelText} htmlFor="harthSelect">
+                  Recipient Email
+                </label>
+                <p>{formatError ? "Invalid format" : ""}</p>
                 <div className={styles.emailinput}>
                   <input
                     type="text"
@@ -190,9 +199,7 @@ const InviteComp = (props) => {
                     <div className={styles.innerenteredemails}>
                       {enteredEmails.map((email, index) => (
                         <div className={styles.email} key={index}>
-                          <button
-                            onClick={() => handleEmailDelete(email)}
-                          >
+                          <button onClick={() => handleEmailDelete(email)}>
                             X
                           </button>
                           {index !== enteredEmails.length - 1 ? (
@@ -225,33 +232,28 @@ const InviteComp = (props) => {
             </>
           ) : (
             <>
-              <div className={` ${styles.heading} ${styles.headingCenter} `}>Invite Sent!</div>
+              <div className={` ${styles.heading} ${styles.headingCenter} `}>
+                Invite Sent!
+              </div>
               {/* <button className={styles.closeBtn} onClick={handleBack}>
                 X
               </button> */}
               <div className={styles.success}>
                 <br />
                 <p>Your invite has been sent to:</p>
-                <p>
-                  {enteredEmails.join(", ")}
-                </p>
-                < br />
+                <p>{enteredEmails.join(", ")}</p>
+                <br />
                 <p className={styles.sub}>
-                  Invites may take up to 15m to be delivered. This invite expires in 48 hours.
+                  Invites may take up to 15m to be delivered. This invite
+                  expires in 48 hours.
                 </p>
               </div>
 
               <div className={styles.actionBar}>
-                <button
-                  className={styles.cancel}
-                  onClick={handleBack}
-                >
+                <button className={styles.cancel} onClick={handleBack}>
                   Done
                 </button>
-                <button
-                  className={styles.submit}
-                  onClick={resetHandler}
-                >
+                <button className={styles.submit} onClick={resetHandler}>
                   <p>Send Another Invite</p>
                 </button>
               </div>
