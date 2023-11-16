@@ -22,7 +22,6 @@ export default function CreateHarthProfile({
   closeHandler,
   ignoreFadeIn,
   flowStepCount,
-  backgroundColor,
   backHandler,
 }) {
   const [newFile, setNewFile] = useState(null);

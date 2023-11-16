@@ -134,7 +134,6 @@ const CreateAccount = () => {
                 onClick={() => {
                   router.push("/auth/welcome");
                 }}
-                isDisabled={isSubmitting}
               >
                 <IconChevronLeft />
               </button>

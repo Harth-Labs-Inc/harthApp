@@ -11,12 +11,10 @@ import { IconArrowLeft } from "resources/icons/IconArrowLeft";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 import { saveTopics } from "../../requests/community";
 import { addRoomToUsers } from "../../requests/rooms";
-import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 
 export default function CreateHarthTopicStep({
   closeHandler,
   ignoreFadeIn,
-  backgroundColor,
 }) {
   const [emojiPickerState, setEmojiPicker] = useState(false);
   const [Emoji, setEmoji] = useState();

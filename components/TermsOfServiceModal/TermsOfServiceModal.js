@@ -64,7 +64,6 @@ const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
               onClick={() => {
                 router.push("/auth/createAccount");
               }}
-              isDisabled={isSubmitting}
             >
               <IconChevronLeft />
               </button>
