@@ -70,7 +70,7 @@
         }
         
         .actionBar {
-            position: relative;
+           
             display: flex;
             flex-direction: row;
             justify-content: flex-end;
@@ -83,6 +83,7 @@
             gap: 12px;
         
             button {
+            
                 @include buttonPrimary;
             }
             
@@ -102,9 +103,13 @@
                 margin: auto;
                 border-top-color: $hot_purple;
                 animation: spinner 1s ease infinite;
+                border-top: 2px solid white;
+                border-radius: 50%;
             }
         
             .submit {
+                min-width: 130px;
+                position: relative;
                 cursor: pointer;
                 transition: all 0.3s;
             }
