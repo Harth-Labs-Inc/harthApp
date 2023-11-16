@@ -6,6 +6,7 @@ import { Button, Modal } from "../../../components/Common";
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import styles from "./createAccount.module.scss";
 import { useAuth } from "contexts/auth";
+import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 
 const CreateAccount = () => {
   const router = useRouter();
@@ -82,10 +83,10 @@ const CreateAccount = () => {
       return "You must be at least 13 years old to register";
   };
   return (
-    <Modal onToggleModal={() => {}} ignoreFadeIn={true}>
+    <Modal blockBackground={true} onToggleModal={() => {}} ignoreFadeIn={true}>
       <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
         <div className={styles.CreateModuleContent}>
-          <h3>Create an Account</h3>
+          <div className={styles.header}>Create an Account</div>
           <form onSubmit={handleSubmit(submitHandler)}>
             <p className={styles.label}>Email</p>
             <input
@@ -128,16 +129,15 @@ const CreateAccount = () => {
               />
             ) : null}
             <div className={styles.buttonBar}>
-              <Button
-                tier="secondary"
-                type="button"
-                text="Back"
-                className={styles.cancelButton}
+              <button
+                className={styles.backButton}
                 onClick={() => {
                   router.push("/auth/welcome");
                 }}
                 isDisabled={isSubmitting}
-              />
+              >
+                <IconChevronLeft />
+              </button>
               <Button
                 tier="primary"
                 type="submit"
@@ -148,7 +148,6 @@ const CreateAccount = () => {
                   setSubmissionType("create");
                 }}
                 isLoading={isSubmitting}
-                backgroundColor={"purple"}
               />
             </div>
           </form>

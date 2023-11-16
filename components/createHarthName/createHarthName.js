@@ -1,16 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 import { compressImage } from "../../requests/s3";
 import { uploadFile } from "../../services/helper";
-
 import { Button, Modal } from "Common";
-
 import TalkingHead from "../TalkingHead/TalkingHead";
 import ErrorMessage from "../Common/Input/ErrorMessage";
-
 import IconUploader from "../IconUploader";
-
 import styles from "./CreateHarthName.module.scss";
 
 export default function CreateHarthName({
@@ -65,10 +61,12 @@ export default function CreateHarthName({
     setNewFile(file);
   };
 
+  talkingHeadMsg = "Give your group a name and an image";
+  
   return (
     <Modal onToggleModal={closeHandler} ignoreFadeIn={ignoreFadeIn}>
       <div className={styles.mainContainer}>
-        <div className={styles.title}>Create a new group</div>
+        <div className={styles.title}>Create a<br />new group</div>
         <div className={styles.lineParent}>
           <div className={`${styles.line} ${styles.lineActive}`}></div>
           <div className={styles.line}></div>
@@ -97,26 +95,24 @@ export default function CreateHarthName({
             maxLength={20}
           />
           {errors.harthName ? (
-            <ErrorMessage errorMsg="You must set a Harth name to begin." />
+            <ErrorMessage errorMsg="You must set a group name." />
           ) : (
             <div className={styles.helpText}>{footer}</div>
           )}
 
           <div className={styles.buttonBar}>
-            <Button
-              tier="secondary"
-              fullWidth
-              text={changeCancelToBack ? "back" : "cancel"}
+            <button
               onClick={changeCancelToBack ? backHandler : closeHandler}
-              className={styles.cancelButton}
-            />
+              className={changeCancelToBack ? styles.backButton : styles.cancelButton}
+            >
+              {changeCancelToBack ? <IconChevronLeft /> : "Cancel"}
+              </button>
             <Button
               tier="primary"
               fullWidth
               text={submitText}
               type="submit"
               className={styles.submitButton}
-              backgroundColor={"purple"}
             />
           </div>
         </form>

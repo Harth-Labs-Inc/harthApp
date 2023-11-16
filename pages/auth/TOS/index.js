@@ -44,7 +44,8 @@ const TOS = () => {
     return null;
   }
   return (
-    <Modal>
+    <Modal blockBackground={true}>
+      
       <TermsOfServiceModal
         buttonText="Create an Account"
         submitHandler={submitHandler}

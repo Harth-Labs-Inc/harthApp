@@ -2,12 +2,15 @@
 @import "../../../styles/globals.scss";
 
 .CreateModule {
-    max-width: 360px;
+    width: 360px;
+    max-width: 100%;
     margin: 0 auto;
 
-    h3 {
+    .header {
       text-align: left !important;
+      @include overlayMenuTitle;
       width: 100%;
+      margin-bottom: 24px;
     }
 
 
@@ -42,10 +45,10 @@
 }
 
     input[type="date"]{
-      width: 200px;
+      width: 240px;
       background-color: $border_basic;
       color: $font_main;
-      @include rubik;
+      @include systemFont;
       font-size: 16px;
     }
     ::-webkit-calendar-picker-indicator {
@@ -71,7 +74,8 @@
     }
 
     &Content {
-        max-width: 340px;
+        width: 360px;
+        max-width: 100%;
         margin: auto;
 
 
@@ -80,24 +84,49 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  width: 98%;
+  width: 100%;
   column-gap: 8px;
-  margin-top: 24px;
+  margin-top: 20px;
 
-  .cancelButton {
-      width: 96px;
+  .backButton {
+      height: 48px;
+      border-radius: 999px;
+      border: 1px solid $border_heavy;
+      background-color: $background;
+
+      path {
+        fill: $border_heavy;
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover { 
+          background: $background_offset;
+          path {
+            fill: $font_muted;
+          }
+        }
+      }
+    
+      &:active {
+        background: $background_offset;
+        path {
+          fill: $font_muted;
+        }
+      }
   }
 
   .submitButton {
+      
+      @include buttonPrimary;
       width: 100%;
   }
 }
     &Disclaimer {
         @include systemFont;
         font-size: 12px;
-        width: 316px;
+        width: 100%;
         text-align: center;
-        margin: 12px auto 20px;
+        margin: 12px 0px;
         color: $font_muted;
 
         a {

@@ -226,7 +226,7 @@ const SideNav = (props) => {
       ) : null}
       {showCreateHarthNameModal ? (
         <CreateHarthName
-          talkingHeadMsg="give your group a name and upload an image that represents it"
+          talkingHeadMsg="Give your group a name and an image"
           footer="Don't stress. You can change your group name and image at any time."
           placeholder="greedy gamers, spellslingers, etc..."
           submitText="Next"

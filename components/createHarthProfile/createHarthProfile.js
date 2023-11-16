@@ -9,6 +9,7 @@ import { Button, Modal } from "../Common";
 import { compressImage } from "../../requests/s3";
 import styles from "./CreateHarthProfile.module.scss";
 import { useSocket } from "contexts/socket";
+import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 
 export default function CreateHarthProfile({
   talkingHeadMsg,
@@ -126,7 +127,7 @@ export default function CreateHarthProfile({
   return (
     <Modal onToggleModal={togglemodal} ignoreFadeIn={ignoreFadeIn}>
       <div className={styles.mainContainer}>
-        <div className={styles.title}>Give yourself a name</div>
+        <div className={styles.title}>Give yourself< br/>a name</div>
         <div className={styles.lineParent}>
           <div className={`${styles.line} ${styles.lineActive}`}></div>
           <div className={`${styles.line} ${styles.lineActive}`}></div>
@@ -155,20 +156,19 @@ export default function CreateHarthProfile({
           />
           <div className={styles.helpText}>{footer}</div>
           <div className={styles.buttonBar}>
-            <Button
-              tier="secondary"
-              fullWidth
-              text="back"
+            <button
               onClick={backHandler}
-              className={styles.cancelButton}
-            />
+              className={styles.backButton}
+            >
+              <IconChevronLeft />
+              </button>
             <Button
               tier="primary"
               fullWidth
               text={submitText}
               type="submit"
               isLoading={isJoining}
-              backgroundColor={backgroundColor}
+              className={styles.submitButton}
             />
           </div>
         </form>
