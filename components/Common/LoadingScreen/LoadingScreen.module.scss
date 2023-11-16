@@ -1,0 +1,62 @@
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
+
+.DesktopTopic {
+    width: 100%;
+    height: 100%;
+}
+
+.MobileTopic {
+    width: 100%;
+    height: 100%;
+}
+
+.topic {
+    animation: load 1s infinite;
+    .DesktopTopic & {
+        width: 100%;
+        height: 48px;
+    }
+
+    .MobileTopic & {
+        width: 100%;
+        height: 48px;
+    }
+
+}
+
+.DesktopMessage {
+    width: 100%;
+    height: 100%;
+}
+
+.MobileMessage {
+    width: 100%;
+    height: 100%;
+}
+
+.message {
+    animation: load 1s infinite;
+    .DesktopMessage & {
+        width: 100%;
+        height: 56px;
+    }
+
+    .MobileMessage & {
+        width: 100%;
+        height: 56px;
+    }
+
+}
+
+
+
+@keyframes load {
+    from {
+        background: linear-gradient(45deg, $border_basic, border_light);
+    }
+  
+    to {
+        background: linear-gradient(45deg, $border_light, border_basic);
+    }
+  }
