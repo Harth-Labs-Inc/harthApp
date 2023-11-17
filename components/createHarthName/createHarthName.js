@@ -62,11 +62,14 @@ export default function CreateHarthName({
   };
 
   talkingHeadMsg = "Give your group a name and an image";
-  
+
   return (
     <Modal onToggleModal={closeHandler} ignoreFadeIn={ignoreFadeIn}>
       <div className={styles.mainContainer}>
-        <div className={styles.title}>Create a<br />new group</div>
+        <div className={styles.title}>
+          Create a<br />
+          new group
+        </div>
         <div className={styles.lineParent}>
           <div className={`${styles.line} ${styles.lineActive}`}></div>
           <div className={styles.line}></div>
@@ -102,11 +105,14 @@ export default function CreateHarthName({
 
           <div className={styles.buttonBar}>
             <button
+              type="button"
               onClick={changeCancelToBack ? backHandler : closeHandler}
-              className={changeCancelToBack ? styles.backButton : styles.cancelButton}
+              className={
+                changeCancelToBack ? styles.backButton : styles.cancelButton
+              }
             >
               {changeCancelToBack ? <IconChevronLeft /> : "Cancel"}
-              </button>
+            </button>
             <Button
               tier="primary"
               fullWidth

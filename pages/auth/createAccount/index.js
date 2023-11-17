@@ -130,6 +130,7 @@ const CreateAccount = () => {
             ) : null}
             <div className={styles.buttonBar}>
               <button
+                type="button"
                 className={styles.backButton}
                 onClick={() => {
                   router.push("/auth/welcome");

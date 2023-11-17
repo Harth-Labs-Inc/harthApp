@@ -60,13 +60,14 @@ const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
           </label>
           <div className={styles.buttonBar}>
             <button
+              type="button"
               className={styles.backButton}
               onClick={() => {
                 router.push("/auth/createAccount");
               }}
             >
               <IconChevronLeft />
-              </button>
+            </button>
             <Button
               tier="primary"
               type="submit"

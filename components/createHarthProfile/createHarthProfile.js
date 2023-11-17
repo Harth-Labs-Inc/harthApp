@@ -126,7 +126,10 @@ export default function CreateHarthProfile({
   return (
     <Modal onToggleModal={togglemodal} ignoreFadeIn={ignoreFadeIn}>
       <div className={styles.mainContainer}>
-        <div className={styles.title}>Give yourself< br/>a name</div>
+        <div className={styles.title}>
+          Give yourself
+          <br />a name
+        </div>
         <div className={styles.lineParent}>
           <div className={`${styles.line} ${styles.lineActive}`}></div>
           <div className={`${styles.line} ${styles.lineActive}`}></div>
@@ -156,11 +159,12 @@ export default function CreateHarthProfile({
           <div className={styles.helpText}>{footer}</div>
           <div className={styles.buttonBar}>
             <button
+              type="button"
               onClick={backHandler}
               className={styles.backButton}
             >
               <IconChevronLeft />
-              </button>
+            </button>
             <Button
               tier="primary"
               fullWidth
