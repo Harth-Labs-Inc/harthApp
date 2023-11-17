@@ -3,7 +3,7 @@ import TalkingHead from "../TalkingHead/TalkingHead";
 import styles from "./WelcomePage.module.scss";
 /* eslint-disable */
 const WelcomePage = ({ submitHandler, isSubmitting, signOutHandler }) => {
-  const bubbleText = "Welcome to Harth! Let me help you get something setup";
+  const bubbleText = "Welcome to Härth! Let me help you get something setup";
 
   return (
     <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
@@ -12,7 +12,7 @@ const WelcomePage = ({ submitHandler, isSubmitting, signOutHandler }) => {
         <TalkingHead text={bubbleText} />
         <h4>You're in!</h4>
         <p className={`${styles.label} ${styles.largerFont}`}>
-          You have created your harth account. Now it's time for you to join
+          You have created your Härth account. Now it's time for you to join
           your friends.
         </p>
 
@@ -24,14 +24,13 @@ const WelcomePage = ({ submitHandler, isSubmitting, signOutHandler }) => {
           fullWidth
           isLoading={isSubmitting}
           isDisabled={false}
-          backgroundColor={"purple"}
           onClick={submitHandler}
         />
         <Button
           tier="secondary"
           type="button"
           text="Sign out"
-          className={styles.signupButton}
+          className={styles.second}
           onClick={signOutHandler}
         />
       </div>

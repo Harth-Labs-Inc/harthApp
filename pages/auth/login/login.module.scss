@@ -8,8 +8,11 @@
 
 
     h3 {
+        @include overlayMenuTitle;
         text-align: left !important;
         width: 100%;
+        margin: 0;
+        margin-bottom: 36px;
       }
 
     .label {
@@ -135,11 +138,36 @@
         column-gap: 8px;
         margin-top: 24px;
       
-        .cancelButton {
-            width: 96px;
+        .backButton {
+            height: 48px;
+            border-radius: 999px;
+            border: 1px solid $border_heavy;
+            background-color: $background;
+      
+            path {
+              fill: $border_heavy;
+            }
+      
+            @media (hover: hover) and (pointer: fine) {
+              &:hover { 
+                background: $background_offset;
+                path {
+                  fill: $font_muted;
+                }
+              }
+            }
+          
+            &:active {
+              background: $background_offset;
+              path {
+                fill: $font_muted;
+              }
+            }
         }
       
         .submitButton {
+            
+            @include buttonPrimary;
             width: 100%;
         }
       }

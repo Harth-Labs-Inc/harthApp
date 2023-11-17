@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 const Welcome = () => {
   const router = useRouter();
   return (
-    <Modal onToggleModal={() => {}} ignoreFadeIn={true}>
+    <Modal blockBackground={true} onToggleModal={() => {}} ignoreFadeIn={true}>
       <div className={`${styles.welcomeModule} ${styles.fadeIn}`}>
         <div>
           <div className={styles.logoHolder}>
@@ -22,21 +22,19 @@ const Welcome = () => {
             tier="primary"
             fullWidth
             text="Create an Account"
-            className={styles.loginModuleSignUpLink}
+            className={styles.signUpLink}
             onClick={() => {
               router.push("/auth/createAccount");
             }}
-            backgroundColor={"purple"}
           />
           <Button
             tier="primary"
             fullWidth
             text="Sign In"
-            className={styles.loginModuleSignUpLink}
+            className={styles.signInLink}
             onClick={() => {
               router.push("/auth/login");
             }}
-            backgroundColor={"gray"}
           />
         </div>
       </div>

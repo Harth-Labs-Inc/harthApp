@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-
+import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 import { sendOtpEmailToUser, loginAttempt } from "../../../requests/userApi";
-
 import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import { Button, Modal } from "Common";
-
 import styles from "./login.module.scss";
 import { useAuth } from "contexts/auth";
 
@@ -37,7 +35,7 @@ const Login = () => {
   };
 
   return (
-    <Modal onToggleModal={() => {}} ignoreFadeIn={true}>
+    <Modal blockBackground={true} onToggleModal={() => {}} ignoreFadeIn={true}>
       <div className={`${styles.loginModule} ${styles.fadeIn}`}>
         <h3>Sign In</h3>
         <form onSubmit={handleSubmit(submitHandler)}>
@@ -53,16 +51,14 @@ const Login = () => {
             }
           />
           <div className={styles.buttonBar}>
-            <Button
-              tier="secondary"
-              type="button"
-              text="Back"
-              className={styles.cancelButton}
+            <button
+              className={styles.backButton}
               onClick={() => {
                 router.push("/auth/welcome");
               }}
-              isDisabled={isSubmitting}
-            />
+            >
+              <IconChevronLeft />
+            </button>
             <Button
               className={styles.submitButton}
               type="submit"
@@ -70,7 +66,6 @@ const Login = () => {
               tier="primary"
               fullWidth
               isLoading={isSubmitting}
-              backgroundColor={"purple"}
             />
           </div>
         </form>

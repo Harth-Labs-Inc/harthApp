@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Button } from "../Common";
 import TalkingHead from "../TalkingHead/TalkingHead";
-
+import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 import styles from "./TermsOfServiceModal.module.scss";
 import CheckIcon from "resources/icons/check";
 import { useRouter } from "next/router";
@@ -23,7 +23,7 @@ const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
   return (
     <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
       <div className={styles.CreateModuleContent}>
-        <h3>User Agreement</h3>
+        <div className={styles.header}>User Agreement</div>
         <TalkingHead text={bubbleText} />
         <p className={styles.label}>
           By continuing to use Harth, you agree to treat others with respect by
@@ -59,16 +59,14 @@ const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
             </span>
           </label>
           <div className={styles.buttonBar}>
-            <Button
-              tier="secondary"
-              type="button"
-              text="Back"
-              className={styles.cancelButton}
+            <button
+              className={styles.backButton}
               onClick={() => {
                 router.push("/auth/createAccount");
               }}
-              isDisabled={isSubmitting}
-            />
+            >
+              <IconChevronLeft />
+              </button>
             <Button
               tier="primary"
               type="submit"
@@ -77,7 +75,6 @@ const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
               fullWidth
               isLoading={isSubmitting}
               isDisabled={!termsOfServiceChecked}
-              backgroundColor={termsOfServiceChecked ? "purple" : false}
             />
           </div>
         </form>

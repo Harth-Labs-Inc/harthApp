@@ -141,13 +141,13 @@
         //@include buttonLarge;
         @include systemFont;
         font-size: 16px;
-        font-weight: 500;
+        font-weight: 400;
     }
     &Small {
-        padding: 4px 8px;
+        padding: 8px 12px;
         @include systemFont;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 400;
     }
 
     &:disabled {

@@ -104,7 +104,7 @@ const OtpValidator = (props) => {
   }
 
   return (
-    <Modal onToggleModal={() => {}} ignoreFadeIn={true}>
+    <Modal blockBackground={true} onToggleModal={() => {}} ignoreFadeIn={true}>
       <div className={`${styles.OtpModule} ${styles.fadeIn}`}>
         <h3>Security Check</h3>
         <figure>

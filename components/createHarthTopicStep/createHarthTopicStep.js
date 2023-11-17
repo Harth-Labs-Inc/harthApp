@@ -15,7 +15,6 @@ import { addRoomToUsers } from "../../requests/rooms";
 export default function CreateHarthTopicStep({
   closeHandler,
   ignoreFadeIn,
-  backgroundColor,
 }) {
   const [emojiPickerState, setEmojiPicker] = useState(false);
   const [Emoji, setEmoji] = useState();
@@ -119,7 +118,7 @@ export default function CreateHarthTopicStep({
     <>
       <Modal onToggleModal={togglemodal} ignoreFadeIn={ignoreFadeIn}>
         <div className={styles.mainContainer}>
-          <div className={styles.title}>Create a topic</div>
+          <div className={styles.title}>Create <br />a topic</div>
           <div className={styles.lineParent}>
             <div className={`${styles.line} ${styles.lineActive}`}></div>
             <div className={`${styles.line} ${styles.lineActive}`}></div>
@@ -127,7 +126,7 @@ export default function CreateHarthTopicStep({
           </div>
           <TalkingHead
             text={
-              "Give me a topic that you and your friends like to talk about."
+              "Give me a topic that you and your friends like to talk about"
             }
           />
 
@@ -153,7 +152,7 @@ export default function CreateHarthTopicStep({
             </div>
             <div className={styles.error}>
               <ErrorMessage
-                errorMsg={errors.topicName ? "You must name your chat" : null}
+                errorMsg={errors.topicName ? "You must name your topic" : null}
               />
             </div>
             <div className={styles.reminder}>
@@ -167,20 +166,22 @@ export default function CreateHarthTopicStep({
             <div className={styles.helpText}>
               You can always edit or add more topics later.
             </div>
-            <div className={styles.CreateTopicButtons}>
+            <div className={styles.buttonBar}>
               <Button
                 size="large"
+                text="Skip"
                 tier="secondary"
-                text="Close"
                 onClick={togglemodal}
+                className={styles.backButton}
               />
+
               <Button
                 fullWidth
                 size="large"
                 text="Add"
                 type="submit"
                 isLoading={isLoading}
-                backgroundColor={backgroundColor}
+                className={styles.submitButton}
               />
             </div>
           </form>

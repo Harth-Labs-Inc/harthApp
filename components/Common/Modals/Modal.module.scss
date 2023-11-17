@@ -30,16 +30,7 @@
     }
 }
 
-@keyframes blur-in-block {
-    from {
-        background-color: transparent;
-        backdrop-filter: blur(0px) grayscale(0%);
-    }
-    to {
-        background-color: $black_20;
-        backdrop-filter: blur(16px) grayscale(60%);
-    }
-}
+
 
 .Modal {
     position: fixed;
@@ -53,9 +44,7 @@
     animation-duration: 0.2s;
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
-    &Block {
-        animation-name: blur-in-block;
-    }
+    
     .Modal {
         height: 100%;
         width: 100%;
@@ -78,6 +67,10 @@
         &Padding {
             padding: 24px;
         }
+
+        &Block {
+            border: 0;
+        }
     }
 
     &Left {
@@ -91,8 +84,25 @@
         padding-bottom: 28px;
         border-radius: 0 0px 0px 0;
     }
+
+    &Block {
+        background: $background;
+        border: 0;
+    }
 }
 
 .sideModalContainer {
     z-index: 299;
+}
+
+
+@keyframes blur-in-block {
+    from {
+        background-color: transparent;
+        //backdrop-filter: blur(0px) grayscale(0%);
+    }
+    to {
+        background-color: $background;
+        //backdrop-filter: blur(16px) grayscale(60%);
+    }
 }

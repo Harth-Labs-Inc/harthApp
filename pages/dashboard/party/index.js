@@ -70,7 +70,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       if ("wakeLock" in navigator) {
         try {
           wakeLock = await navigator.wakeLock.request("screen");
-          console.log("Wake Lock acquired");
+          console.log("Wake Lock acquired.");
         } catch (err) {
           console.error("Error acquiring wake lock:", err);
         }

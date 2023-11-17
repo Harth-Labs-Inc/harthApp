@@ -37,6 +37,7 @@ export const Modal = (props) => {
           ref={ref}
           className={`
                         ${styles.ModalMid} 
+                        ${blockBackground && styles.ModalMidBlock}
                         ${isDark && styles.ModalMidDark}
                         ${hasPadding && styles.ModalMidPadding}
                         ${containerStyle}

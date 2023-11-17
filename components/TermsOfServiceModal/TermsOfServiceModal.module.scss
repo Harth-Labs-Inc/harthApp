@@ -3,17 +3,16 @@
 
 
 .CreateModule {
-
-    max-width: 360px;
-    margin: 0 auto;
- 
+    width: 360px;
+    max-width: 100%;
+    margin: 0 auto; 
 
     a {
       color: inherit;
     }
     .label {
       text-align: center !important;
-      margin: 30px 0px
+      margin: 0px 0px 24px 0px;
     }
 
     .label, label {
@@ -21,8 +20,10 @@
       font-weight: 400;
       color: $font_main;
   }
-  h2 {
+  .header {
+    @include overlayMenuTitle;
     margin-bottom: 3px;
+    margin-bottom: 24px;
   }
 p {
   font-size: 15px;
@@ -99,7 +100,8 @@ p {
     }
 
     &Content {
-      max-width: 340px;
+      width: 360px;
+      max-width: 100%;
       margin: auto;
 
 
@@ -112,12 +114,36 @@ width: 98%;
 column-gap: 8px;
 margin-top: 24px;
 
-.cancelButton {
-    width: 96px;
+.backButton {
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid $border_heavy;
+  background-color: $background;
+
+  path {
+    fill: $border_heavy;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { 
+      background: $background_offset;
+      path {
+        fill: $font_muted;
+      }
+    }
+  }
+
+  &:active {
+    background: $background_offset;
+    path {
+      fill: $font_muted;
+    }
+  }
 }
 
 .submitButton {
-    width: 100%;
+  @include buttonPrimary;
+  width: 100%;
 }
 }
 
