@@ -505,6 +505,7 @@ export const ConversationMessages = () => {
           </div>
         </>
       ) : null}
+      <div id="longPressCoverId"></div>
       <div className={styles.Holder}>
         <div id={styles.ChatMessages} onScroll={handleScroll}>
           <div ref={messagesEndRef} />
@@ -512,6 +513,7 @@ export const ConversationMessages = () => {
             currentMessages.map((msg, idex) => (
               <Fragment key={msg?._id}>
                 <ChatSingleMessage
+                  longPressCoverId="longPressCoverId"
                   msgReload={msgReload}
                   editMessageText={editMessage}
                   msg={msg}

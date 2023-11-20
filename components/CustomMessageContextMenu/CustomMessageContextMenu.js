@@ -116,7 +116,7 @@ export const CustomMessageContextMenu = ({
           ) : null}
 
           <button
-            disabled={disableFLagIcon}
+            disabled={isDisabled || disableFLagIcon}
             className={`${styles.CustomContextMenuButton} ${
               disableFLagIcon ? styles.isDisabled : ""
             }`}

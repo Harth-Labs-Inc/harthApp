@@ -95,6 +95,7 @@ const ChatSingleMessage = (props) => {
     postCollection,
     isReportPost,
     isFirst,
+    longPressCoverId,
   } = props;
 
   const { user } = useAuth();
@@ -277,6 +278,32 @@ const ChatSingleMessage = (props) => {
       skipStep();
     }
   }, [showLongPressMenu]);
+
+  useEffect(() => {
+    const element = longPressCoverId
+      ? document.getElementById(longPressCoverId)
+      : null;
+
+    if (element) {
+      if (showLongPressMenu) {
+        element.style.position = "absolute";
+        element.style.top = "0";
+        element.style.left = "0";
+        element.style.height = "100vh";
+        element.style.width = "100vw";
+        element.style.zIndex = "2";
+      } else {
+        setTimeout(() => {
+          element.style.position = "";
+          element.style.top = "";
+          element.style.left = "";
+          element.style.height = "";
+          element.style.width = "";
+          element.style.zIndex = "";
+        }, 200);
+      }
+    }
+  }, [showLongPressMenu, longPressCoverId]);
 
   useEffect(() => {
     return () => {

@@ -279,7 +279,7 @@ const MessageWrapper = () => {
           slideshowURLRef={slideshowURLRef.current}
         />
       ) : null}
-
+      <div id="longPressCoverId"></div>
       <div className={styles.Holder} id="messageResizer">
         <div id={styles.ChatMessages} onScroll={handleScroll}>
           <div ref={messagesEndRef} />
@@ -287,6 +287,7 @@ const MessageWrapper = () => {
             currentMessages.map((msg, index) => (
               <Fragment key={msg?._id}>
                 <ChatSingleMessage
+                  longPressCoverId="longPressCoverId"
                   slideshowURLRef={slideshowURLRef}
                   msgReload={msgReload}
                   editMessageText={editMessage}

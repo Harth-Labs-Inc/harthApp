@@ -15,8 +15,7 @@ export const CustomConvContextMenu = ({ pos, closeModal, onDeleteHandler }) => {
     <div ref={contextRef} className={styles.TopicButtonWrapper}>
       <OutsideClickHandler
         className={styles.TopicButtonClickWrapper}
-        onClickOutside={closeModal}
-        onFocusOutside={closeModal}
+        onMouseUpOutside={closeModal}
       >
         <div
           className={` ${styles.CustomContextMenu} ${

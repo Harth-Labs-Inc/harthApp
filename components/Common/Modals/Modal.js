@@ -29,10 +29,7 @@ export const Modal = (props) => {
         blockBackground && styles.ModalBlock
       } ${ignoreFadeIn ? styles.ignoreFadeIn : ""}`}
     >
-      <OutsideClickHandler
-        onClickOutside={closeModal}
-        onFocusOutside={closeModal}
-      >
+      <OutsideClickHandler onMouseUpOutside={closeModal}>
         <section
           ref={ref}
           className={`
