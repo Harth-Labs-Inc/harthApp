@@ -6,6 +6,28 @@ workbox.setConfig({ debug: false });
 self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    clients.claim(),
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (
+            ![
+              "font-cache",
+              "image-cache",
+              "css-cache",
+              "js-cache",
+              "version-cache",
+            ].includes(cacheName)
+          ) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
 self.addEventListener("message", function (event) {
   if (event.data === "ping") {
     event.source.postMessage("pong");
@@ -16,6 +38,7 @@ self.addEventListener("message", function (event) {
       "css-cache",
       "json-cache",
       "js-cache",
+      "version-cache",
     ];
 
     caches
@@ -69,17 +92,9 @@ self.addEventListener("notificationclick", function (event) {
 });
 
 const { precaching, routing, strategies } = workbox;
-
 precaching.precacheAndRoute([]);
 
-workbox.routing.registerRoute(
-  /version\.txt$/,
-  new workbox.strategies.NetworkFirst({
-    cacheName: "version-cache",
-  })
-);
-// CacheFirst
-//
+// CacheFirst -- images / fonts
 // Cache font files
 workbox.routing.registerRoute(
   /\.(woff|woff2|ttf|otf)$/i,
@@ -118,36 +133,39 @@ workbox.routing.registerRoute(
     ],
   })
 );
-// Cache html files
-workbox.routing.registerRoute(
-  /\.html$/i,
-  new workbox.strategies.CacheFirst({
-    cacheName: "html-cache",
-    plugins: [
-      new workbox.expiration.ExpirationPlugin({
-        maxAgeSeconds: 7 * 24 * 60 * 60,
-      }),
-    ],
-  })
-);
+// Stale while revalidate
 // Cache CSS files
 routing.registerRoute(
   /\.css$/,
-  new strategies.CacheFirst({
+  new strategies.StaleWhileRevalidate({
     cacheName: "css-cache",
-  })
-);
-// Cache json files
-workbox.routing.registerRoute(
-  /\.json$/i,
-  new workbox.strategies.CacheFirst({
-    cacheName: "json-cache",
   })
 );
 // Cache js files
 workbox.routing.registerRoute(
   /\.js$/i,
-  new workbox.strategies.CacheFirst({
+  new workbox.strategies.StaleWhileRevalidate({
     cacheName: "js-cache",
+  })
+);
+// network first
+// Cache html files
+workbox.routing.registerRoute(
+  /\.html$/i,
+  new workbox.strategies.NetworkFirst({
+    cacheName: "html-cache",
+  })
+);
+// Cache json files
+workbox.routing.registerRoute(
+  /\.json$/i,
+  new workbox.strategies.NetworkFirst({
+    cacheName: "json-cache",
+  })
+);
+workbox.routing.registerRoute(
+  /version\.txt$/,
+  new workbox.strategies.NetworkFirst({
+    cacheName: "version-cache",
   })
 );
