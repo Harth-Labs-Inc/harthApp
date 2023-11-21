@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-
 import OutsideClickHandler from "../Common/Modals/OutsideClick";
-
+import { IconAddReactionNoFill } from "resources/icons/IconAddReactionNoFill";
+import BlockIcon from "resources/icons/Block";
+import FlagIcon from "resources/icons/Flag";
+import { IconDeleteNoFill } from "resources/icons/IconDeleteNoFill";
+import { IconEditNoFill } from "resources/icons/IconEditNoFill";
+import { IconCopy } from "resources/icons/IconCopy";
 import styles from "./CustomMessageContextMenu.module.scss";
 import { copyToClipboard } from "services/helper";
 
@@ -46,7 +50,7 @@ export const CustomMessageContextMenu = ({
 
     setTimeout(() => {
       setIsCopied(false);
-    }, 500);
+    }, 1000);
   };
   const editHandler = (e) => {
     e.preventDefault();
@@ -83,6 +87,7 @@ export const CustomMessageContextMenu = ({
             className={styles.CustomContextMenuButton}
             onClick={addReactionHandler}
           >
+            <IconAddReactionNoFill />
             Add Reaction
           </button>
           {hasTextForClipboard ? (
@@ -93,6 +98,7 @@ export const CustomMessageContextMenu = ({
               onClick={copyTextHandler}
               style={{ backgroundColor: isCopied ? "green" : "" }}
             >
+              <IconCopy />
               {isCopied ? "Copied!" : "Copy Text"}
             </button>
           ) : null}
@@ -102,6 +108,7 @@ export const CustomMessageContextMenu = ({
               className={styles.CustomContextMenuButton}
               onClick={editHandler}
             >
+              <IconEditNoFill />
               Edit
             </button>
           ) : null}
@@ -111,17 +118,19 @@ export const CustomMessageContextMenu = ({
               className={styles.CustomContextMenuButton}
               onClick={removeHandler}
             >
+              <IconDeleteNoFill />
               Remove
             </button>
           ) : null}
 
           <button
-            disabled={isDisabled || disableFLagIcon}
+            disabled={disableFLagIcon}
             className={`${styles.CustomContextMenuButton} ${
               disableFLagIcon ? styles.isDisabled : ""
             }`}
             onClick={flagMessageHandler}
           >
+            <FlagIcon />
             Flag
           </button>
           {!showEditButton ? (
@@ -130,6 +139,7 @@ export const CustomMessageContextMenu = ({
               className={`${styles.CustomContextMenuButton}`}
               onClick={blockUserHandler}
             >
+              <BlockIcon />
               Block
             </button>
           ) : null}
@@ -138,3 +148,4 @@ export const CustomMessageContextMenu = ({
     </div>
   );
 };
+

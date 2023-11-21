@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from "react";
-
 import { useComms } from "../../../contexts/comms";
 import { useAuth } from "../../../contexts/auth";
 import { useSocket } from "../../../contexts/socket";
@@ -8,14 +7,12 @@ import { Modal } from "../../Common";
 import { updatedTopic, deleteTopicByID } from "../../../requests/community";
 import TopicEditModal from "../../TopicEditModal";
 import TopicDeleteModal from "../../TopicDeleteModal";
-
+import { LoadingScreen } from "components/LoadingScreen/LoadingScreen";
 import TopicListElement from "../../Topics/TopicListElement";
 import { IconAdd } from "../../../resources/icons/IconAdd";
-
 import { CustomContextMenu } from "../../CustomContextMenu/CustomContextMenu";
 import CreateNewTopicModal from "./CreateNewTopicModal/CreateNewTopicModal";
 import styles from "./TopicsNav.module.scss";
-import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 
 const TopicsNav = (props) => {
   const [topicsArr, setTopicsArr] = useState([]);
@@ -292,7 +289,7 @@ const TopicsNav = (props) => {
       >
         {isLoadingTopics ? (
           <div>
-            <SpinningLoader spinnerOnly={true} />
+            <LoadingScreen type="topics" />
           </div>
         ) : (
           <div className={styles.TopicsNavContainer}>
