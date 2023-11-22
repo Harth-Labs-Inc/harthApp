@@ -22,7 +22,7 @@ const TopicsNav = (props) => {
   const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
   const [openEditTopicMenu, setOpenEditTopicMenu] = useState(null);
   const [showDeleteTopicModal, setShowDeleteTopicModal] = useState(false);
-
+  const [isConvertingTopicsDone, setIsConvertingTopicsDone] = useState(false);
   const { isMobile } = useContext(MobileContext);
   const { incomingTopic, emitUpdate, unreadMessagesRef } = useSocket();
   const { user } = useAuth();
@@ -37,6 +37,7 @@ const TopicsNav = (props) => {
 
   useEffect(() => {
     if (topics) {
+      setIsConvertingTopicsDone(false);
       const unhiddenTopics = topics.filter(({ members }) => {
         let userIndex = members.findIndex(({ user_id }) => {
           return user_id == user._id;
@@ -116,6 +117,7 @@ const TopicsNav = (props) => {
 
       setTopicsArr(unhiddenTopics);
       setHiddenTopicsArr(hiddenTopics);
+      setIsConvertingTopicsDone(true);
     }
   }, [topics]);
   useEffect(() => {
@@ -287,7 +289,7 @@ const TopicsNav = (props) => {
                 ${isMobile && styles.TopicsNavMobile}
                 `}
       >
-        {isLoadingTopics ? (
+        {isLoadingTopics || !isConvertingTopicsDone ? (
           <div>
             <LoadingScreen type="topics" />
           </div>

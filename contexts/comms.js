@@ -377,14 +377,14 @@ export const CommsProvider = ({
       run();
     });
   };
-  const fetchConversations = async (comid) => {
+  const fetchConversations = async (comid, repullMessages) => {
     setIsLoadingConversations(true);
     let result = await getConversations(comid, user._id);
     const { ok, conversations } = result;
     if (ok) {
       let startingConv;
 
-      if (!isMobile) {
+      if (!isMobile || repullMessages) {
         startingConv = conversations[0];
       }
       let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
@@ -593,7 +593,7 @@ export const CommsProvider = ({
 
     if (currentPage === "message" && com?._id) {
       resetConversations();
-      fetchConversations(com._id);
+      fetchConversations(com._id && repullMessages);
       resetTopics();
     }
     if (currentPage === "chat" && com?._id) {

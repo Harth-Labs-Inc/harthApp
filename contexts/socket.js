@@ -27,7 +27,7 @@ import {
 const SocketContext = createContext({});
 
 // -------------------- update version here ------------------------------------------------------------------------------
-const APP_VERSION = "1.0.0.16";
+const APP_VERSION = "1.0.16";
 // -----------------------------------------------------------------------------------------------------------------------
 
 /* eslint-disable */
@@ -77,7 +77,7 @@ export const SocketProvider = ({ children }) => {
 
   const INITIAL_RECONNECT_INTERVAL = 500;
   let currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
-  const MAX_RECONNECT_INTERVAL = 2500;
+  const MAX_RECONNECT_INTERVAL = 1500;
 
   let isReconnecting = false;
   let ispullingVersioning = false;
@@ -538,6 +538,7 @@ export const SocketProvider = ({ children }) => {
             APP_VERSION.trim() !== version.trim()
           ) {
             if (
+              navigator &&
               "serviceWorker" in navigator &&
               navigator.serviceWorker.controller
             ) {
