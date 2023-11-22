@@ -73,13 +73,14 @@ const SettingsList = ({ toggleCurrentTab }) => {
       ) : (
         <SubSettings toggleCurrentTab={toggleCurrentTab} />
       )}
-
-      <button
+      <a
         className={styles.menuItem}
-        onClick={() => window.open("https://harthsocial.com/donate", "_blank")}
+        href={"https://harthsocial.com/donate"}
+        target="_blank"
+        rel="noopener noreferrer"
       >
         Donate
-      </button>
+      </a>
 
       <button className={styles.menuItem} onClick={toggleFeedbackModal}>
         {/* <div className={styles.iconHolder}>
