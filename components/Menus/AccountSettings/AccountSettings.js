@@ -60,9 +60,6 @@ const SettingsList = ({ toggleCurrentTab }) => {
         </div>
       </button> */}
 
-      
-
-
       {isMobile ? (
         <button
           className={styles.menuItem}
@@ -77,10 +74,14 @@ const SettingsList = ({ toggleCurrentTab }) => {
         <SubSettings toggleCurrentTab={toggleCurrentTab} />
       )}
 
-<button
+      <button
         className={styles.menuItem}
-        onClick={toggleFeedbackModal}
+        onClick={() => window.open("https://harthsocial.com/donate", "_blank")}
       >
+        Donate
+      </button>
+
+      <button className={styles.menuItem} onClick={toggleFeedbackModal}>
         {/* <div className={styles.iconHolder}>
           <IconFeedback />
         </div> */}

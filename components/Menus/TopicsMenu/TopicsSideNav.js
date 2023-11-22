@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from "react";
-
 import { useComms } from "../../../contexts/comms";
 import { useAuth } from "../../../contexts/auth";
 import { useSocket } from "../../../contexts/socket";
@@ -8,14 +7,12 @@ import { Modal } from "../../Common";
 import { updatedTopic, deleteTopicByID } from "../../../requests/community";
 import TopicEditModal from "../../TopicEditModal";
 import TopicDeleteModal from "../../TopicDeleteModal";
-
+import { LoadingScreen } from "components/LoadingScreen/LoadingScreen";
 import TopicListElement from "../../Topics/TopicListElement";
 import { IconAdd } from "../../../resources/icons/IconAdd";
-
 import { CustomContextMenu } from "../../CustomContextMenu/CustomContextMenu";
 import CreateNewTopicModal from "./CreateNewTopicModal/CreateNewTopicModal";
 import styles from "./TopicsNav.module.scss";
-import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
 
 const TopicsNav = (props) => {
   const [topicsArr, setTopicsArr] = useState([]);
@@ -25,7 +22,7 @@ const TopicsNav = (props) => {
   const [openTopicBuilder, setOpenTopicBuilder] = useState(false);
   const [openEditTopicMenu, setOpenEditTopicMenu] = useState(null);
   const [showDeleteTopicModal, setShowDeleteTopicModal] = useState(false);
-
+  const [isConvertingTopicsDone, setIsConvertingTopicsDone] = useState(false);
   const { isMobile } = useContext(MobileContext);
   const { incomingTopic, emitUpdate, unreadMessagesRef } = useSocket();
   const { user } = useAuth();
@@ -40,6 +37,7 @@ const TopicsNav = (props) => {
 
   useEffect(() => {
     if (topics) {
+      setIsConvertingTopicsDone(false);
       const unhiddenTopics = topics.filter(({ members }) => {
         let userIndex = members.findIndex(({ user_id }) => {
           return user_id == user._id;
@@ -119,6 +117,7 @@ const TopicsNav = (props) => {
 
       setTopicsArr(unhiddenTopics);
       setHiddenTopicsArr(hiddenTopics);
+      setIsConvertingTopicsDone(true);
     }
   }, [topics]);
   useEffect(() => {
@@ -290,9 +289,9 @@ const TopicsNav = (props) => {
                 ${isMobile && styles.TopicsNavMobile}
                 `}
       >
-        {isLoadingTopics ? (
+        {isLoadingTopics || !isConvertingTopicsDone ? (
           <div>
-            <SpinningLoader spinnerOnly={true} />
+            <LoadingScreen type="topics" />
           </div>
         ) : (
           <div className={styles.TopicsNavContainer}>

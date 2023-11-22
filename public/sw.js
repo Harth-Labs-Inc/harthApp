@@ -13,12 +13,12 @@ self.addEventListener("activate", (event) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (
-            ![
-              "font-cache",
-              "image-cache",
+            [
               "css-cache",
               "js-cache",
               "version-cache",
+              "html-cache",
+              "json-cache",
             ].includes(cacheName)
           ) {
             return caches.delete(cacheName);

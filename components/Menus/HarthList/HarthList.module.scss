@@ -83,13 +83,26 @@
             position: relative;
             &:after {
                 position: absolute;
-                top: 18px;
-                left: 4px;
-                z-index: 1;
-                height: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 8px;
+                z-index: 2;
+                height: 8px;
                 width: 3px;
                 content: "";
-                background-color: $hot_salmon;
+                background-color: $hot_purple;
+                border-radius: 9999px;
+            }
+            &:before {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 7px;
+                z-index: 1;
+                height: 10px;
+                width: 5px;
+                content: "";
+                background-color: $background_sidebar;
                 border-radius: 9999px;
             }
         }
@@ -243,15 +256,16 @@
             &:before {
                 position: absolute;
                 top: 50%;
-                transform: translate3d(-50%, -50%, 0);
-                left: -8px;
+                transform: translateY(-50%);
+                left: 2px;
                 z-index: 2;
-                height: 16px;
+                height: 14px;
                 width: 4px;
-                border-radius: 99px;
+                border-radius: 999px;
                 content: "";
-                background-color: $hot_salmon;
+                background-color: $hot_purple;
             }
+
         }
     }
 

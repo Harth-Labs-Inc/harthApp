@@ -134,7 +134,7 @@
             width: 22px;
 
             svg {
-                filter: grayscale(1);
+                filter: grayscale(100%);
                 opacity: .5;
             }
 
@@ -259,6 +259,7 @@
                     filter: grayscale(0);
                     opacity: 1;
                 }
+
             }
 
             .Desktop & {

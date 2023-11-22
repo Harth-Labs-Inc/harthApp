@@ -65,7 +65,7 @@ const dashboard = () => {
   } = router;
 
   const [currentPage, setCurrentPage] = useState(null);
-  const [skipWelcomePage, setSkipWelcomePage] = useState(user?.comms?.length);
+
   const [allowPastWelcome, setAllowPastWelcome] = useState(false);
 
   const [
@@ -102,10 +102,6 @@ const dashboard = () => {
       setSwReg(null);
     };
   }, []);
-
-  useEffect(() => {
-    setSkipWelcomePage(user?.comms?.length);
-  }, [user?.comms]);
 
   useEffect(() => {
     async function checkSubscription() {
@@ -325,7 +321,6 @@ const dashboard = () => {
     localStorage.removeItem("token");
     window.location.pathname = "/";
   };
-
   const backToHarthNameModal = () => {
     setShowCreateHarthNameModal(true);
     setTimeout(() => {
@@ -344,7 +339,9 @@ const dashboard = () => {
   }
 
   if (user) {
-    if (!skipWelcomePage && !allowPastWelcome) {
+    const shouldSkipWelcomePage = user && user.comms && user.comms.length > 0;
+
+    if (!shouldSkipWelcomePage && !allowPastWelcome) {
       return (
         <Modal onToggleModal={() => {}}>
           <WelcomePage
@@ -447,8 +444,6 @@ const dashboard = () => {
                     submitHandler={() => {
                       setShowCreateHarthTopicModal(true);
                       setTimeout(() => {
-                        setAllowPastWelcome(false);
-                        setSkipWelcomePage(true);
                         setFirstHarthOrInviteChecksApproved(true);
                         resetNewHarth();
                       }, 200);

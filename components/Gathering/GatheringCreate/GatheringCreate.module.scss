@@ -95,7 +95,8 @@
 
             
             &::placeholder {
-                color: $font_muted;
+                //color: $font_muted;
+                opacity: .3;
     
             }
         } 
