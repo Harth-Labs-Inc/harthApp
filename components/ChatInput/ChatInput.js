@@ -739,11 +739,7 @@ const ChatInput = (props) => {
             <IconAddReactionNoFill />
           </button>
           <EmojiPicker />
-          <button
-            aria-label="attach an image"
-            onMouseDown={openFileSelector}
-            onTouchStart={openFileSelector}
-          >
+          <button aria-label="attach an image" onPointerDown={openFileSelector}>
             <IconImage />
           </button>
           <input

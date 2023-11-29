@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { MobileContext } from "../../../contexts/mobile";
 import { useAuth } from "../../../contexts/auth";
@@ -22,6 +22,18 @@ const HarthList = ({
   const { isMobile } = useContext(MobileContext);
   const { user } = useAuth();
   const [modal, setModal] = useState(false);
+
+  const activeItemRef = useRef(null);
+
+  useEffect(() => {
+    if (activeItemRef.current) {
+      activeItemRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [selectedcomm?._id]);
+
   const toggleEditMenu = (evt, id, harth) => {
     if (evt.button === 2) {
       const targetElement = document.getElementById(id);
@@ -91,6 +103,7 @@ const HarthList = ({
           `}
               key={com?._id}
               id={com._id}
+              ref={active ? activeItemRef : null}
             >
               <li>
                 <button
