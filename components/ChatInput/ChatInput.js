@@ -28,6 +28,17 @@ import { sendPushNotification } from "requests/subscriptions";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 import { generatePushMessage } from "services/helper";
 
+const isIOS = () => {
+  if (typeof navigator !== "undefined") {
+    if (navigator.userAgentData) {
+      return navigator.userAgentData.platform === "iOS";
+    }
+
+    return /iPad|iPhone|iPod/.test(navigator.userAgent);
+  }
+  return false;
+};
+
 const ChatInput = (props) => {
   const [attachments, setAttachments] = useState([]);
   const [emojiPickerState, setEmojiPicker] = useState(false);
@@ -63,6 +74,12 @@ const ChatInput = (props) => {
   const currentHeightRef = useRef(0);
   const ignoreNextResize = useRef(false);
   let closeTimer = null;
+
+  const [ios, setIos] = useState(false);
+
+  useEffect(() => {
+    setIos(isIOS());
+  }, []);
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -739,7 +756,15 @@ const ChatInput = (props) => {
             <IconAddReactionNoFill />
           </button>
           <EmojiPicker />
-          <button aria-label="attach an image" onPointerDown={openFileSelector}>
+          <button
+            aria-label="attach an image"
+            {...(ios
+              ? { onClick: openFileSelector }
+              : {
+                  onMouseDown: openFileSelector,
+                  onTouchStart: openFileSelector,
+                })}
+          >
             <IconImage />
           </button>
           <input
