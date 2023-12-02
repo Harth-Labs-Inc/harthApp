@@ -14,10 +14,12 @@
     flex-direction: column;
     row-gap: 2px;
     margin: 0px 0px 0px 0px;
-    background: $ash;
+    background: $gather_background_offset;
     //border-radius: 12px;
     padding: 8px 8px 16px 8px;
-    border-top: 1px solid $ash_medium;
+    border-top: 1px solid $gather_background_offset_2;
+    border-bottom-left-radius: $corner_radius;
+    border-bottom-right-radius: $corner_radius;
 
 
     &Text {
@@ -31,7 +33,7 @@
         padding: 8px 12px;
         @include chatText;
         color: $font_light;
-        background: $ash_heavy;
+        background: $gather_background_offset_2;
         border: 0;
         caret-color: $hot_salmon;
 
@@ -43,7 +45,7 @@
 
         &::placeholder {
             @include chatText;
-            color: darken($font_medium, 15%);
+            color: $font_muted;
         }
 
     }
@@ -79,7 +81,7 @@
                 cursor: pointer;
 
                 path {
-                    fill: $ash_light;
+                    fill: $gather_path;
                 }
 
                 &Mobile {
@@ -95,7 +97,7 @@
                 &.EditCancel {
                     width: auto;
                     height: fit-content;
-                    background-color: $silver_dark;
+                    background-color: $border_basic;
                     border: 0;
                     @include worksans;
                     font-size: 12px;
@@ -111,8 +113,7 @@
                 }
 
                 &.SendActive {
-                    //border: 1px solid $silver-med;
-                    //background-color: $hot_pink;
+
                     path {
                         fill: $hot_pink;
                     }
@@ -120,7 +121,7 @@
 
                 &:before {
                     @include x-y-center;
-                    color: $ash_30;
+                    color: $font_muted;
                     font-size: 16px;
                 }
 
@@ -151,7 +152,7 @@
                     }
                     &:not(:disabled) {
                         &:before {
-                            color: $orange;
+                            color: $hot_orange;
                         }
                     }
                 }

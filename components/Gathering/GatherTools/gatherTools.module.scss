@@ -135,7 +135,7 @@
     height: auto;
     max-width: 540px;
     max-height: 540px;
-    background-color: $ash_dark;
+    background-color: $ash_heavy;
     z-index: 100;
 
     .bottomBar {
@@ -354,7 +354,7 @@
         background-clip: content-box, border-box;
         border: solid 4px transparent;
         border-radius: 12px;
-        box-shadow: 4px 9999px 1px $ash_dark inset; //interior color
+        box-shadow: 4px 9999px 1px $ash_heavy inset; //interior color
         background-image: linear-gradient(
                 rgba(255, 255, 255, 0),
                 rgba(255, 255, 255, 0)
@@ -396,7 +396,7 @@
             .avatarWrapper {
                 position: absolute;
                 border-radius: 9999px;
-                border: 2px solid $ash_dark;
+                border: 2px solid $ash_heavy;
                 width: 36px;
                 height: 36px;
                 bottom: 0px;

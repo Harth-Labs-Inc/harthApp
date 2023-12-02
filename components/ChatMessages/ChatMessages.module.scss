@@ -136,7 +136,7 @@
         background-color: $black;
         border-bottom-right-radius: 0px;
         margin-top: 2px;
-        color: $silver-light;
+        color: $border_light;
     }
     .TimeStamp {
         display: block;
@@ -146,7 +146,7 @@
         font-size: 11px;
         line-height: 12px;
         user-select: none;
-        color: $silver-heavy;
+        color: $border_heavy;
         margin-top: 8px;
     }
 }
@@ -157,12 +157,12 @@
         margin-top: -24px;
         margin-right: 12px;
         border-top-left-radius: 0px;
-        color: $silver-light;
+        color: $border_light;
     }
     .TimeStamp {
         display: flex;
         align-items: flex-start;
-        color: $silver-heavy;
+        color: $border_heavy;
         @include timeStamp;
         font-size: 11px;
         line-height: 12px;
@@ -245,37 +245,6 @@
     }
 }
 
-.mainContainerDice {
-    position: absolute;
-    top: 12%;
-    left: 10%;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    row-gap: 0;
-    width: fit-content;
-    background: transparent;
-    border: 1px solid $oxygen_10;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: $ash;
-}
-
-.mainContainerMap {
-    position: absolute;
-    top: 12%;
-    right: 10%;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    row-gap: 0;
-    width: fit-content;
-    background: transparent;
-    border: 1px solid $oxygen_10;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: $ash;
-}
 
 .imageViewer {
     width: 100%;
@@ -283,76 +252,7 @@
     z-index: 100;
 }
 
-.diceContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    border: 0;
-    background-color: $ash;
-    width: 56px;
-    padding: 4px 0px 6px 0px; // 0px;
-    border-top: 1px solid $oxygen_10;
-}
 
-
-
-
-
-.topBar {
-    background-color: $black_20;
-    height: 24px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: grab;
-    padding: 0px 2px 0px 10px;
-
-    path {
-        fill: transparent;
-    }
-
-    &:hover {
-        .close {
-            path {
-                fill: $oxygen_40;
-            }
-        }
-    }
-
-    .grabber {
-        background-color: $oxygen_20;
-        border-radius: 9999px;
-        height: 4px;
-        width: 24px;
-    }
-
-    .close {
-        background: transparent;
-        height: 18px;
-        width: 18px;
-        border: 0px;
-        border-radius: 4px;
-        padding: 3px;
-        path {
-            fill: transparent;
-        }
-
-        &:hover {
-            background-color: $oxygen_20;
-            path {
-                fill: $oxygen_80;
-            }
-        }
-    }
-
-    .spacer {
-        height: 18px;
-        width: 18px;
-        background: transparent;
-    }
-}
 
 .alertContainer {
     position: relative;

@@ -17,7 +17,7 @@
 
 .gray {
     color: $font_light;
-    background: $ash_border !important;
+    background: $border_basic !important;
     border: 0;
     &:hover {
         background-color: $button_main_press;
@@ -186,8 +186,8 @@
 
 .textButton {
     width: auto;
-    padding: $gutter;
-    color: $text-black;
+    padding: 8px;
+    color: $font_dark;
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.89px;

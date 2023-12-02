@@ -4,7 +4,7 @@
 .disabledFlag {
     cursor: not-allowed !important;
     path {
-        fill: lighten($silver-med, 1%) !important;
+        fill: lighten($border_basic, 1%) !important;
     }
 }
 
@@ -44,7 +44,7 @@
 
 .mobileInfo {
     border-color: $black !important;
-    background: $white_2 !important;
+    background: rgba(255, 255, 255, 0.02) !important;
     .Body {
         .Info {
             .Timestamp {
@@ -268,7 +268,7 @@
             border: 0;
 
             > * {
-                margin-right: $gutter;
+                margin-right: 8px;
             }
 
             &Emoji {
@@ -583,7 +583,7 @@
     gap: 20px;
     margin-top: 10px;
     background-color: $white;
-    border: 1px solid $silver-med;
+    border: 1px solid $border_basic;
     border-radius: 12px;
     width: fit-content;
     max-width: 100%;
@@ -601,7 +601,7 @@
         width: 24px;
         min-width: 24px;
         path {
-            fill: $silver-med;
+            fill: $border_basic;
         }
     }
 }

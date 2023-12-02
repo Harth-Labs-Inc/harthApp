@@ -12,7 +12,7 @@
         text-align: center;
         background-color: transparent;
         &::placeholder {
-            color: $fuel_30;
+            // color: $fuel_30;
         }
     }
 
@@ -54,7 +54,7 @@
             width: fit-content;
 
             &::placeholder {
-                color: $fuel_30;
+                // color: $fuel_30;
             }
         }
 
@@ -80,15 +80,15 @@
             gap: 8px;
             width: 100%;
             padding-right: 6px;
-            color: $fuel_50;
-            background-color: $fuel_5;
+            // color: $fuel_50;
+            // background-color: $fuel_5;
             border: 2px solid transparent;
             border-radius: 40px;
             cursor: pointer;
 
             span {
                 padding: 6px;
-                background-color: $fuel_5;
+                // background-color: $fuel_5;
                 border-radius: 50%;
             }
 

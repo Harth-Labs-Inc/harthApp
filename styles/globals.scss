@@ -7,7 +7,6 @@ $fuel: #271623;
 $ash: #28282e;
 $oxygen: #fefff6;
 
-
 // Hot Blue
 $hot_blue: #0d75ca;
 //$hot_blue: #80d2ed;
@@ -41,130 +40,85 @@ $alert_red: #bb0000;
 
 $font_light: #fafafa;
 $font_dark: $fuel;
-
-$font_main: $font_dark;
-$font_reverse: $font_light;
 $font_muted: #8a7892;
 
+
+
+// Default Colors / Dark Mode
+$font_main: $font_dark;
+$font_reverse: $font_light;
 
 $background: #ffffff;
 $background_reverse: #000000;
 $background_offset: darken($background, 3%);
-$background_sidebar: #eaeaef;
 $background_sidebar: darken($background, 10%);
 
 $button_main: $ash;
 $button_main_press: darken($button_main, 20%);
-
 
 $border_basic: darken($background, 10%);
 $border_light: darken($background, 5%);
 $border_heavy: darken($background, 15%);
 
 
-//Text Colors
-$font_light: #fafafa;
-$font_medium: #bababa;
-$font_dark: #000000;
+
+// Gathering Colors
+$gather_background: #000000;
+$gather_background_offset: darken($ash, 4%);
+$gather_background_offset_2: darken($ash, 12%);;
+$gather_path: lighten($gather_background, 40%);
 
 
 
-// Oxygen
-$oxygen: #fefff6;
-$oxygen_5: rgba(252, 255, 246, 0.05);
-$oxygen_10: rgba(252, 255, 246, 0.1);
-$oxygen_20: rgba(252, 255, 246, 0.2);
-$oxygen_40: rgba(252, 255, 246, 0.4);
-$oxygen_50: rgba(252, 255, 246, 0.5);
-$oxygen_80: rgba(252, 255, 246, 0.8);
+//placeholder for light color scheme
+.light-mode {
+  $light: #000000;
+}
 
-$oxygen_muted: #c5c3b5;
+//placeholder for vibrant color scheme
+.vibrant-mode {
+  $vibrant: #000000;
+}
+
+
+
+
+
+
 
 // White
 $white: #ffffff;
 $white_90: rgba(255, 255, 255, 0.9);
 $white_80: rgba(255, 255, 255, 0.8);
-$white_70: rgba(255, 255, 255, 0.7);
 $white_60: rgba(255, 255, 255, 0.6);
 $white_50: rgba(255, 255, 255, 0.5);
 $white_40: rgba(255, 255, 255, 0.4);
-$white_30: rgba(255, 255, 255, 0.3);
 $white_20: rgba(255, 255, 255, 0.2);
 $white_10: rgba(255, 255, 255, 0.1);
 $white_5: rgba(255, 255, 255, 0.05);
-$white_2: rgba(255, 255, 255, 0.02);
 
 // Black
 $black: #000000;
-$black_05: rgba(0, 0, 0, 0.05);
-$black_10: rgba(0, 0, 0, 0.1);
-$black_20: rgba(0, 0, 0, 0.2);
-$black_25: rgba(0, 0, 0, 0.25);
-$black_30: rgba(0, 0, 0, 0.3);
-$black_40: rgba(0, 0, 0, 0.4);
-$black_50: rgba(0, 0, 0, 0.5);
 $black_60: rgba(0, 0, 0, 0.6);
-$black_70: rgba(0, 0, 0, 0.7);
 $black_80: rgba(0, 0, 0, 0.8);
-$black_90: rgba(0, 0, 0, 0.9);
 
-// Ash
-// Ash
 
+// Ash Variations
 $ash_heavy: darken($ash, 5%);
 $ash_medium: lighten($ash, 10%);
 $ash_light: lighten($ash, 20%);
-
-
-$ash_80: rgba(40, 40, 40, 0.8);
-$ash_60: rgba(40, 40, 40, 0.6);
-$ash_50: rgba(40, 40, 40, 0.5);
-$ash_40: rgba(40, 40, 40, 0.4);
-$ash_30: rgba(40, 40, 40, 0.3);
-$ash_20: rgba(40, 40, 40, 0.2);
 $ash_10: rgba(40, 40, 40, 0.1);
-$ash_05: rgba(40, 40, 40, 0.05);
-$ash_border: #3e3e3e;
-$ash_ultralight: #e8e8e8;
-
-$ash_dark: #080808;
-
-// Light Ash
-//$light_ash: #f8f8f8;
-//$light_ash: #fffbff;
-$light_ash: #f9f9f9;
-
 
 // Silvers
-$silver-xlight:  #f5f5f8;
-$silver-xxlight:  #fbfbff;
-$silver-light: #edf1f5;
-$silver-med: #e4e7eb;
-$silver-heavy: #b9bfc7;
 $silver-dark: #929ca8;
 
-// Fuel
-$fuel: #271623;
-$fuel_90: rgba(47, 29, 42, 0.9);
-$fuel_80: rgba(47, 29, 42, 0.8);
-$fuel_60: rgba(47, 29, 42, 0.6);
-$fuel_50: rgba(47, 29, 42, 0.5);
-$fuel_50F: #978e94;
-$fuel_40: rgba(47, 29, 42, 0.4);
-$fuel_30: rgba(47, 29, 42, 0.3);
-$fuel_20: #2f1d2a33;
-$fuel_20F: #D5D2D4;
-$fuel_10: rgba(47, 29, 42, 0.1);
-$fuel_7: rgba(47, 29, 42, 0.07);
-$fuel_10F: #eae8e9;
-$fuel_5: hsla(317, 24%, 15%, 0.05);
-$fuel_3: rgba(47, 29, 42, 0.03);
 
+// ========================
+// Basics
+// ========================
 
-
-//Muted Text
-$muted_text: #aeb4b8;
-
+$corner_radius: 8px;
+$corner_radius_mobile: 8px;
 
 
 
@@ -250,28 +204,6 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
 
 
 
-$red: #b00020;
-$orange: #ee5500;
-
-$text-black: #333;
-$black: #000;
-
-$placeholder-black: #9a9a9a;
-
-$black04: rgba(#000, 0.04);
-$black20: rgba(#000, 0.2);
-$black38: rgba(#000, 0.38);
-$black50: rgba(#000, 0.5);
-$black60: rgba(#000, 0.6);
-$black80: rgba(#000, 0.8);
-
-$white: #fff;
-
-$font-family-1: "Roboto", sans-serif;
-$font-icon: "IcoMoon";
-
-$gutter: 8px;
-
 // transitions
 .topicPanelAnimation-enter,
 .editFormAnimation-enter,
@@ -314,7 +246,7 @@ $gutter: 8px;
                 padding: 3px;
                 content: attr(data-title);
                 white-space: nowrap;
-                background-color: $oxygen_80;
+                background-color: $oxygen;
                 border: 0;
                 border-radius: 8px;
             }

@@ -13,7 +13,7 @@
         z-index: 12;
         height: var(--vh);
         width: 100vw;
-        background-color: $fuel-10;
+        background-color: $border_basic;
         backdrop-filter: blur(4px);
     }
 }
@@ -36,7 +36,7 @@
         align-items: center;
         padding: 6px 8px;
         color: $white;
-        background-color: $white_10;
+        background-color: $background_offset;
         border: 0;
         border-radius: 6px;
         cursor: pointer;
@@ -69,10 +69,6 @@
             svg {
                 width: 24px;
                 margin-right: 12px;
-            }
-
-            &:hover {
-                background-color: $white_10;
             }
 
             &:active {

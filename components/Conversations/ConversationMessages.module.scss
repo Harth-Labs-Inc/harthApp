@@ -76,7 +76,7 @@
     max-width: 100%;
     .Creator {
         @include chatProfile;
-        color: $silver-light;
+        color: $border_light;
         user-select: none;
         margin-right: 4px;
     }
@@ -136,7 +136,7 @@
         background-color: $black;
         border-bottom-right-radius: 0px;
         margin-top: 2px;
-        color: $silver-light;
+        color: $border_light;
     }
     .TimeStamp {
         display: block;
@@ -146,7 +146,7 @@
         font-size: 11px;
         line-height: 12px;
         user-select: none;
-        color: $silver-heavy;
+        color: $border_heavy;
         margin-top: 8px;
     }
 }
@@ -157,12 +157,12 @@
         margin-top: -24px;
         margin-right: 12px;
         border-top-left-radius: 0px;
-        color: $silver-light;
+        color: $border_light;
     }
     .TimeStamp {
         display: flex;
         align-items: flex-start;
-        color: $silver-heavy;
+        color: $border_heavy;
         @include timeStamp;
         font-size: 11px;
         line-height: 12px;
@@ -216,37 +216,6 @@
     }
 }
 
-.mainContainerDice {
-    position: absolute;
-    top: 12%;
-    left: 10%;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    row-gap: 0;
-    width: fit-content;
-    background: transparent;
-    border: 1px solid $oxygen_10;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: $ash;
-}
-
-.mainContainerMap {
-    position: absolute;
-    top: 12%;
-    right: 10%;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    row-gap: 0;
-    width: fit-content;
-    background: transparent;
-    border: 1px solid $oxygen_10;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: $ash;
-}
 
 .imageViewer {
     width: 100%;
@@ -254,170 +223,7 @@
     z-index: 100;
 }
 
-.diceContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    border: 0;
-    background-color: $ash;
-    width: 56px;
-    padding: 4px 0px 6px 0px; // 0px;
-    border-top: 1px solid $oxygen_10;
-}
 
-
-
-.mobileMapContainer {
-    position: relative;
-    display: flex;
-    overflow: hidden;
-    flex-direction: column;
-    row-gap: 8px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 0;
-    background-color: $overlay_dark;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    width: 100%;
-    padding: 12px 0px 64px 0px;
-
-    .icon {
-        height: 64px;
-        width: 64px;
-        path {
-            fill: $oxygen;
-        }
-    }
-
-    .label {
-        @include interfaceH2;
-        color: $oxygen;
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .grabber {
-        background-color: $white_50;
-        border-radius: 9999px;
-        height: 4px;
-        width: 48px;
-        margin-bottom: 40px;
-    }
-
-    .closeBar {
-        display: flex;
-        width: 100%;
-        justify-content: flex-end;
-        justify-items: end;
-        align-content: flex-end;
-        padding: 0px 12px;
-        margin-bottom: 8px;
-    }
-    &Active {
-        position: relative;
-        padding: 0px;
-
-        .bottomBar {
-            position: relative;
-            width: 100%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-top: 12px;
-        }
-    }
-}
-
-.mobileDiceContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    row-gap: 24px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 0;
-    background-color: $overlay_dark;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    width: 100%;
-    padding: 12px 0px 48px 0px;
-
-    .grabber {
-        background-color: $white_50;
-        border-radius: 9999px;
-        height: 4px;
-        width: 48px;
-    }
-
-    .diceRow {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        column-gap: 24px;
-    }
-}
-
-.topBar {
-    background-color: $black_20;
-    height: 24px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: grab;
-    padding: 0px 2px 0px 10px;
-
-    path {
-        fill: transparent;
-    }
-
-    &:hover {
-        .close {
-            path {
-                fill: $oxygen_40;
-            }
-        }
-    }
-
-    .grabber {
-        background-color: $oxygen_20;
-        border-radius: 9999px;
-        height: 4px;
-        width: 24px;
-    }
-
-    .close {
-        background: transparent;
-        height: 18px;
-        width: 18px;
-        border: 0px;
-        border-radius: 4px;
-        padding: 3px;
-        path {
-            fill: transparent;
-        }
-
-        &:hover {
-            background-color: $oxygen_20;
-            path {
-                fill: $oxygen_80;
-            }
-        }
-    }
-
-    .spacer {
-        height: 18px;
-        width: 18px;
-        background: transparent;
-    }
-}
 
 .alertContainer {
     position: relative;

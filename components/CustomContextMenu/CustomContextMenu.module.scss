@@ -13,7 +13,7 @@
         z-index: 12;
         height: var(--vh);
         width: 100vw;
-        background-color: $fuel-10;
+        background-color: $border_basic;
         backdrop-filter: blur(4px);
     }
 }
@@ -69,10 +69,6 @@
             svg {
                 width: 24px;
                 margin-right: 12px;
-            }
-
-            &:hover {
-                background-color: $white_10;
             }
 
             &:active {

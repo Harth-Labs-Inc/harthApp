@@ -1,4 +1,5 @@
 import { IconPower } from "../../../resources/icons/IconPower";
+import { IconHangUp } from "resources/icons/IconHangUp";
 import styles from "./gatheringButtonsStream.module.scss";
 
 export const LeaveButtonStream = (props) => {
@@ -17,7 +18,7 @@ export const LeaveButtonStream = (props) => {
                 onClick={onPress}
             >
                 <div height="100%" width="100%" className={styles.defaultIcon}>
-                    <IconPower />
+                    <IconHangUp />
                 </div>
             </button>
         </>

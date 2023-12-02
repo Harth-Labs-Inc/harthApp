@@ -17,7 +17,7 @@
     &:before {
         font-family: "icomoon";
         content: "\e900";
-        color: $white_50;
+        color: $font_muted;
         font-weight: normal;
         font-variant: normal;
         text-transform: none;
@@ -36,12 +36,11 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    //background-color: $fuel;
     height: 100vh;
     width: 100%;
     border: 0;
     padding: 0;
-    background: $ash_heavy;
+    background: $gather_background;
 
         @media (max-width: 640px) {
             height: var(--vh);
@@ -52,11 +51,12 @@
         position: relative;
         display: flex;
         flex-direction: row;
-        height: calc(100% - 102px);
+        height: calc(100% - 114px);
         width: 100%;
         padding: 16px 12px;
-        padding: 0;
+        padding: 8px 8px;
         //border-top: 1px solid $ash_medium;
+        background: $gather_background;
 
         &Mobile {
             border-top: 0;
@@ -67,38 +67,43 @@
 
 
         .leftSide {
-            //margin-right: 12px;
-            //margin-left: 4px;
-            width: 240px;
-            min-width: 240px;
+            width: 256px;
+            min-width: 256px;
             user-select: none;
-            background-color: $ash;
-            //height: 100%;
-            //border-right: 1px solid $ash_medium;
-
+            background: transparent;
+            padding: 0;
+            padding-right: 8px;
             &Mobile {
                 width: 100%;
+                padding: 0;
             }
         }
 
         .leftContainer {
             width: 100%;
-            height: 100%;
+            height: calc(100% - 38px);
             user-select: none;
             overflow-y: scroll;
-            background: $ash;
-            padding: 10px 8px;
-            border-right: 1px solid $ash_medium;
+            background: $gather_background_offset;
+            padding: 8px 4px;
+            border-radius: $corner_radius;
+            margin-top: 8px;
+            margin-bottom: 8px;
+
             &Mobile {
                 width: 100%;
                 border: 0;
+                border-radius: $corner_radius_mobile;
+                margin-top: 8px;
+                margin-bottom: 0;
             }
+
         }
 
         .userContainer {
             position: relative;
             width: 100%;
-            padding: 2px 8px;
+            padding: 4px 4px;
             border-left: 4px solid transparent;
             background-color: transparent;
             margin-bottom: 6px;
@@ -232,7 +237,7 @@
                     &:before {
                         font-family: "icomoon";
                         content: "\e901";
-                        color: $red;
+                        color: $alert_red;
                         font-weight: normal;
                         font-variant: normal;
                         text-transform: none;
@@ -419,7 +424,7 @@
                     &:before {
                         font-family: "icomoon";
                         content: "\e901";
-                        color: $red;
+                        color: $alert_red;
                         font-weight: normal;
                         font-variant: normal;
                         text-transform: none;
@@ -481,8 +486,8 @@
             width: 100%;
             padding: 0px 0px 0px 0px;
             border: 0;
-		    background: $ash_heavy;
-            border-radius: 0px;
+		    background: $gather_background_offset;
+            border-radius: $corner_radius;
             margin: 0;
 
             &Mobile {
@@ -490,7 +495,7 @@
                 left: 100%;
                 height: calc(100% + 20px);
                 width: 100%;
-                margin: 0 0px;
+                margin: 0;
             }
 
             &Open {
