@@ -6,8 +6,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding-top: 0px;
+    gap: 10px;
+    padding-top: 3px;
     padding-left: 8px;
 }
 
@@ -23,44 +23,49 @@
 
 .topic {
     position: relative;
-    background: linear-gradient(45deg, $border_heavy, $background, $border_heavy);
+    background: linear-gradient(45deg, $border_light, $border_light, $background, $border_light);
     background-size: 200% 100%; /* Double the width of the gradient */
     background-position: 100% 0; /* Start from the right */
     animation: load 3s linear infinite;
 
     &::after {
         position: absolute;
-        bottom: -6px;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 1px;
-        width: 92%;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
         content: "";
-        //background-color: $border_light;
-        background: linear-gradient(90deg, $border_light, transparent 70%);
-        //background: aqua;
+        background: $border_light;
+        border-radius: 999px;
     }
 
     .DesktopTopic & {
-        width: 86%;
-        height: 30px;
+        width: 50%;
+        height: 26px;
         border-radius: 99px;
+        margin-left: 28px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+
         &::after {
-            left: calc(50% - 4px);
+            width: 28px;
+            height: 28px;
+            margin-left: -32px;
         }
 
     }
 
     .MobileTopic & {
-        width: 86%;
-        height: 38px;
+        width: 50%;
+        height: 32px;
         border-radius: 99px;
+        margin-left: 40px;
+        margin-top: 2px;
+        margin-bottom: 5px;
 
         &::after {
-            width: 94%;
-            bottom: -12px;
-            width: 94%;
-            left: calc(50% - 4px);
+            width: 36px;
+            height: 36px;
+            margin-left: -40px;
         }
     }
 

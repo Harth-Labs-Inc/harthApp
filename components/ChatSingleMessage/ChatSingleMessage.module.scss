@@ -230,10 +230,13 @@
                 margin-top: 4px;
                 margin-bottom: 4px;
                 width: max-content;
-                max-width: 500px;
+                max-width: 360px;
+                cursor: pointer;
                 @media screen and (max-width: 640px) {
-                    max-width: 280px;
+                    max-width: 240px;
                 }
+
+
             }
 
             a {

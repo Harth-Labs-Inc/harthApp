@@ -19,7 +19,7 @@ export const LoadingScreen = (props) => {
             <div className={styles.topic}></div>
             <div className={styles.topic}></div>
             <div className={styles.topic}></div>
-            <div className={isMobile ? styles.MobileButton : styles.DesktopButton} />
+            <div className={styles.topic}></div>
 
         </div>
     );

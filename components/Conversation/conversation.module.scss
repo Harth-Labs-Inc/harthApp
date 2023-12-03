@@ -17,18 +17,18 @@
     //border-bottom: 1px solid $border_light;
     border-radius: 0;
 
-    &::after {
-        position: absolute;
-        bottom: -1px;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 1px;
-        width: 92%;
-        content: "";
-        //background-color: $border_light;
-        background: linear-gradient(90deg, $border_light, transparent 70%);
+    // &::after {
+    //     position: absolute;
+    //     bottom: -1px;
+    //     left: 50%;
+    //     transform: translateX(-50%);
+    //     height: 1px;
+    //     width: 92%;
+    //     content: "";
+    //     //background-color: $border_light;
+    //     background: linear-gradient(90deg, $border_light, transparent 70%);
 
-    }
+    // }
 
     .label {
         display: flex;
