@@ -1,4 +1,3 @@
-import { IconPower } from "../../../resources/icons/IconPower";
 import { IconHangUp } from "resources/icons/IconHangUp";
 import styles from "./gatheringButtonsStream.module.scss";
 

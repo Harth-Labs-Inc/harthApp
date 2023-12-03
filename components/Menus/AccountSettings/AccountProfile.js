@@ -4,9 +4,7 @@ import {
   saveAcountSettingsUpdates,
   sendFullRefreshOTPEmail,
 } from "../../../requests/userApi";
-
 import { Button, BackButton, EditButton, Modal } from "../../Common";
-
 import OtpValidator from "../../../pages/auth/OtpValidator";
 
 import styles from "./SettingsMenu.module.scss";
@@ -89,7 +87,7 @@ const AccountProfile = (props) => {
         <div className={styles.SettingsContainer}>
           <div className={styles.SettingsContainerHeader}>
             <BackButton clickHandler={handleBack} />
-            <p>Your<br />Account</p>
+            <p>Settings</p>
           </div>
 
           <div className={styles.sectionContainer}>
@@ -99,19 +97,19 @@ const AccountProfile = (props) => {
               <EditButton clickHandler={() => toggleCurrentSetting("email")} />
             </div>
 
-            <div className={styles.SettingsContainerTitle}>Full Name</div>
+            {/* <div className={styles.SettingsContainerTitle}>Full Name</div>
             <div className={styles.optionHolder}>
               {user.fullName}
               <EditButton
                 clickHandler={() => toggleCurrentSetting("fullName")}
               />
-            </div>
+            </div> */}
 
-            <div className={styles.SettingsContainerTitle}>Birthday</div>
+            {/* <div className={styles.SettingsContainerTitle}>Birthday</div>
             <div className={styles.optionHolder}>
               {user.dob}
               <EditButton clickHandler={() => toggleCurrentSetting("dob")} />
-            </div>
+            </div> */}
           </div>
         </div>
       </>

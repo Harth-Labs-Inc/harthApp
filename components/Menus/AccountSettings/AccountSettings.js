@@ -60,19 +60,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
         </div>
       </button> */}
 
-      {isMobile ? (
-        <button
-          className={styles.menuItem}
-          onClick={() => toggleCurrentTab("accountprofile")}
-        >
-          Account
-          <div className={styles.iconHolder}>
-            <IconChevronRight />
-          </div>
-        </button>
-      ) : (
-        <SubSettings toggleCurrentTab={toggleCurrentTab} />
-      )}
+      
       <a
         className={styles.menuItem}
         href={"https://harthsocial.com/donate"}
@@ -82,12 +70,23 @@ const SettingsList = ({ toggleCurrentTab }) => {
         Donate
       </a>
 
-      <button className={styles.menuItem} onClick={toggleFeedbackModal}>
-        {/* <div className={styles.iconHolder}>
-          <IconFeedback />
-        </div> */}
+      {/* <button className={styles.menuItem} onClick={toggleFeedbackModal}>
         Submit Feedback
-      </button>
+      </button> */}
+
+      {isMobile ? (
+        <button
+          className={styles.menuItem}
+          onClick={() => toggleCurrentTab("accountprofile")}
+        >
+          Settings
+          <div className={styles.iconHolder}>
+            <IconChevronRight />
+          </div>
+        </button>
+      ) : (
+        <SubSettings toggleCurrentTab={toggleCurrentTab} />
+      )}
 
       <button className={styles.menuItem} onClick={() => signOut()}>
         Sign Out
