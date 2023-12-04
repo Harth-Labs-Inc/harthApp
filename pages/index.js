@@ -48,6 +48,8 @@ const dashboard = () => {
   const [showCreateHarthTopicModal, setShowCreateHarthTopicModal] =
     useState(false);
 
+  const [IOSDeviceToken, setIOSDeviceToken] = useState(null);
+
   const {
     user,
     loading,
@@ -94,6 +96,12 @@ const dashboard = () => {
         location.reload();
       }
     }
+    if (typeof window !== "undefined") {
+      window.receiveDeviceToken = function (deviceToken) {
+        console.log("Received device token:", deviceToken);
+        setIOSDeviceToken(deviceToken);
+      };
+    }
     window.addEventListener("online", handleNetworkChange);
     window.addEventListener("offline", handleNetworkChange);
     return () => {
@@ -123,7 +131,7 @@ const dashboard = () => {
       }
     }
 
-    function saveCurrentSubscription(subscription) {
+    function saveCurrentSubscription(subscription, isIOSInstall) {
       let deviceKey = localStorage.getItem("deviceKey");
       if (!deviceKey) {
         deviceKey = generateID();
@@ -134,6 +142,7 @@ const dashboard = () => {
         sub: subscription,
         userId: user._id,
         deviceKey,
+        isIOSInstall,
       });
     }
 
@@ -147,10 +156,40 @@ const dashboard = () => {
         setFinishedNotificationChecksApproved(true);
       }
     }
-    if (firstHarthOrInviteChecksApproved) {
-      checkSubscription();
+
+    async function handleIOSWebViewSubscription() {
+      console.log(IOSDeviceToken, "IOSDeviceToken");
+      console.log(SUBSCRIPTION, "SUBSCRIPTION");
+
+      if (
+        IOSDeviceToken &&
+        (!SUBSCRIPTION || IOSDeviceToken !== SUBSCRIPTION)
+      ) {
+        saveCurrentSubscription(IOSDeviceToken, true);
+      } else if (!IOSDeviceToken) {
+        requestIOSPushPermission();
+      } else {
+        setFinishedNotificationChecksApproved(true);
+      }
     }
-  }, [swReg, user, SUBSCRIPTION, firstHarthOrInviteChecksApproved]);
+
+    if (firstHarthOrInviteChecksApproved) {
+      const isIOSWebView =
+        typeof window !== "undefined" && window.isIOSWebView === true;
+
+      if (!isIOSWebView) {
+        checkSubscription();
+      } else {
+        handleIOSWebViewSubscription();
+      }
+    }
+  }, [
+    swReg,
+    user,
+    SUBSCRIPTION,
+    firstHarthOrInviteChecksApproved,
+    IOSDeviceToken,
+  ]);
 
   useEffect(() => {
     let storedinviteTKN = localStorage.getItem("inviteToken");
@@ -223,6 +262,18 @@ const dashboard = () => {
       setInvitedSender(null);
     };
   }, [loading]);
+
+  const requestIOSPushPermission = () => {
+    if (
+      window &&
+      window.webkit &&
+      window.webkit.messageHandlers &&
+      window.webkit.messageHandlers.pushPermissionRequest
+    ) {
+      console.log("no sub for ios installed app");
+      window.webkit.messageHandlers.pushPermissionRequest.postMessage(null);
+    }
+  };
 
   const subcribeToPushService = async () => {
     const existingSubscription = await swReg.pushManager.getSubscription();
