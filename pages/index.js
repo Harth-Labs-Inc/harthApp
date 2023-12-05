@@ -98,7 +98,6 @@ const dashboard = () => {
     }
     if (typeof window !== "undefined") {
       window.receiveDeviceToken = function (deviceToken) {
-        console.log("Received device token:", deviceToken);
         setIOSDeviceToken(deviceToken);
       };
     }
@@ -158,12 +157,9 @@ const dashboard = () => {
     }
 
     async function handleIOSWebViewSubscription() {
-      console.log(IOSDeviceToken, "IOSDeviceToken");
-      console.log(SUBSCRIPTION, "SUBSCRIPTION");
-
       if (
         IOSDeviceToken &&
-        (!SUBSCRIPTION || IOSDeviceToken !== SUBSCRIPTION)
+        (!SUBSCRIPTION || IOSDeviceToken !== SUBSCRIPTION.sub)
       ) {
         saveCurrentSubscription(IOSDeviceToken, true);
       } else if (!IOSDeviceToken) {
@@ -270,7 +266,6 @@ const dashboard = () => {
       window.webkit.messageHandlers &&
       window.webkit.messageHandlers.pushPermissionRequest
     ) {
-      console.log("no sub for ios installed app");
       window.webkit.messageHandlers.pushPermissionRequest.postMessage(null);
     }
   };
