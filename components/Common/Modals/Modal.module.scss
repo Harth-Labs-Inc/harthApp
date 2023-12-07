@@ -22,11 +22,12 @@
 @keyframes blur-in {
     from {
         background: transparent;
-        backdrop-filter: blur(0px);
+        //backdrop-filter: blur(0px);
     }
     to {
-        background: linear-gradient(to bottom, transparent, $border_basic, transparent);
-        backdrop-filter: blur(30px);
+        //background: linear-gradient(to bottom, transparent, $border_basic, transparent);
+        background: rgba(0,0,0,.24);
+        //backdrop-filter: blur(30px);
     }
 }
 
@@ -58,8 +59,8 @@
         transform: translate3d(-50%, -50%, 0);
         padding: 0px;
         background-color: $background;
-        border-top: 1px solid $border_basic;
-        border-bottom: 1px solid $border_basic;
+        //border-top: 1px solid $border_basic;
+        //border-bottom: 1px solid $border_basic;
         &Dark {
             background-color: $ash;
         }
@@ -71,6 +72,11 @@
         &Block {
             border: 0;
         }
+
+        &Top {
+            top: 6px;
+            transform: translateX(-50%);
+        }
     }
 
     &Left {
@@ -79,15 +85,16 @@
         height: var(--vh);
         width: 356px;
         background-color: $background;
-        border-right: 1px solid $border_basic;
+        //border-right: 1px solid $border_basic;
         overflow: hidden;
         padding-bottom: 28px;
         border-radius: 0 0px 0px 0;
     }
-
+ 
     &Block {
         background: $background;
         border: 0;
+        animation-name: blur-in-block;
     }
 }
 

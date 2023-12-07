@@ -24,35 +24,48 @@
 .notificationTrayMobile {
     width: 100vw;  
 }
+
 .TopBar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
+    position: relative;
     width: 100%;
-    padding-right: 12px;
     background: transparent;
+    padding: $space $space 0 $space; 
     z-index: 10;
-    border-top: 1px solid $border_basic;
+
+    .background {
+        position: relative;
+        width: 100%;
+        height: 64px;
+        background: var(--theme-color);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: $corner_radius;
+        padding-right: 10px;
+ 
+        &Mobile {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 68px;
+            background: var(--theme-color);
+            border-radius: $corner_radius_mobile; //
+            padding-right: 8px;
+            padding-left: 2px;
+            
+        }
+    }
 
     .avatarDesktop {
-        //margin-top: 2px;
         background-color: transparent;
-
-        img {
-            box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-                0 2px 2px hsl(0deg 0% 0% / 0.075),
-                0 4px 4px hsl(0deg 0% 0% / 0.075),
-                0 6px 6px hsl(0deg 0% 0% / 0.075);
-        }
-        
-
     }
 
     .avatarMobile {
         margin: 0;
-        
+        margin-top: 4px;
         img {
             width: 40px;
             height: 40px;
@@ -71,19 +84,19 @@
         background-color: transparent;
         padding: 0px;
         padding-left: 8px;
-        padding-right: 2px;
+        padding-right: 6px;
         user-select: none;
 
 
         img {
             position: relative;
-            height: 52px;
-            min-height: 52px;
-            width: 52px;
-            min-width: 52px;
+            height: 44px;
+            min-height: 44px;
+            width: 44px;
+            min-width: 44px;
             border-radius: 8px;
             z-index: 1;
-            border: 1px solid $border_light;
+            border: 0;
         }
 
         &UnreadMessage {
@@ -96,14 +109,14 @@
                 height: 16px;
                 width: 4px;
                 content: "";
-                background-color: $hot_salmon;
+                background-color: $hot_purple;
                 border-radius: 9999px;
             }
         }
 
         &:active {
             .menuIcon {
-                border-color: $hot_pink;
+                border-color: $hot_purple;
             }
         }
 
@@ -119,20 +132,9 @@
     &Mobile {
         position: fixed;
         top: 0;
-        //border-top: 1px solid transparent;
-        height: 68px;
-        min-height: 68px;
-        max-height: 68px;
-        padding: 0px;
-        padding-left: 0px;
-        padding-right: 8px;
-        padding-bottom: 6px;
         margin: 0;
-
-        background: $background;
+        padding: 0px $outline_mobile 0px $outline_mobile;
         border: 0;
-        border-bottom: 1px solid $border_basic;
-        //border-top: 1px solid $border_basic;
     }
 }
 .titleHolder {
@@ -144,38 +146,17 @@
     padding-bottom: 2px;
 }
 .TopBarName {
-//    width: 100%;
     @include harthTitle;
-    font-size: 26px;
+    font-size: 24px;
     line-height: 30px;
     height: 30px;
     max-height: 30px;
-    color: $font_main;
-    //background-color: aqua;
+    color: var(--font-main);
     overflow: hidden;
-//    text-wrap: nowrap;
     text-overflow: ellipsis;
 
 }
-.Section {
-    @include rubik;
-    color: $font_main;
-    font-size: 14px;
-    font-weight: 400;
 
-}
-.SectionMobile {
-
-    @include titleNav;
-    color: $font_main;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 0.03em;
-    text-transform:capitalize;
-    //background-color: aqua;
-    
-
-}
 .TopBarStreaming {
     width: 48px;
     height: 36px;

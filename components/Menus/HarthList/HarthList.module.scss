@@ -17,7 +17,7 @@
         position: relative;
         display: flex;
         width: 100%;
-        height: 40px;
+        height: 48px;
         justify-content: center;
         align-items: center;
 
@@ -25,20 +25,20 @@
             opacity: 1;
             outline: 0;
             position: relative;
-            height: 38px;
-            width: 38px;
+            height: 44px;
+            width: 44px;
             padding: 0;
             background: transparent;
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
-            border: 2px solid $background_sidebar;
+            border: 2px solid transparent;
             transition: all 0.1s ease-in-out;
             @media (hover: hover) and (pointer: fine) {
                 &:hover {
                     //padding: 2px;
                     opacity: 1;
-                    border-color: $font_main;
+                    border-color: $border_heavy;
                 }
             }
 
@@ -47,8 +47,7 @@
             margin: auto;
             width: 100%;
             height: 100%;
-            //border-radius: 8px;
-            //
+
         }
 
         &Image {
@@ -56,7 +55,7 @@
                 width: 100%;
                 height: 100%;
                 border-radius: 10px;
-                border: 2px solid transparent;
+                border: 3px solid transparent;
                 
             }
             
@@ -66,12 +65,15 @@
 
             button {
                 opacity: 1;
-                border-color: $font_main;
+                border-color: $oxygen;
 
-                img {
-                    border: 0;
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover {
+                        border-color: $oxygen;
+                    }
                 }
             }
+
 
 
         }
@@ -80,28 +82,28 @@
 
         &UnreadMessage {
             position: relative;
+            &:before {
+                position: absolute;
+                top: 49%;
+                transform: translateY(-50%);
+                left: 5px;
+                z-index: 1;
+                height: 13px;
+                width: 5px;
+                content: "";
+                background-color: $background;
+                border-radius: 9999px;
+            }
             &:after {
                 position: absolute;
-                top: 50%;
+                top: 49%;
                 transform: translateY(-50%);
-                left: 8px;
+                left: 6px;
                 z-index: 2;
-                height: 8px;
+                height: 9px;
                 width: 3px;
                 content: "";
                 background-color: $hot_purple;
-                border-radius: 9999px;
-            }
-            &:before {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                left: 7px;
-                z-index: 1;
-                height: 10px;
-                width: 5px;
-                content: "";
-                background-color: $background_sidebar;
                 border-radius: 9999px;
             }
         }
@@ -116,29 +118,27 @@
         margin-left: auto;
         margin-right: auto;
 
-
         button {
             position: relative;
             display: flex;
             align-items: center;
             height: 100%;
             width: 100%;
-            border: 1px solid darken($background_sidebar, 15%);
+            border: 1px solid $border_basic;
             border-radius: 8px; 
-            //background: $border_heavy;
-            background: $border_basic;
+            background: transparent;
             padding: 2px;
             cursor: pointer;
             path {
-                fill: darken($background_sidebar, 20%);
+                fill: $border_basic;
             }
 
             @media (hover: hover) and (pointer: fine) {
                 &:hover {
-                    background-color: darken($background_sidebar, 7%);
-                    border-color: darken($background_sidebar, 25%);;
+                    background-color: $background_offset;
+                    border-color: $border_heavy;
                     path {
-                        fill: darken($background_sidebar, 30%);
+                        fill: $border_heavy;
                     }
 
                 }
@@ -217,7 +217,7 @@
         &Name {
             width: 100%;
             @include harthTitle;
-            color: $font_main;
+            color: $font_light;
             font-size: 18px;
             margin-left: 4px;
             text-align: left;
@@ -239,10 +239,11 @@
             min-height: 36px;
             width: 36px;
             min-width: 36px;
-            padding: 6px;
+            padding: 8px;
             border: 0;
-            background: transparent;
-            margin-right: 8px;
+            border-radius: 999px;
+            background: $ash;
+            margin-right: 4px;
             z-index: 1;
 
             path {

@@ -4,7 +4,7 @@
 
 //Consolodated
 $fuel: #271623;
-$ash: #28282e;
+$ash: #181818;
 $oxygen: #fefff6;
 
 // Hot Blue
@@ -36,29 +36,31 @@ $hot_salmon: #ff6b66;
 
 $alert_red: #bb0000;
 
+$test_color: var(--primary-color, #ff0000);
 
-
-$font_light: #fafafa;
+$font_light: $oxygen;
 $font_dark: $fuel;
-$font_muted: #8a7892;
-
+$font_muted: #8a8a94;
 
 
 // Default Colors / Dark Mode
-$font_main: $font_dark;
-$font_reverse: $font_light;
+$font_main: blue;
+$font_reverse: yellow;
 
-$background: #ffffff;
-$background_reverse: #000000;
-$background_offset: darken($background, 3%);
-$background_sidebar: darken($background, 10%);
+$background: #000;
+$background_reverse: #fff;
+$basic_offset: $ash;
+$background_offset: $ash;
+$background_offset_2: red;
+$background_offset_3: green;
+$background_sidebar: blue;
 
 $button_main: $ash;
-$button_main_press: darken($button_main, 20%);
+$button_main_press: $hot_purple;
 
-$border_basic: darken($background, 10%);
-$border_light: darken($background, 5%);
-$border_heavy: darken($background, 15%);
+$border_light: #28282e;
+$border_basic: #38383e;
+$border_heavy: #48484e;
 
 
 
@@ -66,18 +68,62 @@ $border_heavy: darken($background, 15%);
 $gather_background: #000000;
 $gather_background_offset: darken($ash, 4%);
 $gather_background_offset_2: darken($ash, 12%);;
-$gather_path: lighten($gather_background, 40%);
+$gather_path: lighten($gather_background, 35%);
+$gather_path_heavy: lighten($gather_background, 50%);
 
 
-
-//placeholder for light color scheme
-.light-mode {
-  $light: #000000;
+//dark color scheme
+.dark-mode {
+  --theme-color: #18181e;
+  --theme-reverse: #fefff6;
+  --theme-offset-1: #28282e;
+  --theme-offset-2: #08080e;
+  --theme-offset-3: #1c1c22;
+  --overlay-background: #000;
+  --font-main: #fefff6;
+  --font-reverse: #271623;
+  --font-muted: #595961;
+  --border-light:#38383e; 
+  --border-basic:#48484e;
+  --border-heavy:#58585e;
+  --path-light: #4f4f55;
+  --path-basic: #7f7f85;
+  --path-heavy: #9f9fa5;
 }
 
-//placeholder for vibrant color scheme
+//light color theme
+.light-mode {
+  --theme-color: #f6f2ed;
+  --theme-reverse: #18181e;
+  --theme-offset-1: #efefef;
+  --theme-offset-2: #eeefe6;
+  --overlay-background: #000;
+  --font-main: #271623;
+  --font-reverse: #fefff6;
+  --font-muted: #797981;
+  --border-light:#efefef; 
+  --border-basic:#d9d7d0;
+  --border-heavy:#c9c7c0;
+  --path-light: #8f8f85;
+  --path-basic: #9f9f95;
+  --path-heavy: #afafa5;
+}
+
+
+//vibrant color scheme
 .vibrant-mode {
-  $vibrant: #000000;
+  --theme-color: #1f1f25;
+  --theme-offset-1: #2f2f35;
+  --theme-offset-2: #2f2f35;
+  --overlay-background: #000;
+  --font-main: #fefff6;
+  --font-reverse: #271623;
+  --font-muted: #797981;
+  --border-light:#3f3f45; //use the border color for icon path colors
+  --border-basic:#5f5f65;
+  --border-heavy:#7f7f85;
+  --path-basic: #7f7f85;
+  --path-heavy: #9f9fa5;
 }
 
 
@@ -118,7 +164,11 @@ $silver-dark: #929ca8;
 // ========================
 
 $corner_radius: 8px;
-$corner_radius_mobile: 8px;
+$corner_radius_mobile: 10px;
+
+$space: 8px;
+$space_mobile: 10px;
+$outline_mobile: 4px;
 
 
 
@@ -167,6 +217,7 @@ $corner_radius_mobile: 8px;
   @media (hover: hover) and (pointer: fine) {
     &:hover { 
       background: $background_offset;
+      color: $font_light;
     }
   }
 
@@ -184,6 +235,7 @@ $corner_radius_mobile: 8px;
   border: 0;
   margin: 0;
   cursor: pointer;
+  color: $font_light;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover { 

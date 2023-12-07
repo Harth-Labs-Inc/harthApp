@@ -155,7 +155,7 @@ const HarthList = ({
           );
         })}
       {modal ? (
-        <Modal onToggleModal={() => {}}>
+        <Modal blockBackground={true} onToggleModal={() => {}}>
           <HarthSettings
             communityName={selectedcomm?.name}
             communityId={selectedcomm?._id}

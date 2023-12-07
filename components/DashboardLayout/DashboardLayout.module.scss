@@ -25,7 +25,7 @@
   cursor: pointer;
 
   p {
-    color: $font_main;
+    color: $font_light;
     @include overlayMenuTitle;
     font-size: 28px;
     margin-bottom: 24px;
@@ -130,7 +130,7 @@
             }
 
             &.Desktop {
-                height: calc(100% - 56px);
+                height: calc(100% - 72px);
             }
         }
     }

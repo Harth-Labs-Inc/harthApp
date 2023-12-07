@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import InviteComp from "../AccountSettings/Invite";
-import { HarthLogoDark } from "public/images/harth-logo-dark";
+import { HarthLogoLight } from "public/images/harth-logo-light";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
@@ -12,7 +12,6 @@ import { IconInviteEmail } from "resources/icons/IconInviteEmail";
 const SettingsList = ({ toggleCurrentTab }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
-
   const { isMobile } = useContext(MobileContext);
   const { APP_VERSION } = useSocket();
 
@@ -27,6 +26,14 @@ const SettingsList = ({ toggleCurrentTab }) => {
     setShowInviteModal(!showInviteModal);
   };
 
+  const toggleTheme = () => {
+    const body = document.body;
+    const currentTheme = body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
+    body.classList.remove(currentTheme);
+    body.classList.add(currentTheme === 'dark-mode' ? 'light-mode' : 'dark-mode');
+  };
+
+
   return (
     <div className={styles.SettingsContainer}>
       {showInviteModal ? (
@@ -37,7 +44,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
       ) : null}
       {!isMobile ? (
         <div className={styles.headerImage}>
-          <HarthLogoDark />
+          <HarthLogoLight />
         </div>
       ) : null}
 
@@ -90,6 +97,10 @@ const SettingsList = ({ toggleCurrentTab }) => {
 
       <button className={styles.menuItem} onClick={() => signOut()}>
         Sign Out
+      </button>
+
+      <button className={styles.menuItem} onClick={toggleTheme}>
+        Toggle
       </button>
 
       <p className={styles.appVersion}>App version: {APP_VERSION}</p>

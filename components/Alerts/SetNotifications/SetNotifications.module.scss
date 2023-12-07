@@ -28,7 +28,7 @@
         width: 100%;
         @include overlayMenuTitle;
         font-size: 40px;
-        color: $font_main;
+        color: $font_light;
         text-align: left;
 
     }
@@ -64,16 +64,7 @@
     }
 
     button {
-        color: $background;
-        background-color: $button_main;
-        height: 48px;
-        width: 160px;
-        border-radius: 999px;
-        @include systemFont;
-        font-size: 14px;
-        padding: 0px 12px;
-        border: 0;
-        outline: 0;
+        @include buttonPrimary;
 
         @media (hover: hover) and (pointer: fine) {
             &:hover { 
@@ -88,16 +79,7 @@
     }
 
     .cancel {
-        color: $font_muted;
-        background-color: $background;
-        height: 48px;
-        width: 104px;
-        border-radius: 999px;
-        @include systemFont;
-        font-size: 14px;
-        padding: 0px 12px;
-        border: 1px solid $border_basic;
-        outline: 0;
+        @include buttonSecondary;
 
         @media (hover: hover) and (pointer: fine) {
             &:hover { 

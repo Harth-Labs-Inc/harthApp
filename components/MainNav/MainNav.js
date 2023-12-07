@@ -7,7 +7,12 @@ import { IconHome } from "resources/icons/IconHome";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
-
+import { IconTopicFill } from "resources/icons/IconTopicFill";
+import { IconTopicNoFill } from "resources/icons/IconTopicNoFill";
+import { IconFireFill } from "resources/icons/IconFireFill";
+import { IconFireNoFill } from "resources/icons/IconFireNoFill";
+import { IconForumFill } from "resources/icons/IconForumFill";
+import { IconForumNoFill } from "resources/icons/IconForumNoFill";
 import styles from "./mainNav.module.scss";
 import { useSocket } from "../../contexts/socket";
 import { useTourManager } from "contexts/tour";
@@ -179,7 +184,7 @@ const MainNav = (props) => {
 
                 `}
             >
-              <IconChat />
+              {(currentPage == "chat") ? <IconTopicFill /> : <IconTopicNoFill />}
             </div>
             <div className={styles.title}>Topics</div>
           </button>
@@ -208,7 +213,7 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              <IconGather /> 
+              {(currentPage == "gather") ? <IconFireFill /> : <IconFireNoFill />}
             </div>
             <div className={styles.title}>Gather</div>
           </button>
@@ -238,7 +243,7 @@ const MainNav = (props) => {
                             }
                             `}
             >
-                <IconMessage />
+              {(currentPage == "message") ? <IconForumFill /> : <IconForumNoFill />}
             </div>
             <div className={styles.title}>Messages</div>
           </button>

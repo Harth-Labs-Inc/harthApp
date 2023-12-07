@@ -138,76 +138,75 @@ const TopBar = (props) => {
                     ${isMobile && styles.TopBarMobile}
                     `}
       >
-        {isMobile ? (
-          <div className={styles.MobileNavTitle}>
-            <button
-              id="tourFirstUse_harthIcon"
-              className={`
-                ${styles.HarthButton}
-                `}
-              onClick={onToggleMenu}
-              aria-label="Current Harth"
-            >
-              <img src={selectedcomm?.iconKey} loading="eager" />
-            </button>
+        <div className={isMobile ? (styles.backgroundMobile) : (styles.background)}>
+          {isMobile ? (
+            
+            <div className={styles.MobileNavTitle}>
+              <button
+                id="tourFirstUse_harthIcon"
+                className={`
+                  ${styles.HarthButton}
+                  `}
+                onClick={onToggleMenu}
+                aria-label="Current Harth"
+              >
+                <img src={selectedcomm?.iconKey} loading="eager" />
+              </button>
 
-            <div className={styles.titleHolder}>
-              <div className={styles.TopBarName}>{selectedcomm?.name}</div>
-              {/* <div className={styles.SectionMobile}>
-                {currentPage == "chat" && "chats"}
-                {currentPage == "gather" && "gather"}
-                {currentPage == "message" && "messages"}
-              </div> */}
+              <div className={styles.titleHolder}>
+                <div className={styles.TopBarName}>{selectedcomm?.name}</div>
+              </div>
+            </div>
+          ) : null}
+          {children}
+
+          <div className={styles.holder}>
+            {showAdminReportIcon ? (
+              <button
+                className={styles.TopBarReport}
+                onClick={handlerStartReportPull}
+                aria-label="Admin Report Alert"
+                title="Admin alert"
+              >
+                <div
+                  className={`${styles.reportSVG} ${
+                    isPullingReports ? styles.clicked : ""
+                  }`}
+                >
+                  <ReportIcon />
+                </div>
+                <div
+                  className={`${styles.loadingSVG} ${
+                    isPullingReports ? styles.clicked : ""
+                  }`}
+                >
+                  <SpinnerIcon />
+                </div>
+              </button>
+            ) : null}
+            {isMobile && hasRoomMinimized ? (
+              <button
+                className={styles.TopBarStreaming}
+                onClick={handleOpenMInimizedRoom}
+              >
+                <IconBroadcasting />
+              </button>
+            ) : null}
+
+            <div
+              id="tourFirstUse_harthProfile"
+              className={isMobile ? styles.avatarMobile : styles.avatarDesktop}
+            >
+              <UserIcon
+                img={iconKey || ""}
+                showName={false}
+                size={isMobile ? "regular" : "small"}
+                isPressable
+                pressHandler={editUserModalHandler}
+              />
             </div>
           </div>
-        ) : null}
-        {children}
 
-        <div className={styles.holder}>
-          {showAdminReportIcon ? (
-            <button
-              className={styles.TopBarReport}
-              onClick={handlerStartReportPull}
-              aria-label="Admin Report Alert"
-              title="Admin alert"
-            >
-              <div
-                className={`${styles.reportSVG} ${
-                  isPullingReports ? styles.clicked : ""
-                }`}
-              >
-                <ReportIcon />
-              </div>
-              <div
-                className={`${styles.loadingSVG} ${
-                  isPullingReports ? styles.clicked : ""
-                }`}
-              >
-                <SpinnerIcon />
-              </div>
-            </button>
-          ) : null}
-          {isMobile && hasRoomMinimized ? (
-            <button
-              className={styles.TopBarStreaming}
-              onClick={handleOpenMInimizedRoom}
-            >
-              <IconBroadcasting />
-            </button>
-          ) : null}
-
-          <div
-            id="tourFirstUse_harthProfile"
-            className={isMobile ? styles.avatarMobile : styles.avatarDesktop}
-          >
-            <UserIcon
-              img={iconKey || ""}
-              showName={false}
-              size={isMobile ? "regular" : "small"}
-              isPressable
-              pressHandler={editUserModalHandler}
-            />
-          </div>
         </div>
       </div>
     </>

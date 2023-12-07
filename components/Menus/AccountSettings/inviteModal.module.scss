@@ -8,8 +8,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    background: linear-gradient(to bottom, transparent, $border_basic, transparent);
-    backdrop-filter: blur(12px);
+    background: rgba(0,0,0,.24);
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -26,7 +25,7 @@
 .innerContainer {
     width: 100%;
     background-color: $background;
-    border: 1px solid $border_basic;
+    border: 0;
     .content {
         width: 100%;
         max-width: 360px;
@@ -46,12 +45,10 @@
             align-items: center;
             margin-top: 0;
             @include overlayMenuTitle;
-            //font-size: 24px;
-            color: $font_main;
+            color: $font_light;
             padding: 0px 0px 0px 0px;
             padding-bottom: 24px;
             gap: 8px;
-            //background-color: aqua;
 
             &Center {
                 text-align: center;
@@ -62,15 +59,11 @@
                 height: 84px;
                 width: 84px;
                 margin-left: -8px;
-                //margin-left: auto;
-                //margin-right: 80px;
-                //margin-top: -56px;
                 padding: 0px 0px 0px 0px;
             }
         }
         
         .actionBar {
-           
             display: flex;
             flex-direction: row;
             justify-content: flex-end;
@@ -122,7 +115,7 @@
             p {
                 @include systemFont;
                 font-size: 16px;
-                color: $font_main;
+                color: $font_light;
                 text-align: center;
                 margin-bottom: 8px;
             }
@@ -173,31 +166,33 @@
     flex-direction: column;
     justify-content: center;
     border-left: 1px solid $border_heavy;
-    color: $font_main;
+    color: $border_heavy;
 
     padding-left: 8px;
     padding-right: 2px;
 }
 .dropdownoptions {
     position: absolute;
-    background-color: $background_offset;
+    background-color: $border_basic;
     z-index: 1;
     width: 100%;
     left: 0;
+    top: 80px;
     padding: 8px;
-    max-height: 160px;
+    padding-right: 40px;
+    max-height: 180px;
     overflow: scroll;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
-    border: 2px solid $border_basic;
-    border-top: 0;
+    // border: 2px solid $border_basic;
+    // border-top: 0;
 }
 .dropdownoption {
     display: flex;
     margin-bottom: 4px;
     padding: 4px;
-    background-color: $background;
-    border: 1px solid $border_basic;
+    background-color: $ash;
+    border: 0;
     cursor: pointer;
     border-radius: 6px;
     span{
@@ -210,12 +205,12 @@
 
     @media (hover: hover) and (pointer: fine) {
         &:hover { 
-            background-color: $border_basic;
+            background-color: $black;
         } 
     }
 
     &:active {
-        background-color: $border_basic;
+        background-color: $black;
     }  
 
 
@@ -226,6 +221,7 @@
     position: relative;
     margin-bottom: 20px;
     @include harthTitle;
+    color: $font_light;
     font-size: 18px;
 
     img{
@@ -258,7 +254,7 @@
     input {
         @include systemFont;
         font-size: 16px;
-        color: $font_main;
+        color: $font_light;
         width: fit-content;
         border-radius: 6px;
         padding: 0px;
@@ -319,7 +315,7 @@
     @include systemFont;
     font-size: 14px;
     margin-bottom: 3px;
-    color: $font_main;
+    color: $font_light;
     letter-spacing: 0;
 }
 

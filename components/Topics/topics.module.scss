@@ -5,32 +5,14 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    //align-items: center;
     height: fit-content;
     width: fit-content;
     width: 100%;
     border: 0;
-    border-radius: 8px;
     background-color: transparent;
     margin-bottom: 4px;
     cursor: pointer;
-
     border-radius: 0px;
-
-    //border-bottom: 1px solid $border_light;
-
-    // &::after {
-    //     position: absolute;
-    //     bottom: -1px;
-    //     left: 50%;
-    //     transform: translateX(-50%);
-    //     height: 1px;
-    //     width: 92%;
-    //     content: "";
-    //     //background-color: $border_light;
-    //     background: linear-gradient(90deg, $border_light, transparent 70%);
-
-    // }
 
     .emojiHolder {
         width: fit-content;
@@ -46,7 +28,7 @@
         align-items: center;
         justify-content: flex-start;
         width: fit-content;
-        color: $font_main;
+        color: var(--font-main);
         @include topicTitle;
         gap: 10px;
         user-select: none;
@@ -70,7 +52,7 @@
             width: 28px;
             height: 28px;
             border-radius: 999px;
-            border: 1px solid $border_light;
+            border: 0;
         }
 
         &Mobile {
@@ -105,11 +87,11 @@
 
             cursor: pointer;
             path {
-                fill: $font_main;
+                fill: var(--path-basic);
             }
 
             &:hover {
-                background-color: $background;
+                background-color: var(--theme-offset-1);
 
             }
 
@@ -117,34 +99,35 @@
         
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: $border_light;
+                background-color: var(--theme-offset-1);
                 border-radius: 8px;
 
-                .moreMenu {
-                    visibility: visible;
-                }
+                // .moreMenu {
+                //     visibility: visible;
+                // }
 
             }
         }
     }
 
     &Active {
-        background-color: $border_light;
+        background-color: var(--border-light);
         border-radius: 8px;
         .label {
-            color: $font_main;
+            color: var(--font-main);
         }
         .moreMenu {
             visibility: visible;
         }
-        &:hover {
-            background-color: $border_light;
-
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: var(--border-light);
+            }
         }
     }
 
     &Mobile {
-        padding: 12px 2px 12px 8px;
+        padding: 8px 2px 8px 8px;
         .moreMenu {
             display: none;
         }
@@ -183,7 +166,7 @@
         .label {
             //@include topicTitleActive;
             font-weight: 700;
-            color: $font_main;
+            color: var(--font-main);
         }
     }
 }

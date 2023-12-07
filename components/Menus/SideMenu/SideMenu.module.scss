@@ -13,13 +13,15 @@
     position: relative;
     padding: 12px 0px 96px 0px;
     width: 56px;
-    height: var(--vh);
+    height: calc(var(--vh) - calc($space * 2));
     min-width: 56px;
-    background-color: $background_sidebar;
-    border-right: 1px solid $border_heavy;
-    border-top: 1px solid $border_basic;
-    //border-top-right-radius: 16px;
-    //border-bottom-right-radius: 16px;
+    //background-color: var(--theme-color);
+    background-color: $background;
+    border: 0;
+    margin-left: $space;
+    margin-top: $space;
+    margin-bottom: $space;
+    border-radius: $corner_radius;
 
     .bottomHolder {
         position: absolute;
@@ -29,83 +31,37 @@
         bottom: 0px;
         height: fit-content;
         width: 100%;
-        background-color: $background_sidebar;
-        //border-top: 1px solid $ash_medium;
+        //background-color: var(--theme-color);
+        background-color: $background;
         z-index: 1;
         padding: 12px 0px 12px 0px;
-        gap: 4px;
-        //border-bottom-right-radius: 16px;
+        gap: 8px;
+        border-bottom-right-radius: $corner_radius;
+        border-bottom-left-radius: $corner_radius;
 
         .SettingsButton {
             position: relative;
             height: 36px;
             width: 36px;
-            padding: 6px;
+            padding: 5px;
             background-color: transparent;
             border: 0;
             border-radius: 6px;
-            border: 1px solid transparent;
             cursor: pointer;
     
     
             path {
-                fill: $font_muted;
+                fill: $gather_path;
             }
     
     
             @media (hover: hover) and (pointer: fine) {
                 &:hover {
-                background-color: $border_heavy;
-                border-color: $border_light;
+                background-color: $border_light;
                 path {
-                    fill: $font_main;
+                    fill: $gather_path_heavy;
                 }
 
-                }
-            }
-    
-            &Invites {
-                path{
-                    fill: unset;
-                }
-                @media (hover: hover) and (pointer: fine) {
-                    &:hover {
-                        // path{
-                        //     fill: $hot_purple;
-                        // }
-                        &::before {
-                            position: absolute;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            content: "Invites";
-                            width: fit-content;
-                            top: 3px;
-                            left: 38px;
-                            padding: 6px 10px;
-                            background-color: $background_reverse;
-                            border-radius: 2px;
-                            @include worksans;
-                            letter-spacing: 0.05em;
-                            font-size: 12px;
-                            font-weight: 400;
-                            color: $font_reverse;
-                            z-index: 10;
-                        }
-                
-                        &::after {
-                            position: absolute;
-                            content: " ";
-                            top: 4px;
-                            left: 32px;
-                            width: 0;
-                            height: 0;
-                            border-top: 12px solid transparent;
-                            border-bottom: 12px solid transparent;
-                            border-right: 12px solid $background_reverse;
-                            z-index: 9;
-                        }
-                    }
                 }
             }
 
@@ -160,19 +116,16 @@
             position: relative;
             height: 36px;
             width: 36px;
-            padding: 4px;
+            padding: 5px;
             background-color: transparent;
             border: 0;
             border-radius: 6px;
-            border: 1px solid transparent;
             cursor: pointer;
     
     
             @media (hover: hover) and (pointer: fine) {
                 &:hover {
-                    background-color: $border_heavy;
-                    border-color: $border_light;
-
+                    background-color: $border_light;
                 }
             }
     
@@ -184,37 +137,42 @@
 
 .sideNavMobile {
     display: flex;
-    // align-items: center;
     flex-direction: column;
     position: relative;
     padding: 0px 0px 0px 0px;
     width: 100%;
     height: 100%;
-    //background-color: aquamarine;
-    //border-bottom: 4px solid blue;
 
     .text {
+        position: relative;
         width: 100%;
         text-align: left;
         padding: 4px 20px;
         border: 0;
-        border-bottom: solid 1px $border_basic;
         margin: 0;
         @include systemFont;
         font-size: 14px;
-        color: $font_main;
+        color: $font_light;
 
+        &::after {
+            position: absolute;
+            bottom: 0;
+            left: calc(50% + 4px);
+            transform: translateX(-50%);
+            height: 1px;
+            width: calc(100% - 32px);
+            background-color: $border_basic;
+            content: "";
+
+        }
     }
 
     .headerImage {
-
-        //margin: auto;
-        margin-top: 20px; 
-        margin-bottom: 20px; 
+        margin-top: 24px; 
+        margin-bottom: 28px; 
         margin-left: 20px;
-        //background-color: aqua;
         svg {
-            height: 36px;
+            height: 28px;
             max-width: 148px;
         }
 
@@ -231,7 +189,6 @@
     .settings {
         position: relative;
         bottom: 0;
-        border-top: 1px solid $border_basic;
     }
 
 

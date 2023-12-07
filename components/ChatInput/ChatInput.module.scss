@@ -55,10 +55,12 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: $background;
+    background: var(--theme-color);
     padding: 0px 0px 0px 0px;
     border-bottom: none;
     border-radius: 0;
+    border-bottom-left-radius: $corner_radius;
+    border-bottom-right-radius: $corner_radius;
 
     &Text {
         resize: none;
@@ -71,10 +73,11 @@
         padding: 8px 24px;
         @include chatText;
         caret-color: $hot_salmon;
-        color: $font_main;
-        background: $background_offset;
+        color: var(--font-main);
+        background: var(--theme-offset-2);
         border: 0;
-        border-radius: 0;
+        border-right: 2px solid var(--theme-color);
+        border-left: 2px solid var(--theme-color);
 
         white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
@@ -84,26 +87,26 @@
 
         &::placeholder {
             @include chatText ;
-            color: $font_muted;
+            color: var(--font-muted);
         }
     }
 
     .entryBox {
-        border-top: 1px solid $border_basic;
         border-radius: 0px;
         padding: 0;
         overflow: hidden;
-
     }
 
     &Controls {
         display: flex;
         justify-content: space-between;
-        padding: 4px 16px 4px 16px;
-        background: $background_offset;
+        padding: 6px 16px 6px 16px;
+        background: var(--theme-color);
         border: 0;
         border-radius: 0px;
-        border-top: 1px solid $border_basic;
+        border-top: 1px solid var(--theme-color);
+        border-bottom-left-radius: $corner_radius;
+        border-bottom-right-radius: $corner_radius;
 
         &Right,
         &Left {
@@ -115,16 +118,16 @@
             > button {
                 position: relative;
                 margin: 0 0px;
-                height: 36px;
-                width: 36px;
-                padding: 6px;
+                height: 32px;
+                width: 32px;
+                padding: 4px;
                 background-color: transparent;
                 border-radius: 99px;
                 border: 0px;
                 cursor: pointer;
 
                 path {
-                    fill: darken($background, 25%)
+                    fill: var(--path-light);
                 }
 
 
@@ -237,7 +240,6 @@
     border-bottom: none;
     border-radius: 0;
 
-
     &Text {
         resize: none;
         display: block;
@@ -249,7 +251,7 @@
         padding: 8px 12px;
         @include chatTextMobile;
         caret-color: $hot_salmon;
-        color: $font_main;
+        color: var(--font-main);
         background: $background_offset;
         border: 0;
         border-radius: 0;

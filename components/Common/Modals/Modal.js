@@ -14,6 +14,7 @@ export const Modal = (props) => {
     containerStyle,
     blockBackground = false,
     ignoreFadeIn,
+    alignTop = false,
   } = props;
 
   const ref = useRef();
@@ -37,6 +38,7 @@ export const Modal = (props) => {
                         ${blockBackground && styles.ModalMidBlock}
                         ${isDark && styles.ModalMidDark}
                         ${hasPadding && styles.ModalMidPadding}
+                        ${alignTop && styles.ModalMidTop}
                         ${containerStyle}
                     `}
         >

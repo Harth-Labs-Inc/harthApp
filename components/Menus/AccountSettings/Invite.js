@@ -141,7 +141,7 @@ const InviteComp = (props) => {
               <div className={styles.InviteList}>
                 <div className={styles.harthdropdown}>
                   <label className={styles.labelText} htmlFor="harthSelect">
-                    Select a Harth
+                    Select a group
                   </label>
                   <div
                     className={styles.dropdownheader}
@@ -150,7 +150,7 @@ const InviteComp = (props) => {
                     <div className={styles.dropdownSelected}>
                       {selectedHarth?.iconKey && (
                         <img
-                          style={{ height: "48px", width: "48px" }}
+                          style={{ height: "40px", width: "40px" }}
                           src={selectedHarth.iconKey}
                           alt={selectedHarth.name}
                           className="harth-iconKey"
@@ -171,7 +171,7 @@ const InviteComp = (props) => {
                         >
                           {harth.iconKey && (
                             <img
-                              style={{ height: "48px", width: "48px" }}
+                              style={{ height: "40px", width: "40px" }}
                               src={harth.iconKey}
                               alt={harth.name}
                               className="harth-iconKey"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { checkForMatchingEmail } from "../../../requests/userApi";
@@ -7,10 +7,11 @@ import ErrorMessage from "../../../components/Common/Input/ErrorMessage";
 import styles from "./createAccount.module.scss";
 import { useAuth } from "contexts/auth";
 import { IconChevronLeft } from "resources/icons/IconChevronLeft";
+import { MobileContext } from "contexts/mobile";
 
 const CreateAccount = () => {
   const router = useRouter();
-
+  const { isMobile } = useContext(MobileContext);
   const { setNewUser } = useAuth();
 
   const [submissionType, setSubmissionType] = useState();
@@ -83,7 +84,7 @@ const CreateAccount = () => {
       return "You must be at least 13 years old to register";
   };
   return (
-    <Modal blockBackground={true} onToggleModal={() => {}} ignoreFadeIn={true}>
+    <Modal blockBackground={true} alignTop={isMobile ? true : false} onToggleModal={() => {}} ignoreFadeIn={true}>
       <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
         <div className={styles.CreateModuleContent}>
           <div className={styles.header}>Create an Account</div>

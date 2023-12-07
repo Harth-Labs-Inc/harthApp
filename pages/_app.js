@@ -272,7 +272,7 @@ function MyApp({ Component, pageProps }) {
           href="/icons/icon-1024x1024.png"
         />
 
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#000" />
 
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

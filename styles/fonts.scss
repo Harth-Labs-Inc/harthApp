@@ -24,8 +24,8 @@
 
 @mixin titleNav {
   font-family: var(--Rubik-font);
-  font-weight: 300;
-  font-size: 12px;
+  font-weight: 400;
+  font-size: 14px;
   line-height: 100%;
   text-rendering: optimizeLegibility;
 }
@@ -99,17 +99,17 @@
   font-family: var(--Raleway-font);
   font-weight: 400;
   font-size: 14px;
-  line-height: 130%;
-  letter-spacing: 0.03em;
+  line-height: 125%;
+  letter-spacing: 0.02em;
   text-rendering: optimizeLegibility;
 }
 
 @mixin chatTextMobile {
   font-family: var(--Raleway-font);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
-  line-height: 135%;
-  letter-spacing: 0.03em;
+  line-height: 125%;
+  letter-spacing: 0.02em;
   text-rendering: optimizeLegibility;
 }
 

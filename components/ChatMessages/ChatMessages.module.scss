@@ -6,14 +6,16 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    height: calc(var(--vh) - 0px);
+    height: calc(var(--vh) - 88px);
     width: 100%;
-    background: $background;
+    background: var(--theme-color);
+    border-radius: $corner_radius;
     //padding-left: 8px;
-    margin-top: -56px;
+    margin-top: 0px;
 
     @media screen and (max-width: 640px) {
         height: var(--vh);
+        border-radius: 0;
         padding: 0px;
         padding-top: 24px;
         padding-bottom: 16px;
@@ -31,7 +33,7 @@
     padding: 24px 0px;
     overflow-y: scroll;
     -ms-overflow-style: none;
-    color: $font_main;
+    color: var(--font-main);
 
     &::-webkit-scrollbar {
         display: none;
@@ -195,11 +197,11 @@
     text-align: center;
     padding: 4px 14px;
     color: $font_light;
-    font-size: 12px;
-    @include worksans;
+    font-size: 11px;
+    @include systemFont;
     line-height: 11px;
     text-transform: uppercase;
-    background: $hot_salmon;
+    background: $hot_purple;
     border: 0;
     border-radius: 9px;
     width: max-content;
@@ -216,7 +218,7 @@
     top: 50%;
     width: 50%;
     height: 1px;
-    background-color: $hot_salmon;
+    background-color: $hot_purple;
 }
 
 .ScrollButton::before {

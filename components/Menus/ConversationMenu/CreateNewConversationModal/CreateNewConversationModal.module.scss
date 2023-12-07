@@ -25,11 +25,11 @@
 
     .title {
         @include overlayMenuTitle;
+        color: $font_light;
         width: 100%;
         text-align: left;
         margin-top: 0px;
         margin-bottom: 24px;
-        color: $font_main;
     }
 
     .Content {

@@ -5,15 +5,13 @@
 
 .mainContainer {
     width: 300px;
-    //row-gap: 24px;
-    //padding-top: 16px;
     margin-left: auto;
     margin-right: auto;
     .title {
         @include overlayMenuTitle;
+        color: $font_light;
         width: 100%;
         text-align: left;
-        //margin-top: 8px;
         margin-bottom: 32px;
         text-align: left;
     }
@@ -29,6 +27,7 @@
 
     .label {
         @include systemFont;
+        color: $font_light;
         width: 90%;
         font-size: 14px;
         margin-top: 24px;
@@ -42,7 +41,7 @@
         height: 48px;
         border-radius: 6px;
         border:0;
-        color: $font_main;
+        color: $font_light;
         background: $border_basic;
     }
 

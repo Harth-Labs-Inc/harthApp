@@ -9,6 +9,7 @@
     .header {
       text-align: left !important;
       @include overlayMenuTitle;
+      color: $font_light;
       width: 100%;
       margin-bottom: 24px;
     }
@@ -22,7 +23,7 @@
       text-align: center;
       margin-bottom: 4px;
       margin-top: 12px;
-      color: $font_main;
+      color: $font_light;
       text-align: left;
   }
   
@@ -35,8 +36,8 @@
     @include rubik;
     font-weight: 400;
     font-size: 16px;
-    color: $font_main;
-    caret-color: $hot_salmon;
+    color: $font_light;
+    caret-color: $hot_purple;
     &::placeholder {
         color: $font_muted;
 
@@ -47,13 +48,15 @@
     input[type="date"]{
       width: 240px;
       background-color: $border_basic;
-      color: $font_main;
+      color: $font_light;
       @include systemFont;
       font-size: 16px;
+      
     }
     ::-webkit-calendar-picker-indicator {
-      background-color: $background;
-      padding: 6px;
+      background-color: transparent;
+      width: 28px;
+      height: 28px;
       border-radius: 4px;
       cursor: pointer;
     }
@@ -69,7 +72,7 @@
         @include systemFont;
         font-size: 12px;
         color: $font_muted;
-        text-align: center;
+        text-align: left;
         margin-top: 10px;
     }
 
@@ -90,9 +93,10 @@
 
   .backButton {
       height: 48px;
+      max-width: 88px;
       border-radius: 999px;
       border: 1px solid $border_heavy;
-      background-color: $background;
+      background: transparent;
 
       path {
         fill: $border_heavy;

@@ -70,16 +70,21 @@
 
     @media (hover: hover) and (pointer: fine) {
         &:hover {
-            background-color: $background_offset;
+            background-color: var(--theme-offset-3);
         }
     }
 
+    &:active {
+        background-color: var(--theme-offset-3);
+    }
     &.Editing {
         background-color: lighten($hot_pink, 10%);
+        background-color: $hot_pink;
 
         @media (hover: hover) and (pointer: fine) {
             &:hover {
                 background-color: lighten($hot_pink, 10%);
+                background-color: $hot_pink;
             }
         }
 
@@ -122,12 +127,6 @@
 
     &Mobile {
         padding: 8px 12px 12px 12px;
-
-        &:active {
-            background-color: $background_offset;
-        }
-
-
     }
 
     .UserIcon {
@@ -175,10 +174,10 @@
         max-width: 36px;
         min-width: 36px;
         max-width: 36px;
-        background-color: $hot_blue;
+        background-color: $hot_purple;
         border-radius: 9999px;
         @include topicTitleMobile;
-        color: $font_dark;
+        color: $font_light;
     }
 
     .Body {
@@ -192,11 +191,11 @@
             padding: 6px 0px 0px 0px;
             .Creator {
                 @include chatProfile;
-                color: $font_main;
+                color: var(--font-main);
                 user-select: none;
             }
             .Timestamp {
-                color: $font_muted;
+                color: var(--font-muted);
                 @include timeStamp;
                 user-select: none;
             }
@@ -207,7 +206,7 @@
             width: fit-content;
             padding-top: 4px;
             max-width: 100%;
-            color: $font_main;
+            color: var(--font-main);
             @include chatText;
             border: 0;
             white-space: pre-wrap;
@@ -230,10 +229,10 @@
                 margin-top: 4px;
                 margin-bottom: 4px;
                 width: max-content;
-                max-width: 360px;
+                max-width: 340px;
                 cursor: pointer;
                 @media screen and (max-width: 640px) {
-                    max-width: 240px;
+                    max-width: 220px;
                 }
 
 
@@ -241,11 +240,11 @@
 
             a {
                 word-break: break-all;
-                color: lighten($hot_blue, 10%);
+                color: $hot_blue;
             }
 
             a:visited {
-                color: lighten($hot_blue, 10%);
+                color: $hot_blue;
             }
         }
 
@@ -255,7 +254,7 @@
             white-space: pre-wrap;
             @include url;
             word-break: break-all;
-            color: lighten($hot_blue, 10%);
+            color: $hot_blue;
         }
 
         &Reactions {
@@ -264,7 +263,7 @@
             align-items: center;
             flex-wrap: wrap;
             margin-left: 0px;
-            margin-top: 4px;
+            margin-top: 6px;
             column-gap: 4px;
             row-gap: 4px;
             border-radius: 999px;
@@ -283,7 +282,7 @@
                 //width: 48px;
                 font-size: 24px;
                 text-align: center;
-                background-color: $border_basic;
+                background-color: var(--theme-offset-1);
                 border-radius: 99px;
                 margin: 0;
                 border: 0;
@@ -291,7 +290,7 @@
                 padding: 0px 6px;
 
                 .label {
-                    color: $font_main;
+                    color: var(--font-main);
                     @include reactionLabel;
                 }
                 &Owner {
@@ -317,14 +316,14 @@
                     @media (hover: hover) and (pointer: fine) {
                     &:hover {
                         cursor: pointer;
-                        background-color: $border_heavy;
+                        background-color: var(--theme-offset-2);
                     }
                 }
                 }
 
                 &Mobile {
                     &:active {
-                        background: $border_heavy;
+                        background-color: var(--theme-offset-2);
                     }
                 }
             }
@@ -339,29 +338,32 @@
                 margin: 0;
                 border: 0;
                 user-select: none;
-                background-color: $border_basic;
+                background-color: var(--theme-offset-1);
                 //border: 1px solid $border_basic;
                 svg {
-                    width: 20px;
-                    height: 20px;
+                    width: 22px;
+                    height: 22px;
                 }
                 path {
-                    fill: $font_muted;
+                    fill: var(--path-light);
                 }
 
                 &Desktop {
                     &:hover {
-                        background-color: $border_heavy;
+                        background-color: var(--theme-offset-2);
                         cursor: pointer;
                         path {
-                            fill: $font_main;
+                            fill: var(--font-main);
                         }
                     }
                 }
 
                 &Mobile {
                     &:active {
-                        background-color: $border_heavy;
+                        background-color: var(--theme-offset-2);
+                        path {
+                            fill: var(--font-main);
+                        }
                     }
                 }
             }
@@ -376,10 +378,10 @@
         gap: 6px;
         top: -8px;
         right: 16px;
-        background-color: $background;
+        background-color: var(--border-light);
         border-radius: 8px;
         padding: 4px;
-        border: 1px solid $border_basic;
+        border: 0;
 
         > button {
             position: relative;
@@ -396,23 +398,23 @@
             overflow: hidden;
 
             path {
-                fill: $font_muted;
+                fill: var(--path-heavy);
             }
 
             @media (hover: hover) and (pointer: fine) {
                 &:hover {
                     path {
-                        fill: $font_main;
+                        fill: var(--font-main);
                     }
-                    background-color: $border_basic;
+                    background-color: var(--theme-offset-1);
                 }
             }
 
             &:active {
                 path {
-                    fill: $font_main;
+                    fill: var(--font-main);
                 }
-                background-color: $border_basic;
+                background-color: var(--theme-offset-1);
             }
 
         }
@@ -495,7 +497,7 @@
             //line-height: 100%;
             font-weight: 500;
             letter-spacing: 0;
-            color: $font_main;
+            color: var(--font-main);
             //background-color: aquamarine;
 
         }
@@ -509,7 +511,7 @@
         //background: aqua;
 
         p {
-            color: $font_main;
+            color: var(--font-main);
             @include systemFont;
             font-weight: 700;
             letter-spacing: 0em;
