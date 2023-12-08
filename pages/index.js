@@ -100,7 +100,12 @@ const dashboard = () => {
       window.receiveDeviceToken = function (deviceToken) {
         setIOSDeviceToken(deviceToken);
       };
+      window.receivePushNotification = function (notification) {
+        console.log(notification, "notification");
+        alert(notification);
+      };
     }
+
     window.addEventListener("online", handleNetworkChange);
     window.addEventListener("offline", handleNetworkChange);
     return () => {
