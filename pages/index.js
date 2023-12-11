@@ -100,10 +100,16 @@ const dashboard = () => {
       window.receiveDeviceToken = function (deviceToken) {
         setIOSDeviceToken(deviceToken);
       };
-      window.receivePushNotification = function (notification) {
-        console.log(notification, "notification");
-        alert(notification);
+      window.receivePushNotification = function (dataString) {
+        alert(dataString);
+        try {
+          const data = JSON.stringify(dataString);
+          alert(data);
+        } catch (e) {
+          alert(e);
+        }
       };
+      requestIOSPushNotification();
     }
 
     window.addEventListener("online", handleNetworkChange);
@@ -272,6 +278,19 @@ const dashboard = () => {
       window.webkit.messageHandlers.pushPermissionRequest
     ) {
       window.webkit.messageHandlers.pushPermissionRequest.postMessage(null);
+    }
+  };
+
+  const requestIOSPushNotification = () => {
+    if (
+      window &&
+      window.webkit &&
+      window.webkit.messageHandlers &&
+      window.webkit.messageHandlers.pushCheckForNotificationRequest
+    ) {
+      window.webkit.messageHandlers.pushCheckForNotificationRequest.postMessage(
+        null
+      );
     }
   };
 
