@@ -2,6 +2,14 @@ import { v4 as uuidv4 } from "uuid";
 import { getUploadURL, putImageInBucket } from "../requests/s3";
 import { envUrls } from "constants/urls";
 
+export const getBaseUrl = () => {
+  if (typeof window !== "undefined") {
+    const { protocol, host } = window.location;
+    return `${protocol}//${host}`;
+  }
+  return false;
+};
+
 export const generatePushMessage = (newMessage) => {
   const { type, topic_id, comm_id, conversation_id, env, roomDetails } =
     newMessage;
