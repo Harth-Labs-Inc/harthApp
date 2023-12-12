@@ -4,7 +4,7 @@ import {
   saveAcountSettingsUpdates,
   sendFullRefreshOTPEmail,
 } from "../../../requests/userApi";
-import { Button, BackButton, EditButton, Modal, RadioButton } from "../../Common";
+import { Button, BackButton, EditButton, Modal } from "../../Common";
 import OtpValidator from "../../../pages/auth/OtpValidator";
 
 import styles from "./SettingsMenu.module.scss";

@@ -17,7 +17,7 @@ import styles from "./HarthSettings.module.scss";
 const HarthSettings = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState("notifications");
-  const { communityName, onToggleModal, communityId, fullHeight = false } = props;
+  const { communityName, onToggleModal, communityId,} = props;
   const { updateLocalSelectedHarth } = useComms();
   const { isMobile } = useContext(MobileContext);
   useEffect(() => {

@@ -19,7 +19,6 @@ import {
 import {
   getUploadURL,
   putImageInBucket,
-  getDownloadURL,
   compressImage,
 } from "../../requests/s3";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";

@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import { Modal } from "../../Common/Modals/Modal";
-import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
 import { RoomStream } from "resources/icons/RoomStream";
 import { RoomVoice } from "resources/icons/RoomVoice";
 import { RoomParty } from "resources/icons/RoomParty";
