@@ -37,9 +37,13 @@ export default async (req, res) => {
 
   const sendEmail = (email, token, note) => {
     return new Promise((resolve, reject) => {
-      let URLS = envUrls;
       const sgMail = require("@sendgrid/mail");
       sgMail.setApiKey(process.env.SENDGRID_API);
+
+      const baseURL =
+        process.env.IS_QA_ENV === "true"
+          ? envUrls.qa
+          : envUrls[process.env.NODE_ENV] || envUrls.development;
 
       const msg = {
         to: email,
@@ -48,9 +52,7 @@ export default async (req, res) => {
         html: `
          <p>you've been invited to a community</p>
         <p>to join either copy and paste this <strong>${token}</strong> as the invite link or click link below</p>
-       <a href='${
-         URLS[process.env.NODE_ENV]
-       }?invite=true&tkn=${token}'>Go to Project blarg</a>
+       <a href='${baseURL}?invite=true&tkn=${token}'>Go to Project blarg</a>
         <p>${note}</P>
         `,
       };

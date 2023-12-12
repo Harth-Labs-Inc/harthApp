@@ -80,7 +80,11 @@ const Video = () => {
   ]);
 
   const joinRoom = (data) => {
-    const urls = envUrls;
+    const baseURL =
+      process.env.IS_QA_ENV === "true"
+        ? envUrls.qa
+        : envUrls[process.env.NODE_ENV] || envUrls.development;
+
     if (isMobile) {
       const storedActiveRoom = sessionStorage.getItem("active_room");
       const parsedRoom = JSON.parse(storedActiveRoom);
@@ -103,13 +107,7 @@ const Video = () => {
 
       window.open(
         /* eslint-disable-next-line */
-        `${urls[process.env.NODE_ENV]}/dashboard/${
-          data.gatheringType
-        }?gather_window=true&room_type=${data.gatheringType}&user_name=${
-          socketData.name
-        }&user_img=${socketData.icon}&room_id=${data.roomId}&harth_id=${
-          selectedcomm._id
-        }&room_name=${data.roomName}&harth_icon=${selectedcomm.iconKey}`,
+        `${baseURL}/dashboard/${data.gatheringType}?gather_window=true&room_type=${data.gatheringType}&user_name=${socketData.name}&user_img=${socketData.icon}&room_id=${data.roomId}&harth_id=${selectedcomm._id}&room_name=${data.roomName}&harth_icon=${selectedcomm.iconKey}`,
         "_blank",
         windowFeatures //"new-window"
       );

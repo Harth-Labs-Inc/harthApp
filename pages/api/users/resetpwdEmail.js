@@ -52,10 +52,13 @@ export default async (req, res) => {
 
   const sendEmail = (email, token) => {
     return new Promise((resolve, reject) => {
-      const URLS = envUrls;
-
       const sgMail = require("@sendgrid/mail");
       sgMail.setApiKey(process.env.SENDGRID_API);
+
+      const baseURL =
+        process.env.IS_QA_ENV === "true"
+          ? envUrls.qa
+          : envUrls[process.env.NODE_ENV] || envUrls.development;
 
       const msg = {
         to: email,
@@ -63,9 +66,7 @@ export default async (req, res) => {
         subject: "reset pasword",
         html: `
         <p>You recently requested to reset your password for your Blarg account. Use the button below to reset it. <b>This password reset is only valid for the next hour</b></p>
-        <a href='${
-          URLS[process.env.NODE_ENV]
-        }?reset=true&tkn=${token}'>Reset Your Password</a>
+        <a href='${baseURL}?reset=true&tkn=${token}'>Reset Your Password</a>
         `,
       };
 
