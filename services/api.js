@@ -10,7 +10,7 @@ const URLS = envUrls;
 const dynamicBaseUrl = getBaseUrl();
 const apiUrl = dynamicBaseUrl || URLS[process.env.NODE_ENV];
 
-console.log(apiUrl);
+console.log(process.env.IS_QA_ENV);
 
 const api = Axios.create({
   baseURL: apiUrl,
