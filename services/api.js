@@ -7,10 +7,13 @@ const URLS = envUrls;
 
 /* eslint-disable */
 
-console.log(getBaseUrl());
+const dynamicBaseUrl = getBaseUrl();
+const apiUrl = dynamicBaseUrl || URLS[process.env.NODE_ENV];
+
+console.log(apiUrl);
 
 const api = Axios.create({
-  baseURL: URLS[process.env.NODE_ENV],
+  baseURL: apiUrl,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
