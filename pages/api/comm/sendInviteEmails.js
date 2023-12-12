@@ -71,7 +71,10 @@ const saveInvite = (db, data, invites) => {
 };
 
 const sendInvitationEmail = (email, token, name) => {
-  const URLS = envUrls;
+  const baseURL =
+    process.env.IS_QA_ENV === "true"
+      ? envUrls.qa
+      : envUrls[process.env.NODE_ENV] || envUrls.development;
 
   const mailOptions = {
     from: "Härth Social <noreply@harthapp.com>",
@@ -128,9 +131,7 @@ const sendInvitationEmail = (email, token, name) => {
               margin-left: auto;
               margin-right: auto;
             "
-          ><a href="${
-          URLS[process.env.NODE_ENV]
-          }?invite=true&tkn=${token}"
+          ><a href="${baseURL}?invite=true&tkn=${token}"
         
             style="
               font-style: normal;
