@@ -3,13 +3,12 @@ import { useComms } from "../../../contexts/comms";
 import { useVideo } from "../../../contexts/video";
 import { useAuth } from "../../../contexts/auth";
 import { MobileContext } from "../../../contexts/mobile";
-import { envUrls } from "../../../constants/urls";
 import GatheringSchedule from "../../../components/Gathering/GatheringSchedule/GatheringSchedule";
 import GatheringCreate from "../../../components/Gathering/GatheringCreate/GatheringCreate";
 import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
 import { GatherLoading } from "../../../components/Gathering/GatherLoading/GatherLoading";
 import styles from "./GatheringDashboard.module.scss";
-import { generatePushMessage } from "services/helper";
+import { generatePushMessage, getBaseUrl } from "services/helper";
 import { sendPushNotification } from "requests/subscriptions";
 import { useTourManager } from "contexts/tour";
 
@@ -80,10 +79,7 @@ const Video = () => {
   ]);
 
   const joinRoom = (data) => {
-    const baseURL =
-      process.env.IS_QA_ENV === "true"
-        ? envUrls.qa
-        : envUrls[process.env.NODE_ENV] || envUrls.development;
+    const baseURL = getBaseUrl();
 
     if (isMobile) {
       const storedActiveRoom = sessionStorage.getItem("active_room");
