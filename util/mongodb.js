@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 const uri =
-  process.env.NODE_ENV !== "production"
+  process.env.NODE_ENV !== "production" || process.env.IS_QA_ENV === "true"
     ? process.env.MONGODB_URI_QA
     : process.env.MONGODB_URI;
 
