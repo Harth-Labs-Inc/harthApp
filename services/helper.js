@@ -3,11 +3,15 @@ import { getUploadURL, putImageInBucket } from "../requests/s3";
 import { envUrls } from "constants/urls";
 
 export const getBaseUrl = () => {
-  if (typeof window !== "undefined") {
-    const { protocol, host } = window.location;
-    return `${protocol}//${host}`;
+  if (typeof window === "undefined") {
+    if (process.env.IS_QA_ENV === "true") {
+      return envUrls.qa;
+    }
+    return envUrls[process.env.NODE_ENV] || envUrls.development;
   }
-  return false;
+
+  const { protocol, host } = window.location;
+  return `${protocol}//${host}`;
 };
 
 export const generatePushMessage = (newMessage) => {

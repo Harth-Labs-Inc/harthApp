@@ -8,9 +8,9 @@ const URLS = envUrls;
 /* eslint-disable */
 
 const dynamicBaseUrl = getBaseUrl();
-const apiUrl = dynamicBaseUrl || URLS[process.env.NODE_ENV];
+const apiUrl = dynamicBaseUrl || URLS.development;
 
-console.log(process.env.IS_QA_ENV);
+console.log(dynamicBaseUrl, "dynamicBaseUrl");
 
 const api = Axios.create({
   baseURL: apiUrl,
