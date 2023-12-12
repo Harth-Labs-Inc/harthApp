@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useComms } from "../../../contexts/comms";
 import { CloseButton } from "Common";
 import { IconNotificationsNoFill } from "../../../resources/icons/IconNotificationsNoFill";
@@ -7,6 +7,7 @@ import IconAdminPanel from "../../../resources/icons/IconAdminPanel";
 import { IconAccountNoFill } from "../../../resources/icons/IconAccountNoFill";
 import { IconAccountFill } from "../../../resources/icons/IconAccountFill";
 import { getHarthByID } from "../../../requests/community";
+import { MobileContext } from "contexts/mobile";
 import HarthNotificationSettings from "./HarthNotificationSettings/HarthNotificationSettings";
 import HarthAdminSettings from "./HarthAdminSettings/HarthAdminSettings";
 import HarthMembersSettings from "./HarthMembersSettings/HarthMembersSettings";
@@ -16,9 +17,9 @@ import styles from "./HarthSettings.module.scss";
 const HarthSettings = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState("notifications");
-  const { communityName, onToggleModal, communityId } = props;
+  const { communityName, onToggleModal, communityId, fullHeight = false } = props;
   const { updateLocalSelectedHarth } = useComms();
-
+  const { isMobile } = useContext(MobileContext);
   useEffect(() => {
     async function getUpdatedHarthData() {
       let result = await getHarthByID(communityId);
@@ -39,7 +40,7 @@ const HarthSettings = (props) => {
     return (
       <div className={styles.mainContainer}>
         <div className={styles.Loading}>
-          <p>Loading Settings</p>
+          <p>Loading Settings...</p>
         </div>
       </div>
     );
@@ -62,7 +63,7 @@ const HarthSettings = (props) => {
 
   return (
     <>
-      <div className={styles.mainContainer}>
+      <div className={` ${styles.mainContainer} ${isMobile ? styles.mainContainerFull : null} `}>
         <div className={styles.topBar}>
           <div className={styles.harthName}>{communityName}</div>
           <div className={styles.title}>Settings</div>

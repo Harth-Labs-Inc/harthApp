@@ -32,7 +32,7 @@
     .line {
         flex-grow: 1; 
         margin: 0 4px; 
-        background-color: $ash;
+        background-color: $border_basic;
         height: 3px;
     }
     
@@ -59,12 +59,12 @@
     input {
         width: 90%;
         border-radius: 6px;
-        background-color: $border_basic;
+        background-color: $background_offset_1;
         border: 0;
         height: 56px;
         padding-left: 12px;
-        color: $font_main;
-        caret-color: $hot_salmon;
+        color: $font_light;
+        caret-color: $hot_purple;
         @include systemFont;
         font-size: 16px;
         &::placeholder {

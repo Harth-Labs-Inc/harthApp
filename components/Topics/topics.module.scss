@@ -12,7 +12,7 @@
     background-color: transparent;
     margin-bottom: 4px;
     cursor: pointer;
-    border-radius: 0px;
+    border-radius: 8px;
 
     .emojiHolder {
         width: fit-content;
@@ -100,19 +100,12 @@
         @media (hover: hover) and (pointer: fine) {
             &:hover {
                 background-color: var(--theme-offset-1);
-                border-radius: 8px;
-
-                // .moreMenu {
-                //     visibility: visible;
-                // }
-
             }
         }
     }
 
     &Active {
         background-color: var(--border-light);
-        border-radius: 8px;
         .label {
             color: var(--font-main);
         }
@@ -151,7 +144,6 @@
 
         &:active {
             background-color: $border_light;
-            border-radius: 8px;
             // .label {
             //     color: $white;
             // }

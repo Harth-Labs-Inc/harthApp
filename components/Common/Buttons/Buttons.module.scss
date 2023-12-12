@@ -35,17 +35,22 @@
     border-radius: 99px;
     cursor: pointer;
     transition: all 0.2s;
-    background-color: transparent;
-    border: 1px solid $font_light;
+    background-color: $background_offset_1;
+
 
     
     path {
-        fill: $font_main;
+        fill: $border_heavy;
     }
     &Desktop {
-        &:hover {
-            background-color: $border_basic;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: $border_basic;
+                path {
+                    fill: $font_light;
+                }
 
+            }
         }
     }
 
@@ -60,7 +65,7 @@
     position: relative;
     padding: 8px 8px;
     border: 1px solid var(--path-heavy);
-    border-radius: 8px;
+    border-radius: 999px;
     cursor: pointer;
     transition: all 0.2s;
     background-color: transparent;
@@ -79,7 +84,7 @@
     transition: all 0.2s;
     background-color: transparent;
     path {
-        fill: $font_main;
+        fill: $font_light;
     }
     &:hover {
         background-color: $border_basic;
@@ -230,7 +235,7 @@
     position: relative;
     align-items: center;
     column-gap: 8px;
-    background: $background;
+    background: transparent;
     border-radius: 8px;
     padding: 0 8px;
     border: 0;
@@ -249,10 +254,11 @@
     }
     .label {
         display: flex;
-        @include interfaceR2;
+        @include systemFont;
         height: 48px;
         align-items: center;
         overflow: hidden;
+        color: $font_light;
     }
 
     &:hover {

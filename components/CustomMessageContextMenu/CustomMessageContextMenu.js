@@ -6,6 +6,7 @@ import FlagIcon from "resources/icons/Flag";
 import { IconDeleteNoFill } from "resources/icons/IconDeleteNoFill";
 import { IconEditNoFill } from "resources/icons/IconEditNoFill";
 import { IconCopy } from "resources/icons/IconCopy";
+import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 import styles from "./CustomMessageContextMenu.module.scss";
 import { copyToClipboard } from "services/helper";
 
@@ -25,7 +26,7 @@ export const CustomMessageContextMenu = ({
 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const contextRef = useRef(null);
-
+  const [showOptions, setShowOptions] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
@@ -67,6 +68,12 @@ export const CustomMessageContextMenu = ({
     removeCB();
   };
 
+  const toggleOptions = () => {
+    setShowOptions(!showOptions);
+  };
+
+  
+
   return (
     <div ref={contextRef} className={styles.TopicButtonWrapper}>
       <OutsideClickHandler
@@ -75,74 +82,90 @@ export const CustomMessageContextMenu = ({
         onFocusOutside={closeModal}
       >
         <div
-          className={` ${styles.CustomContextMenu} ${styles.CustomContextMenuMobile} `}
+          className={` ${styles.CustomContextMenu} ${styles.CustomContextMenuMobile} ${showOptions && styles.CustomContextMenuMobileActive} `}
           style={{
             top: "50%",
             left: "50%",
             transform: "translate3d(-50%,-50%,0)",
           }}
         >
-          <button
-            disabled={isDisabled}
-            className={styles.CustomContextMenuButton}
-            onClick={addReactionHandler}
-          >
-            <IconAddReactionNoFill />
-            Add Reaction
-          </button>
-          {hasTextForClipboard ? (
-            <button
-              disabled={isDisabled}
-              id="copyButton"
-              className={styles.CustomContextMenuButton}
-              onClick={copyTextHandler}
-              style={{ backgroundColor: isCopied ? "green" : "" }}
-            >
-              <IconCopy />
-              {isCopied ? "Copied!" : "Copy Text"}
-            </button>
-          ) : null}
-          {showEditButton ? (
+          <span>
             <button
               disabled={isDisabled}
               className={styles.CustomContextMenuButton}
-              onClick={editHandler}
+              onClick={addReactionHandler}
             >
-              <IconEditNoFill />
-              Edit
+              <IconAddReactionNoFill />
+              Add Reaction
             </button>
-          ) : null}
-          {showEditButton || isSuperAdmin ? (
-            <button
-              disabled={isDisabled}
-              className={styles.CustomContextMenuButton}
-              onClick={removeHandler}
-            >
-              <IconDeleteNoFill />
-              Remove
-            </button>
-          ) : null}
 
-          <button
-            disabled={isDisabled || disableFLagIcon}
-            className={`${styles.CustomContextMenuButton} ${
-              disableFLagIcon ? styles.isDisabled : ""
-            }`}
-            onClick={flagMessageHandler}
-          >
-            <FlagIcon />
-            Flag
-          </button>
-          {!showEditButton ? (
             <button
               disabled={isDisabled}
-              className={`${styles.CustomContextMenuButton}`}
-              onClick={blockUserHandler}
+              className={` ${styles.moreButton} ${showOptions && styles.moreButtonActive} `}
+              onClick={toggleOptions}
             >
-              <BlockIcon />
-              Block
+              <IconChevronLeft />
             </button>
-          ) : null}
+          </span>
+
+          {showOptions ? (
+            <>
+            {hasTextForClipboard ? (
+              <button
+                disabled={isDisabled}
+                id="copyButton"
+                className={styles.CustomContextMenuButton}
+                onClick={copyTextHandler}
+                style={{ backgroundColor: isCopied ? "green" : "" }}
+              >
+                <IconCopy />
+                {isCopied ? "Copied!" : "Copy Text"}
+              </button>
+            ) : null}
+            {showEditButton ? (
+              <button
+                disabled={isDisabled}
+                className={styles.CustomContextMenuButton}
+                onClick={editHandler}
+              >
+                <IconEditNoFill />
+                Edit
+              </button>
+            ) : null}
+            {showEditButton || isSuperAdmin ? (
+              <button
+                disabled={isDisabled}
+                className={styles.CustomContextMenuButton}
+                onClick={removeHandler}
+              >
+                <IconDeleteNoFill />
+                Remove
+              </button>
+            ) : null}
+
+            <button
+              disabled={isDisabled || disableFLagIcon}
+              className={`${styles.CustomContextMenuButton} ${
+                disableFLagIcon ? styles.isDisabled : ""
+              }`}
+              onClick={flagMessageHandler}
+            >
+              <FlagIcon />
+              Flag
+            </button>
+            {!showEditButton ? (
+              <button
+                disabled={isDisabled}
+                className={`${styles.CustomContextMenuButton}`}
+                onClick={blockUserHandler}
+              >
+                <BlockIcon />
+                Block
+              </button>
+            ) : null}
+            </>
+          ):(null)}
+
         </div>
       </OutsideClickHandler>
     </div>

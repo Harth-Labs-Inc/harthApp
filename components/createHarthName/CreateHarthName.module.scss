@@ -31,7 +31,7 @@
     .line {
         flex-grow: 1; 
         margin: 0 4px; 
-        background-color: $ash;
+        background-color: $border_basic;
         height: 3px;
     }
     
@@ -57,13 +57,13 @@
     .textEntry {
         width: 90%;
         border-radius: 6px;
-        background-color: $border-basic;
+        background-color: $background_offset_1;
         border: 0;
         height: 56px;
         padding-left: 12px;
-        color: $font_main;
+        color: $font_light;
         font-size: 16px;
-        caret-color: $hot_salmon;
+        caret-color: $hot_purple;
         &::placeholder {
             color: $font_muted;
     

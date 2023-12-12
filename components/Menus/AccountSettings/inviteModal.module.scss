@@ -8,7 +8,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    background: rgba(0,0,0,.24);
+    background: $overlay;
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -26,6 +26,8 @@
     width: 100%;
     background-color: $background;
     border: 0;
+    border-top: 1px solid $border_light;
+    border-bottom: 1px solid $border_light;
     .content {
         width: 100%;
         max-width: 360px;
@@ -146,7 +148,7 @@
     justify-content: space-between;
     position: relative;
     margin-top: 2px;
-    background-color: $border_basic;
+    background-color: $background_offset_1;
 
 }
 .dropdownSelected {
@@ -173,7 +175,7 @@
 }
 .dropdownoptions {
     position: absolute;
-    background-color: $border_basic;
+    background-color: $background_offset_1;
     z-index: 1;
     width: 100%;
     left: 0;
@@ -237,7 +239,7 @@
 
 }
 .emailinput {
-    height: 56px;
+    height: 48px;
     border: 0;
     border-radius: 6px;
     padding: 8px;
@@ -249,7 +251,7 @@
     margin-top: 2px;
     margin-bottom: 21px;
     overflow: scroll;
-    background-color: $border_basic;
+    background-color: $background_offset_1;
     gap: 12px;
     input {
         @include systemFont;
@@ -291,7 +293,7 @@
     
         align-items: center;
         background: $border_heavy;
-        color: $font_main;
+        color: $font_light;
         height: 40px;
         padding: 0px 12px 0px 4px;
         border-radius: 999px;

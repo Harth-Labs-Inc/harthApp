@@ -202,6 +202,9 @@
     .iconHolder {
         height: 24px;
         width: 24px;
+        path {
+            fill: $border_basic;
+        }
     }
 
     &Invites {
@@ -216,13 +219,10 @@
         margin-bottom: 8px;
         margin-top: 4px;
 
-        .iconHolder {
+        .iconInvite {
             height: 40px;
             width: 40px;
-            //margin-left: -6px;
-            // path {
-            //     fill: $hot_purple;
-            // }
+
         }
 
     }
@@ -288,6 +288,54 @@
         }
     }
 
+}
+
+.themeHolder {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc(100% - 16px);
+    padding: 8px 12px;
+    gap: 8px;
+
+    .theme {
+        background-color: transparent;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid $border_basic;
+        border-radius: 8px;
+        outline: 0;
+        margin: 0;
+        gap: 4px;
+        padding: 8px 8px;
+
+        p {
+            @include eyebrow;
+            color: $font_light;
+            padding-left: 4px;
+        }
+        
+
+        img {
+            width: 256px;
+            border-radius: 8px;
+        }
+
+        &Active {
+            border-color: $hot_purple;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover { 
+                border-color: $hot_purple;
+            }
+        }
+
+        &:active { 
+            border-color: $hot_purple;
+        }
+    }
 }
 
 .EditContainer {

@@ -17,7 +17,7 @@
         @include systemFont;
         font-size: 14px;
         z-index: 25;
-        color: $font_main;
+        color: $font_light;
     
         .title {
             @include overlayMenuTitle;
@@ -26,7 +26,6 @@
             margin-top: 8px;
             margin-bottom: 20px;
             color: $alert_red;
-            text-shadow: 3px 3px 0 $background_reverse;
         }
     
     

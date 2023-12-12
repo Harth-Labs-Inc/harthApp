@@ -4,7 +4,7 @@ import {
   saveAcountSettingsUpdates,
   sendFullRefreshOTPEmail,
 } from "../../../requests/userApi";
-import { Button, BackButton, EditButton, Modal } from "../../Common";
+import { Button, BackButton, EditButton, Modal, RadioButton } from "../../Common";
 import OtpValidator from "../../../pages/auth/OtpValidator";
 
 import styles from "./SettingsMenu.module.scss";
@@ -81,6 +81,16 @@ const AccountProfile = (props) => {
     }
   };
 
+  const toggleLightMode = () => {
+    document.body.classList.remove("dark-mode");
+    document.body.classList.add("light-mode");
+  };
+
+  const toggleDarkMode = () => {
+    document.body.classList.remove("light-mode");
+    document.body.classList.add("dark-mode");
+  };
+
   if (!currentTab) {
     return (
       <>
@@ -110,6 +120,19 @@ const AccountProfile = (props) => {
               {user.dob}
               <EditButton clickHandler={() => toggleCurrentSetting("dob")} />
             </div> */}
+
+            <div className={styles.SettingsContainerTitle}>Interface</div>
+            <div className={styles.themeHolder}>
+              <button className={styles.theme} onClick={toggleLightMode}>
+                <p>Light Mode</p>
+                <img src="/images/lightmode.png" />
+              </button>
+
+              <button className={styles.theme} onClick={toggleDarkMode}>
+                <p>Dark Mode</p>
+                <img src="/images/darkmode.png" />
+              </button>
+            </div>
           </div>
         </div>
       </>

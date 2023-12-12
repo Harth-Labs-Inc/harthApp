@@ -4,23 +4,136 @@
 
 
 .basic {
+    // &Mobile {
+    //     position: relative;
+    //     display: flex;
+    //     flex-direction: row;
+    //     align-items: center;
+    //     justify-content: space-between;
+    //     height: 56px;
+    //     min-height: 56px;
+    //     width: 100%;
+    //     padding: 0px 12px 0px 4px;
+    //     //background-color: $fuel;
+    //     z-index: 10;
+    
+    //     .mobileSpacer {
+    //         height: 28px;
+    //         width: 28px;
+    //         background: transparent;
+    //     }
+    
+    //     .labelHolder {
+    //         display: flex;
+    //         position: relative;
+    //         align-items: center;
+    //         column-gap: 8px;
+    //         @include roomTitle;
+    //         font-size: 16px;
+    //         color: $font_muted;
+    //         user-select: none;
+    //     }
+
+    //     .leave {
+    //         position: relative;
+    //         display: flex;
+    //         flex-direction: row;
+    //         height: 100%;
+
+    //     }
+    //     .curveLeft {
+    //         position: relative;
+    //         background-color: $background;
+    //         width: 12px;
+    //         height: 100%;
+
+    //         &::after {
+    //             position: absolute;
+    //             top: 0;
+    //             left: 0;
+    //             content: "";
+    //             width: 12px;
+    //             height: 100%;
+    //             background-color: $ash;
+    //             border-top-right-radius: 999px;
+    //         }
+
+    //     }
+
+    //     .curveRight {
+    //         position: relative;
+    //         background-color: $background;
+    //         width: 12px;
+    //         height: 100%;
+
+    //         &::after {
+    //             position: absolute;
+    //             top: 0;
+    //             left: 0;
+    //             content: "";
+    //             width: 12px;
+    //             height: 100%;
+    //             background-color: $ash;
+    //             border-top-left-radius: 999px;
+    //         }
+
+    //     }
+
+    //     // button {
+    //     //     position: relative;
+    //     //     background: $background;
+    //     //     height: 100%;
+    //     //     width: 56px;
+    //     //     padding: 12px;
+    //     //     border-top-right-radius: 0;
+    //     //     border-top-left-radius: 0;
+
+    //     // }
+    
+    // }
+    
     &Mobile {
-        position: relative;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        height: 56px;
-        min-height: 56px;
+        height: 64px;
+        min-height: 64px;
         width: 100%;
-        padding: 0px 12px 0px 4px;
-        //background-color: $fuel;
+        padding: 0px 8px 0px 8px;
+        background-color: $gather_background_offset;
+        border: 0;
         z-index: 10;
-    
-        .mobileSpacer {
-            height: 28px;
-            width: 28px;
-            background: transparent;
+        border-radius: $corner_radius_mobile;
+
+
+        .leave {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            //height: 100%;
+            width: 44px;
+            height: 44px;
+            background: $gather_background_offset_2;
+            border-radius: 999px;
+            border: 0;
+            padding: 8px;
+
+            path {
+                fill: $gather_path;
+            }
+
+        }
+
+        
+
+        .iconHolder {
+            width: 40px;
+            min-width: 40px;
+            //height: 32px;
+            //padding-right: 8px;
+
+
         }
     
         .labelHolder {
@@ -33,65 +146,10 @@
             color: $font_muted;
             user-select: none;
         }
-
-        .leave {
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            height: 100%;
-
-        }
-        .curveLeft {
-            position: relative;
-            background-color: $background;
-            width: 12px;
-            height: 100%;
-
-            &::after {
-                position: absolute;
-                top: 0;
-                left: 0;
-                content: "";
-                width: 12px;
-                height: 100%;
-                background-color: $ash;
-                border-top-right-radius: 999px;
-            }
-
-        }
-
-        .curveRight {
-            position: relative;
-            background-color: $background;
-            width: 12px;
-            height: 100%;
-
-            &::after {
-                position: absolute;
-                top: 0;
-                left: 0;
-                content: "";
-                width: 12px;
-                height: 100%;
-                background-color: $ash;
-                border-top-left-radius: 999px;
-            }
-
-        }
-
-        // button {
-        //     position: relative;
-        //     background: $background;
-        //     height: 100%;
-        //     width: 56px;
-        //     padding: 12px;
-        //     border-top-right-radius: 0;
-        //     border-top-left-radius: 0;
-
-        // }
+    
     
     }
-    
+
     &Desktop {
         position: relative;
         display: flex;
@@ -128,24 +186,41 @@
         height: 64px;
         min-height: 64px;
         width: 100%;
-        padding: 0px 4px 0px 12px;
-        background-color: $ash;
-        border-bottom: 1px solid $ash_medium;
+        padding: 0px 8px 0px 8px;
+        background-color: $gather_background_offset;
+        border: 0;
         z-index: 10;
-    
-        .mobileSpacer {
-            height: 28px;
-            width: 28px;
-            background: transparent;
+        border-radius: $corner_radius_mobile;
+
+
+        .leave {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            //height: 100%;
+            width: 44px;
+            height: 44px;
+            background: $gather_background_offset_2;
+            border-radius: 999px;
+            border: 0;
+            padding: 8px;
+
+            path {
+                fill: $gather_path;
+            }
+
         }
+
+        
 
         .iconHolder {
             width: 40px;
             min-width: 40px;
+            //height: 32px;
+            //padding-right: 8px;
 
 
         }
-
     
         .labelHolder {
             display: flex;
@@ -156,51 +231,6 @@
             font-size: 16px;
             color: $font_muted;
             user-select: none;
-        }
-
-        .leave {
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            height: 100%;
-
-        }
-        .curveLeft {
-            position: relative;
-            background-color: $background;
-            width: 12px;
-            height: 100%;
-
-            &::after {
-                position: absolute;
-                top: 0;
-                left: 0;
-                content: "";
-                width: 12px;
-                height: 100%;
-                background-color: $ash;
-                border-top-right-radius: 999px;
-            }
-
-        }
-
-        .curveRight {
-            position: relative;
-            background-color: $background;
-            width: 12px;
-            height: 100%;
-
-            &::after {
-                position: absolute;
-                top: 0;
-                left: 0;
-                content: "";
-                width: 12px;
-                height: 100%;
-                background-color: $ash;
-                border-top-left-radius: 999px;
-            }
-
         }
     
     

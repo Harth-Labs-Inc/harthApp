@@ -155,11 +155,13 @@ const HarthList = ({
           );
         })}
       {modal ? (
-        <Modal blockBackground={true} onToggleModal={() => {}}>
+
+        <Modal fullHeight={isMobile ? true : false} onToggleModal={() => {}}>
           <HarthSettings
             communityName={selectedcomm?.name}
             communityId={selectedcomm?._id}
             onToggleModal={showModal}
+            fullHeight={isMobile ? true : false}
           />
         </Modal>
       ) : (

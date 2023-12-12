@@ -126,7 +126,7 @@
   font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 12px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.0em;
 }
 
 @mixin timeStamp {
@@ -223,8 +223,8 @@
 
 @mixin roomTitle {
   font-family: var(--Rubik-font);
-  font-weight: 900;
-  font-size: 26px;
+  font-weight: 600;
+  font-size: 24px;
   letter-spacing: 0;
   line-height: 100%;
   //text-rendering: optimizeLegibility;
@@ -232,8 +232,8 @@
 
 @mixin roomTitleMobile {
   font-family: var(--Rubik-font);
-  font-weight: 900;
-  font-size: 36px;
+  font-weight: 600;
+  font-size: 26px;
   letter-spacing: 0;
   line-height: 100%;
   //text-rendering: optimizeLegibility;

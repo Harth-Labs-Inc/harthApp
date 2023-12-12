@@ -28,7 +28,7 @@
         margin: auto;
         background-color: transparent;
         border: 4px solid transparent;
-        border-top-color: $hot_pink;
+        border-top-color: $hot_purple;
         border-radius: 50%;
         animation: spinner 1s ease infinite;
     }
@@ -52,15 +52,14 @@
   }
 
 #ChatInput {
-    width: 100%;
+    width: calc(100% - 8px);
+    margin-left: 4px;
     display: flex;
     flex-direction: column;
     background: var(--theme-color);
     padding: 0px 0px 0px 0px;
     border-bottom: none;
     border-radius: 0;
-    border-bottom-left-radius: $corner_radius;
-    border-bottom-right-radius: $corner_radius;
 
     &Text {
         resize: none;
@@ -72,12 +71,10 @@
         margin: 0;
         padding: 8px 24px;
         @include chatText;
-        caret-color: $hot_salmon;
+        caret-color: $hot_purple;
         color: var(--font-main);
-        background: var(--theme-offset-2);
+        background: var(--theme-offset-1);
         border: 0;
-        border-right: 2px solid var(--theme-color);
-        border-left: 2px solid var(--theme-color);
 
         white-space: pre-wrap; /* CSS3 */
         white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
@@ -95,13 +92,14 @@
         border-radius: 0px;
         padding: 0;
         overflow: hidden;
+        border-radius: 8px;
     }
 
     &Controls {
         display: flex;
         justify-content: space-between;
-        padding: 6px 16px 6px 16px;
-        background: var(--theme-color);
+        padding: 6px 0px 6px 0px;
+        background: var(--theme-color); 
         border: 0;
         border-radius: 0px;
         border-top: 1px solid var(--theme-color);
@@ -113,13 +111,13 @@
             position: relative;
             display: flex;
             flex-direction: row;
-            column-gap: 12px;
+            column-gap: 4px;
 
             > button {
                 position: relative;
                 margin: 0 0px;
                 height: 32px;
-                width: 32px;
+                width: 48px;
                 padding: 4px;
                 background-color: transparent;
                 border-radius: 99px;
@@ -133,9 +131,9 @@
 
                 @media (hover: hover) and (pointer: fine) {
                     &:hover { 
-                        background-color: $button_main_press;
+                        background-color: var(--theme-offset-1);
                         path {
-                            fill: $background;
+                            fill: var(--path-heavy);
                         }
                     }
                     
@@ -152,15 +150,15 @@
                     font-size: 14px;
                     font-weight: 500;
                     border-radius: 24px;
-                    color: $font_muted;
+                    color: var(--font-muted);
                     padding: 8px 12px;
                     margin: auto;
                     border: 1px solid $border_basic;
 
                     @media (hover: hover) and (pointer: fine) {
                         &:hover { 
-                            background-color: $button_main_press;
-                            color: $background;
+                            background-color: var(--theme-offset-1);
+                            color: var(--font-main);
                         }
                     }
 
@@ -168,7 +166,7 @@
                 }
 
                 &.SendActive {
-                    background: radial-gradient($hot_pink, darken($hot_pink, 15%));
+                    background: $hot_purple;
                     path {
                         fill: $font_light;
                     }
@@ -235,7 +233,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: $background;
+    background: var(--theme-color);
     padding: 0px 0px 0px 0px;
     border-bottom: none;
     border-radius: 0;
@@ -248,11 +246,11 @@
         height: 56px;
         max-height: calc(var(--vh) * 0.5);
         margin: 0;
-        padding: 8px 12px;
+        padding: 8px 16px;
         @include chatTextMobile;
-        caret-color: $hot_salmon;
+        caret-color: $hot_purple;
         color: var(--font-main);
-        background: $background_offset;
+        background: var(--theme-offset-1);
         border: 0;
         border-radius: 0;
 
@@ -264,27 +262,23 @@
 
         &::placeholder {
             @include chatTextMobile ;
-            color: $font_muted;
+            color: var(--font-muted);
         }
     }
 
     .entryBox {
-        border-top: 1px solid $border_basic;
-        border-bottom: 1px solid $border_basic;
-        //border-radius: 6px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+        //border-top: 1px solid $border_basic;
+        //border-bottom: 1px solid $border_basic;  
         padding: 0;
         overflow: hidden;
-    
 
     }
 
     &Controls {
         display: flex;
         justify-content: space-between;
-        padding: 6px 16px 16px 16px;
-        background: $background_offset;
+        padding: 6px 4px 14px 4px;
+        background: var(--theme-color);
         border-top: 0;
 
         &Right,
@@ -292,13 +286,13 @@
             position: relative;
             display: flex;
             flex-direction: row;
-            column-gap: 12px;
+            column-gap: 4px;
 
             > button {
                 position: relative;
                 margin: 0 0px;
-                height: 44px;
-                width: 44px;
+                height: 40px;
+                width: 52px;
                 padding: 7px;
                 background-color: transparent;
                 border-radius: 999px;
@@ -306,22 +300,13 @@
                 cursor: pointer;
 
                 path {
-                    fill: $border_heavy;
+                    fill: var(--path-light);
                 }
 
-
-                @media (hover: hover) and (pointer: fine) {
-                    &:hover { 
-                        background-color: $button_main_press;
-                        path {
-                            fill: $background;
-                        }
-                    }
-                }
                 &:active { 
-                    background-color: $button_main_press;
+                    background-color: var(--theme-offset-1);
                     path {
-                        fill: $background;
+                        fill: var(--path-basic);
                     }
                 }
 
@@ -335,31 +320,24 @@
                     font-size: 14px;
                     
                     border-radius: 99px;
-                    color: $font_muted;
+                    color: var(--font-muted);
                     padding: 8px 12px;
                     margin: auto;
-                    border: 1px solid $border_basic;
-
-                    @media (hover: hover) and (pointer: fine) {
-                        &:hover { 
-                            background-color: $button_main_press;
-                            color: $background;
-                        }
-                    }
+                    border: 1px solid var(--border-basic);
 
 
                 }
 
                 &.SendActive {
-                    background: radial-gradient($hot_pink, darken($hot_pink, 15%));
+                    background-color: $hot_purple;
                     path {
-                        fill: $background;
+                        fill: $font_light;
                     }
                 }
 
                 &:before {
                     @include x-y-center;
-                    color: $font_muted;
+                    color: var(--font-muted);
                     font-size: 16px;
                 }
 
@@ -417,14 +395,13 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    column-gap: 8px;
-    row-gap: 8px;
+    column-gap: 16px;
+    row-gap: 16px;
     justify-content: flex-start;
     width: auto;
-    background: $background_offset;
-    padding: 8px;
-    //border-top: 1px solid $border_basic;
-    border-bottom: 1px solid $background;
+    background-color: var(--theme-offset-1);
+    padding: 16px;
+    border-bottom: 1px solid var(--theme-color);
 
     .imageContainer {
         position: relative;
@@ -434,9 +411,9 @@
             position: relative;
             z-index: 1;
             border-radius: 8px;
-            height: 80px;
-            max-width: 80px;
-            border: 1px solid $border_light;
+            height: 100px;
+            max-width: 140px;
+            border: 1px solid $hot_purple;
             object-fit: contain;
         }
         .video{
@@ -445,20 +422,20 @@
             border-radius: 8px;
             height: 80px;
             max-width: 180px;
-            border: 1px solid $border_light;
+            border: 1px solid $hot_purple;
             object-fit: contain; 
         }
         button {
             position: absolute;
-            top: -6px;
-            right: -6px;
+            top: -8px;
+            right: -8px;
             z-index: 2;
-            height: 32px;
-            width: 32px;
+            height: 30px;
+            width: 30px;
             padding: 4px;
             border-radius: 99px;
-            border: 1px solid $background_offset;
-            background-color: $button_main;
+            border: 1px solid $hot_purple;
+            background-color: $black;
             cursor: pointer;
 
             path {
@@ -482,7 +459,7 @@
             margin: auto;
             background-color: transparent;
             border: 4px solid transparent;
-            border-top-color: $hot_pink;
+            border-top-color: $hot_purple;
             border-radius: 50%;
             animation: spinner 1s ease infinite;
         }

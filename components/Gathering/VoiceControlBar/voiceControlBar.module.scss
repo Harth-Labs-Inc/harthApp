@@ -38,11 +38,15 @@
     align-items: center;
     justify-content: space-evenly;
     grid-area: header;
-    padding: 6px 8px 24px 0px;
+    padding: 8px 8px 8px 8px;
+    margin-left: 8px;
+    margin-bottom: 16px;
+    border-radius: 999px;
     //height:104px;
+
     border: 0;
-    width: 100%;
-    background-color: $gather_background_offset;
+    width: calc(100% - 16px);
+    background-color: $ash;
     //border-top: 1px solid $ash_medium;
 
     .spacerLarge {

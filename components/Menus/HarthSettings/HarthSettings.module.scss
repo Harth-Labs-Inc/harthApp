@@ -14,39 +14,27 @@
     margin-left: auto;
     margin-right: auto;
 
+    &Full {
+        max-height: 100vh;
+        height: 100%;
+        padding-bottom: 120px;
+    }
+
     .Loading {
         color: transparent;
         margin: auto;
         padding-bottom: 80px;
         p {
-            color: $font_main;
-            @include worksans;
-            font-size: 13px;
+            color: $font_muted;
+            @include systemFont;
         }
 
-        &::after {
-            content: "";
-            position: absolute;
-            width: 32px;
-            height: 32px;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
-            background-color: transparent;
-            border: 4px solid transparent;
-            border-top-color: $hot_pink;
-            border-radius: 50%;
-            animation: spinner 1s ease infinite;
-        }
     }
     
     .topBar {
         position: relative;
         display: flex;
         flex-direction: column;
-        //background-color: $ash;
         padding: 0px;
         align-items: center;
         padding: 0px 0px 0px 0px;
@@ -54,7 +42,7 @@
 
         .title {
             @include systemFont;
-            color: $font_main;
+            color: $font_light;
             width: 100%;
             text-align: left;
             padding: 0px 0px 0px 8px;
@@ -63,8 +51,8 @@
 
         .harthName {
             @include harthTitle;
-            color: $font_main;
-            font-size: 32px;
+            color: $font_light;
+            font-size: 24px;
             width: 100%;
             text-align: left;
             padding: 0px 0px 0px 8px;
@@ -75,14 +63,13 @@
 
         .buttonHolder {
             position: absolute;
-            right: -6px;
-            top:-16px;
-            padding: 2px;
+            right: -12px;
+            top:-12px;
 
             button {
-                width: 36px;
-                height: 36px;
-                padding: 6px;
+                width: 40px;
+                height: 40px;
+                padding: 7px;
             }
 
         }
@@ -94,9 +81,10 @@
     .navTabs {
         display: flex;
         flex-direction: row;
-        column-gap: 8px;
+        justify-content: space-around;
+        column-gap: 0px;
         border:0;
-        padding: 0px 12px;
+        padding: 0px 0px;
         border-bottom: 1px solid $border_basic;
     
         .tabButton {
@@ -106,14 +94,12 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
-            @include worksans;
+            @include systemFont;
             font-size: 12px;
             color: $font_muted;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            width: 100%;
+            width: fit-content;
             height: 48px;
-            padding-top: 4px;
+            padding: 4px 12px 0px 12px;
             text-align: center;
             background-color: transparent;
             cursor: pointer;
@@ -129,10 +115,10 @@
             }
 
             &Active {
-                border-color: $font_main;
-                color: $font_main;
+                border-color: $font_light;
+                color: $font_light;
                 path {
-                    fill: $font_main;
+                    fill: $font_light;
                 }
             }
             

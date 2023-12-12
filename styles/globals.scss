@@ -3,8 +3,8 @@
 
 
 //Consolodated
-$fuel: #271623;
-$ash: #181818;
+$fuel: hsl(314, 28%, 12%);
+$ash: #18181e;
 $oxygen: #fefff6;
 
 // Hot Blue
@@ -40,33 +40,33 @@ $test_color: var(--primary-color, #ff0000);
 
 $font_light: $oxygen;
 $font_dark: $fuel;
-$font_muted: #8a8a94;
+$font_muted: #6a6a74;
 
 
 // Default Colors / Dark Mode
-$font_main: blue;
 $font_reverse: yellow;
 
 $background: #000;
 $background_reverse: #fff;
 $basic_offset: $ash;
 $background_offset: $ash;
+$background_offset_1: #28282e;
 $background_offset_2: red;
 $background_offset_3: green;
 $background_sidebar: blue;
 
-$button_main: $ash;
+$button_main: $background_offset_1;
 $button_main_press: $hot_purple;
 
-$border_light: #28282e;
-$border_basic: #38383e;
-$border_heavy: #48484e;
+$border_light: #38383e;
+$border_basic: #48484e;
+$border_heavy: #58585e;
 
 
 
 // Gathering Colors
 $gather_background: #000000;
-$gather_background_offset: darken($ash, 4%);
+$gather_background_offset: $ash;
 $gather_background_offset_2: darken($ash, 12%);;
 $gather_path: lighten($gather_background, 35%);
 $gather_path_heavy: lighten($gather_background, 50%);
@@ -95,40 +95,20 @@ $gather_path_heavy: lighten($gather_background, 50%);
 .light-mode {
   --theme-color: #f6f2ed;
   --theme-reverse: #18181e;
-  --theme-offset-1: #efefef;
-  --theme-offset-2: #eeefe6;
+  --theme-offset-1: #e6e2dd;
+  --theme-offset-2: #d6d2cd;
+  --theme-offset-3: #f0ebe5;
   --overlay-background: #000;
   --font-main: #271623;
   --font-reverse: #fefff6;
   --font-muted: #797981;
-  --border-light:#efefef; 
-  --border-basic:#d9d7d0;
-  --border-heavy:#c9c7c0;
+  --border-light: #d6d2cd;
+  --border-basic:#c6c2bd;
+  --border-heavy:#b6b2ad;
   --path-light: #8f8f85;
   --path-basic: #9f9f95;
   --path-heavy: #afafa5;
 }
-
-
-//vibrant color scheme
-.vibrant-mode {
-  --theme-color: #1f1f25;
-  --theme-offset-1: #2f2f35;
-  --theme-offset-2: #2f2f35;
-  --overlay-background: #000;
-  --font-main: #fefff6;
-  --font-reverse: #271623;
-  --font-muted: #797981;
-  --border-light:#3f3f45; //use the border color for icon path colors
-  --border-basic:#5f5f65;
-  --border-heavy:#7f7f85;
-  --path-basic: #7f7f85;
-  --path-heavy: #9f9fa5;
-}
-
-
-
-
 
 
 
@@ -168,7 +148,9 @@ $corner_radius_mobile: 10px;
 
 $space: 8px;
 $space_mobile: 10px;
-$outline_mobile: 4px;
+$outline_mobile: 0px;
+
+$overlay: linear-gradient(rgba(0,0,0, .4), rgba(48,48,48, .6), rgba(0,0,0, .4));
 
 
 

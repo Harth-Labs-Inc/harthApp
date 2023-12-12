@@ -14,12 +14,11 @@
     height: 56px;
     min-height: 56px;
     max-height: 56px;
-    background-color: $background;
-    color: $font_main;
-    border-bottom: 1px solid $border_basic;
-    @include topicTitle;
-    font-size: 14px;
-    font-weight: 500;
+    background-color: var(--theme-color);
+    border-radius: $corner_radius_mobile;
+    color: var(--font-main);
+    @include topicTitleMobile;
+
 
     .emojiHolder {
         padding-right: 8px;
@@ -44,15 +43,11 @@
 
 
         path {
-            fill: $font_main;
+            fill: var(--path-basic);
         }
 
         &:active {
-            background-color: $button_main_press;
-            
-            path {
-                fill: $background;
-            }
+            background-color: var(--theme-offset-1);
         }
 
     }

@@ -16,8 +16,7 @@
         z-index: 12;
         height: var(--vh);
         width: 100vw;
-        background-color: $border_basic;
-        backdrop-filter: blur(4px);
+        background: $overlay;
         top: 0;
         left: 0;
     }
@@ -29,21 +28,21 @@
     z-index: 3;
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 8px;
-    color: $white;
+    color: $font_light;
     background-color: $background;
-    border: 1px solid $border_heavy;
     border-radius: 8px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     &Button {
+        position: relative;
         display: flex;
         align-items: center;
         padding: 6px 8px;
-        color: $white;
-        background-color: $border_basic;
+        color: $font_light;
+        background-color: $background_offset_1;
         border: 0;
-        border-radius: 6px;
+        border-radius: 8px;
         cursor: pointer;
         @include worksans;
         font-size: 14px;
@@ -57,22 +56,36 @@
             margin-right: 6px;
         }
 
-        &:hover {
-            background: $border_heavy;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover { 
+                background-color: $border_basic;
+            }
+        }
+
+        &:active {
+            background-color: $border_basic;
         }
     }
 
     &Mobile {
-        padding: 16px;
+        padding: 24px;
+        padding-top: 30px;
         border-radius: 12px;
+        width: 100%;
+        margin: 0;
+        background: $background;
+        border-radius: 0;
+        transition: max-height .5s linear;
+        overflow: hidden;
+        max-height: 180px; /* Start with a height of 0 */
 
         button {
             height: 52px;
-            width: 280px;
+            width: 240px;
             font-size: 16px;
             user-select: none;
             border-radius: 8px;
-            color: $font_main;
+            color: $font_light;
             padding-left: 12px;
 
             svg {
@@ -81,16 +94,46 @@
             }
 
             path {
-                fill: $font_main;
+                fill: $font_light;
             }
 
-            &:hover {
-                background-color: $border_heavy;
+        }
+
+        .moreButton {
+            position: absolute;
+            top: 6px;
+            right: -56px;
+            height: 40px;
+            width: 40px;
+            border-radius: 99px;
+            background-color: transparent;
+            border: 2px solid $border_basic;
+            padding: 0;
+            
+            path {
+                fill: $border_basic;
+            }
+            svg {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                transition: rotate .3s linear;
             }
 
-            &:active {
-                background-color: $border_heavy;
+            &Active {
+                svg {
+                    rotate: -90deg;
+                }
             }
+        }
+
+        span {
+            position: relative;
+            width: fit-content;
+        }
+
+        &Active {
+            max-height: 600px;
         }
 
     }

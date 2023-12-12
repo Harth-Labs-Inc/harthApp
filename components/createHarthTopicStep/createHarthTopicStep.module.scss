@@ -36,7 +36,7 @@
     .line {
         flex-grow: 1; 
         margin: 0 4px; 
-        background-color: $ash;
+        background-color: $border_basic;
         height: 3px;
     }
     
@@ -68,97 +68,55 @@
             width: 40px;
             height: 40px;
             transform: rotate(90deg);
-            left: 30px;
-            top: -10px;
+            left: 12px;
+            top: -12px;
             path {
                 fill: $hot_purple;
             }
         }
 
         .text {
-            margin-left: 60px;
+            margin-left: 44px;
             background: $hot_purple;
             width: 220px;
             @include systemFont;
             font-size: 14px;
-            color: $background;
+            color: $font_light;
             border: 2px solid transparent;
             border-radius: 12px;
             padding: 8px;
             text-align: center;
         }
     }
-    input {
-        width: 90%;
-        border-radius: 6px;
-        background-color: $border_basic;
-        border: 0;
-        height: 56px;
-        padding-left: 12px;
-        color: $font_main;
-        caret-color: $hot_salmon;
-        @include systemFont;
-        font-size: 16px;
-        &::placeholder {
-            color: $font_muted;
-  
-        }
-      }
+
       .CreateTopic {
         .inputHolder {
             position: relative;
             display: flex;
             flex-direction: row;
             gap: 10px;
-            padding: 0px 16px;
-            margin: 8px 0px 0px 0px;
+            padding: 0px 0px;
+            margin: 0px 0px 0px 0px;
     
             button {
                 position: relative;
                 padding: 0;
-                //padding-bottom: 2px;
                 min-width: 56px;
                 width: 56px;
                 min-height: 56px;
                 height: 56px;
-    
                 border-radius: 8px;
-                border: 3px dashed $font_main;
-                background-color: transparent;
+                border: 0;
+                background-color: $background_offset_1;
     
-    
-                &:hover {
-                    border-color: $hot_pink;
-    
-                    &::before {
-                        position: absolute;
-                        top: -36px;
-                        width: 96px;
-                        left: 50%;
-                        transform: translate3d(-50%, 0, 0);
-                        padding: 6px 0px;
-                        border-radius: 8px;
-                        background-color: $background_reverse;
-                        content: "Pick an Emoji";
-                        @include mouseover;
-                    }
-    
-                    &::after {
-                        position: absolute;
-                        content: "";
-                        width: 0;
-                        height: 0;
-                        top: -13px;
-                        left: 50%;
-                        transform: translate3d(-50%, 0, 0);
-                        border-left: 8px solid transparent;
-                        border-right: 8px solid transparent;
-                        border-top: 10px solid $background_reverse;
+                @media (hover: hover) and (pointer: fine) {
+                    &:hover {
+                        background-color: $hot_purple;
                     }
                 }
     
                 &:active {
-                    border-color: $hot_pink;
+                    background-color: $hot_purple;
                 }
             }
     
@@ -171,12 +129,13 @@
                 font-size: 18px;
                 font-weight: 400;
                 height: 56px;
-    
-                color: $font_main;
-                border: 2px solid $font_main;
+                width: 100%;
+                color: $font_light;
+                background-color: $background_offset_1;
+                border: 0;
                 border-radius: 6px;
-                background: transparent;
-                caret-color: $hot_salmon;
+                padding-left: 12px;
+                caret-color: $hot_purple;
                 &::placeholder {
                     color: $font_muted;
                 }
@@ -199,7 +158,7 @@
             display: flex;
             gap: 16px;
             justify-content: space-between;
-            margin-top: 20px;
+            margin-top: 48px;
         }
     }
     
@@ -210,7 +169,7 @@
         font-size: 12px;
         padding-top: 4px;
         color: $font_muted;
-        margin-top: 30px;
+        margin-top: 8px;
     }
 
     .form {

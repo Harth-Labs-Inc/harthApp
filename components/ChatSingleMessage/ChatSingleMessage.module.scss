@@ -227,12 +227,17 @@
             > img {
                 border-radius: 16px;
                 margin-top: 4px;
-                margin-bottom: 4px;
-                width: max-content;
-                max-width: 340px;
+                margin-bottom: 8px;
+                object-fit: contain;
+                display: block;
                 cursor: pointer;
+                width: auto;
+                max-width: 280px;
+                height: auto;
+                max-height: 320px;
                 @media screen and (max-width: 640px) {
-                    max-width: 220px;
+                    //max-width: 220px;
+                    
                 }
 
 
@@ -278,9 +283,9 @@
                 align-items: center;
                 gap: 6px;
                 position: relative;
-                height: 32px;
-                //width: 48px;
+                height: 36px;
                 font-size: 24px;
+                line-height: 36px;
                 text-align: center;
                 background-color: var(--theme-offset-1);
                 border-radius: 99px;
@@ -556,11 +561,9 @@
             margin: 0;
             height: 100%;
             width: 100%;
-            background-color: aqua;
+            background: transparent;
             border: 0;
-
-            
-
+            border-radius: 8px;
         }
     }
 

@@ -1,8 +1,5 @@
 import { useState, useContext, useEffect } from "react";
 import { MobileContext } from "../../contexts/mobile";
-import { IconGather } from "resources/icons/IconGather";
-import { IconMessage } from "resources/icons/IconMessage";
-import { IconChat } from "resources/icons/IconChat";
 import { IconHome } from "resources/icons/IconHome";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";

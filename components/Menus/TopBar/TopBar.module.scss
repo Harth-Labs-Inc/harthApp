@@ -32,6 +32,7 @@
     padding: $space $space 0 $space; 
     z-index: 10;
 
+    
     .background {
         position: relative;
         width: 100%;
@@ -135,6 +136,17 @@
         margin: 0;
         padding: 0px $outline_mobile 0px $outline_mobile;
         border: 0;
+
+        &::before {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: $background;
+            height: 48px;
+            z-index: -1;
+        }
     }
 }
 .titleHolder {

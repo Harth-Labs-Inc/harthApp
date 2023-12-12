@@ -99,9 +99,9 @@ const ConversationListElement = (props) => {
                   <div key={e.userId} className={styles.participantElement}>
                     <img
                       className={`
-                                            ${styles.avatar}
-                                            ${isMobile && styles.avatarMobile}
-                                            ${selectedcomm?._id}_${
+                        ${styles.avatar}
+                        ${isMobile && styles.avatarMobile}
+                        ${selectedcomm?._id}_${
                         profile?.userId
                       }
                                             `}

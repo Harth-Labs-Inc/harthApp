@@ -18,7 +18,7 @@
 .justTitle {
     @include harthTitle;
     font-size: 24px;
-    color: $font_main;
+    color: $font_light;
     text-align: center;
     margin-top: 16px;
     margin-bottom: 16px;
@@ -43,20 +43,20 @@
         margin: 0;
         width: 220px;
         padding: 0px 2px 0px 8px;
-        background-color: $border_basic;
+        background-color: $background_offset_1;
         //border: 1px solid $ash_medium;
         border-radius: 8px 0 0 8px;
         @include harthTitle;
         overflow: hidden;
         font-size: 20px;
-        color: $font_main;
+        color: $font_light;
     }
     .formSubmit {
         width: 96px;;
         padding: 8px ;
-        background-color: $button_main;
+        background-color: $border_basic;
         border-radius: 0 8px 8px 0;
-        color: $background;
+        color: $font_light;
         @include buttonLarge;
         border: 0;
         outline: none;
@@ -65,12 +65,16 @@
         -webkit-tap-highlight-color: transparent; 
         cursor: pointer;
 
-        &:hover {
-            background-color: $button_main_press;
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: $hot_purple;
+                color: $font_light;
+            }
         }
 
         &:active {
-            background-color: $button_main_press;
+            background-color: $hot_purple;
+            color: $font_light;
         }
     }
 }

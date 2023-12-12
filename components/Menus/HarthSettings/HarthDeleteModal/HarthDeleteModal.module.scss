@@ -13,6 +13,7 @@
     max-width: 360px;
     margin-left: auto;
     margin-right: auto;
+    color: $font_light;
 
     .title {
         @include overlayMenuTitle;
@@ -36,7 +37,7 @@
         font-weight: 500;
         @include harthTitle;
         font-size: 20px;
-        color: $font_main;
+        color: $font_light;
     }
 
     .text {

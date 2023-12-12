@@ -14,7 +14,7 @@
     display: flex;
     flex-direction: column;
     border-left: 1px solid $border_basic;
-    color: $font_main;
+    color: $font_light;
     border-bottom: 1px solid $border_basic;
     @include topicTitle;
     font-size: 14px;
@@ -41,7 +41,7 @@
 
 
         path {
-            fill: $font_main;
+            fill: $font_light;
         }
 
         &:active {

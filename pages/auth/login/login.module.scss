@@ -24,21 +24,21 @@
         text-align: center;
         margin-bottom: 4px;
         margin-top: 4px;
-        color: $font_main;
+        color: $font_light;
         text-align: left;
     }
 
     input {
         border-radius: 4px;
-        background-color: $border_basic;
+        background-color: $background_offset_1;
         border: 0;
         height: 56px;
         padding: 0px 12px; 
         @include rubik;
         font-weight: 400;
         font-size: 16px;
-        color: $font_main;
-        caret-color: $hot_salmon;
+        color: $font_light;
+        caret-color: $hot_purple;
         &::placeholder {
             color: $font_muted;
 

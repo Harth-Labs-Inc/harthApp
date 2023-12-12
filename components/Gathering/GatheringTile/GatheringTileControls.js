@@ -10,9 +10,7 @@ const GatheringTileControls = ({
     if (!isInRoom) {
         return (
             <button
-                //text={cardType === "schedule" ? "Join" : "Enter"}
                 onClick={handleJoinRoom}
-                //tier="primary"
                 className={styles.ActionBarSubmit}
             >
                 {cardType === "schedule" ? "Join" : "Join"}
@@ -24,9 +22,7 @@ const GatheringTileControls = ({
     } else {
         return (
             <button
-                // text={cardType === "schedule" ? "Drop" : "Leave"}
                 onClick={handleDropRoom}
-                //tier="secondary"
                 className={` ${styles.ActionBarSubmit} ${styles.ActionBarSubmitActive}`}
             >
                 {cardType === "schedule" ? "Drop" : "Leave"}

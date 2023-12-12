@@ -15,6 +15,7 @@ export const Modal = (props) => {
     blockBackground = false,
     ignoreFadeIn,
     alignTop = false,
+    fullHeight = false,
   } = props;
 
   const ref = useRef();
@@ -26,9 +27,12 @@ export const Modal = (props) => {
   return (
     <div
       id={id}
-      className={`${styles.Modal} ${classNames} ${
-        blockBackground && styles.ModalBlock
-      } ${ignoreFadeIn ? styles.ignoreFadeIn : ""}`}
+      className={`
+        ${styles.Modal} 
+        ${classNames} 
+        ${blockBackground && styles.ModalBlock}
+        ${ignoreFadeIn ? styles.ignoreFadeIn : ""}
+      `}
     >
       <OutsideClickHandler onMouseUpOutside={closeModal}>
         <section
@@ -40,6 +44,7 @@ export const Modal = (props) => {
                         ${hasPadding && styles.ModalMidPadding}
                         ${alignTop && styles.ModalMidTop}
                         ${containerStyle}
+                        ${fullHeight && styles.ModalMidFull}
                     `}
         >
           <div className="modal_body">{children}</div>

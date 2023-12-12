@@ -22,11 +22,13 @@
 }
 
 .topic {
+    opacity: 0;
     position: relative;
-    background: linear-gradient(45deg, $border_light, $border_light, $background, $border_light);
+    background: linear-gradient(45deg, var(--theme-offset-1), var(--theme-offset-1), var(--theme-color), var(--theme-offset-1),);
     background-size: 200% 100%; /* Double the width of the gradient */
     background-position: 100% 0; /* Start from the right */
-    animation: load 3s linear infinite;
+    animation: load 3s linear .8s infinite;
+    
 
     &::after {
         position: absolute;
@@ -34,7 +36,7 @@
         top: 50%;
         transform: translateY(-50%);
         content: "";
-        background: $border_light;
+        background: var(--theme-offset-1);
         border-radius: 999px;
     }
 
@@ -82,51 +84,64 @@
 }
 
 .message {
-    animation: load 1s infinite;
+    opacity: 0;
+    position: relative;
+    background: linear-gradient(45deg, var(--theme-offset-1), var(--theme-offset-1), var(--theme-color), var(--theme-offset-1),);
+    background-size: 200% 100%; /* Double the width of the gradient */
+    background-position: 100% 0; /* Start from the right */
+    animation: load 3s linear .8s infinite;
+
+    &::after {
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+        content: "";
+        background: var(--theme-offset-1);
+        border-radius: 999px;
+    }
+
     .DesktopMessage & {
-        width: 100%;
-        height: 56px;
+        width: 50%;
+        height: 26px;
+        border-radius: 99px;
+        margin-left: 52px;
+        margin-top: 12px;
+        margin-bottom: 20px;
+
+        &::after {
+            width: 36px;
+            height: 36px;
+            margin-left: -44px;
+        }
     }
 
     .MobileMessage & {
-        width: 100%;
-        height: 56px;
+        width: 50%;
+        height: 32px;
+        border-radius: 99px;
+        margin-left: 72px;
+        margin-top: 20px;
+        margin-bottom: 24px;
+
+        &::after {
+            width: 44px;
+            height: 44px;
+            margin-left: -56px;
+        }
     }
 
-}
-
-.MobileButton {
-    position: relative;
-    background: linear-gradient(45deg, $border_heavy, $background, $border_heavy);
-    background-size: 200% 100%; /* Double the width of the gradient */
-    background-position: 100% 0; /* Start from the right */
-    animation: load 3s linear infinite;
-
-    width: 32px;
-    height: 32px;
-    border-radius: 999px;
-    margin-top: 12px;
-}
-
-.DesktopButton {
-    position: relative;
-    background: linear-gradient(45deg, $border_heavy, $background, $border_heavy);
-    background-size: 200% 100%; /* Double the width of the gradient */
-    background-position: 100% 0; /* Start from the right */
-    animation: load 3s linear infinite;
-
-    width: 28px;
-    height: 28px;
-    border-radius: 999px;
-    margin-top: 4px;
 }
 
 
 @keyframes load {
+    
     0% {
+        opacity: 1;
         background-position: 100% 0; 
     }
     100% {
+        opacity: 1;
         background-position: -100% 0; 
     }
   }

@@ -2,163 +2,223 @@
 @import "../../../styles/globals.scss";
 
 .Mobile {
+    position: absolute;
+    top: calc(68px + $space_mobile);
+    left: 50%;
+    transform: translateX(-50%);
+    border-top-right-radius: $corner_radius;
+    border-top-left-radius: $corner_radius;
+    border-bottom-right-radius: 48px;
+    border-bottom-left-radius: 48px;
     width: 100%;
-    border-radius: 16px;
-    overflow: hidden;
-    background-color: $background;
-    border: 1px solid $border_basic;
-    box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-                0 2px 2px hsl(0deg 0% 0% / 0.075),
-                0 4px 4px hsl(0deg 0% 0% / 0.075),
-                0 8px 8px hsl(0deg 0% 0% / 0.075);
-
-
+    height: fit-content;
+    background-color: var(--theme-color);
+    border: 0;
+    padding: 4px 16px 16px 16px;
 }
 
 .Desktop {
-    border-radius: 16px;
+    position: absolute;
+    top: $space;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top-right-radius: $corner_radius;
+    border-top-left-radius: $corner_radius;
+    border-bottom-right-radius: 64px;
+    border-bottom-left-radius: 64px;
     overflow: hidden;
-    background-color: $background;
-    border: 1px solid $border_basic;
-    padding: 0px;
-    width: 336px;
+    border: 0;
+    padding: 0px 36px 24px 36px;
+    width: calc(100% - calc(2 * $space));
+    min-width: fit-content;
     height: fit-content;
-    box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-                0 2px 2px hsl(0deg 0% 0% / 0.075),
-                0 4px 4px hsl(0deg 0% 0% / 0.075);
-                //0 8px 8px hsl(0deg 0% 0% / 0.075);
+    background-color: var(--theme-color);
 }
 
+.title {
+    color: var(--font-main);
+    opacity: .6;
+    @include eyebrow;
+    padding-top: 8px;
+    text-align: center;
+
+    .Mobile & {
+        font-size: 12px;
+        margin-bottom: 2px;
+    }
+
+}
 
 .Content {
+    position: relative;
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 100%;
+    width: fit-content;
     padding: 0px;
-    margin: 0;
+    margin: 0 auto;
     border: 0;
-    gap: 0px;
-    background-color: $background;
+    gap: 4px;
+    //padding-bottom: 28px;
+    padding-top: 8px;
     
-    .Top {
+    .arrow {
+        height: 20px;
+        width: 20px;
+        svg{
+            path {
+                fill: var(--path-light);
+            }
+        }
+
+        .Mobile & {
+            display: none;
+        }
+    }
+
+    .Entry {
         position: relative;
-        width: 100%;
-        height: 108px;
-        background-color: $oxygen;
-        background: linear-gradient(45deg, $hot_purple, $fuel);
-        overflow: hidden;
-        
-        svg {
-          width: 180px;
-          height: 180px;
-          rotate: -35deg;
-        }
-
-        .voice {
-            position: absolute;
-                top: -40px;
-                left: -20px;
-        }
-
-        .stream {
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .party {
-            position: absolute;
-            top: -40px;
-            right: -20px;
-        }
+        width: 240px;
+        min-width: 240px;
+        height: fit-content;
+        background-color: transparent;
 
         input {
-            position: absolute;
-            z-index: 1;
-            top: 50%;
-            left: 50%;
-            transform: translate3d(-50%, -60%, 0);
+            position: relative;
             text-align: center;
-            width: 90%;
+            width: 100%;
             @include roomTitle;
-            font-weight: 700;
+            font-size: 22px;
+            font-weight: 500;
             border-radius: 999px;
-            background-color: $background;
-            border: 1px solid $border_basic;
-            height: 56px;
-            color: $font_main;
-            caret-color: $hot_salmon;
+            background-color: var(--theme-offset-1);
+            border: 0;
+            height: 48px;
+            color: var(--font-main);
+            caret-color: $hot_purple;
             margin: 0;
             text-transform: none;
 
-            
             &::placeholder {
-                //color: $font_muted;
-                opacity: .3;
-    
+                color: var(--font-muted);
             }
         } 
-    }    
-}
 
+        span { //error message
+            position: absolute;
+            width: 100%;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0;
+            margin: 0;
+            color: $alert_red;
+            text-align: center;
+            @include systemFont;
+            font-size: 12px;
+            font-weight: 500;
 
-.LabelHolder {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-    background: transparent;
-    border: 0;
-    padding: 8px 0px 12px 0px;
+        }
 
-    p {
-        @include systemFont;
-        color: $font_main;
-        font-size: 14px;
-        text-align: center;
-        user-select: none;
+        .Mobile & {
+            width: 100%;
 
+            input {
+                height: 56px;
+            }
+
+            span {
+                bottom: -15px;
+            }
+        }
+    }  
+    
+    .Desktop & {
+        flex-direction: row; 
     }
 
     .Mobile & {
-        padding: 8px 0px 16px 0px;
-        p {
-            font-size: 14px;
-        }
+        width: 100%;
+        gap: 18px;
     }
 }
+
+
+
 
 .Type {
+    position: relative;
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    max-width: 340px;
-    background: transparent;
+    align-items: center;
+    width: fit-content;
+    height: 48px;
+    background: var(--theme-offset-1);
+    padding: 0px 16px;
+    border-radius: 999px;
     border: 0;
-    padding: 0px 32px 0px 32px;
-    margin-top: -16px;
+    gap: 16px;
+    margin: 0;
+
     .Mobile & {
-        padding: 0px 24px 0px 24px;
-        margin-top: -16px;
+        height: 64px;
+        padding: 0px 16px;
+        margin-bottom: 8px;
+        background: var(--theme-offset-2);
+    }
+}
+
+.LabelHolder {
+    position: absolute;
+    width: fit-content;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    @include systemFont;
+    color: var(--font-muted);
+    font-size: 12px;
+    line-height: 12px;
+    text-align: center;
+    user-select: none;
+    margin: 0;
+    border-radius: 999px;
+    overflow: hidden;
+    padding: 4px 8px;
+
+    p {
+        white-space: nowrap;
+    }
+
+
+
+    .Mobile & {
+        font-size: 13px;
+        bottom: -20px;
     }
 }
 
 .Launch {
     display: flex;
     justify-content: flex-end;
-    width: 100%;
-    background-color: transparent;
-    gap: 12px;
+    align-items: center;
+    gap: 6px;
     margin: 0;
     border: 0;
-    padding: 12px 12px;
+    width: 240px;
+    height: 48px;
+    min-width: 240px;
+    border-radius: 999px;
+    padding: 8px;
+    background-color: var(--theme-offset-1);
+    
     .Mobile & {
-        //height: 40px;
-        padding: 16px 16px;
+        width: 100%;
+        //padding: 16px 16px;
+        padding: 0;
+        padding-top: 8px;
+        height: 56px;
+        background-color: transparent;
     }
-
 }
 
 
@@ -166,173 +226,115 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    width: 120px;
-    height: 44px;
-    color: $background;
-    background: $button_main;
-    border-radius: 99px;
+    width: 100%;
+    height: 32px;
+    color: var(--font-muted);
+    background-color: transparent;
+    border-radius: 999px;
     cursor: pointer;
     @include systemFont;
-    border: 0;
+    border: 1px solid var(--border-basic);
+    padding: 0px 0px;
+    margin: 0;
+    gap: 4px;
 
-    &Schedule {
-        width: 64px;
-
-        svg {
-            width: 24px;
-        }
+    svg {
+        width: 24px;
+        height: 24px;
+        margin: 0;
 
         path {
-            fill: $background;
+            fill: var(--path-light);
         }
+    }
 
+
+    &Schedule {
+        border: 0;
     }
 
     .Desktop & {
-        font-size: 14px;
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background: $button_main_press;
+                background: $hot_purple;
+                color: $font_light;
+
+                path {
+                    fill: $font_light;
+                }
             }
         }
     }
     
     .Mobile & {
-        font-size: 14px;
-        svg {
-            width: 24px;
-        }
+        height: 40px;
+        font-size: 16px;
+        gap: 8px;
 
         &:active {
-            background: $button_main_press;
+            background: $hot_purple;
+            color: $font_light;
 
+            path {
+                fill: $font_light;
+            }
         }
     }
-
 }
 
 
 .GatheringButton {
     position: relative;
-    height: 72px;
-    width: 72px;
-    padding: 0;
+    height: 40px;
+    width: 40px;
+    padding: 5px;
     background: transparent;
-    border: 1px solid $border_basic;
-    border-radius: 99px;
+    border: 0;
+    border-radius: 999px;
     cursor: pointer;
-    color: $font_muted;
-    background: $background_offset;
+    background: transparent;
     
 
     .iconHolder {
         opacity: .4;
-        filter: grayscale(80%);
-        margin-left: auto;
-        margin-right: auto;
-        scale: .8;
+        filter: grayscale(100%);
+        height: 100%;
+        width: 100%;
+
         svg {
-            width: 56px;
-            height: 56px;
+            width: 100%;
+            height: 100%;
         }
-    }
 
-    &.voice {
-        .iconHolder {
-            width: 44px;
-            svg {
-                width: 44px;
-                height: 44px;
-            }
-
-            .Mobile & {
-                width: 52px;
-                svg {
-                    width: 52px;
-                    height: 52px;
-                }
-
-            }
-        }
-    }
-
-    &.stream {
-        .iconHolder {
-            width: 48px;
-            svg {
-                width: 48px;
-                height: 48px;
-            }
-
-            .Mobile & {
-                width: 60px;
-
-                svg {
-                    width: 60px;
-                    height: 60px;
-                }
-            }
-        }
-    }
-
-    &.party {
-        .iconHolder {
-            width: 46px;
-                svg {
-                    width: 46px;
-                    height: 46px;
-                }
-            .Mobile & {
-                width: 56px;
-
-                svg {
-                    width: 56px;
-                    height: 56px;
-                }
-            }
-        }
-    }
-    
+    } 
 
     .Desktop & {
-        &:hover {
-            color: $font_main;
-            border-color: $border_heavy;
-            //box-shadow: 4px 4px 0px $hot_purple; 
-            background: $background;
-            .iconHolder {
-                opacity: 1;
-                filter: grayscale(0);
+        @media (hover: hover) and (pointer: fine) {
+            &:hover { 
+                background: var(--border-basic);
             }
         }
+        
     }
 
     .Mobile & {
-        &:active {
-            color: $font_main;
-            border-color: $border_light;
-            //box-shadow: 4px 4px 0px $hot_purple; 
+        height: 48px;
+        width: 48px;
+        padding: 5px;
 
-            .iconHolder {
-                opacity: 1;
-                filter: grayscale(0);
-            }
+        &:active {
+            background-color: var(--border-basic);
         }
     }
 
 
     &.Active {
-        background-color: $background;
-        color: $font_main;
-        border-color: $border_heavy;
-        //box-shadow: 3px 3px 0px $hot_purple; 
+        background-color: var(--border-basic);
+       // border-color: var(--theme-offset-2);
 
         .iconHolder {
-            opacity: 1;
+            opacity: .9;
             filter: grayscale(0);
-            scale: 1;
         }
-        
     }
 }

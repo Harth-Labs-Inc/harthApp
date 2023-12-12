@@ -11,31 +11,14 @@
     border: 0;
     border-radius:8px;
     background-color: transparent;
-
-    //margin-bottom: 4px;
     cursor: pointer;
-    //border-bottom: 1px solid $border_light;
-    border-radius: 0;
-
-    // &::after {
-    //     position: absolute;
-    //     bottom: -1px;
-    //     left: 50%;
-    //     transform: translateX(-50%);
-    //     height: 1px;
-    //     width: 92%;
-    //     content: "";
-    //     //background-color: $border_light;
-    //     background: linear-gradient(90deg, $border_light, transparent 70%);
-
-    // }
 
     .label {
         display: flex;
         align-items: center;
         text-align: left;
         @include topicTitle;
-        color: $font_main;
+        color: var(--font-main);
         height: 32px;
         margin-left: 10px;
         width: fit-content;
@@ -59,7 +42,7 @@
             width: 38px;
             border-radius: 9999px;
             border:0;
-            border: 1px solid $border_light;
+            border: 2px solid var(--theme-color);
             user-select: none;
 
             &Mobile {
@@ -83,8 +66,13 @@
         }
 
         &:active {
-            background-color: $border_light;
-            border-radius: 8px;
+            background-color: var(--theme-offset-1);
+
+            .participantElement {
+                .avatar {
+                    border-color: var(--theme-offset-1);
+                }
+            }
 
         }
         
@@ -97,7 +85,6 @@
         .moreMenu {
             position: absolute;
             visibility: hidden;
-            top: 12px;
             right: 4px;
             border: 0;
             width: 24px;
@@ -109,13 +96,14 @@
             border-radius: 999px;
             background-color: transparent;
             border: 1px solid transparent;
+
             cursor: pointer;
             path {
-                fill: $font_main;
+                fill: var(--path-basic);
             }
 
             &:hover {
-                background-color: $background;
+                background-color: var(--theme-offset-1);
 
             }
 
@@ -123,46 +111,58 @@
         
         @media (hover: hover) and (pointer: fine) {
             &:hover {
-                background-color: $border_light;
-                border-radius: 6px;
+                background-color: var(--theme-offset-1);
 
-                .moreMenu {
-                    visibility: visible;
+                .participantElement {
+                    .avatar {
+                        border-color: var(--theme-offset-1);
+                    }
                 }
-
-            }
+            } 
         }
-
     }
     &Active {
-        background-color: $border_light;
-        border-radius: 6px;
+        background-color: var(--border-light);
         .moreMenu {
             visibility: visible;
         }
         .label {
-            color: $font_main;
+            color: var(--font-main);
         }
 
+        .participantElement {
+            .avatar {
+                border-color: var(--border-light);
+            }
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-color: var(--border-light);
+
+                .participantElement {
+                    .avatar {
+                        border-color: var(--border-light);
+                    }
+                }
+            } 
+        }
 
     }
 
 
     &Alert {
-        .label {
-            font-weight: 800;
-        }
 
         &::before {
             content: "";
             position: absolute;
             top: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateY(-50%);
             left: 2px;
-            height: calc(100% - 20px);
+            height: 30%;
             width: 4px;
             border-radius: 4px;
-            background-color: $hot_pink;   
+            background-color: $hot_purple;   
         }
 
     }

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import InviteComp from "../AccountSettings/Invite";
 import { HarthLogoLight } from "public/images/harth-logo-light";
@@ -19,29 +19,19 @@ const SettingsList = ({ toggleCurrentTab }) => {
     localStorage.removeItem("token");
     window.location.pathname = "/";
   };
+
   const toggleFeedbackModal = () => {
     setShowFeedbackModal(!showFeedbackModal);
   };
+
   const toggleInviteModal = () => {
     setShowInviteModal(!showInviteModal);
   };
 
-  const toggleTheme = () => {
-    const body = document.body;
-    const currentTheme = body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
-    body.classList.remove(currentTheme);
-    body.classList.add(currentTheme === 'dark-mode' ? 'light-mode' : 'dark-mode');
-  };
-
-
   return (
     <div className={styles.SettingsContainer}>
-      {showInviteModal ? (
-        <InviteComp toggleCurrentPage={toggleInviteModal} />
-      ) : null}
-      {showFeedbackModal ? (
-        <FeedbackModal onToggleModal={toggleFeedbackModal} />
-      ) : null}
+      {showInviteModal ? <InviteComp toggleCurrentPage={toggleInviteModal} /> : null}
+      {showFeedbackModal ? <FeedbackModal onToggleModal={toggleFeedbackModal} /> : null}
       {!isMobile ? (
         <div className={styles.headerImage}>
           <HarthLogoLight />
@@ -52,21 +42,11 @@ const SettingsList = ({ toggleCurrentTab }) => {
         className={` ${styles.menuItem} ${styles.menuItemInvites}`}
         onClick={toggleInviteModal}
       >
-        <div className={styles.iconHolder}>
+        <div className={styles.iconInvite}>
           <IconInviteEmail />
         </div>
         Send an Invite
       </button>
-      {/* <button
-        className={styles.menuItem}
-        //onClick={() => toggleCurrentTab("invites")}
-      >
-        Feedback
-        <div className={styles.iconHolder}>
-          <IconChevronRight />
-        </div>
-      </button> */}
-
       
       <a
         className={styles.menuItem}
@@ -76,10 +56,6 @@ const SettingsList = ({ toggleCurrentTab }) => {
       >
         Donate
       </a>
-
-      {/* <button className={styles.menuItem} onClick={toggleFeedbackModal}>
-        Submit Feedback
-      </button> */}
 
       {isMobile ? (
         <button
@@ -97,10 +73,6 @@ const SettingsList = ({ toggleCurrentTab }) => {
 
       <button className={styles.menuItem} onClick={() => signOut()}>
         Sign Out
-      </button>
-
-      <button className={styles.menuItem} onClick={toggleTheme}>
-        Toggle
       </button>
 
       <p className={styles.appVersion}>App version: {APP_VERSION}</p>

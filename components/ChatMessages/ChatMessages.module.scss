@@ -17,8 +17,9 @@
         height: var(--vh);
         border-radius: 0;
         padding: 0px;
-        padding-top: 24px;
+        padding-top: 66px;
         padding-bottom: 16px;
+        background-color: $background;
     }
 }
 
@@ -40,8 +41,12 @@
     }
 
     @media screen and (max-width: 640px) {
-       padding-bottom: 100px;
+        padding-bottom: 124px;
         padding-top: 100px;
+        //overflow: hidden;
+        background-color: var(--theme-color);
+        border-radius: $corner_radius_mobile;
+
     }
 }
 

@@ -93,13 +93,13 @@
     right: 10px;
     top: 10px;
     background-color: transparent;
-    border: 1px solid $font_main;
+    border: 1px solid $border_basic;
     font-size: 16px;
     cursor: pointer; 
     color: $ash_light;
     border-radius: 99px;
     path {
-        fill: $font_main;
+        fill: $border_basic;
     }
 }
 .contentContainer {
@@ -108,7 +108,7 @@
     label {
         @include systemFont;
         font-size: 14px;
-        color: $font_main;
+        color: $font_light;
     }
     textarea{
         width: 100%;
@@ -119,7 +119,7 @@
         padding: 10px;
         @include worksans;
         font-size: 14px;
-        color: $font_main;
+        color: $font_light;
         overflow-y: scroll;
         height: 120px;
         resize: none;

@@ -29,7 +29,7 @@
   
   input {
     border-radius: 4px;
-    background-color: $border_basic;
+    background-color: $background_offset_1;
     border: 0;
     height: 56px;
     padding: 0px 12px; 
@@ -47,7 +47,7 @@
 
     input[type="date"]{
       width: 240px;
-      background-color: $border_basic;
+      background-color: $background_offset_1;
       color: $font_light;
       @include systemFont;
       font-size: 16px;

@@ -89,7 +89,7 @@
     border-radius: 10px;
     cursor: pointer;
     //border: solid 1px $black;
-    background-color: $ash_heavy;
+    background-color: $ash;
 
     &Large {
         padding: 10px;
@@ -118,7 +118,7 @@
         border-bottom-right-radius: 0;
         border-bottom: solid 1px $white_10;
         path {
-            fill: $white_50;
+            fill: $gather_path_heavy;
         }
 
         &:hover {
@@ -135,11 +135,11 @@
         border-top-right-radius: 0;
 
         path {
-            fill: $white_50;
+            fill: $gather_path_heavy;
         }
 
         &:hover {
-            background-color: $ash;
+            background-color: $gather_background_offset;
             // path {
             //     fill: $white_80;
             // }
@@ -149,7 +149,7 @@
     &Active {
         &:hover {
             //border: solid 1px $white_80;
-            background-color: $ash;
+            background-color: $gather_background_offset;
         }
     }
 
@@ -414,6 +414,6 @@
 
 .defaultIcon {
     path {
-        fill: $white_50;
+        fill: $ash_light;
     }
 }

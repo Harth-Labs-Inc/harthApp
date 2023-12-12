@@ -4,8 +4,7 @@
 .mainContainer {
     display: flex;
     flex-direction: column;
-    //height: 400px;
-    width: 360px;
+    width: 320px;
     margin-left: auto;
     margin-right: auto;
 
@@ -13,14 +12,14 @@
 
     .helpText {
         @include systemFont;
-        color: $font_main;
+        color: $font_light;
         margin-bottom: 4px;
     }
 
     p {
         @include topicTitle;
         font-weight: 500;
-        color: $font_main;
+        color: $font_light;
     }
 
     .title {
@@ -41,10 +40,9 @@
             flex-direction: column;
             gap: 16px;
             position: relative;
-            background-color: $border_basic;
+            background-color: $border_light;
             overflow-y: scroll;
             height: 220px;
-            //border: 1px solid $ash_medium;
             padding: 16px;
             border-radius: 8px;
 
@@ -56,7 +54,7 @@
 
                 .imageHolder {
                     padding: 0px 0px 0px 12px;
-                    border-left: 1px solid $font_main;
+                    border-left: 1px solid $font_light;
 
                     img {
                         position: relative;
@@ -75,11 +73,11 @@
                 input[type="checkbox"] {
                     position: relative;
                     appearance: none;
-                    width: 36px;
-                    height: 36px;
-                    border: 2px solid $font_main;
+                    width: 32px;
+                    height: 32px;
+                    border: 2px solid $font_light;
                     border-radius: 8px;
-                    background-color: $background;
+                    background-color: $border_basic;
                     //box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
                     &::before {

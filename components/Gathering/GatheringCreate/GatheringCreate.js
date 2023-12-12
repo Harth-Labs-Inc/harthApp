@@ -1,20 +1,15 @@
 import { useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { IconEvent } from "../../../resources/icons/IconEvent";
-import ErrorMessage from "../../Common/Input/ErrorMessage";
+import { IconClock } from "resources/icons/IconClock";
+import { IconPlayCircle } from "resources/icons/IconPlayCircle";
+import { IconChevronRight } from "resources/icons/IconChevronRight";
 import { GatheringButton } from "./GatheringButton";
 import { MobileContext } from "../../../contexts/mobile";
 import styles from "./GatheringCreate.module.scss";
-import { RoomVoice } from "resources/icons/RoomVoice";
-import { RoomParty } from "resources/icons/RoomParty";
-import { RoomStream } from "resources/icons/RoomStream";
 
 const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
     const [activeButton, setActiveButton] = useState("voice");
-    // const [roomName, setRoomName] = useState("");
-
     const isScheduleRoom = useRef(false);
-
     const { isMobile } = useContext(MobileContext);
 
     const {
@@ -24,10 +19,6 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
         formState: { errors },
     } = useForm();
 
-    // const inputChangeHandler = (e) => {
-    //     const { value } = e.target;
-    //     setRoomName(value);
-    // };
 
     const createRoomSubmit = (formData) => {
         if (isScheduleRoom.current) {
@@ -54,48 +45,45 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
             ${isMobile ? styles.Mobile : styles.Desktop}
             `}
         >
+            <div className={styles.title}>Create a Gathering</div>
             <form
                 onSubmit={handleSubmit(createRoomSubmit)}
                 className={styles.Content}
             >
 
-
-                    <div className={styles.Top}>
-                        <span className={styles.voice}><RoomVoice /></span>
-                        <span className={styles.stream}><RoomStream /></span>
-                        <span className={styles.party}><RoomParty /></span>
-                  
-
-                        <input
-                            placeholder="room name"
-                            autoComplete="off"
-                            {...register("roomName", { required: true })}
-                            maxLength={64}
-                        />  
-                        
-                        
-                    </div>
-                                      
-
-                    <div className={styles.Type}>
-                        <GatheringButton
-                            type="voice"
-                            activeButtonHandler={() => setActiveButton("voice")}
-                            active={activeButton == "voice"}
-                        />
-                        <GatheringButton
-                            type="stream"
-                            activeButtonHandler={() =>
-                                setActiveButton("stream")
-                            }
-                            active={activeButton == "stream"}
-                        />
-                        <GatheringButton
-                            type="party"
-                            activeButtonHandler={() => setActiveButton("party")}
-                            active={activeButton == "party"}
-                        />
-                    </div>
+                <div className={styles.Entry}>
+                    <input
+                        placeholder="room name"
+                        autoComplete="off"
+                        {...register("roomName", { required: true })}
+                        maxLength={64}
+                    />  
+                    {errors.roomName ?
+                        <span>Room name is required</span>
+                        : null 
+                    }
+                    
+                </div>
+                <div className={styles.arrow}><IconChevronRight /></div>
+                <div className={styles.Type}>
+                    <GatheringButton
+                        type="voice"
+                        activeButtonHandler={() => setActiveButton("voice")}
+                        active={activeButton == "voice"}
+                    />
+                    <GatheringButton
+                        type="stream"
+                        activeButtonHandler={() =>
+                            setActiveButton("stream")
+                        }
+                        active={activeButton == "stream"}
+                    />
+                    <GatheringButton
+                        type="party"
+                        activeButtonHandler={() => setActiveButton("party")}
+                        active={activeButton == "party"}
+                    />
+                
 
                     <div className={styles.LabelHolder}>
                         {activeButton == "voice" && (
@@ -110,15 +98,13 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                         )}
                         {activeButton == "party" && (
                             <p>
-                                Video chat and tabletop play
+                                Video chat
                             </p>
                         )}
                     </div>
-
-                {errors.roomName ?
-                    <ErrorMessage errorMsg={"Gathering name is required"} />
-                    : null 
-                }
+                </div>
+                <div className={styles.arrow}><IconChevronRight /></div>
+                
                 <div className={styles.Launch}>
                     <button
                         type="button"
@@ -131,7 +117,8 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                             }
                         }}
                     >
-                        <IconEvent />
+                        <IconClock />
+                        Schedule
                     </button>
                     <button
                         type="submit"
@@ -144,7 +131,8 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                         //     })
                         // }
                     >
-                        Start
+                        <IconPlayCircle />
+                        Launch
                     </button>
                 </div>
             </form>

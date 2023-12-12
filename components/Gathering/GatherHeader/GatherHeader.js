@@ -4,6 +4,7 @@ import { Modal } from "../../Common/Modals/Modal";
 import { LeaveButtonMobile } from "../Controls/LeaveButtonMobile";
 import { RoomStream } from "resources/icons/RoomStream";
 import { RoomVoice } from "resources/icons/RoomVoice";
+import { RoomParty } from "resources/icons/RoomParty";
 import { IconHangUp } from "resources/icons/IconHangUp";
 import { IconCloseFullScreen } from "../../../resources/icons/IconCloseFullScreen";
 import styles from "./gatherHeader.module.scss";
@@ -47,11 +48,9 @@ const GatherHeader = (props) => {
 
           {isMobile ? (
           <>
-          <div className={styles.leave}>
-            <div className={styles.curveLeft}></div>
-            <LeaveButtonMobile onClick={showMobileMenu} />
-            <div className={styles.curveRight}></div>
-          </div>
+          <button className={styles.leave} onClick={showMobileMenu}>
+            <IconHangUp />
+          </button>
           </>
           ) : null}
         </div>
@@ -82,20 +81,17 @@ const GatherHeader = (props) => {
           ${isMobile ? styles.basicMobile : styles.basicDesktop}
         `}>          
           
-          {isMobile ? (
-            <>
-            <div className={styles.leave}>
-              <div className={styles.curveLeft}></div>
-              <LeaveButtonMobile onClick={showMobileMenu} />
-              <div className={styles.curveRight}></div>
-            </div>
-            </>
-          ) : null}
-
+          <div className={styles.iconHolder}><RoomParty /></div>
           <div className={styles.labelHolder}>{gatheringName}</div>
 
-          {isMobile ? <div className={styles.mobileSpacer} /> : null}
-        </div>        
+          {isMobile ? (
+          <>
+          <button className={styles.leave} onClick={showMobileMenu}>
+            <IconHangUp />
+          </button>
+          </>
+          ) : null}
+        </div>       
       )}
     </>
   );

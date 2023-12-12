@@ -59,10 +59,10 @@
     width: 100%;
   
     img {
-      width: auto;
-      max-width: 100%;
-      height: auto;
-      object-fit: cover;
+      width: 90%;
+      //max-width: 100%;
+      max-height: 90%;
+      object-fit: contain;
       margin: 0 auto;
   }
 

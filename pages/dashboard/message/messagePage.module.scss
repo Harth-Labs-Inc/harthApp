@@ -4,6 +4,7 @@
 .ConversationMessages {
     display: flex;
     width: 100%;
+    padding: $space;
 }
 
 .topicHolderMobile {
@@ -44,19 +45,23 @@
     height: 56px;
     min-height: 56px;
     max-height: 56px;
-    background-color: $background;
+    background-color: var(--theme-color);
     color: $fuel;
     font-size: 14px;
     font-weight: 600;
-    //backdrop-filter: blur(12px);
-    border-bottom: 1px solid $border_basic;
     @include topicTitleActive;
+    border-radius: $corner_radius_mobile;
 
     .people {
         display: flex;
         flex-direction: row;
         overflow: hidden;
-
+        padding-right: 12px;
+         
+        img {
+            margin-right: -12px;
+            border: 2px solid var(--theme-color);
+        }
     }
     button {
         height: 44px;
@@ -72,13 +77,14 @@
         -webkit-tap-highlight-color: transparent; 
 
         path {
-            fill: $font_main;
+            fill: var(--path-light)
         }
 
+    
         &:active {
-            background-color: $button_main_press;
+            background-color: var(--theme-offset-1);
             path {
-                fill: $background;
+                fill: var(--path-basic);
             }
         }
     }

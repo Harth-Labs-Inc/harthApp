@@ -2,12 +2,11 @@
 @import "../../../styles/globals.scss";
 
 .GatheringSchedule {
-    //margin-top: -16px;
     width: 100%;
     max-width: 360px;
     margin-left: auto;
     margin-right: auto;
-    max-height: 440px;
+    max-height: 500px;
     overflow-y: scroll;
 
     .title {
@@ -15,37 +14,39 @@
         width: 100%;
         text-align: left;
         margin-top: 8px;
-        margin-bottom: 40px;
+        margin-bottom: 24x;
         color: $font_light;
     }
 
     &SubTitle {
         @include systemFont;
         margin-top: 16px;
-        color: $font_main;
+        color: $font_light;
     }
 
     &DateTime {
         display: flex;
-        gap: 16px;
-        color: $font_main;
+        justify-content: space-between;
+        color: $font_light;
+        width: 100%;
 
         input {
-            width: 50%;
-            height: 56px;
-            background-color: $border_basic;
-            color: $font_main;
+            width: 168px;
+            height: 48px;
+            background-color: $background_offset_1;
+            color: $font_light;
             @include systemFont;
-            font-size: 16px;
-            padding: 0px 16px;
+            font-size: 14px;
             border: 0;
             border-radius: 6px;
+            padding-left: 8px;
           }
           ::-webkit-calendar-picker-indicator {
-            background-color: $background;
-            padding: 6px;
+            background-color: $border_heavy;
+            padding: 8px;
             border-radius: 4px;
             cursor: pointer;
+
           }
 
         
@@ -54,16 +55,16 @@
     &Input {
         text-align: center;
         @include roomTitle;
-        color: $font_main;
+        color: $font_light;
         border: 0;
         border-radius: 6px;
-        height: 56px;
-        background: $border_basic;
+        height: 48px;
+        background: $background_offset_1;
         resize: none;
         padding: 8px;
-        margin-bottom: -12px;
+        margin-bottom: -16px;
 
-        caret-color: $hot_salmon;
+        caret-color: $hot_purple;
         &::placeholder {
             color: $font_muted;
 
@@ -72,13 +73,13 @@
     
     .description {
         width: 100%;
-        height: 88px;
+        height: 64px;
         @include systemFont;
         font-size: 14px;
-        color: $font_main;
+        color: $font_light;
         border: 0;
         border-radius: 6px;
-        background: $border_basic;
+        background: $background_offset_1;
         padding: 12px;
         word-wrap: normal;
         resize: none;
@@ -87,40 +88,27 @@
     &Type {
         display: flex;
         justify-content: space-between;
-        gap: 6px;
+        padding: 6px;
 
         &Select {
             position: relative;
             @include systemFont;
-            //font-weight: 700;
-            //letter-spacing: 0.06em;
-            //font-size: 12px;
             display: flex;
             align-items: center;
-            gap: 4px;
-            width: 100%;
+            gap: 8px;
+            width: 112px;
             color: $font_muted;
-            background: $background;
-            border: 1px solid $border_basic;
-            border-radius: 99px;
+            background: transparent;
+            border: 0;
+            border-radius: 999px;
             cursor: pointer;
-            padding: 2px 0px 2px 8px;;
-
-            span {
-                width: 40px;
-                height: 40px;
-                border-radius: 999px;
-                border: 1px solid transparent;
+            padding: 4px 0px 4px 8px;;
+            svg {
+                height: 32px;
+                width: 32px;
                 opacity: .5;
-                filter: grayscale(.9);
-
-                svg {
-                    height: 38px;
-                    width: 38px;
-                }
-                
+                filter: grayscale(1);
             }
-
 
             input {
                 position: absolute;
@@ -129,11 +117,9 @@
             }
 
             &.Active {
-                //box-shadow: 4px 4px 0px $hot_purple; 
-                //border: 1px solid transparent;
-                color: $font_main;
-                border-color: $hot_purple;
-                span {
+                color: $font_light;
+                background-color: $border_light;
+                svg {
                     opacity: 1;
                     filter: grayscale(0)
                 }
@@ -147,37 +133,37 @@
         gap: 16px;
         margin-top: 24px;
 
-        button {
-            background: $button_main;
-            color: $background;
-            border: 0;
 
-            &:active {
-                background: $button_main;
-
-            }
-        }
 
         .delete {
             width: 48px;
             min-width: 48px;
             height: 48px;
-            padding: 6px;
+            padding: 10px;
             border: 0;
-            border-radius: 4px;
+            border-radius: 999px;
             background: $button_main;
 
+
             path {
-                fill: $background;
+                fill: $border_heavy;
             }
 
-            &:hover {
-                background: $alert_red;
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    background: $alert_red;
 
+                    path {
+                        fill: $font_light;
+                    }
+                }
             }
 
             &:active {
                 background: $alert_red;
+                path {
+                    fill: $font_light;
+                }
 
             }
         }
