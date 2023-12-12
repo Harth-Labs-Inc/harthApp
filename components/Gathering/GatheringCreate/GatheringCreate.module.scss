@@ -251,6 +251,10 @@
 
     &Schedule {
         border: 0;
+
+        .Mobile & {
+            border: 1px solid var(--border-basic);
+        }
     }
 
     .Desktop & {
