@@ -46,7 +46,7 @@ export const Dice = (props) => {
         } else {
             setMultiplier(multiplier + 1);
         }
-    }
+    };
 
     /* eslint-disable */
 
