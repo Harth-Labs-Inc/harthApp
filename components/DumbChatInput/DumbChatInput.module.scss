@@ -35,7 +35,7 @@
         word-wrap: break-word; /* Internet Explorer 5.5+ */
 
         &::placeholder {
-            @include chatText ;
+            @include chatText;
             color: var(--font-muted);
         }
     }
