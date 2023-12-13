@@ -27,7 +27,7 @@
     background: linear-gradient(45deg, var(--theme-offset-1), var(--theme-offset-1), var(--theme-color), var(--theme-offset-1));
     background-size: 200% 100%; /* Double the width of the gradient */
     background-position: 100% 0; /* Start from the right */
-    animation: load 3s linear .8s infinite;
+    //animation: load 3s linear .8s infinite;
     
 
     &::after {
@@ -89,7 +89,7 @@
     background: linear-gradient(45deg, var(--theme-offset-1), var(--theme-offset-1), var(--theme-color), var(--theme-offset-1));
     background-size: 200% 100%; /* Double the width of the gradient */
     background-position: 100% 0; /* Start from the right */
-    animation: load 3s linear .8s infinite;
+    //animation: load 3s linear .8s infinite;
 
     &::after {
         position: absolute;
