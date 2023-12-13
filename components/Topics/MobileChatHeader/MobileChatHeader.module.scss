@@ -2,53 +2,50 @@
 @import "../../../styles/fonts.scss";
 
 .MobileChatHeader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0px 8px;
-    height: 56px;
-    min-height: 56px;
-    max-height: 56px;
-    background-color: var(--theme-color);
-    border-radius: $corner_radius_mobile;
-    color: var(--font-main);
-    @include topicTitleMobile;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px 8px;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  background-color: var(--theme-color);
+  border-radius: $corner_radius_mobile;
+  color: var(--font-main);
+  @include topicTitleMobile;
 
+  .emojiHolder {
+    padding-right: 8px;
+    width: fit-content;
+    height: fit-content;
+    line-height: 100%;
+    font-size: 20px;
+  }
 
-    .emojiHolder {
-        padding-right: 8px;
-        width: fit-content;
-        height: fit-content;
-        line-height: 100%;
-        font-size: 20px;
+  button {
+    height: 44px;
+    width: 44px;
+    border-radius: 999px;
+    margin: 0;
+    padding: 8px;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    outline-style: none;
+    -moz-outline-style: none;
+    -webkit-tap-highlight-color: transparent;
+
+    path {
+      fill: var(--path-basic);
     }
 
-    button {
-        height: 44px;
-        width: 44px;
-        border-radius: 999px;
-        margin: 0;
-        padding: 8px;
-        background-color: transparent;
-        border: 0;
-        outline: none;
-        outline-style: none;
-        -moz-outline-style: none; 
-        -webkit-tap-highlight-color: transparent; 
-
-
-        path {
-            fill: var(--path-basic);
-        }
-
-        &:active {
-            background-color: var(--theme-offset-1);
-        }
-
+    &:active {
+      background-color: var(--theme-offset-1);
     }
+  }
 }

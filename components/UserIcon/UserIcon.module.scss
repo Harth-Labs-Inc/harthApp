@@ -1,53 +1,51 @@
 @import "../../styles/globals.scss";
 
 .userIcon {
-    width: 100%;
+  width: 100%;
+  background-color: transparent;
+  border: 0;
+
+  &Button {
+    padding: 0;
     background-color: transparent;
     border: 0;
+    cursor: pointer;
+  }
 
-    &Button {
-        padding: 0;
-        background-color: transparent;
-        border: 0;
-        cursor: pointer;
+  &Wrapper {
+    // display: flex;
+    align-items: center;
+  }
+
+  &Image {
+    position: relative;
+
+    font-size: 48px;
+    line-height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    &:before {
+      // @include font-icon($icon-user);
+      @include x-y-center;
+      z-index: 2;
+
+      color: $font_muted;
     }
+  }
 
-    &Wrapper {
-        // display: flex;
-        align-items: center;
+  &Regular {
+    .userIconImage {
+      height: 44px;
+      width: 44px;
+      //margin-right: 8px;
     }
-
-    &Image {
-        position: relative;
-
-        font-size: 48px;
-        line-height: 48px;
-        border-radius: 50%;
-        overflow: hidden;
-
-        &:before {
-            // @include font-icon($icon-user);
-            @include x-y-center;
-            z-index: 2;
-
-            color: $font_muted;
-        }
+  }
+  &Small {
+    .userIconImage {
+      height: 36px;
+      width: 36px;
+      //margin-right: 2px;
     }
-
-    &Regular {
-        .userIconImage {
-            height: 44px;
-            width: 44px;
-            //margin-right: 8px;
-        }
-    }
-    &Small {
-        .userIconImage {
-            height: 36px;
-            width: 36px;
-            //margin-right: 2px;
-        }
-    }
-
-
+  }
 }

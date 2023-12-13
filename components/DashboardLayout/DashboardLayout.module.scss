@@ -1,7 +1,6 @@
 @import "../../styles/fonts.scss";
 @import "../../styles/globals.scss";
 
-
 .updateMain {
   position: fixed;
   top: 8px;
@@ -20,7 +19,7 @@
   text-transform: uppercase;
   padding: 12px 12px;
   background-color: $background;
-	border-radius: 8px;
+  border-radius: 8px;
   border: 0px;
   cursor: pointer;
 
@@ -38,7 +37,13 @@
   left: 0;
   width: calc(100% + 8px);
   height: calc(100% + 8px);
-  background: linear-gradient(90deg, $hot_purple 0%, $hot_pink 30.43%, $hot_blue 68.23%, $hot_salmon 100%);
+  background: linear-gradient(
+    90deg,
+    $hot_purple 0%,
+    $hot_pink 30.43%,
+    $hot_blue 68.23%,
+    $hot_salmon 100%
+  );
   background-size: 600% 600%;
   border-radius: 8px;
   animation: AnimateBorder 4s ease infinite;
@@ -51,24 +56,41 @@
 
 .buttonwrapper:hover .button-bg {
   filter: blur(10px);
-  transition: filter .4s ease-in;
+  transition: filter 0.4s ease-in;
 }
-
 
 @-webkit-keyframes AnimateBorder {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 @-moz-keyframes AnimateBorder {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 @keyframes AnimateBorder {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .updateContainer {
@@ -94,14 +116,14 @@
     border-color: $button_main_press;
   }
 
-  .UpdateNow{
+  .UpdateNow {
     margin-left: 8px;
     background: $button_main;
     color: $background;
     height: 40px;
   }
 
-  .UpdateLater{
+  .UpdateLater {
     background: $background;
     color: $font_muted;
     border: 1px solid $border_basic;
@@ -109,80 +131,82 @@
   }
 }
 
-
 .Dashboard {
+  display: flex;
+  height: var(--vh);
+  width: 100vw;
+
+  &Content {
     display: flex;
-    height: var(--vh);
-    width: 100vw;
+    flex: 1;
+    flex-direction: column;
 
-    &Content {
+    &Wrapper {
+      display: flex;
+
+      &.Mobile {
         display: flex;
-        flex: 1;
-        flex-direction: column;
+        height: var(--vh);
+        width: 100%;
+      }
 
-        &Wrapper {
-            display: flex;
-
-            &.Mobile {
-                display: flex;
-                height: var(--vh);
-                width: 100%;
-            }
-
-            &.Desktop {
-                height: calc(100% - 72px);
-            }
-        }
+      &.Desktop {
+        height: calc(100% - 72px);
+      }
     }
+  }
 }
 
 @keyframes slideInFromLeft {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(0);
-    }
+  0% {
+    transform: translateX(100%);
   }
-  
-  @keyframes shrinkAndFade {
-    0% {
-      opacity: 0.9;
-      transform: none;
-    }
-    50% {
-      opacity: 0.7;
-      transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%)) scale(0.1);
-    }
-    80% {
-      opacity: 0.5;
-      transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%)) scale(0.1);
-    }
-    100% {
-      opacity: 0;
-      transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%)) scale(0.1);
-      height: 0;
-      width: 0;
-    }
+  100% {
+    transform: translateX(0);
   }
+}
 
-  .mobileRoomContainer.minimized {
-    animation: shrinkAndFade 0.5s forwards;
-    overflow: hidden;
+@keyframes shrinkAndFade {
+  0% {
+    opacity: 0.9;
+    transform: none;
   }
+  50% {
+    opacity: 0.7;
+    transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%))
+      scale(0.1);
+  }
+  80% {
+    opacity: 0.5;
+    transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%))
+      scale(0.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%))
+      scale(0.1);
+    height: 0;
+    width: 0;
+  }
+}
+
+.mobileRoomContainer.minimized {
+  animation: shrinkAndFade 0.5s forwards;
+  overflow: hidden;
+}
 
 .mobileRoomContainer {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100%;
-    border: 0;
-    padding: 0px 0px 0px 0px;
-    background: linear-gradient(180deg, $ash_heavy, $fuel); 
-    animation: slideInFromLeft 0.3s forwards;
-    @media (max-width: 640px) {
-        height: var(--vh);
-        z-index: 500;
-    }
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  border: 0;
+  padding: 0px 0px 0px 0px;
+  background: linear-gradient(180deg, $ash_heavy, $fuel);
+  animation: slideInFromLeft 0.3s forwards;
+  @media (max-width: 640px) {
+    height: var(--vh);
+    z-index: 500;
+  }
 }

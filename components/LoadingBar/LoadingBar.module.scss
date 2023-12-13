@@ -2,18 +2,18 @@
 @import "../../styles/globals.scss";
 
 .outerBar {
-    position: relative;
-    height: 16px;
-    width: 240px;
-    background-color: $border_basic;
-    border-radius: 9999px;
+  position: relative;
+  height: 16px;
+  width: 240px;
+  background-color: $border_basic;
+  border-radius: 9999px;
 
-    .innerBar {
-        position: relative;
-        top: 0px;
-        left: 0px;
-        background-color: $hot_pink;
-        height: 16px;
-        border-radius: 9999px;
-    }
+  .innerBar {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    background-color: $hot_pink;
+    height: 16px;
+    border-radius: 9999px;
+  }
 }

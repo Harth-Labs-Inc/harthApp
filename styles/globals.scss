@@ -1,7 +1,6 @@
 //app colors
 @import "./utility/ui-mixins";
 
-
 //Consolodated
 $fuel: hsl(314, 28%, 12%);
 $ash: #18181e;
@@ -24,13 +23,12 @@ $hot_pink: #d96fab;
 //$hot_pink: #f28dba;
 
 // Hot Orange
-$hot_orange: #FD823A;
+$hot_orange: #fd823a;
 //$hot_orange: #f8aa7d;
 
 // Hot Red
 $hot_red: #e11934;
 //$hot_red: #f2757c;
-
 
 $hot_salmon: #ff6b66;
 
@@ -41,7 +39,6 @@ $test_color: var(--primary-color, #ff0000);
 $font_light: $oxygen;
 $font_dark: $fuel;
 $font_muted: #6a6a74;
-
 
 // Default Colors / Dark Mode
 $font_reverse: yellow;
@@ -62,15 +59,12 @@ $border_light: #38383e;
 $border_basic: #48484e;
 $border_heavy: #58585e;
 
-
-
 // Gathering Colors
 $gather_background: #000000;
 $gather_background_offset: $ash;
 $gather_background_offset_2: darken($ash, 12%);
 $gather_path: lighten($gather_background, 35%);
 $gather_path_heavy: lighten($gather_background, 50%);
-
 
 //dark color scheme
 .dark-mode {
@@ -83,9 +77,9 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --font-main: #fefff6;
   --font-reverse: #271623;
   --font-muted: #595961;
-  --border-light:#38383e; 
-  --border-basic:#48484e;
-  --border-heavy:#58585e;
+  --border-light: #38383e;
+  --border-basic: #48484e;
+  --border-heavy: #58585e;
   --path-light: #4f4f55;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
@@ -103,14 +97,12 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --font-reverse: #fefff6;
   --font-muted: #797981;
   --border-light: #d6d2cd;
-  --border-basic:#c6c2bd;
-  --border-heavy:#b6b2ad;
+  --border-basic: #c6c2bd;
+  --border-heavy: #b6b2ad;
   --path-light: #8f8f85;
   --path-basic: #9f9f95;
   --path-heavy: #afafa5;
 }
-
-
 
 // White
 $white: #ffffff;
@@ -128,7 +120,6 @@ $black: #000000;
 $black_60: rgba(0, 0, 0, 0.6);
 $black_80: rgba(0, 0, 0, 0.8);
 
-
 // Ash Variations
 $ash_heavy: darken($ash, 5%);
 $ash_medium: lighten($ash, 10%);
@@ -137,7 +128,6 @@ $ash_10: rgba(40, 40, 40, 0.1);
 
 // Silvers
 $silver-dark: #929ca8;
-
 
 // ========================
 // Basics
@@ -150,9 +140,11 @@ $space: 8px;
 $space_mobile: 10px;
 $outline_mobile: 0px;
 
-$overlay: linear-gradient(rgba(0,0,0, .4), rgba(48,48,48, .6), rgba(0,0,0, .4));
-
-
+$overlay: linear-gradient(
+  rgba(0, 0, 0, 0.4),
+  rgba(48, 48, 48, 0.6),
+  rgba(0, 0, 0, 0.4)
+);
 
 // ========================
 // Mixins
@@ -172,17 +164,25 @@ $overlay: linear-gradient(rgba(0,0,0, .4), rgba(48,48,48, .6), rgba(0,0,0, .4));
   cursor: pointer;
 
   @media (hover: hover) and (pointer: fine) {
-    &:hover { 
-      background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
-    } 
+    &:hover {
+      background: linear-gradient(
+        45deg,
+        darken($hot_purple, 30%),
+        darken($hot_purple, 30%)
+      );
+    }
   }
 
   &:active {
-    background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
+    background: linear-gradient(
+      45deg,
+      darken($hot_purple, 30%),
+      darken($hot_purple, 30%)
+    );
   }
 }
 
-@mixin buttonSecondary{
+@mixin buttonSecondary {
   background: $background;
   color: $font_muted;
   border: 1px solid $border_heavy;
@@ -197,7 +197,7 @@ $overlay: linear-gradient(rgba(0,0,0, .4), rgba(48,48,48, .6), rgba(0,0,0, .4));
   cursor: pointer;
 
   @media (hover: hover) and (pointer: fine) {
-    &:hover { 
+    &:hover {
       background: $background_offset;
       color: $font_light;
     }
@@ -208,8 +208,7 @@ $overlay: linear-gradient(rgba(0,0,0, .4), rgba(48,48,48, .6), rgba(0,0,0, .4));
   }
 }
 
-@mixin buttonSystem{
-
+@mixin buttonSystem {
 }
 
 @mixin buttonColorFade {
@@ -220,72 +219,77 @@ $overlay: linear-gradient(rgba(0,0,0, .4), rgba(48,48,48, .6), rgba(0,0,0, .4));
   color: $font_light;
 
   @media (hover: hover) and (pointer: fine) {
-    &:hover { 
-      background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
-    } 
+    &:hover {
+      background: linear-gradient(
+        45deg,
+        darken($hot_purple, 30%),
+        darken($hot_purple, 30%)
+      );
+    }
   }
 
   &:active {
-    background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
+    background: linear-gradient(
+      45deg,
+      darken($hot_purple, 30%),
+      darken($hot_purple, 30%)
+    );
   }
 }
-
 
 // ========================
 // Overlays
 // ========================
 $overlay_dark: rgba(0, 0, 0, 0.7);
 
-
-
 // transitions
 .topicPanelAnimation-enter,
 .editFormAnimation-enter,
 .memberListAnimation-enter {
-    right: -375px;
+  right: -375px;
 }
 .topicPanelAnimation-enter-done,
 .editFormAnimation-enter-done,
 .memberListAnimation-enter-done {
-    right: 0px;
+  right: 0px;
 }
 .topicPanelAnimation-exit,
 .editFormAnimation-exit,
 .memberListAnimation-exit {
-    right: 0px;
+  right: 0px;
 }
 .topicPanelAnimation-exit-done,
 .editFormAnimation-exit-done,
 .memberListAnimation-exit-done {
-    right: -375px;
+  right: -375px;
 }
 
 .modalTransition-appear {
-    opacity: 0.01;
+  opacity: 0.01;
 }
 .modalTransition-appear.modalTransition-active {
-    opacity: 1;
-    transition: opacity 0.5s ease-in;
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
 }
 
 .layout {
-    [data-title] {
-        position: relative;
-        &:hover {
-            &:after {
-                position: absolute;
-                top: calc(100% + 5px);
-                left: 50%;
-                z-index: 1;
-                padding: 3px;
-                content: attr(data-title);
-                white-space: nowrap;
-                background-color: $oxygen;
-                border: 0;
-                border-radius: 8px;
-            }
-        }
+  [data-title] {
+    position: relative;
+    &:hover {
+      &:after {
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 50%;
+        z-index: 1;
+        padding: 3px;
+        content: attr(data-title);
+        white-space: nowrap;
+        background-color: $oxygen;
+        border: 0;
+        border-radius: 8px;
+      }
     }
+  }
 }
 .slide-enter {
   transform: translateX(100%) !important;
@@ -306,68 +310,70 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
 }
 
 .slideRight-enter {
-    transform: translateX(-100%) !important;
-  }
-  
-  .slideRight-enter-active {
-    transform: translateX(0) !important;
-    transition: transform 300ms;
-  }
-  
-  .slideRight-exit {
-    transform: translateX(0) !important;
-  }
-  
-  .slideRight-exit-active {
-    transform: translateX(100%) !important;
-    transition: transform 300ms;
-  }
-  
-  .slideLeft-enter {
-    transform: translateX(100%) !important;
-  }
-  
-  .slideLeft-enter-active {
-    transform: translateX(0) !important;
-    transition: transform 300ms;
-  }
+  transform: translateX(-100%) !important;
+}
 
-  .slideLeft-exit {
-    transform: translateX(0) !important;
-  }
-  
-  .slideLeft-exit-active {
-    transform: translateX(-100%) !important;
-    transition: transform 300ms;
-  }
+.slideRight-enter-active {
+  transform: translateX(0) !important;
+  transition: transform 300ms;
+}
 
-  .slideRight-exit, .slideLeft-exit {
-    transition: background-color 300ms;
-  }
-  
-  .slideRight-exit-active, .slideLeft-exit-active {
-    background-color: $background
-  }
-  .enterLeft-enter {
-    transform: translateX(100%) !important;
-  }
-  
-  .enterLeft-enter-active {
-    transform: translateX(0) !important;
-    transition: transform 300ms;
-  }
-  .gatherTransitionBackground {
-    background: $background
-  }
-  .messageTransitionBackground {
-    background: $background
-  }
-  .chatTransitionBackground{
-    background: $background
-  }
-  .defaultTransitionBackground {
-    background: $background
-  }
-  #ReactSimpleImageViewer {
-    z-index: 9999 !important;
-  }
+.slideRight-exit {
+  transform: translateX(0) !important;
+}
+
+.slideRight-exit-active {
+  transform: translateX(100%) !important;
+  transition: transform 300ms;
+}
+
+.slideLeft-enter {
+  transform: translateX(100%) !important;
+}
+
+.slideLeft-enter-active {
+  transform: translateX(0) !important;
+  transition: transform 300ms;
+}
+
+.slideLeft-exit {
+  transform: translateX(0) !important;
+}
+
+.slideLeft-exit-active {
+  transform: translateX(-100%) !important;
+  transition: transform 300ms;
+}
+
+.slideRight-exit,
+.slideLeft-exit {
+  transition: background-color 300ms;
+}
+
+.slideRight-exit-active,
+.slideLeft-exit-active {
+  background-color: $background;
+}
+.enterLeft-enter {
+  transform: translateX(100%) !important;
+}
+
+.enterLeft-enter-active {
+  transform: translateX(0) !important;
+  transition: transform 300ms;
+}
+.gatherTransitionBackground {
+  background: $background;
+}
+.messageTransitionBackground {
+  background: $background;
+}
+.chatTransitionBackground {
+  background: $background;
+}
+.defaultTransitionBackground {
+  background: $background;
+}
+#ReactSimpleImageViewer {
+  z-index: 9999 !important;
+}

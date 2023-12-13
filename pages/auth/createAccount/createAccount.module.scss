@@ -2,96 +2,87 @@
 @import "../../../styles/globals.scss";
 
 .CreateModule {
-    width: 360px;
-    max-width: 100%;
-    margin: 0 auto;
+  width: 360px;
+  max-width: 100%;
+  margin: 0 auto;
 
-    .header {
-      text-align: left !important;
-      @include overlayMenuTitle;
-      color: $font_light;
-      width: 100%;
-      margin-bottom: 24px;
-    }
-
-
-    .label {
-      @include systemFont;
-      font-size: 14px;
-      font-weight: 400;
-      //letter-spacing: 0.02em;
-      text-align: center;
-      margin-bottom: 4px;
-      margin-top: 12px;
-      color: $font_light;
-      text-align: left;
+  .header {
+    text-align: left !important;
+    @include overlayMenuTitle;
+    color: $font_light;
+    width: 100%;
+    margin-bottom: 24px;
   }
-  
+
+  .label {
+    @include systemFont;
+    font-size: 14px;
+    font-weight: 400;
+    //letter-spacing: 0.02em;
+    text-align: center;
+    margin-bottom: 4px;
+    margin-top: 12px;
+    color: $font_light;
+    text-align: left;
+  }
+
   input {
     border-radius: 4px;
     background-color: $background_offset_1;
     border: 0;
     height: 56px;
-    padding: 0px 12px; 
+    padding: 0px 12px;
     @include rubik;
     font-weight: 400;
     font-size: 16px;
     color: $font_light;
     caret-color: $hot_purple;
     &::placeholder {
-        color: $font_muted;
-
+      color: $font_muted;
     }
+  }
 
-}
+  input[type="date"] {
+    width: 240px;
+    background-color: $background_offset_1;
+    color: $font_light;
+    @include systemFont;
+    font-size: 16px;
+  }
+  ::-webkit-calendar-picker-indicator {
+    background-color: transparent;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
-    input[type="date"]{
-      width: 240px;
-      background-color: $background_offset_1;
-      color: $font_light;
-      @include systemFont;
-      font-size: 16px;
-      
-    }
-    ::-webkit-calendar-picker-indicator {
-      background-color: transparent;
-      width: 28px;
-      height: 28px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+  .signupButton {
+    margin-top: 12px;
+  }
 
+  .small {
+    @include systemFont;
+    font-size: 12px;
+    color: $font_muted;
+    text-align: left;
+    margin-top: 10px;
+  }
 
+  &Content {
+    width: 360px;
+    max-width: 100%;
+    margin: auto;
+  }
+  .buttonBar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    column-gap: 8px;
+    margin-top: 20px;
 
-    .signupButton {
-      margin-top: 12px;
-    }
-    
-  
-    .small {
-        @include systemFont;
-        font-size: 12px;
-        color: $font_muted;
-        text-align: left;
-        margin-top: 10px;
-    }
-
-    &Content {
-        width: 360px;
-        max-width: 100%;
-        margin: auto;
-
-
-    }
-.buttonBar {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-  column-gap: 8px;
-  margin-top: 20px;
-
-  .backButton {
+    .backButton {
       height: 48px;
       max-width: 88px;
       border-radius: 999px;
@@ -103,85 +94,104 @@
       }
 
       @media (hover: hover) and (pointer: fine) {
-        &:hover { 
+        &:hover {
           background: $background_offset;
           path {
             fill: $font_muted;
           }
         }
       }
-    
+
       &:active {
         background: $background_offset;
         path {
           fill: $font_muted;
         }
       }
-  }
+    }
 
-  .submitButton {
-      
+    .submitButton {
       @include buttonPrimary;
       width: 100%;
+    }
   }
-}
-    &Disclaimer {
-        @include systemFont;
-        font-size: 12px;
-        width: 100%;
-        text-align: center;
-        margin: 12px 0px;
-        color: $font_muted;
+  &Disclaimer {
+    @include systemFont;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+    margin: 12px 0px;
+    color: $font_muted;
 
-        a {
-          color: $font_muted;
-        }
+    a {
+      color: $font_muted;
     }
+  }
 
-    &LinkToSignin {
-        display: block;
-        margin: 0 auto;
-    }
+  &LinkToSignin {
+    display: block;
+    margin: 0 auto;
+  }
 
-    &Logo {
-        width: 80px;
-        max-width: 80px;
-        margin-bottom: 28px;
-        margin-top: 28px;
-        margin-right: auto;
-        margin-left: auto;
-    }
+  &Logo {
+    width: 80px;
+    max-width: 80px;
+    margin-bottom: 28px;
+    margin-top: 28px;
+    margin-right: auto;
+    margin-left: auto;
+  }
 
-.fadeIn {
+  .fadeIn {
     animation: fadeInAnimation ease 300ms;
     -webkit-animation: fadeInAnimation ease 300ms;
     -moz-animation: fadeInAnimation ease 300ms;
     -o-animation: fadeInAnimation ease 300ms;
     -ms-animation: fadeInAnimation ease 300ms;
   }
-  
+
   @keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
-  
+
   @-webkit-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
-  
+
   @-moz-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
-  
+
   @-o-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
-  
+
   @-ms-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 }

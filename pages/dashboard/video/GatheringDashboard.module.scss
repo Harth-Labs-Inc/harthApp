@@ -1,89 +1,80 @@
 @import "../../../styles/fonts.scss";
 @import "../../../styles/globals.scss";
 
-.rendering{
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
+.rendering {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
 }
-.entered{
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out;
-
+.entered {
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .gatheringPage {
-    position: relative;
-    background: $background;
-    height: 100%;
-    width: 100%;
-    overflow-y: scroll;
-    padding: calc(112px + $space) $space $space 0px;
+  position: relative;
+  background: $background;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  padding: calc(112px + $space) $space $space 0px;
+  margin-top: 0px;
+
+  &Mobile {
+    padding: calc(354px + $space_mobile) $space_mobile 120px $space_mobile;
     margin-top: 0px;
 
+    &::after {
+      display: none;
+    }
+  }
+
+  .roomContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    margin-top: 0px;
+    padding: 0px $space;
+    &ActiveList {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
     &Mobile {
-        padding: calc(354px + $space_mobile) $space_mobile 120px $space_mobile;
-        margin-top: 0px;
-
-        &::after {
-            display: none;
-        }
+      padding: 0px $space_mobile;
     }
+  }
 
+  .roomHolderMobile {
+    width: 100%;
+    padding: 0px 0px;
+  }
 
-    .roomContainer {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        margin-bottom: 24px;
-        margin-top: 0px;
-        padding: 0px $space;
-        &ActiveList {
-            display: flex;
-            flex-wrap: wrap;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
+  .gatheringSectionRemove {
+    display: none;
+  }
+  .gatheringSection {
+    position: relative;
+    @include eyebrow;
+    color: $font_light;
+    width: fit-content;
+    user-select: none;
+    margin-left: $space;
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
 
-        &Mobile {
-            padding: 0px $space_mobile;
-        }
-    }
-
-    .roomHolderMobile {
-        width: 100%;
-        padding: 0px 0px;
-
-    }
-
-    
-    .gatheringSectionRemove {
-        display: none;
-
-    }
-    .gatheringSection {
-        position: relative;
-        @include eyebrow;
-        color: $font_light;
-        width: fit-content;
-        user-select: none ;
-        margin-left: $space;
-        margin-top: 12px;
-        margin-bottom: 8px;
-
-    }
-
-    .gatheringSectionMobile {
-        position: relative;
-        @include eyebrow;
-        font-size: 11px;
-        padding: 0px 0px 12px 0px;
-        width: fit-content;
-        color: $font_light;
-        user-select: none;
-        margin-left: $space_mobile;
-
-    }
-
-
+  .gatheringSectionMobile {
+    position: relative;
+    @include eyebrow;
+    font-size: 11px;
+    padding: 0px 0px 12px 0px;
+    width: fit-content;
+    color: $font_light;
+    user-select: none;
+    margin-left: $space_mobile;
+  }
 }

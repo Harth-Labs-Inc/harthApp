@@ -2,75 +2,75 @@
 @import "../../../../styles/globals.scss";
 
 .mainContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  min-width: 300px;
+  width: 330px;
+  margin-left: auto;
+  margin-right: auto;
+  row-gap: 8px;
+  @include systemFont;
+  font-size: 16px;
+  z-index: 25;
+  color: $font_light;
+
+  .title {
+    @include overlayMenuTitle;
+    width: 100%;
+    text-align: center;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    color: $font_light;
+  }
+
+  .userImage {
+    height: 56px;
+    width: 56px;
+    border-radius: 999px;
+    margin-top: 0px;
+    border: 1px solid $border_basic;
+  }
+  .userName {
+    margin-top: -6px;
+    margin-bottom: 12px;
+    font-weight: 500;
+    font-size: 24px;
+  }
+
+  .text {
+    width: 90%;
+    text-align: center;
+    color: $font_muted;
+    font-size: 12px;
+  }
+
+  .form {
     display: flex;
     align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    min-width: 300px;
-    width: 330px;
-    margin-left: auto;
-    margin-right: auto;
-    row-gap: 8px;
-    @include systemFont;
-    font-size: 16px;
-    z-index: 25;
-    color: $font_light;
+    justify-content: flex-end;
+  }
 
-    .title {
-        @include overlayMenuTitle;
-        width: 100%;
-        text-align: center;
-        margin-top: 8px;
-        margin-bottom: 20px;
-        color: $font_light;
+  .buttonBar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100%;
+    justify-content: space-evenly;
+    height: 56px;
+    gap: 8px;
+    margin-top: 24px;
+
+    .cancelButton {
+      height: 56px;
+      width: 100%;
     }
 
-    .userImage {
-        height: 56px;
-        width: 56px;
-        border-radius: 999px;
-        margin-top: 0px;
-        border: 1px solid $border_basic;
+    .submitButton {
+      height: 56px;
+      width: 100%;
     }
-    .userName {
-        margin-top: -6px;
-        margin-bottom: 12px;
-        font-weight: 500;
-        font-size: 24px;
-    }
-
-    .text {
-        width: 90%;
-        text-align: center;
-        color: $font_muted;
-        font-size: 12px;
-    }
-
-    .form {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-    }
-
-    .buttonBar {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-end;
-        width: 100%;
-        justify-content: space-evenly;
-        height: 56px;
-        gap: 8px;
-        margin-top: 24px;
-
-        .cancelButton {
-            height: 56px;
-            width: 100%;
-        }
-
-        .submitButton {
-            height: 56px;
-            width: 100%;
-        }
-    }
+  }
 }

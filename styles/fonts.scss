@@ -51,7 +51,7 @@
   font-weight: 600;
   font-size: 11px;
   line-height: 100%;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
@@ -126,7 +126,7 @@
   font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 12px;
-  letter-spacing: 0.0em;
+  letter-spacing: 0em;
 }
 
 @mixin timeStamp {

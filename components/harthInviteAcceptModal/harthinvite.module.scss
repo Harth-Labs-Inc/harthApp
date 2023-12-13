@@ -2,117 +2,111 @@
 @import "../../styles/globals.scss";
 
 .backIcon {
-    position: absolute;
+  position: absolute;
 }
 
 .mainContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 340px;
+  width: 100%;
+  max-height: 580px;
+  overflow-y: scroll;
+  //row-gap: 16px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .lineParent {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px 0px 25px 0px;
+  }
+
+  .lineActive {
+    background-color: $hot_purple !important;
+  }
+
+  .line {
+    flex-grow: 1;
+    margin: 0 10px;
+    background-color: $ash;
+    height: 3px;
+  }
+
+  .lineParent .line:first-child {
+    margin-left: 0;
+  }
+
+  .lineParent .line:last-child {
+    margin-right: 0;
+  }
+
+  .title {
+    @include overlayMenuTitle;
+    color: $font_light;
+    width: 100%;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 24px;
+  }
+
+  .harthHolder {
     display: flex;
     flex-direction: column;
-    max-width: 340px;
+    align-items: center;
+    gap: 0px;
+    margin-bottom: 24px;
+    margin-top: -48px;
+
+    img {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+    }
+
+    .harthTitle {
+      position: relative;
+      @include harthTitle;
+      color: $font_light;
+      font-size: 24px;
+    }
+  }
+
+  .footer {
+    @include systemFont;
+    color: $font_muted;
     width: 100%;
-    max-height: 580px;
-    overflow-y: scroll;
-    //row-gap: 16px;
-    margin-left: auto;
-    margin-right: auto;
-    
-    
-    .lineParent {
-        display: flex;
-        justify-content: space-between;
+    padding: 0px 0px;
+    font-size: 14px;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+
+  .buttonBar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    width: 100%;
+    padding: 0;
+
+    .sub {
+      display: flex;
+      flex-direction: row-reverse;
+      padding: 0;
+      gap: 8px;
+      width: 100%;
+
+      button {
+        margin: 0;
+        font-weight: 400;
+        padding: 12px 16px;
         width: 100%;
-        margin: 10px 0px 25px 0px;
+      }
     }
-
-    .lineActive {
-        background-color: $hot_purple !important;
-    }
-    
-    .line {
-        flex-grow: 1; 
-        margin: 0 10px; 
-        background-color: $ash;
-        height: 3px;
-    }
-    
- 
-    .lineParent .line:first-child {
-        margin-left: 0;
-    }
-    
-    .lineParent .line:last-child {
-        margin-right: 0;
-    }
-    
-
-    .title {
-        @include overlayMenuTitle;
-        color: $font_light;
-        width: 100%;
-        text-align: left;
-        margin-top: 0px;
-        margin-bottom: 24px;
-    }
-
-    .harthHolder {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0px;
-        margin-bottom: 24px;
-        margin-top: -48px;
-
-        img {
-            position: relative;
-            width: 72px;
-            height: 72px;
-            border-radius: 8px;
-        }
-
-        .harthTitle {
-            position: relative;
-            @include harthTitle;
-            color: $font_light;
-            font-size: 24px;
-        }
-    }
-
-    .footer {
-        @include systemFont;
-        color: $font_muted;
-        width: 100%;
-        padding: 0px 0px;
-        font-size: 14px;
-        text-align: center;
-        flex-wrap: wrap;
-    }
-
-    .buttonBar {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        margin-top: 24px;
-        margin-bottom: 16px;
-        width: 100%;
-        padding: 0;
-
-
-
-        .sub {
-            display: flex;
-            flex-direction: row-reverse;
-            padding: 0;
-            gap: 8px;
-            width: 100%;
-
-            button {
-                margin: 0;
-                font-weight: 400;
-                padding: 12px 16px;
-                width: 100%;
-            }
-            
-        }
-    }
+  }
 }

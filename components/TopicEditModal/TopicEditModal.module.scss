@@ -2,109 +2,108 @@
 @import "../../styles/fonts.scss";
 
 .mainContainer {
-    position: realtive;
-    display: flex;
-    flex-direction: column;
-    width: 330px;
-    margin-left: auto;
-    margin-right: auto;
+  position: realtive;
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  margin-left: auto;
+  margin-right: auto;
 
-    .title {
-        @include overlayMenuTitle;
-        width: 100%;
-        text-align: left;
-        margin-top: 8px;
-        margin-bottom: 40px;
-        color: $font_light;
-    }
-    .EmojiPicker {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate3d(-50%, -50%, 0);
-        height: var(--vh);
-        width: 100vw;
-        z-index: 1;
+  .title {
+    @include overlayMenuTitle;
+    width: 100%;
+    text-align: left;
+    margin-top: 8px;
+    margin-bottom: 40px;
+    color: $font_light;
+  }
+  .EmojiPicker {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    height: var(--vh);
+    width: 100vw;
+    z-index: 1;
 
-        em-emoji-picker {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate3d(-50%, -50%, 0);
-        }
+    em-emoji-picker {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0);
     }
+  }
 }
 
 .CreateTopic {
-    .inputHolder {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        padding: 0px 0px;
-        margin: 0px 0px 0px 0px;
+  .inputHolder {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 0px 0px;
+    margin: 0px 0px 0px 0px;
 
-        button {
-            position: relative;
-            padding: 0;
-            min-width: 56px;
-            width: 56px;
-            min-height: 56px;
-            height: 56px;
-            border-radius: 8px;
-            border: 0;
-            background-color: $background_offset_1;
+    button {
+      position: relative;
+      padding: 0;
+      min-width: 56px;
+      width: 56px;
+      min-height: 56px;
+      height: 56px;
+      border-radius: 8px;
+      border: 0;
+      background-color: $background_offset_1;
 
-            @media (hover: hover) and (pointer: fine) {
-                &:hover {
-                    background-color: $hot_purple;
-                }
-            }
-
-            &:active {
-                background-color: $hot_purple;
-            }
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: $hot_purple;
         }
+      }
 
-        .TopicEmoji {
-            font-size: 36px;
-        }
-
-        input {
-            @include topicTitle;
-            font-size: 18px;
-            font-weight: 400;
-            height: 56px;
-            width: 100%;
-            color: $font_light;
-            background-color: $background_offset_1;
-            border: 0;
-            border-radius: 6px;
-            padding-left: 12px;
-            caret-color: $hot_purple;
-            &::placeholder {
-                color: $font_muted;
-            }
-        }
+      &:active {
+        background-color: $hot_purple;
+      }
     }
 
-    .error {
-        text-align: center;
-        margin-left: 96px;
-        margin-top: -4px;
-    }
-    .subtext {
-        width: 80%;
-        margin: auto;
-        text-align: center;
-        @include subtext;
+    .TopicEmoji {
+      font-size: 36px;
     }
 
-    &Buttons {
-        display: flex;
-        gap: 16px;
-        justify-content: space-between;
-        margin-top: 48px;
+    input {
+      @include topicTitle;
+      font-size: 18px;
+      font-weight: 400;
+      height: 56px;
+      width: 100%;
+      color: $font_light;
+      background-color: $background_offset_1;
+      border: 0;
+      border-radius: 6px;
+      padding-left: 12px;
+      caret-color: $hot_purple;
+      &::placeholder {
+        color: $font_muted;
+      }
     }
+  }
+
+  .error {
+    text-align: center;
+    margin-left: 96px;
+    margin-top: -4px;
+  }
+  .subtext {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    @include subtext;
+  }
+
+  &Buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    margin-top: 48px;
+  }
 }
-

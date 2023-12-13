@@ -1,111 +1,105 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
-.overlay{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 30px);
-    z-index: 10000;
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 30px);
+  z-index: 10000;
 }
 
 .Holder {
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid $border_basic;
-    color: $font_light;
-    border-bottom: 1px solid $border_basic;
-    @include topicTitle;
-    font-size: 14px;
-    font-weight: 500;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid $border_basic;
+  color: $font_light;
+  border-bottom: 1px solid $border_basic;
+  @include topicTitle;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
 }
 
 .Header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $border_basic;
+  button {
+    height: 44px;
+    width: 44px;
+    border-radius: 999px;
+    margin: 0;
+    padding: 8px;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    outline-style: none;
+    -moz-outline-style: none;
+    -webkit-tap-highlight-color: transparent;
+
+    path {
+      fill: $font_light;
+    }
+
+    &:active {
+      background-color: $button_main_press;
+
+      path {
+        fill: $background;
+      }
+    }
+  }
+  p {
     display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid $border_basic;
-    button {
-        height: 44px;
-        width: 44px;
-        border-radius: 999px;
-        margin: 0;
-        padding: 8px;
-        background-color: transparent;
-        border: 0;
-        outline: none;
-        outline-style: none;
-        -moz-outline-style: none; 
-        -webkit-tap-highlight-color: transparent; 
-
-
-        path {
-            fill: $font_light;
-        }
-
-        &:active {
-            background-color: $button_main_press;
-            
-            path {
-                fill: $background;
-            }
-        }
-
+  }
+  span {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+  }
+  .emojiHolder {
+    path {
+      fill: $hot_purple;
     }
-    p {
-        display: flex;  
-    }
-    span {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: center;
-    }
-    .emojiHolder{
-        path {
-            fill: $hot_purple;
-        }
-        
-    }   
+  }
 }
 .ChatMessages {
-    display: flex;
-    flex-direction: column;  
-    position: relative;
-    scroll-behavior: smooth;
-    overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  scroll-behavior: smooth;
+  overflow: scroll;
 }
 
 .emojiHolder {
-    padding-right: 8px;
-    width: fit-content;
-    height: fit-content;
-    line-height: 100%;
-    font-size: 20px;
+  padding-right: 8px;
+  width: fit-content;
+  height: fit-content;
+  line-height: 100%;
+  font-size: 20px;
 }
-.messageWrapper{
-    position: relative;
-    margin-bottom: 25px;
-    border-top: 1px solid $border_basic;
+.messageWrapper {
+  position: relative;
+  margin-bottom: 25px;
+  border-top: 1px solid $border_basic;
 }
 .buttonBar {
-    display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-    margin-top: 12px;
-    button {
-        background: none;
-        border-radius: 5px;
-        padding: 2px 15px;
-        border: 1px solid $border_basic;
-        height: 30px;
-        cursor: pointer;
-    }
-    button:hover {
-        background: $border_basic;
-    }
-
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-top: 12px;
+  button {
+    background: none;
+    border-radius: 5px;
+    padding: 2px 15px;
+    border: 1px solid $border_basic;
+    height: 30px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: $border_basic;
+  }
 }
-
-

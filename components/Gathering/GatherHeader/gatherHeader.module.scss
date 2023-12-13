@@ -1,445 +1,412 @@
 @import "../../../styles/fonts.scss";
 @import "../../../styles/globals.scss";
 
-
-
 .basic {
-    // &Mobile {
-    //     position: relative;
-    //     display: flex;
-    //     flex-direction: row;
-    //     align-items: center;
-    //     justify-content: space-between;
-    //     height: 56px;
-    //     min-height: 56px;
-    //     width: 100%;
-    //     padding: 0px 12px 0px 4px;
-    //     //background-color: $fuel;
-    //     z-index: 10;
-    
-    //     .mobileSpacer {
-    //         height: 28px;
-    //         width: 28px;
-    //         background: transparent;
-    //     }
-    
-    //     .labelHolder {
-    //         display: flex;
-    //         position: relative;
-    //         align-items: center;
-    //         column-gap: 8px;
-    //         @include roomTitle;
-    //         font-size: 16px;
-    //         color: $font_muted;
-    //         user-select: none;
-    //     }
+  // &Mobile {
+  //     position: relative;
+  //     display: flex;
+  //     flex-direction: row;
+  //     align-items: center;
+  //     justify-content: space-between;
+  //     height: 56px;
+  //     min-height: 56px;
+  //     width: 100%;
+  //     padding: 0px 12px 0px 4px;
+  //     //background-color: $fuel;
+  //     z-index: 10;
 
-    //     .leave {
-    //         position: relative;
-    //         display: flex;
-    //         flex-direction: row;
-    //         height: 100%;
+  //     .mobileSpacer {
+  //         height: 28px;
+  //         width: 28px;
+  //         background: transparent;
+  //     }
 
-    //     }
-    //     .curveLeft {
-    //         position: relative;
-    //         background-color: $background;
-    //         width: 12px;
-    //         height: 100%;
+  //     .labelHolder {
+  //         display: flex;
+  //         position: relative;
+  //         align-items: center;
+  //         column-gap: 8px;
+  //         @include roomTitle;
+  //         font-size: 16px;
+  //         color: $font_muted;
+  //         user-select: none;
+  //     }
 
-    //         &::after {
-    //             position: absolute;
-    //             top: 0;
-    //             left: 0;
-    //             content: "";
-    //             width: 12px;
-    //             height: 100%;
-    //             background-color: $ash;
-    //             border-top-right-radius: 999px;
-    //         }
+  //     .leave {
+  //         position: relative;
+  //         display: flex;
+  //         flex-direction: row;
+  //         height: 100%;
 
-    //     }
+  //     }
+  //     .curveLeft {
+  //         position: relative;
+  //         background-color: $background;
+  //         width: 12px;
+  //         height: 100%;
 
-    //     .curveRight {
-    //         position: relative;
-    //         background-color: $background;
-    //         width: 12px;
-    //         height: 100%;
+  //         &::after {
+  //             position: absolute;
+  //             top: 0;
+  //             left: 0;
+  //             content: "";
+  //             width: 12px;
+  //             height: 100%;
+  //             background-color: $ash;
+  //             border-top-right-radius: 999px;
+  //         }
 
-    //         &::after {
-    //             position: absolute;
-    //             top: 0;
-    //             left: 0;
-    //             content: "";
-    //             width: 12px;
-    //             height: 100%;
-    //             background-color: $ash;
-    //             border-top-left-radius: 999px;
-    //         }
+  //     }
 
-    //     }
+  //     .curveRight {
+  //         position: relative;
+  //         background-color: $background;
+  //         width: 12px;
+  //         height: 100%;
 
-    //     // button {
-    //     //     position: relative;
-    //     //     background: $background;
-    //     //     height: 100%;
-    //     //     width: 56px;
-    //     //     padding: 12px;
-    //     //     border-top-right-radius: 0;
-    //     //     border-top-left-radius: 0;
+  //         &::after {
+  //             position: absolute;
+  //             top: 0;
+  //             left: 0;
+  //             content: "";
+  //             width: 12px;
+  //             height: 100%;
+  //             background-color: $ash;
+  //             border-top-left-radius: 999px;
+  //         }
 
-    //     // }
-    
-    // }
-    
-    &Mobile {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        height: 64px;
-        min-height: 64px;
-        width: 100%;
-        padding: 0px 8px 0px 8px;
-        background-color: $gather_background_offset;
-        border: 0;
-        z-index: 10;
-        border-radius: $corner_radius_mobile;
+  //     }
 
+  //     // button {
+  //     //     position: relative;
+  //     //     background: $background;
+  //     //     height: 100%;
+  //     //     width: 56px;
+  //     //     padding: 12px;
+  //     //     border-top-right-radius: 0;
+  //     //     border-top-left-radius: 0;
 
-        .leave {
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            //height: 100%;
-            width: 44px;
-            height: 44px;
-            background: $gather_background_offset_2;
-            border-radius: 999px;
-            border: 0;
-            padding: 8px;
+  //     // }
 
-            path {
-                fill: $gather_path;
-            }
+  // }
 
-        }
-
-        
-
-        .iconHolder {
-            width: 40px;
-            min-width: 40px;
-            //height: 32px;
-            //padding-right: 8px;
-
-
-        }
-    
-        .labelHolder {
-            display: flex;
-            position: relative;
-            align-items: center;
-            column-gap: 8px;
-            @include roomTitle;
-            font-size: 16px;
-            color: $font_muted;
-            user-select: none;
-        }
-    
-    
-    }
-
-    &Desktop {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        height: 40px;
-        min-height: 40px;
-        width: 100%;
-        padding: 0px 16px 0px 16px;
-        z-index: 10;
-    
-        .labelHolder {
-            display: flex;
-            position: relative;
-            align-items: center;
-            column-gap: 8px;
-            @include roomTitle;
-            font-size: 14px;
-            color: $font_muted;
-            user-select: none;
-        }
-    }
-}
-
-.stream {
-
-
-    &Mobile {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        height: 64px;
-        min-height: 64px;
-        width: 100%;
-        padding: 0px 8px 0px 8px;
-        background-color: $gather_background_offset;
-        border: 0;
-        z-index: 10;
-        border-radius: $corner_radius_mobile;
-
-
-        .leave {
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            //height: 100%;
-            width: 44px;
-            height: 44px;
-            background: $gather_background_offset_2;
-            border-radius: 999px;
-            border: 0;
-            padding: 8px;
-
-            path {
-                fill: $gather_path;
-            }
-
-        }
-
-        
-
-        .iconHolder {
-            width: 40px;
-            min-width: 40px;
-            //height: 32px;
-            //padding-right: 8px;
-
-
-        }
-    
-        .labelHolder {
-            display: flex;
-            position: relative;
-            align-items: center;
-            column-gap: 8px;
-            @include roomTitle;
-            font-size: 16px;
-            color: $font_muted;
-            user-select: none;
-        }
-    
-    
-    }
-    
-    &Desktop {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        height: 28px;
-        min-height: 28px;
-        max-height: 28px;
-        width: 240px;
-        padding: 24px 12px 0px 12px;
-        z-index: 10;
-        background: $ash;
-        border-right: 1px solid $ash_medium;
-    
-        .iconHolder {
-            width: 40px;
-            min-width: 40px;
-            height: 32px;
-            margin-right: 8px;
-            padding-right: 8px;
-            border-right: 1px solid $ash_medium;
-        }
-
-        .labelHolder {
-            display: flex;
-            position: relative;
-            align-items: center;
-            //column-gap: 8px;
-            @include roomTitle;
-            font-size: 14px;
-            color: $font_muted;
-            user-select: none;
-        }
-
-        &::after {
-            position: absolute;
-            bottom: -24px;
-            left:0;
-            content: "";
-            width: 100%;
-            
-            border-bottom: 1px solid $ash_medium;
-        }
-    }
-
-}
-
-.voice {
-
-
-    &Mobile {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        height: 64px;
-        min-height: 64px;
-        width: 100%;
-        padding: 0px 8px 0px 8px;
-        background-color: $gather_background_offset;
-        border: 0;
-        z-index: 10;
-        border-radius: $corner_radius_mobile;
-
-
-        .leave {
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            //height: 100%;
-            width: 44px;
-            height: 44px;
-            background: $gather_background_offset_2;
-            border-radius: 999px;
-            border: 0;
-            padding: 8px;
-
-            path {
-                fill: $gather_path;
-            }
-
-        }
-
-        
-
-        .iconHolder {
-            width: 40px;
-            min-width: 40px;
-            //height: 32px;
-            //padding-right: 8px;
-
-
-        }
-    
-        .labelHolder {
-            display: flex;
-            position: relative;
-            align-items: center;
-            column-gap: 8px;
-            @include roomTitle;
-            font-size: 16px;
-            color: $font_muted;
-            user-select: none;
-        }
-    
-    
-    }
-    
-    &Desktop {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        height: 52px;
-        min-height: 52px;
-        max-height: 52px;
-        width: 100%;
-        padding: 0px 12px 0px 12px;
-        z-index: 10;
-        background: $gather_background_offset;
-        border: 0;
-        border-radius: $corner_radius;
-    
-        .iconHolder {
-            width: 32px;
-            height: 32px;
-            margin-right: 8px;
-        }
-
-        .labelHolder {
-            display: flex;
-            position: relative;
-            align-items: center;
-            //column-gap: 8px;
-            @include roomTitle;
-            font-size: 14px;
-            color: $font_light;
-            user-select: none;
-        }
-    }
-
-}
-
-.chatHeader {
-    position: relative;
+  &Mobile {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 48px;
-    min-height: 48px;
+    height: 64px;
+    min-height: 64px;
     width: 100%;
-    padding: 0px 12px 0px 12px;
-    background-color: $fuel;
+    padding: 0px 8px 0px 8px;
+    background-color: $gather_background_offset;
+    border: 0;
+    z-index: 10;
+    border-radius: $corner_radius_mobile;
+
+    .leave {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      //height: 100%;
+      width: 44px;
+      height: 44px;
+      background: $gather_background_offset_2;
+      border-radius: 999px;
+      border: 0;
+      padding: 8px;
+
+      path {
+        fill: $gather_path;
+      }
+    }
+
+    .iconHolder {
+      width: 40px;
+      min-width: 40px;
+      //height: 32px;
+      //padding-right: 8px;
+    }
+
+    .labelHolder {
+      display: flex;
+      position: relative;
+      align-items: center;
+      column-gap: 8px;
+      @include roomTitle;
+      font-size: 16px;
+      color: $font_muted;
+      user-select: none;
+    }
+  }
+
+  &Desktop {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    min-height: 40px;
+    width: 100%;
+    padding: 0px 16px 0px 16px;
     z-index: 10;
 
-    color: $white_90;
-    @include interfaceR2;
+    .labelHolder {
+      display: flex;
+      position: relative;
+      align-items: center;
+      column-gap: 8px;
+      @include roomTitle;
+      font-size: 14px;
+      color: $font_muted;
+      user-select: none;
+    }
+  }
+}
+
+.stream {
+  &Mobile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    min-height: 64px;
+    width: 100%;
+    padding: 0px 8px 0px 8px;
+    background-color: $gather_background_offset;
+    border: 0;
+    z-index: 10;
+    border-radius: $corner_radius_mobile;
+
+    .leave {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      //height: 100%;
+      width: 44px;
+      height: 44px;
+      background: $gather_background_offset_2;
+      border-radius: 999px;
+      border: 0;
+      padding: 8px;
+
+      path {
+        fill: $gather_path;
+      }
+    }
+
+    .iconHolder {
+      width: 40px;
+      min-width: 40px;
+      //height: 32px;
+      //padding-right: 8px;
+    }
+
+    .labelHolder {
+      display: flex;
+      position: relative;
+      align-items: center;
+      column-gap: 8px;
+      @include roomTitle;
+      font-size: 16px;
+      color: $font_muted;
+      user-select: none;
+    }
+  }
+
+  &Desktop {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    height: 28px;
+    min-height: 28px;
+    max-height: 28px;
+    width: 240px;
+    padding: 24px 12px 0px 12px;
+    z-index: 10;
+    background: $ash;
+    border-right: 1px solid $ash_medium;
+
+    .iconHolder {
+      width: 40px;
+      min-width: 40px;
+      height: 32px;
+      margin-right: 8px;
+      padding-right: 8px;
+      border-right: 1px solid $ash_medium;
+    }
+
+    .labelHolder {
+      display: flex;
+      position: relative;
+      align-items: center;
+      //column-gap: 8px;
+      @include roomTitle;
+      font-size: 14px;
+      color: $font_muted;
+      user-select: none;
+    }
+
+    &::after {
+      position: absolute;
+      bottom: -24px;
+      left: 0;
+      content: "";
+      width: 100%;
+
+      border-bottom: 1px solid $ash_medium;
+    }
+  }
+}
+
+.voice {
+  &Mobile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    min-height: 64px;
+    width: 100%;
+    padding: 0px 8px 0px 8px;
+    background-color: $gather_background_offset;
+    border: 0;
+    z-index: 10;
+    border-radius: $corner_radius_mobile;
+
+    .leave {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      //height: 100%;
+      width: 44px;
+      height: 44px;
+      background: $gather_background_offset_2;
+      border-radius: 999px;
+      border: 0;
+      padding: 8px;
+
+      path {
+        fill: $gather_path;
+      }
+    }
+
+    .iconHolder {
+      width: 40px;
+      min-width: 40px;
+      //height: 32px;
+      //padding-right: 8px;
+    }
+
+    .labelHolder {
+      display: flex;
+      position: relative;
+      align-items: center;
+      column-gap: 8px;
+      @include roomTitle;
+      font-size: 16px;
+      color: $font_muted;
+      user-select: none;
+    }
+  }
+
+  &Desktop {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    height: 52px;
+    min-height: 52px;
+    max-height: 52px;
+    width: 100%;
+    padding: 0px 12px 0px 12px;
+    z-index: 10;
+    background: $gather_background_offset;
+    border: 0;
+    border-radius: $corner_radius;
+
+    .iconHolder {
+      width: 32px;
+      height: 32px;
+      margin-right: 8px;
+    }
+
+    .labelHolder {
+      display: flex;
+      position: relative;
+      align-items: center;
+      //column-gap: 8px;
+      @include roomTitle;
+      font-size: 14px;
+      color: $font_light;
+      user-select: none;
+    }
+  }
+}
+
+.chatHeader {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  min-height: 48px;
+  width: 100%;
+  padding: 0px 12px 0px 12px;
+  background-color: $fuel;
+  z-index: 10;
+
+  color: $white_90;
+  @include interfaceR2;
 }
 
 .rightSpacer {
-    width: 40px;
+  width: 40px;
 }
 
 .leaveMenu {
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  gap: 16px;
+  width: 100%;
+  padding: 12px 0px;
+
+  .menuItem {
     display: flex;
-    flex-direction: column;
-    background-color: transparent;
-    gap: 16px;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
-    padding: 12px 0px;
-
-
-    .menuItem {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        width: 100%;
-        height: 56px;
-        gap: 16px;
-        padding: 0px 16px;
-        border: 0;
-        border-radius: 8px;
-        background-color: $gather_background_offset_2;
-        svg {
-            height: 28px;
-            width: 28px;
-        }
-
-        path {
-            fill: $font_light;
-        }
-
-        p {
-            @include rubik;
-            font-size: 16px;
-            font-weight: 400;
-            color: $font_light;
-        }
-
-        &:active {
-            background-color: $gather_background_offset;
-        }
+    height: 56px;
+    gap: 16px;
+    padding: 0px 16px;
+    border: 0;
+    border-radius: 8px;
+    background-color: $gather_background_offset_2;
+    svg {
+      height: 28px;
+      width: 28px;
     }
+
+    path {
+      fill: $font_light;
+    }
+
+    p {
+      @include rubik;
+      font-size: 16px;
+      font-weight: 400;
+      color: $font_light;
+    }
+
+    &:active {
+      background-color: $gather_background_offset;
+    }
+  }
 }

@@ -1,7 +1,7 @@
 @import "../../../styles/fonts.scss";
 @import "../../../styles/globals.scss";
 
-.Desktop {  
+.Desktop {
   border-radius: $corner_radius;
   // border-bottom-left-radius: 0;
   // border-bottom-right-radius: 0;
@@ -32,7 +32,7 @@
   background: linear-gradient(45deg, $hot_purple, $fuel);
   overflow: hidden;
   padding-bottom: 8px;
-  
+
   svg {
     position: absolute;
     top: -60px;
@@ -43,14 +43,12 @@
     rotate: -35deg;
   }
 
-
-
   .Info {
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
     top: 0px;
     left: 0px;
     width: 140px;
@@ -121,7 +119,6 @@
   border-bottom-right-radius: $corner_radius;
   border-bottom-left-radius: $corner_radius;
 
-  
   .name {
     width: 100%;
     @include roomTitle;
@@ -133,10 +130,9 @@
   .description {
     @include systemFont;
     color: var(--font-main);
-    opacity: .7;
+    opacity: 0.7;
     font-weight: 300;
     font-size: 14px;
-
   }
 
   .AttendeeWrapper {
@@ -148,7 +144,7 @@
     gap: 2px;
     padding-top: 8px;
     user-select: none;
-  
+
     .profileImage {
       position: relative;
       height: 40px;
@@ -156,7 +152,7 @@
       border-radius: 999px;
       padding: 0;
       border: 0;
-  
+
       img {
         position: relative;
         height: 100%;
@@ -173,7 +169,7 @@
     .Mobile & {
       padding-top: 12px;
     }
-  
+
     .empty {
       display: flex;
       align-items: center;
@@ -186,7 +182,7 @@
       color: var(--font-muted);
       @include systemFont;
     }
-  
+
     .emptyMessage {
       color: var(--font-muted);
       @include systemFont;
@@ -196,7 +192,6 @@
       margin-top: 12px;
       margin-bottom: 12px;
     }
-
   }
 
   .ActionBar {
@@ -207,8 +202,8 @@
     width: 100%;
     height: 44px;
     background: transparent;
-    overflow: hidden;  
-  
+    overflow: hidden;
+
     &Edit {
       width: 64px;
       height: 100%;
@@ -221,7 +216,7 @@
       path {
         fill: var(--path-light);
       }
-  
+
       .Desktop & {
         &:hover {
           background: $hot_purple;
@@ -240,7 +235,7 @@
         }
       }
     }
-  
+
     &Submit {
       border-radius: 999px;
       width: 136px;
@@ -250,15 +245,15 @@
       border: 1px solid var(--border-basic);
       outline: none;
       outline-style: none;
-      -moz-outline-style: none; 
-      -webkit-tap-highlight-color: transparent; 
+      -moz-outline-style: none;
+      -webkit-tap-highlight-color: transparent;
       cursor: pointer;
       @include systemFont;
       font-size: 14px;
       text-align: center;
       text-transform: capitalize;
       user-select: none;
-  
+
       .Desktop & {
         &:hover {
           background: $hot_purple;
@@ -267,7 +262,6 @@
             fill: $font_light;
           }
         }
-        
       }
 
       .Mobile & {
@@ -279,48 +273,15 @@
           }
         }
       }
-  
     }
   }
-
 
   .Mobile & {
     border-bottom-right-radius: $corner_radius_mobile;
     border-bottom-left-radius: $corner_radius_mobile;
-    
+
     .name {
       @include roomTitleMobile;
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

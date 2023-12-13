@@ -2,149 +2,149 @@
 @import "../../styles/fonts.scss";
 
 .fileContainer {
-    width: 100%;
+  width: 100%;
 
-    input {
-        border: 0;
-        margin-top: 8px;
-        margin-bottom: 8px;
-        @include systemFont;
-        font-size: 14px;
-    }
-
+  input {
+    border: 0;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    @include systemFont;
+    font-size: 14px;
+  }
 }
 .mainContainer {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    background: linear-gradient(to bottom, transparent, $border_basic, transparent);
-    backdrop-filter: blur(12px);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    $border_basic,
+    transparent
+  );
+  backdrop-filter: blur(12px);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 
-    form{
-        padding: 4px;
-      
-    }
+  form {
+    padding: 4px;
+  }
 }
 .successContainer {
-    width: 100%;
-    display: block;
-    button {
-        @include systemFont;
-        font-size: 16px;
-        padding: 12px 24px;
-        background: $button_main;
-        color: $background;
-        border: 0;
-        border-radius: 999px;
-        margin-bottom: 0px;
-        margin-left: auto;
-        margin-right: auto;
-        cursor: pointer;
+  width: 100%;
+  display: block;
+  button {
+    @include systemFont;
+    font-size: 16px;
+    padding: 12px 24px;
+    background: $button_main;
+    color: $background;
+    border: 0;
+    border-radius: 999px;
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
 
-        &:active {
-            $background: $button_main_press;
-        }
-    }    
-    p {
-        width: 75%;
-        margin: 0 auto;
-        @include worksans;
-        font-size: 14px;
-        text-align: center;
-        padding-bottom: 24px;
+    &:active {
+      $background: $button_main_press;
     }
-
-
+  }
+  p {
+    width: 75%;
+    margin: 0 auto;
+    @include worksans;
+    font-size: 14px;
+    text-align: center;
+    padding-bottom: 24px;
+  }
 }
 .innerContainer {
-    position: relative;
-    width: 360px;
-    background-color: $background;
-    border: 1px solid $border_basic;
-    padding: 20px;
-    //border-radius: 8px;
-    position: relative;
-    height: fit-content;
-    @media screen and (max-width: 640px) {
-        width: 90vw;
-    }
+  position: relative;
+  width: 360px;
+  background-color: $background;
+  border: 1px solid $border_basic;
+  padding: 20px;
+  //border-radius: 8px;
+  position: relative;
+  height: fit-content;
+  @media screen and (max-width: 640px) {
+    width: 90vw;
+  }
 
-    h2{
-        @include overlayMenuTitle;
-        color: $font_light;
-        text-align: left;
-        margin-top: 0;
-        //@include worksans;
-        //font-size: 18px;
-        //font-weight: 600;
-        padding: 16px 20px 0px 20px;
-    }
+  h2 {
+    @include overlayMenuTitle;
+    color: $font_light;
+    text-align: left;
+    margin-top: 0;
+    //@include worksans;
+    //font-size: 18px;
+    //font-weight: 600;
+    padding: 16px 20px 0px 20px;
+  }
 }
 .closeBtn {
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    right: 10px;
-    top: 10px;
-    background-color: transparent;
-    border: 1px solid $border_basic;
-    font-size: 16px;
-    cursor: pointer; 
-    color: $ash_light;
-    border-radius: 99px;
-    path {
-        fill: $border_basic;
-    }
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  right: 10px;
+  top: 10px;
+  background-color: transparent;
+  border: 1px solid $border_basic;
+  font-size: 16px;
+  cursor: pointer;
+  color: $ash_light;
+  border-radius: 99px;
+  path {
+    fill: $border_basic;
+  }
 }
 .contentContainer {
-    padding: 0px 20px;
+  padding: 0px 20px;
+  width: 100%;
+  label {
+    @include systemFont;
+    font-size: 14px;
+    color: $font_light;
+  }
+  textarea {
     width: 100%;
-    label {
-        @include systemFont;
-        font-size: 14px;
-        color: $font_light;
-    }
-    textarea{
-        width: 100%;
-        margin-top: 8px; 
-        background-color: $border_basic;
-        border: none;
-        border-radius: 7px;
-        padding: 10px;
-        @include worksans;
-        font-size: 14px;
-        color: $font_light;
-        overflow-y: scroll;
-        height: 120px;
-        resize: none;
-
-    }
+    margin-top: 8px;
+    background-color: $border_basic;
+    border: none;
+    border-radius: 7px;
+    padding: 10px;
+    @include worksans;
+    font-size: 14px;
+    color: $font_light;
+    overflow-y: scroll;
+    height: 120px;
+    resize: none;
+  }
 }
 
 .inputContainer {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .submitContainer {
-    text-align: right;
-    padding-right: 20px;
-    padding-bottom: 12px;
-    width: 100%;
-    //background-color: azure;
-    button {
-        border-radius: 99px;
-        border: none;
-        color: $background;
-        @include systemFont;
-        font-size: 14px;
-        background: $button_main;
-        padding: 10px 16px; 
-    }
+  text-align: right;
+  padding-right: 20px;
+  padding-bottom: 12px;
+  width: 100%;
+  //background-color: azure;
+  button {
+    border-radius: 99px;
+    border: none;
+    color: $background;
+    @include systemFont;
+    font-size: 14px;
+    background: $button_main;
+    padding: 10px 16px;
+  }
 }

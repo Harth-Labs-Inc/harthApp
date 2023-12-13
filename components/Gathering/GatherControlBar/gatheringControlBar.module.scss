@@ -2,44 +2,105 @@
 @import "../../../styles/fonts.scss";
 
 .desktop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-area: header;
+  padding: 8px 16px 0px 16px;
+  border: 0;
+  background-color: transparent;
+  //column-gap: 16px;
+
+  .optionsContainer {
+    position: relative;
+
+    .moreButton {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+    }
+  }
+
+  .middleGroup {
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
+  }
+
+  .spacerSmall {
+    width: 44px;
+  }
+
+  .spacerLarge {
+    width: 52px;
+  }
+}
+
+.mobile {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  grid-area: header;
+  padding: 0px 8px 24px 0px;
+  border: 0;
+  width: 100%;
+
+  .spacerLarge {
+    display: flex;
+    width: 52px;
+  }
+
+  button {
+    border: 0;
+  }
+}
+
+.stream {
+  &Desktop {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     grid-area: header;
-    padding: 8px 16px 0px 16px;
+    padding: 0px 16px 0px 0px;
     border: 0;
     background-color: transparent;
     //column-gap: 16px;
 
     .optionsContainer {
-        position: relative;
+      position: relative;
 
-        .moreButton {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-        }
+      .moreButton {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+      }
     }
 
-    .middleGroup {
-        display: flex;
-        align-items: center;
-        column-gap: 16px;
+    .leftGroup {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: $ash;
+      width: 240px;
+      padding: 0px 8px;
+      border-top: 1px solid $ash_medium;
+      border-right: 1px solid $ash_medium;
     }
 
     .spacerSmall {
-        width: 44px;
-
+      width: 44px;
     }
 
     .spacerLarge {
-        width: 52px;
-
+      width: 52px;
     }
-}
+  }
 
-.mobile {
+  &Mobile {
     position: absolute;
     bottom: 0;
     display: flex;
@@ -47,82 +108,13 @@
     justify-content: space-evenly;
     grid-area: header;
     padding: 0px 8px 24px 0px;
+    //height:104px;
     border: 0;
     width: 100%;
 
     .spacerLarge {
-        display: flex;
-        width: 52px;
+      display: flex;
+      width: 52px;
     }
-
-    button {
-        border: 0;
-    }
-}
-
-
-.stream {
-
-    &Desktop {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        grid-area: header;
-        padding: 0px 16px 0px 0px;
-        border: 0;
-        background-color: transparent;
-        //column-gap: 16px;
-    
-        .optionsContainer {
-            position: relative;
-    
-            .moreButton {
-                position: absolute;
-                top: 0px;
-                right: 0px;
-            }
-        }
-    
-        .leftGroup {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: $ash;
-            width: 240px;
-            padding: 0px 8px;
-            border-top: 1px solid $ash_medium;
-            border-right: 1px solid $ash_medium;
-        }
-    
-        .spacerSmall {
-            width: 44px;
-    
-        }
-    
-        .spacerLarge {
-            width: 52px;
-    
-        }
-    }
-    
-    &Mobile {
-        position: absolute;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        grid-area: header;
-        padding: 0px 8px 24px 0px;
-        //height:104px;
-        border: 0;
-        width: 100%;
-
-    
-        .spacerLarge {
-            display: flex;
-            width: 52px;
-        }
-    }
-    
+  }
 }

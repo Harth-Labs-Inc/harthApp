@@ -1,38 +1,35 @@
 @import "../../styles/fonts.scss";
 @import "../../styles/globals.scss";
 
-
 .CreateModule {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 360px;
-    max-width: 100%;
-    margin: 0 auto;
-    //padding: 24px 24px 56px 24px;
-    overflow:hidden;
-    overflow-y: auto;
-    background-color: $background;
-    color: $font_light;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 360px;
+  max-width: 100%;
+  margin: 0 auto;
+  //padding: 24px 24px 56px 24px;
+  overflow: hidden;
+  overflow-y: auto;
+  background-color: $background;
+  color: $font_light;
   h4 {
     margin: 0;
     margin-top: -12px;
     font-size: 20px !important;
     @include systemFont;
     font-weight: 500;
-
   }
-    a {
-      color: inherit;
-    }
-    .label {
-      text-align: center !important;
-      margin: 30px 0px;
-      @include systemFont;
-      font-weight: 400;
-    }
-
+  a {
+    color: inherit;
+  }
+  .label {
+    text-align: center !important;
+    margin: 30px 0px;
+    @include systemFont;
+    font-weight: 400;
+  }
 
   h2 {
     margin-bottom: 3px;
@@ -41,107 +38,118 @@
     font-size: 16px !important;
     margin-top: 15px !important;
   }
-p {
-
-  text-align: center;
-  margin-bottom: 20px;
-  margin-top: 0;
-}
+  p {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
+  }
   label {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-
   }
   span {
     width: 80%;
   }
-  
 
+  .signupButton {
+    @include buttonPrimary;
+    width: 100%;
+    margin-bottom: 12px;
+    margin-top: 12px;
+  }
 
-    .signupButton {
-      @include buttonPrimary;
-      width: 100%;
-      margin-bottom: 12px;
-      margin-top: 12px;
+  .second {
+    width: 100%;
+  }
+
+  .small {
+    @include systemFont;
+    font-size: 12px;
+    color: $font_muted;
+    text-align: center;
+  }
+
+  &Content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 340px;
+    margin: auto;
+  }
+
+  &Disclaimer {
+    @include systemFont;
+    font-size: 12px;
+    width: 316px;
+    text-align: center;
+    margin: 12px auto 20px;
+    color: $font_muted;
+
+    a {
+      color: $font_muted;
     }
+  }
 
-    .second {
-      width: 100%;
-    }
-    
-  
-    .small {
-        @include systemFont;
-        font-size: 12px;
-        color: $font_muted;
-        text-align: center;
-    }
-
-    &Content {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-        max-width: 340px;
-        margin: auto;
-
-
-    }
-
-    &Disclaimer {
-        @include systemFont;
-        font-size: 12px;
-        width: 316px;
-        text-align: center;
-        margin: 12px auto 20px;
-        color: $font_muted;
-
-        a {
-          color: $font_muted;
-        }
-    }
-
-
-    &Logo {
-        width: 100%;
-        margin-bottom: 28px;
-        //margin-top: 28px;
-        margin-right: auto;
-        margin-left: auto;
-        text-align: center;
-    }
+  &Logo {
+    width: 100%;
+    margin-bottom: 28px;
+    //margin-top: 28px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+  }
 }
 .fadeIn {
-    animation: fadeInAnimation ease 300ms;
-    -webkit-animation: fadeInAnimation ease 300ms;
-    -moz-animation: fadeInAnimation ease 300ms;
-    -o-animation: fadeInAnimation ease 300ms;
-    -ms-animation: fadeInAnimation ease 300ms;
-  }
-  
-  @keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
-  }
-  
-  @-webkit-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
-  }
-  
-  @-moz-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
-  }
-  
-  @-o-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
-  }
-  
-  @-ms-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
-  }
+  animation: fadeInAnimation ease 300ms;
+  -webkit-animation: fadeInAnimation ease 300ms;
+  -moz-animation: fadeInAnimation ease 300ms;
+  -o-animation: fadeInAnimation ease 300ms;
+  -ms-animation: fadeInAnimation ease 300ms;
+}
 
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

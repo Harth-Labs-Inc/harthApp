@@ -2,343 +2,330 @@
 @import "../../../styles/globals.scss";
 
 .Mobile {
-    position: absolute;
-    top: calc(68px + $space_mobile);
-    left: 50%;
-    transform: translateX(-50%);
-    border-top-right-radius: $corner_radius;
-    border-top-left-radius: $corner_radius;
-    border-bottom-right-radius: 48px;
-    border-bottom-left-radius: 48px;
-    width: 100%;
-    height: fit-content;
-    background-color: var(--theme-color);
-    border: 0;
-    padding: 4px 16px 16px 16px;
+  position: absolute;
+  top: calc(68px + $space_mobile);
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-right-radius: $corner_radius;
+  border-top-left-radius: $corner_radius;
+  border-bottom-right-radius: 48px;
+  border-bottom-left-radius: 48px;
+  width: 100%;
+  height: fit-content;
+  background-color: var(--theme-color);
+  border: 0;
+  padding: 4px 16px 16px 16px;
 }
 
 .Desktop {
-    position: absolute;
-    top: $space;
-    left: 50%;
-    transform: translateX(-50%);
-    border-top-right-radius: $corner_radius;
-    border-top-left-radius: $corner_radius;
-    border-bottom-right-radius: 64px;
-    border-bottom-left-radius: 64px;
-    overflow: hidden;
-    border: 0;
-    padding: 0px 36px 24px 36px;
-    width: calc(100% - calc(2 * $space));
-    min-width: fit-content;
-    height: fit-content;
-    background-color: var(--theme-color);
+  position: absolute;
+  top: $space;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-right-radius: $corner_radius;
+  border-top-left-radius: $corner_radius;
+  border-bottom-right-radius: 64px;
+  border-bottom-left-radius: 64px;
+  overflow: hidden;
+  border: 0;
+  padding: 0px 36px 24px 36px;
+  width: calc(100% - calc(2 * $space));
+  min-width: fit-content;
+  height: fit-content;
+  background-color: var(--theme-color);
 }
 
 .title {
-    color: var(--font-main);
-    opacity: .6;
-    @include eyebrow;
-    padding-top: 8px;
-    text-align: center;
+  color: var(--font-main);
+  opacity: 0.6;
+  @include eyebrow;
+  padding-top: 8px;
+  text-align: center;
 
-    .Mobile & {
-        font-size: 12px;
-        margin-bottom: 2px;
-    }
-
+  .Mobile & {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
 }
 
 .Content {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: fit-content;
-    padding: 0px;
-    margin: 0 auto;
-    border: 0;
-    gap: 4px;
-    //padding-bottom: 28px;
-    padding-top: 8px;
-    
-    .arrow {
-        height: 20px;
-        width: 20px;
-        svg{
-            path {
-                fill: var(--path-light);
-            }
-        }
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: fit-content;
+  padding: 0px;
+  margin: 0 auto;
+  border: 0;
+  gap: 4px;
+  //padding-bottom: 28px;
+  padding-top: 8px;
 
-        .Mobile & {
-            display: none;
-        }
-    }
-
-    .Entry {
-        position: relative;
-        width: 240px;
-        min-width: 240px;
-        height: fit-content;
-        background-color: transparent;
-
-        input {
-            position: relative;
-            text-align: center;
-            width: 100%;
-            @include roomTitle;
-            font-size: 22px;
-            font-weight: 500;
-            border-radius: 999px;
-            background-color: var(--theme-offset-1);
-            border: 0;
-            height: 48px;
-            color: var(--font-main);
-            caret-color: $hot_purple;
-            margin: 0;
-            text-transform: none;
-
-            &::placeholder {
-                color: var(--font-muted);
-            }
-        } 
-
-        span { //error message
-            position: absolute;
-            width: 100%;
-            bottom: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 0;
-            margin: 0;
-            color: $alert_red;
-            text-align: center;
-            @include systemFont;
-            font-size: 12px;
-            font-weight: 500;
-
-        }
-
-        .Mobile & {
-            width: 100%;
-
-            input {
-                height: 56px;
-            }
-
-            span {
-                bottom: -15px;
-            }
-        }
-    }  
-    
-    .Desktop & {
-        flex-direction: row; 
+  .arrow {
+    height: 20px;
+    width: 20px;
+    svg {
+      path {
+        fill: var(--path-light);
+      }
     }
 
     .Mobile & {
-        width: 100%;
-        gap: 18px;
+      display: none;
     }
+  }
+
+  .Entry {
+    position: relative;
+    width: 240px;
+    min-width: 240px;
+    height: fit-content;
+    background-color: transparent;
+
+    input {
+      position: relative;
+      text-align: center;
+      width: 100%;
+      @include roomTitle;
+      font-size: 22px;
+      font-weight: 500;
+      border-radius: 999px;
+      background-color: var(--theme-offset-1);
+      border: 0;
+      height: 48px;
+      color: var(--font-main);
+      caret-color: $hot_purple;
+      margin: 0;
+      text-transform: none;
+
+      &::placeholder {
+        color: var(--font-muted);
+      }
+    }
+
+    span {
+      //error message
+      position: absolute;
+      width: 100%;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0;
+      margin: 0;
+      color: $alert_red;
+      text-align: center;
+      @include systemFont;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .Mobile & {
+      width: 100%;
+
+      input {
+        height: 56px;
+      }
+
+      span {
+        bottom: -15px;
+      }
+    }
+  }
+
+  .Desktop & {
+    flex-direction: row;
+  }
+
+  .Mobile & {
+    width: 100%;
+    gap: 18px;
+  }
 }
 
-
-
-
 .Type {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: fit-content;
-    height: 48px;
-    background: var(--theme-offset-1);
-    padding: 0px 16px;
-    border-radius: 999px;
-    border: 0;
-    gap: 16px;
-    margin: 0;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+  height: 48px;
+  background: var(--theme-offset-1);
+  padding: 0px 16px;
+  border-radius: 999px;
+  border: 0;
+  gap: 16px;
+  margin: 0;
 
-    .Mobile & {
-        height: 64px;
-        padding: 0px 16px;
-        margin-bottom: 8px;
-        background: var(--theme-offset-2);
-    }
+  .Mobile & {
+    height: 64px;
+    padding: 0px 16px;
+    margin-bottom: 8px;
+    background: var(--theme-offset-2);
+  }
 }
 
 .LabelHolder {
-    position: absolute;
-    width: fit-content;
-    bottom: -22px;
-    left: 50%;
-    transform: translateX(-50%);
-    @include systemFont;
-    color: var(--font-muted);
-    font-size: 12px;
-    line-height: 12px;
-    text-align: center;
-    user-select: none;
-    margin: 0;
-    border-radius: 999px;
-    overflow: hidden;
-    padding: 4px 8px;
+  position: absolute;
+  width: fit-content;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  @include systemFont;
+  color: var(--font-muted);
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  user-select: none;
+  margin: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  padding: 4px 8px;
 
-    p {
-        white-space: nowrap;
-    }
+  p {
+    white-space: nowrap;
+  }
 
-
-
-    .Mobile & {
-        font-size: 13px;
-        bottom: -20px;
-    }
+  .Mobile & {
+    font-size: 13px;
+    bottom: -20px;
+  }
 }
 
 .Launch {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 6px;
-    margin: 0;
-    border: 0;
-    width: 240px;
-    height: 48px;
-    min-width: 240px;
-    border-radius: 999px;
-    padding: 8px;
-    background-color: var(--theme-offset-1);
-    
-    .Mobile & {
-        width: 100%;
-        //padding: 16px 16px;
-        padding: 0;
-        padding-top: 8px;
-        height: 56px;
-        background-color: transparent;
-    }
-}
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  border: 0;
+  width: 240px;
+  height: 48px;
+  min-width: 240px;
+  border-radius: 999px;
+  padding: 8px;
+  background-color: var(--theme-offset-1);
 
+  .Mobile & {
+    width: 100%;
+    //padding: 16px 16px;
+    padding: 0;
+    padding-top: 8px;
+    height: 56px;
+    background-color: transparent;
+  }
+}
 
 .Submit {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 32px;
-    color: var(--font-muted);
-    background-color: transparent;
-    border-radius: 999px;
-    cursor: pointer;
-    @include systemFont;
-    border: 1px solid var(--border-basic);
-    padding: 0px 0px;
-    margin: 0;
-    gap: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 32px;
+  color: var(--font-muted);
+  background-color: transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  @include systemFont;
+  border: 1px solid var(--border-basic);
+  padding: 0px 0px;
+  margin: 0;
+  gap: 4px;
 
-    svg {
-        width: 24px;
-        height: 24px;
-        margin: 0;
+  svg {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+
+    path {
+      fill: var(--path-light);
+    }
+  }
+
+  &Schedule {
+    border: 0;
+
+    .Mobile & {
+      border: 1px solid var(--border-basic);
+    }
+  }
+
+  .Desktop & {
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: $hot_purple;
+        color: $font_light;
 
         path {
-            fill: var(--path-light);
+          fill: $font_light;
         }
+      }
     }
+  }
 
+  .Mobile & {
+    height: 40px;
+    font-size: 16px;
+    gap: 8px;
 
-    &Schedule {
-        border: 0;
+    &:active {
+      background: $hot_purple;
+      color: $font_light;
 
-        .Mobile & {
-            border: 1px solid var(--border-basic);
-        }
+      path {
+        fill: $font_light;
+      }
     }
-
-    .Desktop & {
-        @media (hover: hover) and (pointer: fine) {
-            &:hover {
-                background: $hot_purple;
-                color: $font_light;
-
-                path {
-                    fill: $font_light;
-                }
-            }
-        }
-    }
-    
-    .Mobile & {
-        height: 40px;
-        font-size: 16px;
-        gap: 8px;
-
-        &:active {
-            background: $hot_purple;
-            color: $font_light;
-
-            path {
-                fill: $font_light;
-            }
-        }
-    }
+  }
 }
 
-
 .GatheringButton {
-    position: relative;
-    height: 40px;
-    width: 40px;
+  position: relative;
+  height: 40px;
+  width: 40px;
+  padding: 5px;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  background: transparent;
+
+  .iconHolder {
+    opacity: 0.4;
+    filter: grayscale(100%);
+    height: 100%;
+    width: 100%;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .Desktop & {
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: var(--border-basic);
+      }
+    }
+  }
+
+  .Mobile & {
+    height: 48px;
+    width: 48px;
     padding: 5px;
-    background: transparent;
-    border: 0;
-    border-radius: 999px;
-    cursor: pointer;
-    background: transparent;
-    
+
+    &:active {
+      background-color: var(--border-basic);
+    }
+  }
+
+  &.Active {
+    background-color: var(--border-basic);
+    // border-color: var(--theme-offset-2);
 
     .iconHolder {
-        opacity: .4;
-        filter: grayscale(100%);
-        height: 100%;
-        width: 100%;
-
-        svg {
-            width: 100%;
-            height: 100%;
-        }
-
-    } 
-
-    .Desktop & {
-        @media (hover: hover) and (pointer: fine) {
-            &:hover { 
-                background: var(--border-basic);
-            }
-        }
-        
+      opacity: 0.9;
+      filter: grayscale(0);
     }
-
-    .Mobile & {
-        height: 48px;
-        width: 48px;
-        padding: 5px;
-
-        &:active {
-            background-color: var(--border-basic);
-        }
-    }
-
-
-    &.Active {
-        background-color: var(--border-basic);
-       // border-color: var(--theme-offset-2);
-
-        .iconHolder {
-            opacity: .9;
-            filter: grayscale(0);
-        }
-    }
+  }
 }
