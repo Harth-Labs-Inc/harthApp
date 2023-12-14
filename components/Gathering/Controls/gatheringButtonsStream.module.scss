@@ -156,10 +156,6 @@
     }
   }
 
-  &Inactive {
-    //does nothing right now
-  }
-
   &MicOn {
     path {
       fill: $gather_path;
@@ -231,10 +227,6 @@
 
   &Active {
     background-color: $ash_heavy;
-  }
-
-  &Inactive {
-    //does nothing right now
   }
 
   &Muted {
