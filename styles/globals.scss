@@ -208,9 +208,6 @@ $overlay: linear-gradient(
   }
 }
 
-@mixin buttonSystem {
-}
-
 @mixin buttonColorFade {
   background: linear-gradient(45deg, $hot_purple, darken($hot_purple, 30%));
   border: 0;
