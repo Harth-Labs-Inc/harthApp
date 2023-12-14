@@ -173,18 +173,18 @@
   }
   50% {
     opacity: 0.7;
-    transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%))
-      scale(0.1);
+    transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%));
+    scale: 0.1;
   }
   80% {
     opacity: 0.5;
-    transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%))
-      scale(0.1);
+    transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%));
+    scale: 0.1;
   }
   100% {
     opacity: 0;
-    transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%))
-      scale(0.1);
+    transform: translate(calc(var(--icon-x) - 50%), calc(var(--icon-y) - 50%));
+    scale: 0.1;
     height: 0;
     width: 0;
   }
