@@ -1,92 +1,92 @@
-// @import "../../../styles/globals.scss";
-// @import "../../../styles/fonts.scss";
+@import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
 
-// .MainContainer {
-//   position: absolute;
-//   display: flex;
-//   flex-direction: column;
-//   z-index: 100;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate3d(-50%, -50%, 0);
-//   width: 330px;
-//   background-color: $background;
-//   border-radius: 24px;
-//   border: 4px solid $hot_purple;
-//   padding: 24px;
+.MainContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 330px;
+  background-color: $background;
+  border-radius: 24px;
+  border: 4px solid $hot_purple;
+  padding: 24px;
 
-//   box-shadow:
-//     0 1px 1px hsl(0deg 0% 0% / 0.075),
-//     0 2px 2px hsl(0deg 0% 0% / 0.075),
-//     0 4px 4px hsl(0deg 0% 0% / 0.075),
-//     0 8px 8px hsl(0deg 0% 0% / 0.075),
-//     0 16px 16px hsl(0deg 0% 0% / 0.075),
-//     0 32px 32px hsl(0deg 0% 0% / 0.075);
+  box-shadow:
+    0 1px 1px hsl(0deg 0% 0% / 0.075),
+    0 2px 2px hsl(0deg 0% 0% / 0.075),
+    0 4px 4px hsl(0deg 0% 0% / 0.075),
+    0 8px 8px hsl(0deg 0% 0% / 0.075),
+    0 16px 16px hsl(0deg 0% 0% / 0.075),
+    0 32px 32px hsl(0deg 0% 0% / 0.075);
 
-//   .title {
-//     width: 100%;
-//     @include overlayMenuTitle;
-//     font-size: 40px;
-//     color: $font_light;
-//     text-align: left;
-//   }
+  .title {
+    width: 100%;
+    @include overlayMenuTitle;
+    font-size: 40px;
+    color: $font_light;
+    text-align: left;
+  }
 
-//   .subtext {
-//     width: 100%;
-//     @include systemFont;
-//     font-size: 16px;
-//     color: $font_light;
-//     text-align: center;
-//     margin-bottom: 48px;
-//     margin-top: 40px;
-//     padding: 0px 0px;
-//   }
+  .subtext {
+    width: 100%;
+    @include systemFont;
+    font-size: 16px;
+    color: $font_light;
+    text-align: center;
+    margin-bottom: 48px;
+    margin-top: 40px;
+    padding: 0px 0px;
+  }
 
-//   .error {
-//     width: 100%;
-//     @include systemFont;
-//     letter-spacing: 0;
-//     font-size: 16px;
-//     color: $alert_red;
-//     text-align: center;
-//     margin-bottom: 48px;
-//     margin-top: 40px;
-//     padding: 0px 0px;
-//   }
+  .error {
+    width: 100%;
+    @include systemFont;
+    letter-spacing: 0;
+    font-size: 16px;
+    color: $alert_red;
+    text-align: center;
+    margin-bottom: 48px;
+    margin-top: 40px;
+    padding: 0px 0px;
+  }
 
-//   .actionBar {
-//     display: flex;
-//     flex-direction: row-reverse;
-//     gap: 8px;
-//   }
+  .actionBar {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 8px;
+  }
 
-//   button {
-//     @include buttonPrimary;
+  button {
+    @include buttonPrimary;
 
-//     @media (hover: hover) and (pointer: fine) {
-//       &:hover {
-//         background-color: $button_main_press;
-//       }
-//     }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: $button_main_press;
+      }
+    }
 
-//     &:active {
-//       background: $button_main_press;
-//     }
-//   }
+    &:active {
+      background: $button_main_press;
+    }
+  }
 
-//   .cancel {
-//     @include buttonSecondary;
+  .cancel {
+    @include buttonSecondary;
 
-//     @media (hover: hover) and (pointer: fine) {
-//       &:hover {
-//         background-color: $button_main_press;
-//         color: $background;
-//       }
-//     }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: $button_main_press;
+        color: $background;
+      }
+    }
 
-//     &:active {
-//       background: $button_main_press;
-//       color: $background;
-//     }
-//   }
-// }
+    &:active {
+      background: $button_main_press;
+      color: $background;
+    }
+  }
+}
