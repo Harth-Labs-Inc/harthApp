@@ -22,75 +22,75 @@
   transition: all 0.2s ease-in-out;
 }
 
-// .Modal {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   z-index: 300;
-//   height: var(--vh);
-//   width: 100vw;
+.Modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  height: var(--vh);
+  width: 100vw;
 
-//   animation-name: blur-in;
-//   animation-duration: 0.2s;
-//   animation-timing-function: ease-in-out;
-//   animation-fill-mode: forwards;
+  animation-name: blur-in;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
 
-//   &Mid {
-//     position: absolute;
-//     width: 100%;
-//     top: 49%;
-//     left: 50%;
-//     transform: translate3d(-50%, -50%, 0);
-//     padding: 0px;
-//     background-color: $background;
-//     border-top: 1px solid $background_offset_1;
-//     border-bottom: 1px solid $background_offset_1;
-//     opacity: 0;
-//     animation: pop 0.3s ease-out forwards;
+  &Mid {
+    position: absolute;
+    width: 100%;
+    top: 49%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    padding: 0px;
+    background-color: $background;
+    border-top: 1px solid $background_offset_1;
+    border-bottom: 1px solid $background_offset_1;
+    opacity: 0;
+    animation: pop 0.3s ease-out forwards;
 
-//     &Dark {
-//       background-color: $ash;
-//     }
+    &Dark {
+      background-color: $ash;
+    }
 
-//     &Padding {
-//       padding: 24px;
-//     }
+    &Padding {
+      padding: 24px;
+    }
 
-//     &Block {
-//       border: 0;
-//     }
+    &Block {
+      border: 0;
+    }
 
-//     &Top {
-//       top: 6px;
-//       transform: translateX(-50%);
-//     }
+    &Top {
+      top: 6px;
+      transform: translateX(-50%);
+    }
 
-//     &Full {
-//       height: 100vh;
-//       max-height: 100vh;
-//       top: 0;
-//       left: 0;
-//       transform: none;
-//     }
-//   }
+    &Full {
+      height: 100vh;
+      max-height: 100vh;
+      top: 0;
+      left: 0;
+      transform: none;
+    }
+  }
 
-//   &Left {
-//     position: absolute;
-//     top: 0;
-//     height: var(--vh);
-//     width: 356px;
-//     background-color: $background;
-//     overflow: hidden;
-//     padding-bottom: 28px;
-//     border-radius: 0 0px 0px 0;
-//   }
+  &Left {
+    position: absolute;
+    top: 0;
+    height: var(--vh);
+    width: 356px;
+    background-color: $background;
+    overflow: hidden;
+    padding-bottom: 28px;
+    border-radius: 0px;
+  }
 
-//   &Block {
-//     background: $background;
-//     border: 0;
-//     animation-name: blur-in-block 0.3s ease-out forwards;
-//   }
-// }
+  &Block {
+    background: $background;
+    border: 0;
+    animation: blur-in-block 0.3s ease-out forwards;
+  }
+}
 
 .sideModalContainer {
   z-index: 299;
