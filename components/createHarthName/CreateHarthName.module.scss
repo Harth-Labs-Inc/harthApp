@@ -1,132 +1,132 @@
-// @import "../../styles/fonts.scss";
-// @import "../../styles/globals.scss";
+@import "../../styles/fonts.scss";
+@import "../../styles/globals.scss";
 
-// .backIcon {
-//   position: absolute;
-// }
+.backIcon {
+  position: absolute;
+}
 
-// .mainContainer {
-//   display: flex;
-//   flex-direction: column;
-//   width: 360px;
-//   max-width: 100%;
-//   margin-left: auto;
-//   margin-right: auto;
-//   max-height: 580px;
-//   overflow-y: scroll;
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 580px;
+  overflow-y: scroll;
 
-//   .lineParent {
-//     display: flex;
-//     justify-content: space-between;
-//     width: 80%;
-//     margin: 8px auto;
-//     margin-bottom: 36px;
-//   }
+  .lineParent {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 8px auto;
+    margin-bottom: 36px;
+  }
 
-//   .lineActive {
-//     background-color: $hot_purple !important;
-//   }
+  .lineActive {
+    background-color: $hot_purple !important;
+  }
 
-//   .line {
-//     flex-grow: 1;
-//     margin: 0 4px;
-//     background-color: $border_basic;
-//     height: 3px;
-//   }
+  .line {
+    flex-grow: 1;
+    margin: 0 4px;
+    background-color: $border_basic;
+    height: 3px;
+  }
 
-//   .lineParent .line:first-child {
-//     margin-left: 0;
-//   }
+  .lineParent .line:first-child {
+    margin-left: 0;
+  }
 
-//   .lineParent .line:last-child {
-//     margin-right: 0;
-//   }
+  .lineParent .line:last-child {
+    margin-right: 0;
+  }
 
-//   .title {
-//     @include overlayMenuTitle;
-//     width: 100%;
-//     text-align: left;
-//     margin-top: 8px;
-//     margin-bottom: 12px;
-//     color: $font_light;
-//   }
+  .title {
+    @include overlayMenuTitle;
+    width: 100%;
+    text-align: left;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    color: $font_light;
+  }
 
-//   .textEntry {
-//     width: 90%;
-//     border-radius: 6px;
-//     background-color: $background_offset_1;
-//     border: 0;
-//     height: 56px;
-//     padding-left: 12px;
-//     color: $font_light;
-//     font-size: 16px;
-//     caret-color: $hot_purple;
-//     &::placeholder {
-//       color: $font_muted;
-//     }
-//   }
+  .textEntry {
+    width: 90%;
+    border-radius: 6px;
+    background-color: $background_offset_1;
+    border: 0;
+    height: 56px;
+    padding-left: 12px;
+    color: $font_light;
+    font-size: 16px;
+    caret-color: $hot_purple;
+    &::placeholder {
+      color: $font_muted;
+    }
+  }
 
-//   .helpText {
-//     text-align: center;
-//     width: 88%;
-//     @include interfaceR3;
-//     padding-top: 4px;
-//     color: $font_muted;
-//   }
+  .helpText {
+    text-align: center;
+    width: 88%;
+    @include interfaceR3;
+    padding-top: 4px;
+    color: $font_muted;
+  }
 
-//   .form {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//   }
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-//   .imageHolder {
-//     position: relative;
-//     top: -32px;
-//   }
+  .imageHolder {
+    position: relative;
+    top: -32px;
+  }
 
-//   .buttonBar {
-//     display: flex;
-//     flex-direction: row;
-//     align-items: flex-start;
-//     width: 98%;
-//     column-gap: 8px;
-//     margin-top: 24px;
+  .buttonBar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 98%;
+    column-gap: 8px;
+    margin-top: 24px;
 
-//     .backButton {
-//       height: 48px;
-//       border-radius: 999px;
-//       border: 1px solid $border_heavy;
-//       background-color: $background;
+    .backButton {
+      height: 48px;
+      border-radius: 999px;
+      border: 1px solid $border_heavy;
+      background-color: $background;
 
-//       path {
-//         fill: $border_heavy;
-//       }
+      path {
+        fill: $border_heavy;
+      }
 
-//       @media (hover: hover) and (pointer: fine) {
-//         &:hover {
-//           background: $background_offset;
-//           path {
-//             fill: $font_muted;
-//           }
-//         }
-//       }
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background: $background_offset;
+          path {
+            fill: $font_muted;
+          }
+        }
+      }
 
-//       &:active {
-//         background: $background_offset;
-//         path {
-//           fill: $font_muted;
-//         }
-//       }
-//     }
+      &:active {
+        background: $background_offset;
+        path {
+          fill: $font_muted;
+        }
+      }
+    }
 
-//     .submitButton {
-//       @include buttonPrimary;
-//       width: 100%;
-//     }
+    .submitButton {
+      @include buttonPrimary;
+      width: 100%;
+    }
 
-//     .cancelButton {
-//       @include buttonSecondary;
-//     }
-//   }
-// }
+    .cancelButton {
+      @include buttonSecondary;
+    }
+  }
+}
