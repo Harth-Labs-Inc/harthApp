@@ -676,7 +676,7 @@ const ChatInput = (props) => {
           ref={textRef}
           autoComplete="off"
           autoCorrect="off"
-          spellcheck="true"
+          spellCheck="true"
           onBlur={handleBlur}
           onChange={(e) => {
             inputHandler(e);

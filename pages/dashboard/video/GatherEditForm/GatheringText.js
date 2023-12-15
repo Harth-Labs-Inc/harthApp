@@ -30,7 +30,6 @@ export function GatheringText(props) {
                 <TextArea
                     name="gatheringDescription"
                     title="Description (optional)"
-                    spellcheck="true"
                     onChange={(e) =>
                         dispatch({
                             type: "GATHERING_DESCRIPTION_CHANGE",
