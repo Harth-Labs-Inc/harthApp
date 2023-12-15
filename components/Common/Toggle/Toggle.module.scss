@@ -1,83 +1,83 @@
-// @import "../../../styles/globals.scss";
+@import "../../../styles/globals.scss";
 
-// .Toggle {
-//   &Container {
-//     position: relative;
-//     cursor: pointer;
+.Toggle {
+  &Container {
+    position: relative;
+    cursor: pointer;
 
-//     &Background {
-//       height: 26px;
-//       max-height: 26px;
-//       width: 44px;
-//       border-radius: 9999px;
-//       border: 0;
-//       margin: 0;
-//       background-color: $border_basic;
-//       transition: background-color 0.3s;
-//     }
+    &Background {
+      height: 26px;
+      max-height: 26px;
+      width: 44px;
+      border-radius: 9999px;
+      border: 0;
+      margin: 0;
+      background-color: $border_basic;
+      transition: background-color 0.3s;
+    }
 
-//     &Circle {
-//       @include y-center;
-//       left: 4px;
-//       height: 16px;
-//       width: 16px;
-//       transition: left 0.3s;
+    &Circle {
+      @include y-center;
+      left: 4px;
+      height: 16px;
+      width: 16px;
+      transition: left 0.3s;
 
-//       &:before {
-//         @include x-y-center;
-//         height: 0px;
-//         width: 0px;
-//         //content:attr(tagText);
-//         content: "";
-//         display: none;
-//         background-color: $ash_medium;
-//         border-radius: 50%;
-//         transition: all 0s;
-//       }
+      &:before {
+        @include x-y-center;
+        height: 0px;
+        width: 0px;
+        //content:attr(tagText);
+        content: "";
+        display: none;
+        background-color: $ash_medium;
+        border-radius: 50%;
+        transition: all 0s;
+      }
 
-//       span {
-//         @include x-y-center;
-//         z-index: 2;
-//         height: 100%;
-//         width: 100%;
-//         background-color: $ash_medium;
-//         border-radius: 50%;
-//         transition: background-color 0.3s;
-//       }
+      span {
+        @include x-y-center;
+        z-index: 2;
+        height: 100%;
+        width: 100%;
+        background-color: $ash_medium;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+      }
 
-//       &:hover {
-//         &:before {
-//           //display: block;
-//           height: 40px;
-//           width: 40px;
-//         }
-//       }
-//     }
+      &:hover {
+        &:before {
+          //display: block;
+          height: 40px;
+          width: 40px;
+        }
+      }
+    }
 
-//     &Input {
-//       position: absolute;
-//       // top: 0;
-//       height: 100%;
-//       width: 100%;
-//       opacity: 0;
-//     }
-//   }
+    &Input {
+      position: absolute;
+      // top: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+    }
+  }
 
-//   &Checked {
-//     .ToggleContainer {
-//       &Background {
-//         background-color: $border_basic;
-//       }
-//       &Circle {
-//         left: calc(100% - 20px);
-//         span {
-//           background-color: $hot_pink;
-//         }
+  &Checked {
+    .ToggleContainer {
+      &Background {
+        background-color: $border_basic;
+      }
+      &Circle {
+        left: calc(100% - 20px);
+        span {
+          background-color: $hot_pink;
+        }
 
-//         &:before {
-//           background-color: rgba($black, 0.1);
-//         }
-//       }
-//     }
-//   }
-// }
+        &:before {
+          background-color: rgba($black, 0.1);
+        }
+      }
+    }
+  }
+}
