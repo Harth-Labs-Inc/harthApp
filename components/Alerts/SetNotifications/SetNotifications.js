@@ -24,6 +24,7 @@ export const SetNotifications = ({
 
       <div className={styles.actionBar}>
         <button onClick={request}>Enable Notifications</button>
+
         <button className={styles.cancel} onClick={refuseNotifcations}>
           Don&apos;t Allow
         </button>

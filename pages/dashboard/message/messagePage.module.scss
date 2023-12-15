@@ -2,107 +2,112 @@
 @import "../../../styles/fonts.scss";
 
 .ConversationMessages {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
+  padding: $space;
 }
 
 .topicHolderMobile {
-    position: relative;
-    height: 100%;
-    //overflow: auto;
-    //background-color: #ee5500;
+  position: relative;
+  height: 100%;
+  //overflow: auto;
+  //background-color: #ee5500;
 }
 
 .chatHolderMobile {
-    //position: relative;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    z-index: 11;
-    //height: 100%;
-    //width: 100%;
-    //overflow: auto;
-    background-color: #ee5500;
+  //position: relative;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 11;
+  //height: 100%;
+  //width: 100%;
+  //overflow: auto;
+  background-color: #ee5500;
 }
 
 .topicHolderDesktop {
-    position: relative;
-    height: 100%;
-    overflow: auto;
+  position: relative;
+  height: 100%;
+  overflow: auto;
 }
 
 .MobileChatHeader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 11;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px 8px;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  background-color: var(--theme-color);
+  color: $fuel;
+  font-size: 14px;
+  font-weight: 600;
+  @include topicTitleActive;
+  border-radius: $corner_radius_mobile;
+
+  .people {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0px 8px;
-    height: 56px;
-    min-height: 56px;
-    max-height: 56px;
-    background-color: $background;
-    color: $fuel;
-    font-size: 14px;
-    font-weight: 600;
-    //backdrop-filter: blur(12px);
-    border-bottom: 1px solid $border_basic;
-    @include topicTitleActive;
+    flex-direction: row;
+    overflow: hidden;
+    padding-right: 12px;
 
-    .people {
-        display: flex;
-        flex-direction: row;
-        overflow: hidden;
-
+    img {
+      margin-right: -12px;
+      border: 2px solid var(--theme-color);
     }
-    button {
-        height: 44px;
-        width: 44px;
-        border-radius: 999px;
-        margin: 0;
-        padding: 8px;
-        background-color: transparent;
-        border: 0;
-        outline: none;
-        outline-style: none;
-        -moz-outline-style: none; 
-        -webkit-tap-highlight-color: transparent; 
+  }
+  button {
+    height: 44px;
+    width: 44px;
+    border-radius: 999px;
+    margin: 0;
+    padding: 8px;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    outline-style: none;
+    -moz-outline-style: none;
+    -webkit-tap-highlight-color: transparent;
 
-        path {
-            fill: $font_main;
-        }
-
-        &:active {
-            background-color: $button_main_press;
-            path {
-                fill: $background;
-            }
-        }
+    path {
+      fill: var(--path-light);
     }
+
+    &:active {
+      background-color: var(--theme-offset-1);
+      path {
+        fill: var(--path-basic);
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 640px) {
-    .chatHolderMobile {
-        position: absolute;
-        top: 0px;
-        left: 0;
-        background-color: #ee5500;
-        width: 100vw;
-        background-color: #ee5500;
-    }
+  .chatHolderMobile {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    background-color: #ee5500;
+    width: 100vw;
+    background-color: #ee5500;
+  }
 }
 
 .avatar {
-    height: 36px;
-    width: 36px;
-    border-radius: 9999px;
-    border: 0;
-    user-select: none;
-    &Mobile {
-        height: 40px;
-        width: 40px;
-    }
+  height: 36px;
+  width: 36px;
+  border-radius: 9999px;
+  border: 0;
+  user-select: none;
+  &Mobile {
+    height: 40px;
+    width: 40px;
+  }
 }

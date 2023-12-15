@@ -6,7 +6,6 @@ import { MobileContext } from "../../../contexts/mobile";
 import GatheringSchedule from "../../../components/Gathering/GatheringSchedule/GatheringSchedule";
 import GatheringCreate from "../../../components/Gathering/GatheringCreate/GatheringCreate";
 import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
-import { GatherLoading } from "../../../components/Gathering/GatherLoading/GatherLoading";
 import styles from "./GatheringDashboard.module.scss";
 import { generatePushMessage, getBaseUrl } from "services/helper";
 import { sendPushNotification } from "requests/subscriptions";
@@ -289,11 +288,14 @@ const Video = () => {
           createScheduleRoom={triggerNewRoom}
         />
       </div>
-      <p className={styles.gatheringSection}>UPCOMING</p>
+      {/* <p 
+      className={
+        isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
+      }>Scheduled</p>
       <div className={styles.roomContainer}>
         <GatherLoading />
         <GatherLoading />
-      </div>
+      </div> */}
     </section>
   );
 };

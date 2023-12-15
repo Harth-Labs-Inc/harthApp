@@ -14,7 +14,7 @@ const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
   const termsOfServiceChecked = watch("termsOfServiceApproved");
 
   const bubbleText =
-    "Help us create a better space by treating others with respect.";
+    "Help us create a better space by treating others with respect";
 
   const toggleCheckbox = () => {
     setValue("termsOfServiceApproved", !termsOfServiceChecked);
@@ -25,10 +25,7 @@ const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
       <div className={styles.CreateModuleContent}>
         <div className={styles.header}>User Agreement</div>
         <TalkingHead text={bubbleText} />
-        <p className={styles.label}>
-          By continuing to use Harth, you agree to treat others with respect by
-          not posting objectionable content or sending harassing messages.
-        </p>
+        
         <form onSubmit={handleSubmit(submitHandler)}>
           <label>
             <input
@@ -48,7 +45,7 @@ const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
               ) : null}
             </div>
             <span>
-              I have read and agree to the{" "}
+              I have read and agree to the<br/>{" "}
               <a
                 href="https://harthsocial.com/terms"
                 target="_blank"
@@ -58,6 +55,10 @@ const TermsOfServiceModal = ({ buttonText, submitHandler, isSubmitting }) => {
               </a>
             </span>
           </label>
+          <p className={styles.label}>
+          By continuing to use Harth, you agree to treat others with respect by
+          not posting objectionable content or sending harassing messages.
+        </p>
           <div className={styles.buttonBar}>
             <button
               type="button"

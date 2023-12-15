@@ -10,7 +10,7 @@ import { IconAdd } from "../../../resources/icons/IconAdd";
 import CreateNewConversationModal from "./CreateNewConversationModal/CreateNewConversationModal";
 import styles from "./ConversationsNav.module.scss";
 import { useSocket } from "contexts/socket";
-import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
+import { LoadingScreen } from "components/LoadingScreen/LoadingScreen";
 
 /* eslint-disable */
 const ConversationsNav = ({
@@ -81,9 +81,7 @@ const ConversationsNav = ({
           Messages
         </p> */}
         {isLoadingConversations ? (
-          <div>
-            <SpinningLoader spinnerOnly={true} />
-          </div>
+            <LoadingScreen type="message" />
         ) : (
           <>
             {conversations < 1 ? (

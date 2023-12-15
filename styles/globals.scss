@@ -1,12 +1,10 @@
 //app colors
 @import "./utility/ui-mixins";
 
-
 //Consolodated
-$fuel: #271623;
-$ash: #28282e;
+$fuel: hsl(314, 28%, 12%);
+$ash: #18181e;
 $oxygen: #fefff6;
-
 
 // Hot Blue
 $hot_blue: #0d75ca;
@@ -25,148 +23,128 @@ $hot_pink: #d96fab;
 //$hot_pink: #f28dba;
 
 // Hot Orange
-$hot_orange: #FD823A;
+$hot_orange: #fd823a;
 //$hot_orange: #f8aa7d;
 
 // Hot Red
 $hot_red: #e11934;
 //$hot_red: #f2757c;
 
-
 $hot_salmon: #ff6b66;
 
 $alert_red: #bb0000;
 
+$test_color: var(--primary-color, #ff0000);
 
-
-$font_light: #fafafa;
+$font_light: $oxygen;
 $font_dark: $fuel;
+$font_muted: #6a6a74;
 
-$font_main: $font_dark;
-$font_reverse: $font_light;
-$font_muted: #8a7892;
+// Default Colors / Dark Mode
+$font_reverse: yellow;
 
+$background: #000;
+$background_reverse: #fff;
+$basic_offset: $ash;
+$background_offset: $ash;
+$background_offset_1: #28282e;
+$background_offset_2: red;
+$background_offset_3: green;
+$background_sidebar: blue;
 
-$background: #ffffff;
-$background_reverse: #000000;
-$background_offset: darken($background, 3%);
-$background_sidebar: #eaeaef;
-$background_sidebar: darken($background, 10%);
+$button_main: $background_offset_1;
+$button_main_press: $hot_purple;
 
-$button_main: $ash;
-$button_main_press: darken($button_main, 20%);
+$border_light: #38383e;
+$border_basic: #48484e;
+$border_heavy: #58585e;
 
+// Gathering Colors
+$gather_background: #000000;
+$gather_background_offset: $ash;
+$gather_background_offset_2: darken($ash, 12%);
+$gather_path: lighten($gather_background, 35%);
+$gather_path_heavy: lighten($gather_background, 50%);
 
-$border_basic: darken($background, 10%);
-$border_light: darken($background, 5%);
-$border_heavy: darken($background, 15%);
+//dark color scheme
+.dark-mode {
+  --theme-color: #18181e;
+  --theme-reverse: #fefff6;
+  --theme-offset-1: #28282e;
+  --theme-offset-2: #08080e;
+  --theme-offset-3: #1c1c22;
+  --overlay-background: #000;
+  --font-main: #fefff6;
+  --font-reverse: #271623;
+  --font-muted: #595961;
+  --border-light: #38383e;
+  --border-basic: #48484e;
+  --border-heavy: #58585e;
+  --path-light: #4f4f55;
+  --path-basic: #7f7f85;
+  --path-heavy: #9f9fa5;
+}
 
-
-//Text Colors
-$font_light: #fafafa;
-$font_medium: #bababa;
-$font_dark: #000000;
-
-
-
-// Oxygen
-$oxygen: #fefff6;
-$oxygen_5: rgba(252, 255, 246, 0.05);
-$oxygen_10: rgba(252, 255, 246, 0.1);
-$oxygen_20: rgba(252, 255, 246, 0.2);
-$oxygen_40: rgba(252, 255, 246, 0.4);
-$oxygen_50: rgba(252, 255, 246, 0.5);
-$oxygen_80: rgba(252, 255, 246, 0.8);
-
-$oxygen_muted: #c5c3b5;
+//light color theme
+.light-mode {
+  --theme-color: #f6f2ed;
+  --theme-reverse: #18181e;
+  --theme-offset-1: #e6e2dd;
+  --theme-offset-2: #d6d2cd;
+  --theme-offset-3: #f0ebe5;
+  --overlay-background: #000;
+  --font-main: #271623;
+  --font-reverse: #fefff6;
+  --font-muted: #797981;
+  --border-light: #d6d2cd;
+  --border-basic: #c6c2bd;
+  --border-heavy: #b6b2ad;
+  --path-light: #8f8f85;
+  --path-basic: #9f9f95;
+  --path-heavy: #afafa5;
+}
 
 // White
 $white: #ffffff;
 $white_90: rgba(255, 255, 255, 0.9);
 $white_80: rgba(255, 255, 255, 0.8);
-$white_70: rgba(255, 255, 255, 0.7);
 $white_60: rgba(255, 255, 255, 0.6);
 $white_50: rgba(255, 255, 255, 0.5);
 $white_40: rgba(255, 255, 255, 0.4);
-$white_30: rgba(255, 255, 255, 0.3);
 $white_20: rgba(255, 255, 255, 0.2);
 $white_10: rgba(255, 255, 255, 0.1);
 $white_5: rgba(255, 255, 255, 0.05);
-$white_2: rgba(255, 255, 255, 0.02);
 
 // Black
 $black: #000000;
-$black_05: rgba(0, 0, 0, 0.05);
-$black_10: rgba(0, 0, 0, 0.1);
-$black_20: rgba(0, 0, 0, 0.2);
-$black_25: rgba(0, 0, 0, 0.25);
-$black_30: rgba(0, 0, 0, 0.3);
-$black_40: rgba(0, 0, 0, 0.4);
-$black_50: rgba(0, 0, 0, 0.5);
 $black_60: rgba(0, 0, 0, 0.6);
-$black_70: rgba(0, 0, 0, 0.7);
 $black_80: rgba(0, 0, 0, 0.8);
-$black_90: rgba(0, 0, 0, 0.9);
 
-// Ash
-// Ash
-
+// Ash Variations
 $ash_heavy: darken($ash, 5%);
 $ash_medium: lighten($ash, 10%);
 $ash_light: lighten($ash, 20%);
-
-
-$ash_80: rgba(40, 40, 40, 0.8);
-$ash_60: rgba(40, 40, 40, 0.6);
-$ash_50: rgba(40, 40, 40, 0.5);
-$ash_40: rgba(40, 40, 40, 0.4);
-$ash_30: rgba(40, 40, 40, 0.3);
-$ash_20: rgba(40, 40, 40, 0.2);
 $ash_10: rgba(40, 40, 40, 0.1);
-$ash_05: rgba(40, 40, 40, 0.05);
-$ash_border: #3e3e3e;
-$ash_ultralight: #e8e8e8;
-
-$ash_dark: #080808;
-
-// Light Ash
-//$light_ash: #f8f8f8;
-//$light_ash: #fffbff;
-$light_ash: #f9f9f9;
-
 
 // Silvers
-$silver-xlight:  #f5f5f8;
-$silver-xxlight:  #fbfbff;
-$silver-light: #edf1f5;
-$silver-med: #e4e7eb;
-$silver-heavy: #b9bfc7;
 $silver-dark: #929ca8;
 
-// Fuel
-$fuel: #271623;
-$fuel_90: rgba(47, 29, 42, 0.9);
-$fuel_80: rgba(47, 29, 42, 0.8);
-$fuel_60: rgba(47, 29, 42, 0.6);
-$fuel_50: rgba(47, 29, 42, 0.5);
-$fuel_50F: #978e94;
-$fuel_40: rgba(47, 29, 42, 0.4);
-$fuel_30: rgba(47, 29, 42, 0.3);
-$fuel_20: #2f1d2a33;
-$fuel_20F: #D5D2D4;
-$fuel_10: rgba(47, 29, 42, 0.1);
-$fuel_7: rgba(47, 29, 42, 0.07);
-$fuel_10F: #eae8e9;
-$fuel_5: hsla(317, 24%, 15%, 0.05);
-$fuel_3: rgba(47, 29, 42, 0.03);
+// ========================
+// Basics
+// ========================
 
+$corner_radius: 8px;
+$corner_radius_mobile: 10px;
 
+$space: 8px;
+$space_mobile: 10px;
+$outline_mobile: 0px;
 
-//Muted Text
-$muted_text: #aeb4b8;
-
-
-
+$overlay: linear-gradient(
+  rgba(0, 0, 0, 0.4),
+  rgba(48, 48, 48, 0.6),
+  rgba(0, 0, 0, 0.4)
+);
 
 // ========================
 // Mixins
@@ -186,17 +164,25 @@ $muted_text: #aeb4b8;
   cursor: pointer;
 
   @media (hover: hover) and (pointer: fine) {
-    &:hover { 
-      background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
-    } 
+    &:hover {
+      background: linear-gradient(
+        45deg,
+        darken($hot_purple, 30%),
+        darken($hot_purple, 30%)
+      );
+    }
   }
 
   &:active {
-    background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
+    background: linear-gradient(
+      45deg,
+      darken($hot_purple, 30%),
+      darken($hot_purple, 30%)
+    );
   }
 }
 
-@mixin buttonSecondary{
+@mixin buttonSecondary {
   background: $background;
   color: $font_muted;
   border: 1px solid $border_heavy;
@@ -211,8 +197,9 @@ $muted_text: #aeb4b8;
   cursor: pointer;
 
   @media (hover: hover) and (pointer: fine) {
-    &:hover { 
+    &:hover {
       background: $background_offset;
+      color: $font_light;
     }
   }
 
@@ -221,105 +208,85 @@ $muted_text: #aeb4b8;
   }
 }
 
-@mixin buttonSystem{
-
-}
-
 @mixin buttonColorFade {
   background: linear-gradient(45deg, $hot_purple, darken($hot_purple, 30%));
   border: 0;
   margin: 0;
   cursor: pointer;
+  color: $font_light;
 
   @media (hover: hover) and (pointer: fine) {
-    &:hover { 
-      background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
-    } 
+    &:hover {
+      background: linear-gradient(
+        45deg,
+        darken($hot_purple, 30%),
+        darken($hot_purple, 30%)
+      );
+    }
   }
 
   &:active {
-    background: linear-gradient(45deg, darken($hot_purple, 30%), darken($hot_purple, 30%));
+    background: linear-gradient(
+      45deg,
+      darken($hot_purple, 30%),
+      darken($hot_purple, 30%)
+    );
   }
 }
-
 
 // ========================
 // Overlays
 // ========================
 $overlay_dark: rgba(0, 0, 0, 0.7);
 
-
-
-$red: #b00020;
-$orange: #ee5500;
-
-$text-black: #333;
-$black: #000;
-
-$placeholder-black: #9a9a9a;
-
-$black04: rgba(#000, 0.04);
-$black20: rgba(#000, 0.2);
-$black38: rgba(#000, 0.38);
-$black50: rgba(#000, 0.5);
-$black60: rgba(#000, 0.6);
-$black80: rgba(#000, 0.8);
-
-$white: #fff;
-
-$font-family-1: "Roboto", sans-serif;
-$font-icon: "IcoMoon";
-
-$gutter: 8px;
-
 // transitions
 .topicPanelAnimation-enter,
 .editFormAnimation-enter,
 .memberListAnimation-enter {
-    right: -375px;
+  right: -375px;
 }
 .topicPanelAnimation-enter-done,
 .editFormAnimation-enter-done,
 .memberListAnimation-enter-done {
-    right: 0px;
+  right: 0px;
 }
 .topicPanelAnimation-exit,
 .editFormAnimation-exit,
 .memberListAnimation-exit {
-    right: 0px;
+  right: 0px;
 }
 .topicPanelAnimation-exit-done,
 .editFormAnimation-exit-done,
 .memberListAnimation-exit-done {
-    right: -375px;
+  right: -375px;
 }
 
 .modalTransition-appear {
-    opacity: 0.01;
+  opacity: 0.01;
 }
 .modalTransition-appear.modalTransition-active {
-    opacity: 1;
-    transition: opacity 0.5s ease-in;
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
 }
 
 .layout {
-    [data-title] {
-        position: relative;
-        &:hover {
-            &:after {
-                position: absolute;
-                top: calc(100% + 5px);
-                left: 50%;
-                z-index: 1;
-                padding: 3px;
-                content: attr(data-title);
-                white-space: nowrap;
-                background-color: $oxygen_80;
-                border: 0;
-                border-radius: 8px;
-            }
-        }
+  [data-title] {
+    position: relative;
+    &:hover {
+      &:after {
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 50%;
+        z-index: 1;
+        padding: 3px;
+        content: attr(data-title);
+        white-space: nowrap;
+        background-color: $oxygen;
+        border: 0;
+        border-radius: 8px;
+      }
     }
+  }
 }
 .slide-enter {
   transform: translateX(100%) !important;
@@ -340,68 +307,70 @@ $gutter: 8px;
 }
 
 .slideRight-enter {
-    transform: translateX(-100%) !important;
-  }
-  
-  .slideRight-enter-active {
-    transform: translateX(0) !important;
-    transition: transform 300ms;
-  }
-  
-  .slideRight-exit {
-    transform: translateX(0) !important;
-  }
-  
-  .slideRight-exit-active {
-    transform: translateX(100%) !important;
-    transition: transform 300ms;
-  }
-  
-  .slideLeft-enter {
-    transform: translateX(100%) !important;
-  }
-  
-  .slideLeft-enter-active {
-    transform: translateX(0) !important;
-    transition: transform 300ms;
-  }
+  transform: translateX(-100%) !important;
+}
 
-  .slideLeft-exit {
-    transform: translateX(0) !important;
-  }
-  
-  .slideLeft-exit-active {
-    transform: translateX(-100%) !important;
-    transition: transform 300ms;
-  }
+.slideRight-enter-active {
+  transform: translateX(0) !important;
+  transition: transform 300ms;
+}
 
-  .slideRight-exit, .slideLeft-exit {
-    transition: background-color 300ms;
-  }
-  
-  .slideRight-exit-active, .slideLeft-exit-active {
-    background-color: $background
-  }
-  .enterLeft-enter {
-    transform: translateX(100%) !important;
-  }
-  
-  .enterLeft-enter-active {
-    transform: translateX(0) !important;
-    transition: transform 300ms;
-  }
-  .gatherTransitionBackground {
-    background: $background
-  }
-  .messageTransitionBackground {
-    background: $background
-  }
-  .chatTransitionBackground{
-    background: $background
-  }
-  .defaultTransitionBackground {
-    background: $background
-  }
-  #ReactSimpleImageViewer {
-    z-index: 9999 !important;
-  }
+.slideRight-exit {
+  transform: translateX(0) !important;
+}
+
+.slideRight-exit-active {
+  transform: translateX(100%) !important;
+  transition: transform 300ms;
+}
+
+.slideLeft-enter {
+  transform: translateX(100%) !important;
+}
+
+.slideLeft-enter-active {
+  transform: translateX(0) !important;
+  transition: transform 300ms;
+}
+
+.slideLeft-exit {
+  transform: translateX(0) !important;
+}
+
+.slideLeft-exit-active {
+  transform: translateX(-100%) !important;
+  transition: transform 300ms;
+}
+
+.slideRight-exit,
+.slideLeft-exit {
+  transition: background-color 300ms;
+}
+
+.slideRight-exit-active,
+.slideLeft-exit-active {
+  background-color: $background;
+}
+.enterLeft-enter {
+  transform: translateX(100%) !important;
+}
+
+.enterLeft-enter-active {
+  transform: translateX(0) !important;
+  transition: transform 300ms;
+}
+.gatherTransitionBackground {
+  background: $background; 
+}
+.messageTransitionBackground {
+  background: $background;
+}
+.chatTransitionBackground {
+  background: $background;
+}
+.defaultTransitionBackground {
+  background: $background;
+}
+#ReactSimpleImageViewer {
+  z-index: 9999 !important;
+}

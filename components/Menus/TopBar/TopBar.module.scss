@@ -2,323 +2,315 @@
 @import "../../../styles/fonts.scss";
 
 @keyframes slideInFromRight {
-    0% {
-        right: -100%; /* starting from outside the viewport */
-    }
-    100% {
-        right: 0;
-    }
+  0% {
+    right: -100%; /* starting from outside the viewport */
+  }
+  100% {
+    right: 0;
+  }
 }
 
 .notificationTray {
-    height: 100vh;
-    display: flex;
-    position: absolute;
-    right: -100%;
-    animation: slideInFromRight 0.5s forwards;
-    width: 400px;
-    z-index: 11;
-    background: white;
-
+  height: 100vh;
+  display: flex;
+  position: absolute;
+  right: -100%;
+  animation: slideInFromRight 0.5s forwards;
+  width: 400px;
+  z-index: 11;
+  background: white;
 }
 .notificationTrayMobile {
-    width: 100vw;  
+  width: 100vw;
 }
+
 .TopBar {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  padding: $space $space 0 $space;
+  z-index: 10;
+
+  .background {
+    position: relative;
+    width: 100%;
+    height: 64px;
+    background: var(--theme-color);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 56px;
-    width: 100%;
-    padding-right: 12px;
-    background: transparent;
-    z-index: 10;
-    border-top: 1px solid $border_basic;
-
-    .avatarDesktop {
-        //margin-top: 2px;
-        background-color: transparent;
-
-        img {
-            box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-                0 2px 2px hsl(0deg 0% 0% / 0.075),
-                0 4px 4px hsl(0deg 0% 0% / 0.075),
-                0 6px 6px hsl(0deg 0% 0% / 0.075);
-        }
-        
-
-    }
-
-    .avatarMobile {
-        margin: 0;
-        
-        img {
-            width: 40px;
-            height: 40px;
-        }
-        
-    }
-
- 
-    .HarthButton {
-        position: relative;
-        height: 60px;
-        width: fit-content;
-        background-color: transparent;
-        border-radius: 16px;
-        border: 0;
-        background-color: transparent;
-        padding: 0px;
-        padding-left: 8px;
-        padding-right: 2px;
-        //border: 1px solid $silver-med;
-        user-select: none;
-
-
-        img {
-            position: relative;
-            height: 52px;
-            min-height: 52px;
-            width: 52px;
-            min-width: 52px;
-            border-radius: 8px;
-            z-index: 1;
-            border: 1px solid $border_light;
-        }
-
-        &UnreadMessage {
-            &:before {
-                position: absolute;
-                top: 50%;
-                left: -2px;
-                transform: translate(-50%, -50%);
-                z-index: 2;
-                height: 16px;
-                width: 4px;
-                content: "";
-                background-color: $hot_salmon;
-                border-radius: 9999px;
-            }
-        }
-
-        &:active {
-            .menuIcon {
-                border-color: $hot_pink;
-            }
-        }
-
-    }
-    
-    .MobileNavTitle {
-        display: flex;
-        flex-direction: row;
-        gap: 4px;
-        align-items: center;
-    }
+    border-radius: $corner_radius;
+    padding-right: 10px;
 
     &Mobile {
-        position: fixed;
-        top: 0;
-        //border-top: 1px solid transparent;
-        height: 68px;
-        min-height: 68px;
-        max-height: 68px;
-        padding: 0px;
-        padding-left: 0px;
-        padding-right: 8px;
-        padding-bottom: 6px;
-        margin: 0;
-
-        background: $background;
-        border: 0;
-        border-bottom: 1px solid $border_basic;
-        //border-top: 1px solid $border_basic;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 68px;
+      background: var(--theme-color);
+      border-radius: $corner_radius_mobile; //
+      padding-right: 8px;
+      padding-left: 2px;
     }
+  }
+
+  .avatarDesktop {
+    background-color: transparent;
+  }
+
+  .avatarMobile {
+    margin: 0;
+    margin-top: 4px;
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .HarthButton {
+    position: relative;
+    height: 60px;
+    width: fit-content;
+    background-color: transparent;
+    border-radius: 16px;
+    border: 0;
+    background-color: transparent;
+    padding: 0px;
+    padding-left: 8px;
+    padding-right: 6px;
+    user-select: none;
+
+    img {
+      position: relative;
+      height: 44px;
+      min-height: 44px;
+      width: 44px;
+      min-width: 44px;
+      border-radius: 8px;
+      z-index: 1;
+      border: 0;
+    }
+
+    &UnreadMessage {
+      &:before {
+        position: absolute;
+        top: 50%;
+        left: -2px;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        height: 16px;
+        width: 4px;
+        content: "";
+        background-color: $hot_purple;
+        border-radius: 9999px;
+      }
+    }
+
+    &:active {
+      .menuIcon {
+        border-color: $hot_purple;
+      }
+    }
+  }
+
+  .MobileNavTitle {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+  }
+
+  &Mobile {
+    position: fixed;
+    top: 0;
+    margin: 0;
+    padding: 0px $outline_mobile 0px $outline_mobile;
+    border: 0;
+
+    &::before {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: $background;
+      height: 48px;
+      z-index: -1;
+    }
+  }
 }
 .titleHolder {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-content: space-between;
-    gap: 4px;
-    padding-bottom: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: space-between;
+  gap: 4px;
+  padding-bottom: 2px;
 }
 .TopBarName {
-//    width: 100%;
-    @include harthTitle;
-    font-size: 26px;
-    line-height: 30px;
-    height: 30px;
-    max-height: 30px;
-    color: $font_main;
-    //background-color: aqua;
-    overflow: hidden;
-//    text-wrap: nowrap;
-    text-overflow: ellipsis;
-
+  @include harthTitle;
+  font-size: 24px;
+  line-height: 30px;
+  height: 30px;
+  max-height: 30px;
+  color: var(--font-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.Section {
-    @include rubik;
-    color: $font_main;
-    font-size: 14px;
-    font-weight: 400;
 
-}
-.SectionMobile {
-
-    @include titleNav;
-    color: $font_main;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 0.03em;
-    text-transform:capitalize;
-    //background-color: aqua;
-    
-
-}
 .TopBarStreaming {
-    width: 48px;
-    height: 36px;
-    background-color: $hot_pink;
-    border-radius: 8px;
-    padding: 4px 4px;
+  width: 48px;
+  height: 36px;
+  background-color: $hot_pink;
+  border-radius: 8px;
+  padding: 4px 4px;
+  border: 0;
+
+  path {
+    fill: $white;
+  }
+
+  animation: pulse 2s infinite;
+}
+.holder {
+  position: relative;
+  right: 0px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
+}
+.TopBarReport {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px;
+
+  path {
+    fill: $hot_purple;
+    animation: pulseAndShake 2s infinite;
+  }
+
+  .reportSVG,
+  .loadingSVG {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .loadingSVG {
+    transform: scale(0.3);
+    opacity: 0;
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    background-color: transparent;
     border: 0;
 
     path {
-        fill: $white;
+      animation-play-state: paused;
     }
+  }
 
-    animation: pulse 2s infinite;
-}
-.holder {
-    position: relative;
-    right: 0px;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: 8px;
-}
-.TopBarReport {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 3px;
+  .reportSVG.clicked {
+    animation: spinShrinkFadeOut 0.5s forwards;
+  }
 
-    path {
-        fill: $hot_purple;
-        animation: pulseAndShake 2s infinite;
-    }
-
-    .reportSVG, .loadingSVG {
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-
-    .loadingSVG {
-        transform: scale(0.3);
-        opacity: 0;
-        width: 24px;
-        height: 24px;
-    }
-
-    &:hover {
-        background-color: transparent;
-        border: 0;
-
-        path {
-            animation-play-state: paused;
-        }
-    }
-
-    .reportSVG.clicked {
-        animation: spinShrinkFadeOut .5s forwards;
-    }
-
-    .loadingSVG.clicked {
-        animation: fadeInGrowAndSpin .5s forwards, continuousSpin 1s .5s infinite;
-    }
-    .loadingSVG path {
-        animation-play-state: paused;
-    }
+  .loadingSVG.clicked {
+    animation:
+      fadeInGrowAndSpin 0.5s forwards,
+      continuousSpin 1s 0.5s infinite;
+  }
+  .loadingSVG path {
+    animation-play-state: paused;
+  }
 }
 @keyframes pulseAndShake {
-    0%, 100% {
-        transform: scale(1) translateY(0) rotate(0deg);
-    }
-    25% {
-        transform: scale(1) translateY(0) rotate(0deg);
-    }
-    35%, 45%, 55% {
-        transform: scale(1) translateY(-3%) rotate(0);
-    }
-    40%, 50%, 60% {
-        transform: scale(1) translateY(3%) rotate(0);
-    }
-    70% {
-        transform: scale(1) translateY(0) rotate(0deg);
-    }
+  0%,
+  100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+  35%,
+  45%,
+  55% {
+    transform: scale(1) translateY(-3%) rotate(0);
+  }
+  40%,
+  50%,
+  60% {
+    transform: scale(1) translateY(3%) rotate(0);
+  }
+  70% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
 }
 @keyframes spinShrinkFadeOut {
-    0% {
-        transform: scale(0.7) rotate(0deg);
-        opacity: 1;
-    }
-    30% {
-        opacity: 0;
-        transform: scale(0.4) rotate(144deg);
-    }
-    100% {
-        transform: scale(0) rotate(360deg);
-        opacity: 0;
-    }
+  0% {
+    transform: scale(0.7) rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+    transform: scale(0.4) rotate(144deg);
+  }
+  100% {
+    transform: scale(0) rotate(360deg);
+    opacity: 0;
+  }
 }
 @keyframes fadeInGrowAndSpin {
-    0% {
-        opacity: 0;
-        transform: scale(0.3) rotate(0deg);
-    }
-    10% {
-        opacity: 0;
-        transform: scale(0.3) rotate(180deg);
-    }
-    20% {
-        opacity: 0.3;
-        transform: scale(0.3) rotate(180deg);
-    }
-    40% {
-        opacity: 0.5;
-        transform: scale(0.3) rotate(180deg);
-    }
-    60% {
-        opacity: 0.5;
-        transform: scale(0.7) rotate(180deg);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) rotate(360deg);
-    }
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+  10% {
+    opacity: 0;
+    transform: scale(0.3) rotate(180deg);
+  }
+  20% {
+    opacity: 0.3;
+    transform: scale(0.3) rotate(180deg);
+  }
+  40% {
+    opacity: 0.5;
+    transform: scale(0.3) rotate(180deg);
+  }
+  60% {
+    opacity: 0.5;
+    transform: scale(0.7) rotate(180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+  }
 }
 @keyframes continuousSpin {
-    0% {
-        transform: rotate(360deg); 
-    }
-    100% {
-        transform: rotate(720deg); 
-    }
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
 }
 @keyframes pulse {
-    0% {
-        background-color: $hot_pink;
-    }
-    50% {
-        background-color: darken($hot_pink, 20%);
-    }
-    100% {
-        background-color: $hot_pink;
-    }
+  0% {
+    background-color: $hot_pink;
+  }
+  50% {
+    background-color: darken($hot_pink, 20%);
+  }
+  100% {
+    background-color: $hot_pink;
+  }
 }

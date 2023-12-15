@@ -2,185 +2,190 @@
 @import "../../styles/fonts.scss";
 
 .Holder {
-    position: relative;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    height: calc(var(--vh) - 0px);
-    width: 100%;
-    background: $background;
-    //padding-left: 8px;
-    margin-top: -56px;
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: calc(var(--vh) - 88px);
+  width: 100%;
+  background: var(--theme-color);
+  border-radius: $corner_radius;
+  //padding-left: 8px;
+  margin-top: 0px;
 
-    @media screen and (max-width: 640px) {
-        margin: 0;
-        height: var(--vh);
-        padding: 0px;
-        padding-top: 24px;
-        padding-bottom: 16px;
-    }
+  @media screen and (max-width: 640px) {
+    height: var(--vh);
+    border-radius: 0;
+    padding: 0px;
+    padding-top: 66px;
+    padding-bottom: 16px;
+    background: $background;
+  }
 }
 
 #ChatMessages {
-    display: flex;
-    flex: 1;
-    flex-direction: column-reverse;
-    position: relative;
-    bottom: 0;
-    background-color: transparent;
-    width: 100%;
-    padding: 24px 0px;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    color: $fuel;
+  display: flex;
+  flex: 1;
+  flex-direction: column-reverse;
+  position: relative;
+  bottom: 0;
+  background-color: var(--theme-color);
+  width: 100%;
+  padding: 24px 0px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  color: $fuel;
+  border-top-right-radius: $corner_radius_mobile;
+  border-top-left-radius: $corner_radius_mobile;
 
-    &::-webkit-scrollbar {
-        display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
-    @media screen and (max-width: 640px) {
-       padding-bottom: 116px;
-        padding-top: 100px;
-    }
+  @media screen and (max-width: 640px) {
+    padding-bottom: 116px;
+    padding-top: 100px;
+  }
 }
 
 .NoPosts {
-    width: fit-content;
-    max-width: 100%;
-    margin: auto;
-    opacity: 0;
-    animation: fadeIn 0.3s ease-in-out 0.3s forwards;
+  width: fit-content;
+  max-width: 100%;
+  margin: auto;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in-out 0.3s forwards;
 }
 
 .AdminMessage {
-    color: $hot_orange;
-    @include worksans;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    text-align: center;
-    padding: 8px 0px;
-    &:before,
-    &:after {
-        content: "--";
-    }
+  color: $hot_orange;
+  @include worksans;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  padding: 8px 0px;
+  &:before,
+  &:after {
+    content: "--";
+  }
 
-    p {
-        display: inline-block;
-    }
+  p {
+    display: inline-block;
+  }
 }
 
 .SelfMessage,
 .IncomingMessage {
-    width: fit-content;
+  width: fit-content;
+  max-width: 100%;
+  .Creator {
+    @include chatProfile;
+    color: $border_light;
+    user-select: none;
+    margin-right: 4px;
+  }
+  > p {
+    margin: 0 0 12px 0;
+    padding: 8px 12px;
+    @include chatText;
+    white-space: pre-wrap; /* CSS3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+    border-radius: 12px;
+
+    a {
+      @include url;
+      color: $hot_blue;
+      font-size: 13px;
+    }
+  }
+  .MessageEmoji {
+    font-size: 22px;
+  }
+  img {
+    width: 400px;
     max-width: 100%;
-    .Creator {
-        @include chatProfile;
-        color: $silver-light;
-        user-select: none;
-        margin-right: 4px;
+    height: auto;
+    border-radius: 8px;
+    border: 3px solid transparent;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    background-color: $white;
+    &:hover {
+      border-color: $hot_pink;
     }
-    > p {
-        margin: 0 0 12px 0;
-        padding: 8px 12px;
-        @include chatText;
-        white-space: pre-wrap; /* CSS3 */
-        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-        white-space: -pre-wrap; /* Opera 4-6 */
-        white-space: -o-pre-wrap; /* Opera 7 */
-        word-wrap: break-word; /* Internet Explorer 5.5+ */
-        border-radius: 12px;
+  }
 
-        a {
-            @include url;
-            color: $hot_blue;
-            font-size: 13px;
-        }
-    }
-    .MessageEmoji {
-        font-size: 22px;
-    }
-    img {
-        width: 400px;
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        border: 3px solid transparent;
-        margin-top: 4px;
-        margin-bottom: 4px;
-        background-color: $white;
-        &:hover {
-            border-color: $hot_pink;
-        }
-    }
+  li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-    li {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .SelfMessage {
-    align-self: flex-end;
-    padding: 0px 0px 0px 24px;
+  align-self: flex-end;
+  padding: 0px 0px 0px 24px;
+  position: relative;
+  > p {
     position: relative;
-    > p {
-        position: relative;
-        background-color: $black;
-        border-bottom-right-radius: 0px;
-        margin-top: 2px;
-        color: $silver-light;
-    }
-    .TimeStamp {
-        display: block;
-        margin-right: 0px;
-        text-align: right;
-        @include timeStamp;
-        font-size: 11px;
-        line-height: 12px;
-        user-select: none;
-        color: $silver-heavy;
-        margin-top: 8px;
-    }
+    background-color: $black;
+    border-bottom-right-radius: 0px;
+    margin-top: 2px;
+    color: $border_light;
+  }
+  .TimeStamp {
+    display: block;
+    margin-right: 0px;
+    text-align: right;
+    @include timeStamp;
+    font-size: 11px;
+    line-height: 12px;
+    user-select: none;
+    color: $border_heavy;
+    margin-top: 8px;
+  }
 }
 .IncomingMessage {
-    > p {
-        background-color: $fuel;
-        margin-left: 40px;
-        margin-top: -24px;
-        margin-right: 12px;
-        border-top-left-radius: 0px;
-        color: $silver-light;
+  > p {
+    background-color: $fuel;
+    margin-left: 40px;
+    margin-top: -24px;
+    margin-right: 12px;
+    border-top-left-radius: 0px;
+    color: $border_light;
+  }
+  .TimeStamp {
+    display: flex;
+    align-items: flex-start;
+    color: $border_heavy;
+    @include timeStamp;
+    font-size: 11px;
+    line-height: 12px;
+    user-select: none;
+    img {
+      height: 32px;
+      width: 32px;
+      margin-right: 8px;
+      border-radius: 50%;
+      box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075),
+        0 4px 4px hsl(0deg 0% 0% / 0.075);
+      border: 0;
+      &hover {
+        border-color: initial;
+      }
     }
-    .TimeStamp {
-        display: flex;
-        align-items: flex-start;
-        color: $silver-heavy;
-        @include timeStamp;
-        font-size: 11px;
-        line-height: 12px;
-        user-select: none;
-        img {
-            height: 32px;
-            width: 32px;
-            margin-right: 8px;
-            border-radius: 50%;
-            box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
-                0 2px 2px hsl(0deg 0% 0% / 0.075),
-                0 4px 4px hsl(0deg 0% 0% / 0.075);
-            border: 0;
-            &hover {
-                border-color: initial;
-            }
-        }
-    }
+  }
 }
 
 // .TimeStamp {
@@ -189,318 +194,121 @@
 // }
 
 .ScrollButton {
-    @include x-center;
-    bottom: 15%;
-    z-index: 999;
-    padding: 4px 14px;
-    color: $white;
-    font-size: 9px;
-    line-height: 11px;
-    text-transform: uppercase;
-    background-color: #ee5500;
-    border: 0;
-    border-radius: 9px;
-    cursor: pointer;
+  @include x-center;
+  bottom: 15%;
+  z-index: 999;
+  padding: 4px 14px;
+  color: $white;
+  font-size: 9px;
+  line-height: 11px;
+  text-transform: uppercase;
+  background-color: #ee5500;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
 }
 
 .Input {
-    &Mobile {
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        z-index: 1;
-    }
-
-    &Desktop {
-        width: 100%;
-    }
-}
-
-.mainContainerDice {
+  &Mobile {
+    width: 100%;
     position: absolute;
-    top: 12%;
-    left: 10%;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    row-gap: 0;
-    width: fit-content;
-    background: transparent;
-    border: 1px solid $oxygen_10;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: $ash;
-}
+    bottom: 0;
+    z-index: 1;
+  }
 
-.mainContainerMap {
-    position: absolute;
-    top: 12%;
-    right: 10%;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    row-gap: 0;
-    width: fit-content;
-    background: transparent;
-    border: 1px solid $oxygen_10;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: $ash;
+  &Desktop {
+    width: 100%;
+  }
 }
 
 .imageViewer {
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-}
-
-.diceContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    border: 0;
-    background-color: $ash;
-    width: 56px;
-    padding: 4px 0px 6px 0px; // 0px;
-    border-top: 1px solid $oxygen_10;
-}
-
-
-
-.mobileMapContainer {
-    position: relative;
-    display: flex;
-    overflow: hidden;
-    flex-direction: column;
-    row-gap: 8px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 0;
-    background-color: $overlay_dark;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    width: 100%;
-    padding: 12px 0px 64px 0px;
-
-    .icon {
-        height: 64px;
-        width: 64px;
-        path {
-            fill: $oxygen;
-        }
-    }
-
-    .label {
-        @include interfaceH2;
-        color: $oxygen;
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .grabber {
-        background-color: $white_50;
-        border-radius: 9999px;
-        height: 4px;
-        width: 48px;
-        margin-bottom: 40px;
-    }
-
-    .closeBar {
-        display: flex;
-        width: 100%;
-        justify-content: flex-end;
-        justify-items: end;
-        align-content: flex-end;
-        padding: 0px 12px;
-        margin-bottom: 8px;
-    }
-    &Active {
-        position: relative;
-        padding: 0px;
-
-        .bottomBar {
-            position: relative;
-            width: 100%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-top: 12px;
-        }
-    }
-}
-
-.mobileDiceContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    row-gap: 24px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 0;
-    background-color: $overlay_dark;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    width: 100%;
-    padding: 12px 0px 48px 0px;
-
-    .grabber {
-        background-color: $white_50;
-        border-radius: 9999px;
-        height: 4px;
-        width: 48px;
-    }
-
-    .diceRow {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        column-gap: 24px;
-    }
-}
-
-.topBar {
-    background-color: $black_20;
-    height: 24px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: grab;
-    padding: 0px 2px 0px 10px;
-
-    path {
-        fill: transparent;
-    }
-
-    &:hover {
-        .close {
-            path {
-                fill: $oxygen_40;
-            }
-        }
-    }
-
-    .grabber {
-        background-color: $oxygen_20;
-        border-radius: 9999px;
-        height: 4px;
-        width: 24px;
-    }
-
-    .close {
-        background: transparent;
-        height: 18px;
-        width: 18px;
-        border: 0px;
-        border-radius: 4px;
-        padding: 3px;
-        path {
-            fill: transparent;
-        }
-
-        &:hover {
-            background-color: $oxygen_20;
-            path {
-                fill: $oxygen_80;
-            }
-        }
-    }
-
-    .spacer {
-        height: 18px;
-        width: 18px;
-        background: transparent;
-    }
+  width: 100%;
+  height: 100%;
+  z-index: 100;
 }
 
 .alertContainer {
+  position: relative;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px 0px $black;
+  height: 68px;
+  width: 148px;
+
+  .contents {
     position: relative;
-    border-radius: 8px;
-    box-shadow: 0px 2px 6px 0px $black;
-    height: 68px;
-    width: 148px;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    border: solid 4px transparent;
+    border-radius: 12px;
+    box-shadow: 4px 9999px 1px $ash inset; //interior color
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0)
+      ),
+      linear-gradient(35deg, $hot_blue, $hot_pink);
 
-    .contents {
-        position: relative;
-        background-origin: border-box;
-        background-clip: content-box, border-box;
-        border: solid 4px transparent;
-        border-radius: 12px;
-        box-shadow: 4px 9999px 1px $ash inset; //interior color
-        background-image: linear-gradient(
-                rgba(255, 255, 255, 0),
-                rgba(255, 255, 255, 0)
-            ),
-            linear-gradient(35deg, $hot_blue, $hot_pink);
+    height: 100%;
+    width: 100%;
 
-        height: 100%;
-        width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 8px 0px 4px;
 
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0px 8px 0px 4px;
-
-        .label {
-            @include rubik;
-            font-size: 48px;
-            font-weight: 600;
-            letter-spacing: -0.05em;
-            text-align: center;
-            width: 64px;
-            color: $oxygen;
-        }
-
-        .attributeContainer {
-            position: relative;
-            padding-left: 10px;
-            padding-bottom: 6px;
-
-            .icon {
-                height: 52px;
-                width: 52px;
-                path {
-                    fill: $oxygen;
-                }
-            }
-
-            .avatarWrapper {
-                position: absolute;
-                border-radius: 9999px;
-                border: 2px solid $ash;
-                width: 38px;
-                height: 38px;
-                bottom: 0px;
-                left: -4px;
-                overflow: hidden;
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 9999px;
-                    //border: 1px solid $oxygen;
-                }
-            }
-        }
+    .label {
+      @include rubik;
+      font-size: 48px;
+      font-weight: 600;
+      letter-spacing: -0.05em;
+      text-align: center;
+      width: 64px;
+      color: $oxygen;
     }
+
+    .attributeContainer {
+      position: relative;
+      padding-left: 10px;
+      padding-bottom: 6px;
+
+      .icon {
+        height: 52px;
+        width: 52px;
+        path {
+          fill: $oxygen;
+        }
+      }
+
+      .avatarWrapper {
+        position: absolute;
+        border-radius: 9999px;
+        border: 2px solid $ash;
+        width: 38px;
+        height: 38px;
+        bottom: 0px;
+        left: -4px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 9999px;
+          //border: 1px solid $oxygen;
+        }
+      }
+    }
+  }
 }
 
 .shadow {
-    box-shadow: 10px 10px 8px 10px #888888;
+  box-shadow: 10px 10px 8px 10px #888888;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

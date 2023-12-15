@@ -2,73 +2,73 @@
 @import "../../../../styles/globals.scss";
 
 .mainContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 300px;
+  row-gap: 8px;
+  @include systemFont;
+  font-size: 16px;
+  width: 330px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .title {
+    @include overlayMenuTitle;
+    width: 100%;
+    text-align: center;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    color: $font_light;
+    text-transform: uppercase;
+  }
+
+  .harthImage {
+    height: 56px;
+    width: 56px;
+    border-radius: 8px;
+    border: 1px solid $border_basic;
+    margin-top: 12px;
+  }
+  .harthName {
+    margin-top: -6px;
+    margin-bottom: 12px;
+    @include harthTitle;
+    font-size: 28px;
+  }
+
+  .text {
+    width: 90%;
+    text-align: center;
+    color: $font_muted;
+    font-size: 14px;
+    //text-transform:capitalize;
+  }
+
+  .form {
     display: flex;
     align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 300px;
-    row-gap: 8px;
-    @include systemFont;
-    font-size: 16px;
-    width: 330px;
-    margin-left: auto;
-    margin-right: auto;
+    justify-content: flex-end;
+  }
 
-    .title {
-        @include overlayMenuTitle;
-        width: 100%;
-        text-align: center;
-        margin-top: 8px;
-        margin-bottom: 20px;
-        color: $font_main;
-        text-transform: uppercase;
+  .buttonBar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    column-gap: 8px;
+    margin-top: 16px;
+    width: 100%;
+
+    .cancelButton {
+      width: 96px;
+      height: 52px;
+      // min-width: 88px;
     }
 
-    .harthImage {
-        height: 56px;
-        width: 56px;
-        border-radius: 8px;
-        border: 1px solid $border_basic;
-        margin-top: 12px;
+    .submitButton {
+      width: 100%;
+      height: 52px;
     }
-    .harthName {
-        margin-top: -6px;
-        margin-bottom: 12px;
-        @include harthTitle;
-        font-size: 28px;
-    }
-
-    .text {
-        width: 90%;
-        text-align: center;
-        color: $font_muted;
-        font-size: 14px;;
-        //text-transform:capitalize;
-    }
-
-    .form {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-    }
-
-    .buttonBar {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-end;
-        column-gap: 8px;
-        margin-top: 16px;
-        width: 100%;
-
-        .cancelButton {
-            width: 96px;
-            height: 52px;
-            // min-width: 88px;
-        }
-
-        .submitButton {
-            width: 100%;
-            height: 52px;
-        }
-    }
+  }
 }

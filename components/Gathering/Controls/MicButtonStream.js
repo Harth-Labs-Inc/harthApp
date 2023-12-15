@@ -50,7 +50,7 @@ export const MicButtonStream = (props) => {
         className={`
                 ${styles.basicButton} 
                 ${isMobile ? styles.basicButtonMobile : styles.basicButtonDesktop} 
-                ${isOn ? styles.basicButtonInactive : styles.basicButtonMuted}
+                ${isOn ? styles.basicButtonMicOn : styles.basicButtonMuted}
             `}
         aria-label="Microphone"
         onClick={onPress}

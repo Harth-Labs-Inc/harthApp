@@ -44,6 +44,7 @@ export const TextArea = (props) => {
                     value={value}
                     onChange={inputChangeHandler}
                     autoComplete="off"
+                    spellCheck="true"
                     {...props}
                 />
                 <p className="empty_error_message">

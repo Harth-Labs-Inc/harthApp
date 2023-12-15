@@ -24,14 +24,14 @@
 
 @mixin titleNav {
   font-family: var(--Rubik-font);
-  font-weight: 300;
-  font-size: 12px;
+  font-weight: 400;
+  font-size: 14px;
   line-height: 100%;
   text-rendering: optimizeLegibility;
 }
 
 @mixin titleNavMobile {
-  font-family: var(--DM_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 12px;
   line-height: 100%;
@@ -39,7 +39,7 @@
 }
 
 @mixin smallTitle {
-  font-family: var(--DM_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 14px;
   line-height: 100%;
@@ -51,7 +51,7 @@
   font-weight: 600;
   font-size: 11px;
   line-height: 100%;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
@@ -99,17 +99,17 @@
   font-family: var(--Raleway-font);
   font-weight: 400;
   font-size: 14px;
-  line-height: 130%;
-  letter-spacing: 0.03em;
+  line-height: 125%;
+  letter-spacing: 0.02em;
   text-rendering: optimizeLegibility;
 }
 
 @mixin chatTextMobile {
   font-family: var(--Raleway-font);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
-  line-height: 135%;
-  letter-spacing: 0.03em;
+  line-height: 125%;
+  letter-spacing: 0.02em;
   text-rendering: optimizeLegibility;
 }
 
@@ -126,7 +126,7 @@
   font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 12px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0em;
 }
 
 @mixin timeStamp {
@@ -140,7 +140,7 @@
 }
 
 @mixin roomType {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 800;
   font-size: 40px;
   letter-spacing: 0.03em;
@@ -150,7 +150,7 @@
 }
 
 @mixin menuTitle {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.05em;
@@ -159,7 +159,7 @@
 }
 
 @mixin menuSubTitle {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -187,7 +187,7 @@
 }
 
 @mixin buttonLarge {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 0.04em;
@@ -195,7 +195,7 @@
 }
 
 @mixin buttonSmall {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.04em;
@@ -203,7 +203,7 @@
 }
 
 @mixin subtext {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -213,7 +213,7 @@
 }
 
 @mixin mouseover {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -223,8 +223,8 @@
 
 @mixin roomTitle {
   font-family: var(--Rubik-font);
-  font-weight: 900;
-  font-size: 26px;
+  font-weight: 600;
+  font-size: 24px;
   letter-spacing: 0;
   line-height: 100%;
   //text-rendering: optimizeLegibility;
@@ -232,8 +232,8 @@
 
 @mixin roomTitleMobile {
   font-family: var(--Rubik-font);
-  font-weight: 900;
-  font-size: 36px;
+  font-weight: 600;
+  font-size: 26px;
   letter-spacing: 0;
   line-height: 100%;
   //text-rendering: optimizeLegibility;
@@ -246,15 +246,8 @@
   //text-rendering: optimizeLegibility;
 }
 
-@mixin dmsans {
-  font-family: var(--DM_Sans-font);
-  font-weight: 400;
-  font-size: 12px;
-  //text-rendering: optimizeLegibility;
-}
-
 @mixin url {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.05em;
@@ -268,146 +261,3 @@
   //text-rendering: optimizeLegibility;
 }
 
-@mixin cooper {
-  font-family: var(--COOPBL-font);
-}
-
-@mixin interfaceH1 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 500;
-  font-size: 20px;
-  letter-spacing: 0.02em;
-  line-height: 22px;
-  //text-rendering: optimizeLegibility;
-}
-@mixin interfaceH2 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 400;
-  font-size: 18px;
-  letter-spacing: 0.02em;
-  line-height: 20px;
-  //text-rendering: optimizeLegibility;
-}
-@mixin interfaceH3 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: 0.02em;
-  line-height: 18px;
-  //text-rendering: optimizeLegibility;
-}
-@mixin interfaceH4 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.02em;
-  line-height: 16px;
-  //text-rendering: optimizeLegibility;
-}
-@mixin interfaceH5 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 500;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  line-height: 14px;
-  //text-rendering: optimizeLegibility;
-}
-
-@mixin interfaceR1 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: 0.02em;
-  line-height: 18px;
-  //text-rendering: optimizeLegibility;
-}
-@mixin interfaceR2 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 400;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  line-height: 14px;
-  //text-rendering: optimizeLegibility;
-}
-@mixin interfaceR3 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  line-height: 14px;
-  //text-rendering: optimizeLegibility;
-}
-@mixin interfaceR4 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 400;
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  line-height: 12px;
-  //text-rendering: optimizeLegibility;
-}
-
-@mixin contentH1 {
-  font-family: var(--Work_Sans-font);
-  font-weight: 900;
-  font-size: 24px;
-  letter-spacing: -0.02em;
-  line-height: 125%;
-  //text-rendering: optimizeLegibility;
-}
-@mixin contentH2 {
-  font-family: var(--Rubik-font);
-  font-weight: 500;
-  font-size: 18px;
-  letter-spacing: 0.02em;
-  line-height: 125%;
-  //text-rendering: optimizeLegibility;
-}
-@mixin contentH3 {
-  font-family: var(--Rubik-font);
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: 0.02em;
-  line-height: 125%;
-  //text-rendering: optimizeLegibility;
-}
-@mixin contentH4 {
-  font-family: var(--Rubik-font);
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: 0.02em;
-  line-height: 125%;
-  //text-rendering: optimizeLegibility;
-}
-@mixin contentH5 {
-  font-family: var(--Rubik-font);
-  font-weight: 500;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  line-height: 125%;
-  //text-rendering: optimizeLegibility;
-}
-
-@mixin contentR1 {
-  font-family: var(--Rubik-font);
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: 0.02em;
-  line-height: 125%;
-  //text-rendering: optimizeLegibility;
-}
-@mixin contentR2 {
-  font-family: var(--Rubik-font);
-  font-weight: 400;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  line-height: 125%;
-  //text-rendering: optimizeLegibility;
-}
-@mixin contentR3 {
-  font-family: var(--Rubik-font);
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  line-height: 125%;
-  //text-rendering: optimizeLegibility;
-}

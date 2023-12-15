@@ -2,26 +2,27 @@
 @import "../../../styles/fonts.scss";
 
 .MainChatContainer {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
+  padding: $space;
 }
 
 .topicHolderMobile {
-    position: relative;
-    height: 100%;
+  position: relative;
+  height: 100%;
 }
 
 .chatHolderMobile {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 11;
-    height: var(--vh);
-    width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  height: var(--vh);
+  width: 100vw;
 }
 
 .topicHolderDesktop {
-    position: relative;
-    height: 100%;
-    overflow: auto;
+  position: relative;
+  height: 100%;
+  overflow: auto;
 }

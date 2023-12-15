@@ -8,7 +8,7 @@ export const SubSettings = ({ toggleCurrentTab }) => {
                 className={styles.menuItem}
                 onClick={() => toggleCurrentTab("accountprofile")}
             >
-                Account
+                Settings
                 <div className={styles.iconHolder}>
                     <IconChevronRight />
                 </div>

@@ -2,140 +2,135 @@
 @import "../../../styles/globals.scss";
 
 .GatheringSchedule {
-    width: 300px;
-    padding-top: 8px;
+  width: 300px;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+
+  &RoomName {
+    @include systemFont;
+    text-align: center;
+    background-color: transparent;
+    &::placeholder {
+      // color: $fuel_30;
+    }
+  }
+
+  &SubTitle {
+    @include rubik;
+    font-weight: 500;
+    font-size: 11px;
+    margin-top: 28px;
+    margin-bottom: 8px;
+  }
+
+  &SubTitleTop {
+    @include rubik;
+    font-weight: 500;
+    font-size: 11px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  &DateTime {
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    input {
+      @include rubik;
+      font-size: 22px;
+      letter-spacing: -0.05em;
+      font-weight: 500;
+      color: $fuel;
+    }
 
-    &RoomName {
-        @include contentH1;
-        text-align: center;
-        background-color: transparent;
-        &::placeholder {
-            color: $fuel_30;
+    .date {
+      width: fit-content;
+
+      &::placeholder {
+        // color: $fuel_30;
+      }
+    }
+
+    .time {
+      width: fit-content;
+    }
+  }
+
+  &Type {
+    display: flex;
+    gap: 12px;
+
+    @include rubik;
+    font-weight: 500;
+    font-size: 11px;
+    text-align: center;
+    text-transform: capitalize;
+
+    &Select {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding-right: 6px;
+      // color: $fuel_50;
+      // background-color: $fuel_5;
+      border: 2px solid transparent;
+      border-radius: 40px;
+      cursor: pointer;
+
+      span {
+        padding: 6px;
+        // background-color: $fuel_5;
+        border-radius: 50%;
+      }
+
+      svg {
+        width: 20px;
+      }
+      input {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      &.Active {
+        color: $fuel;
+        background-color: $white;
+      }
+
+      &:first-of-type {
+        &.Active {
+          border-color: $hot_blue;
+          span {
+            background-color: $hot_blue;
+          }
         }
-    }
-
-
-    &SubTitle {
-        @include rubik;
-        font-weight: 500;
-        font-size: 11px;
-        margin-top: 28px;
-        margin-bottom: 8px;
-
-
-    }
-
-    &SubTitleTop {
-        @include rubik;
-        font-weight: 500;
-        font-size: 11px;
-        margin-top: 8px;
-        margin-bottom: 8px;
-    }
-
-    &DateTime {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        gap: 8px;
-        input {
-            @include rubik;
-            font-size: 22px;
-            letter-spacing: -.05em;
-            font-weight: 500;
-            color: $fuel;
-
-            
+      }
+      &:nth-of-type(2) {
+        &.Active {
+          border-color: $hot_red;
+          span {
+            background-color: $hot_red;
+          }
         }
-
-        .date {
-            width: fit-content;
-
-            &::placeholder {
-                color: $fuel_30;
-            }
+      }
+      &:last-of-type {
+        &.Active {
+          border-color: $hot_pink;
+          span {
+            background-color: $hot_pink;
+          }
         }
-
-        .time {
-            width: fit-content;
-        }
+      }
     }
+  }
 
-    &Type {
-        display: flex;
-        gap: 12px;
-
-        @include rubik;
-        font-weight: 500;
-        font-size: 11px;
-        text-align: center;
-        text-transform: capitalize;
-
-        &Select {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-            padding-right: 6px;
-            color: $fuel_50;
-            background-color: $fuel_5;
-            border: 2px solid transparent;
-            border-radius: 40px;
-            cursor: pointer;
-
-            span {
-                padding: 6px;
-                background-color: $fuel_5;
-                border-radius: 50%;
-            }
-
-            svg {
-                width: 20px;
-            }
-            input {
-                position: absolute;
-                opacity: 0;
-                visibility: hidden;
-            }
-
-            &.Active {
-                color: $fuel;
-                background-color: $white;
-            }
-
-            &:first-of-type {
-                &.Active {
-                    border-color: $hot_blue;
-                    span {
-                        background-color: $hot_blue;
-                    }
-                }
-            }
-            &:nth-of-type(2) {
-                &.Active {
-                    border-color: $hot_red;
-                    span {
-                        background-color: $hot_red;
-                    }
-                }
-            }
-            &:last-of-type {
-                &.Active {
-                    border-color: $hot_pink;
-                    span {
-                        background-color: $hot_pink;
-                    }
-                }
-            }
-        }
-    }
-
-    &Buttons {
-        display: flex;
-        gap: 24px;
-        margin-top: 24px;
-    }
+  &Buttons {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+  }
 }

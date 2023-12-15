@@ -2,58 +2,50 @@
 @import "../../../styles/fonts.scss";
 
 .MobileChatHeader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0px 8px;
-    height: 56px;
-    min-height: 56px;
-    max-height: 56px;
-    background-color: $background;
-    color: $font_main;
-    border-bottom: 1px solid $border_basic;
-    @include topicTitle;
-    font-size: 14px;
-    font-weight: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px 8px;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  background-color: var(--theme-color);
+  border-radius: $corner_radius_mobile;
+  color: var(--font-main);
+  @include topicTitleMobile;
 
-    .emojiHolder {
-        padding-right: 8px;
-        width: fit-content;
-        height: fit-content;
-        line-height: 100%;
-        font-size: 20px;
+  .emojiHolder {
+    padding-right: 8px;
+    width: fit-content;
+    height: fit-content;
+    line-height: 100%;
+    font-size: 20px;
+  }
+
+  button {
+    height: 44px;
+    width: 44px;
+    border-radius: 999px;
+    margin: 0;
+    padding: 8px;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    outline-style: none;
+    -moz-outline-style: none;
+    -webkit-tap-highlight-color: transparent;
+
+    path {
+      fill: var(--path-basic);
     }
 
-    button {
-        height: 44px;
-        width: 44px;
-        border-radius: 999px;
-        margin: 0;
-        padding: 8px;
-        background-color: transparent;
-        border: 0;
-        outline: none;
-        outline-style: none;
-        -moz-outline-style: none; 
-        -webkit-tap-highlight-color: transparent; 
-
-
-        path {
-            fill: $font_main;
-        }
-
-        &:active {
-            background-color: $button_main_press;
-            
-            path {
-                fill: $background;
-            }
-        }
-
+    &:active {
+      background-color: var(--theme-offset-1);
     }
+  }
 }

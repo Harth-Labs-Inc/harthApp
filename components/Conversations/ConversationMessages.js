@@ -1,5 +1,5 @@
 import { useState, useRef, useContext, useEffect, Fragment } from "react";
-import ImageViewer from "react-simple-image-viewer";
+import ZoomViewer from "components/ZoomViewer/ZoomViewer";
 import { useComms } from "../../contexts/comms";
 import styles from "./ConversationMessages.module.scss";
 import { MobileContext } from "../../contexts/mobile";
@@ -19,7 +19,6 @@ import {
 import {
   getUploadURL,
   putImageInBucket,
-  getDownloadURL,
   compressImage,
 } from "../../requests/s3";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
@@ -41,11 +40,11 @@ export const ConversationMessages = () => {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-
+  const slideshowURLRef = useRef([]);
   const [disableChat, setDisableChat] = useState(false);
   const [uploadingAttachments, setUploadingAttachments] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [slideshowImage, setSlideshowImage] = useState(0);
   const {
     selectedcomm,
     selectedCommRef,
@@ -444,29 +443,20 @@ export const ConversationMessages = () => {
     resetEdit();
     toggleEditing();
   };
-  const openImageSlideShow = async (idx, attachments) => {
-    let att = attachments[idx];
-    let name = { ...att }?.name || "";
-    if (name.includes("thumbnail")) {
-      name = name.replace("thumbnail", "full");
-    }
-    const data = await getDownloadURL(
-      name,
-      att.fileType,
-      "gather-message-attachments"
+
+  const openImageSlideShow = async (url) => {
+    const index = slideshowURLRef.current.findIndex(
+      (obj) => obj.name === url.name
     );
-    if (data) {
-      const { ok, downloadURL } = data;
-      if (ok) {
-        setShowImageSlideShow(true);
-        setImageSlideshowURL(downloadURL);
-      }
-    }
+    setSlideshowImage(index);
+    setShowImageSlideShow(true);
   };
+
   const resetImageSLideshow = () => {
     setImageSlideshowURL(null);
     setShowImageSlideShow(false);
   };
+
   const cancelEdit = (selectedInputID) => {
     setConversationInputs({ ...conversationInputs, [selectedInputID]: "" });
   };
@@ -476,6 +466,28 @@ export const ConversationMessages = () => {
   const toggleEditing = (msgId) => {
     setMessageEditing(msgId);
   };
+
+  const nextImageInSlideshow = (url) => {
+    const index = slideshowURLRef.current.findIndex(
+      (obj) => obj.name === url.name
+    );
+    if (index !== -1) {
+      const nextIndex = (index + 1) % slideshowURLRef.current.length;
+      setSlideshowImage(nextIndex);
+    }
+  };
+  const prevImageInSlideshow = (url) => {
+    const index = slideshowURLRef.current.findIndex(
+      (obj) => obj.name === url.name
+    );
+    if (index !== -1) {
+      const prevIndex =
+        (index - 1 + slideshowURLRef.current.length) %
+        slideshowURLRef.current.length;
+      setSlideshowImage(prevIndex);
+    }
+  };
+
   const handleScroll = (e) => {
     const { scrollTop, clientHeight, scrollHeight } = e.target;
     const threshold = 100;
@@ -492,18 +504,14 @@ export const ConversationMessages = () => {
   return (
     <>
       {showImageSlideShow ? (
-        <>
-          <div className={styles.imageViewer}>
-            <ImageViewer
-              src={[imageSlideshowURL]}
-              closeOnClickOutside={true}
-              onClose={resetImageSLideshow}
-              backgroundStyle={{
-                backgroundColor: "rgba(0,0,0,0.92)",
-              }}
-            />
-          </div>
-        </>
+        <ZoomViewer
+          resetImageSLideshow={resetImageSLideshow}
+          url={slideshowURLRef.current[slideshowImage]}
+          prevImageInSlideshow={prevImageInSlideshow}
+          nextImageInSlideshow={nextImageInSlideshow}
+          slideshowURLRef={slideshowURLRef.current}
+          bucket="gather-message-attachments"
+        />
       ) : null}
       <div id="longPressCoverId"></div>
       <div className={styles.Holder}>
@@ -514,6 +522,7 @@ export const ConversationMessages = () => {
               <Fragment key={msg?._id}>
                 <ChatSingleMessage
                   longPressCoverId="longPressCoverId"
+                  slideshowURLRef={slideshowURLRef}
                   msgReload={msgReload}
                   editMessageText={editMessage}
                   msg={msg}

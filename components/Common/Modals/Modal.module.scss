@@ -2,107 +2,123 @@
 @import "../../../styles/globals.scss";
 
 .ignoreFadeIn {
-  
-            background: linear-gradient(to bottom, transparent, $border_basic, transparent);
-            backdrop-filter: blur(30px);
-            animation-name: none !important;
-            animation-duration: 0s !important;
-    
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    $border_basic,
+    transparent
+  );
+  backdrop-filter: blur(30px);
+  animation-name: none !important;
+  animation-duration: 0s !important;
 }
 
 .rendering {
-    left: -356px;
-    transition: all 0.2s ease-in-out;
+  left: -356px;
+  transition: all 0.2s ease-in-out;
 }
 .entered {
-    left: 0;
-    transition: all 0.2s ease-in-out;
+  left: 0;
+  transition: all 0.2s ease-in-out;
 }
-
-@keyframes blur-in {
-    from {
-        background: transparent;
-        backdrop-filter: blur(0px);
-    }
-    to {
-        background: linear-gradient(to bottom, transparent, $border_basic, transparent);
-        backdrop-filter: blur(30px);
-    }
-}
-
-
 
 .Modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 300;
-    height: var(--vh);
-    width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  height: var(--vh);
+  width: 100vw;
 
-    animation-name: blur-in;
-    animation-duration: 0.2s;
-    animation-timing-function: ease-in-out;
-    animation-fill-mode: forwards;
-    
-    .Modal {
-        height: 100%;
-        width: 100%;
+  animation-name: blur-in;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+
+  &Mid {
+    position: absolute;
+    width: 100%;
+    top: 49%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    padding: 0px;
+    background-color: $background;
+    border-top: 1px solid $background_offset_1;
+    border-bottom: 1px solid $background_offset_1;
+    opacity: 0;
+    animation: pop 0.3s ease-out forwards;
+
+    &Dark {
+      background-color: $ash;
     }
 
-    &Mid {
-        position: absolute;
-        width: 100%;
-        top: 49%;
-        left: 50%;
-        transform: translate3d(-50%, -50%, 0);
-        padding: 0px;
-        background-color: $background;
-        border-top: 1px solid $border_basic;
-        border-bottom: 1px solid $border_basic;
-        &Dark {
-            background-color: $ash;
-        }
-
-        &Padding {
-            padding: 24px;
-        }
-
-        &Block {
-            border: 0;
-        }
-    }
-
-    &Left {
-        position: absolute;
-        top: 0;
-        height: var(--vh);
-        width: 356px;
-        background-color: $background;
-        border-right: 1px solid $border_basic;
-        overflow: hidden;
-        padding-bottom: 28px;
-        border-radius: 0 0px 0px 0;
+    &Padding {
+      padding: 24px;
     }
 
     &Block {
-        background: $background;
-        border: 0;
+      border: 0;
     }
+
+    &Top {
+      top: 6px;
+      transform: translateX(-50%);
+    }
+
+    &Full {
+      height: 100vh;
+      max-height: 100vh;
+      top: 0;
+      left: 0;
+      transform: none;
+    }
+  }
+
+  &Left {
+    position: absolute;
+    top: 0;
+    height: var(--vh);
+    width: 356px;
+    background-color: $background;
+    overflow: hidden;
+    padding-bottom: 28px;
+    border-radius: 0px;
+  }
+
+  &Block {
+    background: $background;
+    border: 0;
+    animation: blur-in-block 0.3s ease-out forwards;
+  }
 }
 
 .sideModalContainer {
-    z-index: 299;
+  z-index: 299;
 }
 
+@keyframes blur-in {
+  from {
+    background: transparent;
+  }
+  to {
+    background: $overlay;
+  }
+}
 
 @keyframes blur-in-block {
-    from {
-        background-color: transparent;
-        //backdrop-filter: blur(0px) grayscale(0%);
-    }
-    to {
-        background-color: $background;
-        //backdrop-filter: blur(16px) grayscale(60%);
-    }
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: $background;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

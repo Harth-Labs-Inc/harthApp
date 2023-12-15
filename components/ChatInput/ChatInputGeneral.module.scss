@@ -1,199 +1,192 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
-
 .imageViewer {
-    width: 100vw;
-    height: var(--vh);
-    z-index: 100;
+  width: 100vw;
+  height: var(--vh);
+  z-index: 100;
 }
 
 #ChatInput {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+  margin: 0px 0px 0px 0px;
+  background: $gather_background_offset;
+  //border-radius: 12px;
+  padding: 8px 8px 16px 8px;
+  border-top: 1px solid $gather_background_offset_2;
+  border-bottom-left-radius: $corner_radius;
+  border-bottom-right-radius: $corner_radius;
+
+  &Text {
+    resize: none;
+    display: block;
     width: 100%;
+    min-height: 48px;
+    height: 48px;
+    max-height: calc(var(--vh) * 0.5);
+    margin: 0;
+    padding: 8px 12px;
+    @include chatText;
+    color: $font_light;
+    background: $gather_background_offset_2;
+    border: 0;
+    caret-color: $hot_salmon;
+
+    white-space: pre-wrap; /* CSS3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+
+    &::placeholder {
+      @include chatText;
+      color: $font_muted;
+    }
+  }
+
+  .entryBox {
+    //border: 1px solid rgba(0,0,0,0.4);
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  &Controls {
     display: flex;
-    flex-direction: column;
-    row-gap: 2px;
-    margin: 0px 0px 0px 0px;
-    background: $ash;
-    //border-radius: 12px;
-    padding: 8px 8px 16px 8px;
-    border-top: 1px solid $ash_medium;
+    justify-content: space-between;
+    padding: 0px;
 
+    &Right,
+    &Left {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      column-gap: 12px;
 
-    &Text {
-        resize: none;
-        display: block;
-        width: 100%;
-        min-height: 48px;
-        height: 48px;
-        max-height: calc(var(--vh) * 0.5);
-        margin: 0;
-        padding: 8px 12px;
-        @include chatText;
-        color: $font_light;
-        background: $ash_heavy;
-        border: 0;
-        caret-color: $hot_salmon;
+      > button {
+        position: relative;
+        margin: 0 0px;
+        height: 36px;
+        width: 36px;
+        padding: 6px;
+        background-color: transparent;
+        border-radius: 8px;
+        border: 0px;
+        cursor: pointer;
 
-        white-space: pre-wrap; /* CSS3 */
-        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-        white-space: -pre-wrap; /* Opera 4-6 */
-        white-space: -o-pre-wrap; /* Opera 7 */
-        word-wrap: break-word; /* Internet Explorer 5.5+ */
-
-        &::placeholder {
-            @include chatText;
-            color: darken($font_medium, 15%);
+        path {
+          fill: $gather_path;
         }
 
-    }
-
-    .entryBox {
-        //border: 1px solid rgba(0,0,0,0.4);
-        border-radius: 12px;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    &Controls {
-        display: flex;
-        justify-content: space-between;
-        padding: 0px;
-
-        &Right,
-        &Left {
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            column-gap: 12px;
-
-            > button {
-                position: relative;
-                margin: 0 0px;
-                height: 36px;
-                width: 36px;
-                padding: 6px;
-                background-color: transparent;
-                border-radius: 8px;
-                border: 0px;
-                cursor: pointer;
-
-                path {
-                    fill: $ash_light;
-                }
-
-                &Mobile {
-                    height: 40px;
-                    width: 40px;
-                    padding: 8px;
-                }
-
-                &:hover {
-                    background-color: $ash_heavy;
-                }
-
-                &.EditCancel {
-                    width: auto;
-                    height: fit-content;
-                    background-color: $silver_dark;
-                    border: 0;
-                    @include worksans;
-                    font-size: 12px;
-                    font-weight: 500;
-                    border-radius: 24px;
-                    color: $white;
-                    padding: 8px 12px;
-                    margin: auto;
-
-                    &:hover {
-                        background-color: $fuel;
-                    }
-                }
-
-                &.SendActive {
-                    //border: 1px solid $silver-med;
-                    //background-color: $hot_pink;
-                    path {
-                        fill: $hot_pink;
-                    }
-                }
-
-                &:before {
-                    @include x-y-center;
-                    color: $ash_30;
-                    font-size: 16px;
-                }
-
-                // &.AttachEmoji {
-                //   &:before {
-                //     @include font-icon($icon-emoji);
-                //   }
-                // }
-                // &.AttachGif {
-                //   &:before {
-                //     @include font-icon($icon-gif);
-                //   }
-                // }
-                // &.AttachFile {
-                //   &:before {
-                //     @include font-icon($icon-upload);
-                //   }
-                // }
-                // &.CancelEdit {
-                //   &:before {
-                //     @include font-icon($icon-cancel);
-                //   }
-                // }
-                &.SendMessage {
-                    &:before {
-                        //@include font-icon($icon-check-circle);
-                        color: red;
-                    }
-                    &:not(:disabled) {
-                        &:before {
-                            color: $orange;
-                        }
-                    }
-                }
-            }
+        &Mobile {
+          height: 40px;
+          width: 40px;
+          padding: 8px;
         }
 
-        .input-style-wrapper {
-            button {
-                font-family: "Times New Roman", Times, serif;
-                font-size: 18px;
-            }
-            .style-bold {
-                font-weight: bold;
-            }
-            .style-italic {
-                font-style: italic;
-            }
-            .style-strike {
-                text-decoration: line-through;
-            }
+        &:hover {
+          background-color: $ash_heavy;
         }
-    }
 
-    .EmojiPicker {
-        position: absolute;
-        bottom: 100%;
-        z-index: 1;
+        &.EditCancel {
+          width: auto;
+          height: fit-content;
+          background-color: $border_basic;
+          border: 0;
+          @include worksans;
+          font-size: 12px;
+          font-weight: 500;
+          border-radius: 24px;
+          color: $white;
+          padding: 8px 12px;
+          margin: auto;
 
-        #root {
+          &:hover {
             background-color: $fuel;
+          }
         }
+
+        &.SendActive {
+          path {
+            fill: $hot_pink;
+          }
+        }
+
+        &:before {
+          @include x-y-center;
+          color: $font_muted;
+          font-size: 16px;
+        }
+
+        // &.AttachEmoji {
+        //   &:before {
+        //     @include font-icon($icon-emoji);
+        //   }
+        // }
+        // &.AttachGif {
+        //   &:before {
+        //     @include font-icon($icon-gif);
+        //   }
+        // }
+        // &.AttachFile {
+        //   &:before {
+        //     @include font-icon($icon-upload);
+        //   }
+        // }
+        // &.CancelEdit {
+        //   &:before {
+        //     @include font-icon($icon-cancel);
+        //   }
+        // }
+        &.SendMessage {
+          &:before {
+            //@include font-icon($icon-check-circle);
+            color: red;
+          }
+          &:not(:disabled) {
+            &:before {
+              color: $hot_orange;
+            }
+          }
+        }
+      }
     }
 
-    .giphy-grid {
-        position: absolute;
-        bottom: 0;
-        z-index: 1;
-        max-height: 400px;
-        overflow-y: scroll;
+    .input-style-wrapper {
+      button {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 18px;
+      }
+      .style-bold {
+        font-weight: bold;
+      }
+      .style-italic {
+        font-style: italic;
+      }
+      .style-strike {
+        text-decoration: line-through;
+      }
     }
+  }
+
+  .EmojiPicker {
+    position: absolute;
+    bottom: 100%;
+    z-index: 1;
+
+    #root {
+      background-color: $fuel;
+    }
+  }
+
+  .giphy-grid {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
 }
-
-
-
-

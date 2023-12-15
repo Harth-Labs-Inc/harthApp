@@ -1,84 +1,84 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
-
 .TopicButtonClickWrapper {
-    position: relative;
-    z-index: 3;
+  position: relative;
+  z-index: 3;
 }
 
 .TopicButtonWrapper {
-    @media screen and (max-width: 640px) {
-        position: absolute;
-        z-index: 12;
-        height: var(--vh);
-        width: 100vw;
-        background-color: $fuel-10;
-        backdrop-filter: blur(4px);
-    }
+  @media screen and (max-width: 640px) {
+    position: absolute;
+    z-index: 12;
+    height: var(--vh);
+    width: 100vw;
+    background: $overlay;
+  }
 }
 
 .CustomContextMenu {
-    position: fixed;
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  color: $font_light;
+  background-color: $ash;
+  border-radius: 8px;
+  border: 0;
+  outline: 0;
 
-    z-index: 1;
+  &Button {
     display: flex;
-    flex-direction: column;
-    padding: 8px;
-    color: $white;
-    backdrop-filter: blur(18px);
-    background-color: $ash;
-    border-radius: 8px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    align-items: center;
+    padding: 6px 8px;
+    color: $font_light;
+    background-color: $background_offset_1;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    @include worksans;
+    font-size: 14px;
 
-    &Button {
-        display: flex;
-        align-items: center;
-        padding: 6px 8px;
-        color: $font_light;
-        background-color: $ash_medium;
-        border: 0;
-        border-radius: 6px;
-        cursor: pointer;
-        @include worksans;
-        font-size: 14px;
-
-        &:not(:last-of-type) {
-            margin-bottom: 8px;
-        }
-
-        svg {
-            width: 16px;
-            margin-right: 6px;
-        }
-
-        &:hover {
-            background-color: $black;
-        }
+    &:not(:last-of-type) {
+      margin-bottom: 8px;
     }
 
-    &Mobile {
-        padding: 16px;
-        border-radius: 12px;
-
-        button {
-            height: 48px;
-            width: 280px;
-            font-size: 16px;
-
-            svg {
-                width: 24px;
-                margin-right: 12px;
-            }
-
-            &:hover {
-                background-color: $white_10;
-            }
-
-            &:active {
-                background-color: $black;
-            }
-        }
-
+    svg {
+      width: 16px;
+      margin-right: 6px;
     }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: $border_basic;
+      }
+    }
+
+    &:active {
+      background-color: $border_basic;
+    }
+  }
+
+  &Mobile {
+    padding: 24px;
+    border-radius: 12px;
+    width: calc(100% + 8px);
+    border: 0;
+    border-radius: 0;
+    background-color: $background;
+
+    button {
+      height: 48px;
+      width: 264px;
+      font-size: 16px;
+      margin-left: auto;
+      margin-right: auto;
+
+      svg {
+        width: 24px;
+        margin-right: 12px;
+      }
+    }
+  }
 }

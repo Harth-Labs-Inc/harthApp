@@ -2,302 +2,286 @@
 @import "../../../styles/fonts.scss";
 
 .HarthList {
+  position: relative;
+  margin: 0;
+  padding: 0px 0px 0px 0px;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  list-style-type: none;
+  overflow-y: scroll;
+
+  .Item {
     position: relative;
-    margin: 0;
-    padding: 0px 0px 0px 0px;
-    background-color: transparent;
+    display: flex;
     width: 100%;
-    height: 100%;
-    list-style-type: none;
-    overflow-y: scroll;
-    
-    
+    height: 48px;
+    justify-content: center;
+    align-items: center;
 
-    .Item {
-        position: relative;
-        display: flex;
+    &Button {
+      opacity: 1;
+      outline: 0;
+      position: relative;
+      height: 44px;
+      width: 44px;
+      padding: 0;
+      background: transparent;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.1s ease-in-out;
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          //padding: 2px;
+          opacity: 1;
+          border-color: $border_heavy;
+        }
+      }
+    }
+    &Icon {
+      margin: auto;
+      width: 100%;
+      height: 100%;
+    }
+
+    &Image {
+      img {
         width: 100%;
-        height: 40px;
-        justify-content: center;
-        align-items: center;
-
-        &Button {
-            opacity: 1;
-            outline: 0;
-            position: relative;
-            height: 38px;
-            width: 38px;
-            padding: 0;
-            background: transparent;
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            border: 2px solid $background_sidebar;
-            transition: all 0.1s ease-in-out;
-            @media (hover: hover) and (pointer: fine) {
-                &:hover {
-                    //padding: 2px;
-                    opacity: 1;
-                    border-color: $font_main;
-                    //border-color: $silver_med;
-                }
-            }
-
-        }
-        &Icon {
-            margin: auto;
-            width: 100%;
-            height: 100%;
-            //border-radius: 8px;
-            //
-        }
-
-        &Image {
-            img {
-                width: 100%;
-                height: 100%;
-                border-radius: 10px;
-                border: 2px solid transparent;
-                
-            }
-            
-        }
-
-        &Active {
-
-            button {
-                opacity: 1;
-                border-color: $font_main;
-
-                img {
-                    border: 0;
-                }
-            }
-
-
-        }
-
-
-
-        &UnreadMessage {
-            position: relative;
-            &:after {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                left: 8px;
-                z-index: 2;
-                height: 8px;
-                width: 3px;
-                content: "";
-                background-color: $hot_purple;
-                border-radius: 9999px;
-            }
-            &:before {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                left: 7px;
-                z-index: 1;
-                height: 10px;
-                width: 5px;
-                content: "";
-                background-color: $background_sidebar;
-                border-radius: 9999px;
-            }
-        }
+        height: 100%;
+        border-radius: 10px;
+        border: 3px solid transparent;
+      }
     }
 
-    .NewHarth {
-        height: 24px;
-        width: 24px;
-        border: 0px;
-        margin-top: 6px;
-        margin-bottom: 24px;
-        margin-left: auto;
-        margin-right: auto;
+    &Active {
+      button {
+        opacity: 1;
+        border-color: $oxygen;
 
-
-        button {
-            position: relative;
-            display: flex;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            border: 1px solid darken($background_sidebar, 15%);
-            border-radius: 8px; 
-            //background: $border_heavy;
-            background: $border_basic;
-            padding: 2px;
-            cursor: pointer;
-            path {
-                fill: darken($background_sidebar, 20%);
-            }
-
-            @media (hover: hover) and (pointer: fine) {
-                &:hover {
-                    background-color: darken($background_sidebar, 7%);
-                    border-color: darken($background_sidebar, 25%);;
-                    path {
-                        fill: darken($background_sidebar, 30%);
-                    }
-
-                }
-            }
+        @media (hover: hover) and (pointer: fine) {
+          &:hover {
+            border-color: $oxygen;
+          }
         }
+      }
     }
+
+    &UnreadMessage {
+      position: relative;
+      &:before {
+        position: absolute;
+        top: 49%;
+        transform: translateY(-50%);
+        left: 5px;
+        z-index: 1;
+        height: 13px;
+        width: 5px;
+        content: "";
+        background-color: $background;
+        border-radius: 9999px;
+      }
+      &:after {
+        position: absolute;
+        top: 49%;
+        transform: translateY(-50%);
+        left: 6px;
+        z-index: 2;
+        height: 9px;
+        width: 3px;
+        content: "";
+        background-color: $hot_purple;
+        border-radius: 9999px;
+      }
+    }
+  }
+
+  .NewHarth {
+    height: 24px;
+    width: 24px;
+    border: 0px;
+    margin-top: 6px;
+    margin-bottom: 24px;
+    margin-left: auto;
+    margin-right: auto;
+
+    button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      border: 1px solid $border_basic;
+      border-radius: 8px;
+      background: transparent;
+      padding: 2px;
+      cursor: pointer;
+      path {
+        fill: $border_basic;
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: $background_offset;
+          border-color: $border_heavy;
+          path {
+            fill: $border_heavy;
+          }
+        }
+      }
+    }
+  }
 }
 
 .HarthListMobile {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 4px 64px 12px;
+  row-gap: 4px;
+  width: 100%;
+  list-style-type: none;
+  overflow-y: scroll;
+  margin: 0;
+
+  li {
     display: flex;
-    flex-direction: column;
-    padding: 8px 4px 64px 12px;
-    row-gap: 4px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    list-style-type: none;
-    overflow-y: scroll;
-    margin: 0;
-    
+  }
 
-    li {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
+  .Item {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 0;
+    border-radius: 12px;
+    width: 100%;
+
+    &Button {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      column-gap: 8px;
+      align-items: center;
+      min-height: 60px;
+      height: fit-content;
+      width: 100%;
+      padding: 0px 8px;
+      border: 0;
+      background: transparent;
     }
 
-    .Item {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+    &Icon {
+      width: 48px;
+      min-width: 48px;
+      height: 48px;
+      padding: 6px;
+      border-radius: 8px;
+      //background-color: $ash;
+    }
+
+    &Image {
+      img {
+        height: 44px;
+        width: 44px;
+        min-width: 44px;
+        border-radius: 8px;
         border: 0;
-        border-radius: 12px;
-        width: 100%;    
-
-        &Button {
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            column-gap: 8px;
-            align-items: center;
-            min-height: 60px;
-            height: fit-content;
-            width: 100%;
-            padding: 0px 8px;
-            border: 0;
-            background: transparent;
-            
-        }
-
-        &Icon {
-            width: 48px;
-            min-width: 48px;
-            height: 48px;
-            padding: 6px;
-            border-radius: 8px;
-            //background-color: $ash;
-        }
-
-        &Image {
-            img {
-                height: 44px;
-                width: 44px;
-                min-width: 44px;
-                border-radius: 8px;
-                border: 0;
-                border: 1px solid $border_light;
-            }
-        }
-
-        &Active {
-            background-color: $border_basic;
-        }
-
-        &Name {
-            width: 100%;
-            @include harthTitle;
-            color: $font_main;
-            font-size: 18px;
-            margin-left: 4px;
-            text-align: left;
-            vertical-align: top;
-            overflow: hidden;
-            word-break: break-all;
-        }
-
-        &:active {
-            background-color: $background_offset;
-        }
-
-        &SettingsButton {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 36px;
-            min-height: 36px;
-            width: 36px;
-            min-width: 36px;
-            padding: 6px;
-            border: 0;
-            background: transparent;
-            margin-right: 8px;
-            z-index: 1;
-
-            path {
-                fill: $font_muted;
-            }
-        }
-
-        &UnreadMessage {
-            position: relative;
-            &:before {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                left: 2px;
-                z-index: 2;
-                height: 14px;
-                width: 4px;
-                border-radius: 999px;
-                content: "";
-                background-color: $hot_purple;
-            }
-
-        }
+        border: 1px solid $border_light;
+      }
     }
 
-    .NewHarth {
-        height: 36px;
-        width: 36px;
-        border: 0px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 16px;
-        margin-left: 12px;
-        margin-bottom: 12px;
-
-        button {
-            position: relative;
-            display: flex;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            border: 0;
-            border-radius: 8px;
-            background: $border_basic;
-            padding: 1px;
-
-            path {
-                fill: $background;
-            }
-
-            &:active {
-                background-color: $border_light;
-            }
-        }
+    &Active {
+      background-color: $border_basic;
     }
+
+    &Name {
+      width: 100%;
+      @include harthTitle;
+      color: $font_light;
+      font-size: 18px;
+      margin-left: 4px;
+      text-align: left;
+      vertical-align: top;
+      overflow: hidden;
+      word-break: break-all;
+    }
+
+    &:active {
+      background-color: $background_offset;
+    }
+
+    &SettingsButton {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      min-height: 36px;
+      width: 36px;
+      min-width: 36px;
+      padding: 8px;
+      border: 0;
+      border-radius: 999px;
+      background: $ash;
+      margin-right: 4px;
+      z-index: 1;
+
+      path {
+        fill: $font_muted;
+      }
+    }
+
+    &UnreadMessage {
+      position: relative;
+      &:before {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 2px;
+        z-index: 2;
+        height: 14px;
+        width: 4px;
+        border-radius: 999px;
+        content: "";
+        background-color: $hot_purple;
+      }
+    }
+  }
+
+  .NewHarth {
+    height: 36px;
+    width: 36px;
+    border: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    margin-left: 12px;
+    margin-bottom: 12px;
+
+    button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      border: 0;
+      border-radius: 8px;
+      background: $border_basic;
+      padding: 1px;
+
+      path {
+        fill: $background;
+      }
+
+      &:active {
+        background-color: $border_light;
+      }
+    }
+  }
 }

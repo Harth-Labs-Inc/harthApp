@@ -1,15 +1,6 @@
 import { useRouter } from "next/router";
 import { Analytics } from "@vercel/analytics/react";
-import {
-  Work_Sans,
-  Rubik,
-  Raleway,
-  Paytone_One,
-  Open_Sans,
-  DM_Sans,
-  Noto_Serif_JP,
-} from "next/font/google";
-import localFont from "next/font/local";
+import { Work_Sans, Rubik, Raleway } from "next/font/google";
 import Head from "next/head";
 import "../styles/Styles.modules.scss";
 import { AuthProvider } from "../contexts/auth";
@@ -27,19 +18,6 @@ const work_Sans = Work_Sans({
   preload: false,
 });
 
-const noto_serif = Noto_Serif_JP({
-  subsets: ["latin"],
-  variable: "--Noto_Serif_JP-font",
-  weight: ["200", "300", "400", "600"],
-  preload: false,
-});
-
-const open_Sans = Open_Sans({
-  subsets: ["latin"],
-  variable: "--Open_Sans-font",
-  preload: false,
-});
-
 const rubik = Rubik({
   subsets: ["latin"],
   variable: "--Rubik-font",
@@ -53,35 +31,9 @@ const rale = Raleway({
   preload: false,
 });
 
-const dmsans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--DM_Sans-font",
-  weight: ["400", "700"],
-  preload: false,
-});
-
-const paytone = Paytone_One({
-  subsets: ["latin"],
-  variable: "--Paytone_One-font",
-  weight: ["400"],
-  preload: false,
-});
-
-// local fonts
-const coopbl = localFont({
-  src: "../public/fonts/COOPBL.ttf",
-  variable: "--COOPBL-font",
-  preload: true,
-});
-
-fontClassNames.push(coopbl.className);
 fontClassNames.push(work_Sans.variable);
-fontClassNames.push(open_Sans.variable);
 fontClassNames.push(rubik.variable);
-fontClassNames.push(dmsans.variable);
-fontClassNames.push(paytone.variable);
 fontClassNames.push(rale.variable);
-fontClassNames.push(noto_serif.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -102,6 +54,13 @@ function MyApp({ Component, pageProps }) {
     };
 
     setVhValue();
+
+    let storedTheme = localStorage.getItem("interface-theme");
+    if (!storedTheme) {
+      localStorage.setItem("interface-theme", "dark-mode");
+      storedTheme = "dark-mode";
+    }
+    document.body.classList.add(storedTheme);
     document.addEventListener("dragstart", preventDragStart);
 
     const timeoutId = setTimeout(() => {
@@ -272,7 +231,7 @@ function MyApp({ Component, pageProps }) {
           href="/icons/icon-1024x1024.png"
         />
 
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#000" />
 
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

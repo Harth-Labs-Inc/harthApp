@@ -167,9 +167,7 @@ const GatheringSchedule = (props) => {
                             watchType === "voice" ? styles.Active : null
                         }`}
                     >
-                        <span>
-                            <RoomVoice/>
-                        </span>
+                        <RoomVoice/>
                         Voice
                         <input
                             {...register("gatheringType", { required: true })}
@@ -182,9 +180,7 @@ const GatheringSchedule = (props) => {
                             watchType === "stream" ? styles.Active : null
                         }`}
                     >
-                        <span>
-                            <RoomStream />
-                        </span>
+                        <RoomStream />
                         Stream
                         <input
                             {...register("gatheringType", { required: true })}
@@ -197,9 +193,7 @@ const GatheringSchedule = (props) => {
                             watchType === "party" ? styles.Active : null
                         }`}
                     >
-                        <span>
-                            <RoomParty />
-                        </span>
+                        <RoomParty />
                         Party
                         <input
                             {...register("gatheringType", { required: true })}
@@ -216,6 +210,7 @@ const GatheringSchedule = (props) => {
                     {...register("gatheringDescription")}
                     placeholder="let's all..."
                     autoComplete="off"
+                    spellCheck="true"
 
                     className={styles.description}
                 />

@@ -2,352 +2,374 @@
 @import "../../../styles/globals.scss";
 
 .SettingsContainer {
-    position: relative;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  justify-content: flex-start;
+  align-items: center;
+  //width: 320px;
+  width: 100%;
+  height: 100%;
+  padding: 8px 16px 8px 16px;
+
+  &Header {
     display: flex;
-    flex-direction: column;
-    row-gap: 4px;
-    justify-content: flex-start;
+    align-content: flex-start;
     align-items: center;
-    //width: 320px;
     width: 100%;
-    height: 100%;
-    padding: 8px 8px 8px 8px;
-
-    &Header {
-        display: flex;
-        align-content: flex-start;
-        align-items: center;
-        width: 100%;
-        background-color: transparent;
-        color: $font_main;
-        padding-right: 16px;
-        padding-bottom: 16px;
-        p {
-            width: 100%;
-            @include overlayMenuTitle;
-            //font-size: 44px;
-            text-align: right;
-            color: $font_main;
-        }
-
-        path {
-            fill: $font_main;
-        }
+    background-color: transparent;
+    color: $font_light;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    p {
+      width: 100%;
+      @include overlayMenuTitle;
+      text-align: right;
+      color: $font_light;
     }
 
-    &Title {
-        @include systemFont;
-        color: $font_main;
-        width: calc(100% - 16px);
-        margin-top: 24px;
-        padding: 4px 0px;
-        border-bottom: 1px solid $border_basic;
-        text-transform: capitalize;
+    path {
+      fill: $font_light;
     }
+  }
 
-    &Text {
-        @include systemFont;
-        color: $font_main;
-        width: 80%;
-        margin-top: 12px;
-        text-align: center;
+  &Title {
+    @include systemFont;
+    color: $font_light;
+    width: calc(100% - 16px);
+    margin-top: 24px;
+    padding: 4px 0px;
+    border-bottom: 1px solid $border_basic;
+    text-transform: capitalize;
+  }
 
-    }
+  &Text {
+    @include systemFont;
+    color: $font_light;
+    width: 80%;
+    margin-top: 12px;
+    text-align: center;
+  }
 }
 
 .InviteList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  width: 100%;
+  padding: 8px 12px;
+  overflow-y: auto;
+  background-color: transparent;
+  margin-top: 12px;
+
+  &Item {
     display: flex;
     flex-direction: column;
-    row-gap: 12px;
-    width: 100%;
-    padding: 8px 12px;
-    overflow-y: auto;
-    background-color: transparent;
-    margin-top: 12px;
+    row-gap: 8px;
+    padding: 20px;
+    background-color: $ash_heavy;
+    border-radius: 12px;
 
-    &Item {
-        display: flex;
-        flex-direction: column;
-        row-gap: 8px;
-        padding: 20px;
-        background-color: $ash_heavy;
-        border-radius: 12px;
-        
-        &Info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
+    &Info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
 
-            &Image {
-                height: 48px;
-                width: 48px;
-                margin-right: 12px;
-                border-radius: 8px;
-                box-shadow:
-                    0 1px 1px hsl(0deg 0% 0% / 0.075);
-            }
+      &Image {
+        height: 48px;
+        width: 48px;
+        margin-right: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075);
+      }
 
-            &Name {
-                @include harthTitle;
-                color: $font_main;
-                
-            }
-        }
-
-        button {
-            background: $ash;
-            border-radius: 4px;
-            border: 1px solid $ash_medium;
-            height: 40px;
-            padding: 0;
-        }
-
-        &Code {
-            display: flex;
-            width: 100%;
-            height: 40px;
-            transition: all .3s ease-in-out;
-            border: 1px solid $ash_medium;
-            border-radius: 4px;
-            &Url {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                width: 100%;
-                padding: 0px 8px;
-                text-overflow: ellipsis;
-                background-color: $ash_heavy;
-                border-radius: 99px 0 0 99px;
-                overflow: hidden;
-                white-space: nowrap;
-                @include worksans;
-                font-size: 13px;
-                color: $font_muted;
-                user-select: text;
-            }
-
-            button {
-                border-radius: 0;
-                padding: 8px 0px;
-                width: 96px;
-                height: 40px;
-                color: $font_light;
-                background: $hot_salmon;
-                border: 0;
-                border-radius: 0px 4px 4px 0px;
-                //transition: .3s;
-                cursor: pointer;
-                @include buttonLarge;
-
-                &:active {
-                    background-color: $ash;
-
-                }
-            }
-
-        }
-
-    }
-}
-
-.headerImage {
-
-    margin-top: 36px; 
-    margin-bottom: 80px; 
-    //background-color: aqua;
-    svg {
-        height: 32px;
-        //max-width: 148px;
-    }
-    margin-left: auto;
-    margin-right: auto;
-
-}
-
-.settingsHeader {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 56px;
-    @include interfaceH3;
-
-
-}
-
-.menuItem {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    text-decoration: none;
-    align-items: center;
-    cursor: pointer;
-    width: 100%;
-    height: 52px;
-    border: 0;
-    border-radius: 8px;
-    padding: 0px 16px 0px 24px;
-
-    background-color: transparent;
-    @include menuText;
-    color: $font_main;
-
-    
-    @media (hover: hover) and (pointer: fine) {
-        &:hover {
-            background-color: $background_offset;
-        }
-    }
-
-    .iconHolder {
-        height: 24px;
-        width: 24px;
-        // path {
-        //     fill: $font_main;
-        // }
-    }
-
-    &Invites {
-        color: $font-main;
-        //font-weight: 600;
-        justify-content: flex-start;
-        gap: 8px;
-        border: 1px solid $border_basic;
-        width: 90%;
-        height: fit-content;
-        padding: 12px 8px;
-        margin-bottom: 8px;
-        margin-top: 4px;
-
-        .iconHolder {
-            height: 40px;
-            width: 40px;
-            //margin-left: -6px;
-            // path {
-            //     fill: $hot_purple;
-            // }
-        }
-
-    }
-}
-
-.sectionLabel {
-    display: flex;
-    @include interfaceH4;
-    width: 100%;
-    border: 0px solid $font_main;
-    border-bottom-width: 1px;
-    align-items: flex-end;
-    padding-bottom: 4px;
-    height: 36px;
-}
-
-.sectionContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    row-gap: 4px;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    padding: 0px 8px;
-}
-
-.optionHolder {
-    display: flex;
-    flex-direction: row;
-    column-gap: 4px;
-    justify-content:space-between;
-    align-items: center;
-    width: calc(100% - 16px);
-    height: 56px;
-    padding: 0px 12px;
-    @include systemFont;
-    font-weight: 700;
-    letter-spacing: 0;
-    font-size: 16px;
-    color: $font_main;
-    background: transparent;
-    border-radius: 6px;
-    text-wrap:  wrap;
-
-    path {
-        fill: $font_main;
+      &Name {
+        @include harthTitle;
+        color: $font_light;
+      }
     }
 
     button {
-        &:hover {
-            background-color: $button_main_press;
-            path {
-                fill: $background;
-            }
-        }
-
-        &:active {
-            background-color: $button_main_press;
-            path {
-                fill: $background;
-            }
-        }
+      background: $ash;
+      border-radius: 4px;
+      border: 1px solid $ash_medium;
+      height: 40px;
+      padding: 0;
     }
 
+    &Code {
+      display: flex;
+      width: 100%;
+      height: 40px;
+      transition: all 0.3s ease-in-out;
+      border: 1px solid $ash_medium;
+      border-radius: 4px;
+      &Url {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        padding: 0px 8px;
+        text-overflow: ellipsis;
+        background-color: $ash_heavy;
+        border-radius: 99px 0 0 99px;
+        overflow: hidden;
+        white-space: nowrap;
+        @include worksans;
+        font-size: 13px;
+        color: $font_muted;
+        user-select: text;
+      }
+
+      button {
+        border-radius: 0;
+        padding: 8px 0px;
+        width: 96px;
+        height: 40px;
+        color: $font_light;
+        background: $hot_salmon;
+        border: 0;
+        border-radius: 0px 4px 4px 0px;
+        //transition: .3s;
+        cursor: pointer;
+        @include buttonLarge;
+
+        &:active {
+          background-color: $ash;
+        }
+      }
+    }
+  }
+}
+
+.headerImage {
+  margin-top: 36px;
+  margin-bottom: 80px;
+  svg {
+    height: 32px;
+  }
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.settingsHeader {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  @include systemFont;
+  font-size: 16px;
+}
+
+.menuItem {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-decoration: none;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  height: 48px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0px 16px 0px 16px;
+
+  background-color: transparent;
+  @include menuText;
+  color: $font_light;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: $ash;
+    }
+  }
+
+  .iconHolder {
+    height: 24px;
+    width: 24px;
+    path {
+      fill: $border_basic;
+    }
+  }
+
+  &Invites {
+    color: $font_light;
+    //font-weight: 600;
+    justify-content: flex-start;
+    gap: 8px;
+    border: 1px solid $border_basic;
+    width: 92%;
+    height: fit-content;
+    padding: 12px 8px;
+    margin-bottom: 8px;
+    margin-top: 4px;
+
+    .iconInvite {
+      height: 40px;
+      width: 40px;
+    }
+  }
+}
+
+.sectionLabel {
+  display: flex;
+  @include systemFont;
+  width: 100%;
+  border: 0px solid $font_light;
+  border-bottom-width: 1px;
+  align-items: flex-end;
+  padding-bottom: 4px;
+  height: 36px;
+}
+
+.sectionContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 0px 8px;
+}
+
+.optionHolder {
+  display: flex;
+  flex-direction: row;
+  column-gap: 4px;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 16px);
+  height: 56px;
+  padding: 0px 12px;
+  @include systemFont;
+  font-weight: 700;
+  letter-spacing: 0;
+  font-size: 16px;
+  color: $font_light;
+  background: transparent;
+  border-radius: 6px;
+  text-wrap: wrap;
+
+  path {
+    fill: $font_light;
+  }
+
+  button {
+    &:hover {
+      background-color: $button_main_press;
+      path {
+        fill: $background;
+      }
+    }
+
+    &:active {
+      background-color: $button_main_press;
+      path {
+        fill: $background;
+      }
+    }
+  }
+}
+
+.themeHolder {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: calc(100% - 16px);
+  padding: 8px 12px;
+  gap: 8px;
+
+  .active{
+    border-color: $hot_purple !important;
+  }
+
+  .theme {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $border_basic;
+    border-radius: 8px;
+    outline: 0;
+    margin: 0;
+    gap: 4px;
+    padding: 8px 8px;
+
+    p {
+      @include eyebrow;
+      color: $font_light;
+      padding-left: 4px;
+    }
+
+    img {
+      width: 256px;
+      border-radius: 8px;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-color: $hot_purple;
+      }
+    }
+
+    &:active {
+      border-color: $hot_purple;
+    }
+  }
 }
 
 .EditContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 48px 12px 24px 12px;
+
+  .inputEdit {
+    border-radius: 4px;
+    background-color: $border_basic;
+    border: 1px solid $border_heavy;
+    height: 56px;
+    @include systemFont;
+    font-size: 16px;
+    color: $font_light;
+    caret-color: $hot_purple;
+    margin: 0;
+    &::placeholder {
+      color: $font_muted;
+    }
+  }
+
+  .buttonBar {
     display: flex;
-    flex-direction: column;
-    row-gap: 12px;
-    justify-content:space-between;
-    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    column-gap: 8px;
     width: 100%;
-    padding: 48px 12px 24px 12px;
-
-
-    .inputEdit {
-        border-radius: 4px;
-        background-color: $border_basic;
-        border: 1px solid $border_heavy;
-        height: 56px;
-        @include systemFont;
-        font-size: 16px;
-        color: $font_main;
-        caret-color: $hot_salmon;
-        margin: 0;
-        &::placeholder {
-            color: $font_muted;
-
-        }
-    
-    }
-
-    .buttonBar {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        column-gap: 8px;
-        width: 100%;
-    }
-    .cancelButton {
-        background-color: transparent;
-        color: $font_muted;
-        border: 1px solid $border_basic;
-        
-    
-    }
-
+  }
+  .cancelButton {
+    background-color: transparent;
+    color: $font_muted;
+    border: 1px solid $border_basic;
+  }
 }
 
 .appVersion {
-    @include systemFont;
-    font-size: 12px;
-    letter-spacing: 0;
-    color: $font_muted;
+  @include systemFont;
+  font-size: 12px;
+  letter-spacing: 0;
+  color: $font_muted;
 }
 
 .spacer {
-    width: 40px;
-    background: transparent;
+  width: 40px;
+  background: transparent;
 }

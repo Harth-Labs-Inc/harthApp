@@ -29,6 +29,36 @@ export default async (req, res) => {
     });
   };
 
+  const updateUnreadMessages = (db, harthID, userID, icon) => {
+    return new Promise((resolve, reject) => {
+      db.collection("unread_messages").updateMany(
+        { comm_id: harthID, creator_id: userID },
+        { $set: { creator_image: icon } },
+        function (err, result) {
+          if (err) {
+            resolve(false);
+          }
+          resolve(result);
+        }
+      );
+    });
+  };
+
+  const updateUnreadConvMessages = (db, harthID, userID, icon) => {
+    return new Promise((resolve, reject) => {
+      db.collection("unread_conv_messages").updateMany(
+        { comm_id: harthID, creator_id: userID },
+        { $set: { creator_image: icon } },
+        function (err, result) {
+          if (err) {
+            resolve(false);
+          }
+          resolve(result);
+        }
+      );
+    });
+  };
+
   const updateConversation = (db, harthID, userID, icon) => {
     return new Promise((resolve, reject) => {
       db.collection("conversation_messages").updateMany(
@@ -107,27 +137,18 @@ export default async (req, res) => {
   }
   // passed authentication ------------------------------------------
 
-  let updateResult = await updateMessage(db, obj.id, obj.userID, obj.newImg);
-  if (!updateResult) {
-    return res.json({ ok: 0, msg: "something went wrong" });
+  try {
+    await Promise.all([
+      updateMessage(db, obj.id, obj.userID, obj.newImg),
+      updateConversation(db, obj.id, obj.userID, obj.newImg),
+      updateConversationUser(db, obj.id, obj.userID, obj.newImg),
+      updateUnreadMessages(db, obj.id, obj.userID, obj.newImg),
+      updateUnreadConvMessages(db, obj.id, obj.userID, obj.newImg),
+    ]);
+
+    return res.json({ ok: 1, msg: "success" });
+  } catch (error) {
+    console.error("Error during batch update:", error);
+    return res.json({ ok: 0, msg: "An error occurred during updates" });
   }
-  let updateconvResult = await updateConversation(
-    db,
-    obj.id,
-    obj.userID,
-    obj.newImg
-  );
-  if (!updateconvResult) {
-    return res.json({ ok: 0, msg: "something went wrong" });
-  }
-  let updateConversationUserResult = await updateConversationUser(
-    db,
-    obj.id,
-    obj.userID,
-    obj.newImg
-  );
-  if (!updateConversationUserResult) {
-    return res.json({ ok: 0, msg: "something went wrong" });
-  }
-  return res.json({ ok: 1, msg: "success" });
 };

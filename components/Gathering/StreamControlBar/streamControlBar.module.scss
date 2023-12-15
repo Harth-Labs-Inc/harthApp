@@ -2,143 +2,142 @@
 @import "../../../styles/fonts.scss";
 
 .desktop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-area: header;
+  padding: 0px 12px 0px 0px;
+  border: 0;
+  background-color: transparent;
+  //column-gap: 16px;
+
+  .optionsContainer {
     position: relative;
+  }
+
+  .leftGroup {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    grid-area: header;
-    padding: 0px 12px 0px 0px;
+    background: $ash;
+    width: 240px;
+    padding: 6px 8px;
+    border-top: 1px solid $ash_medium;
+    border-right: 1px solid $ash_medium;
+  }
+
+  .leaveButton {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
     border: 0;
-    background-color: transparent;
-    //column-gap: 16px;
-
-    .optionsContainer {
-        position: relative;
+    background: transparent;
+    path {
+      fill: $ash_light;
     }
 
-    .leftGroup {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: $ash;
-        width: 240px;
-        padding: 6px 8px;
-        border-top: 1px solid $ash_medium;
-        border-right: 1px solid $ash_medium;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: $ash_heavy;
+
+        &::before {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          content: "Leave";
+          width: fit-content;
+          top: -36px;
+          left: 75%;
+          -webkit-transform: translateX(-50%);
+          -moz-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+          -o-transform: translateX(-50%);
+          transform: translateX(-50%);
+          padding: 6px 10px;
+          background-color: $black;
+          border-radius: 2px;
+          @include worksans;
+          letter-spacing: 0.05em;
+          font-size: 12px;
+          font-weight: 300;
+          color: $font_light;
+          z-index: 10;
+        }
+
+        &::after {
+          position: absolute;
+          content: " ";
+          top: -15px;
+          left: 50%;
+          -webkit-transform: translateX(-50%);
+          -moz-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+          -o-transform: translateX(-50%);
+          transform: translateX(-50%);
+          width: 0;
+          height: 0;
+          border-left: 12px solid transparent;
+          border-right: 12px solid transparent;
+          border-top: 12px solid $black;
+          z-index: 9;
+        }
+      }
+    }
+  }
+
+  .moreButton {
+    position: absolute;
+    top: -6px;
+    right: -4px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: solid 1px $black;
+    background: aqua;
+    transform: rotate(90deg);
+    padding: 0px;
+    height: 18px;
+    width: 18px;
+
+    path {
+      fill: $ash_medium;
     }
 
-    .leaveButton {
-        position: relative;
-        width: 36px;
-        height: 36px;
-        border-radius: 4px;
-        border: 0;
-        background: transparent;
-        path {
-            fill: $ash_light;
-        }
-
-        @media (hover: hover) and (pointer: fine) {
-            &:hover {
-                background: $ash_heavy;
-
-                &::before {
-                    position: absolute;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    content: "Leave";
-                    width: fit-content;
-                    top: -36px;
-                    left: 75%;
-                    -webkit-transform: translateX(-50%);
-                    -moz-transform: translateX(-50%);
-                    -ms-transform: translateX(-50%);
-                    -o-transform: translateX(-50%);
-                    transform: translateX(-50%);
-                    padding: 6px 10px;
-                    background-color: $black;
-                    border-radius: 2px;
-                    @include worksans;
-                    letter-spacing: 0.05em;
-                    font-size: 12px;
-                    font-weight: 300;
-                    color: $font_light;
-                    z-index: 10;
-                }
-    
-                &::after {
-                    position: absolute;
-                    content: " ";
-                    top: -15px;
-                    left: 50%;
-                    -webkit-transform: translateX(-50%);
-                    -moz-transform: translateX(-50%);
-                    -ms-transform: translateX(-50%);
-                    -o-transform: translateX(-50%);
-                    transform: translateX(-50%);
-                    width: 0;
-                    height: 0;
-                    border-left: 12px solid transparent;
-                    border-right: 12px solid transparent;
-                    border-top: 12px solid $black;
-                    z-index: 9;
-                }
-            }
-        }
+    &:hover {
+      background-color: $ash;
+      path {
+        fill: $white_60;
+      }
     }
 
-
-    .moreButton {
-        position: absolute;
-        top: -6px;
-        right: -4px;
-        border-radius: 6px;
-        cursor: pointer;
-        border: solid 1px $black;
-        background: aqua;
-        transform: rotate(90deg);
-        padding: 0px;
-        height: 18px;
-        width: 18px;
-    
-        path {
-            fill: $ash_medium;
-        }
-    
-        &:hover {
-            background-color: $ash;
-            path {
-                fill: $white_60;
-            }
-        }
-    
-        &Active {
-            background-color: $ash;
-            path {
-                fill: $white_60;
-            }
-        }
+    &Active {
+      background-color: $ash;
+      path {
+        fill: $white_60;
+      }
     }
+  }
 }
 
 .mobile {
-    position: absolute;
-    bottom: 0;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  grid-area: header;
+  padding: 8px 8px 8px 8px;
+  margin-left: 8px;
+  margin-bottom: 16px;
+  border-radius: 999px;
+  border: 0;
+  width: calc(100% - 16px);
+  background-color: $ash;
+
+  .spacerLarge {
     display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    grid-area: header;
-    padding: 6px 8px 24px 0px;
-    //height:104px;
-    border: 0;
-    width: 100%;
-    background-color: $ash;
-    border-top: 1px solid $ash_medium;
-
-    .spacerLarge {
-        display: flex;
-        width: 52px;
-    }
+    width: 52px;
+  }
 }
-

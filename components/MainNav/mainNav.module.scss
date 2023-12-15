@@ -2,317 +2,276 @@
 @import "../../styles/fonts.scss";
 
 .MainNav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: transparent;
+
+  &TitleHolder {
+    display: flex;
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
+  }
+
+  &HarthButton {
+    .Desktop & {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 52px;
+      border: 0;
+      width: fit-content;
+      max-width: 100%;
+      padding: 0px 20px 0px 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+      background: transparent;
+      border-radius: 8px;
+
+      p {
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include harthTitle;
+        font-size: 26px;
+        color: var(--font-main);
+      }
+
+      .iconHolder {
+        position: absolute;
+        top: 2px;
+        right: 4px;
+        margin: 0;
+        //background-color: aqua;
+        padding: 0;
+
+        svg {
+          height: 16px;
+          width: 16px;
+        }
+
+        path {
+          fill: var(--path-light);
+        }
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background: var(--theme-offset-1);
+
+          .iconHolder {
+            path {
+              fill: var(--path-heavy);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &Pages {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+
+    .Desktop & {
+      position: relative;
+      //width: 296px;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px 10px 4px 8px;
+      gap: 6px;
+      border: 0;
+      margin: 0;
+      background: transparent;
+    }
+    &Mobile {
+      position: relative;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      border: 2px solid $background;
+      margin: 0;
+      border-radius: 0;
+      justify-content: space-evenly;
+      padding: 8px 0px 8px 0px;
+      background-color: var(--theme-color);
+      border-radius: $corner_radius_mobile;
+      border-radius: 999px;
+    }
+  }
+
+  &PageButton {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    
-    background-color: $background; 
+    justify-content: center;
+    color: transparent;
+    border: 0;
+    user-select: none;
+    z-index: 1;
+    outline: 0;
 
-    &TitleHolder {
-        display: flex;
-    }
+    .iconHolder {
+      transition: scale 0.2s ease-in-out;
+      position: relative;
+      height: 22px;
+      width: 22px;
 
-    &HarthButton {
-        
-        .Desktop & {
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            height: 56px;
-            border: 0;
-            width: 296px;
-            padding: 0px 0px 0px 12px;          
-            cursor: pointer;
-            white-space: nowrap;
-            user-select: none;
-            border-right: 1px solid $border_basic;
-            background: $background;
-            
-            p {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                @include harthTitle;
-                font-size: 26px;
-                color: $font_main;
-            }
+      path {
+        fill: var(--path-light);
+      }
 
-            .iconHolder {
-                position: absolute;
-                top: 4px;
-                right: 4px;
-                
-                margin: 0;
-                //background-color: aqua;
-                padding: 0;
-
-                svg {
-                    height: 16px;
-                    width: 16px;
-                }
-
-                path {
-                    fill: $border_heavy;
-                }
-
-            }
-
-            @media (hover: hover) and (pointer: fine) {
-                &:hover {
-                    background: $border_light;
-
-                    .iconHolder {
-                        path {
-                            fill: $font_main;
-                        }
-        
-                    }
-
-                }
-            }
-        }
-
-    }
-
-    &Pages {
-        display: flex;
-        width: fit-content;
-        align-items: center;
-        
-        .Desktop & {
-            position: relative;
-            width: 296px;
-            display: flex;
-            margin: 0;
-            border: 0;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0px 10px 4px 8px;
-            gap: 0;
-            border: 0;
-            background: $background;
-            border-bottom: 1px solid $border_basic;
-            border-right: 1px solid $border_basic;
-
-            &Rounded {
-                border-bottom-right-radius: 8px;
-            }
-
-        }
-        &Mobile {
-            position: relative;
-            top: 0px;
-            left: 0px;
-            width: 100%;
-            border: 0;
-            margin: 0;
-            border-radius: 0;
-            justify-content:space-evenly;
-            padding: 4px 0px 0px 0px;
-
-        }
-    }
-
-    &PageButton {
+      &UnreadMessage {
         position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: transparent;
-        background-color: transparent;
-        border: 0;
-        user-select: none;
-        z-index: 1;
-        outline: 0;
-        
-        .iconHolder {
-            transition: scale 0.2s ease-in-out;
-            position: relative;
-            height: 22px;
-            width: 22px;
-
-            svg {
-                filter: grayscale(100%);
-                opacity: .5;
-            }
-
-
-            &UnreadMessage {
-                position: relative;
-                &:before {
-                    position: absolute;
-                    top: -2px;
-                    right: -2px;
-                    z-index: 2;
-                    height: 6px;
-                    width: 6px;
-                    content: "";
-                    background-color: $hot_pink;
-                    border-radius: 9999px;
-                    //border: 1px solid $background;
-                }
-
-            }
-
+        &:before {
+          position: absolute;
+          top: -2px;
+          right: -2px;
+          z-index: 2;
+          height: 6px;
+          width: 6px;
+          content: "";
+          background-color: $hot_pink;
+          border-radius: 9999px;
+          //border: 1px solid $background;
         }
-        
+      }
+    }
+
+    .title {
+      @include titleNav;
+      width: 100%;
+      text-align: center;
+      user-select: none;
+      color: var(--font-muted);
+    }
+
+    .Mobile & {
+      position: relative;
+      height: 52px;
+      width: 88px;
+      padding: 0;
+      padding-top: 0px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      gap: 4px;
+      background-color: transparent;
+
+      .iconHolder {
+        position: relative;
+        height: 28px;
+        width: 28px;
+      }
+      .title {
+        @include titleNavMobile;
+      }
+      &:active {
+        background-color: var(--theme-offset-1);
+      }
+    }
+
+    .Desktop & {
+      width: fit-content;
+      flex-direction: row;
+      justify-content: center;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      gap: 6px;
+      padding: 8px 16px;
+      background-color: transparent;
+
+      .title {
+        text-align: left;
+        width: fit-content;
+      }
+
+      &Gather {
         .title {
-            @include titleNav;
-            font-size: 12px;
-            width: 100%;
-            text-align: center;
-            user-select: none;
-            color: darken($border_basic, 20%);
+          padding-right: 4px;
         }
+      }
 
-
-        .Mobile & {
-            position: relative;
-            height: 56px;
-            width: 72px;
-            padding: 0;
-            padding-top: 0px;
-            border-radius: 8px;
-            border: 1px solid transparent;
-            gap: 4px;
-
-            .iconHolder {
-                position: relative;
-                height: 28px;
-                width: 28px;
-            }
-            .title {
-                @include titleNavMobile;
-            }
-            &:active {
-                background: $border_basic;
-            }
-
+      &Chat {
+        .title {
+          padding-right: 2px;
         }
-        
-        .Desktop & {
-            //width: 100%;
-            width: fit-content;
-            height: 36px;
+      }
 
-            
-            flex-direction: row;
-            justify-content: center;
-            border-radius: 0;
-            border: 0;
-            cursor: pointer;
-            gap: 4px;
-
-            .title {
-                text-align: left;
-                padding-top: 4px;
-                //padding-right: 6px;
-                width: fit-content;
-                //background-color: aqua;
-            }
-
-            &Gather {
-                .title {
-                    padding-right: 4px;
-                }
-                
-            }
-
-            &Chat {
-                .title {
-                    padding-right: 2px;
-                }
-            }
-
-            &Message {
-                .title {
-                    padding-right: 2px;
-                }
-            }
-            
-            @media (hover: hover) and (pointer: fine) {
-                &:hover {
-                    // .title {
-                    //     color: $font_main;
-                    // }
-
-                    &::after {
-                        content: "";
-                        width: 96%;
-                        height: 1px;
-                        position: absolute;
-                        bottom: -5px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        background: $font_main;
-                    }
-                }
-            }
+      &Message {
+        .title {
+          padding-right: 2px;
         }
+      }
 
-        &.Active {
-
-            .iconHolder {
-                svg {
-                    filter: grayscale(0);
-                    opacity: 1;
-                }
-
-            }
-
-            .Desktop & {
-                .title {
-                    color: $font_main;
-
-                }
-                
-                &::after {
-                    content: "";
-                    width: 96%;
-                    height: 1px;
-                    position: absolute;
-                    bottom: -5px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: $font_main;
-                }
-
-            }
-
-            .Mobile & {
-
-                .title {
-                    color: $font_main; 
-                }
-
-            }
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: var(--theme-offset-1);
         }
+      }
     }
 
+    &.Active {
+      .iconHolder {
+        path {
+          fill: var(--font-main);
+        }
+      }
 
-    &.Mobile {
-        width: 100%;
-        position: fixed;
-        bottom: 0;
-        height: 84px;
-        align-items: flex-start;
-        padding: 0px;
-        border: 0;
-        border-top: 1px solid $border_basic;
+      .Desktop & {
+        .title {
+          color: var(--font-main);
+        }
 
+        @media (hover: hover) and (pointer: fine) {
+          &:hover {
+            background-color: transparent;
+          }
+        }
+      }
 
+      .Mobile & {
+        .title {
+          color: var(--font-main);
+        }
+      }
     }
+  }
 
+  &.Mobile {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 88px;
+    align-items: flex-start;
+    padding: 0px $outline_mobile 0px $outline_mobile;
+    border: 0;
+    background-color: $background;
+    background-color: transparent;
 
-    &.Desktop {
-        width: 263px;
-        height: 100%;
-        padding: 0px;
-        flex-direction: column;
-        align-items: flex-start;
-        //background: aqua;
-
+    &::before {
+      position: absolute;
+      bottom: 0;
+      content: "";
+      background: $background;
+      width: 100%;
+      height: 56px;
     }
+  }
+
+  &.Desktop {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    padding-left: 8px;
+    flex-direction: row;
+  }
 }

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import InviteComp from "../AccountSettings/Invite";
-import { HarthLogoDark } from "public/images/harth-logo-dark";
+import { HarthLogoLight } from "public/images/harth-logo-light";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
@@ -12,7 +12,6 @@ import { IconInviteEmail } from "resources/icons/IconInviteEmail";
 const SettingsList = ({ toggleCurrentTab }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
-
   const { isMobile } = useContext(MobileContext);
   const { APP_VERSION } = useSocket();
 
@@ -20,9 +19,11 @@ const SettingsList = ({ toggleCurrentTab }) => {
     localStorage.removeItem("token");
     window.location.pathname = "/";
   };
+
   const toggleFeedbackModal = () => {
     setShowFeedbackModal(!showFeedbackModal);
   };
+
   const toggleInviteModal = () => {
     setShowInviteModal(!showInviteModal);
   };
@@ -37,7 +38,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
       ) : null}
       {!isMobile ? (
         <div className={styles.headerImage}>
-          <HarthLogoDark />
+          <HarthLogoLight />
         </div>
       ) : null}
 
@@ -45,27 +46,29 @@ const SettingsList = ({ toggleCurrentTab }) => {
         className={` ${styles.menuItem} ${styles.menuItemInvites}`}
         onClick={toggleInviteModal}
       >
-        <div className={styles.iconHolder}>
+        <div className={styles.iconInvite}>
           <IconInviteEmail />
         </div>
         Send an Invite
       </button>
-      {/* <button
+
+      <a
         className={styles.menuItem}
-        //onClick={() => toggleCurrentTab("invites")}
+        href={
+          "https://harthsocial.com/checkout/donate?donatePageId=65402036e63e6a28d704a3ec"
+        }
+        target="_blank"
+        rel="noopener noreferrer"
       >
-        Feedback
-        <div className={styles.iconHolder}>
-          <IconChevronRight />
-        </div>
-      </button> */}
+        Donate
+      </a>
 
       {isMobile ? (
         <button
           className={styles.menuItem}
           onClick={() => toggleCurrentTab("accountprofile")}
         >
-          Account
+          Settings
           <div className={styles.iconHolder}>
             <IconChevronRight />
           </div>
@@ -73,21 +76,6 @@ const SettingsList = ({ toggleCurrentTab }) => {
       ) : (
         <SubSettings toggleCurrentTab={toggleCurrentTab} />
       )}
-      <a
-        className={styles.menuItem}
-        href={"https://harthsocial.com/donate"}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Donate
-      </a>
-
-      <button className={styles.menuItem} onClick={toggleFeedbackModal}>
-        {/* <div className={styles.iconHolder}>
-          <IconFeedback />
-        </div> */}
-        Submit Feedback
-      </button>
 
       <button className={styles.menuItem} onClick={() => signOut()}>
         Sign Out

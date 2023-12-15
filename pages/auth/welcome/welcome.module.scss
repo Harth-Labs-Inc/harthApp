@@ -10,95 +10,112 @@
   flex-direction: column;
   justify-content: space-between;
 
-//   @media screen and (max-width: 640px) {
-//     height: 50vh;
-// }
-    .logoHolder {
-        margin-top: 16px;
-        display: flex;
-        justify-content: center;
-        svg {
-            margin: auto;
-            height: 64px;
-        }
+  //   @media screen and (max-width: 640px) {
+  //     height: 50vh;
+  // }
+  .logoHolder {
+    //margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    svg {
+      margin: auto;
+      height: 76px;
     }
-    .greeting {
-        @include rubik;
-        font-size: 14px;
-        //font-weight: bold;
-        text-align: center;
-        margin-bottom: 25px;
-        margin-top: 12px;
-        color: $font_main;
-    }
-    &SignUpLink {
-        display: block;
-        margin: 0 auto 20px;
-    }
-figure {
-    width: 90%;
+  }
+  .greeting {
+    @include rubik;
+    font-size: 16px;
+    //font-weight: bold;
+    text-align: center;
+    margin-bottom: 24px;
+    margin-top: 12px;
+    color: $font_light;
+  }
+  &SignUpLink {
+    display: block;
+    margin: 0 auto 20px;
+  }
+  figure {
+    width: 264px;
     max-height: 300px;
     height: max-content;
     margin: 0;
     margin-left: auto;
     margin-right: auto;
     img {
-        height: 100%;
-        width: 100%;
-        object-fit: contain;
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
     }
-}
-.buttonWrapper{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 48px;
-  align-items: center;
-
-  .signUpLink {
-    @include buttonPrimary;
-    width: 90%;
-
   }
+  .buttonWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 64px;
+    align-items: center;
 
-  .signInLink {
-    @include buttonSecondary;
-    width: 90%;
+    .signUpLink {
+      @include buttonPrimary;
+      width: 90%;
+    }
+
+    .signInLink {
+      @include buttonSecondary;
+      width: 90%;
+    }
   }
-
-}
-
 }
 
 .fadeIn {
-    animation: fadeInAnimation ease 300ms;
-    -webkit-animation: fadeInAnimation ease 300ms;
-    -moz-animation: fadeInAnimation ease 300ms;
-    -o-animation: fadeInAnimation ease 300ms;
-    -ms-animation: fadeInAnimation ease 300ms;
+  animation: fadeInAnimation ease 300ms;
+  -webkit-animation: fadeInAnimation ease 300ms;
+  -moz-animation: fadeInAnimation ease 300ms;
+  -o-animation: fadeInAnimation ease 300ms;
+  -ms-animation: fadeInAnimation ease 300ms;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
   }
-  
-  @keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+  100% {
+    opacity: 1;
   }
-  
-  @-webkit-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+}
+
+@-webkit-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
   }
-  
-  @-moz-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+  100% {
+    opacity: 1;
   }
-  
-  @-o-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+}
+
+@-moz-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
   }
-  
-  @-ms-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+  100% {
+    opacity: 1;
   }
+}
+
+@-o-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

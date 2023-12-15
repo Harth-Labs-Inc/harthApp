@@ -262,6 +262,7 @@ const DumbChatInput = (props) => {
           id={isMobile ? styles.ChatInputMobileText : styles.ChatInputText}
           placeholder="say something"
           ref={textRef}
+          spellCheck="true"
           onChange={(e) => {
             inputHandler(e);
             calcHeight();

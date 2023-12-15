@@ -2,158 +2,130 @@
 @import "../../../../styles/fonts.scss";
 
 .CreateNewTopicModal {
-    section {
-        overflow: visible;
-    }
+  section {
+    overflow: visible;
+  }
 }
 .EmojiPicker {
-    position: fixed;
-    z-index: 301;
+  position: fixed;
+  z-index: 301;
 }
 .mainContainer {
-    position: realtive;
+  position: realtive;
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .title {
+    @include overlayMenuTitle;
+    width: 100%;
+    text-align: left;
+    margin-top: 8px;
+    margin-bottom: 40px;
+    color: $font_light;
+  }
+
+  .reminder {
+    position: relative;
     display: flex;
-    flex-direction: column;
-    width: 360px;
-    margin-left: auto;
-    margin-right: auto;
-
-    .title {
-        @include overlayMenuTitle;
-        width: 100%;
-        text-align: left;
-        margin-top: 8px;
-        margin-bottom: 40px;
-        color: $font_main;
+    flex-direction: row;
+    .icon {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      transform: rotate(90deg);
+      left: 30px;
+      top: -10px;
+      path {
+        fill: $hot_purple;
+      }
     }
 
-
-    .reminder {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        .icon {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            transform: rotate(90deg);
-            left: 30px;
-            top: -10px;
-            path {
-                fill: $hot_purple;
-            }
-        }
-
-        .text {
-            margin-left: 60px;
-            background: $hot_purple;
-            width: 160px;
-            @include systemFont;
-            font-size: 14px;
-            color: $background;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 8px;
-            text-align: center;
-        }
+    .text {
+      margin-left: 60px;
+      background-color: $hot_purple;
+      width: 224px;
+      @include systemFont;
+      font-size: 14px;
+      color: $font_light;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
     }
+  }
 }
 
 .CreateTopic {
-    .inputHolder {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        padding: 0px 16px;
-        margin: 8px 0px 0px 0px;
+  .inputHolder {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 0px 0px;
+    margin: 0px 0px 0px 0px;
 
-        button {
-            position: relative;
-            padding: 0;
-            //padding-bottom: 2px;
-            min-width: 56px;
-            width: 56px;
-            min-height: 56px;
-            height: 56px;
+    button {
+      position: relative;
+      padding: 0;
+      min-width: 56px;
+      width: 56px;
+      min-height: 56px;
+      height: 56px;
+      border-radius: 8px;
+      border: 0;
+      background-color: $background_offset_1;
 
-            border-radius: 8px;
-            border: 3px dashed $font_main;
-            background-color: transparent;
-
-
-            &:hover {
-                border-color: $hot_pink;
-
-                &::before {
-                    position: absolute;
-                    top: -36px;
-                    width: 96px;
-                    left: 50%;
-                    transform: translate3d(-50%, 0, 0);
-                    padding: 6px 0px;
-                    border-radius: 8px;
-                    background-color: $background_reverse;
-                    content: "Pick an Emoji";
-                    @include mouseover;
-                }
-
-                &::after {
-                    position: absolute;
-                    content: "";
-                    width: 0;
-                    height: 0;
-                    top: -13px;
-                    left: 50%;
-                    transform: translate3d(-50%, 0, 0);
-                    border-left: 8px solid transparent;
-                    border-right: 8px solid transparent;
-                    border-top: 10px solid $background_reverse;
-                }
-            }
-
-            &:active {
-                border-color: $hot_pink;
-            }
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: $hot_purple;
         }
+      }
 
-        .TopicEmoji {
-            font-size: 36px;
-        }
-
-        input {
-            @include topicTitle;
-            font-size: 18px;
-            font-weight: 400;
-            height: 56px;
-
-            color: $font_main;
-            border: 2px solid $font_main;
-            border-radius: 6px;
-            background: transparent;
-            caret-color: $hot_salmon;
-            &::placeholder {
-                color: $font_muted;
-            }
-        }
+      &:active {
+        background-color: $hot_purple;
+      }
     }
 
-    .error {
-        text-align: center;
-        margin-left: 96px;
-        margin-top: -4px;
-    }
-    .subtext {
-        width: 80%;
-        margin: auto;
-        text-align: center;
-        @include subtext;
+    .TopicEmoji {
+      font-size: 36px;
     }
 
-    &Buttons {
-        display: flex;
-        gap: 16px;
-        justify-content: space-between;
-        margin-top: 48px;
+    input {
+      @include topicTitle;
+      font-size: 18px;
+      font-weight: 400;
+      height: 56px;
+      width: 100%;
+      color: $font_light;
+      background-color: $background_offset_1;
+      border: 0;
+      border-radius: 6px;
+      padding-left: 12px;
+      caret-color: $hot_purple;
+      &::placeholder {
+        color: $font_muted;
+      }
     }
+  }
+
+  .error {
+    text-align: center;
+    margin-left: 96px;
+    margin-top: -4px;
+  }
+  .subtext {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    @include subtext;
+  }
+
+  &Buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    margin-top: 48px;
+  }
 }

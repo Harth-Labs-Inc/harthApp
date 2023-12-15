@@ -2,206 +2,219 @@
 @import "../../../styles/globals.scss";
 
 .loginModule {
+  max-width: 360px;
+  margin: 0 auto;
 
-    max-width: 360px;
-    margin: 0 auto;
+  h3 {
+    @include overlayMenuTitle;
+    color: $font_light;
+    text-align: left !important;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 36px;
+  }
 
+  .label {
+    @include systemFont;
+    font-size: 14px;
+    font-weight: 400;
+    //letter-spacing: 0.02em;
+    text-align: center;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    color: $font_light;
+    text-align: left;
+  }
 
-    h3 {
-        @include overlayMenuTitle;
-        text-align: left !important;
-        width: 100%;
-        margin: 0;
-        margin-bottom: 36px;
+  input {
+    border-radius: 4px;
+    background-color: $background_offset_1;
+    border: 0;
+    height: 56px;
+    padding: 0px 12px;
+    @include rubik;
+    font-weight: 400;
+    font-size: 16px;
+    color: $font_light;
+    caret-color: $hot_purple;
+    &::placeholder {
+      color: $font_muted;
+    }
+  }
+
+  .logoHolder {
+    width: 280px;
+    max-width: 280px;
+    //height: 56px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    svg {
+      margin: auto;
+      height: 64px;
+    }
+  }
+  .greeting {
+    @include rubik;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 64px;
+    margin-top: 8px;
+    color: $font_light;
+  }
+
+  .formBottom {
+    max-width: 340px;
+    margin-top: 8px;
+  }
+
+  &Disclaimer {
+    @include systemFont;
+    font-size: 12px;
+    text-align: center;
+    width: 280px;
+    margin: 8px auto 28px;
+    color: $font_muted;
+
+    a {
+      color: $font_muted;
+    }
+  }
+
+  &SignUpLink {
+    display: block;
+    margin: 0 auto 56px;
+  }
+
+  .loginButton {
+    margin-top: 24px;
+  }
+
+  .accountCreateAlert {
+    position: relative;
+    @include worksans;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    width: 260px;
+    color: $border_heavy;
+    margin: auto;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    background-color: $border_light;
+    border: 1px solid $border_basic;
+    border-radius: 16px;
+    padding: 8px 12px;
+
+    .button {
+      display: block;
+      margin: 4px auto;
+      background-color: transparent;
+      color: $fuel;
+      text-decoration: underline;
+      border: none;
+      @include worksans;
+      font-size: 12px;
+      font-weight: 400;
+      padding: 4px 4px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+  }
+  .buttonBar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 98%;
+    column-gap: 8px;
+    margin-top: 24px;
+
+    .backButton {
+      height: 48px;
+      border-radius: 999px;
+      max-width: 88px;
+      border: 1px solid $border_heavy;
+      background-color: $background;
+
+      path {
+        fill: $border_heavy;
       }
 
-    .label {
-        @include systemFont;
-        font-size: 14px;
-        font-weight: 400;
-        //letter-spacing: 0.02em;
-        text-align: center;
-        margin-bottom: 4px;
-        margin-top: 4px;
-        color: $font_main;
-        text-align: left;
-    }
-
-    input {
-        border-radius: 4px;
-        background-color: $border_basic;
-        border: 0;
-        height: 56px;
-        padding: 0px 12px; 
-        @include rubik;
-        font-weight: 400;
-        font-size: 16px;
-        color: $font_main;
-        caret-color: $hot_salmon;
-        &::placeholder {
-            color: $font_muted;
-
-        }
-
-    }
-
-
-    .logoHolder {
-        width: 280px;
-        max-width: 280px;
-        //height: 56px;
-        margin-top: 16px;
-        display: flex;
-        justify-content: center;
-        svg {
-            margin: auto;
-            height: 64px;
-        }
-    }
-    .greeting {
-        @include dmsans;
-        font-size: 14px;
-        font-weight: 400;
-        text-align: center;
-        margin-bottom: 64px;
-        margin-top: 8px;
-        color: $font_main;
-    }
-
-    .formBottom {
-        max-width: 340px;
-        margin-top: 8px;
-    }
-
-    &Disclaimer {
-        @include systemFont;
-        font-size: 12px;
-        text-align: center;
-        width: 280px;
-        margin: 8px auto 28px;
-        color: $font_muted;
-
-        a {
-            color: $font_muted;
-        }
-    }
-
-    &SignUpLink {
-        display: block;
-        margin: 0 auto 56px;
-
-    }
-
-    .loginButton {
-        margin-top: 24px;
-
-
-    }
-
-    .accountCreateAlert {
-        position: relative;
-        @include worksans;
-        font-size: 12px;
-        font-weight: 500;
-        text-align: center;
-        width: 260px;
-        color: $silver-dark;
-        margin: auto;
-        margin-top: 16px;
-        margin-bottom: 8px;
-        background-color: $silver-xlight;
-        border: 1px solid $silver-med;
-        border-radius: 16px;
-        padding: 8px 12px;
-
-        .button {
-            display: block;
-            margin: 4px auto;
-            background-color: transparent;
-            color: $fuel;
-            text-decoration: underline;
-            border: none;
-            @include worksans;
-            font-size: 12px;
-            font-weight: 400;
-            padding: 4px 4px;
-            border-radius: 8px;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-    }
-    .buttonBar {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        width: 98%;
-        column-gap: 8px;
-        margin-top: 24px;
-      
-        .backButton {
-            height: 48px;
-            border-radius: 999px;
-            border: 1px solid $border_heavy;
-            background-color: $background;
-      
-            path {
-              fill: $border_heavy;
-            }
-      
-            @media (hover: hover) and (pointer: fine) {
-              &:hover { 
-                background: $background_offset;
-                path {
-                  fill: $font_muted;
-                }
-              }
-            }
-          
-            &:active {
-              background: $background_offset;
-              path {
-                fill: $font_muted;
-              }
-            }
-        }
-      
-        .submitButton {
-            
-            @include buttonPrimary;
-            width: 100%;
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background: $background_offset;
+          path {
+            fill: $font_muted;
+          }
         }
       }
+
+      &:active {
+        background: $background_offset;
+        path {
+          fill: $font_muted;
+        }
+      }
+    }
+
+    .submitButton {
+      @include buttonPrimary;
+      width: 100%;
+    }
+  }
 }
 
 .fadeIn {
-    animation: fadeInAnimation ease 300ms;
-    -webkit-animation: fadeInAnimation ease 300ms;
-    -moz-animation: fadeInAnimation ease 300ms;
-    -o-animation: fadeInAnimation ease 300ms;
-    -ms-animation: fadeInAnimation ease 300ms;
+  animation: fadeInAnimation ease 300ms;
+  -webkit-animation: fadeInAnimation ease 300ms;
+  -moz-animation: fadeInAnimation ease 300ms;
+  -o-animation: fadeInAnimation ease 300ms;
+  -ms-animation: fadeInAnimation ease 300ms;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
   }
-  
-  @keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+  100% {
+    opacity: 1;
   }
-  
-  @-webkit-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+}
+
+@-webkit-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
   }
-  
-  @-moz-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+  100% {
+    opacity: 1;
   }
-  
-  @-o-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+}
+
+@-moz-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
   }
-  
-  @-ms-keyframes fadeInAnimation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+  100% {
+    opacity: 1;
   }
+}
+
+@-o-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

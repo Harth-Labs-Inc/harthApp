@@ -2,418 +2,418 @@
 @import "../../../styles/fonts.scss";
 
 .mainContainerDice {
-    position: absolute;
-    top: 12%;
-    left: 10%;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    row-gap: 0;
-    width: fit-content;
-    background: transparent;
-    border: 1px solid $ash;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: transparent;
+  position: absolute;
+  top: 12%;
+  left: 10%;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0;
+  width: fit-content;
+  background: transparent;
+  border: 1px solid $ash;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: transparent;
 
-    &Mobile {
-        top: auto;
-        bottom: -50%;
-        left: 0;
-        width: 100%;
+  &Mobile {
+    top: auto;
+    bottom: -50%;
+    left: 0;
+    width: 100%;
 
-        &.rendering {
-            bottom: -50%;
-            transition: all 0.2s ease-in-out;
-        }
-        &.entered {
-            bottom: 0%;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .diceContainer {
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            padding-bottom: 80px;
-        }
+    &.rendering {
+      bottom: -50%;
+      transition: all 0.2s ease-in-out;
     }
+    &.entered {
+      bottom: 0%;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .diceContainer {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      padding-bottom: 80px;
+    }
+  }
 }
 
 .diceContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    justify-content: space-evenly;
-    border: 0;
-    background-color: $black_60;
-    backdrop-filter: blur(12px);
-    width: fit-content;
-    padding: 6px; // 0px;
-    //border-top: 1px solid $white_10;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: space-evenly;
+  border: 0;
+  background-color: $black_60;
+  backdrop-filter: blur(12px);
+  width: fit-content;
+  padding: 6px; // 0px;
+  //border-top: 1px solid $white_10;
 }
 
 .mainContainerMap {
-    position: absolute;
-    top: 12%;
-    right: 10%;
-    z-index: 99;
-    display: flex;
-    flex-direction: column;
-    row-gap: 0;
-    width: fit-content;
-    background: transparent;
-    border: 1px solid $ash;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: transparent;
+  position: absolute;
+  top: 12%;
+  right: 10%;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0;
+  width: fit-content;
+  background: transparent;
+  border: 1px solid $ash;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: transparent;
 
-    &Mobile {
-        top: auto;
-        bottom: -75%;
-        left: 0;
-        width: 100%;
+  &Mobile {
+    top: auto;
+    bottom: -75%;
+    left: 0;
+    width: 100%;
 
-        &.rendering {
-            bottom: -75%;
-            transition: all 0.2s ease-in-out;
-        }
-        &.entered {
-            bottom: 0%;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .mapContainer {
-            height: calc(var(--vh) * 0.8);
-            width: 100%;
-            border: 0;
-        }
+    &.rendering {
+      bottom: -75%;
+      transition: all 0.2s ease-in-out;
     }
+    &.entered {
+      bottom: 0%;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .mapContainer {
+      height: calc(var(--vh) * 0.8);
+      width: 100%;
+      border: 0;
+    }
+  }
 }
 
 .mapContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-    row-gap: 8px;
-    border: 0;
-    border-top: 1px solid $ash;
-    background-color: $black_80;
-    backdrop-filter: blur(8px);
-    width: 320px;
-    height: 260px;
-    padding: 0px 0px 24px 0px;
+  row-gap: 8px;
+  border: 0;
+  border-top: 1px solid $ash;
+  background-color: $black_80;
+  backdrop-filter: blur(8px);
+  width: 320px;
+  height: 260px;
+  padding: 0px 0px 24px 0px;
 
-    .icon {
-        height: 48px;
-        width: 48px;
+  .icon {
+    height: 48px;
+    width: 48px;
 
-        path {
-            fill: $white;
-        }
+    path {
+      fill: $white;
     }
+  }
 
-    .label {
-        @include rubik;
-        font-size: 16px;
-        font-weight: 400;
-        margin-bottom: 24px;
-        text-align: center;
-        color: $white;
-    }
+  .label {
+    @include rubik;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 24px;
+    text-align: center;
+    color: $white;
+  }
 }
 
 .mapContainerActive {
-    overflow: hidden;
-    position: relative;
-    width: auto;
-    height: auto;
-    max-width: 540px;
-    max-height: 540px;
-    background-color: $ash_dark;
-    z-index: 100;
+  overflow: hidden;
+  position: relative;
+  width: auto;
+  height: auto;
+  max-width: 540px;
+  max-height: 540px;
+  background-color: $ash_heavy;
+  z-index: 100;
 
+  .bottomBar {
+    position: absolute;
+    background-color: $overlay_dark;
+    width: 100%;
+    height: 44px;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button {
+      background-color: $overlay_dark;
+      color: $white;
+      &:hover {
+        //color: $white;
+        background-color: $black;
+        backdrop-filter: blur(4px);
+        border-color: $white_80;
+      }
+    }
+  }
+
+  &Mobile {
+    max-height: none;
     .bottomBar {
-        position: absolute;
-        background-color: $overlay_dark;
-        width: 100%;
-        height: 44px;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        button {
-            background-color: $overlay_dark;
-            color: $white;
-            &:hover {
-                //color: $white;
-                background-color: $black;
-                backdrop-filter: blur(4px);
-                border-color: $white_80;
-            }
+      bottom: 40px;
+      background-color: transparent;
+
+      button {
+        &:active {
+          //color: $white;
+          background-color: $black;
+          backdrop-filter: blur(4px);
+          border-color: $white_80;
         }
+      }
     }
-
-    &Mobile {
-        max-height: none;
-        .bottomBar {
-            bottom: 40px;
-            background-color: transparent;
-
-            button {
-                &:active {
-                    //color: $white;
-                    background-color: $black;
-                    backdrop-filter: blur(4px);
-                    border-color: $white_80;
-                }
-            }
-        }
-
-    }
+  }
 }
 
 .mobileMapContainer {
-    position: relative;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  row-gap: 8px;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border: 0;
+  background-color: $black_60;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  width: 100%;
+  padding: 12px 0px 64px 0px;
+
+  .icon {
+    height: 64px;
+    width: 64px;
+    path {
+      fill: $white;
+    }
+  }
+
+  .label {
+    @include systemFont;
+    font-size: 18px;
+    color: $white;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .grabber {
+    background-color: $white_50;
+    border-radius: 9999px;
+    height: 4px;
+    width: 48px;
+    margin-bottom: 40px;
+  }
+
+  .closeBar {
     display: flex;
-    overflow: hidden;
-    flex-direction: column;
-    row-gap: 8px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 0;
-    background-color: $black_60;
-    align-items: center;
-    backdrop-filter: blur(12px);
     width: 100%;
-    padding: 12px 0px 64px 0px;
+    justify-content: flex-end;
+    justify-items: end;
+    align-content: flex-end;
+    padding: 0px 12px;
+    margin-bottom: 8px;
+  }
+  &Active {
+    position: relative;
+    padding: 0px;
 
-    .icon {
-        height: 64px;
-        width: 64px;
-        path {
-            fill: $white;
-        }
+    .bottomBar {
+      position: relative;
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 12px;
     }
-
-    .label {
-        @include interfaceH2;
-        color: $white;
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .grabber {
-        background-color: $white_50;
-        border-radius: 9999px;
-        height: 4px;
-        width: 48px;
-        margin-bottom: 40px;
-    }
-
-    .closeBar {
-        display: flex;
-        width: 100%;
-        justify-content: flex-end;
-        justify-items: end;
-        align-content: flex-end;
-        padding: 0px 12px;
-        margin-bottom: 8px;
-    }
-    &Active {
-        position: relative;
-        padding: 0px;
-
-        .bottomBar {
-            position: relative;
-            width: 100%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-top: 12px;
-        }
-    }
+  }
 }
 
 .mobileDiceContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border: 0;
+  background-color: $overlay_dark;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  width: 100%;
+  padding: 12px 0px 48px 0px;
+
+  .grabber {
+    background-color: $white_50;
+    border-radius: 9999px;
+    height: 4px;
+    width: 48px;
+  }
+
+  .diceRow {
     position: relative;
     display: flex;
-    flex-direction: column;
-    row-gap: 24px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border: 0;
-    background-color: $overlay_dark;
-    align-items: center;
-    backdrop-filter: blur(4px);
-    width: 100%;
-    padding: 12px 0px 48px 0px;
-
-    .grabber {
-        background-color: $white_50;
-        border-radius: 9999px;
-        height: 4px;
-        width: 48px;
-    }
-
-    .diceRow {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        column-gap: 24px;
-    }
+    flex-direction: row;
+    column-gap: 24px;
+  }
 }
 
 .topBar {
-    background-color: $ash;
-    height: 24px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: grab;
-    padding: 0px 2px 0px 2px;
+  background-color: $ash;
+  height: 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: grab;
+  padding: 0px 2px 0px 2px;
 
+  path {
+    fill: transparent;
+  }
+
+  &:hover {
+    .close {
+      path {
+        fill: $white_40;
+      }
+    }
+  }
+
+  .grabber {
+    background-color: $white_20;
+    border-radius: 9999px;
+    height: 4px;
+    width: 24px;
+  }
+
+  .close {
+    background: transparent;
+    height: 18px;
+    width: 18px;
+    border: 0px;
+    border-radius: 4px;
+    padding: 3px;
     path {
-        fill: transparent;
+      fill: transparent;
     }
 
     &:hover {
-        .close {
-            path {
-                fill: $white_40;
-            }
-        }
+      background-color: $white_20;
+      path {
+        fill: $white_80;
+      }
     }
+  }
 
+  .spacer {
+    height: 18px;
+    width: 18px;
+    background: transparent;
+  }
+
+  &Mobile {
+    background-color: $black_60;
+    backdrop-filter: blur(12px);
+    justify-content: center;
+    height: 40px;
+    padding-bottom: 20px;
     .grabber {
-        background-color: $white_20;
-        border-radius: 9999px;
-        height: 4px;
-        width: 24px;
+      height: 6px;
+      width: 48px;
     }
-
-    .close {
-        background: transparent;
-        height: 18px;
-        width: 18px;
-        border: 0px;
-        border-radius: 4px;
-        padding: 3px;
-        path {
-            fill: transparent;
-        }
-
-        &:hover {
-            background-color: $white_20;
-            path {
-                fill: $white_80;
-            }
-        }
-    }
-
-    .spacer {
-        height: 18px;
-        width: 18px;
-        background: transparent;
-    }
-
-    &Mobile {
-        background-color: $black_60;
-        backdrop-filter: blur(12px);
-        justify-content: center;
-        height: 40px;
-        padding-bottom: 20px;
-        .grabber {
-            height: 6px;
-            width: 48px;
-        }
-    }
+  }
 }
 
 .alertContainer {
+  position: relative;
+  border-radius: 8px;
+  //box-shadow: 0px 2px 6px 0px $black;
+  height: 68px;
+  width: 148px;
+  margin: 4px 0px;
+  .contents {
     position: relative;
-    border-radius: 8px;
-    //box-shadow: 0px 2px 6px 0px $black;
-    height: 68px;
-    width: 148px;
-    margin: 4px 0px;
-    .contents {
-        position: relative;
-        background-origin: border-box;
-        background-clip: content-box, border-box;
-        border: solid 4px transparent;
-        border-radius: 12px;
-        box-shadow: 4px 9999px 1px $ash_dark inset; //interior color
-        background-image: linear-gradient(
-                rgba(255, 255, 255, 0),
-                rgba(255, 255, 255, 0)
-            ),
-            linear-gradient(35deg, $hot_blue, $hot_pink);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    border: solid 4px transparent;
+    border-radius: 12px;
+    box-shadow: 4px 9999px 1px $ash_heavy inset; //interior color
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0)
+      ),
+      linear-gradient(35deg, $hot_blue, $hot_pink);
 
-        height: 100%;
-        width: 100%;
+    height: 100%;
+    width: 100%;
 
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0px 8px 0px 4px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 8px 0px 4px;
 
-        .label {
-            @include rubik;
-            font-size: 48px;
-            font-weight: 600;
-            letter-spacing: -0.05em;
-            text-align: center;
-            width: 64px;
-            color: $white;
-        }
-
-        .attributeContainer {
-            position: relative;
-            padding-left: 10px;
-            padding-bottom: 6px;
-
-            .icon {
-                height: 52px;
-                width: 52px;
-                path {
-                    fill: $white;
-                }
-            }
-
-            .avatarWrapper {
-                position: absolute;
-                border-radius: 9999px;
-                border: 2px solid $ash_dark;
-                width: 36px;
-                height: 36px;
-                bottom: 0px;
-                left: -4px;
-                overflow: hidden;
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 9999px;
-                    //border: 1px solid $white;
-                }
-            }
-        }
+    .label {
+      @include rubik;
+      font-size: 48px;
+      font-weight: 600;
+      letter-spacing: -0.05em;
+      text-align: center;
+      width: 64px;
+      color: $white;
     }
+
+    .attributeContainer {
+      position: relative;
+      padding-left: 10px;
+      padding-bottom: 6px;
+
+      .icon {
+        height: 52px;
+        width: 52px;
+        path {
+          fill: $white;
+        }
+      }
+
+      .avatarWrapper {
+        position: absolute;
+        border-radius: 9999px;
+        border: 2px solid $ash_heavy;
+        width: 36px;
+        height: 36px;
+        bottom: 0px;
+        left: -4px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 9999px;
+          //border: 1px solid $white;
+        }
+      }
+    }
+  }
 }
 
 .shadow {
-    box-shadow: 10px 10px 8px 10px #888888;
+  box-shadow: 10px 10px 8px 10px #888888;
 }

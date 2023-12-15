@@ -187,6 +187,7 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
         <textarea
           id={styles.ChatInputText}
           ref={textRef}
+          spellCheck="true"
           onChange={(e) => {
             inputHandler(e);
             calcHeight(e.target.value);

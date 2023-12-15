@@ -34,7 +34,7 @@ export const LinkPreview = ({ message }) => {
     const [linkData, setLinkData] = useState(null);
     const blacklist = new Set([
         "twitter.com",
-        "instagram.com",
+        //"instagram.com",
         "amazon.com",
         "x.com",
         "facebook.com",

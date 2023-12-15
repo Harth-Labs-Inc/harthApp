@@ -2,99 +2,103 @@
 @import "../../../../styles/fonts.scss";
 
 .imageHolder {
-    margin-top: 48px;
+  margin-top: 48px;
 }
 
 .justImage {
-    margin-top: 56px;
-    img {
-        width: 72px;
-        margin-left: auto;
-        margin-right: auto;
-        border-radius: 12px;
-    }   
+  margin-top: 56px;
+  img {
+    width: 72px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px;
+  }
 }
 
 .justTitle {
-    @include harthTitle;
-    font-size: 24px;
-    color: $font_main;
-    text-align: center;
-    margin-top: 16px;
-    margin-bottom: 16px;
+  @include harthTitle;
+  font-size: 24px;
+  color: $font_light;
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .form {
-    margin-top: 30px;
-    width: 100%;
-    margin-top: 32px;
+  margin-top: 30px;
+  width: 100%;
+  margin-top: 32px;
 
-    input {
-        border: 0;
+  input {
+    border: 0;
+  }
+
+  &Content {
+    display: flex;
+    justify-content: center;
+    height: 40px;
+  }
+
+  .textEntry {
+    margin: 0;
+    width: 220px;
+    padding: 0px 2px 0px 8px;
+    background-color: $background_offset_1;
+    //border: 1px solid $ash_medium;
+    border-radius: 8px 0 0 8px;
+    @include harthTitle;
+    overflow: hidden;
+    font-size: 20px;
+    color: $font_light;
+  }
+  .formSubmit {
+    width: 96px;
+    padding: 8px;
+    background-color: $border_basic;
+    border-radius: 0 8px 8px 0;
+    color: $font_light;
+    @include buttonLarge;
+    border: 0;
+    outline: none;
+    outline-style: none;
+    -moz-outline-style: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: $hot_purple;
+        color: $font_light;
+      }
     }
 
-    &Content {
-        display: flex;
-        justify-content: center;
-        height: 40px;
+    &:active {
+      background-color: $hot_purple;
+      color: $font_light;
     }
-
-    .textEntry {
-        margin: 0;
-        width: 220px;
-        padding: 0px 2px 0px 8px;
-        background-color: $border_basic;
-        //border: 1px solid $ash_medium;
-        border-radius: 8px 0 0 8px;
-        @include harthTitle;
-        overflow: hidden;
-        font-size: 20px;
-        color: $font_main;
-    }
-    .formSubmit {
-        width: 96px;;
-        padding: 8px ;
-        background-color: $button_main;
-        border-radius: 0 8px 8px 0;
-        color: $background;
-        @include buttonLarge;
-        border: 0;
-        outline: none;
-        outline-style: none;
-        -moz-outline-style: none; 
-        -webkit-tap-highlight-color: transparent; 
-        cursor: pointer;
-
-        &:hover {
-            background-color: $button_main_press;
-        }
-
-        &:active {
-            background-color: $button_main_press;
-        }
-    }
+  }
 }
 
 .contentHolder {
-    width: 100%;
-    padding: 16px 0px;
+  width: 100%;
+  padding: 16px 0px;
 
-    .title {
-        width: fit-content;
-        padding: 4px 16px 4px 0px;
-        border-bottom: 1px solid $fuel;
-    }
+  .title {
+    width: fit-content;
+    padding: 4px 16px 4px 0px;
+    border-bottom: 1px solid $fuel;
+  }
 
-    .leaveButton {
-        margin-top: 40px;
-    }
+  .leaveButton {
+    margin-top: 40px;
+  }
 }
 
 .DeleteModal {
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    justify-items: center;
-    align-content: center;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
 }

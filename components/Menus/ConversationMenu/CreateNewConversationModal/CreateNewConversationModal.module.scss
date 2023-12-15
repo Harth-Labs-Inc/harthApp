@@ -2,192 +2,189 @@
 @import "../../../../styles/fonts.scss";
 
 .mainContainer {
-    display: flex;
-    flex-direction: column;
-    //height: 400px;
-    width: 360px;
-    margin-left: auto;
-    margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  margin-left: auto;
+  margin-right: auto;
 
+  //background-color: #ffa773;
+
+  .helpText {
+    @include systemFont;
+    color: $font_light;
+    margin-bottom: 4px;
+  }
+
+  p {
+    @include topicTitle;
+    font-weight: 500;
+    color: $font_light;
+  }
+
+  .title {
+    @include overlayMenuTitle;
+    color: $font_light;
+    width: 100%;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 24px;
+  }
+
+  .Content {
     //background-color: #ffa773;
+    height: 100%;
 
-    .helpText {
-        @include systemFont;
-        color: $font_main;
-        margin-bottom: 4px;
-    }
+    .PeopleList {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      background-color: $border_light;
+      overflow-y: scroll;
+      height: 220px;
+      padding: 16px;
+      border-radius: 8px;
 
-    p {
-        @include topicTitle;
-        font-weight: 500;
-        color: $font_main;
-    }
+      .Person {
+        display: flex;
+        gap: 12px;
+        align-items: center;
 
-    .title {
-        @include overlayMenuTitle;
-        width: 100%;
-        text-align: left;
-        margin-top: 0px;
-        margin-bottom: 24px;
-        color: $font_main;
-    }
+        .imageHolder {
+          padding: 0px 0px 0px 12px;
+          border-left: 1px solid $font_light;
 
-    .Content {
-        //background-color: #ffa773;
-        height: 100%;
-
-        .PeopleList {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+          img {
             position: relative;
-            background-color: $border_basic;
-            overflow-y: scroll;
-            height: 220px;
-            //border: 1px solid $ash_medium;
-            padding: 16px;
-            border-radius: 8px;
-
-            .Person {
-                display: flex;
-                gap: 12px;
-                align-items: center;
-
-
-                .imageHolder {
-                    padding: 0px 0px 0px 12px;
-                    border-left: 1px solid $font_main;
-
-                    img {
-                        position: relative;
-                        height: 36px;
-                        width: 36px;
-                        border-radius: 999px;
-                        border: 0;
-                    }
-                }
-
-                label {
-                    @include topicTitle;
-                    margin-left: -4px;
-                }
-
-                input[type="checkbox"] {
-                    position: relative;
-                    appearance: none;
-                    width: 36px;
-                    height: 36px;
-                    border: 2px solid $font_main;
-                    border-radius: 8px;
-                    background-color: $background;
-                    //box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-
-                    &::before {
-                        content: "\2714";
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        font-size: 16px;
-                        color: $hot_pink;
-                        opacity: 0;
-                        transition: opacity 0.2s ease-in-out;
-                    }
-
-                    &:hover {
-                        background-color: $background_offset;
-                    }
-                }
-
-                input[type="checkbox"]:checked {
-                    position: relative;
-                    border-color: $hot_pink;
-
-                    &::before {
-                        opacity: 1;
-                    }
-                }
-            }
+            height: 36px;
+            width: 36px;
+            border-radius: 999px;
+            border: 0;
+          }
         }
 
-        .ButtonBar {
-            display: flex;
-            gap: 12px;
-            margin-top: 4px;
-            margin-bottom: 12px;
+        label {
+          @include topicTitle;
+          margin-left: -4px;
         }
+
+        input[type="checkbox"] {
+          position: relative;
+          appearance: none;
+          width: 32px;
+          height: 32px;
+          border: 2px solid $font_light;
+          border-radius: 8px;
+          background-color: $border_basic;
+          //box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+          &::before {
+            content: "\2714";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            color: $hot_pink;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+          }
+
+          &:hover {
+            background-color: $background_offset;
+          }
+        }
+
+        input[type="checkbox"]:checked {
+          position: relative;
+          border-color: $hot_pink;
+
+          &::before {
+            opacity: 1;
+          }
+        }
+      }
     }
+
+    .ButtonBar {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+    }
+  }
 }
 
 .CreateTopic {
-    &Time {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 18px;
+  &Time {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 18px;
 
-        &Text {
-            @include interfaceR3;
-            margin-bottom: 12px;
-        }
-
-        &Button {
-            @include interfaceH2;
-            position: relative;
-            display: flex;
-            align-items: center;
-            width: 148px;
-            padding: 20.5px 10px;
-            border: 2px solid $fuel;
-            border-radius: 12px;
-            cursor: pointer;
-
-            svg {
-                margin-right: 6px;
-                height: 28px;
-                width: 28px;
-            }
-
-            input {
-                position: absolute;
-                z-index: -1;
-                opacity: 0;
-            }
-
-            &.Active {
-                border-color: transparent;
-                &:before {
-                    position: absolute;
-                    inset: -2px;
-                    padding: 3px;
-                    content: "";
-                    background: linear-gradient(
-                        to right,
-                        #ffa773 0%,
-                        #d96fab 100%
-                    );
-                    border-radius: 12px;
-                    mask: linear-gradient(#fff 0 0) content-box,
-                        linear-gradient(#fff 0 0);
-                    -webkit-mask: linear-gradient(#fff 0 0) content-box,
-                        linear-gradient(#fff 0 0);
-                    -webkit-mask-composite: xor;
-                    mask-composite: exclude;
-                }
-
-                svg {
-                    path {
-                        fill: $fuel;
-                        stroke: $fuel;
-                    }
-                }
-            }
-        }
+    &Text {
+      @include systemFont;
+      font-size: 12px;
+      margin-bottom: 12px;
     }
 
-    &Buttons {
-        display: flex;
-        gap: 16px;
-        justify-content: space-between;
-        margin-top: 32px;
+    &Button {
+      @include systemFont;
+      font-size: 18px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 148px;
+      padding: 20.5px 10px;
+      border: 2px solid $fuel;
+      border-radius: 12px;
+      cursor: pointer;
+
+      svg {
+        margin-right: 6px;
+        height: 28px;
+        width: 28px;
+      }
+
+      input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+      }
+
+      &.Active {
+        border-color: transparent;
+        &:before {
+          position: absolute;
+          inset: -2px;
+          padding: 3px;
+          content: "";
+          background: linear-gradient(to right, #ffa773 0%, #d96fab 100%);
+          border-radius: 12px;
+          mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+          -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+        }
+
+        svg {
+          path {
+            fill: $fuel;
+            stroke: $fuel;
+          }
+        }
+      }
     }
+  }
+
+  &Buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    margin-top: 32px;
+  }
 }

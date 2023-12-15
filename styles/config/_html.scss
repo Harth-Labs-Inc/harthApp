@@ -1,60 +1,61 @@
 html,
 body {
-    position: relative;
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-    margin: 0;
-    color: $fuel;
-    font-size: 16px;
-    overflow: hidden;
-    background-color: $background;
-    background-position: center;
-    background-size: cover;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  color: $fuel;
+  font-size: 16px;
+  overflow: hidden;
+  background-color: $background;
+  background-position: center;
+  background-size: cover;
 
-    @media (max-width: 640px) {
-        height: var(--vh);
-    }
+  @media (max-width: 640px) {
+    height: var(--vh);
+  }
 }
-body, :root {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -webkit-overflow-scrolling: auto; 
-    user-select: none;
-    overflow-x: hidden;
+body,
+:root {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -webkit-overflow-scrolling: auto;
+  user-select: none;
+  overflow-x: hidden;
 }
 * {
-    box-sizing: border-box;
-    /* Hide scrollbar for IE, Edge and Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    &:focus {
-        outline: none;
-        outline-style: none;
-        -moz-outline-style: none; 
-        -webkit-tap-highlight-color: transparent; 
-    }
+  box-sizing: border-box;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &:focus {
+    outline: none;
+    outline-style: none;
+    -moz-outline-style: none;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
 *::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }
 
 img,
 video {
-    display: block;
+  display: block;
 }
 
 #__next {
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 
-    @media (max-width: 640px) {
-        height: var(--vh);
-    }
+  @media (max-width: 640px) {
+    height: var(--vh);
+  }
 }

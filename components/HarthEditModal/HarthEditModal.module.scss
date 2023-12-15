@@ -2,50 +2,51 @@
 @import "../../styles/globals.scss";
 
 .mainContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  row-gap: 24px;
+
+  .title {
+    @include overlayMenuTitle;
+    color: $font_light;
+    width: 100%;
+    text-align: left;
+    margin-top: 8px;
+    margin-bottom: 40px;
+  }
+
+  .textEntry {
+    width: 90%;
+  }
+
+  .form {
     display: flex;
     flex-direction: column;
-    min-width: 300px;
-    row-gap: 24px;
+    align-items: center;
+  }
 
-    .title {
-        @include overlayMenuTitle;
-        width: 100%;
-        text-align: left;
-        margin-top: 8px;
-        margin-bottom: 40px;
+  .harthTitle {
+    position: relative;
+    margin-top: 4px;
+    @include systemFont;
+  }
+
+  .buttonBar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 98%;
+    column-gap: 8px;
+    margin-top: 40px;
+
+    .cancelButton {
+      width: 96px;
+      // min-width: 88px;
     }
 
-    .textEntry {
-        width: 90%;
+    .submitButton {
+      width: 100%;
     }
-
-    .form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .harthTitle {
-        position: relative;
-        margin-top: 4px;
-        @include contentR3;
-    }
-
-    .buttonBar {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        width: 98%;
-        column-gap: 8px;
-        margin-top: 40px;
-
-        .cancelButton {
-            width: 96px;
-            // min-width: 88px;
-        }
-
-        .submitButton {
-            width: 100%;
-        }
-    }
+  }
 }

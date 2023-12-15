@@ -2,284 +2,283 @@
 @import "../../../styles/fonts.scss";
 
 .PartyWindow {
-    position: absolute;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  //background-color: $fuel;
+  height: 100vh;
+  width: 100%;
+  border: 0;
+  padding: 0px 0px 0px 0px;
+  background: linear-gradient(180deg, $background, $fuel);
+
+  @media (max-width: 640px) {
+    height: var(--vh);
+    z-index: 500;
+  }
+
+  .ContentContainer {
+    position: relative;
     display: flex;
-    flex-direction: column;
-    //background-color: $fuel;
-    height: 100vh;
+    flex-direction: row;
+    height: calc(100% - 108px);
     width: 100%;
-    border: 0;
-    padding: 0px 0px 0px 0px;
-    background: linear-gradient(180deg, $ash, $fuel); 
-    
-    @media (max-width: 640px) {
-        height: var(--vh);
-        z-index: 500;
+
+    &Mobile {
+      flex-direction: column;
+
+      .ownerVideo {
+        bottom: 20px !important;
+      }
     }
 
-    .ContentContainer {
+    .peerContainer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+      height: 98%;
+      width: 100%;
+      padding: 8px;
+      text-align: center;
+      user-select: none;
+
+      &.peerContainerChatOpen {
+        &:not(.peerContainerActive) {
+          width: calc(100% - 420px);
+        }
+      }
+
+      &Mobile {
+        overflow: scroll;
+        &.peerContainerActive {
+          flex-wrap: unset;
+          flex-direction: column;
+          justify-content: flex-start;
+          width: 100%;
+        }
+      }
+
+      &Active {
+        width: 200px;
+        min-width: 200px;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: flex-start;
+        overflow: scroll;
+      }
+    }
+
+    .videoContainer {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      aspect-ratio: 1/1;
+      margin: 4px;
+      overflow: hidden;
+      border: 1px solid $black;
+      border-radius: 12px;
+      background-color: $black;
+
+      .peerName {
+        color: $white;
+        @include topicTitle;
+      }
+
+      .peerImage {
+        margin-bottom: 8px;
+        height: 64px;
+        width: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      audio {
         position: relative;
-        display: flex;
-        flex-direction: row;
-        height: calc(100% - 108px);
+        z-index: 2;
+      }
+
+      video {
+        position: absolute;
+        z-index: 1;
+        object-fit: contain;
         width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        //background: #000;
+        //border-radius: 12px;
+        overflow: hidden;
+        background-size: cover;
+        overflow: hidden;
+        // -webkit-transition: margin-top 1s ease-in-out;
+        // -moz-transition: margin-top 1s ease-in-out;
+        // -o-transition: margin-top 1s ease-in-out;
+        // transition: margin-top 1s ease-in-out;
+      }
+    }
 
-        &Mobile {
-            flex-direction: column;
+    .streamContainer {
+      visibility: hidden;
+      position: relative;
+      background-color: transparent;
 
-            .ownerVideo {
-                bottom: 20px !important;
-            }
+      &Mobile {
+        &.streamContainerActive {
+          width: 100%;
+          height: max-content !important;
         }
+      }
 
-        .peerContainer {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            position: relative;
-            z-index: 1;
-            height: 98%;
-            width: 100%;
-            padding: 8px;
-            text-align: center;
-            user-select: none;
+      &Active {
+        visibility: visible;
+        display: flex;
+        height: 100%;
+        width: 85%;
+        justify-content: center;
+        //align-items: center;
+        overflow: hidden;
+        padding: 8px;
 
-            &.peerContainerChatOpen {
-                &:not(.peerContainerActive) {
-                    width: calc(100% - 420px);
-                }
-            }
+        .streamVideoContainer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          background: transparent;
 
-            &Mobile {
-                overflow: scroll;
-                &.peerContainerActive {
-                    flex-wrap: unset;
-                    flex-direction: column;
-                    justify-content: flex-start;
-                    width: 100%;
-                }
-            }
-
-            &Active {
-                width: 200px;
-                min-width: 200px;
-                flex-wrap: wrap;
-                flex-direction: column;
-                justify-content: flex-start;
-                overflow: scroll;
-            }
-        }
-
-        .videoContainer {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-            aspect-ratio: 1/1;
-            margin: 4px;
-            overflow: hidden;
+          video {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
             border: 1px solid $black;
             border-radius: 12px;
-            background-color: $black;
-
-            .peerName {
-                color: $white;
-                @include topicTitle;
-            }
-
-            .peerImage {
-                margin-bottom: 8px;
-                height: 64px;
-                width: 64px;
-                border-radius: 50%;
-                object-fit: cover;
-            }
-
-            audio {
-                position: relative;
-                z-index: 2;
-            }
-
-            video {
-                position: absolute;
-                z-index: 1;
-                object-fit: contain;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                //background: #000;
-                //border-radius: 12px;
-                overflow: hidden;
-                background-size: cover;
-                overflow: hidden;
-                // -webkit-transition: margin-top 1s ease-in-out;
-                // -moz-transition: margin-top 1s ease-in-out;
-                // -o-transition: margin-top 1s ease-in-out;
-                // transition: margin-top 1s ease-in-out;
-            }
-        }
-
-        .streamContainer {
-            visibility: hidden;
-            position: relative;
             background-color: transparent;
-
-            &Mobile {
-                &.streamContainerActive {
-                    width: 100%;
-                    height: max-content !important;
-                }
-            }
-
-            &Active {
-                visibility: visible;
-                display: flex;
-                height: 100%;
-                width: 85%;
-                justify-content: center;
-                //align-items: center;
-                overflow: hidden;
-                padding: 8px;
-
-                .streamVideoContainer {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 100%;
-                    height: 100%;
-                    background: transparent;
-
-                    video {
-                        width: auto;
-                        height: auto;
-                        max-width: 100%;
-                        max-height: 100%;
-                        border: 1px solid $black;
-                        border-radius: 12px;
-                        background-color: transparent;
-                        object-fit: contain;
-
-                    }
-                }
-            }
+            object-fit: contain;
+          }
         }
-
-        .ChatPanelContainer {
-            position: relative;
-            left: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-            border: 1px solid $ash_medium;
-            border-radius: 18px;
-            margin: 0;
-            margin-right: 8px;
-            width: 0;
-            visibility: hidden;
-            transition: width 0.3s ease-in-out;
-		    background: $ash_heavy;
-            overflow: hidden;
-
-            body {
-                margin: 0;
-                padding: 0;
-            }
-
-            &Open {
-                width: 420px;
-                padding: 0px;
-                visibility: visible;
-                
-                &.rendering {
-                    left: 100%;
-                    transition: all 0.2s ease-in-out;
-                }
-                &.entered {
-                    left: 0%;
-                    transition: all 0.2s ease-in-out;
-                }
-            }
-
-            &Mobile {
-                position: absolute;
-                top: 0;
-                left: 100%;
-                z-index: 98;
-                height: calc(100% - 20px);
-                border: 0;
-
-                &.ChatPanelContainerOpen {
-                    width: calc(100% - 20px);
-                    margin-left: 10px;
-                }
-
-                &.rendering {
-                    left: 100%;
-                    transition: all 0.2s ease-in-out;
-                }
-                &.entered {
-                    left: 0%;
-                    transition: all 0.2s ease-in-out;
-                }
-            }
-        }
-
-        .ownerVideo {
-            position: absolute;
-            bottom: 0px;
-            right: 16px;
-            height: 120px;
-            width: 120px;
-            transform: scaleX(-1);
-            z-index: 97;
-
-            &Alone {
-                bottom: 50%;
-                right: 50%;
-                transform: translate3d(50%, 50%, 0) scaleX(-1);
-                height: 50%;
-                width: 50%;
-            }
-
-            video {
-                //border: 4px solid red;
-                height: 100%;
-                width: 100%;
-                border-radius: 12px;
-
-                object-fit: cover;
-            }
-        }
-
-        .ownerVideoChatOpen .ownerVideo {
-            right: 436px;
-        }
-
-        .alertContainer {
-            position: absolute;
-            top: 0;
-            right: 12px;
-            z-index: 10;
-            width: fit-content;
-            height: 100%;
-            //border: 4px solid green;
-            background: transparent;
-
-            display: flex;
-            flex-direction: column;
-            // gap: 12px;
-        }
+      }
     }
+
+    .ChatPanelContainer {
+      position: relative;
+      left: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      border: 1px solid $ash_medium;
+      border-radius: 18px;
+      margin: 0;
+      margin-right: 8px;
+      width: 0;
+      visibility: hidden;
+      transition: width 0.3s ease-in-out;
+      background: $ash_heavy;
+      overflow: hidden;
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      &Open {
+        width: 420px;
+        padding: 0px;
+        visibility: visible;
+
+        &.rendering {
+          left: 100%;
+          transition: all 0.2s ease-in-out;
+        }
+        &.entered {
+          left: 0%;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+
+      &Mobile {
+        position: absolute;
+        top: 8px;
+        left: 100%;
+        z-index: 98;
+        height: calc(100% - 48px);
+        border: 0;
+
+        &.ChatPanelContainerOpen {
+          width: 100%;
+          //margin-left: 10px;
+        }
+
+        &.rendering {
+          left: 100%;
+          transition: all 0.2s ease-in-out;
+        }
+        &.entered {
+          left: 0%;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
+
+    .ownerVideo {
+      position: absolute;
+      bottom: 0px;
+      right: 16px;
+      height: 120px;
+      width: 120px;
+      transform: scaleX(-1);
+      z-index: 97;
+
+      &Alone {
+        bottom: 50%;
+        right: 50%;
+        transform: translate3d(50%, 50%, 0) scaleX(-1);
+        height: 50%;
+        width: 50%;
+      }
+
+      video {
+        //border: 4px solid red;
+        height: 100%;
+        width: 100%;
+        border-radius: 12px;
+
+        object-fit: cover;
+      }
+    }
+
+    .ownerVideoChatOpen .ownerVideo {
+      right: 436px;
+    }
+
+    .alertContainer {
+      position: absolute;
+      top: 0;
+      right: 12px;
+      z-index: 10;
+      width: fit-content;
+      height: 100%;
+      //border: 4px solid green;
+      background: transparent;
+
+      display: flex;
+      flex-direction: column;
+      // gap: 12px;
+    }
+  }
 }
 
 .videoActive {
-    > img,
-    > p {
-        opacity: 0;
-    }
+  > img,
+  > p {
+    opacity: 0;
+  }
 }
