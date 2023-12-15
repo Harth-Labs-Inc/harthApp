@@ -6,7 +6,6 @@ import { MobileContext } from "../../../contexts/mobile";
 import GatheringSchedule from "../../../components/Gathering/GatheringSchedule/GatheringSchedule";
 import GatheringCreate from "../../../components/Gathering/GatheringCreate/GatheringCreate";
 import { GatheringTile } from "../../../components/Gathering/GatheringTile/GatheringTile";
-import { GatherLoading } from "../../../components/Gathering/GatherLoading/GatherLoading";
 import styles from "./GatheringDashboard.module.scss";
 import { generatePushMessage, getBaseUrl } from "services/helper";
 import { sendPushNotification } from "requests/subscriptions";
