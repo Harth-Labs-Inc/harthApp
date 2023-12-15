@@ -1,59 +1,59 @@
-// @import "../../../styles/fonts.scss";
-// @import "../../../styles/globals.scss";
+@import "../../../styles/fonts.scss";
+@import "../../../styles/globals.scss";
 
-// .placeholder {
-//   position: relative;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   background: transparent;
-//   user-select: none;
-//   height: 256px;
-//   width: 100%;
-//   max-width: 460px;
-//   overflow: hidden;
+.placeholder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: transparent;
+  user-select: none;
+  height: 256px;
+  width: 100%;
+  max-width: 460px;
+  overflow: hidden;
 
-//   &::after {
-//     animation: loading 2s infinite;
-//     content: "";
-//     position: absolute;
-//     left: 0;
-//     width: 4px;
-//     height: calc(100% - 16px);
-//     border-radius: 99px;
-//     background-color: $hot_blue;
-//   }
+  &::after {
+    animation: loading 2s infinite;
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 4px;
+    height: calc(100% - 16px);
+    border-radius: 99px;
+    background-color: $hot_blue;
+  }
 
-//   &::before {
-//     content: "";
-//     position: absolute;
-//     left: 12px;
-//     width: 236px;
-//     height: calc(100% - 16px);
-//     border-radius: 12px;
-//     background-color: $border_light;
-//     animation: pulse 2s infinite;
-//   }
+  &::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    width: 236px;
+    height: calc(100% - 16px);
+    border-radius: 12px;
+    background-color: $border_light;
+    animation: pulse 2s infinite;
+  }
 
-//   @keyframes loading {
-//     0%,
-//     100% {
-//       background-color: lighten($hot_blue, 10%);
-//     }
+  @keyframes loading {
+    0%,
+    100% {
+      background-color: lighten($hot_blue, 10%);
+    }
 
-//     50% {
-//       background-color: darken($hot_blue, 10%);
-//     }
-//   }
+    50% {
+      background-color: darken($hot_blue, 10%);
+    }
+  }
 
-//   @keyframes pulse {
-//     0%,
-//     100% {
-//       opacity: 1;
-//     }
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
 
-//     50% {
-//       opacity: 0.3;
-//     }
-//   }
-// }
+    50% {
+      opacity: 0.3;
+    }
+  }
+}
