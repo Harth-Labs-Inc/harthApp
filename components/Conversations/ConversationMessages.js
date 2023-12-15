@@ -456,7 +456,7 @@ export const ConversationMessages = () => {
     setImageSlideshowURL(null);
     setShowImageSlideShow(false);
   };
-  
+
   const cancelEdit = (selectedInputID) => {
     setConversationInputs({ ...conversationInputs, [selectedInputID]: "" });
   };
@@ -504,17 +504,14 @@ export const ConversationMessages = () => {
   return (
     <>
       {showImageSlideShow ? (
-        <>
-          <div className={styles.imageViewer}>
-          <ZoomViewer
-            resetImageSLideshow={resetImageSLideshow}
-            url={slideshowURLRef.current[slideshowImage]}
-            prevImageInSlideshow={prevImageInSlideshow}
-            nextImageInSlideshow={nextImageInSlideshow}
-            slideshowURLRef={slideshowURLRef.current}
-          />
-          </div>
-        </>
+        <ZoomViewer
+          resetImageSLideshow={resetImageSLideshow}
+          url={slideshowURLRef.current[slideshowImage]}
+          prevImageInSlideshow={prevImageInSlideshow}
+          nextImageInSlideshow={nextImageInSlideshow}
+          slideshowURLRef={slideshowURLRef.current}
+          bucket="gather-message-attachments"
+        />
       ) : null}
       <div id="longPressCoverId"></div>
       <div className={styles.Holder}>

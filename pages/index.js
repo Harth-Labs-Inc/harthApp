@@ -79,12 +79,6 @@ const dashboard = () => {
     setFirstHarthOrInviteChecksApproved,
   ] = useState(false);
 
-//calls dark mode color by default
-//needs logic to save local user preference
-  useEffect(() => {
-    document.body.classList.add('dark-mode');
-  }, []);
-
   useEffect(() => {
     if (navigator && "serviceWorker" in navigator) {
       navigator.serviceWorker

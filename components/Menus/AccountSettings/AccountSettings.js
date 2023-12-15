@@ -30,8 +30,12 @@ const SettingsList = ({ toggleCurrentTab }) => {
 
   return (
     <div className={styles.SettingsContainer}>
-      {showInviteModal ? <InviteComp toggleCurrentPage={toggleInviteModal} /> : null}
-      {showFeedbackModal ? <FeedbackModal onToggleModal={toggleFeedbackModal} /> : null}
+      {showInviteModal ? (
+        <InviteComp toggleCurrentPage={toggleInviteModal} />
+      ) : null}
+      {showFeedbackModal ? (
+        <FeedbackModal onToggleModal={toggleFeedbackModal} />
+      ) : null}
       {!isMobile ? (
         <div className={styles.headerImage}>
           <HarthLogoLight />
@@ -47,10 +51,12 @@ const SettingsList = ({ toggleCurrentTab }) => {
         </div>
         Send an Invite
       </button>
-      
+
       <a
         className={styles.menuItem}
-        href={"https://harthsocial.com/donate"}
+        href={
+          "https://harthsocial.com/checkout/donate?donatePageId=65402036e63e6a28d704a3ec"
+        }
         target="_blank"
         rel="noopener noreferrer"
       >

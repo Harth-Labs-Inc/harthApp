@@ -120,6 +120,7 @@ const TopicsNav = (props) => {
       setIsConvertingTopicsDone(true);
     }
   }, [topics]);
+
   useEffect(() => {
     if (incomingTopic._id) {
       setTopicsArr([...topics, incomingTopic]);
@@ -130,13 +131,16 @@ const TopicsNav = (props) => {
     props.handleMobileChat(newValue);
   };
   const changeSelectedTopic = (topic) => {
-    let imgs = document.getElementsByClassName("active-image");
+    if (selectedTopic?._id !== topic?._id) {
+      let imgs = document.getElementsByClassName("active-image");
 
-    for (let img of imgs) {
-      if (img) {
-        img.setAttribute("src", "");
+      for (let img of imgs) {
+        if (img) {
+          img.setAttribute("src", "");
+        }
       }
     }
+
     setTopic(topic);
     {
       isMobile && handleMobileChatWindow(true);

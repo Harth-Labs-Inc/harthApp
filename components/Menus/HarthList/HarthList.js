@@ -9,6 +9,13 @@ import HarthSettings from "../../Menus/HarthSettings/HarthSettings";
 import { IconHome } from "resources/icons/IconHome";
 
 import styles from "./HarthList.module.scss";
+import {
+  fetchImage,
+  getAttachment,
+  openDB,
+  saveAttachment,
+} from "services/helper";
+import { getDownloadURL } from "requests/s3";
 
 const HarthList = ({
   comms,
@@ -22,17 +29,89 @@ const HarthList = ({
   const { isMobile } = useContext(MobileContext);
   const { user } = useAuth();
   const [modal, setModal] = useState(false);
+  const [cachedIcons, setCachedIcons] = useState({});
 
   const activeItemRef = useRef(null);
 
   useEffect(() => {
     if (activeItemRef.current) {
       activeItemRef.current.scrollIntoView({
-        behavior: "smooth",
+        behavior: "auto",
         block: "nearest",
       });
     }
   }, [selectedcomm?._id]);
+
+  useEffect(() => {
+    const dbName = "CommunityIcons";
+    const storeName = "icons";
+
+    const extractFileNameFromUrl = (url) => {
+      const s3BucketUrl =
+        "https://community-profile-images.s3.us-east-2.amazonaws.com/";
+
+      if (url.startsWith(s3BucketUrl)) {
+        return url.substring(s3BucketUrl.length);
+      }
+
+      const lastSlashIndex = url.lastIndexOf("/");
+      if (lastSlashIndex !== -1) {
+        return url.substring(lastSlashIndex + 1);
+      }
+
+      return null;
+    };
+
+    comms.forEach(async (comm) => {
+      if (comm.iconKey) {
+        const keyName = extractFileNameFromUrl(comm.iconKey);
+        const db = await openDB(dbName, storeName);
+        const cachedIcon = await getAttachment(db, storeName, keyName).catch(
+          () => null
+        );
+        if (cachedIcon && cachedIcon.data) {
+          setCachedIcons((prev) => ({
+            ...prev,
+            [comm._id]: URL.createObjectURL(cachedIcon.data),
+          }));
+        } else {
+          if (
+            comm.iconKey.startsWith(
+              "https://community-profile-images.s3.us-east-2.amazonaws.com/"
+            )
+          ) {
+            try {
+              const fileType = keyName.split(".").pop() || "jpg";
+              const fetchedData = await getDownloadURL(
+                keyName,
+                fileType,
+                "community-profile-images"
+              );
+              if (fetchedData && fetchedData.ok) {
+                const imageBlob = await fetchImage(fetchedData.downloadURL);
+                try {
+                  saveAttachment(db, storeName, keyName, imageBlob);
+                  setCachedIcons((prev) => ({
+                    ...prev,
+                    [comm._id]: URL.createObjectURL(imageBlob),
+                  }));
+                } catch (error) {
+                  console.log("Failed to save attachment:", error);
+                }
+              }
+            } catch (error) {
+              console.log("Failed to fetch or save image:", error);
+            }
+          } else {
+            setCachedIcons((prev) => ({
+              ...prev,
+              [comm._id]: comm.iconKey,
+            }));
+          }
+        }
+      }
+    });
+  }, [comms]);
 
   const toggleEditMenu = (evt, id, harth) => {
     if (evt.button === 2) {
@@ -124,7 +203,7 @@ const HarthList = ({
                   {com.iconKey ? (
                     <span className={styles.ItemImage}>
                       <img
-                        src={com.iconKey}
+                        src={cachedIcons[com._id] || com.iconKey}
                         loading="eager"
                         height={40}
                         width={40}
@@ -155,7 +234,6 @@ const HarthList = ({
           );
         })}
       {modal ? (
-
         <Modal fullHeight={isMobile ? true : false} onToggleModal={() => {}}>
           <HarthSettings
             communityName={selectedcomm?.name}

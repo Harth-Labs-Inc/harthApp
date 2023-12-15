@@ -18,6 +18,7 @@ const AccountProfile = (props) => {
   const [originalData, setOriginalData] = useState({ ...user });
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [error, setError] = useState("");
+  const [theme, setTheme] = useState(localStorage?.getItem("interface-theme"));
 
   const toggleCurrentSetting = (name) => {
     setCurrentTab(name);
@@ -84,11 +85,15 @@ const AccountProfile = (props) => {
   const toggleLightMode = () => {
     document.body.classList.remove("dark-mode");
     document.body.classList.add("light-mode");
+    localStorage.setItem("interface-theme", "light-mode");
+    setTheme("light-mode");
   };
 
   const toggleDarkMode = () => {
     document.body.classList.remove("light-mode");
     document.body.classList.add("dark-mode");
+    localStorage.setItem("interface-theme", "dark-mode");
+    setTheme("dark-mode");
   };
 
   if (!currentTab) {
@@ -123,12 +128,22 @@ const AccountProfile = (props) => {
 
             <div className={styles.SettingsContainerTitle}>Interface</div>
             <div className={styles.themeHolder}>
-              <button className={styles.theme} onClick={toggleLightMode}>
+              <button
+                className={`${styles.theme} ${
+                  theme === "light-mode" ? styles.active : ""
+                }`}
+                onClick={toggleLightMode}
+              >
                 <p>Light Mode</p>
                 <img src="/images/lightmode.png" />
               </button>
 
-              <button className={styles.theme} onClick={toggleDarkMode}>
+              <button
+                className={`${styles.theme} ${
+                  theme === "dark-mode" ? styles.active : ""
+                }`}
+                onClick={toggleDarkMode}
+              >
                 <p>Dark Mode</p>
                 <img src="/images/darkmode.png" />
               </button>

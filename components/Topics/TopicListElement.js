@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import styles from "./topics.module.scss";
 import { IconMoreDots } from "resources/icons/IconMoreDots";
+import UserIcon from "components/UserIcon/userIcon";
 
 const TopicListElement = (props) => {
   const {
@@ -71,10 +72,11 @@ const TopicListElement = (props) => {
           {alertProfiles.map((e, idx) => {
             return (
               <Fragment key={`${e?.creator_id}${idx}`}>
-                <img
-                  src={e?.creator_image}
-                  className={`${e?.comm_id}_${e?.creator_id}`}
-                  loading="eager"
+                <UserIcon
+                  img={e?.creator_image}
+                  showName={false}
+                  iconClass={`${e?.comm_id}_${e?.creator_id}`}
+                  shouldIgnoreUserId={true}
                 />
               </Fragment>
             );

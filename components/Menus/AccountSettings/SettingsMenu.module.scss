@@ -285,6 +285,10 @@
   padding: 8px 12px;
   gap: 8px;
 
+  .active{
+    border-color: $hot_purple !important;
+  }
+
   .theme {
     background-color: transparent;
     display: flex;
@@ -306,10 +310,6 @@
     img {
       width: 256px;
       border-radius: 8px;
-    }
-
-    &Active {
-      border-color: $hot_purple;
     }
 
     @media (hover: hover) and (pointer: fine) {

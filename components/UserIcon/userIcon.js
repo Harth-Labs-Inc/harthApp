@@ -4,6 +4,14 @@ import styles from "./UserIcon.module.scss";
 import { useComms } from "contexts/comms";
 import { useAuth } from "contexts/auth";
 
+import {
+  fetchImage,
+  getAttachment,
+  openDB,
+  saveAttachment,
+} from "services/helper";
+import { getDownloadURL } from "requests/s3";
+
 const UserIcon = ({
   img,
   name,
@@ -15,6 +23,7 @@ const UserIcon = ({
   shouldIgnoreUserId,
 }) => {
   const [dimensions, setDimensions] = useState({ height: 48, width: 48 });
+  const [imageUrl, setImageUrl] = useState();
 
   const { user } = useAuth();
 
@@ -27,6 +36,74 @@ const UserIcon = ({
       setDimensions({ height: 40, width: 40 });
     }
   }, [size]);
+
+  useEffect(() => {
+    const dbName = "Avatar_Attachments";
+    const storeName = "avatar";
+
+    const extractFileNameFromUrl = (url) => {
+      const s3BucketUrl =
+        "https://community-profile-images.s3.us-east-2.amazonaws.com/";
+
+      if (url.startsWith(s3BucketUrl)) {
+        return url.substring(s3BucketUrl.length);
+      }
+
+      const lastSlashIndex = url.lastIndexOf("/");
+      if (lastSlashIndex !== -1) {
+        return url.substring(lastSlashIndex + 1);
+      }
+
+      return null;
+    };
+
+    const checkAndFetchImage = async () => {
+      if (img) {
+        const keyName = extractFileNameFromUrl(img);
+        const db = await openDB(dbName, storeName);
+        const cachedData = await getAttachment(db, storeName, keyName).catch(
+          () => null
+        );
+
+        if (cachedData && cachedData.data) {
+          const url = URL.createObjectURL(cachedData.data);
+          setImageUrl(url);
+        } else {
+          if (
+            img.startsWith(
+              "https://community-profile-images.s3.us-east-2.amazonaws.com/"
+            )
+          ) {
+            try {
+              const fileType = keyName.split(".").pop() || "jpg";
+              const fetchedData = await getDownloadURL(
+                keyName,
+                fileType,
+                "community-profile-images"
+              );
+
+              if (fetchedData && fetchedData.ok) {
+                const imageBlob = await fetchImage(fetchedData.downloadURL);
+                try {
+                  saveAttachment(db, storeName, keyName, imageBlob);
+                  const url = URL.createObjectURL(imageBlob);
+                  setImageUrl(url);
+                } catch (error) {
+                  console.log("Failed to save attachment:", error);
+                }
+              }
+            } catch (error) {
+              console.log("Failed to fetch or save image:", error);
+            }
+          } else {
+            setImageUrl(img);
+          }
+        }
+      }
+    };
+
+    checkAndFetchImage();
+  }, [img]);
 
   return (
     <>
@@ -45,7 +122,9 @@ const UserIcon = ({
               className={`${styles.userIconImage} ${iconClass} ${
                 !shouldIgnoreUserId ? `${selectedcomm?._id}_${user?._id}` : ""
               } `}
-              src={img ? img : "/images/profile_default.png"}
+              src={
+                imageUrl ? imageUrl : img ? img : "/images/profile_default.png"
+              }
               alt="profile image"
               loading="eager"
               height={dimensions.height}
@@ -66,7 +145,9 @@ const UserIcon = ({
             className={`${styles.userIconImage} ${iconClass} ${
               !shouldIgnoreUserId ? `${selectedcomm?._id}_${user?._id}` : ""
             }`}
-            src={img ? img : "/images/profile_default.png"}
+            src={
+              imageUrl ? imageUrl : img ? img : "/images/profile_default.png"
+            }
             alt="profile image"
             loading="eager"
             height={dimensions.height}

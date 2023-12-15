@@ -55,7 +55,10 @@ export const fetchImage = async (url) => {
 export const cleanupDB = async (db, storeName) => {
   const transaction = db.transaction(storeName, "readwrite");
   const store = transaction.objectStore(storeName);
-  const TTL_VALUE = 5 * 24 * 60 * 60 * 1000; // 5 days in milliseconds
+
+  const TTL_VALUE =
+    storeName === "avatar" ? 30 * 24 * 60 * 60 * 1000 : 5 * 24 * 60 * 60 * 1000;
+
   const getAllKeysRequest = store.getAllKeys();
   await new Promise((resolve, reject) => {
     getAllKeysRequest.onsuccess = resolve;

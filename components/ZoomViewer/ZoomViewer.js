@@ -14,6 +14,7 @@ const ZoomViewer = ({
   prevImageInSlideshow,
   nextImageInSlideshow,
   slideshowURLRef,
+  bucket = "topic-message-attachments",
 }) => {
   const [fullImage, setFullImage] = useState("");
   const [mediaType, setMediaType] = useState("");
@@ -23,11 +24,7 @@ const ZoomViewer = ({
     if (name.includes("thumbnail")) {
       name = name.replace("thumbnail", "full");
     }
-    const data = await getDownloadURL(
-      name,
-      url.fileType,
-      "topic-message-attachments"
-    );
+    const data = await getDownloadURL(name, url.fileType, bucket);
     if (data) {
       const { ok, downloadURL } = data;
       if (ok) {
@@ -69,12 +66,7 @@ const ZoomViewer = ({
       name = name.replace("thumbnail", "full");
     }
 
-    const fetchedData = await getDownloadURL(
-      name,
-      url.fileType,
-      "topic-message-attachments",
-      true
-    );
+    const fetchedData = await getDownloadURL(name, url.fileType, bucket, true);
     if (fetchedData && fetchedData.ok && fetchedData.downloadURL) {
       const extension = extractFileExtension(name);
       const a = document.createElement("a");

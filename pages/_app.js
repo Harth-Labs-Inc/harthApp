@@ -1,10 +1,6 @@
 import { useRouter } from "next/router";
 import { Analytics } from "@vercel/analytics/react";
-import {
-  Work_Sans,
-  Rubik,
-  Raleway,
-} from "next/font/google";
+import { Work_Sans, Rubik, Raleway } from "next/font/google";
 import Head from "next/head";
 import "../styles/Styles.modules.scss";
 import { AuthProvider } from "../contexts/auth";
@@ -58,6 +54,13 @@ function MyApp({ Component, pageProps }) {
     };
 
     setVhValue();
+
+    let storedTheme = localStorage.getItem("interface-theme");
+    if (!storedTheme) {
+      localStorage.setItem("interface-theme", "dark-mode");
+      storedTheme = "dark-mode";
+    }
+    document.body.classList.add(storedTheme);
     document.addEventListener("dragstart", preventDragStart);
 
     const timeoutId = setTimeout(() => {
