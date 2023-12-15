@@ -5,7 +5,6 @@ import {
   Rubik,
   Raleway,
 } from "next/font/google";
-import localFont from "next/font/local";
 import Head from "next/head";
 import "../styles/Styles.modules.scss";
 import { AuthProvider } from "../contexts/auth";
