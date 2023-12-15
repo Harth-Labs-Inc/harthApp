@@ -23,17 +23,17 @@
 }
 
 .Modal {
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // z-index: 300;
-  // height: var(--vh);
-  // width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  height: var(--vh);
+  width: 100vw;
 
-  // animation-name: blur-in;
-  // animation-duration: 0.2s;
-  // animation-timing-function: ease-in-out;
-  // animation-fill-mode: forwards;
+  animation-name: blur-in;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
 
   &Mid {
     position: absolute;
@@ -96,29 +96,29 @@
   z-index: 299;
 }
 
-@keyframes blur-in {
-  from {
-    background: transparent;
-  }
-  to {
-    background: $overlay;
-  }
-}
+// @keyframes blur-in {
+//   from {
+//     background: transparent;
+//   }
+//   to {
+//     background: $overlay;
+//   }
+// }
 
-@keyframes blur-in-block {
-  from {
-    background-color: transparent;
-  }
-  to {
-    background-color: $background;
-  }
-}
+// @keyframes blur-in-block {
+//   from {
+//     background-color: transparent;
+//   }
+//   to {
+//     background-color: $background;
+//   }
+// }
 
-@keyframes pop {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+// @keyframes pop {
+//   from {
+//     opacity: 0;
+//   }
+//   to {
+//     opacity: 1;
+//   }
+// }
