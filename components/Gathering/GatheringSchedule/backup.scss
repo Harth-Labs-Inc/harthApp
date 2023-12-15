@@ -8,7 +8,7 @@
   flex-direction: column;
 
   &RoomName {
-    @include contentH1;
+    @include systemFont;
     text-align: center;
     background-color: transparent;
     &::placeholder {

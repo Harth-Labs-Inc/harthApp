@@ -29,7 +29,7 @@
   .harthTitle {
     position: relative;
     margin-top: 4px;
-    @include contentR3;
+    @include systemFont;
   }
 
   .buttonBar {

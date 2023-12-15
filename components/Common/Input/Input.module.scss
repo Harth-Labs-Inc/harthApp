@@ -34,7 +34,8 @@
 .inputComponentRoom {
   width: 260px;
   input {
-    @include contentH2;
+    @include systemFont;
+    font-size: 18px;
     width: 100%;
     margin: 0 0 4px;
     padding: 8px 0px 8px 0px;
@@ -49,7 +50,8 @@
 
   &ErrorMessage {
     display: flex;
-    @include interfaceR3;
+    @include systemFont;
+    font-size: 12px;
     justify-content: flex-start;
     align-items: center;
     padding: 6px 6px 12px 6px;

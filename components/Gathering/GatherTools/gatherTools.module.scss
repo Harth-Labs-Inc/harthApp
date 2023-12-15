@@ -203,7 +203,8 @@
   }
 
   .label {
-    @include interfaceH2;
+    @include systemFont;
+    font-size: 18px;
     color: $white;
     margin-bottom: 40px;
     text-align: center;

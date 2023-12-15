@@ -4,7 +4,7 @@ form {
 }
 
 input {
-  @include contentR2;
+  @include systemFont;
   width: 100%;
   margin: 0 0 4px;
   padding: 6px;

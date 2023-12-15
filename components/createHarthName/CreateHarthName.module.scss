@@ -69,7 +69,8 @@
   .helpText {
     text-align: center;
     width: 88%;
-    @include interfaceR3;
+    @include systemFont;
+    font-size: 12px;
     padding-top: 4px;
     color: $font_muted;
   }

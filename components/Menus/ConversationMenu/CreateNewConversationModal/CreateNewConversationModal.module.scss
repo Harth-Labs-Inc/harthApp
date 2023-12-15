@@ -123,12 +123,14 @@
     margin-bottom: 18px;
 
     &Text {
-      @include interfaceR3;
+      @include systemFont;
+      font-size: 12px;
       margin-bottom: 12px;
     }
 
     &Button {
-      @include interfaceH2;
+      @include systemFont;
+      font-size: 18px;
       position: relative;
       display: flex;
       align-items: center;
