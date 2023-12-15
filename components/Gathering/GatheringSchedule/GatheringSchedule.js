@@ -210,6 +210,7 @@ const GatheringSchedule = (props) => {
                     {...register("gatheringDescription")}
                     placeholder="let's all..."
                     autoComplete="off"
+                    spellcheck="true"
 
                     className={styles.description}
                 />

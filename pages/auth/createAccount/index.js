@@ -98,6 +98,7 @@ const CreateAccount = () => {
               })}
               type="email"
               placeholder="Email"
+              autoCapitalize="off"
             />
             {errors.email ? (
               <ErrorMessage

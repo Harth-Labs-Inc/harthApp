@@ -43,7 +43,7 @@ const Login = () => {
           <input
             {...register("email", { required: true })}
             placeholder="Enter your email"
-            autoCapitalize="none"
+            autoCapitalize="off"
           />
           <ErrorMessage
             errorMsg={
