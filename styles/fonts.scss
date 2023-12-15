@@ -31,7 +31,7 @@
 }
 
 @mixin titleNavMobile {
-  font-family: var(--DM_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 12px;
   line-height: 100%;
@@ -39,7 +39,7 @@
 }
 
 @mixin smallTitle {
-  font-family: var(--DM_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 14px;
   line-height: 100%;
@@ -140,7 +140,7 @@
 }
 
 @mixin roomType {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 800;
   font-size: 40px;
   letter-spacing: 0.03em;
@@ -150,7 +150,7 @@
 }
 
 @mixin menuTitle {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.05em;
@@ -159,7 +159,7 @@
 }
 
 @mixin menuSubTitle {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -187,7 +187,7 @@
 }
 
 @mixin buttonLarge {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 0.04em;
@@ -195,7 +195,7 @@
 }
 
 @mixin buttonSmall {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.04em;
@@ -203,7 +203,7 @@
 }
 
 @mixin subtext {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 400;
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -213,7 +213,7 @@
 }
 
 @mixin mouseover {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -246,15 +246,8 @@
   //text-rendering: optimizeLegibility;
 }
 
-@mixin dmsans {
-  font-family: var(--DM_Sans-font);
-  font-weight: 400;
-  font-size: 12px;
-  //text-rendering: optimizeLegibility;
-}
-
 @mixin url {
-  font-family: var(--Work_Sans-font);
+  font-family: var(--Rubik-font);
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.05em;
@@ -268,9 +261,6 @@
   //text-rendering: optimizeLegibility;
 }
 
-@mixin cooper {
-  font-family: var(--COOPBL-font);
-}
 
 @mixin interfaceH1 {
   font-family: var(--Work_Sans-font);
