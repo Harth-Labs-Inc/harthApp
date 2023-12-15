@@ -498,7 +498,7 @@
   }
 
   .titleWrapper {
-    max-height: 56px;
+    max-height: 52px;
     overflow: hidden;
     text-decoration: none;
     cursor: pointer;
@@ -519,7 +519,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       display: inline-block;
-
+      //background-color: red;
       @media (hover: hover) and (pointer: fine) {
         &:hover {
           text-decoration: underline;
@@ -539,7 +539,7 @@
     padding: 0;
     margin: 0px 0px;
     padding-top: 4px;
-    //border-radius: 8px;
+    border-radius: 8px;
 
     iframe video {
       height: 100%;
@@ -570,7 +570,7 @@
     text-overflow: ellipsis;
     display: inline-block;
     max-height: 25px;
-    margin-top: -4px;
+    margin-top: 0px;
   }
 }
 
