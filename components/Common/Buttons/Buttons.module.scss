@@ -1,265 +1,265 @@
-@import "../../../styles/globals.scss";
-@import "../../../styles/fonts.scss";
+// @import "../../../styles/globals.scss";
+// @import "../../../styles/fonts.scss";
 
-.purple {
-  color: $font_light;
-  background: $hot_purple !important;
-  border: 0;
-  &:hover {
-    background-color: $button_main_press;
-  }
+// .purple {
+//   color: $font_light;
+//   background: $hot_purple !important;
+//   border: 0;
+//   &:hover {
+//     background-color: $button_main_press;
+//   }
 
-  &:active {
-    background-color: $button_main_press;
-  }
-}
+//   &:active {
+//     background-color: $button_main_press;
+//   }
+// }
 
-.gray {
-  color: $font_light;
-  background: $border_basic !important;
-  border: 0;
-  &:hover {
-    background-color: $button_main_press;
-  }
+// .gray {
+//   color: $font_light;
+//   background: $border_basic !important;
+//   border: 0;
+//   &:hover {
+//     background-color: $button_main_press;
+//   }
 
-  &:active {
-    background-color: $button_main_press;
-  }
-}
+//   &:active {
+//     background-color: $button_main_press;
+//   }
+// }
 
-.closeButton {
-  position: relative;
-  padding: 12px;
-  border: 0;
-  border-radius: 99px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background-color: $background_offset_1;
+// .closeButton {
+//   position: relative;
+//   padding: 12px;
+//   border: 0;
+//   border-radius: 99px;
+//   cursor: pointer;
+//   transition: all 0.2s;
+//   background-color: $background_offset_1;
 
-  path {
-    fill: $border_heavy;
-  }
-  &Desktop {
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: $border_basic;
-        path {
-          fill: $font_light;
-        }
-      }
-    }
-  }
+//   path {
+//     fill: $border_heavy;
+//   }
+//   &Desktop {
+//     @media (hover: hover) and (pointer: fine) {
+//       &:hover {
+//         background-color: $border_basic;
+//         path {
+//           fill: $font_light;
+//         }
+//       }
+//     }
+//   }
 
-  &Mobile {
-    &:active {
-      background-color: $border_basic;
-    }
-  }
-}
+//   &Mobile {
+//     &:active {
+//       background-color: $border_basic;
+//     }
+//   }
+// }
 
-.backButton {
-  position: relative;
-  padding: 8px 8px;
-  border: 1px solid var(--path-heavy);
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background-color: transparent;
-  path {
-    fill: var(--path-heavy);
-  }
-}
+// .backButton {
+//   position: relative;
+//   padding: 8px 8px;
+//   border: 1px solid var(--path-heavy);
+//   border-radius: 999px;
+//   cursor: pointer;
+//   transition: all 0.2s;
+//   background-color: transparent;
+//   path {
+//     fill: var(--path-heavy);
+//   }
+// }
 
-.editButton {
-  position: relative;
-  padding: 8px 8px;
-  border: 1px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background-color: transparent;
-  path {
-    fill: $font_light;
-  }
-  &:hover {
-    background-color: $border_basic;
-  }
-}
+// .editButton {
+//   position: relative;
+//   padding: 8px 8px;
+//   border: 1px;
+//   border-radius: 8px;
+//   cursor: pointer;
+//   transition: all 0.2s;
+//   background-color: transparent;
+//   path {
+//     fill: $font_light;
+//   }
+//   &:hover {
+//     background-color: $border_basic;
+//   }
+// }
 
-.button {
-  position: relative;
-  border: 2px solid;
-  border-radius: 9999px;
-  outline: none;
-  outline-style: none;
-  -moz-outline-style: none;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-  transition: all 0.3s;
+// .button {
+//   position: relative;
+//   border: 2px solid;
+//   border-radius: 9999px;
+//   outline: none;
+//   outline-style: none;
+//   -moz-outline-style: none;
+//   -webkit-tap-highlight-color: transparent;
+//   cursor: pointer;
+//   transition: all 0.3s;
 
-  &:before {
-    @include x-y-center;
-    color: inherit;
-  }
+//   &:before {
+//     @include x-y-center;
+//     color: inherit;
+//   }
 
-  &FullWidth {
-    width: 100%;
-  }
+//   &FullWidth {
+//     width: 100%;
+//   }
 
-  &Primary {
-    color: $font_light;
-    background: $button_main;
-    border: 0;
-    &:hover {
-      background-color: $button_main_press;
-    }
+//   &Primary {
+//     color: $font_light;
+//     background: $button_main;
+//     border: 0;
+//     &:hover {
+//       background-color: $button_main_press;
+//     }
 
-    &:active {
-      background-color: $button_main_press;
-    }
-  }
+//     &:active {
+//       background-color: $button_main_press;
+//     }
+//   }
 
-  &Secondary {
-    color: $font_muted;
-    background: transparent;
-    border-color: $border_basic;
-    &:hover {
-      color: $font_light;
-      background-color: $button_main_press;
-      border-color: $button_main_press;
-    }
-    &:active {
-      color: $font_light;
-      background-color: $button_main_press;
-      border-color: $button_main_press;
-    }
-  }
+//   &Secondary {
+//     color: $font_muted;
+//     background: transparent;
+//     border-color: $border_basic;
+//     &:hover {
+//       color: $font_light;
+//       background-color: $button_main_press;
+//       border-color: $button_main_press;
+//     }
+//     &:active {
+//       color: $font_light;
+//       background-color: $button_main_press;
+//       border-color: $button_main_press;
+//     }
+//   }
 
-  &Large {
-    padding: 14px 20px;
-    //@include buttonLarge;
-    @include systemFont;
-    font-size: 16px;
-    font-weight: 400;
-  }
-  &Small {
-    padding: 8px 12px;
-    @include systemFont;
-    font-size: 14px;
-    font-weight: 400;
-  }
+//   &Large {
+//     padding: 14px 20px;
+//     //@include buttonLarge;
+//     @include systemFont;
+//     font-size: 16px;
+//     font-weight: 400;
+//   }
+//   &Small {
+//     padding: 8px 12px;
+//     @include systemFont;
+//     font-size: 14px;
+//     font-weight: 400;
+//   }
 
-  &:disabled {
-    color: $border_basic;
-    background-color: $background;
-    cursor: default;
-    border: 1px solid $border_basic;
-  }
+//   &:disabled {
+//     color: $border_basic;
+//     background-color: $background;
+//     cursor: default;
+//     border: 1px solid $border_basic;
+//   }
 
-  &Loading {
-    pointer-events: none;
+//   &Loading {
+//     pointer-events: none;
 
-    &::after {
-      content: "";
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
-      background-color: transparent;
-      border: 4px solid transparent;
-      border-top-color: $white;
-      border-radius: 50%;
-      animation: spinner 1s ease infinite;
-    }
-  }
-}
+//     &::after {
+//       content: "";
+//       position: absolute;
+//       width: 16px;
+//       height: 16px;
+//       top: 0;
+//       left: 0;
+//       right: 0;
+//       bottom: 0;
+//       margin: auto;
+//       background-color: transparent;
+//       border: 4px solid transparent;
+//       border-top-color: $white;
+//       border-radius: 50%;
+//       animation: spinner 1s ease infinite;
+//     }
+//   }
+// }
 
-.textButton {
-  width: auto;
-  padding: 8px;
-  color: $font_dark;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.89px;
-  line-height: 16px;
-  text-align: left;
-  text-transform: uppercase;
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  transition: all 0.3s;
+// .textButton {
+//   width: auto;
+//   padding: 8px;
+//   color: $font_dark;
+//   font-size: 14px;
+//   font-weight: 500;
+//   letter-spacing: 0.89px;
+//   line-height: 16px;
+//   text-align: left;
+//   text-transform: uppercase;
+//   background-color: transparent;
+//   border: 0;
+//   cursor: pointer;
+//   transition: all 0.3s;
 
-  &:hover,
-  &:focus {
-    color: $black;
-  }
-}
+//   &:hover,
+//   &:focus {
+//     color: $black;
+//   }
+// }
 
-.iconButton {
-  position: relative;
-  font-size: 0;
-  background-color: transparent;
-  border: 0;
-  cursor: pointer;
-  &:before {
-    @include x-y-center;
-    color: #9a9a9a;
-    font-size: 16px;
-  }
+// .iconButton {
+//   position: relative;
+//   font-size: 0;
+//   background-color: transparent;
+//   border: 0;
+//   cursor: pointer;
+//   &:before {
+//     @include x-y-center;
+//     color: #9a9a9a;
+//     font-size: 16px;
+//   }
 
-  &:hover {
-    &:before {
-      color: #333;
-    }
-  }
-}
+//   &:hover {
+//     &:before {
+//       color: #333;
+//     }
+//   }
+// }
 
-.radioButton {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  align-items: center;
-  column-gap: 8px;
-  background: transparent;
-  border-radius: 8px;
-  padding: 0 8px;
-  border: 0;
-  height: 48px;
-  width: 100%;
-  cursor: pointer;
+// .radioButton {
+//   display: flex;
+//   flex-direction: row;
+//   position: relative;
+//   align-items: center;
+//   column-gap: 8px;
+//   background: transparent;
+//   border-radius: 8px;
+//   padding: 0 8px;
+//   border: 0;
+//   height: 48px;
+//   width: 100%;
+//   cursor: pointer;
 
-  .theButton {
-    accent-color: $hot_salmon;
-    height: 20px;
-    min-height: 20px;
-    width: 20px;
-    min-width: 20px;
-    margin: 0;
-  }
-  .label {
-    display: flex;
-    @include systemFont;
-    height: 48px;
-    align-items: center;
-    overflow: hidden;
-    color: $font_light;
-  }
+//   .theButton {
+//     accent-color: $hot_salmon;
+//     height: 20px;
+//     min-height: 20px;
+//     width: 20px;
+//     min-width: 20px;
+//     margin: 0;
+//   }
+//   .label {
+//     display: flex;
+//     @include systemFont;
+//     height: 48px;
+//     align-items: center;
+//     overflow: hidden;
+//     color: $font_light;
+//   }
 
-  &:hover {
-    background-color: $border_heavy;
-  }
-}
+//   &:hover {
+//     background-color: $border_heavy;
+//   }
+// }
 
-@keyframes spinner {
-  from {
-    transform: rotate(0turn);
-  }
+// @keyframes spinner {
+//   from {
+//     transform: rotate(0turn);
+//   }
 
-  to {
-    transform: rotate(1turn);
-  }
-}
+//   to {
+//     transform: rotate(1turn);
+//   }
+// }
