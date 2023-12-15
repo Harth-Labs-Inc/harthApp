@@ -25,7 +25,7 @@
   &Mobile {
     border: 0;
     border-radius: 0;
-    width: calc(100% - calc($outline_mobile * 2));
+    width: calc(100% - ($outline_mobile * 2));
     height: calc(100% - 124px);
     overflow-y: scroll;
     margin: 0;

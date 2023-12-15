@@ -12,7 +12,7 @@
   position: relative;
   padding: 12px 0px 96px 0px;
   width: 56px;
-  height: calc(var(--vh) - calc($space * 2));
+  height: calc(var(--vh) - ($space * 2));
   min-width: 56px;
   //background-color: var(--theme-color);
   background-color: $background;

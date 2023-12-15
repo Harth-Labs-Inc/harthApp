@@ -29,7 +29,7 @@
   overflow: hidden;
   border: 0;
   padding: 0px 36px 24px 36px;
-  width: calc(100% - calc(2 * $space));
+  width: calc(100% - (2 * $space));
   min-width: fit-content;
   height: fit-content;
   background-color: var(--theme-color);
