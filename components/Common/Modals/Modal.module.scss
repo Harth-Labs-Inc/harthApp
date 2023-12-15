@@ -1,35 +1,26 @@
 @import "../../../styles/fonts.scss";
 @import "../../../styles/globals.scss";
 
-.ignoreFadeIn {
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    $border_basic,
-    transparent
-  );
-  backdrop-filter: blur(30px);
-  animation-name: none !important;
-  animation-duration: 0s !important;
-}
+// .ignoreFadeIn {
+//   background: linear-gradient(
+//     to bottom,
+//     transparent,
+//     $border_basic,
+//     transparent
+//   );
+//   backdrop-filter: blur(30px);
+//   animation-name: none !important;
+//   animation-duration: 0s !important;
+// }
 
-.rendering {
-  left: -356px;
-  transition: all 0.2s ease-in-out;
-}
-.entered {
-  left: 0;
-  transition: all 0.2s ease-in-out;
-}
-
-@keyframes blur-in {
-  from {
-    background: transparent;
-  }
-  to {
-    background: $overlay;
-  }
-}
+// .rendering {
+//   left: -356px;
+//   transition: all 0.2s ease-in-out;
+// }
+// .entered {
+//   left: 0;
+//   transition: all 0.2s ease-in-out;
+// }
 
 .Modal {
   position: fixed;
@@ -110,6 +101,15 @@
   z-index: 299;
 }
 
+@keyframes blur-in {
+  from {
+    background: transparent;
+  }
+  to {
+    background: $overlay;
+  }
+}
+
 @keyframes blur-in-block {
   from {
     background-color: transparent;
@@ -121,11 +121,9 @@
 
 @keyframes pop {
   from {
-    //transform: scale(0);
     opacity: 0;
   }
   to {
-    //transform: scale(1);
     opacity: 1;
   }
 }
