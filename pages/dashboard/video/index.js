@@ -289,11 +289,14 @@ const Video = () => {
           createScheduleRoom={triggerNewRoom}
         />
       </div>
-      <p className={styles.gatheringSection}>UPCOMING</p>
+      {/* <p 
+      className={
+        isMobile ? styles.gatheringSectionMobile : styles.gatheringSection
+      }>Scheduled</p>
       <div className={styles.roomContainer}>
         <GatherLoading />
         <GatherLoading />
-      </div>
+      </div> */}
     </section>
   );
 };
