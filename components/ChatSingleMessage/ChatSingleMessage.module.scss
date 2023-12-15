@@ -498,11 +498,11 @@
   }
 
   .titleWrapper {
-    max-height: 52px;
+    max-height: 40px;
+    height: fit-content;
     overflow: hidden;
     text-decoration: none;
     cursor: pointer;
-    //background: aqua;
 
     p {
       color: var(--font-main);
