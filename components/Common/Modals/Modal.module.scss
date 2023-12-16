@@ -38,13 +38,13 @@
   &Mid {
     position: absolute;
     width: 100%;
-    top: 49%;
+    top: 44%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     padding: 0px;
     background-color: $background;
-    border-top: 1px solid $background_offset_1;
-    border-bottom: 1px solid $background_offset_1;
+    border-top: 1px solid $hot_purple;
+    border-bottom: 1px solid $hot_purple;
     opacity: 0;
     animation: pop 0.3s ease-out forwards;
 

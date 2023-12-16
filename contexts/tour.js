@@ -14,23 +14,36 @@ const stepObjects = {
         <TalkingHead
           text="Press here to access your settings and your other harths"
           isSmall={true}
+          isTour={true}
         />
       ),
       disableBeacon: true,
       styles: {
         options: {
           zIndex: 10000,
+          backgroundColor: "#271623",
+          arrowColor: "#271623",
         },
         buttonClose: {
           display: "none",
         },
         buttonNext: {
           backgroundColor: "#aa68c8",
-          borderRadius: "25px",
+          borderRadius: "99px",
           color: "#fafafa",
+          padding: "12px 16px",
         },
         buttonBack: {
           color: "#28282e",
+          borderRadius: "99px",
+          color: "#fafafa",
+          padding: "12px 16px",
+        },
+        buttonSkip: {
+          color: "#28282e",
+          borderRadius: "99px",
+          color: "#fafafa",
+          padding: "12px 16px",
         },
       },
       locale: { skip: "Skip", next: "Next", last: "Got it" },
@@ -41,23 +54,36 @@ const stepObjects = {
         <TalkingHead
           text="Press here to customize your profile"
           isSmall={true}
+          isTour={true}
         />
       ),
       disableBeacon: true,
       styles: {
         options: {
           zIndex: 10000,
+          backgroundColor: "#271623",
+          arrowColor: "#271623",
         },
         buttonClose: {
           display: "none",
         },
         buttonNext: {
           backgroundColor: "#aa68c8",
-          borderRadius: "25px",
+          borderRadius: "99px",
           color: "#fafafa",
+          padding: "12px 16px",
         },
         buttonBack: {
           color: "#28282e",
+          borderRadius: "99px",
+          color: "#fafafa",
+          padding: "12px 16px",
+        },
+        buttonSkip: {
+          color: "#28282e",
+          borderRadius: "99px",
+          color: "#fafafa",
+          padding: "12px 16px",
         },
       },
       locale: { skip: "Skip", next: "Next", last: "Got it" },
@@ -66,25 +92,32 @@ const stepObjects = {
       target: "#tourFirstUse_harthPageSwitcher",
       content: (
         <TalkingHead
-          text="Switch between chats, gatherings, and direct messages for your current harth"
+          text="Switch between topics, gatherings, and messages for your current group"
           isSmall={true}
+          isTour={true}
         />
       ),
       disableBeacon: true,
       styles: {
         options: {
           zIndex: 10000,
+          backgroundColor: "#271623",
+          arrowColor: "#271623",
         },
         buttonClose: {
           display: "none",
         },
         buttonNext: {
           backgroundColor: "#aa68c8",
-          borderRadius: "25px",
+          borderRadius: "99px",
           color: "#fafafa",
+          padding: "12px 16px",
         },
         buttonBack: {
           color: "#28282e",
+          borderRadius: "99px",
+          color: "#fafafa",
+          padding: "12px 16px",
         },
       },
       locale: { skip: "Skip", next: "Next", last: "Got it" },
@@ -94,7 +127,10 @@ const stepObjects = {
     {
       target: "#tourFirstUse_post",
       content: (
-        <TalkingHead text="Long press on post to react" isSmall={true} />
+        <TalkingHead 
+          text="Long press on a post to react" 
+          isSmall={true} 
+          isTour={true} />
       ),
       disableBeacon: true,
       styles: {
@@ -106,11 +142,12 @@ const stepObjects = {
         },
         buttonNext: {
           backgroundColor: "#aa68c8",
-          borderRadius: "25px",
+          borderRadius: "99px",
           color: "#fafafa",
+          padding: "12px 16px",
         },
         buttonBack: {
-          color: "#28282e",
+          color: "#fafafa",
         },
       },
       locale: { skip: "Skip", next: "Next", last: "Got it" },
@@ -120,7 +157,10 @@ const stepObjects = {
     {
       target: "#tourFirstUse_gather",
       content: (
-        <TalkingHead text="Start or schedule a gathering" isSmall={true} />
+        <TalkingHead 
+          text="Start or schedule a gathering" 
+          isSmall={true} 
+          isTour={true} />
       ),
       disableBeacon: true,
       styles: {
@@ -132,11 +172,12 @@ const stepObjects = {
         },
         buttonNext: {
           backgroundColor: "#aa68c8",
-          borderRadius: "25px",
+          borderRadius: "99px",
           color: "#fafafa",
+          padding: "12px 16px",
         },
         buttonBack: {
-          color: "#28282e",
+          color: "#fafafa",
         },
       },
       locale: { skip: "Skip", next: "Next", last: "Got it" },

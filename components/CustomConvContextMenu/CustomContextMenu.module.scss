@@ -12,8 +12,7 @@
     z-index: 12;
     height: var(--vh);
     width: 100vw;
-    background-color: $border_basic;
-    backdrop-filter: blur(4px);
+    background-color: $overlay;
   }
 }
 
@@ -57,13 +56,22 @@
   }
 
   &Mobile {
-    padding: 16px;
+    padding: 40px 24px;
     border-radius: 12px;
+    width: calc(100% + 8px);
+    border: 0;
+    border-radius: 0;
+    background-color: $background;
+    border-top: 1px solid $hot_purple;
+    border-bottom: 1px solid $hot_purple;
+    margin-top: -32px;
 
     button {
       height: 48px;
-      width: 280px;
+      width: 264px;
       font-size: 16px;
+      margin-left: auto;
+      margin-right: auto;
 
       svg {
         width: 24px;
@@ -71,7 +79,7 @@
       }
 
       &:active {
-        background-color: $black;
+        background-color: $ash;
       }
     }
   }

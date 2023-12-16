@@ -1,6 +1,6 @@
 import styles from "./TalkingHead.module.scss";
 
-const TalkingHead = ({ text, textArray, isSmall }) => {
+const TalkingHead = ({ text, textArray, isSmall, isTour }) => {
     return (
         <div className={isSmall ? styles.TalkingHeadSmall : styles.TalkingHead}>
             <div className={styles.HelperContainer}>
@@ -8,7 +8,7 @@ const TalkingHead = ({ text, textArray, isSmall }) => {
                     {textArray ? (
                         textArray.map((entry, idx) => <p key={idx}>{entry}</p>)
                     ) : (
-                        <p className={styles.HelperContainerText}>
+                        <p className={isTour ? styles.HelperContainerTextTour : styles.HelperContainerText}>
                             {text} 
                         </p>
                     )}

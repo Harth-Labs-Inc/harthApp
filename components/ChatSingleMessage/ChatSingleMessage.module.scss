@@ -78,12 +78,10 @@
     background-color: var(--theme-offset-3);
   }
   &.Editing {
-    background-color: lighten($hot_pink, 10%);
     background-color: $hot_pink;
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: lighten($hot_pink, 10%);
         background-color: $hot_pink;
       }
     }
@@ -272,7 +270,7 @@
       &Emoji {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 4px;
         position: relative;
         height: 36px;
         font-size: 24px;
@@ -283,7 +281,7 @@
         margin: 0;
         border: 0;
         user-select: none;
-        padding: 0px 6px;
+        padding: 0px 10px 0px 8px;
 
         .label {
           color: var(--font-main);
@@ -498,7 +496,7 @@
   }
 
   .titleWrapper {
-    max-height: 40px;
+    max-height: 36px;
     height: fit-content;
     overflow: hidden;
     text-decoration: none;
@@ -509,11 +507,9 @@
       @include systemFont;
       font-weight: 700;
       letter-spacing: 0em;
-      line-height: 120%;
       font-size: 14px;
       line-height: 110%;
       padding-top: 4px;
-      padding-bottom: 4px;
       word-wrap: normal;
       word-break: keep-all;
       overflow: hidden;
@@ -539,7 +535,9 @@
     padding: 0;
     margin: 0px 0px;
     padding-top: 4px;
-    border-radius: 8px;
+    img {
+      border-radius: 8px;
+    }
 
     iframe video {
       height: 100%;
@@ -553,6 +551,7 @@
       background: transparent;
       border: 0;
       border-radius: 8px;
+
     }
   }
 
@@ -570,7 +569,7 @@
     text-overflow: ellipsis;
     display: inline-block;
     max-height: 25px;
-    margin-top: 0px;
+    margin-top: 2px;
   }
 }
 

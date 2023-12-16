@@ -2,7 +2,7 @@
 @import "./utility/ui-mixins";
 
 //Consolodated
-$fuel: hsl(314, 28%, 12%);
+$fuel: #271623;
 $ash: #18181e;
 $oxygen: #fefff6;
 
@@ -140,11 +140,12 @@ $space: 8px;
 $space_mobile: 10px;
 $outline_mobile: 0px;
 
-$overlay: linear-gradient(
-  rgba(0, 0, 0, 0.4),
-  rgba(48, 48, 48, 0.6),
-  rgba(0, 0, 0, 0.4)
-);
+$overlay: rgba(0, 0, 0, 0.6);
+// linear-gradient(
+//   rgba(0, 0, 0, 0.4),
+//   rgba(48, 48, 48, 0.6),
+//   rgba(0, 0, 0, 0.4)
+// );
 
 // ========================
 // Mixins
