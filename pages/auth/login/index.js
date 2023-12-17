@@ -44,6 +44,8 @@ const Login = () => {
             {...register("email", { required: true })}
             placeholder="Enter your email"
             autoCapitalize="off"
+            spellCheck="false"
+            autoCorrect="off"
           />
           <ErrorMessage
             errorMsg={

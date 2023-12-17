@@ -597,7 +597,6 @@ export const CommsProvider = ({
       resetTopics();
     }
     if (currentPage === "chat" && com?._id) {
-      resetTopics();
       grabTopics(com._id, isInChatOrDM && repullMessages);
       resetConversations();
     }

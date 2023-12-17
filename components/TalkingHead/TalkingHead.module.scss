@@ -71,7 +71,15 @@
     &Text {
       @include talkingHead;
       font-size: 18px;
+      font-weight: 400;
       color: $font_dark;
+
+      &Tour {
+        @include talkingHead;
+        font-size: 20px;
+        font-weight: 600;
+        color: $font_dark;
+      }
     }
 
     .WizardBackground {

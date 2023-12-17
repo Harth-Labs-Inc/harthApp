@@ -61,12 +61,16 @@
   }
 
   &Mobile {
-    padding: 24px;
+    padding: 40px 24px;
     border-radius: 12px;
     width: calc(100% + 8px);
     border: 0;
     border-radius: 0;
     background-color: $background;
+    border-top: 1px solid $hot_purple;
+    border-bottom: 1px solid $hot_purple;
+    margin-top: -32px;
+
 
     button {
       height: 48px;

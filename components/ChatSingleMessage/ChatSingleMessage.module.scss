@@ -32,12 +32,11 @@
   .flagMessage {
     @include systemFont;
     font-size: 12px;
+    border-radius: 8px;
     color: $hot_purple;
     background-color: $background;
     padding: 8px 12px;
-    border: 1px solid $border_basic;
-    border-left: 0;
-    border-right: 0;
+    border: 1px solid $hot_purple;
     text-align: center;
   }
 }
@@ -78,12 +77,10 @@
     background-color: var(--theme-offset-3);
   }
   &.Editing {
-    background-color: lighten($hot_pink, 10%);
     background-color: $hot_pink;
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: lighten($hot_pink, 10%);
         background-color: $hot_pink;
       }
     }
@@ -228,9 +225,9 @@
         object-fit: contain;
         display: block;
         cursor: pointer;
-        width: auto;
+        width: fit-content;
         max-width: 280px;
-        height: auto;
+        //height: auto;
         max-height: 320px;
       }
 
@@ -272,7 +269,7 @@
       &Emoji {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 4px;
         position: relative;
         height: 36px;
         font-size: 24px;
@@ -283,7 +280,7 @@
         margin: 0;
         border: 0;
         user-select: none;
-        padding: 0px 6px;
+        padding: 0px 10px 0px 8px;
 
         .label {
           color: var(--font-main);
@@ -498,28 +495,27 @@
   }
 
   .titleWrapper {
-    max-height: 40px;
+    max-height: 36px;
     height: fit-content;
     overflow: hidden;
     text-decoration: none;
     cursor: pointer;
 
     p {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
       color: var(--font-main);
       @include systemFont;
       font-weight: 700;
       letter-spacing: 0em;
-      line-height: 120%;
       font-size: 14px;
       line-height: 110%;
       padding-top: 4px;
-      padding-bottom: 4px;
       word-wrap: normal;
       word-break: keep-all;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: inline-block;
-      //background-color: red;
       @media (hover: hover) and (pointer: fine) {
         &:hover {
           text-decoration: underline;
@@ -535,11 +531,13 @@
     width: fit-content;
     max-width: 100%;
     display: block;
-    object-fit: contain;
+    object-fit:cover;
     padding: 0;
     margin: 0px 0px;
     padding-top: 4px;
-    border-radius: 8px;
+    img {
+      border-radius: 8px;
+    }
 
     iframe video {
       height: 100%;
@@ -553,11 +551,16 @@
       background: transparent;
       border: 0;
       border-radius: 8px;
+
     }
   }
 
   .description {
-    //flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
     width: 100%;
     @include systemFont;
     line-height: 100%;
@@ -566,11 +569,8 @@
     letter-spacing: 0em;
     padding: 0;
     color: $font_muted;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
     max-height: 25px;
-    margin-top: 0px;
+    margin-top: 2px;
   }
 }
 

@@ -10,6 +10,8 @@
   padding: 0px 0px 0px 0px;
   border-bottom: none;
   border-radius: 0;
+  border-bottom-left-radius: $corner_radius;
+  border-bottom-right-radius: $corner_radius;
 
   &Text {
     resize: none;
@@ -48,8 +50,9 @@
   &Controls {
     display: flex;
     justify-content: space-between;
-    padding: 6px 16px 6px 16px;
+    padding: 6px 0px 6px 0px;
     background: var(--theme-color);
+    //background-color: aqua;
     border: 0;
     border-radius: 0px;
     border-top: 1px solid var(--theme-color);
@@ -61,13 +64,13 @@
       position: relative;
       display: flex;
       flex-direction: row;
-      column-gap: 12px;
+      column-gap: 4px;
 
       > button {
         position: relative;
         margin: 0 0px;
         height: 32px;
-        width: 32px;
+        width: 48px;
         padding: 4px;
         background-color: transparent;
         border-radius: 99px;

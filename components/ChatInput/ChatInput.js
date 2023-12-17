@@ -636,7 +636,7 @@ const ChatInput = (props) => {
         {!isSubmitting && !isEditing && (
           <button
             disabled={isDisabled}
-            className={topicInputs[selectedTopic?._id] ? styles.SendActive : ""}
+            className={(topicInputs[selectedTopic?._id] || (attachments.length > 0)) ? styles.SendActive : ""}
             aria-label="send chat message"
             onClick={sendMessageOrCancelEdit}
           >

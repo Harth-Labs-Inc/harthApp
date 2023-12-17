@@ -1,11 +1,11 @@
 import { Fragment, useRef, useState } from "react";
 import styles from "./ReportALertPosts.module.scss";
 import ChatSingleMessage from "components/ChatSingleMessage/ChatSingleMessage";
-import { IconChevronLeft } from "resources/icons/IconChevronLeft";
 import ReportIcon from "resources/icons/Report";
 import { deleteMessage, updateFlaggedPost } from "../../requests/chat";
 import { useSocket } from "contexts/socket";
 import { deleteConversationMessage } from "requests/conversations";
+import { IconChevronRight } from "resources/icons/IconChevronRight";
 /* eslint-disable */
 const ReportALertPosts = ({ initialReportPosts, cancelReport }) => {
   const [reportPosts, setReportPosts] = useState(initialReportPosts);
@@ -149,7 +149,7 @@ const ReportALertPosts = ({ initialReportPosts, cancelReport }) => {
       <div className={styles.Holder} id="messageResizer">
         <div className={styles.Header} id="chatHeader">
           <button onClick={cancelReport} aria-label="back">
-            <IconChevronLeft />
+            <IconChevronRight />
           </button>
           <p>
             <span className={styles.emojiHolder}>
