@@ -201,9 +201,9 @@
   text-align: center;
   padding: 4px 14px;
   color: $font_light;
-  font-size: 9px;
   @include systemFont;
-  line-height: 9px;
+  font-size: 10px;
+  line-height: 10px;
   text-transform: uppercase;
   background: $hot_purple;
   border: 0;
