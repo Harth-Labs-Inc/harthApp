@@ -835,8 +835,9 @@ const ChatSingleMessage = (props) => {
                 {flagged && !approvedByAdmin && !isReportPost && (
                   <div className={styles.overlay}>
                     <div className={styles.flagMessage}>
-                      This post has been flagged by a user as inappropriate and
-                      is awaiting review by an administrator.
+                      This post has been flagged by a user as inappropriate.
+                      <br /> 
+                      Your group's owner can review it for approval.
                     </div>
                   </div>
                 )}
@@ -1068,8 +1069,9 @@ const ChatSingleMessage = (props) => {
               {flagged && !approvedByAdmin && !isReportPost && (
                 <div className={styles.overlay}>
                   <div className={styles.flagMessage}>
-                    This post has been flagged by a user as inappropriate and is
-                    awaiting review by an administrator.
+                      This post has been flagged by a user as inappropriate.
+                      <br /> 
+                      Your group's owner can review it for approval.
                   </div>
                 </div>
               )}
