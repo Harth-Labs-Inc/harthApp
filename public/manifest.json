@@ -1,7 +1,6 @@
 {
   "short_name": "Härth",
   "name": "Härth",
-  "fullscreen": "yes",
   "orientation": "portrait",
   "description": "Härth is the place where friends gather. Create your own group, invite your friends, and have a space all your own.",
   "id": "/",
@@ -96,7 +95,7 @@
   "lang": "en",
   "categories": ["social"],
   "launch_handler": {
-    "client_mod": ["navigate-exisiting", "auto"]
+    "client_mod": ["navigate-existing", "auto"]
   },
   "handle_links": "preferred",
   "prefer_related_applications": false
