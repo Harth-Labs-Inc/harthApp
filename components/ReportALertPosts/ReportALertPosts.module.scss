@@ -13,19 +13,22 @@
 .Holder {
   display: flex;
   flex-direction: column;
-  border-left: 1px solid $border_basic;
+  border-left: 1px solid $border_light;
   color: $font_light;
-  border-bottom: 1px solid $border_basic;
+  //border-bottom: 1px solid $border_light;
   @include topicTitle;
   font-size: 14px;
   font-weight: 500;
   width: 100%;
+  background-color: var(--theme-color);
 }
 
 .Header {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid $border_basic;
+  border-bottom: 1px solid var(--border-light);
+  padding: 4px;
+  color: var(--font-main);
   button {
     height: 44px;
     width: 44px;
@@ -40,15 +43,11 @@
     -webkit-tap-highlight-color: transparent;
 
     path {
-      fill: $font_light;
+      fill: var(--path-heavy);
     }
 
     &:active {
-      background-color: $button_main_press;
-
-      path {
-        fill: $background;
-      }
+      background-color: var(--theme-offset-1);
     }
   }
   p {
@@ -84,7 +83,7 @@
 .messageWrapper {
   position: relative;
   margin-bottom: 25px;
-  border-top: 1px solid $border_basic;
+  border-top: 1px solid var(--border-light);
 }
 .buttonBar {
   display: flex;
@@ -92,14 +91,18 @@
   justify-content: space-evenly;
   margin-top: 12px;
   button {
-    background: none;
+    background: transparent;
     border-radius: 5px;
     padding: 2px 15px;
-    border: 1px solid $border_basic;
+    border: 1px solid var(--border-basic);
     height: 30px;
     cursor: pointer;
+    @include systemFont;
+    color: var(--font-muted);
+
+    &:active {
+      background: var(--theme-offset-2);
+    }
   }
-  button:hover {
-    background: $border_basic;
-  }
+
 }
