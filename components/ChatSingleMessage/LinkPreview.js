@@ -199,7 +199,6 @@ export const LinkPreview = ({ message }) => {
           }
 
           let isOpengraphIOComplete = false;
-          let isCustomAPIComplete = false;
           let tempLinkData = {};
 
           const fetchOpenGraphIO = () => {
@@ -261,7 +260,6 @@ export const LinkPreview = ({ message }) => {
           });
 
           const customAPIPromise = fetchCustomAPI().then((response) => {
-            isCustomAPIComplete = true;
             return response;
           });
 
