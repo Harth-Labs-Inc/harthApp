@@ -172,6 +172,7 @@ export const CommsProvider = ({
       const { comm_id } = router.query;
       const harth = comms.find(({ _id }) => _id === comm_id);
       if (harth) {
+        localStorage.setItem("selectedHarthID", harth?._id);
         changeSelectedCommFromChild(harth);
       }
     }
@@ -399,11 +400,12 @@ export const CommsProvider = ({
         }
       }
       setConversations(conversations);
-
+      setIsLoadingConversations(false);
       if (startingConv) {
         setSelectedConversation(startingConv);
+      } else if (!conversations.length) {
+        setSelectedConversation(null);
       }
-      setIsLoadingConversations(false);
     }
     return;
   };
@@ -592,7 +594,6 @@ export const CommsProvider = ({
     let isInChatOrDM = localStorage.getItem("isInChatOrDM");
 
     if (currentPage === "message" && com?._id) {
-      resetConversations();
       fetchConversations(com._id, isInChatOrDM && repullMessages);
       resetTopics();
     }
