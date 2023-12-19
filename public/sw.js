@@ -135,37 +135,37 @@ workbox.routing.registerRoute(
 );
 // Stale while revalidate
 // Cache CSS files
-// routing.registerRoute(
-//   /\.css$/,
-//   new strategies.StaleWhileRevalidate({
-//     cacheName: "css-cache",
-//   })
-// );
+routing.registerRoute(
+  /\.css$/,
+  new strategies.NetworkFirst({
+    cacheName: "css-cache",
+  })
+);
 // // Cache js files
-// workbox.routing.registerRoute(
-//   /\.js$/i,
-//   new workbox.strategies.StaleWhileRevalidate({
-//     cacheName: "js-cache",
-//   })
-// );
+workbox.routing.registerRoute(
+  /\.js$/i,
+  new workbox.strategies.NetworkFirst({
+    cacheName: "js-cache",
+  })
+);
 // // network first
 // // Cache html files
-// workbox.routing.registerRoute(
-//   /\.html$/i,
-//   new workbox.strategies.NetworkFirst({
-//     cacheName: "html-cache",
-//   })
-// );
+workbox.routing.registerRoute(
+  /\.html$/i,
+  new workbox.strategies.NetworkFirst({
+    cacheName: "html-cache",
+  })
+);
 // // Cache json files
-// workbox.routing.registerRoute(
-//   /\.json$/i,
-//   new workbox.strategies.NetworkFirst({
-//     cacheName: "json-cache",
-//   })
-// );
-// workbox.routing.registerRoute(
-//   /version\.txt$/,
-//   new workbox.strategies.NetworkFirst({
-//     cacheName: "version-cache",
-//   })
-// );
+workbox.routing.registerRoute(
+  /\.json$/i,
+  new workbox.strategies.NetworkFirst({
+    cacheName: "json-cache",
+  })
+);
+workbox.routing.registerRoute(
+  /version\.txt$/,
+  new workbox.strategies.NetworkFirst({
+    cacheName: "version-cache",
+  })
+);
