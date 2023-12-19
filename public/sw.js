@@ -108,43 +108,43 @@ workbox.routing.registerRoute(
   })
 );
 // Cache image files
-workbox.routing.registerRoute(
-  ({ request }) =>
-    request.destination === "image" &&
-    request.url.includes("community-profile-images"),
-  new workbox.strategies.CacheFirst({
-    cacheName: "aws-profile-icon-cache",
-    plugins: [
-      new workbox.expiration.ExpirationPlugin({
-        maxEntries: 60,
-        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-      }),
-    ],
-  })
-);
-workbox.routing.registerRoute(
-  /\.(png|jpg|jpeg|gif|svg)$/i,
-  new workbox.strategies.CacheFirst({
-    cacheName: "image-cache",
-    plugins: [
-      new workbox.expiration.ExpirationPlugin({
-        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-      }),
-    ],
-  })
-);
+// workbox.routing.registerRoute(
+//   ({ request }) =>
+//     request.destination === "image" &&
+//     request.url.includes("community-profile-images"),
+//   new workbox.strategies.CacheFirst({
+//     cacheName: "aws-profile-icon-cache",
+//     plugins: [
+//       new workbox.expiration.ExpirationPlugin({
+//         maxEntries: 60,
+//         maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+//       }),
+//     ],
+//   })
+// );
+// workbox.routing.registerRoute(
+//   /\.(png|jpg|jpeg|gif|svg)$/i,
+//   new workbox.strategies.CacheFirst({
+//     cacheName: "image-cache",
+//     plugins: [
+//       new workbox.expiration.ExpirationPlugin({
+//         maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+//       }),
+//     ],
+//   })
+// );
 // Stale while revalidate
 // Cache CSS files
 routing.registerRoute(
   /\.css$/,
-  new strategies.NetworkFirst({
+  new strategies.StaleWhileRevalidate({
     cacheName: "css-cache",
   })
 );
 // // Cache js files
 workbox.routing.registerRoute(
   /\.js$/i,
-  new workbox.strategies.NetworkFirst({
+  new workbox.strategies.StaleWhileRevalidate({
     cacheName: "js-cache",
   })
 );
@@ -152,7 +152,7 @@ workbox.routing.registerRoute(
 // // Cache html files
 workbox.routing.registerRoute(
   /\.html$/i,
-  new workbox.strategies.NetworkFirst({
+  new workbox.strategies.StaleWhileRevalidate({
     cacheName: "html-cache",
   })
 );
