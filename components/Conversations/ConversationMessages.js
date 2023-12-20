@@ -515,6 +515,7 @@ export const ConversationMessages = () => {
       ) : null}
       <div id="longPressCoverId"></div>
       <div className={styles.Holder}>
+        {isMobile ? <div className={styles.spacer} /> : null}
         <div id={styles.ChatMessages} onScroll={handleScroll}>
           <div ref={messagesEndRef} />
           {currentMessages && currentMessages.length > 0 ? (

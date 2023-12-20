@@ -5,6 +5,7 @@
   display: flex;
   width: 100%;
   padding: $space;
+  padding-top: 2px;
 }
 
 .topicHolderMobile {
@@ -42,15 +43,16 @@
   justify-content: space-between;
   width: 100%;
   padding: 0px 8px;
-  height: 56px;
-  min-height: 56px;
-  max-height: 56px;
+  height: 60px;
+  min-height: 60px;
+  max-height: 60px;
   background-color: var(--theme-color);
   color: $fuel;
   font-size: 14px;
   font-weight: 600;
   @include topicTitleActive;
-  border-radius: $corner_radius_mobile;
+  border-radius: 999px;
+  border: 2px solid $background;
 
   .people {
     display: flex;
