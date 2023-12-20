@@ -137,14 +137,14 @@ workbox.routing.registerRoute(
 // Cache CSS files
 routing.registerRoute(
   /\.css$/,
-  new strategies.StaleWhileRevalidate({
+  new strategies.NetworkFirst({
     cacheName: "css-cache",
   })
 );
 // // Cache js files
 workbox.routing.registerRoute(
   /\.js$/i,
-  new workbox.strategies.StaleWhileRevalidate({
+  new workbox.strategies.NetworkFirst({
     cacheName: "js-cache",
   })
 );
@@ -152,7 +152,7 @@ workbox.routing.registerRoute(
 // // Cache html files
 workbox.routing.registerRoute(
   /\.html$/i,
-  new workbox.strategies.StaleWhileRevalidate({
+  new workbox.strategies.NetworkFirst({
     cacheName: "html-cache",
   })
 );
