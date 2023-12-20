@@ -12,62 +12,66 @@ const Chat = () => {
   const { selectedTopic, setSelectedTopic } = useComms();
   const mainChatContainerRef = useRef(null);
 
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let isHorizontalSwipe = null;
+  // ------------------------- swipe gesture --------------------------------------
 
-  function handleTouchStart(e) {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    isHorizontalSwipe = null;
-  }
+  // let touchStartX = 0;
+  // let touchStartY = 0;
+  // let isHorizontalSwipe = null;
 
-  function handleTouchMove(e) {
-    const touchCurrentX = e.touches[0].clientX;
-    const touchCurrentY = e.touches[0].clientY;
-    const deltaX = touchCurrentX - touchStartX;
-    const deltaY = touchCurrentY - touchStartY;
+  // function handleTouchStart(e) {
+  //   touchStartX = e.touches[0].clientX;
+  //   touchStartY = e.touches[0].clientY;
+  //   isHorizontalSwipe = null;
+  // }
 
-    if (isHorizontalSwipe === null) {
-      isHorizontalSwipe = Math.abs(deltaX) > Math.abs(deltaY);
-    }
+  // function handleTouchMove(e) {
+  //   const touchCurrentX = e.touches[0].clientX;
+  //   const touchCurrentY = e.touches[0].clientY;
+  //   const deltaX = touchCurrentX - touchStartX;
+  //   const deltaY = touchCurrentY - touchStartY;
 
-    if (isHorizontalSwipe && deltaX >= 0 && mainChatContainerRef.current) {
-      mainChatContainerRef.current.style.left = `${deltaX}px`;
-    }
-  }
+  //   if (isHorizontalSwipe === null) {
+  //     isHorizontalSwipe = Math.abs(deltaX) > Math.abs(deltaY);
+  //   }
 
-  function handleTouchEnd(e) {
-    if (isHorizontalSwipe && mainChatContainerRef.current) {
-      const endSwipeX = e.changedTouches[0].clientX;
-      const swipeDistance = endSwipeX - touchStartX;
+  //   if (isHorizontalSwipe && deltaX >= 0 && mainChatContainerRef.current) {
+  //     mainChatContainerRef.current.style.left = `${deltaX}px`;
+  //   }
+  // }
 
-      if (swipeDistance > 50) {
-        handleMobileChat();
-      } else {
-        mainChatContainerRef.current.style.left = "0px";
-      }
-    }
+  // function handleTouchEnd(e) {
+  //   if (isHorizontalSwipe && mainChatContainerRef.current) {
+  //     const endSwipeX = e.changedTouches[0].clientX;
+  //     const swipeDistance = endSwipeX - touchStartX;
 
-    isHorizontalSwipe = null;
-  }
+  //     if (swipeDistance > 50) {
+  //       handleMobileChat();
+  //     } else {
+  //       mainChatContainerRef.current.style.left = "0px";
+  //     }
+  //   }
 
-  useEffect(() => {
-    const mainChatContainer = mainChatContainerRef.current;
-    if (mainChatContainer) {
-      mainChatContainer.addEventListener("touchstart", handleTouchStart);
-      mainChatContainer.addEventListener("touchmove", handleTouchMove);
-      mainChatContainer.addEventListener("touchend", handleTouchEnd);
-    }
+  //   isHorizontalSwipe = null;
+  // }
 
-    return () => {
-      if (mainChatContainer) {
-        mainChatContainer.removeEventListener("touchstart", handleTouchStart);
-        mainChatContainer.removeEventListener("touchmove", handleTouchMove);
-        mainChatContainer.removeEventListener("touchend", handleTouchEnd);
-      }
-    };
-  }, [selectedTopic]);
+  // useEffect(() => {
+  //   const mainChatContainer = mainChatContainerRef.current;
+  //   if (mainChatContainer) {
+  //     mainChatContainer.addEventListener("touchstart", handleTouchStart);
+  //     mainChatContainer.addEventListener("touchmove", handleTouchMove);
+  //     mainChatContainer.addEventListener("touchend", handleTouchEnd);
+  //   }
+
+  //   return () => {
+  //     if (mainChatContainer) {
+  //       mainChatContainer.removeEventListener("touchstart", handleTouchStart);
+  //       mainChatContainer.removeEventListener("touchmove", handleTouchMove);
+  //       mainChatContainer.removeEventListener("touchend", handleTouchEnd);
+  //     }
+  //   };
+  // }, [selectedTopic]);
+
+  // ------------------------- swipe gesture --------------------------------------
 
   function handleMobileChat() {
     if (Object.keys(selectedTopic || {})?.length && isMobile) {
