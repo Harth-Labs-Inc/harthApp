@@ -40,7 +40,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    border-radius: $corner_radius;
+    border-radius: 0;
+    border-top-right-radius: 24px;
+    border-top-left-radius: 24px;
     padding-right: 10px;
 
     &Mobile {

@@ -9,8 +9,8 @@
   height: 100%;
   overflow-y: scroll;
   border: 0;
-  border-radius: $corner_radius;
-  margin-right: $space;
+  border-bottom-left-radius: 24px;
+  margin-right: 2px;
   background: var(--theme-color);
 
   .notopic {
