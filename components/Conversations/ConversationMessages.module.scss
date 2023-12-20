@@ -17,9 +17,15 @@
     height: var(--vh);
     border-radius: 0;
     padding: 0px;
-    padding-top: 66px;
+    padding-top: 32px;
     padding-bottom: 16px;
     background: $background;
+  }
+
+  .spacer {
+    height: 24px;
+    width: 100%;
+    background-color: var(--theme-color);
   }
 }
 
@@ -44,7 +50,7 @@
 
   @media screen and (max-width: 640px) {
     padding-bottom: 116px;
-    padding-top: 100px;
+    border-radius: 0;
   }
 }
 
