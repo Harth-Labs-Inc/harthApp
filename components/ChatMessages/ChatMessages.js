@@ -281,6 +281,7 @@ const MessageWrapper = () => {
       ) : null}
       <div id="longPressCoverId"></div>
       <div className={styles.Holder} id="messageResizer">
+        {isMobile ? <div className={styles.spacer} /> : null}
         <div id={styles.ChatMessages} onScroll={handleScroll}>
           <div ref={messagesEndRef} />
           {currentMessages && currentMessages.length > 0 ? (

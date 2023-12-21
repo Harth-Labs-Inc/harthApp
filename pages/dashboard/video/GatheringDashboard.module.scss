@@ -16,11 +16,11 @@
   height: 100%;
   width: 100%;
   overflow-y: scroll;
-  padding: calc(112px + $space) $space $space 0px;
+  padding: calc(100px + $space) $space $space 4px;
   margin-top: 0px;
 
   &Mobile {
-    padding: calc(354px + $space_mobile) $space_mobile 120px $space_mobile;
+    padding: calc(354px + $space_mobile) 0px 136px 0px;
     margin-top: 0px;
 
     &::after {
