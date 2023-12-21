@@ -63,7 +63,7 @@ const dashboard = () => {
 
   const router = useRouter();
   const {
-    query: { tkn, openFromPush, type },
+    query: { tkn },
   } = router;
 
   const [currentPage, setCurrentPage] = useState(null);
@@ -198,6 +198,9 @@ const dashboard = () => {
       let shouldOpenFromPush = new URL(window?.location.href).searchParams.get(
         "openFromPush"
       );
+      let shouldOpenFromPushType = new URL(
+        window?.location.href
+      ).searchParams.get("type");
       if (!shouldOpenFromPush) {
         setKeepSpinning(false);
       } else if (shouldOpenFromPush && !keepSpinning) {
@@ -205,7 +208,10 @@ const dashboard = () => {
       }
 
       let prevPage = localStorage.getItem("selectedPage") || "chat";
-      let page = openFromPush && type ? type : prevPage;
+      let page =
+        shouldOpenFromPush && shouldOpenFromPushType
+          ? shouldOpenFromPushType
+          : prevPage;
       changePageHandler(page);
 
       const showFirstTimeUser = localStorage.getItem("showFirstTimeUser");

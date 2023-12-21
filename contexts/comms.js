@@ -71,7 +71,7 @@ export const CommsProvider = ({
 
   const router = useRouter();
   const {
-    query: { gather_window, openFromPush },
+    query: { gather_window },
   } = router;
 
   useEffect(() => {
@@ -168,15 +168,20 @@ export const CommsProvider = ({
   }, [selectedTopic]);
 
   useEffect(() => {
-    if (openFromPush && comms && comms.length) {
-      const { comm_id } = router.query;
-      const harth = comms.find(({ _id }) => _id === comm_id);
+    let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
+      "openFromPush"
+    );
+    let shouldOpenFromPushCom = new URL(window.location.href).searchParams.get(
+      "comm_id"
+    );
+    if (shouldOpenFromPush && comms && comms.length && shouldOpenFromPushCom) {
+      const harth = comms.find(({ _id }) => _id === shouldOpenFromPushCom);
       if (harth) {
         localStorage.setItem("selectedHarthID", harth?._id);
         changeSelectedCommFromChild(harth);
       }
     }
-  }, [openFromPush, comms]);
+  }, [comms]);
 
   const setStartingTopic = (tpcs) => {
     let startingTopic;
