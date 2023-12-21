@@ -55,6 +55,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                     <input
                         placeholder="room name"
                         autoComplete="off"
+                        autoCapitalize="off"
                         {...register("roomName", { required: true })}
                         maxLength={64}
                     />  

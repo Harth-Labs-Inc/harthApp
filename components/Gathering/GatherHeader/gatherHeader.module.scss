@@ -2,94 +2,7 @@
 @import "../../../styles/globals.scss";
 
 .basic {
-  // &Mobile {
-  //     position: relative;
-  //     display: flex;
-  //     flex-direction: row;
-  //     align-items: center;
-  //     justify-content: space-between;
-  //     height: 56px;
-  //     min-height: 56px;
-  //     width: 100%;
-  //     padding: 0px 12px 0px 4px;
-  //     //background-color: $fuel;
-  //     z-index: 10;
-
-  //     .mobileSpacer {
-  //         height: 28px;
-  //         width: 28px;
-  //         background: transparent;
-  //     }
-
-  //     .labelHolder {
-  //         display: flex;
-  //         position: relative;
-  //         align-items: center;
-  //         column-gap: 8px;
-  //         @include roomTitle;
-  //         font-size: 16px;
-  //         color: $font_muted;
-  //         user-select: none;
-  //     }
-
-  //     .leave {
-  //         position: relative;
-  //         display: flex;
-  //         flex-direction: row;
-  //         height: 100%;
-
-  //     }
-  //     .curveLeft {
-  //         position: relative;
-  //         background-color: $background;
-  //         width: 12px;
-  //         height: 100%;
-
-  //         &::after {
-  //             position: absolute;
-  //             top: 0;
-  //             left: 0;
-  //             content: "";
-  //             width: 12px;
-  //             height: 100%;
-  //             background-color: $ash;
-  //             border-top-right-radius: 999px;
-  //         }
-
-  //     }
-
-  //     .curveRight {
-  //         position: relative;
-  //         background-color: $background;
-  //         width: 12px;
-  //         height: 100%;
-
-  //         &::after {
-  //             position: absolute;
-  //             top: 0;
-  //             left: 0;
-  //             content: "";
-  //             width: 12px;
-  //             height: 100%;
-  //             background-color: $ash;
-  //             border-top-left-radius: 999px;
-  //         }
-
-  //     }
-
-  //     // button {
-  //     //     position: relative;
-  //     //     background: $background;
-  //     //     height: 100%;
-  //     //     width: 56px;
-  //     //     padding: 12px;
-  //     //     border-top-right-radius: 0;
-  //     //     border-top-left-radius: 0;
-
-  //     // }
-
-  // }
-
+  
   &Mobile {
     display: flex;
     flex-direction: row;
@@ -151,6 +64,18 @@
     width: 100%;
     padding: 0px 16px 0px 16px;
     z-index: 10;
+
+    .iconHolder {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      margin-right: 4px;
+
+      svg {
+        height: 24px;
+        width: 24px;
+      }
+    }
 
     .labelHolder {
       display: flex;
