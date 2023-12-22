@@ -10,6 +10,7 @@ import { getRooms } from "../requests/rooms";
 import { useAuth } from "./auth";
 import { useRouter } from "next/router";
 import { MobileContext } from "../contexts/mobile";
+import { openDB } from "services/helper";
 
 const CommsContext = createContext({});
 
@@ -43,6 +44,23 @@ export const CommsProvider = ({
   const [isLoadingTopics, setIsLoadingTopics] = useState(null);
   const [isLoadingConversations, setIsLoadingConversations] = useState(null);
   const [showTermsOfServiceModal, setShowTermsOfServiceModal] = useState(false);
+
+  const [indexAvatarController, setIndexAvatarController] = useState(null);
+  const [linkController, setLinkController] = useState(null);
+  const [chatMessagesController, setChatMessagesController] = useState(null);
+  const imageCacheRef = useRef({});
+
+  function clearCacheForId(cache, id) {
+    Object.keys(cache).forEach((key) => {
+      if (!key.includes(id)) {
+        const imageUrl = cache[key];
+        if (imageUrl.startsWith("blob:")) {
+          URL.revokeObjectURL(imageUrl);
+        }
+        delete cache[key];
+      }
+    });
+  }
 
   const { user } = useAuth();
 
@@ -87,6 +105,27 @@ export const CommsProvider = ({
     } catch (error) {
       console.log(error);
     }
+    const initializeDB = async () => {
+      const dbConfigs = [
+        { dbName: "Avatar_Attachments", storeName: "avatar" },
+        { dbName: "LinkPreviewCache", storeName: "previews" },
+        { dbName: "Attachments", storeName: "chat" },
+      ];
+      try {
+        const dbPromises = dbConfigs.map((config) =>
+          openDB(config.dbName, config.storeName)
+        );
+        const [avatarDB, linkDB, chatDB] = await Promise.all(dbPromises);
+
+        setIndexAvatarController(avatarDB);
+        setLinkController(linkDB);
+        setChatMessagesController(chatDB);
+      } catch (error) {
+        console.error("Error opening databases", error);
+      }
+    };
+
+    initializeDB();
   }, []);
 
   useEffect(() => {
@@ -98,6 +137,7 @@ export const CommsProvider = ({
   useEffect(() => {
     if (selectedcomm) {
       if (user) {
+        clearCacheForId(imageCacheRef.current, selectedcomm?._id);
         if (!hasApprovedTos) {
           setShowTermsOfServiceModal(true);
         }
@@ -692,6 +732,10 @@ export const CommsProvider = ({
   return (
     <CommsContext.Provider
       value={{
+        imageCacheRef: imageCacheRef.current,
+        chatMessagesController,
+        linkController,
+        indexAvatarController,
         initialLoadAllGood,
         currentPage,
         hasFinishedFirstGatherTour,

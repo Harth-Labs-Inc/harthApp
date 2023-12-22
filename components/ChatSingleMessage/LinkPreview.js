@@ -9,27 +9,33 @@ import {
   saveAttachment,
 } from "services/helper";
 import { getURLMetaData } from "requests/urls";
+import { useComms } from "contexts/comms";
 
-const DB_NAME = "LinkPreviewCache";
 const STORE_NAME = "previews";
 
 const sanitizeURL = (url) => {
   return url.replace(/[^a-zA-Z0-9]/g, "_");
 };
 
-const cacheData = async (url, data) => {
+const cacheData = async (url, data, db) => {
+  if (!db) {
+    return false;
+  }
   const sanitizedURL = sanitizeURL(url);
-  const db = await openDB(DB_NAME, STORE_NAME);
   saveAttachment(db, STORE_NAME, sanitizedURL, data);
 };
 
-const getCachedData = async (url) => {
+const getCachedData = async (url, db) => {
+  if (!db) {
+    return false;
+  }
   const sanitizedURL = sanitizeURL(url);
-  const db = await openDB(DB_NAME, STORE_NAME);
   return getAttachment(db, STORE_NAME, sanitizedURL);
 };
 
 export const LinkPreview = ({ message }) => {
+  const { linkController } = useComms();
+
   const urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
   const [linkData, setLinkData] = useState(null);
   const blacklist = new Set([
@@ -187,7 +193,7 @@ export const LinkPreview = ({ message }) => {
             continue;
           }
 
-          const cached = await getCachedData(url);
+          const cached = await getCachedData(url, linkController);
           if (
             cached &&
             cached.data &&
@@ -299,7 +305,7 @@ export const LinkPreview = ({ message }) => {
 
           if (Object.keys(tempLinkData).length) {
             setLinkData(tempLinkData);
-            await cacheData(url, tempLinkData);
+            await cacheData(url, tempLinkData, linkController);
             tempLinkData = {};
           }
         }
@@ -308,7 +314,7 @@ export const LinkPreview = ({ message }) => {
     if (message) {
       extractLinks();
     }
-  }, [message]);
+  }, [message, linkController]);
 
   if (!message) return null;
 

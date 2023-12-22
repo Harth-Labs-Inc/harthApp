@@ -4,12 +4,7 @@ import styles from "./UserIcon.module.scss";
 import { useComms } from "contexts/comms";
 import { useAuth } from "contexts/auth";
 
-import {
-  fetchImage,
-  getAttachment,
-  openDB,
-  saveAttachment,
-} from "services/helper";
+import { fetchImage, getAttachment, saveAttachment } from "services/helper";
 import { getDownloadURL } from "requests/s3";
 
 const UserIcon = ({
@@ -27,7 +22,7 @@ const UserIcon = ({
 
   const { user } = useAuth();
 
-  const { selectedcomm } = useComms();
+  const { selectedcomm, indexAvatarController, imageCacheRef } = useComms();
 
   useEffect(() => {
     if (size === "small") {
@@ -38,7 +33,6 @@ const UserIcon = ({
   }, [size]);
 
   useEffect(() => {
-    const dbName = "Avatar_Attachments";
     const storeName = "avatar";
 
     const extractFileNameFromUrl = (url) => {
@@ -58,15 +52,22 @@ const UserIcon = ({
     };
 
     const checkAndFetchImage = async () => {
-      if (img) {
+      if (img && indexAvatarController) {
         const keyName = extractFileNameFromUrl(img);
-        const db = await openDB(dbName, storeName);
-        const cachedData = await getAttachment(db, storeName, keyName).catch(
-          () => null
-        );
+        if (imageCacheRef[keyName]) {
+          setImageUrl(imageCacheRef[keyName]);
+          return;
+        }
+
+        const cachedData = await getAttachment(
+          indexAvatarController,
+          storeName,
+          keyName
+        ).catch(() => null);
 
         if (cachedData && cachedData.data) {
           const url = URL.createObjectURL(cachedData.data);
+          imageCacheRef[keyName] = url;
           setImageUrl(url);
         } else {
           if (
@@ -85,7 +86,12 @@ const UserIcon = ({
               if (fetchedData && fetchedData.ok) {
                 const imageBlob = await fetchImage(fetchedData.downloadURL);
                 try {
-                  saveAttachment(db, storeName, keyName, imageBlob);
+                  saveAttachment(
+                    indexAvatarController,
+                    storeName,
+                    keyName,
+                    imageBlob
+                  );
                   const url = URL.createObjectURL(imageBlob);
                   setImageUrl(url);
                 } catch (error) {
@@ -103,7 +109,7 @@ const UserIcon = ({
     };
 
     checkAndFetchImage();
-  }, [img]);
+  }, [img, indexAvatarController, imageCacheRef]);
 
   return (
     <>

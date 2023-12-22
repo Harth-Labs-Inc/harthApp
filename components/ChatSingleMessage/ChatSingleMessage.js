@@ -109,6 +109,7 @@ const ChatSingleMessage = (props) => {
     hasFinishedFirstPostTour,
     hasApprovedTos,
     initialLoadAllGood,
+    chatMessagesController,
   } = useComms();
 
   const { activeTour, startTour, skipStep, tourKey } = useTourManager();
@@ -194,17 +195,15 @@ const ChatSingleMessage = (props) => {
   };
 
   useEffect(() => {
-    const dbName = "Attachments";
     const storeName = "chat";
     const FetchDownloadURL = async () => {
       if (attachments.length > 0) {
-        const db = await openDB(dbName, storeName);
         let tempAttch = [...attachments].reverse();
         slideshowURLRef?.current?.push(...tempAttch);
         const data = await Promise.all(
           attachments.map(async (att) => {
             const cachedData = await getAttachment(
-              db,
+              chatMessagesController,
               storeName,
               att.name
             ).catch(() => null);
@@ -220,7 +219,12 @@ const ChatSingleMessage = (props) => {
               if (fetchedData && fetchedData.ok) {
                 const imageBlob = await fetchImage(fetchedData.downloadURL);
                 try {
-                  saveAttachment(db, storeName, att.name, imageBlob);
+                  saveAttachment(
+                    chatMessagesController,
+                    storeName,
+                    att.name,
+                    imageBlob
+                  );
                 } catch (error) {
                   console.log("Failed to save attachment:", error);
                 }
@@ -654,8 +658,8 @@ const ChatSingleMessage = (props) => {
             className={` 
                       ${styles.SingleMessage}
                       ${styles.SingleMessageMobile} ${
-              showMessageInfoMobile ? styles.mobileInfo : ""
-            }
+                        showMessageInfoMobile ? styles.mobileInfo : ""
+                      }
                   `}
           >
             <span className={styles.UserIcon}>
@@ -836,7 +840,7 @@ const ChatSingleMessage = (props) => {
                   <div className={styles.overlay}>
                     <div className={styles.flagMessage}>
                       This post has been flagged by a user as inappropriate.
-                      <br /> 
+                      <br />
                       Your group's owner can review it for approval.
                     </div>
                   </div>
@@ -1069,9 +1073,9 @@ const ChatSingleMessage = (props) => {
               {flagged && !approvedByAdmin && !isReportPost && (
                 <div className={styles.overlay}>
                   <div className={styles.flagMessage}>
-                      This post has been flagged by a user as inappropriate.
-                      <br /> 
-                      Your group's owner can review it for approval.
+                    This post has been flagged by a user as inappropriate.
+                    <br />
+                    Your group's owner can review it for approval.
                   </div>
                 </div>
               )}
