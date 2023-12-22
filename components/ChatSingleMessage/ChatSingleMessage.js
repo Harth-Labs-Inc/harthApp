@@ -19,7 +19,6 @@ import {
   fetchImage,
   generateID,
   getAttachment,
-  openDB,
   saveAttachment,
 } from "services/helper";
 import { CustomMessageContextMenu } from "components/CustomMessageContextMenu/CustomMessageContextMenu";
