@@ -190,9 +190,7 @@ const ChatInput = (props) => {
       };
 
       const preventTouchScroll = (e) => {
-        if (e.target === textRef.current) {
-          e.stopPropagation();
-        } else {
+        if (e.target !== textRef.current) {
           e.preventDefault();
         }
       };
@@ -268,9 +266,9 @@ const ChatInput = (props) => {
     const minHeight = lineHeight + paddingTop + paddingBottom;
 
     textarea.style.height = "auto";
-    textarea.style.overflowY = "hidden"; // Temporarily hide the scrollbar to get accurate scrollHeight
+    textarea.style.overflowY = "hidden";
 
-    textarea.offsetHeight; // Forces a reflow
+    textarea.offsetHeight;
 
     const scrollHeight = textarea.scrollHeight;
     const newHeight = Math.max(minHeight, scrollHeight);
