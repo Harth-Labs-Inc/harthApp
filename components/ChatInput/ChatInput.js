@@ -189,26 +189,26 @@ const ChatInput = (props) => {
         }
         currentHeightRef.current = window.innerHeight;
       };
-      const preventTouchScroll = (e) => {
-        if (
-          textRef.current &&
-          textRef.current === document.activeElement &&
-          window.innerWidth <= 640
-        ) {
-          e.preventDefault();
-        }
-      };
+      // const preventTouchScroll = (e) => {
+      //   if (
+      //     textRef.current &&
+      //     textRef.current === document.activeElement &&
+      //     window.innerWidth <= 640
+      //   ) {
+      //     e.preventDefault();
+      //   }
+      // };
 
       window.addEventListener("visibilitychange", handleChange);
       window.addEventListener("resize", handleResize);
-      window.addEventListener("touchmove", preventTouchScroll, {
-        passive: false,
-      });
+      // window.addEventListener("touchmove", preventTouchScroll, {
+      //   passive: false,
+      // });
 
       return () => {
         window.removeEventListener("resize", handleResize);
         window.removeEventListener("visibilitychange", handleChange);
-        window.removeEventListener("touchmove", preventTouchScroll);
+        // window.removeEventListener("touchmove", preventTouchScroll);
       };
     }
   }, [isMobile]);
@@ -636,7 +636,11 @@ const ChatInput = (props) => {
         {!isSubmitting && !isEditing && (
           <button
             disabled={isDisabled}
-            className={(topicInputs[selectedTopic?._id] || (attachments.length > 0)) ? styles.SendActive : ""}
+            className={
+              topicInputs[selectedTopic?._id] || attachments.length > 0
+                ? styles.SendActive
+                : ""
+            }
             aria-label="send chat message"
             onClick={sendMessageOrCancelEdit}
           >
