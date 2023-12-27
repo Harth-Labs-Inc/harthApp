@@ -147,7 +147,6 @@ const ChatInput = (props) => {
             }
             if (heightDifference !== 0) {
               resizeInitialShift.current = true;
-              document.body.style.overflow = "hidden";
             }
           } else {
             if (ignoreNextResize.current) {
@@ -186,30 +185,37 @@ const ChatInput = (props) => {
           if (chatHeaderContainer) {
             chatHeaderContainer.style.transform = "";
           }
-          document.body.style.overflow = "";
         }
         currentHeightRef.current = window.innerHeight;
       };
-      // const preventTouchScroll = (e) => {
-      //   if (
-      //     textRef.current &&
-      //     textRef.current === document.activeElement &&
-      //     window.innerWidth <= 640
-      //   ) {
-      //     e.preventDefault();
-      //   }
-      // };
+
+      const preventTouchScroll = (e) => {
+        if (e.target !== textRef.current) {
+          e.preventDefault();
+        }
+      };
+
+      const handleFocus = () => {
+        window.addEventListener("touchmove", preventTouchScroll, {
+          passive: false,
+        });
+      };
+
+      const handleBlur = () => {
+        window.removeEventListener("touchmove", preventTouchScroll);
+      };
 
       window.addEventListener("visibilitychange", handleChange);
       window.addEventListener("resize", handleResize);
-      // window.addEventListener("touchmove", preventTouchScroll, {
-      //   passive: false,
-      // });
+      textRef.current?.addEventListener("focus", handleFocus);
+      textRef.current?.addEventListener("blur", handleBlur);
 
       return () => {
+        textRef.current?.removeEventListener("focus", handleFocus);
+        textRef.current?.removeEventListener("blur", handleBlur);
         window.removeEventListener("resize", handleResize);
         window.removeEventListener("visibilitychange", handleChange);
-        // window.removeEventListener("touchmove", preventTouchScroll);
+        window.removeEventListener("touchmove", preventTouchScroll);
       };
     }
   }, [isMobile]);
