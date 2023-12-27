@@ -73,7 +73,7 @@ const ChatInput = (props) => {
   const resizeInitialShift = useRef(false);
   const currentHeightRef = useRef(0);
   const ignoreNextResize = useRef(false);
-  let closeTimer = null;
+  // let closeTimer = null;
 
   const [ios, setIos] = useState(false);
 
@@ -97,125 +97,140 @@ const ChatInput = (props) => {
   useEffect(() => {
     originalHeightRef.current = textRef.current.style.height;
     if (isMobile) {
-      const handleChange = () => {
-        if (document.hidden) {
-          const messageContainer = document.getElementById("messageResizer");
-          const chatHeaderContainer = document.getElementById("chatHeader");
-          setAllowBlur(true);
-          setOffsetY(0);
-          ignoreNextResize.current = false;
-          resizeInitialShift.current = false;
-          if (messageContainer) {
-            messageContainer.style.transform = "";
-          }
-          if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = "";
-          }
-          if (textRef.current) {
-            textRef.current.blur();
-          }
-        }
-      };
+      // const handleChange = () => {
+      //   if (document.hidden) {
+      //     const messageContainer = document.getElementById("messageResizer");
+      //     const chatHeaderContainer = document.getElementById("chatHeader");
+      //     setAllowBlur(true);
+      //     setOffsetY(0);
+      //     ignoreNextResize.current = false;
+      //     resizeInitialShift.current = false;
+      //     if (messageContainer) {
+      //       messageContainer.style.transform = "";
+      //     }
+      //     if (chatHeaderContainer) {
+      //       chatHeaderContainer.style.transform = "";
+      //     }
+      //     if (textRef.current) {
+      //       textRef.current.blur();
+      //     }
+      //   }
+      // };
       const handleResize = () => {
         const vh = parseInt(
           getComputedStyle(document.documentElement).getPropertyValue("--vh"),
           10
         );
+        const currentHeight = window.innerHeight;
+        // const heightDifference = vh - currentHeight;
+        // const isFocused = textRef.current === document.activeElement;
+        // const messageContainer = document.getElementById("messageResizer");
+        // const chatHeaderContainer = document.getElementById("chatHeader");
+        const metaViewport = document.querySelector("meta[name=viewport]");
 
-        const heightDifference = vh - window.innerHeight;
-        let isFocused = textRef.current === document.activeElement;
-        const messageContainer = document.getElementById("messageResizer");
-        const chatHeaderContainer = document.getElementById("chatHeader");
-        if (isFocused) {
-          if (!resizeInitialShift.current) {
-            if (heightDifference > 0) {
-              setOffsetY(-heightDifference);
-              if (messageContainer) {
-                messageContainer.style.transform = `translateY(${-heightDifference}px)`;
-              }
-              if (chatHeaderContainer) {
-                chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
-              }
-            } else {
-              setOffsetY(heightDifference);
-              if (messageContainer) {
-                messageContainer.style.transform = `translateY(${heightDifference}px)`;
-              }
-              if (chatHeaderContainer) {
-                chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
-              }
-            }
-            if (heightDifference !== 0) {
-              resizeInitialShift.current = true;
-            }
-          } else {
-            if (ignoreNextResize.current) {
-              if (closeTimer) {
-                clearTimeout(closeTimer);
-              }
-              ignoreNextResize.current = false;
-              setOffsetY(0);
-              if (messageContainer) {
-                messageContainer.style.transform = "";
-              }
-              if (chatHeaderContainer) {
-                chatHeaderContainer.style.transform = "";
-              }
-              resizeInitialShift.current = false;
-            } else {
-              ignoreNextResize.current = true;
-              closeTimer = setTimeout(() => {
-                ignoreNextResize.current = false;
-                setOffsetY(0);
-                if (messageContainer) {
-                  messageContainer.style.transform = "";
-                }
-                if (chatHeaderContainer) {
-                  chatHeaderContainer.style.transform = "";
-                }
-                resizeInitialShift.current = false;
-              }, 150);
-            }
-          }
+        if (currentHeight < vh) {
+          document.documentElement.style.setProperty("overflow", "auto");
+          metaViewport.setAttribute(
+            "content",
+            `height=${vh}, width=device-width, initial-scale=1.0`
+          );
         } else {
-          setOffsetY(0);
-          if (messageContainer) {
-            messageContainer.style.transform = "";
-          }
-          if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = "";
-          }
+          metaViewport.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          );
         }
-        currentHeightRef.current = window.innerHeight;
+
+        // if (isFocused) {
+        //   if (!resizeInitialShift.current) {
+        //     if (heightDifference > 0) {
+        //       setOffsetY(-heightDifference);
+        //       if (messageContainer) {
+        //         messageContainer.style.transform = `translateY(${-heightDifference}px)`;
+        //       }
+        //       if (chatHeaderContainer) {
+        //         chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
+        //       }
+        //     } else {
+        //       setOffsetY(heightDifference);
+        //       if (messageContainer) {
+        //         messageContainer.style.transform = `translateY(${heightDifference}px)`;
+        //       }
+        //       if (chatHeaderContainer) {
+        //         chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
+        //       }
+        //     }
+        //     if (heightDifference !== 0) {
+        //       resizeInitialShift.current = true;
+        //     }
+        //   } else {
+        //     if (ignoreNextResize.current) {
+        //       if (closeTimer) {
+        //         clearTimeout(closeTimer);
+        //       }
+        //       ignoreNextResize.current = false;
+        //       setOffsetY(0);
+        //       if (messageContainer) {
+        //         messageContainer.style.transform = "";
+        //       }
+        //       if (chatHeaderContainer) {
+        //         chatHeaderContainer.style.transform = "";
+        //       }
+        //       resizeInitialShift.current = false;
+        //     } else {
+        //       ignoreNextResize.current = true;
+        //       closeTimer = setTimeout(() => {
+        //         ignoreNextResize.current = false;
+        //         setOffsetY(0);
+        //         if (messageContainer) {
+        //           messageContainer.style.transform = "";
+        //         }
+        //         if (chatHeaderContainer) {
+        //           chatHeaderContainer.style.transform = "";
+        //         }
+        //         resizeInitialShift.current = false;
+        //       }, 150);
+        //     }
+        //   }
+        // } else {
+        //   setOffsetY(0);
+        //   if (messageContainer) {
+        //     messageContainer.style.transform = "";
+        //   }
+        //   if (chatHeaderContainer) {
+        //     chatHeaderContainer.style.transform = "";
+        //   }
+        // }
+        currentHeightRef.current = currentHeight;
       };
 
-      const preventTouchScroll = (e) => {
-        if (e.target !== textRef.current) {
-          e.preventDefault();
-        }
-      };
+      // const preventTouchScroll = (e) => {
+      //   if (e.target !== textRef.current) {
+      //     e.preventDefault();
+      //   }
+      // };
 
-      const handleFocus = () => {
-        window.addEventListener("touchmove", preventTouchScroll, {
-          passive: false,
-        });
-      };
+      // const handleFocus = () => {
+      //   window.addEventListener("touchmove", preventTouchScroll, {
+      //     passive: false,
+      //   });
+      // };
 
-      const handleBlur = () => {
-        window.removeEventListener("touchmove", preventTouchScroll);
-      };
+      // const handleBlur = () => {
+      //   window.removeEventListener("touchmove", preventTouchScroll);
+      // };
 
-      window.addEventListener("visibilitychange", handleChange);
+      // window.addEventListener("visibilitychange", handleChange);
       window.addEventListener("resize", handleResize);
-      textRef.current?.addEventListener("focus", handleFocus);
-      textRef.current?.addEventListener("blur", handleBlur);
+      // textRef.current?.addEventListener("focus", handleFocus);
+      // textRef.current?.addEventListener("blur", handleBlur);
 
       return () => {
-        textRef.current?.removeEventListener("focus", handleFocus);
-        textRef.current?.removeEventListener("blur", handleBlur);
+        //   textRef.current?.removeEventListener("focus", handleFocus);
+        //   textRef.current?.removeEventListener("blur", handleBlur);
         window.removeEventListener("resize", handleResize);
-        window.removeEventListener("visibilitychange", handleChange);
-        window.removeEventListener("touchmove", preventTouchScroll);
+        //   window.removeEventListener("visibilitychange", handleChange);
+        //   window.removeEventListener("touchmove", preventTouchScroll);
       };
     }
   }, [isMobile]);
