@@ -121,11 +121,26 @@ const ChatInput = (props) => {
           getComputedStyle(document.documentElement).getPropertyValue("--vh"),
           10
         );
-
-        const heightDifference = vh - window.innerHeight;
-        let isFocused = textRef.current === document.activeElement;
+        const currentHeight = window.innerHeight;
+        const heightDifference = vh - currentHeight;
+        const isFocused = textRef.current === document.activeElement;
         const messageContainer = document.getElementById("messageResizer");
         const chatHeaderContainer = document.getElementById("chatHeader");
+        const metaViewport = document.querySelector("meta[name=viewport]");
+
+        if (currentHeight < vh) {
+          document.documentElement.style.setProperty("overflow", "auto");
+          metaViewport.setAttribute(
+            "content",
+            `height=${vh}, width=device-width, initial-scale=1.0`
+          );
+        } else {
+          metaViewport.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          );
+        }
+
         if (isFocused) {
           if (!resizeInitialShift.current) {
             if (heightDifference > 0) {
@@ -186,7 +201,7 @@ const ChatInput = (props) => {
             chatHeaderContainer.style.transform = "";
           }
         }
-        currentHeightRef.current = window.innerHeight;
+        currentHeightRef.current = currentHeight;
       };
 
       const preventTouchScroll = (e) => {
