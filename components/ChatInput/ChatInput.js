@@ -190,20 +190,20 @@ const ChatInput = (props) => {
       };
 
       const preventTouchScroll = (e) => {
-        if (e.target !== textRef.current) {
+        if (e.target === textRef.current) {
+          e.stopPropagation();
+        } else {
           e.preventDefault();
         }
       };
 
       const handleFocus = () => {
-        document.body.classList.add("no-scroll");
         window.addEventListener("touchmove", preventTouchScroll, {
           passive: false,
         });
       };
 
       const handleBlur = () => {
-        document.body.classList.remove("no-scroll");
         window.removeEventListener("touchmove", preventTouchScroll);
       };
 
