@@ -126,7 +126,6 @@ const ChatInput = (props) => {
         let isFocused = textRef.current === document.activeElement;
         const messageContainer = document.getElementById("messageResizer");
         const chatHeaderContainer = document.getElementById("chatHeader");
-        console.log(resizeInitialShift.current, ignoreNextResize.current);
         if (isFocused) {
           if (!resizeInitialShift.current) {
             if (heightDifference > 0) {
@@ -148,6 +147,7 @@ const ChatInput = (props) => {
             }
             if (heightDifference !== 0) {
               resizeInitialShift.current = true;
+              document.body.style.overflow = "hidden";
             }
           } else {
             if (ignoreNextResize.current) {
@@ -186,6 +186,7 @@ const ChatInput = (props) => {
           if (chatHeaderContainer) {
             chatHeaderContainer.style.transform = "";
           }
+          document.body.style.overflow = "";
         }
         currentHeightRef.current = window.innerHeight;
       };
