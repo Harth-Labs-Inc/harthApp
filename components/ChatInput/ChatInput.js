@@ -189,15 +189,15 @@ const ChatInput = (props) => {
         }
         currentHeightRef.current = window.innerHeight;
       };
-      const preventTouchScroll = (e) => {
-        // if (
-        //   textRef.current &&
-        //   textRef.current === document.activeElement &&
-        //   window.innerWidth <= 640
-        // ) {
-        //   e.preventDefault();
-        // }
-      };
+      // const preventTouchScroll = (e) => {
+      //   if (
+      //     textRef.current &&
+      //     textRef.current === document.activeElement &&
+      //     window.innerWidth <= 640
+      //   ) {
+      //     e.preventDefault();
+      //   }
+      // };
 
       window.addEventListener("visibilitychange", handleChange);
       window.addEventListener("resize", handleResize);
