@@ -375,3 +375,12 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
 #ReactSimpleImageViewer {
   z-index: 9999 !important;
 }
+.no-scroll {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  touch-action: none;
+}

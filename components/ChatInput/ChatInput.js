@@ -196,14 +196,14 @@ const ChatInput = (props) => {
       };
 
       const handleFocus = () => {
-        document.body.style.overflow = "hidden";
+        document.body.classList.add("no-scroll");
         window.addEventListener("touchmove", preventTouchScroll, {
           passive: false,
         });
       };
 
       const handleBlur = () => {
-        document.body.style.overflow = "";
+        document.body.classList.remove("no-scroll");
         window.removeEventListener("touchmove", preventTouchScroll);
       };
 
