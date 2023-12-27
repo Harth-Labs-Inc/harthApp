@@ -196,12 +196,14 @@ const ChatInput = (props) => {
       };
 
       const handleFocus = () => {
+        document.body.style.overflow = "hidden";
         window.addEventListener("touchmove", preventTouchScroll, {
           passive: false,
         });
       };
 
       const handleBlur = () => {
+        document.body.style.overflow = "";
         window.removeEventListener("touchmove", preventTouchScroll);
       };
 
@@ -240,7 +242,6 @@ const ChatInput = (props) => {
         inputBoxContainerRef.current &&
         !inputBoxContainerRef.current.contains(event.target)
       ) {
-        console.log("allow blur clicked outside");
         setAllowBlur(true);
       }
     };
