@@ -290,6 +290,7 @@ const ChatInput = (props) => {
       if (
         textarea &&
         textarea === document.activeElement &&
+        touchOriginatedFromTextarea &&
         ((scrollPosition === "top" && deltaY > 0) ||
           (scrollPosition === "bottom" && deltaY < 0))
       ) {
