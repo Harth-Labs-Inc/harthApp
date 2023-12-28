@@ -49,6 +49,8 @@ const ChatInput = (props) => {
   const [altKey, setAltKey] = useState(false);
   const [allowBlur, setAllowBlur] = useState(false);
   const [offsetY, setOffsetY] = useState(0);
+  const [scrollPosition, setScrollPosition] = useState(null);
+  let startY = 0;
 
   const { user } = useAuth();
   const { selectedcomm, selectedTopic, selectedCommRef } = useComms();
@@ -204,36 +206,19 @@ const ChatInput = (props) => {
         currentHeightRef.current = currentHeight;
       };
 
-      const preventTouchScroll = (e) => {
-        if (e.target !== textRef.current) {
-          e.preventDefault();
-        }
-      };
-
-      const handleFocus = () => {
-        window.addEventListener("touchmove", preventTouchScroll, {
-          passive: false,
-        });
-      };
-
-      const handleBlur = () => {
-        window.removeEventListener("touchmove", preventTouchScroll);
-      };
-
+      window.addEventListener("touchmove", preventTouchScroll, {
+        passive: false,
+      });
       window.addEventListener("visibilitychange", handleChange);
       window.addEventListener("resize", handleResize);
-      textRef.current?.addEventListener("focus", handleFocus);
-      textRef.current?.addEventListener("blur", handleBlur);
 
       return () => {
-        textRef.current?.removeEventListener("focus", handleFocus);
-        textRef.current?.removeEventListener("blur", handleBlur);
+        window.removeEventListener("touchmove", preventTouchScroll);
         window.removeEventListener("resize", handleResize);
         window.removeEventListener("visibilitychange", handleChange);
-        window.removeEventListener("touchmove", preventTouchScroll);
       };
     }
-  }, [isMobile]);
+  }, [isMobile, scrollPosition]);
 
   useEffect(() => {
     setTopicInputs({
@@ -266,6 +251,41 @@ const ChatInput = (props) => {
     };
   }, [inputBoxContainerRef]);
 
+  const handleScroll = (e) => {
+    const textarea = e.target;
+
+    if (textarea.scrollTop === 0) {
+      setScrollPosition("top");
+    } else if (
+      textarea.scrollHeight - textarea.scrollTop ===
+      textarea.clientHeight
+    ) {
+      setScrollPosition("bottom");
+    } else {
+      setScrollPosition(null);
+    }
+  };
+  const preventTouchScroll = (e) => {
+    const textarea = textRef.current;
+    const isScrollable = textarea.scrollHeight > textarea.clientHeight;
+
+    if (textarea && textarea === document.activeElement && !isScrollable) {
+      e.preventDefault();
+      return;
+    }
+
+    if (scrollPosition) {
+      const deltaY = e.touches[0].clientY - startY;
+      if (
+        textarea &&
+        textarea === document.activeElement &&
+        ((scrollPosition === "top" && deltaY > 0) ||
+          (scrollPosition === "bottom" && deltaY < 0))
+      ) {
+        e.preventDefault();
+      }
+    }
+  };
   const calcHeight = (reset) => {
     const textarea = textRef.current;
 
@@ -760,6 +780,10 @@ const ChatInput = (props) => {
           onDragLeave={(e) => {
             e.preventDefault();
           }}
+          onTouchStart={(e) => {
+            startY = e.touches[0].clientY;
+          }}
+          onScroll={handleScroll}
         ></textarea>
       </div>
       <div
