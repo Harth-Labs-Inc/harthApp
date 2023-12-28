@@ -270,19 +270,23 @@ const ChatInput = (props) => {
     const isScrollable = textarea.scrollHeight > textarea.clientHeight;
 
     if (textarea && textarea === document.activeElement && !isScrollable) {
+      console.log("is not scrollabe");
+
       e.preventDefault();
       return;
     }
 
-    // const touchOriginatedFromTextarea = e.target === textarea;
-    // if (
-    //   textarea &&
-    //   textarea === document.activeElement &&
-    //   !touchOriginatedFromTextarea
-    // ) {
-    //   e.preventDefault();
-    //   return;
-    // }
+    const touchOriginatedFromTextarea = e.target === textarea;
+    if (
+      textarea &&
+      textarea === document.activeElement &&
+      !touchOriginatedFromTextarea
+    ) {
+      console.log("textarea has focus scrolled from other");
+
+      e.preventDefault();
+      return;
+    }
 
     if (scrollPosition) {
       const deltaY = e.touches[0].clientY - startY;
@@ -290,9 +294,11 @@ const ChatInput = (props) => {
       if (
         textarea &&
         textarea === document.activeElement &&
+        touchOriginatedFromTextarea &&
         ((scrollPosition === "top" && deltaY > 0) ||
           (scrollPosition === "bottom" && deltaY < 0))
       ) {
+        console.log("is at bottom or top disable");
         e.preventDefault();
       }
     }
