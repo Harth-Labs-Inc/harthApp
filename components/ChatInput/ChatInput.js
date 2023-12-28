@@ -274,8 +274,19 @@ const ChatInput = (props) => {
       return;
     }
 
+    const touchOriginatedFromTextarea = e.target === textarea;
+    if (
+      textarea &&
+      textarea === document.activeElement &&
+      !touchOriginatedFromTextarea
+    ) {
+      e.preventDefault();
+      return;
+    }
+
     if (scrollPosition) {
       const deltaY = e.touches[0].clientY - startY;
+
       if (
         textarea &&
         textarea === document.activeElement &&
