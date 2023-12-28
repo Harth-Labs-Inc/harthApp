@@ -274,15 +274,15 @@ const ChatInput = (props) => {
       return;
     }
 
-    const touchOriginatedFromTextarea = e.target === textarea;
-    if (
-      textarea &&
-      textarea === document.activeElement &&
-      !touchOriginatedFromTextarea
-    ) {
-      e.preventDefault();
-      return;
-    }
+    // const touchOriginatedFromTextarea = e.target === textarea;
+    // if (
+    //   textarea &&
+    //   textarea === document.activeElement &&
+    //   !touchOriginatedFromTextarea
+    // ) {
+    //   e.preventDefault();
+    //   return;
+    // }
 
     if (scrollPosition) {
       const deltaY = e.touches[0].clientY - startY;
@@ -290,7 +290,6 @@ const ChatInput = (props) => {
       if (
         textarea &&
         textarea === document.activeElement &&
-        touchOriginatedFromTextarea &&
         ((scrollPosition === "top" && deltaY > 0) ||
           (scrollPosition === "bottom" && deltaY < 0))
       ) {
