@@ -65,7 +65,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                     }
                     
                 </div>
-                <div className={styles.arrow}><IconChevronRight /></div>
+                {/* <div className={styles.arrow}><IconChevronRight /></div> */}
                 <div className={styles.Type}>
                     <GatheringButton
                         type="voice"
@@ -104,7 +104,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                         )}
                     </div>
                 </div>
-                <div className={styles.arrow}><IconChevronRight /></div>
+                {/* <div className={styles.arrow}><IconChevronRight /></div> */}
                 
                 <div className={styles.Launch}>
                     <button

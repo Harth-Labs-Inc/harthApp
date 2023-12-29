@@ -15,7 +15,7 @@
     height: 20px;
     width: 20px;
     border-radius: 9999px;
-    background-color: $hot_pink;
+    background-color: $hot_purple;
     padding: 1px;
 
     path {
@@ -45,13 +45,13 @@
   &.Square {
     height: 80px;
     width: 80px;
-    border-radius: 10px;
+    border-radius: 999px;
     // overflow: hidden;
     .image {
       width: 72px;
       height: 72px;
       object-fit: cover;
-      border-radius: 10px;
+      border-radius: 999px;
       //border: 1px solid $border_light;
     }
 
@@ -62,6 +62,6 @@
   }
 
   &:hover {
-    border-color: $hot_pink;
+    border-color: $hot_purple;
   }
 }

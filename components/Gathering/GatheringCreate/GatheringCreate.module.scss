@@ -22,8 +22,8 @@
   top: 2px;
   left: 50%;
   transform: translateX(-50%);
-  border-bottom-right-radius: 64px;
-  border-bottom-left-radius: 64px;
+  border-bottom-right-radius: 36px;
+  border-bottom-left-radius: 36px;
   overflow: hidden;
   border: 0;
   padding: 0px 36px 24px 36px;
@@ -132,6 +132,7 @@
 
   .Desktop & {
     flex-direction: row;
+    gap: 8px;
   }
 
   .Mobile & {
@@ -313,12 +314,12 @@
     padding: 5px;
 
     &:active {
-      background-color: var(--border-basic);
+      background-color: var(--border-light);
     }
   }
 
   &.Active {
-    background-color: var(--border-basic);
+    //background-color: var(--border-basic);
     // border-color: var(--theme-offset-2);
 
     .iconHolder {
