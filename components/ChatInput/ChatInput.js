@@ -276,7 +276,7 @@ const ChatInput = (props) => {
   const removeLastScrollPosition = () => {
     startY = null;
   };
-  const handleTouchStart = (e) => {
+  const handleTouchStart = () => {
     const textarea = textRef.current;
     if (textarea.scrollTop === 0) {
       scrollPositionRef.current = "top";
@@ -285,7 +285,6 @@ const ChatInput = (props) => {
       textarea.clientHeight
     ) {
       scrollPositionRef.current = "bottom";
-      isScrollDisabled = true;
     } else {
       scrollPositionRef.current = "null";
     }
