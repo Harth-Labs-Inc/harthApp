@@ -2,7 +2,7 @@ import { useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { IconClock } from "resources/icons/IconClock";
 import { IconPlayCircle } from "resources/icons/IconPlayCircle";
-import { IconChevronRight } from "resources/icons/IconChevronRight";
+//import { IconChevronRight } from "resources/icons/IconChevronRight";
 import { GatheringButton } from "./GatheringButton";
 import { MobileContext } from "../../../contexts/mobile";
 import styles from "./GatheringCreate.module.scss";
