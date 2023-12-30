@@ -18,7 +18,7 @@
     height: 48px;
     justify-content: center;
     align-items: center;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.4s ease-in-out;
 
     
     &Button {
@@ -33,7 +33,7 @@
       overflow: hidden;
       cursor: pointer;
       border: 2px solid transparent;
-      transition: all 0.5s ease-in-out;
+      transition: all 0.4s ease-in-out;
 
      // transition: transform 0.5s;
      // transform: scale(1); /* Initial scale */
@@ -84,8 +84,8 @@
         transform: translateY(-50%);
         left: 5px;
         z-index: 1;
-        height: 13px;
-        width: 5px;
+        height: 12px;
+        width: 12px;
         content: "";
         background-color: $background;
         border-radius: 9999px;
@@ -94,10 +94,10 @@
         position: absolute;
         top: 49%;
         transform: translateY(-50%);
-        left: 6px;
+        left: 8px;
         z-index: 2;
-        height: 9px;
-        width: 3px;
+        height: 6px;
+        width: 6px;
         content: "";
         background-color: $hot_purple;
         border-radius: 9999px;
