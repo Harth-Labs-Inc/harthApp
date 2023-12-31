@@ -546,6 +546,7 @@
 
     iframe video {
       height: 100%;
+      max-width: 100%;
     }
 
     .videoFrame {
@@ -553,6 +554,7 @@
       margin: 0;
       height: 100%;
       width: 100%;
+      max-width: 100%;
       background: transparent;
       border: 0;
       border-radius: 8px;
