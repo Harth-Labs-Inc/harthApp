@@ -270,6 +270,7 @@ const dashboard = () => {
 
   const updatePageFromHarthSelect = () => {
     shouldSkipPageAnimation.current = true;
+    localStorage.setItem("selectedPage", "chat");
     setCurrentPage("chat");
     setTimeout(() => {
       shouldSkipPageAnimation.current = false;
