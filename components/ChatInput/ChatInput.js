@@ -315,8 +315,7 @@ const ChatInput = (props) => {
     }
 
     if (position == "bottom") {
-      if (lockedScrollDirection == "up") {
-      } else {
+      if (lockedScrollDirection !== "up") {
         e.preventDefault();
       }
     }
