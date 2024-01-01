@@ -45,6 +45,7 @@ const DashboardLayout = (props) => {
     currentPage,
     setShowCreateHarthNameModal,
     toggleNoHarthDetected,
+    shouldSkipPageAnimation,
   } = props;
 
   const {
@@ -299,7 +300,7 @@ const DashboardLayout = (props) => {
                 <CSSTransition
                   key={currentPage}
                   classNames={direction == "right" ? "slideRight" : "slideLeft"}
-                  timeout={200}
+                  timeout={shouldSkipPageAnimation ? 0 : 200}
                 >
                   <section
                     className={`${styles.DashboardContentWrapper} ${styles.Mobile}`}

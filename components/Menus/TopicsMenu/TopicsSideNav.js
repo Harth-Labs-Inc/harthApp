@@ -118,6 +118,10 @@ const TopicsNav = (props) => {
       setTopicsArr(unhiddenTopics);
       setHiddenTopicsArr(hiddenTopics);
       setIsConvertingTopicsDone(true);
+    } else {
+      setTopicsArr([]);
+      setHiddenTopicsArr([]);
+      setIsConvertingTopicsDone(false);
     }
   }, [topics]);
 

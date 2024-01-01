@@ -21,6 +21,7 @@ export const CommsProvider = ({
   SELECTEDCOMM,
   TOPICS,
   currentPage,
+  setCurrentPage,
   ConversationsArray,
   keepSpinning,
   initialLoadAllGood,
@@ -635,6 +636,17 @@ export const CommsProvider = ({
     setSelectedTopic(null);
     setTopicChange(0);
   };
+  const changeHarthFromClick = async (com, repullMessages) => {
+    resetTopics();
+    resetConversations();
+    setComm(com);
+    if (currentPage !== "chat") {
+      setCurrentPage();
+    }
+    let isInChatOrDM = localStorage.getItem("isInChatOrDM");
+    grabTopics(com._id, isInChatOrDM && repullMessages);
+    grabRooms();
+  };
   const changeSelectedCommFromChild = (com, repullMessages) => {
     let isInChatOrDM = localStorage.getItem("isInChatOrDM");
 
@@ -801,6 +813,7 @@ export const CommsProvider = ({
         updateSelectedConv,
         setSelectedcomm,
         setComms,
+        changeHarthFromClick,
       }}
     >
       {children}

@@ -22,11 +22,11 @@
   top: 2px;
   left: 50%;
   transform: translateX(-50%);
-  border-bottom-right-radius: 64px;
-  border-bottom-left-radius: 64px;
+  border-bottom-right-radius: 36px;
+  border-bottom-left-radius: 36px;
   overflow: hidden;
   border: 0;
-  padding: 0px 36px 24px 36px;
+  padding: 0px 0px 24px 0px;
   width: calc(100% - (2 * $space));
   min-width: fit-content;
   height: fit-content;
@@ -85,7 +85,7 @@
       text-align: center;
       width: 100%;
       @include roomTitle;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 500;
       border-radius: 999px;
       background-color: var(--theme-offset-1);
@@ -132,6 +132,7 @@
 
   .Desktop & {
     flex-direction: row;
+    gap: 8px;
   }
 
   .Mobile & {
@@ -147,7 +148,7 @@
   align-items: center;
   width: fit-content;
   height: 48px;
-  background: var(--theme-offset-1);
+  //background: var(--theme-offset-1);
   padding: 0px 16px;
   border-radius: 999px;
   border: 0;
@@ -165,13 +166,13 @@
 .LabelHolder {
   position: absolute;
   width: fit-content;
-  bottom: -22px;
+  bottom: -12px;
   left: 50%;
   transform: translateX(-50%);
   @include systemFont;
   color: var(--font-muted);
-  font-size: 12px;
-  line-height: 12px;
+  font-size: 10px;
+  line-height: 10px;
   text-align: center;
   user-select: none;
   margin: 0;
@@ -201,7 +202,7 @@
   min-width: 240px;
   border-radius: 999px;
   padding: 8px;
-  background-color: var(--theme-offset-1);
+  //background-color: var(--theme-offset-1);
 
   .Mobile & {
     width: 100%;
@@ -240,7 +241,7 @@
   }
 
   &Schedule {
-    border: 0;
+    //border: 0;
 
     .Mobile & {
       border: 1px solid var(--border-basic);
@@ -313,12 +314,12 @@
     padding: 5px;
 
     &:active {
-      background-color: var(--border-basic);
+      background-color: var(--border-light);
     }
   }
 
   &.Active {
-    background-color: var(--border-basic);
+    //background-color: var(--border-basic);
     // border-color: var(--theme-offset-2);
 
     .iconHolder {
