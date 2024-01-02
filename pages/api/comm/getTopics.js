@@ -55,8 +55,13 @@ export default async (req, res) => {
   };
 
   const client = await getClientWithCheck(clientPromise);
-
   const db = client.db("blarg");
+
+  let authToken = req.headers["x-auth-token"];
+  if (!authToken) {
+    await db.command({ ping: 1 });
+    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
+  }
 
   // authentication ---------------------------------
   const findUser = (db, id) => {
@@ -78,10 +83,7 @@ export default async (req, res) => {
       resolve(jwt.verify(tokn, process.env.SECRET));
     });
   };
-  let authToken = req.headers["x-auth-token"];
-  if (!authToken) {
-    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
-  }
+
   let decodedToken = await decode(authToken);
   if (!decodedToken) {
     return res.json({ msg: "bad token", ok: 0, lockDown: true });
