@@ -10,7 +10,7 @@
   width: 100%;
   background: var(--theme-color);
   //border-radius: $corner_radius;
-  border-bottom-right-radius: 24px;
+  border-bottom-right-radius: 16px;
   //padding-left: 8px;
   margin-top: 0px;
   overflow: hidden;
@@ -149,7 +149,7 @@
     background-color: $black;
     border-bottom-right-radius: 0px;
     margin-top: 2px;
-    color: $border_light;
+    color: $font_muted;
   }
   .TimeStamp {
     display: block;
@@ -170,7 +170,7 @@
     margin-top: -24px;
     margin-right: 12px;
     border-top-left-radius: 0px;
-    color: $border_light;
+    color: $font_light;
   }
   .TimeStamp {
     display: flex;

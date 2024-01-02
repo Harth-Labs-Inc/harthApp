@@ -71,7 +71,7 @@
     @include chatText;
     caret-color: $hot_purple;
     color: var(--font-main);
-    background: var(--theme-offset-1);
+    background: transparent;
     border: 0;
 
     white-space: pre-wrap; /* CSS3 */
@@ -91,6 +91,8 @@
     padding: 0;
     overflow: hidden;
     border-radius: 8px;
+    border: 1px solid var(--theme-offset-1);
+
   }
 
   &Controls {
@@ -263,14 +265,15 @@
     //border-bottom: 1px solid $border_basic;
     padding: 0;
     overflow: hidden;
+    border-top: 1px solid var(--theme-offset-1);
   }
 
   &Controls {
     display: flex;
     justify-content: space-between;
     padding: 6px 4px 14px 4px;
-    background: var(--theme-color);
-    border-top: 0;
+    background: var(--theme-offset-1);
+    border-top: 1px solid var(--theme-color);
 
     &Right,
     &Left {
@@ -387,9 +390,9 @@
   row-gap: 16px;
   justify-content: flex-start;
   width: auto;
-  background-color: var(--theme-offset-1);
+  background-color: var(--theme-color);
   padding: 16px;
-  border-bottom: 1px solid var(--theme-color);
+  border-bottom: 1px solid var(--theme-offset-1);
 
   .imageContainer {
     position: relative;

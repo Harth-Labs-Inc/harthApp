@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { SpinningLoader } from "components/Common/SpinningLoader/SpinningLoader";
@@ -67,6 +67,8 @@ const dashboard = () => {
   } = router;
 
   const [currentPage, setCurrentPage] = useState(null);
+
+  let shouldSkipPageAnimation = useRef(false);
 
   const [allowPastWelcome, setAllowPastWelcome] = useState(false);
 
@@ -266,6 +268,14 @@ const dashboard = () => {
     };
   }, [loading]);
 
+  const updatePageFromHarthSelect = () => {
+    shouldSkipPageAnimation.current = true;
+    localStorage.setItem("selectedPage", "chat");
+    setCurrentPage("chat");
+    setTimeout(() => {
+      shouldSkipPageAnimation.current = false;
+    }, 200);
+  };
   const requestIOSPushPermission = () => {
     if (
       window &&
@@ -276,7 +286,6 @@ const dashboard = () => {
       window.webkit.messageHandlers.pushPermissionRequest.postMessage(null);
     }
   };
-
   const subcribeToPushService = async () => {
     const existingSubscription = await swReg.pushManager.getSubscription();
 
@@ -443,6 +452,7 @@ const dashboard = () => {
             SELECTEDCOMM={SELECTEDCOMM}
             TOPICS={TOPICS}
             currentPage={currentPage}
+            setCurrentPage={updatePageFromHarthSelect}
             ConversationsArray={Conversations}
             initialLoadAllGood={
               firstHarthOrInviteChecksApproved &&
@@ -580,6 +590,7 @@ const dashboard = () => {
                   <DashboardLayout
                     changePage={changePageHandler}
                     currentPage={currentPage}
+                    shouldSkipPageAnimation={shouldSkipPageAnimation.current}
                     setShowCreateHarthNameModal={setShowCreateHarthNameModal}
                     user={user}
                     toggleNoHarthDetected={toggleNoHarthDetected}

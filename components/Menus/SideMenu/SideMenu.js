@@ -45,12 +45,8 @@ const SideNav = (props) => {
 
   const { isMobile } = useContext(MobileContext);
   const { user } = useAuth();
-  const {
-    comms,
-    selectedcomm,
-    updateSelectedHarth,
-    changeSelectedCommFromChild,
-  } = useComms();
+  const { comms, selectedcomm, updateSelectedHarth, changeHarthFromClick } =
+    useComms();
   const { emitUpdate, unreadMessagesRef, unreadConvMessagesRef } = useSocket();
 
   let leftNav = useRef();
@@ -60,7 +56,7 @@ const SideNav = (props) => {
   };
   const changeSelectedCom = (com) => {
     localStorage.setItem("selectedHarthID", com._id);
-    changeSelectedCommFromChild(com);
+    changeHarthFromClick(com);
     onToggleMenu();
   };
   const toggleSettingsNav = (e, setOpenInvites) => {

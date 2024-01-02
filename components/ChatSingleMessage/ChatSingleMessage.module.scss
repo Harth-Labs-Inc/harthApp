@@ -128,6 +128,11 @@
     width: fit-content;
     border-radius: 50%;
     user-select: none;
+    img {
+      height: 30px;
+      width: 30px;
+      margin-top: 2px;
+    }
   }
   .emoji-mart {
     position: absolute;
@@ -206,7 +211,7 @@
       white-space: pre-wrap;
       overflow-wrap: anywhere;
       user-select: text;
-
+      
       &Mobile {
         @include chatTextMobile;
         user-select: none;
@@ -541,6 +546,7 @@
 
     iframe video {
       height: 100%;
+      max-width: 100%;
     }
 
     .videoFrame {
@@ -548,6 +554,7 @@
       margin: 0;
       height: 100%;
       width: 100%;
+      max-width: 100%;
       background: transparent;
       border: 0;
       border-radius: 8px;

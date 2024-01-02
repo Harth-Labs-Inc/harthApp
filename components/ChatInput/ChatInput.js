@@ -291,7 +291,6 @@ const ChatInput = (props) => {
     let position = scrollPositionRef.current;
 
     if (textarea && textarea === document.activeElement && !isScrollable) {
-      console.log("is not scrollable");
       e.preventDefault();
       return;
     }
@@ -302,7 +301,6 @@ const ChatInput = (props) => {
       textarea === document.activeElement &&
       !touchOriginatedFromTextarea
     ) {
-      console.log("textarea has focus disabling outside scroll");
       e.preventDefault();
       return;
     }
@@ -317,10 +315,7 @@ const ChatInput = (props) => {
     }
 
     if (position == "bottom") {
-      if (lockedScrollDirection == "up") {
-        console.log("unlock...");
-      } else {
-        console.log("Lock...");
+      if (lockedScrollDirection !== "up") {
         e.preventDefault();
       }
     }
@@ -329,16 +324,6 @@ const ChatInput = (props) => {
     if (!lockedScrollDirection && scrollDirection) {
       lockedScrollDirection = scrollDirection;
     }
-
-    // if (position === "bottom") {
-    //   console.log(e.touches[0].clientY, startY);
-    //   if (e.touches[0].clientY >= startY) {
-    //     console.log("...Unlock");
-    //   } else {
-    //     console.log("Lock...");
-    //     e.preventDefault();
-    //   }
-    // }
   };
 
   const textAreaTouchStart = () => {

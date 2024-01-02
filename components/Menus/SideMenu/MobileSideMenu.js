@@ -20,12 +20,12 @@ const MobileSideNav = (props) => {
   const [ShowSettingsNav, setShowSettingsNav] = useState(false);
   const [currentTab, setCurrentTab] = useState("");
 
-  const { comms, selectedcomm, changeSelectedCommFromChild } = useComms();
+  const { comms, selectedcomm, changeHarthFromClick } = useComms();
   const { unreadMessagesRef, unreadConvMessagesRef } = useSocket();
 
   const changeSelectedCom = (com) => {
     localStorage.setItem("selectedHarthID", com._id);
-    changeSelectedCommFromChild(com);
+    changeHarthFromClick(com);
     onToggleMenu();
   };
 
