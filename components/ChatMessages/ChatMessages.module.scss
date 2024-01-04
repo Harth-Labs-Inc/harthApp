@@ -6,14 +6,20 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  height: calc(var(--vh) - 82px);
+  height: calc(var(--vh) - 80px - ($space / 2));
   width: 100%;
   background: var(--theme-color);
-  //border-radius: $corner_radius;
+  border-radius: 8px;
   border-bottom-right-radius: 16px;
-  //padding-left: 8px;
   margin-top: 0px;
   overflow: hidden;
+
+  .spacer {
+    height: 24px;
+    width: 100%;
+    background-color: var(--theme-color);
+    //background-color: aqua;
+  }
 
   @media screen and (max-width: 640px) {
     height: var(--vh);
@@ -22,12 +28,11 @@
     padding-top: 28px;
     padding-bottom: 16px;
     background-color: $background;
-  }
 
-  .spacer {
-    height: 24px;
-    width: 100%;
-    background-color: var(--theme-color);
+    .spacer {
+      background-color: var(--theme-mobile-offset);
+
+    }
   }
 }
 
@@ -51,7 +56,7 @@
 
   @media screen and (max-width: 640px) {
     padding-bottom: 124px;
-    background-color: var(--theme-color);
+    background-color: var(--theme-mobile-offset);
     border-radius: 0px;
   }
 }

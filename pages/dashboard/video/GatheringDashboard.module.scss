@@ -16,13 +16,14 @@
   height: 100%;
   width: 100%;
   overflow-y: scroll;
-  padding: calc(100px + $space) $space $space 4px;
+  padding: calc(112px + $space) 0px $space 0px;
   margin-top: 0px;
 
   &Mobile {
     padding: calc(354px + $space_mobile) 0px 136px 0px;
     margin-top: 0px;
-
+    //background: var(--theme-mobile-offset);
+    
     &::after {
       display: none;
     }

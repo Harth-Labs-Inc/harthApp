@@ -5,7 +5,7 @@
   display: flex;
   width: 100%;
   padding: $space;
-  padding-top: 2px;
+  padding-top: calc($space / 2);
 }
 
 .topicHolderMobile {
@@ -52,7 +52,8 @@
   font-weight: 600;
   @include topicTitleActive;
   border-radius: 999px;
-  border: 2px solid $background;
+  border: 3px solid $background;
+  border-top: 0;
 
   .people {
     display: flex;
