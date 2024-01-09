@@ -9,8 +9,9 @@
   height: 100%;
   overflow-y: scroll;
   border: 0;
+  border-radius: 8px;
   border-bottom-left-radius: 16px;
-  margin-right: 2px;
+  margin-right: calc($space / 2);
   background: var(--theme-color);
 
   .notopic {
@@ -29,10 +30,11 @@
     overflow-y: scroll;
     margin: 0;
     margin-top: 40px;
-    padding: 40px 16px 64px 16px;
+    padding: 56px 16px 64px 16px;
     border-radius: 0px;
     margin-left: auto;
     margin-right: auto;
+    background: var(--theme-mobile-offset);
 
     .notopic {
       @include systemFont;

@@ -138,13 +138,6 @@
       }
     }
 
-    &:active {
-      background-color: $border_light;
-      // .label {
-      //     color: $white;
-      // }
-    }
-
     &::after {
       width: 94%;
     }
@@ -156,5 +149,12 @@
       font-weight: 700;
       color: var(--font-main);
     }
+  }
+
+  &:active {
+    background-color: var(--theme-offset-1);
+    // .label {
+    //     color: $white;
+    // }
   }
 }

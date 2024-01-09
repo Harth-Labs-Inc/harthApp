@@ -16,7 +16,8 @@
   max-height: 60px;
   background-color: var(--theme-color);
   border-radius: 999px;
-  border: 2px solid $background;
+  border: 3px solid $background;
+  border-top: 0;
   color: var(--font-main);
   @include topicTitleMobile;
 
