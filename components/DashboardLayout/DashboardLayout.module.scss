@@ -8,6 +8,13 @@
   z-index: 50000;
   width: 284px;
   border-radius: 6px;
+
+  p {
+    @include systemFont;
+    color: $font_light;
+    text-align: center;
+    padding: 8px 16px;
+  }
 }
 
 .buttonwrapper {

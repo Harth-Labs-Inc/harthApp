@@ -249,8 +249,9 @@ const DashboardLayout = (props) => {
             <div className={styles.buttonwrapper}>
               <div className={styles.button}>
                 <p>
-                  Previous admin has left the group. You have been promoted to
-                  the new Admin!
+                  Alert!!<br/><br/>
+
+                The previous Owner has left the group and you have been promoted to the group Owner.
                 </p>
                 <div className={styles.updateContainer}></div>
               </div>
@@ -357,8 +358,9 @@ const DashboardLayout = (props) => {
             <div className={styles.buttonwrapper}>
               <div className={styles.button}>
                 <p>
-                  Previous admin has left the group. You have been promoted to
-                  the new Admin!
+                  Alert!!<br/><br/>
+
+                The previous Owner has left the group and you have been promoted to the group Owner.
                 </p>
                 <div className={styles.updateContainer}></div>
               </div>

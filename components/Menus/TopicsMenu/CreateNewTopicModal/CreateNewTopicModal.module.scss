@@ -36,22 +36,23 @@
       width: 40px;
       height: 40px;
       transform: rotate(90deg);
-      left: 30px;
-      top: -10px;
+      left: 12px;
+      top: -12px;
       path {
         fill: $hot_purple;
       }
     }
 
     .text {
-      margin-left: 60px;
-      background-color: $hot_purple;
-      width: 224px;
+      margin-left: 44px;
+      background-color: transparent;
+      border: 2px solid $hot_purple;
+      width: 220px;
       @include systemFont;
       font-size: 14px;
       color: $font_light;
       border-radius: 12px;
-      padding: 10px;
+      padding: 8px;
       text-align: center;
     }
   }
