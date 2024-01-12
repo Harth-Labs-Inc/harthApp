@@ -5,7 +5,7 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    $border_basic,
+    $background,
     transparent
   );
   backdrop-filter: blur(30px);
@@ -43,8 +43,8 @@
     transform: translate3d(-50%, -50%, 0);
     padding: 0px;
     background-color: $background;
-    border-top: 1px solid $hot_purple;
-    border-bottom: 1px solid $hot_purple;
+    border-top: 1px solid $modal_border;
+    border-bottom: 1px solid $modal_border;
     opacity: 0;
     animation: pop 0.3s ease-out forwards;
 

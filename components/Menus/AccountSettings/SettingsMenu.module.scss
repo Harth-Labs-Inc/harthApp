@@ -201,17 +201,17 @@
     color: $font_light;
     //font-weight: 600;
     justify-content: flex-start;
-    gap: 8px;
-    border: 1px solid $border_basic;
-    width: 92%;
-    height: fit-content;
-    padding: 12px 8px;
+    gap: 6px;
+    //border: 1px solid $border_basic;
+    width: 100%;
+    //height: fit-content;
+    padding: 0px 12px 0px 12px;
     margin-bottom: 8px;
     margin-top: 4px;
 
     .iconInvite {
-      height: 40px;
-      width: 40px;
+      height: 36px;
+      width: 36px;
     }
   }
 }

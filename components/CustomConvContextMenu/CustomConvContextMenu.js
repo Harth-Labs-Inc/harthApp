@@ -35,7 +35,7 @@ export const CustomConvContextMenu = ({ pos, closeModal, onDeleteHandler }) => {
             className={styles.CustomContextMenuButton}
             onClick={onDeleteHandler}
           >
-            <IconDeleteNoFill fill="#fff" />
+            <IconDeleteNoFill />
             Remove
           </button>
         </div>
