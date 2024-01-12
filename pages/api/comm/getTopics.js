@@ -94,13 +94,17 @@ export default async (req, res) => {
   }
   let user = await findUser(db, userId);
   if (!user || !user.token || user == "undefined") {
-    return res.json({ msg: "No User Found", ok: 0, lockDown: true });
+    return res
+      .status(401)
+      .json({ msg: "No User Found", ok: 0, lockDown: true });
   }
   if (user.token != authToken) {
-    return res.json({ msg: "bad token", ok: 0, lockDown: true });
+    return res.status(401).json({ msg: "bad token", ok: 0, lockDown: true });
   }
   if (new Date() > new Date(user.token_expiration)) {
-    return res.json({ msg: "expired token", ok: 0, lockDown: true });
+    return res
+      .status(401)
+      .json({ msg: "expired token", ok: 0, lockDown: true });
   }
   // passed authentication ------------------------------------------
 

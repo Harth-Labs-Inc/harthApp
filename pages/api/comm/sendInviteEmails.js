@@ -5,6 +5,7 @@ import { ObjectId } from "mongodb";
 const nodemailer = require("nodemailer");
 import AWS from "aws-sdk";
 import { envUrls } from "../../../constants/urls";
+const newrelic = require("newrelic");
 
 AWS.config = {
   accessKeyId: "AKIARIGZHATFWEQ2TU4K",
@@ -70,7 +71,7 @@ const saveInvite = (db, data, invites) => {
   });
 };
 
-const sendInvitationEmail = (email, token, name) => {
+const sendInvitationEmail = (email, token, name, harthID) => {
   const baseURL =
     process.env.IS_QA_ENV === "true"
       ? envUrls.qa
@@ -210,10 +211,16 @@ const sendInvitationEmail = (email, token, name) => {
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error("Error sending invitation email:", error);
         reject(error);
       } else {
-        console.log("Invitation email sent:", info.response);
+        if (process.env.NODE_ENV === "production") {
+          const timestamp = new Date();
+          newrelic.recordCustomEvent("InviteSent", {
+            harthID: harthID,
+            createdAt: timestamp.toISOString(),
+            receiverEmail: email,
+          });
+        }
         resolve(info);
       }
     });
@@ -245,7 +252,7 @@ export default async (req, res) => {
     new Date() > new Date(user.token_expiration)
   ) {
     errorMsg = "Invalid Token or No User Found or Expired Token.";
-    return res.json({ msg: errorMsg, ok: 0 });
+    return res.status(401).json({ msg: errorMsg, ok: 0 });
   }
 
   // Authentication end
@@ -271,7 +278,12 @@ export default async (req, res) => {
 
   Promise.all(
     tokens.map(({ invite_tkn, email }) =>
-      sendInvitationEmail(email, invite_tkn, selectedHarth.name)
+      sendInvitationEmail(
+        email,
+        invite_tkn,
+        selectedHarth.name,
+        selectedHarth._id
+      )
     )
   );
 

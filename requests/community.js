@@ -2,6 +2,23 @@ import api from "../services/api";
 
 /* eslint-disable */
 
+export const getUpdatedProfile = async (data) => {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await api.post(`/api/comm/getUpdatedProfile`, data, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
+  }
+};
+
 export const getFullReportAlerts = async (data) => {
   const token = localStorage.getItem("token");
   try {
@@ -12,7 +29,10 @@ export const getFullReportAlerts = async (data) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const checkForAdminReports = async (data) => {
@@ -25,7 +45,10 @@ export const checkForAdminReports = async (data) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -45,7 +68,10 @@ export const sendInviteEmails = async (data) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -65,7 +91,10 @@ export const updateHarthData = async (data) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -76,7 +105,10 @@ export const checkIfInviteTokenIsGood = async (data) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -91,7 +123,10 @@ export const leaveHarthByID = async (data) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -112,7 +147,10 @@ export const deleteHarthByID = async (id) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -134,7 +172,10 @@ export const deleteTopicByID = async (id, harthId) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -155,7 +196,10 @@ export const getHarthByID = async (id) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -176,7 +220,10 @@ export const getTopicByID = async (id) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -197,7 +244,10 @@ export const updatedTopic = async (data) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -218,7 +268,10 @@ export const updateUserInfo = async (data) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -239,7 +292,10 @@ export const checkForExistingComm = async (name) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -260,7 +316,10 @@ export const saveCommunity = async (comm) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -282,7 +341,10 @@ export const addUserToComm = async (id, prof) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -303,7 +365,10 @@ export const getComms = async (user) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -324,7 +389,10 @@ export const getCommFromInvite = async (id) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -346,7 +414,10 @@ export const getTopics = async (commId, UserId) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -367,7 +438,10 @@ export const saveTopics = async (topic) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -382,7 +456,10 @@ export const generateInvite = async (data) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -403,7 +480,10 @@ export const getInviteById = async (id) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -425,7 +505,10 @@ export const getExistingUnreadConvMessages = async (id, topicid) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const getExistingUnreadMessages = async (id, topicid) => {
@@ -446,7 +529,10 @@ export const getExistingUnreadMessages = async (id, topicid) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -467,6 +553,9 @@ export const saveUnsavedMessages = async (msg) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };

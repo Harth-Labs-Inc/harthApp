@@ -10,6 +10,7 @@ import styles from "./GatheringDashboard.module.scss";
 import { generatePushMessage, getBaseUrl } from "services/helper";
 import { sendPushNotification } from "requests/subscriptions";
 import { useTourManager } from "contexts/tour";
+import { saveNewRelicEvent } from "requests/newRelic";
 
 const Video = () => {
   const [socketData, setSocketData] = useState({});
@@ -132,6 +133,19 @@ const Video = () => {
       if (data.setInitalTimer) {
         delete pushData.ignoreSelf;
       }
+
+      const timestamp = new Date();
+      saveNewRelicEvent("HarthActivity", {
+        harthId: selectedcomm._id,
+        activityType: "room",
+        createdAt: timestamp.toISOString(),
+        roomType: data?.newGroupCallRoom?.gatheringType,
+      });
+      saveNewRelicEvent("GatherCreated", {
+        harthId: selectedcomm._id,
+        createdAt: timestamp.toISOString(),
+        roomType: data?.newGroupCallRoom?.gatheringType,
+      });
 
       try {
         let pushmessage = generatePushMessage(pushData);

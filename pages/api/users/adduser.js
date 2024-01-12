@@ -1,6 +1,6 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
-
+const newrelic = require("newrelic");
 import { Validator } from "node-input-validator";
 import { generateOTP } from "../../../services/helper";
 
@@ -16,11 +16,18 @@ export default async (req, res) => {
   const createUser = (db, data) => {
     return new Promise((resolve, reject) => {
       db.collection("users").insertOne(
-        { ...data, comms: [], rooms: [] },
+        { ...data, comms: [], rooms: [], joinedAt: new Date() },
         function (err, userCreated) {
           if (err) {
           }
           if (userCreated && userCreated.insertedId) {
+            if (process.env.NODE_ENV === "production") {
+              const timestamp = new Date();
+              newrelic.recordCustomEvent("UserCreated", {
+                userId: userCreated.insertedId,
+                createdAt: timestamp.toISOString(),
+              });
+            }
             resolve(userCreated.insertedId.toString());
           }
           resolve("");

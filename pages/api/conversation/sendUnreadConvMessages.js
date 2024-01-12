@@ -49,7 +49,7 @@ export default async (req, res) => {
     user.token !== authToken ||
     new Date() > new Date(user.token_expiration)
   ) {
-    return res.json({
+    return res.status(401).json({
       msg: "Invalid Token or No User Found or Expired Token",
       ok: 0,
       lockDown: true,

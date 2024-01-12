@@ -88,12 +88,16 @@ const ChatInput = (props) => {
   useEffect(() => {
     if (attachments.length > 0) {
       attachments.forEach((file, idx) => {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          const { result } = e.target;
-          attRefs.current[idx].src = result;
-        };
-        reader.readAsDataURL(file);
+        if (file && file instanceof Blob) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            const { result } = e.target;
+            attRefs.current[idx].src = result;
+          };
+          reader.readAsDataURL(file);
+        } else {
+          attRefs.current[idx].src = "";
+        }
       });
     }
   }, [attachments]);

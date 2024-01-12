@@ -64,6 +64,7 @@ const DashboardLayout = (props) => {
     hasFinishedFirstUseTour,
     hasApprovedTos,
     initialLoadAllGood,
+    showAdminPromotionModal,
   } = useComms();
   const { getInitialCallRooms, socketID, callRooms } = useVideo();
   const { user } = useAuth();
@@ -242,6 +243,21 @@ const DashboardLayout = (props) => {
             />
           </Modal>
         ) : null}
+
+        {showAdminPromotionModal ? (
+          <div className={styles.updateMain}>
+            <div className={styles.buttonwrapper}>
+              <div className={styles.button}>
+                <p>
+                  Previous admin has left the group. You have been promoted to
+                  the new Admin!
+                </p>
+                <div className={styles.updateContainer}></div>
+              </div>
+              <div className={styles.buttonbg}></div>
+            </div>
+          </div>
+        ) : null}
         {showHasUpdateButton ? (
           <div className={styles.updateMain}>
             <div className={styles.buttonwrapper}>
@@ -336,6 +352,20 @@ const DashboardLayout = (props) => {
         </Modal>
       ) : null}
       <main className={styles.Dashboard}>
+        {showAdminPromotionModal ? (
+          <div className={styles.updateMain}>
+            <div className={styles.buttonwrapper}>
+              <div className={styles.button}>
+                <p>
+                  Previous admin has left the group. You have been promoted to
+                  the new Admin!
+                </p>
+                <div className={styles.updateContainer}></div>
+              </div>
+              <div className={styles.buttonbg}></div>
+            </div>
+          </div>
+        ) : null}
         {showHasUpdateButton ? (
           <div className={styles.updateMain}>
             <div className={styles.buttonwrapper}>

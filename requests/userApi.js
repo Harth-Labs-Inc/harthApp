@@ -12,7 +12,10 @@ export const updateUser = async (data) => {
     });
     return res;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -21,7 +24,10 @@ export const checkForMatchingEmail = async (formData) => {
     const res = await api.post("/api/users/checkForMatchingEmail", formData);
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -35,7 +41,10 @@ export const UnblockUser = async (data) => {
     });
     return res;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -49,7 +58,10 @@ export const blockUser = async (data) => {
     });
     return res;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const sendFeedbackEmail = async (
@@ -69,7 +81,10 @@ export const sendFeedbackEmail = async (
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -78,7 +93,10 @@ export const loginAttempt = async (data) => {
     const res = await api.post(`/api/users/loginAttempt`, data);
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -87,7 +105,10 @@ export const verifyOtp = async (data) => {
     const res = await api.post(`/api/users/verifyOtp`, data);
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -96,7 +117,10 @@ export const sendOtpEmailToUser = async (data) => {
     const res = await api.post(`/api/users/sendOtpEmailToUser`, data);
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const sendWelcomeEmailToUser = async (data) => {
@@ -104,7 +128,10 @@ export const sendWelcomeEmailToUser = async (data) => {
     const res = await api.post(`/api/users/sendWelcomeEmailToUser`, data);
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -116,7 +143,10 @@ export const login = async ({ email, password }) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -125,7 +155,10 @@ export const addUser = async (formData) => {
     const res = await api.post("/api/users/adduser", formData);
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -146,8 +179,10 @@ export const getUserDataFromToken = async (
     });
     return res.data;
   } catch (error) {
-    console.error(error);
-    throw error;
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const getUserFromToken = async (token) => {
@@ -155,8 +190,10 @@ export const getUserFromToken = async (token) => {
     const res = await api.post("/api/users/getUserFromToken", { token });
     return res.data;
   } catch (error) {
-    console.error(error);
-    throw error;
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -164,7 +201,10 @@ export const logout = async () => {
   try {
     await api.get(`/api/users/logout`);
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -175,7 +215,10 @@ export const reset = async (email) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -187,7 +230,10 @@ export const updatePassword = async (password, tkn) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -198,7 +244,10 @@ export const verifyResetTkn = async (tkn) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -211,7 +260,10 @@ export const saveAcountSettingsUpdates = async (id, field, value) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -223,6 +275,9 @@ export const sendFullRefreshOTPEmail = async (token, email) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };

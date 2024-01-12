@@ -25,7 +25,11 @@ export default function HarthInviteAcceptModal({
   const invitationAcceptHandler = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    let results = await checkIfInviteTokenIsGood({ token: tkn, user });
+    let results = await checkIfInviteTokenIsGood({
+      token: tkn,
+      user,
+      isAccepting: true,
+    });
     let { ok, harth } = results;
 
     if (ok) {

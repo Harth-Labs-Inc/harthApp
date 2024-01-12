@@ -13,7 +13,10 @@ export const updateFlaggedPost = async (data) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const unflagPost = async (data) => {
@@ -27,7 +30,10 @@ export const unflagPost = async (data) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const flagPost = async (data) => {
@@ -41,7 +47,10 @@ export const flagPost = async (data) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const getTopicsRecieverIds = async (message) => {
@@ -61,7 +70,10 @@ export const getTopicsRecieverIds = async (message) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -83,7 +95,10 @@ export const removeUnsavedMessages = async (topicid, userid) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -104,7 +119,10 @@ export const sendUnreadMessages = async (msg) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const saveMessage = async (msg) => {
@@ -124,7 +142,10 @@ export const saveMessage = async (msg) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -145,7 +166,10 @@ export const saveMessageReply = async (msg) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -167,6 +191,9 @@ export const deleteMessage = async (id, harthID) => {
     );
     return res.data;
   } catch (error) {
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
     return { ok: 0 };
   }
 };
@@ -188,6 +215,9 @@ export const updateMessage = async (msg) => {
     );
     return res.data;
   } catch (error) {
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
     return { ok: 0 };
   }
 };
@@ -209,6 +239,9 @@ export const updateReply = async (msg) => {
     );
     return res.data;
   } catch (error) {
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
     return { ok: 0 };
   }
 };
@@ -230,7 +263,10 @@ export const getRepliesByOwner = async (id) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -253,6 +289,9 @@ export const addReplyID = async (replyId, ownerId, isReply) => {
     );
     return res.data;
   } catch (error) {
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
     return { ok: 0 };
   }
 };
@@ -276,7 +315,10 @@ export const getMessagesByTopic = async (id, page, limit) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -307,7 +349,10 @@ export const addKeyToDB = async (
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -330,7 +375,10 @@ export const replaceHarthChatProfileIcons = async (id, newImg, userID) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -353,6 +401,9 @@ export const replaceHarthChatProfileNames = async (id, newName, userID) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };

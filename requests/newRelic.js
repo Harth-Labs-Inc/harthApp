@@ -2,13 +2,15 @@ import api from "../services/api";
 
 /* eslint-disable */
 
-export const getURLMetaData = async (url) => {
-  const token = localStorage.getItem("token");
+export const saveNewRelicEvent = async (title, data) => {
   try {
+    const token = localStorage.getItem("token");
+
     const res = await api.post(
-      `/api/url/getMetaData`,
+      `/api/newRelic/saveNewRelicEvent`,
       {
-        url,
+        title,
+        data,
       },
       {
         headers: {
@@ -16,7 +18,7 @@ export const getURLMetaData = async (url) => {
         },
       }
     );
-    return res;
+    return res.data;
   } catch (error) {
     if (error?.response?.status === 401) {
       window.location.reload();

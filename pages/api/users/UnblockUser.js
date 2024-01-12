@@ -58,7 +58,7 @@ export default async (req, res) => {
     new Date() > new Date(user.token_expiration)
   ) {
     errorMsg = "Invalid Token or No User Found or Expired Token.";
-    return res.json({ msg: errorMsg, ok: 0 });
+    return res.status(401).json({ msg: errorMsg, ok: 0 });
   }
 
   // Authentication end
