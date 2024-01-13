@@ -41,10 +41,10 @@
     align-items: center;
     justify-content: space-between;
     border-radius: 0;
-    border-top-right-radius: 16px;
-    border-top-left-radius: 16px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    border-top-right-radius: $outside_radius;
+    border-top-left-radius: $outside_radius;
+    border-bottom-left-radius: $box_radius;
+    border-bottom-right-radius: $box_radius;
     padding-right: 10px;
 
     &Mobile {

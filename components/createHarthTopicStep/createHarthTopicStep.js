@@ -117,7 +117,7 @@ export default function CreateHarthTopicStep({ closeHandler, ignoreFadeIn }) {
       <Modal onToggleModal={togglemodal} ignoreFadeIn={ignoreFadeIn}>
         <div className={styles.mainContainer}>
           <div className={styles.title}>
-            Create <br />a topic
+            Create a topic
           </div>
           <div className={styles.lineParent}>
             <div className={`${styles.line} ${styles.lineActive}`}></div>

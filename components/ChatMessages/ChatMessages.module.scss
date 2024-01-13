@@ -9,8 +9,8 @@
   height: calc(var(--vh) - 80px - ($space / 2));
   width: 100%;
   background: var(--theme-color);
-  border-radius: 8px;
-  border-bottom-right-radius: 16px;
+  border-radius: $box_radius;
+  border-bottom-right-radius: $outside_radius;
   margin-top: 0px;
   overflow: hidden;
 

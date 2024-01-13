@@ -14,7 +14,9 @@
     margin-bottom: 12px;
 
     &TextBubble {
+      display: flex;
       width: 100%;
+      min-width: 200px;
       padding: 12px;
       margin-bottom: 60px;
       text-align: center;
@@ -23,8 +25,11 @@
       border-radius: 24px;
       border-bottom-right-radius: 0;
       overflow-wrap: anywhere;
+      //min-height: 80px;
     }
     &Text {
+      margin-top: auto;
+      margin-bottom: auto;
       @include talkingHead;
     }
     .WizardBackground {

@@ -9,8 +9,8 @@
   height: 100%;
   overflow-y: scroll;
   border: 0;
-  border-radius: 8px;
-  border-bottom-left-radius: 16px;
+  border-radius: $box_radius;
+  border-bottom-left-radius: $outside_radius;
   margin-right: calc($space / 2);
   background: var(--theme-color);
 

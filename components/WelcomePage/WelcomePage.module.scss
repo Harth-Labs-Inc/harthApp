@@ -13,13 +13,14 @@
   overflow: hidden;
   overflow-y: auto;
   background-color: $background;
-  color: $font_light;
+  //color: $font_light;
   h4 {
     margin: 0;
     margin-top: -12px;
-    font-size: 20px !important;
+    font-size: 24px !important;
     @include systemFont;
     font-weight: 500;
+    color: $font_light;
   }
   a {
     color: inherit;
@@ -28,21 +29,15 @@
     text-align: center !important;
     margin: 30px 0px;
     @include systemFont;
-    font-weight: 400;
+    color: $font_muted;
   }
 
-  h2 {
-    margin-bottom: 3px;
-  }
+
   .largerFont {
     font-size: 16px !important;
     margin-top: 15px !important;
   }
-  p {
-    text-align: center;
-    margin-bottom: 20px;
-    margin-top: 0;
-  }
+
   label {
     display: flex;
     justify-content: space-between;

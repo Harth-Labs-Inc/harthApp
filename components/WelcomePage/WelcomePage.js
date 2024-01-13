@@ -3,16 +3,16 @@ import TalkingHead from "../TalkingHead/TalkingHead";
 import styles from "./WelcomePage.module.scss";
 /* eslint-disable */
 const WelcomePage = ({ submitHandler, isSubmitting, signOutHandler }) => {
-  const bubbleText = "Welcome to Härth! Let me help you get something setup";
+  const bubbleText = "Welcome to Härth!";
 
   return (
     <div className={`${styles.CreateModule} ${styles.fadeIn}`}>
       <div className={styles.CreateModuleContent}>
         <div className={styles.CreateModuleLogo}></div>
         <TalkingHead text={bubbleText} />
-        <h4>You're in!</h4>
+        <h4>Success!</h4>
         <p className={`${styles.label} ${styles.largerFont}`}>
-          You have created your Härth account. Now it's time for you to join
+          You have created a Härth account. <br />Now it's time to join
           your friends.
         </p>
 
