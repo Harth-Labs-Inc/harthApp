@@ -61,8 +61,6 @@ export default function CreateHarthName({
     setNewFile(file);
   };
 
-  talkingHeadMsg = "Give your group a name and an image";
-
   return (
     <Modal onToggleModal={closeHandler} ignoreFadeIn={ignoreFadeIn}>
       <div className={styles.mainContainer}>

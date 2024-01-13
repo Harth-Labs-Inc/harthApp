@@ -10,8 +10,8 @@
   width: 100%;
   background: var(--theme-color);
   //border-radius: $corner_radius;
-  border-radius: 8px;
-  border-bottom-right-radius: 16px;
+  border-radius: $box_radius;
+  border-bottom-right-radius: $outside_radius;
   //padding-left: 8px;
   margin-top: 0px;
   overflow: hidden;

@@ -471,7 +471,7 @@ const dashboard = () => {
               <VideoProvider>
                 {showCreateHarthNameModal ? (
                   <CreateHarthName
-                    talkingHeadMsg="give your group a name and upload an image that represents it"
+                    talkingHeadMsg="give your new group a name and an image"
                     footer="Don't stress. You can change your group name and image at any time."
                     placeholder="greedy gamers, spellslingers, etc..."
                     submitText="Next"
@@ -500,7 +500,7 @@ const dashboard = () => {
                 ) : null}
                 {showCreateHarthProfileModal ? (
                   <CreateHarthProfile
-                    talkingHeadMsg={`Tell me what you want to be called in this group`}
+                    talkingHeadMsg={`Tell me the name you want to be called in this group`}
                     footer="You have a different name and profile image for every group you join"
                     placeholder="your name"
                     submitText="Create"
@@ -557,7 +557,7 @@ const dashboard = () => {
                 {showInviteProfileModal ? (
                   <CreateHarthProfile
                     header="harth"
-                    talkingHeadMsg={`Tell me what you want to be called in this group`}
+                    talkingHeadMsg={`Tell me your name for this group`}
                     footer="You have a different name and profile image for every group you join"
                     placeholder="your name"
                     submitText="Join"
