@@ -62,49 +62,29 @@ const EditBar = ({
         </button>
       ) : null;
 
-    if (creator_id === user_id || isSuperAdmin) {
-      const deleteButton = (
-        <button value="delete" onClick={deleteMsg} title="delete">
-          <IconDeleteNoFill />
-        </button>
-      );
-
-      const editButton = (
-        <button value="edit" onClick={editBarSelection} title="edit">
-          <IconEditNoFill />
-        </button>
-      );
-
-      return (
-        <div className={styles.Controls}>
-          {reactionButton}
-          {showMoreButtons ? (
-            <>
-              {deleteButton}
-              {editButton}
-              {flagButton}
-              {blockButton}
-            </>
-          ) : (
-            moreButton
-          )}
-        </div>
-      );
-    } else {
-      return (
-        <div className={styles.Controls}>
-          {reactionButton}
-          {showMoreButtons ? (
-            <>
-              {flagButton}
-              {blockButton}
-            </>
-          ) : (
-            moreButton
-          )}
-        </div>
-      );
-    }
+    return (
+      <div className={styles.Controls}>
+        {reactionButton}
+        {showMoreButtons ? (
+          <>
+            {(creator_id === user_id || isSuperAdmin) && (
+              <button value="delete" onClick={deleteMsg} title="delete">
+                <IconDeleteNoFill />
+              </button>
+            )}
+            {creator_id === user_id && (
+              <button value="edit" onClick={editBarSelection} title="edit">
+                <IconEditNoFill />
+              </button>
+            )}
+            {flagButton}
+            {blockButton}
+          </>
+        ) : (
+          moreButton
+        )}
+      </div>
+    );
   }
 
   return null;

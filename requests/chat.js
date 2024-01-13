@@ -2,6 +2,24 @@ import api from "../services/api";
 
 /* eslint-disable */
 
+export const getCustomEmojis = async (data) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.post(`/api/chat/getCustomEmojis`, data, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
+  }
+};
+
 export const updateFlaggedPost = async (data) => {
   try {
     const token = localStorage.getItem("token");
