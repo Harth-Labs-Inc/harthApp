@@ -71,15 +71,15 @@
     padding-top: 30px;
     border-radius: 12px;
     width: 100%;
-    margin: 0;
+    margin: 0; 
     background: $background;
-    border-top: 1px solid $hot_purple;
-    border-bottom: 1px solid $hot_purple;
+    border-top: 1px solid $modal_border;
+    border-bottom: 1px solid $modal_border;
     border-radius: 0;
     transition: max-height 0.5s linear;
     overflow: hidden;
     max-height: 180px; /* Start with a height of 0 */
-
+    margin-top: -36px;    
     button {
       height: 52px;
       width: 240px;

@@ -44,12 +44,17 @@ export const generatePushMessage = (newMessage) => {
 };
 
 export const fetchImage = async (url) => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      return new Blob();
+    }
+    const blob = await response.blob();
+    return blob;
+  } catch (error) {
+    console.error(error);
+    return new Blob();
   }
-  const blob = await response.blob();
-  return blob;
 };
 
 export const cleanupDB = async (db, storeName) => {

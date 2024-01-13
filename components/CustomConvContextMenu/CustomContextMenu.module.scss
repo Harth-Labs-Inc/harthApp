@@ -62,9 +62,9 @@
     border: 0;
     border-radius: 0;
     background-color: $background;
-    border-top: 1px solid $hot_purple;
-    border-bottom: 1px solid $hot_purple;
-    margin-top: -32px;
+    border-top: 1px solid $modal_border;
+    border-bottom: 1px solid $modal_border;
+    margin-top: -36px;
 
     button {
       height: 48px;
@@ -76,6 +76,9 @@
       svg {
         width: 24px;
         margin-right: 12px;
+        path {
+          fill: $font_light;
+        }
       }
 
       &:active {

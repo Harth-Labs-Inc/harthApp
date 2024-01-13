@@ -493,7 +493,8 @@ const ChatSingleMessage = (props) => {
     }
     props.msg.reactionsData.push({
       id: generateID(),
-      reaction: e.native,
+      reaction: e.native || e.src,
+      isCustom: !e.native,
       name: profile?.name,
       iconKey: profile?.iconKey,
       userId: profile.userId,
@@ -789,7 +790,7 @@ const ChatSingleMessage = (props) => {
                       onTouchEnd={(event) => event.stopPropagation()}
                     >
                       {[...(reactionsData || [])].map((data, index) => {
-                        const { reaction, userId, name } = data;
+                        const { reaction, userId, name, isCustom } = data;
                         let isReactionOwner = false;
                         if (userId == user._id) {
                           isReactionOwner = true;
@@ -817,7 +818,11 @@ const ChatSingleMessage = (props) => {
                                             `}
                             key={index}
                           >
-                            {reaction}
+                            {isCustom ? (
+                              <img src={reaction} style={{ height: "100%" }} />
+                            ) : (
+                              reaction
+                            )}
                             <span className={styles.label}>{name}</span>
                           </button>
                         );
@@ -1025,7 +1030,7 @@ const ChatSingleMessage = (props) => {
                 {reactionsData && reactionsData.length > 0 ? (
                   <div className={styles.BodyReactions}>
                     {[...(reactionsData || [])].map((data, index) => {
-                      const { reaction, userId, id, name } = data;
+                      const { reaction, userId, id, name, isCustom } = data;
                       let isReactionOwner = false;
                       if (userId == user._id) {
                         isReactionOwner = true;
@@ -1051,7 +1056,11 @@ const ChatSingleMessage = (props) => {
                                       `}
                           key={id}
                         >
-                          {reaction}
+                          {isCustom ? (
+                            <img src={reaction} style={{ height: "100%" }} />
+                          ) : (
+                            reaction
+                          )}
                           <span className={styles.label}>{name}</span>
                         </button>
                       );

@@ -20,7 +20,10 @@ export const deleteWithPrefix = async (prefix, bucket) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -43,7 +46,10 @@ export const getUploadURL = async (name, fileType, bucket) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -58,8 +64,10 @@ export const putVideoInBucket = async (url, file) => {
     const response = await api.put(url, file, config);
     return response;
   } catch (error) {
-    console.error(error);
-    throw error;
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const putImageInBucket = async (url, reader, fileType) => {
@@ -77,7 +85,10 @@ export const putImageInBucket = async (url, reader, fileType) => {
     );
     return res;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -101,7 +112,10 @@ export const getDownloadURL = async (name, fileType, bucket, isAttachment) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const checkForFileWithPrefix = async (prefix, bucket) => {
@@ -122,7 +136,10 @@ export const checkForFileWithPrefix = async (prefix, bucket) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -144,7 +161,10 @@ export const deleteS3File = async (name, bucket) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -177,6 +197,9 @@ export const compressImage = async (
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };

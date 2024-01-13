@@ -19,7 +19,10 @@ export const getConvoRecieverIds = async (message) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -41,7 +44,10 @@ export const removeUnsavedConvMessages = async (convId, userid) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const sendUnreadConvMessages = async (msg) => {
@@ -61,7 +67,10 @@ export const sendUnreadConvMessages = async (msg) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -84,7 +93,10 @@ export const getconversationMessagesByID = async (id, page, limit) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -103,7 +115,10 @@ export const deleteConversationFinal = async (data) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -118,7 +133,10 @@ export const deleteConversation = async (data) => {
     });
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -139,7 +157,10 @@ export const saveConversation = async (conversation) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const updatedConv = async (data) => {
@@ -159,7 +180,10 @@ export const updatedConv = async (data) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 export const getConversations = async (commId, UserId) => {
@@ -180,7 +204,10 @@ export const getConversations = async (commId, UserId) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -201,7 +228,10 @@ export const saveConversationMessage = async (msg) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -232,7 +262,10 @@ export const addKeyToConversationDB = async (
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -253,6 +286,9 @@ export const updateConversationMessage = async (msg) => {
     );
     return res.data;
   } catch (error) {
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
     return { ok: 0 };
   }
 };
@@ -275,6 +311,9 @@ export const deleteConversationMessage = async (id, prefix) => {
     );
     return res.data;
   } catch (error) {
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
     return { ok: 0 };
   }
 };

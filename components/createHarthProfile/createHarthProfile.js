@@ -127,8 +127,7 @@ export default function CreateHarthProfile({
     <Modal onToggleModal={togglemodal} ignoreFadeIn={ignoreFadeIn}>
       <div className={styles.mainContainer}>
         <div className={styles.title}>
-          Give yourself
-          <br />a name
+          Create your profile
         </div>
         <div className={styles.lineParent}>
           <div className={`${styles.line} ${styles.lineActive}`}></div>

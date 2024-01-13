@@ -6,6 +6,8 @@ import {
   updateHarthData,
 } from "../requests/community";
 import { getConversations, updatedConv } from "../requests/conversations";
+import { getUpdatedProfile } from "../requests/community";
+
 import { getRooms } from "../requests/rooms";
 import { useAuth } from "./auth";
 import { useRouter } from "next/router";
@@ -49,7 +51,11 @@ export const CommsProvider = ({
   const [indexAvatarController, setIndexAvatarController] = useState(null);
   const [linkController, setLinkController] = useState(null);
   const [chatMessagesController, setChatMessagesController] = useState(null);
+
+  const [showAdminPromotionModal, setShowAdminPromotionModal] = useState(false);
+
   const imageCacheRef = useRef({});
+  const stopPollingRef = useRef();
 
   function clearCacheForId(cache, id) {
     Object.keys(cache).forEach((key) => {
@@ -150,8 +156,18 @@ export const CommsProvider = ({
           );
           if (creator) setProfile(creator);
         }
+
+        if (stopPollingRef.current) {
+          stopPollingRef.current();
+        }
+        stopPollingRef.current = startPromotionPoll();
       }
     }
+    return () => {
+      if (stopPollingRef.current) {
+        stopPollingRef.current();
+      }
+    };
   }, [selectedcomm, user]);
 
   useEffect(() => {
@@ -223,6 +239,48 @@ export const CommsProvider = ({
       }
     }
   }, [comms]);
+
+  const startPromotionPoll = () => {
+    const pollInterval = 6000;
+
+    const checkForDifferences = (current, fetched) => {
+      const fieldsToCheck = ["admin", "owner"];
+
+      return fieldsToCheck.some((field) => {
+        return current[field] === false && fetched[field] === true;
+      });
+    };
+
+    const pollFunction = () => {
+      getUpdatedProfile({
+        harthId: selectedCommRef.current?._id,
+        userId: user._id,
+      })
+        .then((result) => {
+          if (result.harthId === selectedCommRef.current?._id) {
+            const hasDifference = checkForDifferences(
+              profileRef.current,
+              result.user
+            );
+            if (hasDifference && !document.hidden) {
+              profileRef.current = result.user;
+              setProfile(result.user);
+              setShowAdminPromotionModal(true);
+              setTimeout(() => {
+                setShowAdminPromotionModal(false);
+              }, 6000);
+            }
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching updated profile:", error);
+        });
+    };
+
+    const intervalId = setInterval(pollFunction, pollInterval);
+
+    return () => clearInterval(intervalId);
+  };
 
   const setStartingTopic = (tpcs) => {
     let startingTopic;
@@ -649,16 +707,20 @@ export const CommsProvider = ({
   };
   const changeSelectedCommFromChild = (com, repullMessages) => {
     let isInChatOrDM = localStorage.getItem("isInChatOrDM");
+    let selectedPage = localStorage.getItem("selectedPage");
 
-    if (currentPage === "message" && com?._id) {
+    if (!selectedPage) {
+      selectedPage = currentPage;
+    }
+    if (selectedPage === "message" && com?._id) {
       fetchConversations(com._id, isInChatOrDM && repullMessages);
       resetTopics();
     }
-    if (currentPage === "chat" && com?._id) {
+    if (selectedPage === "chat" && com?._id) {
       grabTopics(com._id, isInChatOrDM && repullMessages);
       resetConversations();
     }
-    if (currentPage === "gather") {
+    if (selectedPage === "gather") {
       resetTopics();
       resetConversations();
     }
@@ -814,6 +876,7 @@ export const CommsProvider = ({
         setSelectedcomm,
         setComms,
         changeHarthFromClick,
+        showAdminPromotionModal,
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
-
+const newrelic = require("newrelic");
 import jwt from "jsonwebtoken";
 
 /* eslint-disable */
@@ -12,7 +12,7 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  let { token, user } = obj.data;
+  let { token, user, isAccepting } = obj.data;
 
   const findHarth = (db, id) => {
     return new Promise((resolve, reject) => {
@@ -65,6 +65,15 @@ export default async (req, res) => {
   let userAlreadyInHarth = harth.users.find((usr) => usr.userId == user._id);
   if (userAlreadyInHarth) {
     return res.json({ msg: "already in harth", ok: 0 });
+  }
+
+  if (isAccepting && process.env.NODE_ENV === "production") {
+    const timestamp = new Date();
+    newrelic.recordCustomEvent("InviteAccepted", {
+      recieverId: user._id,
+      createdAt: timestamp.toISOString(),
+      senderId: senderID,
+    });
   }
 
   return res.json({

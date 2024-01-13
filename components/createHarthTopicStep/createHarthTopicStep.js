@@ -12,10 +12,7 @@ import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 import { saveTopics } from "../../requests/community";
 import { addRoomToUsers } from "../../requests/rooms";
 
-export default function CreateHarthTopicStep({
-  closeHandler,
-  ignoreFadeIn,
-}) {
+export default function CreateHarthTopicStep({ closeHandler, ignoreFadeIn }) {
   const [emojiPickerState, setEmojiPicker] = useState(false);
   const [Emoji, setEmoji] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +23,7 @@ export default function CreateHarthTopicStep({
   } = useForm();
 
   const { user } = useAuth();
-  const { selectedcomm } = useComms();
+  const { selectedcomm, setSelectedTopic } = useComms();
   const { emitUpdate } = useSocket();
 
   const createNewTopic = async (data) => {
@@ -72,6 +69,7 @@ export default function CreateHarthTopicStep({
 
       if (id) {
         await addRoomToUsers(userIds, id);
+        setSelectedTopic(topic);
         topic.updateType = "new topic";
         emitUpdate(selectedcomm._id, topic, async (err) => {
           if (err) {
@@ -118,7 +116,9 @@ export default function CreateHarthTopicStep({
     <>
       <Modal onToggleModal={togglemodal} ignoreFadeIn={ignoreFadeIn}>
         <div className={styles.mainContainer}>
-          <div className={styles.title}>Create <br />a topic</div>
+          <div className={styles.title}>
+            Create a topic
+          </div>
           <div className={styles.lineParent}>
             <div className={`${styles.line} ${styles.lineActive}`}></div>
             <div className={`${styles.line} ${styles.lineActive}`}></div>

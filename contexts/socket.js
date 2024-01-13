@@ -16,6 +16,7 @@ import {
   getHarthByID,
   checkForAdminReports,
 } from "../requests/community";
+import { saveNewRelicEvent } from "../requests/newRelic";
 import { getConversations } from "../requests/conversations";
 
 import { socketUrls } from "../constants/urls";
@@ -27,7 +28,7 @@ import {
 const SocketContext = createContext({});
 
 // -------------------- update version here ------------------------------------------------------------------------------
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.1.2";
 // -----------------------------------------------------------------------------------------------------------------------
 
 /* eslint-disable */
@@ -113,10 +114,16 @@ export const SocketProvider = ({ children }) => {
         pullForIcon();
         isReconnecting = false;
         currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
+        if (user) {
+          const timestamp = new Date();
+          saveNewRelicEvent("activeUserConnect", {
+            userId: user._id,
+            createdAt: timestamp.toISOString(),
+          });
+        }
       });
 
       const handleErrorOrDisconnect = (message) => {
-        console.log(message);
         isReconnecting = false;
         disconnectSocket();
         setTimeout(() => {

@@ -7,7 +7,7 @@
   // border-bottom-right-radius: 0;
   width: 320px;
   height: fit-content;
-  background-color: var(--theme-offset-2);
+  background-color: var(--theme-mobile-offset);
   border: 0;
   overflow: hidden;
   padding: 0px;
@@ -18,7 +18,7 @@
   // border-bottom-left-radius: 0;
   // border-bottom-right-radius: 0;
   width: 100%;
-  background-color: var(--theme-offset-2);
+  background-color: var(--theme-mobile-offset);
   border: 0;
   overflow: hidden;
   padding: 0px;
@@ -58,7 +58,7 @@
     border: 0;
     border-radius: 0px;
     overflow: hidden;
-    background-color: var(--theme-offset-1);
+    background-color: var(--theme-color);
 
     .time {
       @include systemFont;
@@ -114,7 +114,7 @@
   flex-direction: column;
   width: 100%;
   padding: 8px 16px;
-  border: 2px solid var(--theme-offset-1);
+  //border: 2px solid var(--theme-color);
   border-top: 0;
   border-bottom-right-radius: $corner_radius;
   border-bottom-left-radius: $corner_radius;

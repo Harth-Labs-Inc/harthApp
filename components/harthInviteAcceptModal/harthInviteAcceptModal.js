@@ -25,7 +25,11 @@ export default function HarthInviteAcceptModal({
   const invitationAcceptHandler = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    let results = await checkIfInviteTokenIsGood({ token: tkn, user });
+    let results = await checkIfInviteTokenIsGood({
+      token: tkn,
+      user,
+      isAccepting: true,
+    });
     let { ok, harth } = results;
 
     if (ok) {
@@ -64,7 +68,7 @@ export default function HarthInviteAcceptModal({
           ignoreFadeIn={ignoreFadeIn}
         >
           <div className={styles.mainContainer}>
-            <div className={styles.title}>Accept your invite</div>
+            <div className={styles.title}>Join a Group</div>
             <div className={styles.lineParent}>
               <div className={`${styles.line} ${styles.lineActive}`}></div>
               <div className={styles.line}></div>

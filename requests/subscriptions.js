@@ -19,7 +19,10 @@ export const sendPushNotification = async (data) => {
       throw new Error("Request failed with status: " + response.status);
     }
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };
 
@@ -37,6 +40,9 @@ export const saveUserSubscription = async (data) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
   }
 };

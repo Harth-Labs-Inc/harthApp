@@ -59,6 +59,8 @@ $border_light: #38383e;
 $border_basic: #48484e;
 $border_heavy: #58585e;
 
+$modal_border: rgba(170, 104, 200, 40%);
+
 // Gathering Colors
 $gather_background: #000000;
 $gather_background_offset: $ash;
@@ -73,6 +75,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --theme-offset-1: #28282e;
   --theme-offset-2: #08080e;
   --theme-offset-3: #1c1c22;
+  --theme-mobile-offset: #111118;
   --overlay-background: #000;
   --font-main: #fefff6;
   --font-reverse: #271623;
@@ -92,6 +95,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --theme-offset-1: #e6e2dd;
   --theme-offset-2: #d6d2cd;
   --theme-offset-3: #f0ebe5;
+  --theme-mobile-offset: #ede8db;
   --overlay-background: #000;
   --font-main: #271623;
   --font-reverse: #fefff6;
@@ -135,6 +139,9 @@ $silver-dark: #929ca8;
 
 $corner_radius: 8px;
 $corner_radius_mobile: 10px;
+
+$box_radius: 4px;
+$outside_radius: 12px;
 
 $space: 8px;
 $space_mobile: 10px;

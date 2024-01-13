@@ -63,7 +63,7 @@ export default async (req, res) => {
       throw new Error();
     }
   } catch (err) {
-    return res.json({ msg: "bad token", ok: 0, lockDown: true });
+    return res.status(401).json({ msg: "bad token", ok: 0, lockDown: true });
   }
 
   const s3 = new aws.S3();

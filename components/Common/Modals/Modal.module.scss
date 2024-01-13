@@ -5,7 +5,7 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    $border_basic,
+    $background,
     transparent
   );
   backdrop-filter: blur(30px);
@@ -43,8 +43,8 @@
     transform: translate3d(-50%, -50%, 0);
     padding: 0px;
     background-color: $background;
-    border-top: 1px solid $hot_purple;
-    border-bottom: 1px solid $hot_purple;
+    border-top: 1px solid $modal_border;
+    border-bottom: 1px solid $modal_border;
     opacity: 0;
     animation: pop 0.3s ease-out forwards;
 
@@ -83,6 +83,18 @@
     overflow: hidden;
     padding-bottom: 28px;
     border-radius: 0px;
+
+    &::after{
+      position: absolute;
+      opacity: 0;
+      top: 0px;
+      right: 0px;
+      content: "";
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(transparent, $border_light 16%, $border_light 84%, transparent);
+      animation: border-fadein .5s ease-in forwards;
+    }
   }
 
   &Block {
@@ -115,6 +127,15 @@
 }
 
 @keyframes pop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes border-fadein {
   from {
     opacity: 0;
   }

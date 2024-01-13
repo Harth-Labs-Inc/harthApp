@@ -1,18 +1,56 @@
 import { useContext, useEffect, useState } from "react";
 import { MobileContext } from "contexts/mobile";
 import OutsideClickHandler from "components/Common/Modals/OutsideClick";
+import { getCustomEmojis } from "../../requests/chat";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { useComms } from "contexts/comms";
 /* eslint-disable */
 export const EmojiWrapper = (props) => {
   const { addEmoji, closeWrapper } = props;
-
+  const [emojiData, setEmojiData] = useState([]);
   const [transition, setTransition] = useState(false);
   const { isMobile } = useContext(MobileContext);
+
+  const { selectedcomm } = useComms();
 
   useEffect(() => {
     setTransition(true);
   }, []);
+
+  useEffect(() => {
+    if (selectedcomm?._id) {
+      fetchEmojis(selectedcomm?._id);
+    }
+  }, [selectedcomm?._id]);
+
+  function extractIdFromUrl(url) {
+    return url.split("/").pop().split(".")[0];
+  }
+  const fetchEmojis = async (harthId) => {
+    try {
+      const { ok, urls } = await getCustomEmojis({ harthId });
+      if (ok) {
+        const customEmojis = urls.map((url) => ({
+          id: "custom_" + extractIdFromUrl(url),
+          name: extractIdFromUrl(url),
+          keywords: ["custom"],
+          skins: [{ src: url }],
+        }));
+
+        const mergedData = [
+          {
+            id: "custom",
+            name: "Custom",
+            emojis: customEmojis,
+          },
+        ];
+        setEmojiData(mergedData);
+      }
+    } catch (error) {
+      console.error("Error fetching custom emojis:", error);
+    }
+  };
 
   if (isMobile) {
     return (
@@ -39,6 +77,7 @@ export const EmojiWrapper = (props) => {
           `}</style>
           <Picker
             data={data}
+            custom={emojiData}
             className={"attach-emoji"}
             onEmojiSelect={addEmoji}
             dynamicWidth={true}
@@ -67,6 +106,7 @@ export const EmojiWrapper = (props) => {
         `}</style>
         <Picker
           data={data}
+          custom={emojiData}
           className="attach-emoji"
           onEmojiSelect={addEmoji}
           autoFocus={true}

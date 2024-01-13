@@ -73,12 +73,12 @@
 
     .text {
       margin-left: 44px;
-      background: $hot_purple;
+      background-color: transparent;
+      border: 2px solid $hot_purple;
       width: 220px;
       @include systemFont;
       font-size: 14px;
       color: $font_light;
-      border: 2px solid transparent;
       border-radius: 12px;
       padding: 8px;
       text-align: center;

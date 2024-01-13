@@ -30,7 +30,7 @@ export default async (req, res) => {
   const user = await authenticateUser(db, authToken);
 
   if (!user) {
-    return res.json({ msg: "bad auth", ok: 0, lockDown: true });
+    return res.status(401).json({ msg: "bad auth", ok: 0, lockDown: true });
   }
 
   const blockedList = user?.BlockedList?.map((blocked) => blocked.userId) || [];

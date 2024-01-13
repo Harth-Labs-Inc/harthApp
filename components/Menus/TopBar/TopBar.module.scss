@@ -41,8 +41,10 @@
     align-items: center;
     justify-content: space-between;
     border-radius: 0;
-    border-top-right-radius: 16px;
-    border-top-left-radius: 16px;
+    border-top-right-radius: $outside_radius;
+    border-top-left-radius: $outside_radius;
+    border-bottom-left-radius: $box_radius;
+    border-bottom-right-radius: $box_radius;
     padding-right: 10px;
 
     &Mobile {
@@ -56,7 +58,8 @@
       border-radius: 999px;
       padding-right: 12px;
       padding-left: 0px;
-      border: 2px solid $background;
+      border: 3px solid $background;
+      border-top: 0;
     }
   }
 
@@ -88,16 +91,15 @@
 
     img {
       position: relative;
-      height: 68px;
-      min-height: 68px;
-      width: 68px;
-      min-width: 68px;
+      height: 72px;
+      min-height: 72px;
+      width: 72px;
+      min-width: 72px;
       border-radius: 999px;
       z-index: 1;
-      border: 0;
-      margin-top: -4px;
-      margin-left: -8px;
-      border: 2px solid $background;
+      margin-top: -6px;
+      margin-left: -11px;
+      border: 3px solid $background;
     }
 
     &UnreadMessage {
