@@ -1,9 +1,9 @@
 import { createContext, useState, useContext, useEffect, useRef } from "react";
 import {
-  getComms,
-  getTopics,
-  updatedTopic,
-  updateHarthData,
+    getComms,
+    getTopics,
+    updatedTopic,
+    updateHarthData,
 } from "../requests/community";
 import { getConversations, updatedConv } from "../requests/conversations";
 import { getUpdatedProfile } from "../requests/community";
@@ -17,871 +17,895 @@ import { openDB } from "services/helper";
 const CommsContext = createContext({});
 
 export const CommsProvider = ({
-  children,
-  CommsArr,
-  CREATOR,
-  SELECTEDCOMM,
-  TOPICS,
-  currentPage,
-  setCurrentPage,
-  ConversationsArray,
-  keepSpinning,
-  initialLoadAllGood,
+    children,
+    CommsArr,
+    CREATOR,
+    SELECTEDCOMM,
+    TOPICS,
+    currentPage,
+    setCurrentPage,
+    ConversationsArray,
+    keepSpinning,
+    initialLoadAllGood,
 }) => {
-  const [comms, setComms] = useState(CommsArr);
-  const [selectedcomm, setSelectedcomm] = useState(SELECTEDCOMM);
-  const [topics, setTopics] = useState(TOPICS);
-  const [rooms, setRooms] = useState({});
-  const [selectedTopic, setSelectedTopic] = useState({});
-  const [topicChange, setTopicChange] = useState(0);
-  const [profile, setProfile] = useState(CREATOR);
-  const [forceHarthCreation, setForceHarthCreation] = useState(false);
-  const [conversations, setConversations] = useState(ConversationsArray);
-  const [selectedConversation, setSelectedConversation] = useState(null);
-  const [incomingConversationMsg, setIncomingConversationMsg] = useState({});
-  const [incomingConversationMsgUpdate, setIncomingConversationMsgUpdate] =
-    useState({});
-  const [hasRoomMinimized, setHasRoomMinimized] = useState(false);
-  const [openMinimizedRoom, setOpenMinimizedRoom] = useState(false);
-  const [activeRoom, setActiveRoom] = useState(null);
-  const [isLoadingTopics, setIsLoadingTopics] = useState(null);
-  const [isLoadingConversations, setIsLoadingConversations] = useState(null);
-  const [showTermsOfServiceModal, setShowTermsOfServiceModal] = useState(false);
+    const [comms, setComms] = useState(CommsArr);
+    const [selectedcomm, setSelectedcomm] = useState(SELECTEDCOMM);
+    const [topics, setTopics] = useState(TOPICS);
+    const [rooms, setRooms] = useState({});
+    const [selectedTopic, setSelectedTopic] = useState({});
+    const [topicChange, setTopicChange] = useState(0);
+    const [profile, setProfile] = useState(CREATOR);
+    const [forceHarthCreation, setForceHarthCreation] = useState(false);
+    const [conversations, setConversations] = useState(ConversationsArray);
+    const [selectedConversation, setSelectedConversation] = useState(null);
+    const [incomingConversationMsg, setIncomingConversationMsg] = useState({});
+    const [incomingConversationMsgUpdate, setIncomingConversationMsgUpdate] =
+        useState({});
+    const [hasRoomMinimized, setHasRoomMinimized] = useState(false);
+    const [openMinimizedRoom, setOpenMinimizedRoom] = useState(false);
+    const [activeRoom, setActiveRoom] = useState(null);
+    const [isLoadingTopics, setIsLoadingTopics] = useState(null);
+    const [isLoadingConversations, setIsLoadingConversations] = useState(null);
+    const [showTermsOfServiceModal, setShowTermsOfServiceModal] =
+        useState(false);
 
-  const [indexAvatarController, setIndexAvatarController] = useState(null);
-  const [linkController, setLinkController] = useState(null);
-  const [chatMessagesController, setChatMessagesController] = useState(null);
+    const [indexAvatarController, setIndexAvatarController] = useState(null);
+    const [linkController, setLinkController] = useState(null);
+    const [chatMessagesController, setChatMessagesController] = useState(null);
 
-  const [showAdminPromotionModal, setShowAdminPromotionModal] = useState(false);
+    const [showAdminPromotionModal, setShowAdminPromotionModal] =
+        useState(false);
 
-  const imageCacheRef = useRef({});
-  const stopPollingRef = useRef();
+    const imageCacheRef = useRef({});
+    const stopPollingRef = useRef();
 
-  function clearCacheForId(cache, id) {
-    Object.keys(cache).forEach((key) => {
-      if (!key.includes(id)) {
-        const imageUrl = cache[key];
-        if (imageUrl.startsWith("blob:")) {
-          URL.revokeObjectURL(imageUrl);
-        }
-        delete cache[key];
-      }
-    });
-  }
-
-  const { user } = useAuth();
-
-  // ----------- first time triggers --------------------------------
-
-  const [hasApprovedTos, setHasApprovedTos] = useState(
-    user?.termsOfServiceApproved
-  );
-  const [hasFinishedFirstUseTour, setHasFinishedFirstUseTour] = useState(
-    user?.firstUseTourApproved
-  );
-  const [hasFinishedFirstPostTour, setHasFinishedFirstPostTour] = useState(
-    user?.firstPostTourApproved
-  );
-  const [hasFinishedFirstGatherTour, setHasFinishedFirstGatherTour] = useState(
-    user?.firstGatherTourApproved
-  );
-
-  // ----------- first time triggers --------------------------------
-
-  const selectedCommRef = useRef(SELECTEDCOMM);
-  const profileRef = useRef(CREATOR);
-  const selectedTopicRef = useRef({});
-
-  const { isMobile } = useContext(MobileContext);
-
-  const router = useRouter();
-  const {
-    query: { gather_window },
-  } = router;
-
-  useEffect(() => {
-    try {
-      const storedActiveRoom = sessionStorage.getItem("active_room");
-      const parsedRoom = JSON.parse(storedActiveRoom);
-      if (parsedRoom) {
-        setActiveRoom(parsedRoom);
-        if (parsedRoom.isMinimized) {
-          setHasRoomMinimized(true);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    const initializeDB = async () => {
-      const dbConfigs = [
-        { dbName: "Avatar_Attachments", storeName: "avatar" },
-        { dbName: "LinkPreviewCache", storeName: "previews" },
-        { dbName: "Attachments", storeName: "chat" },
-      ];
-      try {
-        const dbPromises = dbConfigs.map((config) =>
-          openDB(config.dbName, config.storeName)
-        );
-        const [avatarDB, linkDB, chatDB] = await Promise.all(dbPromises);
-
-        setIndexAvatarController(avatarDB);
-        setLinkController(linkDB);
-        setChatMessagesController(chatDB);
-      } catch (error) {
-        console.error("Error opening databases", error);
-      }
-    };
-
-    initializeDB();
-  }, []);
-
-  useEffect(() => {
-    if (TOPICS && !isMobile) {
-      setStartingTopic(TOPICS);
-    }
-  }, [TOPICS, isMobile]);
-
-  useEffect(() => {
-    if (selectedcomm) {
-      if (user) {
-        clearCacheForId(imageCacheRef.current, selectedcomm?._id);
-        if (!hasApprovedTos) {
-          setShowTermsOfServiceModal(true);
-        }
-        if (!gather_window) {
-          setTopicChange(0);
-          grabRooms(selectedcomm._id);
-          let creator = selectedcomm.users?.find(
-            (usr) => usr.userId === user._id
-          );
-          if (creator) setProfile(creator);
-        }
-
-        if (stopPollingRef.current) {
-          stopPollingRef.current();
-        }
-        stopPollingRef.current = startPromotionPoll();
-      }
-    }
-    return () => {
-      if (stopPollingRef.current) {
-        stopPollingRef.current();
-      }
-    };
-  }, [selectedcomm, user]);
-
-  useEffect(() => {
-    if (
-      !isMobile &&
-      conversations?.length &&
-      (selectedConversation == null ||
-        !Object.keys(selectedConversation || {}).length)
-    ) {
-      let startingConv;
-
-      startingConv = conversations[0];
-      let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
-        "openFromPush"
-      );
-      if (shouldOpenFromPush && router.query.conversation_id) {
-        const matchingConv = conversations.find(
-          ({ _id }) => _id == router.query.conversation_id
-        );
-        if (matchingConv) {
-          startingConv = matchingConv;
-        }
-      }
-      setSelectedConversation(startingConv);
-    }
-  }, [conversations, isMobile]);
-
-  useEffect(() => {
-    profileRef.current = profile;
-  }, [profile, setProfile]);
-
-  useEffect(() => {
-    selectedTopicRef.current = selectedTopic;
-    if (selectedTopic?._id) {
-      let storedData = localStorage.getItem("harthData");
-
-      try {
-        storedData = JSON.parse(storedData);
-      } catch (error) {
-        console.log(error);
-        storedData = {};
-      }
-      if (!storedData) {
-        storedData = {};
-      }
-      storedData[selectedcomm?._id] = {
-        ...(storedData[selectedcomm?._id] || {}),
-        selected_topic: selectedTopic,
-      };
-      localStorage.setItem("harthData", JSON.stringify(storedData));
-      localStorage.setItem("selectedTopicId", selectedTopic._id);
-    } else {
-      localStorage.removeItem("selectedTopicId");
-    }
-  }, [selectedTopic]);
-
-  useEffect(() => {
-    let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
-      "openFromPush"
-    );
-    let shouldOpenFromPushCom = new URL(window.location.href).searchParams.get(
-      "comm_id"
-    );
-    if (shouldOpenFromPush && comms && comms.length && shouldOpenFromPushCom) {
-      const harth = comms.find(({ _id }) => _id === shouldOpenFromPushCom);
-      if (harth) {
-        localStorage.setItem("selectedHarthID", harth?._id);
-        changeSelectedCommFromChild(harth);
-      }
-    }
-  }, [comms]);
-
-  const startPromotionPoll = () => {
-    const pollInterval = 6000;
-
-    const checkForDifferences = (current, fetched) => {
-      const fieldsToCheck = ["admin", "owner"];
-
-      return fieldsToCheck.some((field) => {
-        return current[field] === false && fetched[field] === true;
-      });
-    };
-
-    const pollFunction = () => {
-      getUpdatedProfile({
-        harthId: selectedCommRef.current?._id,
-        userId: user._id,
-      })
-        .then((result) => {
-          if (result.harthId === selectedCommRef.current?._id) {
-            const hasDifference = checkForDifferences(
-              profileRef.current,
-              result.user
-            );
-            if (hasDifference && !document.hidden) {
-              profileRef.current = result.user;
-              setProfile(result.user);
-              setShowAdminPromotionModal(true);
-              setTimeout(() => {
-                setShowAdminPromotionModal(false);
-              }, 6000);
-            }
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching updated profile:", error);
-        });
-    };
-
-    const intervalId = setInterval(pollFunction, pollInterval);
-
-    return () => clearInterval(intervalId);
-  };
-
-  const setStartingTopic = (tpcs) => {
-    let startingTopic;
-
-    for (let topic of tpcs) {
-      for (let member of topic.members) {
-        if (member.user_id == user._id) {
-          if (!member.hidden && !startingTopic) {
-            startingTopic = topic;
-          }
-        }
-      }
-    }
-    let storedHarthData = localStorage.getItem("harthData");
-    if (storedHarthData) {
-      try {
-        const parsedStoredHarthData = JSON.parse(storedHarthData);
-        const matchingHarth =
-          parsedStoredHarthData[selectedCommRef.current?._id] || {};
-
-        if (matchingHarth.selected_topic) {
-          const matchingTopic = matchingHarth.selected_topic;
-          if (matchingTopic) {
-            for (let member of matchingTopic.members) {
-              if (member.user_id == user._id) {
-                if (!member.hidden) {
-                  startingTopic = matchingTopic;
+    function clearCacheForId(cache, id) {
+        Object.keys(cache).forEach((key) => {
+            if (!key.includes(id)) {
+                const imageUrl = cache[key];
+                if (imageUrl.startsWith("blob:")) {
+                    URL.revokeObjectURL(imageUrl);
                 }
-              }
+                delete cache[key];
             }
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
+        });
     }
 
-    setSelectedTopic(startingTopic);
-  };
-  const refetchComms = async (newCom, setNew) => {
-    return new Promise((resolve) => {
-      async function run() {
-        let result = await getComms(user);
-        const { ok, comms } = result;
-        if (ok) {
-          setComms(comms);
-          if (newCom) {
-            setComm(newCom);
-          } else if (!profile) {
-            setComm(comms[0]);
-          }
-          if (setNew) {
-            changeSelectedCommFromChild(newCom);
-          }
-          if (!comms.length) {
-            setForceHarthCreation(true);
-          }
-          resolve(comms);
-        }
-      }
-      setForceHarthCreation(false);
-      run();
-    });
-  };
-  const updateSelectedTopic = async ({ newTopic }) => {
-    return new Promise((resolve) => {
-      async function run() {
-        let tmpTopics = [...topics];
-        let matchingTopicIndex = -1;
-        tmpTopics.forEach((topic, index) => {
-          if (topic._id === newTopic._id) {
-            matchingTopicIndex = index;
-          }
-        });
-        if (matchingTopicIndex >= 0) {
-          tmpTopics[matchingTopicIndex] = newTopic;
-          setTopics(tmpTopics);
-          if (selectedTopic._id == newTopic._id) {
-            if (selectedTopic) {
-              let storedData = localStorage.getItem("harthData");
+    const { user } = useAuth();
 
-              try {
+    // ----------- first time triggers --------------------------------
+
+    const [hasApprovedTos, setHasApprovedTos] = useState(
+        user?.termsOfServiceApproved
+    );
+    const [hasFinishedFirstUseTour, setHasFinishedFirstUseTour] = useState(
+        user?.firstUseTourApproved
+    );
+    const [hasFinishedFirstPostTour, setHasFinishedFirstPostTour] = useState(
+        user?.firstPostTourApproved
+    );
+    const [hasFinishedFirstGatherTour, setHasFinishedFirstGatherTour] =
+        useState(user?.firstGatherTourApproved);
+
+    // ----------- first time triggers --------------------------------
+
+    const selectedCommRef = useRef(SELECTEDCOMM);
+    const profileRef = useRef(CREATOR);
+    const selectedTopicRef = useRef({});
+
+    const { isMobile } = useContext(MobileContext);
+
+    const router = useRouter();
+    const {
+        query: { gather_window },
+    } = router;
+
+    useEffect(() => {
+        try {
+            const storedActiveRoom = sessionStorage.getItem("active_room");
+            const parsedRoom = JSON.parse(storedActiveRoom);
+            if (parsedRoom) {
+                setActiveRoom(parsedRoom);
+                if (parsedRoom.isMinimized) {
+                    setHasRoomMinimized(true);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        const initializeDB = async () => {
+            const dbConfigs = [
+                { dbName: "Avatar_Attachments", storeName: "avatar" },
+                { dbName: "LinkPreviewCache", storeName: "previews" },
+                { dbName: "Attachments", storeName: "chat" },
+            ];
+            try {
+                const dbPromises = dbConfigs.map((config) =>
+                    openDB(config.dbName, config.storeName)
+                );
+                const [avatarDB, linkDB, chatDB] =
+                    await Promise.all(dbPromises);
+
+                setIndexAvatarController(avatarDB);
+                setLinkController(linkDB);
+                setChatMessagesController(chatDB);
+            } catch (error) {
+                console.error("Error opening databases", error);
+            }
+        };
+
+        initializeDB();
+    }, []);
+
+    useEffect(() => {
+        if (TOPICS && !isMobile) {
+            setStartingTopic(TOPICS);
+        }
+    }, [TOPICS, isMobile]);
+
+    useEffect(() => {
+        if (selectedcomm) {
+            if (user) {
+                clearCacheForId(imageCacheRef.current, selectedcomm?._id);
+                if (!hasApprovedTos) {
+                    setShowTermsOfServiceModal(true);
+                }
+                if (!gather_window) {
+                    setTopicChange(0);
+                    grabRooms(selectedcomm._id);
+                    let creator = selectedcomm.users?.find(
+                        (usr) => usr.userId === user._id
+                    );
+                    if (creator) setProfile(creator);
+                }
+
+                if (stopPollingRef.current) {
+                    stopPollingRef.current();
+                }
+                stopPollingRef.current = startPromotionPoll();
+            }
+        }
+        return () => {
+            if (stopPollingRef.current) {
+                stopPollingRef.current();
+            }
+        };
+    }, [selectedcomm, user]);
+
+    useEffect(() => {
+        if (
+            !isMobile &&
+            conversations?.length &&
+            (selectedConversation == null ||
+                !Object.keys(selectedConversation || {}).length)
+        ) {
+            let startingConv;
+
+            startingConv = conversations[0];
+            let shouldOpenFromPush = new URL(
+                window.location.href
+            ).searchParams.get("openFromPush");
+            if (shouldOpenFromPush && router.query.conversation_id) {
+                const matchingConv = conversations.find(
+                    ({ _id }) => _id == router.query.conversation_id
+                );
+                if (matchingConv) {
+                    startingConv = matchingConv;
+                }
+            }
+            setSelectedConversation(startingConv);
+        }
+    }, [conversations, isMobile]);
+
+    useEffect(() => {
+        profileRef.current = profile;
+    }, [profile, setProfile]);
+
+    useEffect(() => {
+        selectedTopicRef.current = selectedTopic;
+        if (selectedTopic?._id) {
+            let storedData = localStorage.getItem("harthData");
+
+            try {
                 storedData = JSON.parse(storedData);
-              } catch (error) {
+            } catch (error) {
                 console.log(error);
                 storedData = {};
-              }
-              if (!storedData) {
+            }
+            if (!storedData) {
                 storedData = {};
-              }
-              storedData[selectedCommRef.current?._id] = {
-                ...(storedData[selectedCommRef.current?._id] || {}),
+            }
+            storedData[selectedcomm?._id] = {
+                ...(storedData[selectedcomm?._id] || {}),
                 selected_topic: selectedTopic,
-              };
-              localStorage.setItem("harthData", JSON.stringify(storedData));
-            }
-            setSelectedTopic(newTopic);
-          }
-          await updatedTopic({
-            type: "replace",
-            topic: newTopic,
-          });
-          resolve(true);
+            };
+            localStorage.setItem("harthData", JSON.stringify(storedData));
+            localStorage.setItem("selectedTopicId", selectedTopic._id);
+        } else {
+            localStorage.removeItem("selectedTopicId");
         }
-      }
-      run();
-    });
-  };
-  const updateSelectedConv = async ({ newconv }) => {
-    return new Promise((resolve) => {
-      async function run() {
-        let tmpConv = [...conversations];
-        let matchingConvIndex = -1;
-        tmpConv.forEach((Conv, index) => {
-          if (Conv._id === newconv._id) {
-            matchingConvIndex = index;
-          }
-        });
-        if (matchingConvIndex >= 0) {
-          tmpConv[matchingConvIndex] = newconv;
-          setConversations(tmpConv);
-          if (selectedConversation._id == newconv._id) {
-            if (selectedConversation) {
-              let storedData = localStorage.getItem("harthData");
+    }, [selectedTopic]);
 
-              try {
-                storedData = JSON.parse(storedData);
-              } catch (error) {
-                console.log(error);
-                storedData = {};
-              }
-              if (!storedData) {
-                storedData = {};
-              }
-              storedData[selectedCommRef.current?._id] = {
-                ...(storedData[selectedCommRef.current?._id] || {}),
-                selected_Conv: selectedConversation,
-              };
-              localStorage.setItem("harthData", JSON.stringify(storedData));
-            }
-            setSelectedConversation(newconv);
-          }
-          await updatedConv({
-            type: "replace",
-            Conv: newconv,
-          });
-          resolve(true);
-        }
-      }
-      run();
-    });
-  };
-  const updateSelectedHarth = async ({ newHarth }) => {
-    return new Promise((resolve) => {
-      async function run() {
-        let tmpComms = [...comms];
-        let matchingIndex = -1;
-        tmpComms.forEach((com, index) => {
-          if (com._id === newHarth._id) {
-            matchingIndex = index;
-          }
-        });
-        if (matchingIndex >= 0) {
-          tmpComms[matchingIndex] = newHarth;
-          setComms(tmpComms);
-          if (selectedcomm._id == newHarth._id) {
-            setSelectedcomm(newHarth);
-            selectedCommRef.current = newHarth;
-          }
-          await updateHarthData(newHarth);
-
-          resolve(true);
-        }
-      }
-      run();
-    });
-  };
-  const updateLocalSelectedHarth = async ({ newHarth }) => {
-    return new Promise((resolve) => {
-      async function run() {
-        let tmpComms = [...comms];
-        let matchingIndex = -1;
-        tmpComms.forEach((com, index) => {
-          if (com._id === newHarth._id) {
-            matchingIndex = index;
-          }
-        });
-        if (matchingIndex >= 0) {
-          tmpComms[matchingIndex] = newHarth;
-          setComms(tmpComms);
-          if (selectedcomm._id == newHarth._id) {
-            setSelectedcomm(newHarth);
-            selectedCommRef.current = newHarth;
-          }
-
-          resolve(true);
-        }
-      }
-      run();
-    });
-  };
-  const fetchConversations = async (comid, repullMessages) => {
-    setIsLoadingConversations(true);
-    let result = await getConversations(comid, user._id);
-    const { ok, conversations } = result;
-    if (ok) {
-      let startingConv;
-
-      if (!isMobile || repullMessages) {
-        startingConv = conversations[0];
-      }
-      let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
-        "openFromPush"
-      );
-      if (shouldOpenFromPush && router.query.conversation_id) {
-        const matchingConv = conversations.find(
-          ({ _id }) => _id == router.query.conversation_id
+    useEffect(() => {
+        let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
+            "openFromPush"
         );
-        if (matchingConv) {
-          startingConv = matchingConv;
-        }
-      }
-      setConversations(conversations);
-      setIsLoadingConversations(false);
-      if (startingConv) {
-        setSelectedConversation(startingConv);
-      } else if (!conversations.length) {
-        setSelectedConversation(null);
-      }
-    }
-    return;
-  };
-  const grabTopics = async (comid, repullMessages) => {
-    setIsLoadingTopics(true);
-    let result = await getTopics(comid, user._id);
-
-    const { ok, topics } = result;
-    if (ok) {
-      let startingTopic;
-      if (!isMobile || repullMessages) {
-        for (let topic of topics) {
-          for (let member of topic.members) {
-            if (member.user_id == user._id) {
-              if (!member.hidden && !startingTopic) {
-                startingTopic = topic;
-              }
+        let shouldOpenFromPushCom = new URL(
+            window.location.href
+        ).searchParams.get("comm_id");
+        if (
+            shouldOpenFromPush &&
+            comms &&
+            comms.length &&
+            shouldOpenFromPushCom
+        ) {
+            const harth = comms.find(
+                ({ _id }) => _id === shouldOpenFromPushCom
+            );
+            if (harth) {
+                localStorage.setItem("selectedHarthID", harth?._id);
+                changeSelectedCommFromChild(harth);
             }
-          }
         }
+    }, [comms]);
 
+    const startPromotionPoll = () => {
+        const pollInterval = 30000;
+
+        const checkForDifferences = (current, fetched) => {
+            const fieldsToCheck = ["admin", "owner"];
+
+            return fieldsToCheck.some((field) => {
+                return current[field] === false && fetched[field] === true;
+            });
+        };
+
+        const pollFunction = () => {
+            getUpdatedProfile({
+                harthId: selectedCommRef.current?._id,
+                userId: user._id,
+            })
+                .then((result) => {
+                    if (result.harthId === selectedCommRef.current?._id) {
+                        const hasDifference = checkForDifferences(
+                            profileRef.current,
+                            result.user
+                        );
+                        if (hasDifference && !document.hidden) {
+                            profileRef.current = result.user;
+                            setProfile(result.user);
+                            setShowAdminPromotionModal(true);
+                            setTimeout(() => {
+                                setShowAdminPromotionModal(false);
+                            }, 6000);
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching updated profile:", error);
+                });
+        };
+
+        const intervalId = setInterval(pollFunction, pollInterval);
+
+        return () => clearInterval(intervalId);
+    };
+
+    const setStartingTopic = (tpcs) => {
+        let startingTopic;
+
+        for (let topic of tpcs) {
+            for (let member of topic.members) {
+                if (member.user_id == user._id) {
+                    if (!member.hidden && !startingTopic) {
+                        startingTopic = topic;
+                    }
+                }
+            }
+        }
         let storedHarthData = localStorage.getItem("harthData");
         if (storedHarthData) {
-          try {
-            const parsedStoredHarthData = JSON.parse(storedHarthData);
-            if (parsedStoredHarthData) {
-              const matchingHarth = parsedStoredHarthData[comid] || {};
+            try {
+                const parsedStoredHarthData = JSON.parse(storedHarthData);
+                const matchingHarth =
+                    parsedStoredHarthData[selectedCommRef.current?._id] || {};
 
-              if (matchingHarth.selected_topic) {
-                const matchingTopic = matchingHarth.selected_topic;
-                if (matchingTopic) {
-                  for (let member of matchingTopic.members) {
-                    if (member.user_id == user._id) {
-                      if (!member.hidden) {
-                        startingTopic = matchingTopic;
-                      }
+                if (matchingHarth.selected_topic) {
+                    const matchingTopic = matchingHarth.selected_topic;
+                    if (matchingTopic) {
+                        for (let member of matchingTopic.members) {
+                            if (member.user_id == user._id) {
+                                if (!member.hidden) {
+                                    startingTopic = matchingTopic;
+                                }
+                            }
+                        }
                     }
-                  }
                 }
-              }
+            } catch (error) {
+                console.log(error);
             }
-          } catch (error) {
-            console.log(error);
-          }
         }
-      }
-      let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
-        "openFromPush"
-      );
-      if (shouldOpenFromPush && router.query.topic_id) {
-        const matchingTopic = topics.find(
-          ({ _id }) => _id == router.query.topic_id
-        );
-        if (matchingTopic) {
-          for (let member of matchingTopic.members) {
-            if (member.user_id == user._id) {
-              if (!member.hidden) {
-                startingTopic = matchingTopic;
-              }
-            }
-          }
-        }
-      }
 
-      setTopics(topics);
-      setIsLoadingTopics(false);
-      if (startingTopic) {
         setSelectedTopic(startingTopic);
-      } else if (!topics.length) {
-        setSelectedTopic({});
-      }
-    }
-    return;
-  };
-  const grabRooms = async (comid) => {
-    if (comid) {
-      if (!(comid in rooms)) {
-        rooms[comid] = [];
-        let result = await getRooms(comid, user._id);
-        const { ok, rms } = result;
+    };
+    const refetchComms = async (newCom, setNew) => {
+        return new Promise((resolve) => {
+            async function run() {
+                let result = await getComms(user);
+                const { ok, comms } = result;
+                if (ok) {
+                    setComms(comms);
+                    if (newCom) {
+                        setComm(newCom);
+                    } else if (!profile) {
+                        setComm(comms[0]);
+                    }
+                    if (setNew) {
+                        changeSelectedCommFromChild(newCom);
+                    }
+                    if (!comms.length) {
+                        setForceHarthCreation(true);
+                    }
+                    resolve(comms);
+                }
+            }
+            setForceHarthCreation(false);
+            run();
+        });
+    };
+    const updateSelectedTopic = async ({ newTopic }) => {
+        return new Promise((resolve) => {
+            async function run() {
+                let tmpTopics = [...topics];
+                let matchingTopicIndex = -1;
+                tmpTopics.forEach((topic, index) => {
+                    if (topic._id === newTopic._id) {
+                        matchingTopicIndex = index;
+                    }
+                });
+                if (matchingTopicIndex >= 0) {
+                    tmpTopics[matchingTopicIndex] = newTopic;
+                    setTopics(tmpTopics);
+                    if (selectedTopic._id == newTopic._id) {
+                        if (selectedTopic) {
+                            let storedData = localStorage.getItem("harthData");
+
+                            try {
+                                storedData = JSON.parse(storedData);
+                            } catch (error) {
+                                console.log(error);
+                                storedData = {};
+                            }
+                            if (!storedData) {
+                                storedData = {};
+                            }
+                            storedData[selectedCommRef.current?._id] = {
+                                ...(storedData[selectedCommRef.current?._id] ||
+                                    {}),
+                                selected_topic: selectedTopic,
+                            };
+                            localStorage.setItem(
+                                "harthData",
+                                JSON.stringify(storedData)
+                            );
+                        }
+                        setSelectedTopic(newTopic);
+                    }
+                    await updatedTopic({
+                        type: "replace",
+                        topic: newTopic,
+                    });
+                    resolve(true);
+                }
+            }
+            run();
+        });
+    };
+    const updateSelectedConv = async ({ newconv }) => {
+        return new Promise((resolve) => {
+            async function run() {
+                let tmpConv = [...conversations];
+                let matchingConvIndex = -1;
+                tmpConv.forEach((Conv, index) => {
+                    if (Conv._id === newconv._id) {
+                        matchingConvIndex = index;
+                    }
+                });
+                if (matchingConvIndex >= 0) {
+                    tmpConv[matchingConvIndex] = newconv;
+                    setConversations(tmpConv);
+                    if (selectedConversation._id == newconv._id) {
+                        if (selectedConversation) {
+                            let storedData = localStorage.getItem("harthData");
+
+                            try {
+                                storedData = JSON.parse(storedData);
+                            } catch (error) {
+                                console.log(error);
+                                storedData = {};
+                            }
+                            if (!storedData) {
+                                storedData = {};
+                            }
+                            storedData[selectedCommRef.current?._id] = {
+                                ...(storedData[selectedCommRef.current?._id] ||
+                                    {}),
+                                selected_Conv: selectedConversation,
+                            };
+                            localStorage.setItem(
+                                "harthData",
+                                JSON.stringify(storedData)
+                            );
+                        }
+                        setSelectedConversation(newconv);
+                    }
+                    await updatedConv({
+                        type: "replace",
+                        Conv: newconv,
+                    });
+                    resolve(true);
+                }
+            }
+            run();
+        });
+    };
+    const updateSelectedHarth = async ({ newHarth }) => {
+        return new Promise((resolve) => {
+            async function run() {
+                let tmpComms = [...comms];
+                let matchingIndex = -1;
+                tmpComms.forEach((com, index) => {
+                    if (com._id === newHarth._id) {
+                        matchingIndex = index;
+                    }
+                });
+                if (matchingIndex >= 0) {
+                    tmpComms[matchingIndex] = newHarth;
+                    setComms(tmpComms);
+                    if (selectedcomm._id == newHarth._id) {
+                        setSelectedcomm(newHarth);
+                        selectedCommRef.current = newHarth;
+                    }
+                    await updateHarthData(newHarth);
+
+                    resolve(true);
+                }
+            }
+            run();
+        });
+    };
+    const updateLocalSelectedHarth = async ({ newHarth }) => {
+        return new Promise((resolve) => {
+            async function run() {
+                let tmpComms = [...comms];
+                let matchingIndex = -1;
+                tmpComms.forEach((com, index) => {
+                    if (com._id === newHarth._id) {
+                        matchingIndex = index;
+                    }
+                });
+                if (matchingIndex >= 0) {
+                    tmpComms[matchingIndex] = newHarth;
+                    setComms(tmpComms);
+                    if (selectedcomm._id == newHarth._id) {
+                        setSelectedcomm(newHarth);
+                        selectedCommRef.current = newHarth;
+                    }
+
+                    resolve(true);
+                }
+            }
+            run();
+        });
+    };
+    const fetchConversations = async (comid, repullMessages) => {
+        setIsLoadingConversations(true);
+        let result = await getConversations(comid, user._id);
+        const { ok, conversations } = result;
         if (ok) {
-          setRooms({ ...rooms, [comid]: rms });
+            let startingConv;
+
+            if (!isMobile || repullMessages) {
+                startingConv = conversations[0];
+            }
+            let shouldOpenFromPush = new URL(
+                window.location.href
+            ).searchParams.get("openFromPush");
+            if (shouldOpenFromPush && router.query.conversation_id) {
+                const matchingConv = conversations.find(
+                    ({ _id }) => _id == router.query.conversation_id
+                );
+                if (matchingConv) {
+                    startingConv = matchingConv;
+                }
+            }
+            setConversations(conversations);
+            setIsLoadingConversations(false);
+            if (startingConv) {
+                setSelectedConversation(startingConv);
+            } else if (!conversations.length) {
+                setSelectedConversation(null);
+            }
         }
-      }
-    }
-  };
-  const setComm = async (comm) => {
-    setSelectedcomm(comm);
-    selectedCommRef.current = comm;
-  };
-  const setCommsFromChild = (comms) => {
-    setComms(comms);
-  };
-  const setTopic = async (topic) => {
-    setTopicChange((prevState) => (prevState += 1));
-    if (topic && topic._id) {
-      let storedData = localStorage.getItem("harthData");
+        return;
+    };
+    const grabTopics = async (comid, repullMessages) => {
+        setIsLoadingTopics(true);
+        let result = await getTopics(comid, user._id);
 
-      try {
-        storedData = JSON.parse(storedData);
-      } catch (error) {
-        console.log(error);
-        storedData = {};
-      }
-      if (!storedData) {
-        storedData = {};
-      }
-      storedData[selectedCommRef.current?._id] = {
-        ...(storedData[selectedCommRef.current?._id] || {}),
-        selected_topic: topic,
-      };
+        const { ok, topics } = result;
+        if (ok) {
+            let startingTopic;
+            if (!isMobile || repullMessages) {
+                for (let topic of topics) {
+                    for (let member of topic.members) {
+                        if (member.user_id == user._id) {
+                            if (!member.hidden && !startingTopic) {
+                                startingTopic = topic;
+                            }
+                        }
+                    }
+                }
 
-      localStorage.setItem("harthData", JSON.stringify(storedData));
-    }
+                let storedHarthData = localStorage.getItem("harthData");
+                if (storedHarthData) {
+                    try {
+                        const parsedStoredHarthData =
+                            JSON.parse(storedHarthData);
+                        if (parsedStoredHarthData) {
+                            const matchingHarth =
+                                parsedStoredHarthData[comid] || {};
 
-    setSelectedTopic(topic);
-  };
-  const addNewTopic = (newTopic) => {
-    setTopics([...topics, newTopic]);
-  };
-  const topicChangeHandler = async ({ type, status, user }) => {
-    let tmpTopics = [...topics];
-    let matchingTopicIndex = -1;
-    let tmpSelectedTopic = { ...selectedTopic };
-    tmpTopics.forEach((topic, index) => {
-      if (topic._id === selectedTopic._id) {
-        matchingTopicIndex = index;
-      }
-    });
-    if (matchingTopicIndex >= 0) {
-      /* eslint-disable */
-      switch (type) {
-        case "mute":
-          tmpSelectedTopic?.members?.filter(Boolean).forEach((member) => {
-            if (member._id === user._id) {
-              member.muted = status;
+                            if (matchingHarth.selected_topic) {
+                                const matchingTopic =
+                                    matchingHarth.selected_topic;
+                                if (matchingTopic) {
+                                    for (let member of matchingTopic.members) {
+                                        if (member.user_id == user._id) {
+                                            if (!member.hidden) {
+                                                startingTopic = matchingTopic;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
             }
-          });
-          tmpTopics[matchingTopicIndex] = tmpSelectedTopic;
-
-          setTopics(tmpTopics);
-          await updatedTopic({
-            type: "replace",
-            topic: tmpSelectedTopic,
-          });
-
-          break;
-        case "leave":
-          let newMembers = tmpSelectedTopic?.members.filter((member, index) => {
-            if (member && member._id !== user._id) {
-              return member;
+            let shouldOpenFromPush = new URL(
+                window.location.href
+            ).searchParams.get("openFromPush");
+            if (shouldOpenFromPush && router.query.topic_id) {
+                const matchingTopic = topics.find(
+                    ({ _id }) => _id == router.query.topic_id
+                );
+                if (matchingTopic) {
+                    for (let member of matchingTopic.members) {
+                        if (member.user_id == user._id) {
+                            if (!member.hidden) {
+                                startingTopic = matchingTopic;
+                            }
+                        }
+                    }
+                }
             }
-            return false;
-          });
-          tmpSelectedTopic.members = newMembers;
-          tmpTopics[matchingTopicIndex] = tmpSelectedTopic;
-          setTopics(tmpTopics);
-          grabTopics(selectedcomm._id);
-          grabRooms(selectedcomm._id);
-          await updatedTopic({
-            type: "replace",
-            topic: tmpSelectedTopic,
-          });
 
-          break;
-        default:
-          break;
-      }
-    }
-  };
-  const setIncomingConversationMessagesHandler = (incomingMsg) => {
-    if (incomingMsg.userIDS?.includes(user?._id || "")) {
-      setIncomingConversationMsg(incomingMsg);
-    }
-  };
-  const resetConversations = () => {
-    setConversations(null);
-    setSelectedConversation(null);
-  };
-  const resetTopics = () => {
-    setTopics(null);
-    setSelectedTopic(null);
-    setTopicChange(0);
-  };
-  const changeHarthFromClick = async (com, repullMessages) => {
-    resetTopics();
-    resetConversations();
-    setComm(com);
-    if (currentPage !== "chat") {
-      setCurrentPage();
-    }
-    let isInChatOrDM = localStorage.getItem("isInChatOrDM");
-    grabTopics(com._id, isInChatOrDM && repullMessages);
-    grabRooms();
-  };
-  const changeSelectedCommFromChild = (com, repullMessages) => {
-    let isInChatOrDM = localStorage.getItem("isInChatOrDM");
-    let selectedPage = localStorage.getItem("selectedPage");
+            setTopics(topics);
+            setIsLoadingTopics(false);
+            if (startingTopic) {
+                setSelectedTopic(startingTopic);
+            } else if (!topics.length) {
+                setSelectedTopic({});
+            }
+        }
+        return;
+    };
+    const grabRooms = async (comid) => {
+        if (comid) {
+            if (!(comid in rooms)) {
+                rooms[comid] = [];
+                let result = await getRooms(comid, user._id);
+                const { ok, rms } = result;
+                if (ok) {
+                    setRooms({ ...rooms, [comid]: rms });
+                }
+            }
+        }
+    };
+    const setComm = async (comm) => {
+        setSelectedcomm(comm);
+        selectedCommRef.current = comm;
+    };
+    const setCommsFromChild = (comms) => {
+        setComms(comms);
+    };
+    const setTopic = async (topic) => {
+        setTopicChange((prevState) => (prevState += 1));
+        if (topic && topic._id) {
+            let storedData = localStorage.getItem("harthData");
 
-    if (!selectedPage) {
-      selectedPage = currentPage;
-    }
-    if (selectedPage === "message" && com?._id) {
-      fetchConversations(com._id, isInChatOrDM && repullMessages);
-      resetTopics();
-    }
-    if (selectedPage === "chat" && com?._id) {
-      grabTopics(com._id, isInChatOrDM && repullMessages);
-      resetConversations();
-    }
-    if (selectedPage === "gather") {
-      resetTopics();
-      resetConversations();
-    }
-    setComm(com);
-    grabRooms();
+            try {
+                storedData = JSON.parse(storedData);
+            } catch (error) {
+                console.log(error);
+                storedData = {};
+            }
+            if (!storedData) {
+                storedData = {};
+            }
+            storedData[selectedCommRef.current?._id] = {
+                ...(storedData[selectedCommRef.current?._id] || {}),
+                selected_topic: topic,
+            };
 
-    let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
-      "openFromPush"
+            localStorage.setItem("harthData", JSON.stringify(storedData));
+        }
+
+        setSelectedTopic(topic);
+    };
+    const addNewTopic = (newTopic) => {
+        setTopics([...topics, newTopic]);
+    };
+    const topicChangeHandler = async ({ type, status, user }) => {
+        let tmpTopics = [...topics];
+        let matchingTopicIndex = -1;
+        let tmpSelectedTopic = { ...selectedTopic };
+        tmpTopics.forEach((topic, index) => {
+            if (topic._id === selectedTopic._id) {
+                matchingTopicIndex = index;
+            }
+        });
+        if (matchingTopicIndex >= 0) {
+            /* eslint-disable */
+            switch (type) {
+                case "mute":
+                    tmpSelectedTopic?.members
+                        ?.filter(Boolean)
+                        .forEach((member) => {
+                            if (member._id === user._id) {
+                                member.muted = status;
+                            }
+                        });
+                    tmpTopics[matchingTopicIndex] = tmpSelectedTopic;
+
+                    setTopics(tmpTopics);
+                    await updatedTopic({
+                        type: "replace",
+                        topic: tmpSelectedTopic,
+                    });
+
+                    break;
+                case "leave":
+                    let newMembers = tmpSelectedTopic?.members.filter(
+                        (member, index) => {
+                            if (member && member._id !== user._id) {
+                                return member;
+                            }
+                            return false;
+                        }
+                    );
+                    tmpSelectedTopic.members = newMembers;
+                    tmpTopics[matchingTopicIndex] = tmpSelectedTopic;
+                    setTopics(tmpTopics);
+                    grabTopics(selectedcomm._id);
+                    grabRooms(selectedcomm._id);
+                    await updatedTopic({
+                        type: "replace",
+                        topic: tmpSelectedTopic,
+                    });
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    const setIncomingConversationMessagesHandler = (incomingMsg) => {
+        if (incomingMsg.userIDS?.includes(user?._id || "")) {
+            setIncomingConversationMsg(incomingMsg);
+        }
+    };
+    const resetConversations = () => {
+        setConversations(null);
+        setSelectedConversation(null);
+    };
+    const resetTopics = () => {
+        setTopics(null);
+        setSelectedTopic(null);
+        setTopicChange(0);
+    };
+    const changeHarthFromClick = async (com, repullMessages) => {
+        resetTopics();
+        resetConversations();
+        setComm(com);
+        if (currentPage !== "chat") {
+            setCurrentPage();
+        }
+        let isInChatOrDM = localStorage.getItem("isInChatOrDM");
+        grabTopics(com._id, isInChatOrDM && repullMessages);
+        grabRooms();
+    };
+    const changeSelectedCommFromChild = (com, repullMessages) => {
+        let isInChatOrDM = localStorage.getItem("isInChatOrDM");
+        let selectedPage = localStorage.getItem("selectedPage");
+
+        if (!selectedPage) {
+            selectedPage = currentPage;
+        }
+        if (selectedPage === "message" && com?._id) {
+            fetchConversations(com._id, isInChatOrDM && repullMessages);
+            resetTopics();
+        }
+        if (selectedPage === "chat" && com?._id) {
+            grabTopics(com._id, isInChatOrDM && repullMessages);
+            resetConversations();
+        }
+        if (selectedPage === "gather") {
+            resetTopics();
+            resetConversations();
+        }
+        setComm(com);
+        grabRooms();
+
+        let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
+            "openFromPush"
+        );
+        if (!isInChatOrDM && !shouldOpenFromPush) {
+            setTopic({});
+        }
+    };
+    const openMobileRoom = (data) => {
+        let closeExisting = document.getElementById("mobile_minimized_closer");
+        if (closeExisting) {
+            closeExisting.click();
+        }
+
+        setTimeout(() => {
+            sessionStorage.setItem("active_room", JSON.stringify(data));
+            setHasRoomMinimized(false);
+            setActiveRoom(data);
+        }, 100);
+    };
+    const handleOpenMInimizedRoom = () => {
+        clearMinimized();
+        setOpenMinimizedRoom(true);
+    };
+    const clearMinimized = () => {
+        const storedActiveRoom = sessionStorage.getItem("active_room");
+        try {
+            const parsedRoom = JSON.parse(storedActiveRoom);
+            parsedRoom.isMinimized = false;
+            sessionStorage.setItem("active_room", JSON.stringify(parsedRoom));
+        } catch (error) {
+            console.log(error);
+        }
+        setHasRoomMinimized(false);
+    };
+    const closeActiveRoomFromMobile = () => {
+        sessionStorage.removeItem("active_room");
+        setActiveRoom(null);
+        setHasRoomMinimized(false);
+    };
+    const minimizeHandler = () => {
+        const storedActiveRoom = sessionStorage.getItem("active_room");
+        try {
+            const parsedRoom = JSON.parse(storedActiveRoom);
+            parsedRoom.isMinimized = true;
+            sessionStorage.setItem("active_room", JSON.stringify(parsedRoom));
+        } catch (error) {
+            console.log(error);
+        }
+        setHasRoomMinimized(true);
+    };
+    const approvedTosHandler = () => {
+        setHasApprovedTos(true);
+        setShowTermsOfServiceModal(false);
+    };
+    const toggleHasFinishedFirstUseTour = (value) => {
+        if (value) {
+            setHasFinishedFirstUseTour(value);
+        } else {
+            setHasFinishedFirstUseTour((prevVal) => !prevVal);
+        }
+    };
+    const toggleHasFinishedFirstPostTour = (value) => {
+        if (value) {
+            setHasFinishedFirstPostTour(value);
+        } else {
+            setHasFinishedFirstPostTour((prevVal) => !prevVal);
+        }
+    };
+    const toggleHasFinishedFirstGatherTour = (value) => {
+        if (value) {
+            setHasFinishedFirstGatherTour(value);
+        } else {
+            setHasFinishedFirstGatherTour((prevVal) => !prevVal);
+        }
+    };
+
+    return (
+        <CommsContext.Provider
+            value={{
+                imageCacheRef: imageCacheRef.current,
+                chatMessagesController,
+                linkController,
+                indexAvatarController,
+                initialLoadAllGood,
+                currentPage,
+                hasFinishedFirstGatherTour,
+                toggleHasFinishedFirstGatherTour,
+                hasApprovedTos,
+                hasFinishedFirstPostTour,
+                toggleHasFinishedFirstPostTour,
+                hasFinishedFirstUseTour,
+                toggleHasFinishedFirstUseTour,
+                approvedTosHandler,
+                showTermsOfServiceModal,
+                changeSelectedCommFromChild,
+                updateLocalSelectedHarth,
+                updateSelectedHarth,
+                updateSelectedTopic,
+                profile,
+                refetchComms,
+                rooms,
+                topicChange,
+                setRooms,
+                grabTopics,
+                comms,
+                setCommsFromChild,
+                setComm,
+                selectedcomm,
+                topics,
+                addNewTopic,
+                setTopic,
+                selectedTopic,
+                topicChangeHandler,
+                setTopics,
+                setSelectedTopic,
+                setConversations,
+                conversations,
+                selectedConversation,
+                setSelectedConversation,
+                fetchConversations,
+                setIncomingConversationMsg,
+                incomingConversationMsg,
+                setIncomingConversationMessagesHandler,
+                setIncomingConversationMsgUpdate,
+                incomingConversationMsgUpdate,
+                selectedCommRef,
+                setProfile,
+                profileRef: profileRef.current,
+                resetConversations,
+                resetTopics,
+                forceHarthCreation,
+                selectedTopicRef,
+                setHasRoomMinimized,
+                hasRoomMinimized,
+                handleOpenMInimizedRoom,
+                openMinimizedRoom,
+                clearMinimized,
+                openMobileRoom,
+                closeActiveRoomFromMobile,
+                minimizeHandler,
+                activeRoom,
+                isLoadingTopics,
+                isLoadingConversations,
+                keepSpinning,
+                selectedTopicRef: selectedTopicRef.current,
+                updateSelectedConv,
+                setSelectedcomm,
+                setComms,
+                changeHarthFromClick,
+                showAdminPromotionModal,
+            }}
+        >
+            {children}
+        </CommsContext.Provider>
     );
-    if (!isInChatOrDM && !shouldOpenFromPush) {
-      setTopic({});
-    }
-  };
-  const openMobileRoom = (data) => {
-    let closeExisting = document.getElementById("mobile_minimized_closer");
-    if (closeExisting) {
-      closeExisting.click();
-    }
-
-    setTimeout(() => {
-      sessionStorage.setItem("active_room", JSON.stringify(data));
-      setHasRoomMinimized(false);
-      setActiveRoom(data);
-    }, 100);
-  };
-  const handleOpenMInimizedRoom = () => {
-    clearMinimized();
-    setOpenMinimizedRoom(true);
-  };
-  const clearMinimized = () => {
-    const storedActiveRoom = sessionStorage.getItem("active_room");
-    try {
-      const parsedRoom = JSON.parse(storedActiveRoom);
-      parsedRoom.isMinimized = false;
-      sessionStorage.setItem("active_room", JSON.stringify(parsedRoom));
-    } catch (error) {
-      console.log(error);
-    }
-    setHasRoomMinimized(false);
-  };
-  const closeActiveRoomFromMobile = () => {
-    sessionStorage.removeItem("active_room");
-    setActiveRoom(null);
-    setHasRoomMinimized(false);
-  };
-  const minimizeHandler = () => {
-    const storedActiveRoom = sessionStorage.getItem("active_room");
-    try {
-      const parsedRoom = JSON.parse(storedActiveRoom);
-      parsedRoom.isMinimized = true;
-      sessionStorage.setItem("active_room", JSON.stringify(parsedRoom));
-    } catch (error) {
-      console.log(error);
-    }
-    setHasRoomMinimized(true);
-  };
-  const approvedTosHandler = () => {
-    setHasApprovedTos(true);
-    setShowTermsOfServiceModal(false);
-  };
-  const toggleHasFinishedFirstUseTour = (value) => {
-    if (value) {
-      setHasFinishedFirstUseTour(value);
-    } else {
-      setHasFinishedFirstUseTour((prevVal) => !prevVal);
-    }
-  };
-  const toggleHasFinishedFirstPostTour = (value) => {
-    if (value) {
-      setHasFinishedFirstPostTour(value);
-    } else {
-      setHasFinishedFirstPostTour((prevVal) => !prevVal);
-    }
-  };
-  const toggleHasFinishedFirstGatherTour = (value) => {
-    if (value) {
-      setHasFinishedFirstGatherTour(value);
-    } else {
-      setHasFinishedFirstGatherTour((prevVal) => !prevVal);
-    }
-  };
-
-  return (
-    <CommsContext.Provider
-      value={{
-        imageCacheRef: imageCacheRef.current,
-        chatMessagesController,
-        linkController,
-        indexAvatarController,
-        initialLoadAllGood,
-        currentPage,
-        hasFinishedFirstGatherTour,
-        toggleHasFinishedFirstGatherTour,
-        hasApprovedTos,
-        hasFinishedFirstPostTour,
-        toggleHasFinishedFirstPostTour,
-        hasFinishedFirstUseTour,
-        toggleHasFinishedFirstUseTour,
-        approvedTosHandler,
-        showTermsOfServiceModal,
-        changeSelectedCommFromChild,
-        updateLocalSelectedHarth,
-        updateSelectedHarth,
-        updateSelectedTopic,
-        profile,
-        refetchComms,
-        rooms,
-        topicChange,
-        setRooms,
-        grabTopics,
-        comms,
-        setCommsFromChild,
-        setComm,
-        selectedcomm,
-        topics,
-        addNewTopic,
-        setTopic,
-        selectedTopic,
-        topicChangeHandler,
-        setTopics,
-        setSelectedTopic,
-        setConversations,
-        conversations,
-        selectedConversation,
-        setSelectedConversation,
-        fetchConversations,
-        setIncomingConversationMsg,
-        incomingConversationMsg,
-        setIncomingConversationMessagesHandler,
-        setIncomingConversationMsgUpdate,
-        incomingConversationMsgUpdate,
-        selectedCommRef,
-        setProfile,
-        profileRef: profileRef.current,
-        resetConversations,
-        resetTopics,
-        forceHarthCreation,
-        selectedTopicRef,
-        setHasRoomMinimized,
-        hasRoomMinimized,
-        handleOpenMInimizedRoom,
-        openMinimizedRoom,
-        clearMinimized,
-        openMobileRoom,
-        closeActiveRoomFromMobile,
-        minimizeHandler,
-        activeRoom,
-        isLoadingTopics,
-        isLoadingConversations,
-        keepSpinning,
-        selectedTopicRef: selectedTopicRef.current,
-        updateSelectedConv,
-        setSelectedcomm,
-        setComms,
-        changeHarthFromClick,
-        showAdminPromotionModal,
-      }}
-    >
-      {children}
-    </CommsContext.Provider>
-  );
 };
 
 export const useComms = () => useContext(CommsContext);
