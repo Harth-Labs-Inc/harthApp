@@ -1,7 +1,7 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
 import { authenticateUser } from "../../../util/authMiddleware";
-const newrelic = require("newrelic");
+import sendCustomNewRelicEvent from "util/saveNewRelicEvent";
 
 /* eslint-disable */
 export default async (req, res) => {
@@ -38,7 +38,8 @@ export default async (req, res) => {
       return res.status(401).json({ msg: "bad auth", ok: 0, lockDown: true });
     }
 
-    newrelic.recordCustomEvent(title, data);
+    sendCustomNewRelicEvent({ data, title });
+    console.log("saving event", response);
 
     return res.json({
       msg: "successful",

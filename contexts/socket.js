@@ -82,7 +82,7 @@ export const SocketProvider = ({ children }) => {
 
   let isReconnecting = false;
   let ispullingVersioning = false;
-  let isCacheUpdateScheduled = false;
+  // let isCacheUpdateScheduled = false;
 
   const connectSocket = useCallback(
     (shouldPullNewData) => {
@@ -110,8 +110,7 @@ export const SocketProvider = ({ children }) => {
         setSocket(tempSocket);
         setReconnected((prev) => !prev);
         setupListeners(tempSocket, user);
-        checkForCacheUpdate();
-        pullForIcon();
+        // checkForCacheUpdate();
         isReconnecting = false;
         currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
         if (user) {
@@ -174,13 +173,13 @@ export const SocketProvider = ({ children }) => {
 
     function handleChange() {
       tryReconnect();
-      if (!isCacheUpdateScheduled) {
-        isCacheUpdateScheduled = true;
-        requestAnimationFrame(() => {
-          checkForCacheUpdate();
-          isCacheUpdateScheduled = false;
-        });
-      }
+      // if (!isCacheUpdateScheduled) {
+      //   isCacheUpdateScheduled = true;
+      //   requestAnimationFrame(() => {
+      //     checkForCacheUpdate();
+      //     isCacheUpdateScheduled = false;
+      //   });
+      // }
     }
 
     window.addEventListener("visibilitychange", handleChange);
@@ -534,46 +533,46 @@ export const SocketProvider = ({ children }) => {
     getUnreadMessages(user, true);
     getUnreadConvMessages(user);
   };
-  const checkForCacheUpdate = () => {
-    if (!ispullingVersioning) {
-      ispullingVersioning = true;
-      fetch("/version.txt?" + new Date().getTime())
-        .then((response) => response.text())
-        .then((version) => {
-          if (
-            typeof APP_VERSION === "undefined" ||
-            APP_VERSION.trim() !== version.trim()
-          ) {
-            if (
-              navigator &&
-              "serviceWorker" in navigator &&
-              navigator.serviceWorker.controller
-            ) {
-              const channel = new MessageChannel();
-              channel.port1.onmessage = (event) => {
-                if (event.data && event.data.type === "FORCE_UPDATE") {
-                  setShowHasUpdateButton(true);
-                }
-              };
-              navigator.serviceWorker.controller.postMessage(
-                { type: "UPDATE_VERSION" },
-                [channel.port2]
-              );
-            } else {
-              ispullingVersioning = false;
-              setShowHasUpdateButton(false);
-            }
-          }
-          ispullingVersioning = false;
-        })
-        .catch(() => {
-          ispullingVersioning = false;
-          if (showHasUpdateButton) {
-            setShowHasUpdateButton(false);
-          }
-        });
-    }
-  };
+  // const checkForCacheUpdate = () => {
+  //   if (!ispullingVersioning) {
+  //     ispullingVersioning = true;
+  //     fetch("/version.txt?" + new Date().getTime())
+  //       .then((response) => response.text())
+  //       .then((version) => {
+  //         if (
+  //           typeof APP_VERSION === "undefined" ||
+  //           APP_VERSION.trim() !== version.trim()
+  //         ) {
+  //           if (
+  //             navigator &&
+  //             "serviceWorker" in navigator &&
+  //             navigator.serviceWorker.controller
+  //           ) {
+  //             const channel = new MessageChannel();
+  //             channel.port1.onmessage = (event) => {
+  //               if (event.data && event.data.type === "FORCE_UPDATE") {
+  //                 setShowHasUpdateButton(true);
+  //               }
+  //             };
+  //             navigator.serviceWorker.controller.postMessage(
+  //               { type: "UPDATE_VERSION" },
+  //               [channel.port2]
+  //             );
+  //           } else {
+  //             ispullingVersioning = false;
+  //             setShowHasUpdateButton(false);
+  //           }
+  //         }
+  //         ispullingVersioning = false;
+  //       })
+  //       .catch(() => {
+  //         ispullingVersioning = false;
+  //         if (showHasUpdateButton) {
+  //           setShowHasUpdateButton(false);
+  //         }
+  //       });
+  //   }
+  // };
   const setNewAlerts = (incomingUpdate, alertType) => {
     let alerts = { ...mainAlertsRef.current };
     let id =

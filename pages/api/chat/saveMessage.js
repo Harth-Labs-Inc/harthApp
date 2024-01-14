@@ -1,7 +1,7 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
 import { authenticateUser } from "util/authMiddleware";
-const newrelic = require("newrelic");
+import sendCustomNewRelicEvent from "util/saveNewRelicEvent";
 const crypto = require("crypto");
 
 /* eslint-disable */
@@ -65,19 +65,23 @@ const createMessage = async (db, data) => {
 };
 
 const recordNewRelicEvents = (messageId, data) => {
-  if (process.env.NODE_ENV === "production") {
-    const timestamp = new Date().toISOString();
-    newrelic.recordCustomEvent("MessageCreated", {
+  const timestamp = new Date().toISOString();
+  sendCustomNewRelicEvent({
+    data: {
       messageId,
       creatorId: data.creator_id,
       topicId: data.topic_id,
       harthId: data.comm_id,
       createdAt: timestamp,
-    });
-    newrelic.recordCustomEvent("HarthActivity", {
+    },
+    title: "MessageCreated",
+  });
+  sendCustomNewRelicEvent({
+    data: {
       harthId: data.comm_id,
       activityType: "message",
       createdAt: timestamp,
-    });
-  }
+    },
+    title: "HarthActivity",
+  });
 };

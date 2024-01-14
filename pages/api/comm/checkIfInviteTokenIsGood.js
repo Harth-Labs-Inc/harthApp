@@ -1,7 +1,7 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
-const newrelic = require("newrelic");
 import jwt from "jsonwebtoken";
+import sendCustomNewRelicEvent from "util/saveNewRelicEvent";
 
 /* eslint-disable */
 
@@ -69,10 +69,13 @@ export default async (req, res) => {
 
   if (isAccepting && process.env.NODE_ENV === "production") {
     const timestamp = new Date();
-    newrelic.recordCustomEvent("InviteAccepted", {
-      recieverId: user._id,
-      createdAt: timestamp.toISOString(),
-      senderId: senderID,
+    sendCustomNewRelicEvent({
+      data: {
+        recieverId: user._id,
+        createdAt: timestamp.toISOString(),
+        senderId: senderID,
+      },
+      title: "InviteAccepted",
     });
   }
 

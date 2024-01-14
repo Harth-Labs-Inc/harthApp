@@ -1,8 +1,8 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
-const newrelic = require("newrelic");
 import { Validator } from "node-input-validator";
 import { generateOTP } from "../../../services/helper";
+import sendCustomNewRelicEvent from "util/saveNewRelicEvent";
 
 /* eslint-disable */
 
@@ -23,9 +23,12 @@ export default async (req, res) => {
           if (userCreated && userCreated.insertedId) {
             if (process.env.NODE_ENV === "production") {
               const timestamp = new Date();
-              newrelic.recordCustomEvent("UserCreated", {
-                userId: userCreated.insertedId,
-                createdAt: timestamp.toISOString(),
+              sendCustomNewRelicEvent({
+                data: {
+                  userId: userCreated.insertedId,
+                  createdAt: timestamp.toISOString(),
+                },
+                title: "UserCreated",
               });
             }
             resolve(userCreated.insertedId.toString());
