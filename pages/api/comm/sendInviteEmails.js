@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 const nodemailer = require("nodemailer");
 import AWS from "aws-sdk";
 import { envUrls } from "../../../constants/urls";
-const newrelic = require("newrelic");
+import sendCustomNewRelicEvent from "util/saveNewRelicEvent";
 
 AWS.config = {
   accessKeyId: "AKIARIGZHATFWEQ2TU4K",
@@ -215,10 +215,13 @@ const sendInvitationEmail = (email, token, name, harthID) => {
       } else {
         if (process.env.NODE_ENV === "production") {
           const timestamp = new Date();
-          newrelic.recordCustomEvent("InviteSent", {
-            harthID: harthID,
-            createdAt: timestamp.toISOString(),
-            receiverEmail: email,
+          sendCustomNewRelicEvent({
+            data: {
+              harthID: harthID,
+              createdAt: timestamp.toISOString(),
+              receiverEmail: email,
+            },
+            title: "InviteSent",
           });
         }
         resolve(info);

@@ -1,6 +1,5 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
-const newrelic = require("newrelic");
 import { authenticateUser } from "util/authMiddleware";
 
 /* eslint-disable */
@@ -22,11 +21,14 @@ export default async (req, res) => {
           }
           if (process.env.NODE_ENV === "production") {
             const timestamp = new Date();
-            newrelic.recordCustomEvent("TopicCreated", {
-              harthId: data.comm_id,
-              createdAt: timestamp.toISOString(),
-              topicCreatorId: data.topic_creator_id,
-              topicId: topicCreated.insertedId,
+            sendCustomNewRelicEvent({
+              data: {
+                harthId: data.comm_id,
+                createdAt: timestamp.toISOString(),
+                topicCreatorId: data.topic_creator_id,
+                topicId: topicCreated.insertedId,
+              },
+              title: "TopicCreated",
             });
           }
           resolve(topicCreated);

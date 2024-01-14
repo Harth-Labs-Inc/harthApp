@@ -1,7 +1,7 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
-const newrelic = require("newrelic");
 import { authenticateUser } from "util/authMiddleware";
+import sendCustomNewRelicEvent from "util/saveNewRelicEvent";
 
 /* eslint-disable */
 const createConv = (db, data) => {
@@ -11,9 +11,12 @@ const createConv = (db, data) => {
       }
       if (process.env.NODE_ENV === "production") {
         const timestamp = new Date();
-        newrelic.recordCustomEvent("ConversationCreated", {
-          harthId: data.harthId,
-          createdAt: timestamp.toISOString(),
+        sendCustomNewRelicEvent({
+          data: {
+            harthId: data.harthId,
+            createdAt: timestamp.toISOString(),
+          },
+          title: "ConversationCreated",
         });
       }
       resolve(convCreated);
