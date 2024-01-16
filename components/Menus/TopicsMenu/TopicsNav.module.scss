@@ -31,11 +31,12 @@
     overflow-y: scroll;
     margin: 0;
     margin-top: 36px;
-    padding: 56px 16px 56px 16px;
+    padding: 48px 16px 48px 16px;
     border-radius: 0;
     margin-left: auto;
     margin-right: auto;
     background: var(--theme-mobile-offset);
+    background: aqua;
 
     .notopic {
       @include systemFont;
@@ -106,7 +107,7 @@
   &Container {
     position: relative;
     margin: 0;
-    padding: 0px 0 80px 0px;
+    padding: 0px 0 40px 0px;
     gap: 0px;
   }
 

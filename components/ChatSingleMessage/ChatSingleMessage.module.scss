@@ -277,7 +277,8 @@
         gap: 4px;
         position: relative;
         height: 36px;
-        font-size: 24px;
+        max-height: 36px;
+        font-size: 34px;
         line-height: 36px;
         text-align: center;
         background-color: var(--theme-offset-1);
@@ -291,6 +292,14 @@
           color: var(--font-main);
           @include reactionLabel;
         }
+
+        img {
+          width: fit-content;
+          max-width: 36px;
+          max-height: 36px;
+          overflow: hidden;
+        }
+
         &Owner {
           //background-color: $ash_medium;
           //.label {
