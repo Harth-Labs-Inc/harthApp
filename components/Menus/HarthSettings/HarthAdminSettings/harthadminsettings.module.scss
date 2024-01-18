@@ -2,7 +2,7 @@
 @import "../../../../styles/fonts.scss";
 
 .imageHolder {
-  margin-top: 48px;
+  margin-top: 40px;
 }
 
 .justImage {
@@ -27,37 +27,39 @@
 .form {
   margin-top: 30px;
   width: 100%;
-  margin-top: 32px;
-
-  input {
-    border: 0;
-  }
+  margin-top: 12px;
 
   &Content {
+    width: 100%;
     display: flex;
-    justify-content: center;
-    height: 40px;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+   // height: 40px;
   }
 
   .textEntry {
     margin: 0;
-    width: 220px;
+    width: 256px;
+    height: 48px;
     padding: 0px 2px 0px 8px;
     background-color: $background_offset_1;
     //border: 1px solid $ash_medium;
-    border-radius: 8px 0 0 8px;
+    border-radius: 8px;
     @include harthTitle;
     overflow: hidden;
     font-size: 20px;
     color: $font_light;
   }
   .formSubmit {
-    width: 96px;
-    padding: 8px;
+    width: 256px;
+    height: 48px;
+    //padding: 8px;
     background-color: $border_basic;
-    border-radius: 0 8px 8px 0;
+    border-radius: 999px;
     color: $font_light;
-    @include buttonLarge;
+    @include systemFont;
+    font-size: 16px;
     border: 0;
     outline: none;
     outline-style: none;
@@ -81,7 +83,9 @@
 
 .contentHolder {
   width: 100%;
-  padding: 16px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .title {
     width: fit-content;
@@ -90,7 +94,7 @@
   }
 
   .leaveButton {
-    margin-top: 40px;
+    margin-top: 20px;
   }
 }
 

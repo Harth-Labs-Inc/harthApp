@@ -16,7 +16,7 @@ import styles from "./HarthSettings.module.scss";
 
 const HarthSettings = (props) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState("notifications");
+  const [currentPage, setCurrentPage] = useState("admin");
   const { communityName, onToggleModal, communityId,} = props;
   const { updateLocalSelectedHarth } = useComms();
   const { isMobile } = useContext(MobileContext);
@@ -53,11 +53,11 @@ const HarthSettings = (props) => {
     case "members":
       page = <HarthMembersSettings />;
       break;
-    case "admin":
-      page = <HarthAdminSettings onToggleModal={onToggleModal} />;
+    case "notifications":
+      page = <HarthNotificationSettings onToggleModal={onToggleModal} />;
       break;
     default:
-      page = <HarthNotificationSettings />;
+      page = <HarthAdminSettings />;
       break;
   }
 
@@ -73,21 +73,18 @@ const HarthSettings = (props) => {
         </div>
 
         <div className={styles.navTabs} role="nav">
+
           <button
             className={`
-            ${styles.tabButton}
-            ${currentPage == "notifications" && styles.tabButtonActive}
-          `}
+              ${styles.tabButton}
+              ${currentPage == "admin" && styles.tabButtonActive}
+            `}
             onClick={() => {
-              changePageHandler("notifications");
+              changePageHandler("admin");
             }}
           >
-            {currentPage == "notifications" ? (
-              <IconNotificationsFill />
-            ) : (
-              <IconNotificationsNoFill />
-            )}
-            Notifications
+            {currentPage == "admin" ? <IconAdminPanel /> : <IconAdminPanel />}
+            My Härth
           </button>
 
           <button
@@ -109,16 +106,21 @@ const HarthSettings = (props) => {
 
           <button
             className={`
-              ${styles.tabButton}
-              ${currentPage == "admin" && styles.tabButtonActive}
-            `}
+            ${styles.tabButton}
+            ${currentPage == "notifications" && styles.tabButtonActive}
+          `}
             onClick={() => {
-              changePageHandler("admin");
+              changePageHandler("notifications");
             }}
           >
-            {currentPage == "admin" ? <IconAdminPanel /> : <IconAdminPanel />}
-            Admin
+            {currentPage == "notifications" ? (
+              <IconNotificationsFill />
+            ) : (
+              <IconNotificationsNoFill />
+            )}
+            Notifications
           </button>
+
         </div>
         <div className={styles.content}>{page}</div>
       </div>
