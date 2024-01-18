@@ -21,6 +21,7 @@ const InviteComp = (props) => {
   const { toggleCurrentPage } = props;
 
   const commsRef = useRef([]);
+  const emailInputRef = useRef(null);
 
   useEffect(() => {
     if (comms) {
@@ -39,6 +40,17 @@ const InviteComp = (props) => {
     };
   }, []);
 
+  const adjustInputWidth = () => {
+    const input = emailInputRef.current;
+    if (input) {
+        input.style.width = ((input.value.length + 1) * 8) + 'px';
+    }
+  };
+
+  useEffect(() => {
+    adjustInputWidth();
+  }, [emailInput]);
+
   const handleBack = () => {
     toggleCurrentPage("");
   };
@@ -53,6 +65,7 @@ const InviteComp = (props) => {
     setEmailInput(e.target.value);
     setSubmitError(null);
     setFormatError(null);
+    adjustInputWidth();
   };
   const handleInputKeyPress = (e) => {
     if (e.key === "Enter" || e.key === "," || e.key === "Tab") {
@@ -186,15 +199,8 @@ const InviteComp = (props) => {
                 <label className={styles.labelText} htmlFor="harthSelect">
                   Recipient Email
                 </label>
-                <p>{formatError ? "Invalid format" : ""}</p>
+                
                 <div className={styles.emailinput}>
-                  <input
-                    type="text"
-                    placeholder="email@email.com"
-                    value={emailInput}
-                    onChange={handleInputChange}
-                    onKeyDown={handleInputKeyPress}
-                  />
                   <div className={styles.enteredemails}>
                     <div className={styles.innerenteredemails}>
                       {enteredEmails.map((email, index) => (
@@ -202,19 +208,28 @@ const InviteComp = (props) => {
                           <button onClick={() => handleEmailDelete(email)}>
                             X
                           </button>
-                          {index !== enteredEmails.length - 1 ? (
+                          {/* {index !== enteredEmails.length - 1 ? (
                             <span>,</span>
-                          ) : null}
+                          ) : null} */}
                           {email}
                         </div>
                       ))}
                     </div>
                   </div>
+                  <input
+                    ref={emailInputRef}
+                    type="text"
+                    placeholder="email@email.com"
+                    value={emailInput}
+                    onChange={handleInputChange}
+                    onKeyDown={handleInputKeyPress}
+                  />
                 </div>
               </div>
 
               <p className={styles.error}>
                 {submitError ? "Please add an email" : ""}
+                {formatError ? "Invalid format" : ""}
               </p>
 
               <div className={styles.actionBar}>

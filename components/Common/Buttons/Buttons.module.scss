@@ -37,7 +37,7 @@
   background-color: $background_offset_1;
 
   path {
-    fill: $border_heavy;
+    fill: $background;
   }
   &Desktop {
     @media (hover: hover) and (pointer: fine) {

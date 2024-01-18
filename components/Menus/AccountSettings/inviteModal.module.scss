@@ -136,22 +136,32 @@
   position: relative;
   //border: 2px solid $border_basic;
   border-radius: 6px;
-  padding: 6px;
+  padding: 8px;
   display: flex;
   justify-content: space-between;
   position: relative;
   margin-top: 2px;
   background-color: $background_offset_1;
+
+  img {
+    border-radius: 999px;
+  }
 }
 .dropdownSelected {
   display: flex;
   margin: 5px;
+
+  
 
   span {
     padding-left: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  img {
+    border-radius: 999px;
   }
 }
 .arrow {
@@ -183,7 +193,7 @@
 .dropdownoption {
   display: flex;
   margin-bottom: 4px;
-  padding: 4px;
+  padding: 8px;
   background-color: $ash;
   border: 0;
   cursor: pointer;
@@ -215,7 +225,7 @@
   font-size: 18px;
 
   img {
-    border-radius: 8px;
+    border-radius: 999px;
   }
 
   // label {
@@ -226,31 +236,36 @@
   // }
 }
 .emailinput {
-  height: 48px;
+  height: 56px;
+  width: 100%;
   border: 0;
   border-radius: 6px;
-  padding: 8px;
+  padding-left: 8px;
   display: flex;
   flex-direction: row;
   //justify-content: space-between;
   align-items: center;
   position: relative;
   margin-top: 2px;
-  margin-bottom: 21px;
+  margin-bottom: 20px;
   overflow: scroll;
   background-color: $background_offset_1;
   gap: 12px;
+
   input {
     @include systemFont;
-    font-size: 16px;
+    font-size: 14px;
     color: $font_light;
     width: fit-content;
+    min-width: fit-content;
+    height: 32px;
     border-radius: 6px;
     padding: 0px;
     margin: 0px;
     background: transparent;
     border: none;
     text-transform: none;
+    caret-color: $hot_purple;
   }
 }
 .enteredemails {
@@ -293,6 +308,10 @@
     background: $border_basic;
     border: 0;
     border-radius: 999px;
+
+    path {
+      fill: $hot_purple;
+    }
   }
 }
 
