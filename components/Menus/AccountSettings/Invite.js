@@ -3,7 +3,7 @@ import { useComms } from "../../../contexts/comms";
 import { sendInviteEmails } from "../../../requests/community";
 import styles from "./inviteModal.module.scss";
 import { IconInviteEmail } from "resources/icons/IconInviteEmail";
-
+import { IconClose } from "resources/icons/IconClose";
 const InviteComp = (props) => {
   const { comms, setCommsFromChild, selectedCommRef, profile } = useComms();
   const [COMMS, SETCOMMS] = useState([]);
@@ -206,7 +206,7 @@ const InviteComp = (props) => {
                       {enteredEmails.map((email, index) => (
                         <div className={styles.email} key={index}>
                           <button onClick={() => handleEmailDelete(email)}>
-                            X
+                            <IconClose />
                           </button>
                           {/* {index !== enteredEmails.length - 1 ? (
                             <span>,</span>
