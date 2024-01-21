@@ -338,14 +338,14 @@
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   cursor: pointer;
-  background-color: $background;
+  background-color: $menu_color;
 
   path {
     fill: $ash_light;
   }
   &:active {
     //background-color: $ash_heavy;
-    background-color: $background;
+    background-color: $menu_color;
     path {
       fill: $hot_pink;
     }

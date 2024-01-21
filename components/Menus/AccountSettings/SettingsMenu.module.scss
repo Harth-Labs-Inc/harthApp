@@ -264,14 +264,14 @@
     &:hover {
       background-color: $button_main_press;
       path {
-        fill: $background;
+        fill: $menu_color;
       }
     }
 
     &:active {
       background-color: $button_main_press;
       path {
-        fill: $background;
+        fill: $menu_color;
       }
     }
   }
@@ -308,7 +308,7 @@
     }
 
     img {
-      width: 256px;
+      width: 100%;
       border-radius: 8px;
     }
 

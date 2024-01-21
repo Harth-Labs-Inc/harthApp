@@ -34,10 +34,10 @@
   border-radius: 99px;
   cursor: pointer;
   transition: all 0.2s;
-  background-color: $background_offset_1;
+  background-color: $border_basic;
 
   path {
-    fill: $background;
+    fill: $menu_color;
   }
   &Desktop {
     @media (hover: hover) and (pointer: fine) {
@@ -107,32 +107,34 @@
   }
 
   &Primary {
-    color: $font_light;
-    background: $button_main;
-    border: 0;
-    &:hover {
-      background-color: $button_main_press;
-    }
+    @include buttonPrimary;
+    // color: $font_light;
+    // background: $button_main;
+    // border: 0;
+    // &:hover {
+    //   background-color: $button_main_press;
+    // }
 
-    &:active {
-      background-color: $button_main_press;
-    }
+    // &:active {
+    //   background-color: $button_main_press;
+    // }
   }
 
   &Secondary {
-    color: $font_muted;
-    background: transparent;
-    border-color: $border_basic;
-    &:hover {
-      color: $font_light;
-      background-color: $button_main_press;
-      border-color: $button_main_press;
-    }
-    &:active {
-      color: $font_light;
-      background-color: $button_main_press;
-      border-color: $button_main_press;
-    }
+    @include buttonSecondary;
+    // color: $font_muted;
+    // background: transparent;
+    // border-color: $border_basic;
+    // &:hover {
+    //   color: $font_light;
+    //   background-color: $button_main_press;
+    //   border-color: $button_main_press;
+    // }
+    // &:active {
+    //   color: $font_light;
+    //   background-color: $button_main_press;
+    //   border-color: $button_main_press;
+    // }
   }
 
   &Large {
@@ -151,7 +153,7 @@
 
   &:disabled {
     color: $border_basic;
-    background-color: $background;
+    background-color: $menu_color;
     cursor: default;
     border: 1px solid $border_basic;
   }

@@ -34,7 +34,7 @@
     font-size: 12px;
     border-radius: 8px;
     color: $hot_purple;
-    background-color: $background;
+    background-color: black;
     padding: 8px 12px;
     border: 1px solid $hot_purple;
     text-align: center;
@@ -336,7 +336,7 @@
       }
 
       &AddReaction {
-        height: 32px;
+        height: 36px;
         width: 44px;
         background-color: transparent;
         padding: 0;

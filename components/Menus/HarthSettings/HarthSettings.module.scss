@@ -62,12 +62,18 @@
     .buttonHolder {
       position: absolute;
       right: -12px;
-      top: -12px;
+      top: -6px;
 
       button {
-        width: 40px;
+        width: 56px;
         height: 40px;
-        padding: 7px;
+        padding: 4px;
+
+        svg {
+          height: 32px;
+          width: 32px;
+        }
+
       }
     }
   }

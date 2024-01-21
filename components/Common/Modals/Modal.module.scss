@@ -5,7 +5,7 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    $background,
+    $menu_color,
     transparent
   );
   backdrop-filter: blur(30px);
@@ -42,7 +42,7 @@
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     padding: 0px;
-    background-color: $background;
+    background-color: $menu_color;
     border-top: 1px solid $modal_border;
     border-bottom: 1px solid $modal_border;
     opacity: 0;
@@ -78,8 +78,8 @@
     position: absolute;
     top: 0;
     height: var(--vh);
-    width: 356px;
-    background-color: $background;
+    width: 320px;
+    background-color: $menu_color;
     overflow: hidden;
     padding-bottom: 28px;
     border-radius: 0px;
@@ -98,7 +98,7 @@
   }
 
   &Block {
-    background: $background;
+    background: $menu_color;
     border: 0;
     animation: blur-in-block 0.3s ease-out forwards;
   }
@@ -122,7 +122,7 @@
     background-color: transparent;
   }
   to {
-    background-color: $background;
+    background-color: $menu_color;
   }
 }
 

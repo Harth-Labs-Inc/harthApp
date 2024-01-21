@@ -38,7 +38,7 @@
     border: 0;
     border-radius: 6px;
     cursor: pointer;
-    @include worksans;
+    @include systemFont;
     font-size: 14px;
 
     &:not(:last-of-type) {
@@ -61,7 +61,7 @@
     width: calc(100% + 8px);
     border: 0;
     border-radius: 0;
-    background-color: $background;
+    background-color: $menu_color;
     border-top: 1px solid $modal_border;
     border-bottom: 1px solid $modal_border;
     margin-top: -36px;
@@ -82,7 +82,7 @@
       }
 
       &:active {
-        background-color: $ash;
+        background-color: $black;
       }
     }
   }

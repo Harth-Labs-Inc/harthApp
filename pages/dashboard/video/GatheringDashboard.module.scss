@@ -22,7 +22,7 @@
   &Mobile {
     padding: calc(354px + $space_mobile) 0px 136px 0px;
     margin-top: 0px;
-    //background: var(--theme-mobile-offset);
+    background: var(--theme-color);
     
     &::after {
       display: none;

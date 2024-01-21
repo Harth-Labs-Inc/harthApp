@@ -3,17 +3,17 @@
 
 .Mobile {
   position: absolute;
-  top: 36px;
+  top: 78px;
   left: 50%;
   transform: translateX(-50%);
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
-  border-bottom-right-radius: 36px;
-  border-bottom-left-radius: 36px;
-  width: calc(100% - 4px);
+  border-top-right-radius: $corner_radius_mobile;
+  border-top-left-radius: $corner_radius_mobile;
+  border-bottom-right-radius: $corner_radius_mobile;
+  border-bottom-left-radius: $corner_radius_mobile;
+  width: calc(100% - 16px);
   height: fit-content;
-  background-color: var(--theme-color);
-  padding: 40px 16px 16px 16px;
+  background-color: var(--theme-offset-1);
+  padding: 4px 16px 16px 16px;
 
 }
 
@@ -41,8 +41,9 @@
   text-align: center;
 
   .Mobile & {
+    color: var(--font-main);
     font-size: 12px;
-    margin-bottom: 2px;
+    margin-bottom: 16px;
   }
 }
 
@@ -88,7 +89,7 @@
       font-size: 18px;
       font-weight: 500;
       border-radius: 999px;
-      background-color: var(--theme-offset-1);
+      background-color: var(--theme-offset-2);
       border: 0;
       height: 40px;
       color: var(--font-main);
@@ -172,7 +173,7 @@
   left: 50%;
   transform: translateX(-50%);
   @include systemFont;
-  color: var(--font-muted);
+  color: var(--font-main);
   font-size: 10px;
   line-height: 10px;
   text-align: center;
@@ -180,14 +181,15 @@
   margin: 0;
   border-radius: 999px;
   overflow: hidden;
-  padding: 4px 8px;
+  padding: 4px 8px 4px 8px;
+
 
   p {
     white-space: nowrap;
   }
 
   .Mobile & {
-    font-size: 13px;
+    font-size: 12px;
     bottom: -16px;
   }
 }
@@ -222,12 +224,12 @@
   justify-content: center;
   width: 100%;
   height: 32px;
-  color: var(--font-muted);
+  color: var(--border-heavy);
   background-color: transparent;
   border-radius: 999px;
   cursor: pointer;
   @include systemFont;
-  border: 1px solid var(--border-basic);
+  border: 1px solid var(--border-heavy);
   padding: 0px 0px;
   margin: 0;
   gap: 4px;
@@ -238,7 +240,7 @@
     margin: 0;
 
     path {
-      fill: var(--path-light);
+      fill: var(--border-heavy);
     }
   }
 
@@ -246,7 +248,7 @@
     //border: 0;
 
     .Mobile & {
-      border: 1px solid var(--border-basic);
+      border: 1px solid var(--border-heavy);
     }
   }
 

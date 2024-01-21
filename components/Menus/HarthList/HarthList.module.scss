@@ -87,7 +87,7 @@
         height: 12px;
         width: 12px;
         content: "";
-        background-color: $background;
+        background-color: $menu_color;
         border-radius: 9999px;
       }
       &:after {
@@ -255,7 +255,7 @@
         height: 16px;
         width: 16px;
         content: "";
-        background-color: $background;
+        background-color: $menu_color;
         border-radius: 9999px;
       }
       &:after {
@@ -291,12 +291,12 @@
       height: 100%;
       width: 100%;
       border: 0;
-      border-radius: 8px;
+      border-radius: 999px;
       background: $border_basic;
-      padding: 1px;
+      padding: 2px;
 
       path {
-        fill: $background;
+        fill: $menu_color;
       }
 
       &:active {

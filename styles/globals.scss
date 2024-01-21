@@ -3,7 +3,7 @@
 
 //Consolodated
 $fuel: #271623;
-$ash: #18181e;
+$ash: #28282e;
 $oxygen: #fefff6;
 
 // Hot Blue
@@ -43,14 +43,15 @@ $font_muted: #6a6a74;
 // Default Colors / Dark Mode
 $font_reverse: yellow;
 
-$background: #000;
+$background: red;
 $background_reverse: #fff;
 $basic_offset: $ash;
-$background_offset: $ash;
-$background_offset_1: #28282e;
-$background_offset_2: red;
-$background_offset_3: green;
+$background_offset: lighten($ash, 10%);
+$background_offset_1: lighten($ash, 10%);
 $background_sidebar: blue;
+
+$menu_color: $ash;
+$menu_color_offset: darken($ash, 3%);
 
 $button_main: $background_offset_1;
 $button_main_press: $hot_purple;
@@ -59,7 +60,10 @@ $border_light: #38383e;
 $border_basic: #48484e;
 $border_heavy: #58585e;
 
-$modal_border: rgba(170, 104, 200, 25%);
+$path_basic: lighten($ash, 18%);
+
+$modal_border: #000;
+
 
 // Gathering Colors
 $gather_background: #000000;
@@ -72,17 +76,16 @@ $gather_path_heavy: lighten($gather_background, 50%);
 .dark-mode {
   --theme-color: #18181e;
   --theme-reverse: #fefff6;
-  --theme-offset-1: #28282e;
-  --theme-offset-2: #08080e;
+  --theme-offset-1: #38383e;
+  --theme-offset-2: #212128;
   --theme-offset-3: #1c1c22;
   --theme-mobile-offset: #111118;
-  --overlay-background: #000;
   --font-main: #fefff6;
   --font-reverse: #271623;
   --font-muted: #595961;
   --border-light: #38383e;
-  --border-basic: #48484e;
-  --border-heavy: #58585e;
+  --border-basic: #58585e;
+  --border-heavy: #78787e;
   --path-light: #4f4f55;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
@@ -90,22 +93,21 @@ $gather_path_heavy: lighten($gather_background, 50%);
 
 //light color theme
 .light-mode {
-  --theme-color: #f6f2ed;
-  --theme-reverse: #18181e;
-  --theme-offset-1: #e6e2dd;
-  --theme-offset-2: #d6d2cd;
-  --theme-offset-3: #f0ebe5;
-  --theme-mobile-offset: #ede8db;
-  --overlay-background: #000;
-  --font-main: #271623;
-  --font-reverse: #fefff6;
+  --theme-color: #48484e;
+  --theme-reverse: #fefff6;
+  --theme-offset-1: #78787e;
+  --theme-offset-2: #616168;
+  --theme-offset-3: #4c4c52;
+  --theme-mobile-offset: #313138;
+  --font-main: #fefff6;
+  --font-reverse: #271623;
   --font-muted: #797981;
-  --border-light: #d6d2cd;
-  --border-basic: #c6c2bd;
-  --border-heavy: #b6b2ad;
-  --path-light: #8f8f85;
-  --path-basic: #9f9f95;
-  --path-heavy: #afafa5;
+  --border-light: #58585e;
+  --border-basic: #78787e;
+  --border-heavy: #98989e;
+  --path-light: #6f6f75;
+  --path-basic: #9f9fa5;
+  --path-heavy: #bfbfc5;
 }
 
 // White
@@ -147,7 +149,7 @@ $space: 8px;
 $space_mobile: 10px;
 $outline_mobile: 0px;
 
-$overlay: rgba(0, 0, 0, 0.6);
+$overlay: rgba(40, 40, 46, 0.33);
 // linear-gradient(
 //   rgba(0, 0, 0, 0.4),
 //   rgba(48, 48, 48, 0.6),
@@ -165,7 +167,7 @@ $overlay: rgba(0, 0, 0, 0.6);
   letter-spacing: 0.02em;
   font-size: 16px;
   height: 48px;
-  width: fit-content;
+  //width: fit-content;
   margin: 0;
   border-radius: 999px;
   padding: 0px 18px;
@@ -191,7 +193,7 @@ $overlay: rgba(0, 0, 0, 0.6);
 }
 
 @mixin buttonSecondary {
-  background: $background;
+  background: $menu_color;
   color: $font_muted;
   border: 1px solid $border_heavy;
   @include systemFont;
@@ -357,7 +359,7 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
 
 .slideRight-exit-active,
 .slideLeft-exit-active {
-  background-color: $background;
+  background-color: var(--theme-color);
 }
 .enterLeft-enter {
   transform: translateX(100%) !important;
@@ -368,16 +370,16 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
   transition: transform 300ms;
 }
 .gatherTransitionBackground {
-  background: $background; 
+  background: var(--theme-color);
 }
 .messageTransitionBackground {
-  background: $background;
+  background: var(--theme-color);
 }
 .chatTransitionBackground {
-  background: $background;
+  background: var(--theme-color);
 }
 .defaultTransitionBackground {
-  background: $background;
+  background: var(--theme-color);
 }
 #ReactSimpleImageViewer {
   z-index: 9999 !important;

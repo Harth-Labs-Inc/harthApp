@@ -25,7 +25,7 @@
   display: block;
   text-transform: uppercase;
   padding: 12px 12px;
-  background-color: $background;
+  background-color: var(--theme-color);
   border-radius: 8px;
   border: 0px;
   cursor: pointer;
@@ -119,19 +119,19 @@
   }
   button:hover {
     background-color: $button_main_press;
-    color: $background;
+    color: black;
     border-color: $button_main_press;
   }
 
   .UpdateNow {
     margin-left: 8px;
     background: $button_main;
-    color: $background;
+    color: black;
     height: 40px;
   }
 
   .UpdateLater {
-    background: $background;
+    background: $menu_color;
     color: $font_muted;
     border: 1px solid $border_basic;
     height: 32px;
