@@ -276,10 +276,6 @@
         align-items: center;
         gap: 4px;
         position: relative;
-        height: 36px;
-        max-height: 36px;
-        font-size: 32px;
-        line-height: 32px;
         text-align: center;
         background-color: var(--theme-offset-1);
         border-radius: 99px;
@@ -320,6 +316,16 @@
         }
 
         &Desktop {
+          height: 32px;
+          max-height: 32px;
+          font-size: 28px;
+          line-height: 28px;
+
+          img {
+            max-width: 32px;
+            max-height: 32px;
+          }
+
           @media (hover: hover) and (pointer: fine) {
             &:hover {
               cursor: pointer;
@@ -329,6 +335,16 @@
         }
 
         &Mobile {
+          height: 36px;
+          max-height: 36px;
+          font-size: 32px;
+          line-height: 32px;
+
+          img {
+            max-width: 36px;
+            max-height: 36px;
+          }
+
           &:active {
             background-color: var(--theme-offset-2);
           }
@@ -336,7 +352,6 @@
       }
 
       &AddReaction {
-        height: 36px;
         width: 44px;
         background-color: transparent;
         padding: 0;
@@ -356,6 +371,7 @@
         }
 
         &Desktop {
+          height: 32px;
           &:hover {
             background-color: var(--theme-offset-2);
             cursor: pointer;
@@ -366,6 +382,7 @@
         }
 
         &Mobile {
+          height: 36px;
           &:active {
             background-color: var(--theme-offset-2);
             path {

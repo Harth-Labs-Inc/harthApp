@@ -38,7 +38,7 @@
   &Mid {
     position: absolute;
     width: 100%;
-    top: 44%;
+    top: 48%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     padding: 0px;
@@ -114,6 +114,7 @@
   }
   to {
     background: $overlay;
+    backdrop-filter: blur(6px);
   }
 }
 

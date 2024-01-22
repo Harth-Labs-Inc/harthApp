@@ -11,7 +11,7 @@
   border: 0;
   border-radius: $box_radius;
   border-bottom-left-radius: $outside_radius;
-  margin-right: calc($space / 2);
+  margin-right: $space_gap;
   background: var(--theme-color);
 
   .notopic {

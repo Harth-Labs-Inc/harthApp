@@ -61,7 +61,7 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: var(--theme-offset-1);
+          background: var(--theme-offset-2);
 
           .iconHolder {
             path {
@@ -125,7 +125,7 @@
       width: 22px;
 
       path {
-        fill: $path_basic;
+        fill: var(--path-light);
       }
 
       &UnreadMessage {
@@ -213,7 +213,7 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: var(--theme-offset-1);
+          background-color: var(--theme-offset-2);
         }
       }
     }

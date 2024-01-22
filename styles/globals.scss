@@ -95,8 +95,8 @@ $gather_path_heavy: lighten($gather_background, 50%);
 .light-mode {
   --theme-color: #48484e;
   --theme-reverse: #fefff6;
-  --theme-offset-1: #78787e;
-  --theme-offset-2: #616168;
+  --theme-offset-1: #58585e;
+  --theme-offset-2: #313138;
   --theme-offset-3: #4c4c52;
   --theme-mobile-offset: #313138;
   --font-main: #fefff6;
@@ -106,8 +106,8 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --border-basic: #78787e;
   --border-heavy: #98989e;
   --path-light: #6f6f75;
-  --path-basic: #9f9fa5;
-  --path-heavy: #bfbfc5;
+  --path-basic: #7f7f85;
+  --path-heavy: #9f9fa5;
 }
 
 // White
@@ -142,14 +142,15 @@ $silver-dark: #929ca8;
 $corner_radius: 8px;
 $corner_radius_mobile: 10px;
 
-$box_radius: 4px;
-$outside_radius: 12px;
+$box_radius: 16px;
+$outside_radius: 16px;
 
 $space: 8px;
+$space_gap: 6px;
 $space_mobile: 10px;
 $outline_mobile: 0px;
 
-$overlay: rgba(40, 40, 46, 0.33);
+$overlay: rgba(40, 40, 46, 0.50);
 // linear-gradient(
 //   rgba(0, 0, 0, 0.4),
 //   rgba(48, 48, 48, 0.6),

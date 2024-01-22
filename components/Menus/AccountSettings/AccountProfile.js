@@ -128,15 +128,6 @@ const AccountProfile = (props) => {
 
             <div className={styles.SettingsContainerTitle}>Interface</div>
             <div className={styles.themeHolder}>
-              <button
-                className={`${styles.theme} ${
-                  theme === "light-mode" ? styles.active : ""
-                }`}
-                onClick={toggleLightMode}
-              >
-                <p>Light Mode</p>
-                <img src="/images/lightmode.png" />
-              </button>
 
               <button
                 className={`${styles.theme} ${
@@ -147,6 +138,17 @@ const AccountProfile = (props) => {
                 <p>Dark Mode</p>
                 <img src="/images/darkmode.png" />
               </button>
+
+              <button
+                className={`${styles.theme} ${
+                  theme === "light-mode" ? styles.active : ""
+                }`}
+                onClick={toggleLightMode}
+              >
+                <p>Light Mode</p>
+                <img src="/images/lightmode.png" />
+              </button>
+
             </div>
           </div>
         </div>

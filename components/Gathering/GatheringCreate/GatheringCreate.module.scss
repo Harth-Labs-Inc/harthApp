@@ -19,25 +19,27 @@
 
 .Desktop {
   position: absolute;
-  top: calc($space / 2);
+  top: $space_gap;
   left: 50%;
   transform: translateX(-50%);
-  border-radius: 8px;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-radius: $corner_radius;
+  border-bottom-right-radius: calc($corner_radius * 4);
+  border-bottom-left-radius: calc($corner_radius * 4);
   overflow: hidden;
   border: 0;
-  padding: 0px 0px 24px 0px;
+  padding: 0px 12px 24px 20px;
   width: calc(100% - (2 * $space));
+  //width: fit-content;
   min-width: fit-content;
   height: fit-content;
-  background-color: var(--theme-color);
+  background-color: var(--theme-offset-1);
 }
 
 .title {
-  color: var(--font-muted);
+  color: var(--font-main);
   @include eyebrow;
-  padding-top: 10px;
+  padding-top: 8px;
+  padding-bottom: 4px;
   text-align: center;
 
   .Mobile & {
