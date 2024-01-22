@@ -108,7 +108,7 @@ const AccountProfile = (props) => {
           <div className={styles.sectionContainer}>
             <div className={styles.SettingsContainerTitle}>Email</div>
             <div className={styles.optionHolder}>
-              {user.email}
+              <p>{user.email}</p>
               <EditButton clickHandler={() => toggleCurrentSetting("email")} />
             </div>
 

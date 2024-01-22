@@ -245,7 +245,8 @@
   column-gap: 4px;
   justify-content: space-between;
   align-items: center;
-  width: calc(100% - 16px);
+  width: 100%;
+  max-width: 100%;
   height: 56px;
   padding: 0px 12px;
   @include systemFont;
@@ -254,7 +255,12 @@
   color: $font_light;
   background: transparent;
   border-radius: 6px;
-  text-overflow: ellipsis;
+
+  p {
+    max-width: calc(100% - 40px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 
   path {
     fill: $font_light;
