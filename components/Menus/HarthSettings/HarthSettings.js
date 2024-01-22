@@ -84,7 +84,7 @@ const HarthSettings = (props) => {
             }}
           >
             {currentPage == "admin" ? <IconAdminPanel /> : <IconAdminPanel />}
-            My Härth
+            Details
           </button>
 
           <button
