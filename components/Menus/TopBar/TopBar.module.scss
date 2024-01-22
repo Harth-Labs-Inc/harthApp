@@ -46,6 +46,8 @@
     border-bottom-left-radius: $box_radius;
     border-bottom-right-radius: $box_radius;
     padding-right: 10px;
+    border-bottom: 1px solid var(--theme-offset-2);
+
 
     &Mobile {
       display: flex;
@@ -61,6 +63,10 @@
       padding-right: 10px;
       padding-left: 0px;
       border: 0;
+
+      &::after {
+        opacity: 0;
+      }
     }
   }
 
