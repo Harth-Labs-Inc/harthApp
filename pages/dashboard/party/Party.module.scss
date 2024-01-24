@@ -28,21 +28,17 @@
       flex-direction: column;
 
       .ownerVideo {
-        bottom: 20px !important;
+        bottom: 50px !important;
       }
     }
 
     .peerContainer {
-      display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: 8px;
       position: relative;
       z-index: 1;
-      height: 98%;
+      height: 96%;
       width: 100%;
-      padding: 8px;
       text-align: center;
       user-select: none;
 
@@ -73,18 +69,20 @@
     }
 
     .videoContainer {
+      display: flex;
       position: relative;
-      display: inline-flex;
-      align-items: center;
-      flex-direction: column;
-      justify-content: center;
-      aspect-ratio: 1/1;
-      margin: 4px;
-      overflow: hidden;
+      height: 96%;
+      width: 100%;
       border: 1px solid $black;
-      border-radius: 12px;
       background-color: $black;
-
+      justify-content: center;
+      flex-direction: column;
+      figure {
+        width: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+      }
       .peerName {
         color: $white;
         @include topicTitle;
@@ -111,17 +109,39 @@
         height: 100%;
         top: 0;
         left: 0;
-        //background: #000;
-        //border-radius: 12px;
         overflow: hidden;
         background-size: cover;
         overflow: hidden;
-        // -webkit-transition: margin-top 1s ease-in-out;
-        // -moz-transition: margin-top 1s ease-in-out;
-        // -o-transition: margin-top 1s ease-in-out;
-        // transition: margin-top 1s ease-in-out;
       }
     }
+    .lastOddPeer {
+      display: block;
+      left: 50vw;
+      transform: translateX(-52%);
+    }
+    .peerswitcherNext {
+      position: fixed;
+      top: 49%;
+      right: 3%;
+      height: 30px;
+      width: 30px;
+      border-radius: 25px;
+      border: none;
+      font-size: 20px;
+      text-align: center;
+    }
+    .peerswitcherPrev{
+      position: fixed;
+      top: 49%;
+      left: 3%;
+      height: 30px;
+      width: 30px;
+      border-radius: 25px;
+      border: none;
+      font-size: 20px;
+      text-align: center;
+    }
+
 
     .streamContainer {
       visibility: hidden;
@@ -131,7 +151,7 @@
       &Mobile {
         &.streamContainerActive {
           width: 100%;
-          height: max-content !important;
+          height: 80%;
         }
       }
 
@@ -141,7 +161,6 @@
         height: 100%;
         width: 85%;
         justify-content: center;
-        //align-items: center;
         overflow: hidden;
         padding: 8px;
 
@@ -246,7 +265,6 @@
       }
 
       video {
-        //border: 4px solid red;
         height: 100%;
         width: 100%;
         border-radius: 12px;
@@ -266,16 +284,22 @@
       z-index: 10;
       width: fit-content;
       height: 100%;
-      //border: 4px solid green;
       background: transparent;
 
       display: flex;
       flex-direction: column;
-      // gap: 12px;
     }
   }
 }
+.flexedPeers {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
+.flexedPeers > div:last-child {
+  margin-bottom: 20px;
+}
 .videoActive {
   > img,
   > p {

@@ -130,12 +130,14 @@ export const VideoProvider = ({ children }) => {
 
     socket.on("broadcast", (data) => {
       let { event, groupCallRooms, peers } = data;
+      let id = data.harthID || data.harthId;
+
       switch (event) {
         case "GROUP_CALL_ROOMS":
           if (
-            data.harthID &&
+            id &&
             selectedCommRef.current &&
-            data.harthID == selectedCommRef.current._id
+            id == selectedCommRef.current._id
           ) {
             setCallRooms(groupCallRooms);
           }
@@ -263,9 +265,9 @@ export const VideoProvider = ({ children }) => {
   };
   const createEmptyRoom = (data, cb) => {
     if (socket) {
-      socket.emit("create-call-room", data, cb);
+      socket.emit("create-room", data, cb);
     } else if (socketRef.current) {
-      socketRef.current.emit("create-call-room", data, cb);
+      socketRef.current.emit("create-room", data, cb);
     }
   };
   return (

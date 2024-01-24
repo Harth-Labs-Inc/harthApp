@@ -22,7 +22,13 @@ const GatherHeader = (props) => {
       {modal ? (
         <Modal show={modal} onToggleModal={showMobileMenu} isDark={true}>
           <div className={styles.leaveMenu}>
-            <button className={styles.menuItem} onClick={minimizeHandler}>
+            <button
+              className={styles.menuItem}
+              onClick={() => {
+                setModal(false);
+                minimizeHandler();
+              }}
+            >
               <IconCloseFullScreen />
               <p>Minimize Gathering</p>
             </button>
@@ -37,60 +43,69 @@ const GatherHeader = (props) => {
       )}
 
       {type == "stream" && (
-
-        <div className={`
+        <div
+          className={`
           ${styles.stream}
           ${isMobile ? styles.streamMobile : styles.streamDesktop}
-        `}>
-          <div className={styles.iconHolder}><RoomStream /></div>
+        `}
+        >
+          <div className={styles.iconHolder}>
+            <RoomStream />
+          </div>
           <div className={styles.labelHolder}>{gatheringName}</div>
 
           {isMobile ? (
-          <>
-          <button className={styles.leave} onClick={showMobileMenu}>
-            <IconHangUp />
-          </button>
-          </>
+            <>
+              <button className={styles.leave} onClick={showMobileMenu}>
+                <IconHangUp />
+              </button>
+            </>
           ) : null}
         </div>
       )}
-      
+
       {type == "voice" && (
-        <div className={`
+        <div
+          className={`
           ${styles.voice}
           ${isMobile ? styles.voiceMobile : styles.voiceDesktop}
-        `}>
-          <div className={styles.iconHolder}><RoomVoice /></div>
+        `}
+        >
+          <div className={styles.iconHolder}>
+            <RoomVoice />
+          </div>
           <div className={styles.labelHolder}>{gatheringName}</div>
 
           {isMobile ? (
-          <>
-          <button className={styles.leave} onClick={showMobileMenu}>
-            <IconHangUp />
-          </button>
-          </>
+            <>
+              <button className={styles.leave} onClick={showMobileMenu}>
+                <IconHangUp />
+              </button>
+            </>
           ) : null}
         </div>
-
       )}
-      
-      {type == "party" && ( 
-        <div className={`
+
+      {type == "party" && (
+        <div
+          className={`
           ${styles.basic}
           ${isMobile ? styles.basicMobile : styles.basicDesktop}
-        `}>          
-          
-          <div className={styles.iconHolder}><RoomParty /></div>
+        `}
+        >
+          <div className={styles.iconHolder}>
+            <RoomParty />
+          </div>
           <div className={styles.labelHolder}>{gatheringName}</div>
 
           {isMobile ? (
-          <>
-          <button className={styles.leave} onClick={showMobileMenu}>
-            <IconHangUp />
-          </button>
-          </>
+            <>
+              <button className={styles.leave} onClick={showMobileMenu}>
+                <IconHangUp />
+              </button>
+            </>
           ) : null}
-        </div>       
+        </div>
       )}
     </>
   );
