@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-import { generateID } from "services/helper";
+import { generateID, getBaseUrl } from "services/helper";
 import { MobileContext } from "contexts/mobile";
 import VoiceControlBar from "components/Gathering/VoiceControlBar/VoiceControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
@@ -160,13 +160,20 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               setUserID(creator?._id);
             }
             const URLS = videoSocketUrls;
+            let connectionURL = "";
+            let baseURL = getBaseUrl();
+            if (baseURL.includes("qa.hrth.app")) {
+              connectionURL = URLS["qa"];
+            } else {
+              connectionURL = URLS[process.env.NODE_ENV] || URLS["development"];
+            }
             axios
-              .get(`${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`)
+              .get(`${connectionURL}/api/get-turn-credentials`)
               .then((responseData) => {
                 setTurnServers(responseData.data.token.iceServers);
                 const token = localStorage.getItem("token");
                 setSocket(
-                  io.connect(URLS[process.env.NODE_ENV], {
+                  io.connect(connectionURL, {
                     transports: ["websocket"],
                     query: {
                       token,

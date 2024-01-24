@@ -2,7 +2,7 @@ import { createContext, useState, useContext, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { videoSocketUrls } from "../constants/urls";
 import { getScheduledCallRooms, deleteScheduledRoom } from "../requests/rooms";
-import { combineDateTime } from "../services/helper";
+import { combineDateTime, getBaseUrl } from "../services/helper";
 import { useComms } from "./comms";
 import { useSocket } from "./socket";
 import { useAuth } from "./auth";
@@ -38,8 +38,8 @@ export const VideoProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     const URLS = videoSocketUrls;
     let connectionURL = "";
-    let isQA = process.env.IS_QA_ENV === "true";
-    if (isQA) {
+    let baseURL = getBaseUrl();
+    if (baseURL.includes("qa.hrth.app")) {
       connectionURL = URLS["qa"];
     } else {
       connectionURL = URLS[process.env.NODE_ENV];

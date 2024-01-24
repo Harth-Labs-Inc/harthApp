@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-import { generateID } from "services/helper";
+import { generateID, getBaseUrl } from "services/helper";
 import { useAuth } from "contexts/auth";
 import { MobileContext } from "contexts/mobile";
 import StreamControlBar from "components/Gathering/StreamControlBar/StreamControlBar";
@@ -84,9 +84,15 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     disconnectSocket();
 
     const token = localStorage.getItem("token");
-    const URL = videoSocketUrls[process.env.NODE_ENV];
-
-    const tempSocket = io.connect(URL, {
+    const URLS = videoSocketUrls;
+    let connectionURL = "";
+    let baseURL = getBaseUrl();
+    if (baseURL.includes("qa.hrth.app")) {
+      connectionURL = URLS["qa"];
+    } else {
+      connectionURL = URLS[process.env.NODE_ENV] || URLS["development"];
+    }
+    const tempSocket = io.connect(connectionURL, {
       transports: ["websocket"],
       query: { token },
       reconnection: true,
