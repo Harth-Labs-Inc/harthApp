@@ -39,7 +39,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const [isActiveScreenShare, setIsActiveScreenShare] = useState(false);
   const [TurnServers, setTurnServers] = useState([]);
   const [diceAlerts, setDiceAlerts] = useState([]);
-  const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
 
   const [videoStreams, setVideoStreams] = useState({});
   const [audioStreams, setAudioStreams] = useState({});
@@ -695,7 +694,10 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         ...ownerData.current,
       };
       sendNewChatMessage(newMsg);
-      setIsFinishedInitialSetup(true);
+      let element = document.getElementById("initialLoader");
+      if (element) {
+        element.remove();
+      }
     }
   };
   // -- audio --
@@ -1501,7 +1503,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     setIsActiveScreenShare(false);
     setTurnServers([]);
     setDiceAlerts([]);
-    setIsFinishedInitialSetup(false);
 
     ownerData.current = {};
     PEERS.current = [];
@@ -2052,7 +2053,9 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
 
   return (
     <>
-      {!isFinishedInitialSetup && <SpinningLoader gatherRoom={true} />}
+      <div id="initialLoader">
+        <SpinningLoader gatherRoom={true} />
+      </div>
       <main id="PartyWindow" className={styles.PartyWindow}>
         <button
           id="mobile_minimized_closer"
