@@ -6,12 +6,12 @@
   width: 248px;
   min-width: 248px;
   padding: 12px 8px 0px 8px;
-  height: 100%;
+  height: calc(100% + 8px);
   overflow-y: scroll;
   border: 0;
   border-right: 1px solid var(--theme-offset-2);
   border-radius: $box_radius;
-  border-bottom-left-radius: $outside_radius;
+  border-bottom-left-radius: 0;
   margin-right: $space_gap;
   background: var(--theme-color);
 

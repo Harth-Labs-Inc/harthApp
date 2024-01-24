@@ -4,9 +4,7 @@
 .ConversationMessages {
   display: flex;
   width: 100%;
-  padding: $space;
-  padding-top: $space_gap;
-  padding-bottom: 12px;
+  padding-left: $space;
 }
 
 .topicHolderMobile {

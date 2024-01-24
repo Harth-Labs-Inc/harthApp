@@ -28,7 +28,7 @@
   position: relative;
   width: 100%;
   background: transparent;
-  padding: 12px $space 0 $space;
+  padding: 0px 0 0 $space;
   z-index: 10;
 
   .background {
@@ -41,7 +41,7 @@
     align-items: center;
     justify-content: space-between;
     border-radius: 0;
-    border-top-right-radius: $outside_radius;
+    border-top-right-radius: 0;
     border-top-left-radius: $outside_radius;
     border-bottom-left-radius: $box_radius;
     border-bottom-right-radius: $box_radius;

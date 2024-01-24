@@ -43,7 +43,7 @@ $font_muted: #6a6a74;
 // Default Colors / Dark Mode
 $font_reverse: yellow;
 
-$background: red;
+$background: $ash;
 $background_reverse: #fff;
 $basic_offset: $ash;
 $background_offset: lighten($ash, 10%);

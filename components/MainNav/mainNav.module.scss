@@ -85,7 +85,7 @@
       display: flex;
       justify-content:center;
       align-items: center;
-      padding: 0px 0px 4px 0px;
+      padding: 4px 0px 4px 0px;
       gap: 2px;
       border: 0;
       margin: 0;
@@ -122,8 +122,8 @@
     .iconHolder {
       transition: scale 0.2s ease-in-out;
       position: relative;
-      height: 22px;
-      width: 22px;
+      height: 20px;
+      width: 20px;
       path {
         fill: $border_basic;
       }
@@ -231,9 +231,23 @@
       }
 
       .Desktop & {
+
+        &::after {
+          position: absolute;
+          content: "";
+          background-color: $font_light;
+          height: 2px;
+          width: 80px;
+          bottom: -14px;
+          left: 50%;
+          transform: translateX(-50%);
+          border-top-right-radius: 8px;
+          border-top-left-radius: 8px;
+        }
         .title {
           color: var(--font-main);
         }
+
 
         @media (hover: hover) and (pointer: fine) {
           &:hover {

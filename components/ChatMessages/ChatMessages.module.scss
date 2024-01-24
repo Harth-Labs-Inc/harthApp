@@ -6,13 +6,14 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  height: calc(var(--vh) - 88px);
+  height: calc(var(--vh) - 64px);
   width: 100%;
   background: var(--theme-color);
   border-radius: $box_radius;
-  border-bottom-right-radius: $outside_radius;
+  border-bottom-right-radius: 0;
   margin-top: 0px;
   overflow: hidden;
+  padding-bottom: 10px;
 
   .spacer {
     height: 24px;
