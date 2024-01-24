@@ -89,6 +89,8 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --path-light: #4f4f55;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
+  --menu-color: #a8a8ae;
+  --menu-color-muted: #48484e;
 }
 
 //light color theme
@@ -96,7 +98,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --theme-color: #48484e;
   --theme-reverse: #fefff6;
   --theme-offset-1: #58585e;
-  --theme-offset-2: #313138;
+  --theme-offset-2: #515158;
   --theme-offset-3: #4c4c52;
   --theme-mobile-offset: #313138;
   --font-main: #fefff6;
@@ -108,6 +110,8 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --path-light: #6f6f75;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
+  --menu-color: #d8d8de;
+  --menu-color-muted: #78787e;
 }
 
 // White

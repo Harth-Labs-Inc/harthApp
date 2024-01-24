@@ -235,6 +235,7 @@
       .Desktop & {
         &:hover {
           background: $hot_purple;
+          border-color: $hot_purple;
           path {
             fill: $font_light;
           }
@@ -244,6 +245,7 @@
       .Mobile & {
         &:active {
           background: $hot_purple;
+          border-color: $hot_purple;
           path {
             fill: $font_light;
           }

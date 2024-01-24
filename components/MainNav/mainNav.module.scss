@@ -179,6 +179,7 @@
 
     .Desktop & {
       width: fit-content;
+      min-width: 96px;
       flex-direction: row;
       justify-content: center;
       border-radius: 999px;
@@ -188,9 +189,16 @@
       padding: 8px 12px;
       background-color: transparent;
 
+      .iconHolder {
+        path {
+          fill: var(--menu-color-muted);
+        }
+      }
+
       .title {
         text-align: left;
         width: fit-content;
+        color: var(--menu-color-muted);
       }
 
       &Gather {
@@ -218,7 +226,16 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: var(--theme-offset-2);
+
+          .title {
+            color: var(--menu-color);
+          }
+          
+          .iconHolder {
+            path {
+              fill: var(--menu-color);
+            }
+          }
         }
       }
     }
@@ -226,7 +243,7 @@
     &.Active {
       .iconHolder {
         path {
-          fill: $font_light;
+          fill: var(--menu-color);
         }
       }
 
@@ -235,7 +252,7 @@
         &::after {
           position: absolute;
           content: "";
-          background-color: $font_light;
+          background-color: var(--menu-color);
           height: 2px;
           width: 80px;
           bottom: -14px;
@@ -245,7 +262,7 @@
           border-top-left-radius: 8px;
         }
         .title {
-          color: var(--font-main);
+          color: var(--menu-color);
         }
 
 
