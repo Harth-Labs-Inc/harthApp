@@ -124,9 +124,8 @@
       position: relative;
       height: 22px;
       width: 22px;
-
       path {
-        fill: var(--path-light);
+        fill: $border_basic;
       }
 
       &UnreadMessage {
@@ -185,7 +184,7 @@
       border-radius: 999px;
       border: 0;
       cursor: pointer;
-      gap: 6px;
+      gap: 4px;
       padding: 8px 12px;
       background-color: transparent;
 
@@ -195,8 +194,13 @@
       }
 
       &Gather {
+
+        .iconHolder {
+          margin-right: -1px;
+        }
+
         .title {
-          padding-right: 4px;
+          padding-right: 2px;
         }
       }
 
