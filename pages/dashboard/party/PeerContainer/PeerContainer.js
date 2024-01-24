@@ -1,7 +1,7 @@
 import { memo } from "react";
 import styles from "../Party.module.scss";
 
-const PeerContainer = memo(({ peer, videoStream }) => {
+const PeerContainerComponent = ({ peer, videoStream }) => {
   if (!peer) {
     return null;
   }
@@ -35,6 +35,8 @@ const PeerContainer = memo(({ peer, videoStream }) => {
       )}
     </div>
   );
-});
+};
+
+const PeerContainer = memo(PeerContainerComponent);
 
 export default PeerContainer;

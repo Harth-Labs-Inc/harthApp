@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-import Script from "next/script";
 import { generateID } from "services/helper";
 import { MobileContext } from "contexts/mobile";
 import VoiceControlBar from "components/Gathering/VoiceControlBar/VoiceControlBar";
