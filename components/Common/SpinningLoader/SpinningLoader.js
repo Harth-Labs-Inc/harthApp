@@ -19,9 +19,13 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
       <div className={`${styles.Maincontainer} ${styles.MaincontainerDark}`}>
         <div className={`${styles.content}`}>
           <p className={`${styles.roomName}`}>
-            {query?.room_name}
+            Joining {query?.room_name || "room"}
           </p>
           <Spinner />
+          <div>
+            P2P Audio and Video is an experimental Feature. Unexpected glitches
+            may occur.
+          </div>
         </div>
       </div>
     );

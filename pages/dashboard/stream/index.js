@@ -26,6 +26,7 @@ import styles from "./Stream.module.scss";
 const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const { isMobile } = useContext(MobileContext);
 
+  const [isPeerJsLoaded, setIsPeerJsLoaded] = useState(false);
   const [socket, setSocket] = useState(null);
   const [socketID, setSocketID] = useState(null);
   const [chats, setChats] = useState([]);
@@ -314,7 +315,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const updateUserVisibility = (isHidden) => {
     socketRef.current &&
       socketRef.current.emit(
-        "user-visibility-change",
+        "visibility-change",
         {
           userName,
           roomId,
@@ -326,6 +327,20 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
 
   useEffect(() => {
     requestWakeLock();
+    if (typeof window !== "undefined" && !window.Peer) {
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js";
+      script.async = true;
+
+      script.onload = () => {
+        setIsPeerJsLoaded(true);
+      };
+
+      document.body.appendChild(script);
+    } else if (window.Peer) {
+      setIsPeerJsLoaded(true);
+    }
+
     return () => {
       if (wakeLockRef.current !== null) {
         wakeLockRef.current.release().then(() => {
@@ -437,12 +452,16 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   }, [loading, user, isMobile]);
 
   useEffect(() => {
-    if (socketRef.current?.id) {
-      if (userName && roomId && typeof window !== "undefined") {
-        createPeerObjects({ userName, userIcon, roomId });
-      }
+    if (
+      socketRef.current?.id &&
+      isPeerJsLoaded &&
+      userName &&
+      roomId &&
+      typeof window !== "undefined"
+    ) {
+      createPeerObjects({ userName, userIcon, roomId });
     }
-  }, [socketRef.current?.connected, reconnected]);
+  }, [socketRef.current?.connected, isPeerJsLoaded, reconnected]);
 
   useEffect(() => {
     let tempactiveCallRoom = {};
@@ -479,98 +498,57 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     };
   }, [showChatPannel]);
 
-  const getLocalAudioStream = async (
-    constraints = {
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        codec: "opus",
-      },
+  const getLocalAudioStream = async () => {
+    const defaultConstraints = {
+      audio: true,
       video: false,
-    }
-  ) => {
-    return new Promise((resolve) => {
-      async function run() {
-        let lastUsedAudioDeviceID = localStorage.getItem(
-          "lastUsedAudioDeviceID"
-        );
-        if (lastUsedAudioDeviceID) {
-          constraints.audio.deviceId = {
-            exact: lastUsedAudioDeviceID,
-          };
-          try {
-            let stream = await navigator.mediaDevices.getUserMedia(constraints);
+    };
 
-            try {
-              const audioCtx = new AudioContext();
-              localStreamSource.current =
-                audioCtx.createMediaStreamSource(stream);
-              localStreamAnalyser.current = audioCtx.createAnalyser();
-              localStreamAnalyser.current.fftSize = 2048;
-              localStreamSource.current.connect(localStreamAnalyser.current);
+    const desiredConstraints = {
+      audio: { echoCancellation: true, noiseSuppression: true, codec: "opus" },
+      video: false,
+    };
 
-              startDetectSpeaking();
-            } catch (error) {
-              if (stream) {
-                resolve(stream);
-              }
-              resolve(false);
-            }
-            resolve(stream);
-          } catch (error) {
-            try {
-              delete constraints.audio.deviceId;
-              let stream = await navigator.mediaDevices.getUserMedia(
-                constraints
-              );
-
-              try {
-                const audioCtx = new AudioContext();
-                localStreamSource.current =
-                  audioCtx.createMediaStreamSource(stream);
-                localStreamAnalyser.current = audioCtx.createAnalyser();
-                localStreamAnalyser.current.fftSize = 2048;
-                localStreamSource.current.connect(localStreamAnalyser.current);
-
-                startDetectSpeaking();
-              } catch (error) {
-                if (stream) {
-                  resolve(stream);
-                }
-                resolve(false);
-              }
-              resolve(stream);
-            } catch (error) {
-              resolve(false);
-            }
-          }
-        } else {
-          try {
-            let stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-            try {
-              const audioCtx = new AudioContext();
-              localStreamSource.current =
-                audioCtx.createMediaStreamSource(stream);
-              localStreamAnalyser.current = audioCtx.createAnalyser();
-              localStreamAnalyser.current.fftSize = 2048;
-              localStreamSource.current.connect(localStreamAnalyser.current);
-
-              startDetectSpeaking();
-            } catch (error) {
-              if (stream) {
-                resolve(stream);
-              }
-              resolve(false);
-            }
-            resolve(stream);
-          } catch (error) {
-            resolve(false);
-          }
-        }
+    try {
+      const lastUsedAudioDeviceID = localStorage.getItem(
+        "lastUsedAudioDeviceID"
+      );
+      if (lastUsedAudioDeviceID) {
+        desiredConstraints.audio.deviceId = { exact: lastUsedAudioDeviceID };
       }
-      run();
-    });
+
+      const stream =
+        await navigator.mediaDevices.getUserMedia(desiredConstraints);
+      setupAudioContext(stream);
+      return stream;
+    } catch (error) {
+      console.warn("Error with desired constraints:", error);
+
+      if (
+        error.name === "OverconstrainedError" ||
+        error.name === "NotAllowedError"
+      ) {
+        try {
+          let fallbackStream =
+            await navigator.mediaDevices.getUserMedia(defaultConstraints);
+          setupAudioContext(fallbackStream);
+          return fallbackStream;
+        } catch (fallbackError) {
+          console.warn("Error with fallback constraints:", fallbackError);
+          return null;
+        }
+      } else {
+        return null;
+      }
+    }
+  };
+  const setupAudioContext = (stream) => {
+    const audioCtx = new AudioContext();
+    localStreamSource.current = audioCtx.createMediaStreamSource(stream);
+    localStreamAnalyser.current = audioCtx.createAnalyser();
+    localStreamAnalyser.current.fftSize = 2048;
+    localStreamSource.current.connect(localStreamAnalyser.current);
+    startDetectSpeaking();
   };
   const startDetectSpeaking = () => {
     if (detectSpeakingIntervalId.current !== null) {
@@ -593,7 +571,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         ) {
           socketRef.current &&
             socketRef.current.emit(
-              "set-user-is-speaking",
+              "set-user-speaking",
               {
                 harthId,
                 socketID,
@@ -612,7 +590,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         ) {
           socketRef.current &&
             socketRef.current.emit(
-              "set-user-is-not-speaking",
+              "set-user-not-speaking",
               {
                 harthId,
                 socketID,
@@ -632,44 +610,56 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       detectSpeakingIntervalId.current = null;
     }
   };
-  const getLocalCaptureStream = async (
-    constraints = {
+  const attachOnEndedHandler = (captureStream) => {
+    captureStream.getTracks().forEach((track) => {
+      if (track.kind === "video") {
+        track.onended = () => {
+          disconnectCaptures();
+        };
+      }
+    });
+  };
+  const getLocalCaptureStream = async () => {
+    const defaultConstraints = {
+      video: true,
+      audio: false,
+    };
+
+    const desiredConstraints = {
       video: {
         cursor: "always",
         width: { ideal: 1920, max: 1920 },
         height: { ideal: 1080, max: 1080 },
-        frameRate: { ideal: 60, max: 60 },
         logicalSurface: true,
       },
-      audio: true,
-    }
-  ) => {
-    return new Promise((resolve) => {
-      async function run() {
+      audio: false,
+    };
+
+    try {
+      let capture =
+        await navigator.mediaDevices.getDisplayMedia(desiredConstraints);
+      attachOnEndedHandler(capture);
+      return capture;
+    } catch (error) {
+      console.warn("Error with desired constraints:", error);
+
+      if (
+        error.name === "OverconstrainedError" ||
+        error.name === "NotAllowedError"
+      ) {
         try {
-          let capture = await navigator.mediaDevices.getDisplayMedia(
-            constraints
-          );
-
-          if (capture) {
-            capture.getTracks().forEach((track) => {
-              if (track) {
-                track.onended = () => {
-                  disconnectCaptures();
-                };
-              }
-            });
-
-            resolve(capture);
-          } else {
-            resolve(false);
-          }
-        } catch (error) {
-          resolve(false);
+          let fallbackCapture =
+            await navigator.mediaDevices.getDisplayMedia(defaultConstraints);
+          attachOnEndedHandler(fallbackCapture);
+          return fallbackCapture;
+        } catch (fallbackError) {
+          console.warn("Error with fallback constraints:", fallbackError);
+          return null;
         }
+      } else {
+        return null;
       }
-      run();
-    });
+    }
   };
   const createPeerConnection = (conf) => {
     return new Promise((resolve, reject) => {
@@ -749,18 +739,14 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const joinRoomSocket = (obj) => {
     socketRef.current &&
-      socketRef.current.emit(
-        "group-call-join-request",
-        obj,
-        ({ peers, chats }) => {
-          PEERS.current = peers;
-          ownerData.current = obj;
-          triggerUpdate();
-          setPeerContainers(obj);
-          connectToUsers(peers, obj);
-          setChats(chats);
-        }
-      );
+      socketRef.current.emit("join-room", obj, ({ peers, chats }) => {
+        PEERS.current = peers;
+        ownerData.current = obj;
+        triggerUpdate();
+        setPeerContainers(obj);
+        connectToUsers(peers, obj);
+        setChats(chats);
+      });
   };
   const connectToUsers = async (peers, obj) => {
     let audioStream = await getLocalAudioStream();
@@ -983,7 +969,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     localStreamSource.current?.disconnect();
     socketRef.current &&
       socketRef.current.emit(
-        "set-user-is-not-speaking",
+        "set-user-not-speaking",
         {
           harthId,
           socketID,
@@ -1013,7 +999,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const sendNewChatMessage = (message) => {
     socketRef.current &&
-      socketRef.current.emit("send-chat-message", message, () => {
+      socketRef.current.emit("send-chat", message, () => {
         setChats((prevChats) => [message, ...(prevChats || [])]);
       });
   };
@@ -1055,7 +1041,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       parentContainer.appendChild(audioContainer);
     }
   };
-
   const createCapture = (incomingStream, peer) => {
     const playButton = document.getElementById(`${peer?.socketID}_play-button`);
     const isOwner = peer?.socketID === ownerData.current?.socketID;
@@ -1423,7 +1408,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     reset();
     return new Promise((res, rej) => {
       socketRef.current &&
-        socketRef.current.emit("group-call-user-left", data, (response) => {
+        socketRef.current.emit("user-left-room", data, (response) => {
           if (response.ok) {
             res(true);
             try {
@@ -1566,7 +1551,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   }
   return (
     <>
-      <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
       {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
       <main className={styles.streamWindow}>
         <button
