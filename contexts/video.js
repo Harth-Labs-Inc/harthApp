@@ -36,11 +36,18 @@ export const VideoProvider = ({ children }) => {
     if (document.hidden || !user || !navigator.onLine) return;
     isReconnecting = true;
     const token = localStorage.getItem("token");
-    const URL = videoSocketUrls[process.env.NODE_ENV];
+    const URLS = videoSocketUrls;
+    let connectionURL = "";
+    let isQA = process.env.IS_QA_ENV === "true";
+    if (isQA) {
+      connectionURL = URLS["qa"];
+    } else {
+      connectionURL = URLS[process.env.NODE_ENV];
+    }
 
     disconnectSocket();
 
-    const tempSocket = io.connect(URL, {
+    const tempSocket = io.connect(connectionURL, {
       transports: ["websocket"],
       query: { token },
       reconnection: false,

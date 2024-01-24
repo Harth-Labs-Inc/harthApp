@@ -130,9 +130,16 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           creator.name && setUserName(creator.name);
 
           const URLS = videoSocketUrls;
+          let connectionURL = "";
+          let isQA = process.env.IS_QA_ENV === "true";
+          if (isQA) {
+            connectionURL = URLS["qa"];
+          } else {
+            connectionURL = URLS[process.env.NODE_ENV];
+          }
           try {
             const responseData = await axios.get(
-              `${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`
+              `${connectionURL}/api/get-turn-credentials`
             );
             const iceServers = responseData.data.token.iceServers;
 
@@ -157,7 +164,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
             setTurnServers(filteredServers);
             const token = localStorage.getItem("token");
             setSocket(
-              io.connect(URLS[process.env.NODE_ENV], {
+              io.connect(connectionURL, {
                 transports: ["websocket"],
                 query: { token },
                 reconnection: true,
