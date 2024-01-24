@@ -22,6 +22,7 @@ import styles from "./harthadminsettings.module.scss";
 const HarthAdminSettings = ({ onToggleModal }) => {
   const [showDeleteHarthModal, setShowDeleteHarthModal] = useState(false);
   const [newFile, setNewFile] = useState(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const { selectedcomm, refetchComms, changeSelectedCommFromChild } =
     useComms();
@@ -65,6 +66,7 @@ const HarthAdminSettings = ({ onToggleModal }) => {
     setNewFile(file);
   };
   const updateHarth = async (data) => {
+    setIsUpdating(true);
     let newHarth = {
       ...selectedcomm,
       name: data.harthName,
@@ -95,6 +97,7 @@ const HarthAdminSettings = ({ onToggleModal }) => {
       if (err) {
         console.error(err);
       }
+      setIsUpdating(false);
       onToggleModal();
     });
   };
@@ -159,13 +162,13 @@ const HarthAdminSettings = ({ onToggleModal }) => {
                 defaultValue={selectedcomm?.name}
                 autoComplete="off"
               />
-              <button
-                type="submit"
+              <Button
+                type="Submit"
                 className={styles.formSubmit}
                 aria-label="submit new harth name"
-              >
-                Update
-              </button>
+                text="Update"
+                isLoading={isUpdating}
+              />
             </div>
           </form>
         </>
