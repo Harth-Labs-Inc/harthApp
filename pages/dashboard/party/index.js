@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-import { generateID } from "../../../services/helper";
+import { generateID, getBaseUrl } from "../../../services/helper";
 import { MobileContext } from "../../../contexts/mobile";
 
 import GatherControlBar from "../../../components/Gathering/GatherControlBar/GatherControlBar";
@@ -131,11 +131,12 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
 
           const URLS = videoSocketUrls;
           let connectionURL = "";
-          let isQA = process.env.IS_QA_ENV === "true";
-          if (isQA) {
+          let baseURL = getBaseUrl();
+          console.log(baseURL, "baseURL");
+          if (baseURL.includes("qa.hrth.app")) {
             connectionURL = URLS["qa"];
           } else {
-            connectionURL = URLS[process.env.NODE_ENV];
+            connectionURL = URLS[process.env.NODE_ENV] || URLS["development"];
           }
           try {
             const responseData = await axios.get(
