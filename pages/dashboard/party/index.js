@@ -406,14 +406,23 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
 
       if (info.code == "isTalking") {
         let userData = info[info?.userName];
-        let element =
-          document.getElementById(info?.socketID) ||
-          document.getElementById(info?.peerId);
+        if (info?.userName === userName) {
+          let micElement = document.getElementById("owner-mic");
+          if (micElement) {
+            micElement.style.fill = userData.isTalking
+              ? "green"
+              : "url(#gradient)";
+          }
+        } else {
+          let element =
+            document.getElementById(info?.socketID) ||
+            document.getElementById(info?.peerId);
 
-        if (element) {
-          element.style.border = userData.isTalking
-            ? "1px solid #e46eb1"
-            : "1px solid rgba(255, 255, 255, 0.1)";
+          if (element) {
+            element.style.border = userData.isTalking
+              ? "1px solid #e46eb1"
+              : "1px solid rgba(255, 255, 255, 0.1)";
+          }
         }
       } else {
         let screenShareActive = Object.values(info).some(
