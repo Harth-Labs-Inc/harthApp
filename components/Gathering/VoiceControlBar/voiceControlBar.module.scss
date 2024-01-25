@@ -7,10 +7,11 @@
   align-items: center;
   justify-content: space-between;
   grid-area: header;
-  padding: 0px 0px 0px 0px;
+  padding: 0px 8px 0px 0px;
   border: 0;
   background-color: transparent;
   //column-gap: 16px;
+  border-top: 1px solid $ash_medium;
 
   .optionsContainer {
     position: relative;
@@ -23,7 +24,7 @@
     background: $gather_background_offset;
     width: fit-content;
     padding: 8px 16px;
-    gap: 12px;
+    gap: 18px;
     border-radius: 999px;
     margin-left: auto;
     margin-right: auto;
@@ -38,15 +39,12 @@
   justify-content: space-evenly;
   grid-area: header;
   padding: 8px 8px 8px 8px;
-  margin-left: 8px;
   margin-bottom: 16px;
-  border-radius: 999px;
   //height:104px;
-
   border: 0;
-  width: calc(100% - 16px);
+  width: 100%;
   background-color: $ash;
-  //border-top: 1px solid $ash_medium;
+  border-top: 1px solid $ash_medium;
 
   .spacerLarge {
     display: flex;

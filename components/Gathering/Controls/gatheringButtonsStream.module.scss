@@ -87,13 +87,13 @@
   position: relative;
 
   &Mobile {
-    padding: 6px;
-    height: 48px;
-    width: 48px;
+    
+    height: 52px;
+    width: 52px;
     border: 0;
     background-color: transparent;
-    border-radius: 6px;
-
+    border-radius: 999px;
+    padding: 10px;
     &:active {
       //border: solid 1px $white_80;
       background-color: $ash_heavy;
@@ -104,6 +104,7 @@
     padding: 9px;
     height: 44px;
     width: 44px;
+    max-height: 44px;
     border: 0;
     border-radius: 99px;
     cursor: pointer;
@@ -195,12 +196,12 @@
   position: relative;
 
   &Mobile {
-    padding: 6px;
-    height: 48px;
-    width: 48px;
+    padding: 10px;
+    height: 52px;
+    width: 52px;
     border: 0;
     background-color: transparent;
-    border-radius: 6px;
+    border-radius: 999px;
 
     &:active {
       //border: solid 1px $white_80;
@@ -363,9 +364,6 @@
 }
 
 .leaveButton {
-  path {
-    fill: $gather_path;
-  }
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {

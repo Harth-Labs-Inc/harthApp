@@ -40,13 +40,13 @@
   height: 100vh;
   width: 100%;
   border: 0;
-  //border-top: 1px solid $ash_medium;
+  border-top: 1px solid $ash_medium;
   padding: 0px 0px 0px 0px;
   background: $ash_heavy;
 
   @media (max-width: 640px) {
     height: var(--vh);
-
+    border: 0;
     z-index: 500;
   }
 
@@ -54,7 +54,7 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    height: calc(100% - 77px);
+    height: calc(100% - 108px);
     width: 100%;
     //padding-top: 8px;
 
@@ -69,10 +69,10 @@
       min-width: 240px;
       background: $ash;
       user-select: none;
-      padding-top: 36px;
-      padding-left: 8px;
+      padding-top: 8px;
+      padding-left: 4px;
       border-right: 1px solid $ash_medium;
-      //margin-top: -40px;
+      height: 100%;
       overflow-y: scroll;
 
       &Mobile {
@@ -570,7 +570,7 @@
       flex: 1;
       flex-direction: column;
       padding: 0;
-      margin-left: 8px;
+      //background-color: aqua;
       &Mobile {
         flex: unset;
         max-height: 50%;
@@ -588,7 +588,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: calc(100% - 50px);
+      height: 100%;
       width: 0;
       visibility: hidden;
       transition: width 0.3s ease-in-out;
@@ -596,16 +596,18 @@
       border: 1px solid $ash_medium;
       background: $ash_heavy;
       border-radius: 12px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
       margin: 0;
+      margin-left: 4px;
       overflow: hidden;
 
       &Mobile {
         position: absolute;
         right: -100%;
         width: 100%;
-        height: calc(100% - 52px);
+        height: calc(100% - 24px);
         margin: 0 0px;
-        margin-top: 8px;
         border-radius: 0;
         border: 0;
       }

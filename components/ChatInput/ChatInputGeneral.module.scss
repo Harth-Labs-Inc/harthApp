@@ -16,9 +16,9 @@
   background: $gather_background_offset;
   //border-radius: 12px;
   padding: 8px 8px 16px 8px;
-  border-top: 1px solid $gather_background_offset_2;
-  border-bottom-left-radius: $corner_radius;
-  border-bottom-right-radius: $corner_radius;
+  border-top: 1px solid $ash_medium;
+  // border-bottom-left-radius: $corner_radius;
+  // border-bottom-right-radius: $corner_radius;
 
   &Text {
     resize: none;
@@ -31,7 +31,7 @@
     padding: 8px 12px;
     @include chatText;
     color: $font_light;
-    background: $gather_background_offset_2;
+    background: $ash_heavy;
     border: 0;
     caret-color: $hot_salmon;
 

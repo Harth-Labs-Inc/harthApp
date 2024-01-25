@@ -66,7 +66,7 @@ $modal_border: #000;
 
 
 // Gathering Colors
-$gather_background: #000000;
+$gather_background: $ash;
 $gather_background_offset: $ash;
 $gather_background_offset_2: darken($ash, 12%);
 $gather_path: lighten($gather_background, 35%);
@@ -147,7 +147,7 @@ $corner_radius: 8px;
 $corner_radius_mobile: 10px;
 
 $box_radius: 0px;
-$outside_radius: 16px;
+$outside_radius: 20px;
 
 $space: 8px;
 $space_gap: 0px;

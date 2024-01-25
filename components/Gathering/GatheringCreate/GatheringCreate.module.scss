@@ -236,8 +236,8 @@
   gap: 4px;
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     margin: 0;
 
     path {
@@ -254,6 +254,7 @@
   }
 
   .Desktop & {
+    font-size: 12px;
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         background: $hot_purple;
@@ -269,8 +270,13 @@
 
   .Mobile & {
     height: 40px;
-    font-size: 16px;
+    font-size: 14px;
     gap: 8px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
 
     &:active {
       background: $hot_purple;

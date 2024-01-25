@@ -355,8 +355,8 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               let micElement = document.getElementById("owner-mic");
               if (micElement) {
                 micElement.style.fill = userData.isTalking
-                  ? "green"
-                  : "url(#gradient)";
+                ? "#3cc8a3"
+                : "#a8a8ae";
               }
             } else if (userData.isTalking) {
               let element = document.getElementById(info?.socketID);

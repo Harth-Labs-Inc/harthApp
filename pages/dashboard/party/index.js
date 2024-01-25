@@ -9,7 +9,8 @@ import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeade
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
 import { DiceAlert } from "../../../components/Gathering/GatherTools/DiceAlert";
-
+import { IconChevronLeft } from "resources/icons/IconChevronLeft";
+import { IconChevronRight } from "resources/icons/IconChevronRight";
 import styles from "./Party.module.scss";
 import { envUrls, videoSocketUrls } from "../../../constants/urls";
 import { useAuth } from "contexts/auth";
@@ -410,8 +411,8 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           let micElement = document.getElementById("owner-mic");
           if (micElement) {
             micElement.style.fill = userData.isTalking
-              ? "green"
-              : "url(#gradient)";
+            ? "#3cc8a3"
+            : "#a8a8ae";
           }
         } else {
           let element =
@@ -1917,7 +1918,8 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }
       return {
         display: "grid",
-        columnGap: "5px",
+        //columnGap: "1px",
+        gap: "1px",
         justifyContent: "center",
         alignItems: "center",
         gridTemplateColumns: gridConfig.columns,
@@ -1957,8 +1959,8 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     };
 
     const renderPeers = () => {
-      let test = false;
-      let testnum = 10;
+      let test = true;
+      let testnum = 14;
       let peers = PEERS.current || [];
 
       if (test) {
@@ -2012,7 +2014,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
                   className={styles.peerswitcherNext}
                   onClick={goToNextPage}
                 >
-                  {">"}
+                  <IconChevronRight />
                 </button>
 
                 {isLastPage && (
@@ -2020,7 +2022,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
                     className={styles.peerswitcherPrev}
                     onClick={goToPreviousPage}
                   >
-                    {"<"}
+                    <IconChevronLeft />
                   </button>
                 )}
               </>
