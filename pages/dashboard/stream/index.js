@@ -278,7 +278,14 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         userInfo.current = info;
         if (info.code == "isTalking") {
           let userData = info[info?.userName];
-          if (userData.isTalking) {
+          if (info?.userName === ownerData.current?.userName) {
+            let micElement = document.getElementById("owner-mic");
+            if (micElement) {
+              micElement.style.fill = userData.isTalking
+                ? "green"
+                : "url(#gradient)";
+            }
+          } else if (userData.isTalking) {
             let element = document.getElementById(info?.socketID);
             if (!element) {
               let myElement = document.getElementById(info?.peerId);
