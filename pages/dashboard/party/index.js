@@ -1955,7 +1955,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
 
     const renderPeers = () => {
       let test = false;
-      let testnum = 13;
+      let testnum = 4;
       let peers = PEERS.current || [];
 
       if (test) {
@@ -2091,7 +2091,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               <section
                 className={peerContainerClass}
                 id="peerContainer"
-                style={{ height: isActiveScreenShare ? "max-content" : "96%" }}
+                style={{ height: isActiveScreenShare ? "max-content" : "100%" }}
               >
                 {memoizedPeerContainers}
               </section>
