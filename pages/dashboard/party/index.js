@@ -1385,7 +1385,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     video.autoplay = true;
     video.muted = true;
     video.className = "video";
-    video.playsInline = true;
+    video.playsinline = true;
     videoContainer.appendChild(video);
     parentContainer.appendChild(videoContainer);
 
