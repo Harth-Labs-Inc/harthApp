@@ -9,9 +9,9 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: $background;
+  background: $ash;
   &Dark {
-    background: $background;
+    background: $ash;
 
     &p {
       color: $font_light;
@@ -26,10 +26,12 @@
 
   .roomName {
     @include roomTitle;
+    font-size: 20px;
     color: $font_light;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    max-width: 320px;
   }
 }
 .spinner {
@@ -54,6 +56,13 @@
     border-radius: 50%;
     animation: spinner 1s ease infinite;
   }
+}
+
+.message {
+  @include systemFont;
+  color: $font_muted;
+  width: 320px;
+  text-align: center;
 }
 
 @keyframes spinner {

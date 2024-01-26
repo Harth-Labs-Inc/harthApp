@@ -6,15 +6,16 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  height: calc(var(--vh) - 80px - ($space / 2));
+  height: calc(var(--vh) - 64px);
   width: 100%;
   background: var(--theme-color);
   //border-radius: $corner_radius;
   border-radius: $box_radius;
-  border-bottom-right-radius: $outside_radius;
+  border-bottom-right-radius: 0;
   //padding-left: 8px;
   margin-top: 0px;
   overflow: hidden;
+  padding-bottom: 10px;
 
   .spacer {
     height: 24px;
@@ -28,10 +29,10 @@
     padding: 0px;
     padding-top: 28px;
     padding-bottom: 16px;
-    background-color: $background;
+    background-color: $ash;
 
     .spacer {
-      background-color: var(--theme-mobile-offset);
+      background-color: transparent;
 
     }
   }
@@ -59,7 +60,7 @@
   @media screen and (max-width: 640px) {
     padding-bottom: 116px;
     border-radius: 0;
-    background-color: var(--theme-mobile-offset);
+    background-color: var(--theme-color);
   }
 }
 

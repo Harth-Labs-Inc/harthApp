@@ -11,7 +11,7 @@
   //width: 320px;
   width: 100%;
   height: 100%;
-  padding: 8px 16px 8px 16px;
+  padding: 8px 0px 8px 0px;
 
   &Header {
     display: flex;
@@ -21,6 +21,7 @@
     background-color: transparent;
     color: $font_light;
     padding-right: 16px;
+    padding-left: 16px;
     padding-bottom: 16px;
     p {
       width: 100%;
@@ -244,17 +245,22 @@
   column-gap: 4px;
   justify-content: space-between;
   align-items: center;
-  width: calc(100% - 16px);
+  width: 100%;
+  max-width: 100%;
   height: 56px;
   padding: 0px 12px;
   @include systemFont;
-  font-weight: 700;
   letter-spacing: 0;
-  font-size: 16px;
+  font-size: 14px;
   color: $font_light;
   background: transparent;
   border-radius: 6px;
-  text-wrap: wrap;
+
+  p {
+    max-width: calc(100% - 40px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 
   path {
     fill: $font_light;
@@ -264,14 +270,14 @@
     &:hover {
       background-color: $button_main_press;
       path {
-        fill: $background;
+        fill: $menu_color;
       }
     }
 
     &:active {
       background-color: $button_main_press;
       path {
-        fill: $background;
+        fill: $menu_color;
       }
     }
   }
@@ -281,8 +287,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: calc(100% - 16px);
-  padding: 8px 12px;
+  width: 100%;
+  padding: 8px 36px 8px 12px;
   gap: 8px;
 
   .active{
@@ -308,7 +314,7 @@
     }
 
     img {
-      width: 256px;
+      width: 100%;
       border-radius: 8px;
     }
 

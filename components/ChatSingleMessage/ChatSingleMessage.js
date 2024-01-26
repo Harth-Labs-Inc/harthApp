@@ -822,9 +822,6 @@ const ChatSingleMessage = (props) => {
                             {isCustom ? (
                               <img
                                 src={reaction}
-                                style={{
-                                  height: "70%",
-                                }}
                               />
                             ) : (
                               reaction
@@ -1065,9 +1062,6 @@ const ChatSingleMessage = (props) => {
                           {isCustom ? (
                             <img
                               src={reaction}
-                              style={{
-                                height: "70%",
-                              }}
                             />
                           ) : (
                             reaction

@@ -11,14 +11,13 @@
   justify-content: space-between;
   width: 100%;
   padding: 0px 8px;
-  height: 60px;
-  min-height: 60px;
-  max-height: 60px;
-  background-color: var(--theme-color);
-  border-radius: 999px;
-  border: 3px solid $background;
-  border-top: 0;
-  color: var(--font-main);
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  background-color: $menu_color;
+  border-radius: 0;
+  border: 0;
+  color: $font_light;
   @include topicTitleMobile;
 
   .emojiHolder {
@@ -43,11 +42,11 @@
     -webkit-tap-highlight-color: transparent;
 
     path {
-      fill: var(--path-basic);
+      fill: $font_muted;
     }
 
     &:active {
-      background-color: var(--theme-offset-1);
+      background-color: $menu_color_offset;
     }
   }
 }

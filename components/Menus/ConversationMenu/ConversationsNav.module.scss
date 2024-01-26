@@ -3,16 +3,17 @@
 
 .ConversationsNav {
   position: relative;
-  width: 272px;
-  min-width: 272px;
+  width: 248px;
+  min-width: 248px;
   padding: 12px 8px 0px 8px;
-  height: 100%;
+  height: calc(100% + 8px);
   overflow-y: scroll;
   border: 0;
   border-radius: $box_radius;
   border-bottom-left-radius: $outside_radius;
-  margin-right: calc($space / 2);
+  margin-right: $space_gap;
   background: var(--theme-color);
+  border-right: 1px solid var(--theme-offset-2);
 
   .notopic {
     @include systemFont;
@@ -25,16 +26,16 @@
   &Mobile {
     border: 0;
     border-radius: 0;
-    width: calc(100% - 4px);
+    width: 100%;
     height: calc(100% - 96px);
     overflow-y: scroll;
     margin: 0;
     margin-top: 40px;
-    padding: 56px 16px 64px 16px;
+    padding: 40px 16px 64px 16px;
     border-radius: 0px;
     margin-left: auto;
     margin-right: auto;
-    background: var(--theme-mobile-offset);
+    background: var(--theme-color);
 
     .notopic {
       @include systemFont;
@@ -64,7 +65,7 @@
   &Container {
     position: relative;
     margin: 0;
-    padding: 0px 0 80px 0;
+    padding: 0px 0 40px 0;
   }
 
   .Create {

@@ -28,7 +28,7 @@
   position: relative;
   width: 100%;
   background: transparent;
-  padding: $space $space 0 $space;
+  padding: 0px 0 0 $space;
   z-index: 10;
 
   .background {
@@ -41,11 +41,13 @@
     align-items: center;
     justify-content: space-between;
     border-radius: 0;
-    border-top-right-radius: $outside_radius;
+    border-top-right-radius: 0;
     border-top-left-radius: $outside_radius;
     border-bottom-left-radius: $box_radius;
     border-bottom-right-radius: $box_radius;
     padding-right: 10px;
+    border-bottom: 1px solid var(--theme-offset-2);
+
 
     &Mobile {
       display: flex;
@@ -53,13 +55,18 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      height: 72px;
-      background: var(--theme-color);
-      border-radius: 999px;
-      padding-right: 12px;
+      height: 56px;
+      background: $ash;
+      //border-radius: 999px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 24px;
+      padding-right: 10px;
       padding-left: 0px;
-      border: 3px solid $background;
-      border-top: 0;
+      border: 0;
+
+      &::after {
+        opacity: 0;
+      }
     }
   }
 
@@ -83,7 +90,6 @@
     background-color: transparent;
     border-radius: 16px;
     border: 0;
-    background-color: transparent;
     padding: 0px;
     padding-left: 8px;
     padding-right: 6px;
@@ -91,15 +97,15 @@
 
     img {
       position: relative;
-      height: 72px;
-      min-height: 72px;
-      width: 72px;
-      min-width: 72px;
+      height: 76px;
+      min-height: 76px;
+      width: 76px;
+      min-width: 76px;
       border-radius: 999px;
       z-index: 1;
-      margin-top: -6px;
-      margin-left: -11px;
-      border: 3px solid $background;
+      margin-top: -4px;
+      margin-left: -8px;
+      border: 6px solid $ash;
     }
 
     &UnreadMessage {
@@ -127,7 +133,7 @@
   .MobileNavTitle {
     display: flex;
     flex-direction: row;
-    gap: 4px;
+    gap: 0px;
     align-items: center;
   }
 
@@ -138,16 +144,6 @@
     padding: 0px;
     border: 0;
 
-    &::before {
-      position: absolute;
-      content: "";
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: $background;
-      height: 48px;
-      z-index: -1;
-    }
   }
 }
 .titleHolder {
@@ -156,7 +152,6 @@
   justify-content: space-between;
   align-content: space-between;
   gap: 4px;
-  padding-bottom: 2px;
 }
 .TopBarName {
   @include harthTitle;
@@ -164,9 +159,10 @@
   line-height: 30px;
   height: 30px;
   max-height: 30px;
-  color: var(--font-main);
+  color: $font_light;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-top: 2px;
 }
 
 .TopBarStreaming {

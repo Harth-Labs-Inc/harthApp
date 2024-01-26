@@ -12,17 +12,17 @@
 
 .gatheringPage {
   position: relative;
-  background: $background;
+  //background: $background;
   height: 100%;
   width: 100%;
   overflow-y: scroll;
-  padding: calc(112px + $space) 0px $space 0px;
+  padding: calc(96px + $space) 0px $space 0px;
   margin-top: 0px;
 
   &Mobile {
     padding: calc(354px + $space_mobile) 0px 136px 0px;
     margin-top: 0px;
-    //background: var(--theme-mobile-offset);
+    background: var(--theme-color);
     
     &::after {
       display: none;

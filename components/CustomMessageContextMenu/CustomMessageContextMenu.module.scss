@@ -30,7 +30,7 @@
   align-items: center;
   padding: 8px;
   color: $font_light;
-  background-color: $background;
+  background-color: $menu_color;
   border-radius: 8px;
 
   &Button {
@@ -72,7 +72,7 @@
     border-radius: 12px;
     width: 100%;
     margin: 0; 
-    background: $background;
+    background: $menu_color;
     border-top: 1px solid $modal_border;
     border-bottom: 1px solid $modal_border;
     border-radius: 0;

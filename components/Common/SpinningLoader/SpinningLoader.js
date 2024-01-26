@@ -22,8 +22,8 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
             Joining {query?.room_name || "room"}
           </p>
           <Spinner />
-          <div>
-            P2P Audio and Video is an experimental Feature. Unexpected glitches
+          <div className={styles.message}>
+            P2P Audio and Video is an experimental feature. Unexpected glitches
             may occur.
           </div>
         </div>

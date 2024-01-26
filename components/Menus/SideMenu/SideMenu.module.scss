@@ -15,7 +15,7 @@
   height: calc(var(--vh) - ($space * 2));
   min-width: 56px;
   //background-color: var(--theme-color);
-  background-color: $background;
+  background-color: $menu_color;
   border: 0;
   margin-left: $space;
   margin-top: $space;
@@ -31,7 +31,7 @@
     height: fit-content;
     width: 100%;
     //background-color: var(--theme-color);
-    background-color: $background;
+    background-color: $menu_color;
     z-index: 1;
     padding: 12px 0px 12px 0px;
     gap: 8px;
@@ -178,5 +178,16 @@
   .settings {
     position: relative;
     bottom: 0;
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: calc(50% + 4px);
+      transform: translateX(-50%);
+      height: 1px;
+      width: calc(100% - 32px);
+      background-color: $border_basic;
+      content: "";
+    }
   }
 }
