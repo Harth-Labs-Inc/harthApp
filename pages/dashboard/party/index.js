@@ -1512,6 +1512,8 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     setIsActiveScreenShare(false);
     setTurnServers([]);
     setDiceAlerts([]);
+    setVideoStreams({});
+    setAudioStreams({});
 
     ownerData.current = {};
     PEERS.current = [];
@@ -2056,6 +2058,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     isActiveScreenShare ? styles.streamContainerActive : ""
   } ${isMobile ? styles.streamContainerMobile : ""}`;
 
+  console.log(videoStreams, "videoStreams");
   return (
     <>
       <div id="initialLoader">
