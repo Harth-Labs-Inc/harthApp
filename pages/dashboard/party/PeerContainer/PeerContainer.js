@@ -16,9 +16,9 @@ const PeerContainerComponent = ({ peer, videoStream }) => {
       {videoStream ? (
         <video
           className="video"
-          autoplay
+          autoPlay
           muted
-          playsinline
+          playsInline
           ref={(el) => el && (el.srcObject = videoStream)}
         />
       ) : (
