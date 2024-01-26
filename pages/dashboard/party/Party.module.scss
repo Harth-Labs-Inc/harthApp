@@ -23,7 +23,7 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    height: calc(100% - 108px);
+    height: calc(100% - 100px);
     width: 100%;
     background-color: transparent;
 
@@ -44,8 +44,8 @@
       width: 100%;
       text-align: center;
       user-select: none;
-      background-color: green;
-      //background-color: transparent;
+      // background-color: green;
+      background-color: transparent;
 
       &.peerContainerChatOpen {
         &:not(.peerContainerActive) {
@@ -76,7 +76,7 @@
     .videoContainer {
       display: flex;
       position: relative;
-      height: 96%;
+      height: 100%;
       width: 100%;
       border: 1px solid $ash;
       background-color: $gather_background_offset_2;

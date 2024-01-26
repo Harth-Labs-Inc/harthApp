@@ -40,6 +40,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const [isActiveScreenShare, setIsActiveScreenShare] = useState(false);
   const [TurnServers, setTurnServers] = useState([]);
   const [diceAlerts, setDiceAlerts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const [videoStreams, setVideoStreams] = useState({});
   const [audioStreams, setAudioStreams] = useState({});
@@ -1654,7 +1655,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   // -- draw peer containers --
   const RenderPeerContainers = () => {
     const peersPerPage = 8;
-    const [currentPage, setCurrentPage] = useState(0);
 
     const activeUserId = ownerData.current?.socketID;
     const mobileGridStylesMap = {
@@ -1916,7 +1916,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }
       return {
         display: "grid",
-        //columnGap: "1px",
         gap: "1px",
         justifyContent: "center",
         alignItems: "center",
@@ -1948,17 +1947,13 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       const videoStream = videoStreams[peer.socketID];
 
       return (
-        <PeerContainer
-          key={peer.socketID}
-          peer={{ ...peer, index }}
-          videoStream={videoStream}
-        />
+        <PeerContainer peer={{ ...peer, index }} videoStream={videoStream} />
       );
     };
 
     const renderPeers = () => {
       let test = false;
-      let testnum = 10;
+      let testnum = 13;
       let peers = PEERS.current || [];
 
       if (test) {
@@ -1994,17 +1989,18 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }
 
       if (isMobile && peerCount > peersPerPage) {
+        const renderedPeers = renderPeersForCurrentPage(peersToRender);
         const isLastPage = currentPage === totalPages - 1;
         return (
           <>
             <div
               style={{
-                height: "96%",
+                height: "100%",
                 width: "100%",
-                ...calculateGridStyle(8),
+                ...calculateGridStyle(renderedPeers.length),
               }}
             >
-              {renderPeersForCurrentPage(peersToRender)}
+              {renderedPeers}
             </div>
             {totalPages > 1 && (
               <>
@@ -2032,7 +2028,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       return (
         <div
           style={{
-            height: "96%",
+            height: "100%",
             width: "100%",
             ...calculateGridStyle(peerCount),
           }}
@@ -2046,7 +2042,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const memoizedPeerContainers = useMemo(() => {
     return <RenderPeerContainers />;
-  }, [PEERS.current, isMobile, isActiveScreenShare, videoStreams]);
+  }, [PEERS.current, isMobile, isActiveScreenShare, videoStreams, currentPage]);
 
   const contentContainerClass = `${styles.ContentContainer} ${
     isMobile ? styles.ContentContainerMobile : ""
