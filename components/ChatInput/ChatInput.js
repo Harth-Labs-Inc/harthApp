@@ -26,7 +26,7 @@ import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
 import { sendPushNotification } from "requests/subscriptions";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
-import { generatePushMessage } from "services/helper";
+import { generatePushMessage, getBaseUrl } from "services/helper";
 
 const isIOS = () => {
   if (typeof navigator !== "undefined") {
@@ -346,7 +346,7 @@ const ChatInput = (props) => {
   const calcHeight = (reset) => {
     const textarea = textRef.current;
 
-    if (reset) {
+    if (reset && textarea) {
       textarea.style.height = "48px";
       textarea.style.overflowY = "auto";
       return;
@@ -522,8 +522,17 @@ const ChatInput = (props) => {
 
           getTopicsRecieverIds(newMessage).then(({ userIDsToNotify }) => {
             if (userIDsToNotify && userIDsToNotify.length) {
+              let apiURL;
+              let baseURL = getBaseUrl();
+              if (baseURL.includes("harth.social")) {
+                apiURL =
+                  "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
+              } else {
+                apiURL =
+                  "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
+              }
               pushmessage.receiverIds = userIDsToNotify;
-              sendPushNotification(pushmessage);
+              sendPushNotification(pushmessage, apiURL);
             }
           });
         } catch (error) {
