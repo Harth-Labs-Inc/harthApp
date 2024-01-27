@@ -43,7 +43,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const [videoStreams, setVideoStreams] = useState({});
-  const [audioStreams, setAudioStreams] = useState({});
 
   const wakeLockRef = useRef(null);
   const ownerData = useRef({});
@@ -316,15 +315,16 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         localContainer.style.visibility = "visible";
       }
     }
-  }, [isActiveScreenShare]);
-  useEffect(() => {
-    Object.entries(audioStreams).forEach(([key, stream]) => {
-      const videoElement = document.getElementById(`${key}_audio`);
-      if (videoElement) {
-        videoElement.srcObject = stream;
+    for (let [_, data] of Object.entries(videoStreams)) {
+      const { peer, stream } = data;
+      if (peer && stream) {
+        let container = document.getElementById(peer?.socketID);
+        if (container) {
+          createVideo(stream, peer);
+        }
       }
-    });
-  }, [audioStreams]);
+    }
+  }, [isActiveScreenShare]);
 
   // -- socket listeners --
   const processBroadcast = (data) => {
@@ -342,7 +342,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const processChatUpdate = (newMsg) => {
     if (newMsg?.code == 8) {
-      removeAudioStreamById(newMsg.socketID);
       removeElement(newMsg.capturePeer);
       remoteUserLeft(newMsg);
     }
@@ -460,7 +459,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           });
         }
       }
-      removeAudioStreamById(newMsg.socketID);
+      removeElement(newMsg.peerId);
     }
     if (newMsg?.code == 6) {
       // user disconnected video
@@ -710,13 +709,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     }
   };
   // -- audio --
-  const removeAudioStreamById = (peerId) => {
-    setAudioStreams((prevStreams) => {
-      const newStreams = { ...prevStreams };
-      delete newStreams[peerId];
-      return newStreams;
-    });
-  };
   const toggleAudio = async () => {
     if (localAudioStream.current) {
       disconnectAudios();
@@ -897,8 +889,20 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     let peer = PEERS.current.find((p) => {
       return p.peerId == call.peer;
     });
-    if (peer) {
-      attachAudioStream(peer.socketID, incomingStream);
+    let parentContainer = document.getElementById("audio-container");
+    if (peer && parentContainer) {
+      const audioContainer = document.createElement("div");
+      const audio = document.createElement("video");
+      audioContainer.id = peer?.peerId;
+      audio.className = "audio";
+      audio.style.width = "0px";
+      audio.style.height = "0px";
+      audio.style.overflow = "hidden";
+      audio.srcObject = incomingStream;
+      audio.autoplay = true;
+      audio.playsInline = true;
+      audioContainer.appendChild(audio);
+      parentContainer.appendChild(audioContainer);
     }
   };
   const changeAudioDevice = async (device) => {
@@ -939,12 +943,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         console.warn("Error changing audio device:", error);
       }
     }
-  };
-  const attachAudioStream = (peerId, stream) => {
-    setAudioStreams((prevStreams) => ({
-      ...prevStreams,
-      [peerId]: stream,
-    }));
   };
   // -- video --
   const removeVideoStreamById = (peerId) => {
@@ -1119,7 +1117,22 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const createVideo = (incomingStream, peer) => {
     if (peer && peer.socketID && peer.videoPeer && incomingStream) {
-      attachVideoStream(peer.socketID, incomingStream);
+      attachVideoStream(peer, incomingStream);
+      let parentContainer = document.getElementById(peer?.socketID);
+      if (parentContainer) {
+        const videoContainer = document.createElement("div");
+        const video = document.createElement("video");
+        videoContainer.id = peer?.videoPeer;
+        video.srcObject = incomingStream;
+        video.autoplay = true;
+        video.muted = true;
+        video.className = "video";
+        video.playsInline = true;
+        video.id = incomingStream.id;
+        videoContainer.appendChild(video);
+        parentContainer.appendChild(videoContainer);
+        parentContainer.classList.add(styles.videoActive);
+      }
     }
   };
   const createLocalVideo = (incomingStream) => {
@@ -1219,10 +1232,10 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       setNotHDCapable(true);
     }
   };
-  const attachVideoStream = (peerId, stream) => {
+  const attachVideoStream = (peer, stream) => {
     setVideoStreams((prevStreams) => ({
       ...prevStreams,
-      [peerId]: stream,
+      [peer.socketID]: { stream, peer },
     }));
   };
   // -- screen capture --
@@ -1513,7 +1526,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     setTurnServers([]);
     setDiceAlerts([]);
     setVideoStreams({});
-    setAudioStreams({});
 
     ownerData.current = {};
     PEERS.current = [];
@@ -1946,11 +1958,8 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       if (!peer) {
         return;
       }
-      const videoStream = videoStreams[peer.socketID];
 
-      return (
-        <PeerContainer peer={{ ...peer, index }} videoStream={videoStream} />
-      );
+      return <PeerContainer peer={{ ...peer, index }} />;
     };
 
     const renderPeers = () => {
@@ -2044,7 +2053,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const memoizedPeerContainers = useMemo(() => {
     return <RenderPeerContainers />;
-  }, [PEERS.current, isMobile, isActiveScreenShare, videoStreams, currentPage]);
+  }, [PEERS.current, currentPage, isActiveScreenShare]);
 
   const contentContainerClass = `${styles.ContentContainer} ${
     isMobile ? styles.ContentContainerMobile : ""
@@ -2058,7 +2067,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     isActiveScreenShare ? styles.streamContainerActive : ""
   } ${isMobile ? styles.streamContainerMobile : ""}`;
 
-  console.log(videoStreams, "videoStreams");
   return (
     <>
       <div id="initialLoader">
@@ -2119,16 +2127,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         <section
           id="audio-container"
           style={{ height: "0px", width: "0px", overflow: "hidden" }}
-        >
-          {Object.keys(audioStreams).map((key) => (
-            <video
-              style={{ height: "0px", width: "0px", overflow: "hidden" }}
-              key={key}
-              id={`${key}_audio`}
-              autoPlay
-            ></video>
-          ))}
-        </section>
+        ></section>
 
         <GatherControlBar
           onLeaveHandler={leaveRoom}
