@@ -17,7 +17,6 @@ import { useAuth } from "contexts/auth";
 import { getHarthByID } from "requests/community";
 import { compressImage, getUploadURL, putImageInBucket } from "requests/s3";
 import { SpinningLoader } from "../../../components/Common/SpinningLoader/SpinningLoader";
-import PeerContainer from "./PeerContainer/PeerContainer";
 /* eslint-disable */
 
 const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
