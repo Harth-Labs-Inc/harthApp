@@ -41,7 +41,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const [TurnServers, setTurnServers] = useState([]);
   const [diceAlerts, setDiceAlerts] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-
+  const [peers, setPeers] = useState([]);
   const [videoStreams, setVideoStreams] = useState({});
 
   const wakeLockRef = useRef(null);
@@ -315,16 +315,106 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         localContainer.style.visibility = "visible";
       }
     }
-    for (let [_, data] of Object.entries(videoStreams)) {
-      const { peer, stream } = data;
-      if (peer && stream) {
-        let container = document.getElementById(peer?.socketID);
-        if (container) {
-          createVideo(stream, peer);
+  }, [isActiveScreenShare]);
+
+  const filterPeersForMobile = (peers) => {
+    if (typeof window !== "undefined") {
+      if (isActiveScreenShare) {
+        return peers.sort((peer) => (isActiveUser(peer) ? -1 : 1));
+      } else {
+        let filteredPeers = [];
+        if (peers.length == 1) {
+          filteredPeers = peers;
         }
+        if (peers.length > 1 && peers.length < 4) {
+          filteredPeers = peers.filter((peer) => !isActiveUser(peer));
+        }
+        if (peers.length >= 4) {
+          filteredPeers = peers.filter((peer) => !isActiveUser(peer));
+
+          filteredPeers.push(peers.find(isActiveUser));
+        }
+
+        return filteredPeers;
       }
     }
-  }, [isActiveScreenShare]);
+    return [];
+  };
+  const filterPeersForDesktop = (peers) => {
+    if (typeof window !== "undefined") {
+      if (isActiveScreenShare) {
+        return peers.sort((peer) => (isActiveUser(peer) ? -1 : 1));
+      } else {
+        let filteredPeers = [];
+        if (peers.length == 1) {
+          filteredPeers = peers;
+        }
+        if (peers.length > 1 && peers.length < 8) {
+          filteredPeers = peers.filter((peer) => !isActiveUser(peer));
+        }
+        if (peers.length >= 8) {
+          filteredPeers = peers.filter((peer) => !isActiveUser(peer));
+
+          filteredPeers.push(peers.find(isActiveUser));
+        }
+        return filteredPeers;
+      }
+    }
+    return [];
+  };
+  useEffect(() => {
+    if (peers.length) {
+      let test = false;
+      let testnum = 10;
+      let alteredPeerslist = peers || [];
+
+      if (test) {
+        alteredPeerslist = [...peers, ...generateMockPeers(testnum)];
+      }
+
+      const groupOrLocalVideo = checkForVideoOrLocal(peers);
+
+      let preparedPeers = isMobile
+        ? filterPeersForMobile(peers)
+        : filterPeersForDesktop(peers);
+
+      if (isMobile && preparedPeers.length >= 8) {
+        preparedPeers = renderPeersForCurrentPage(preparedPeers);
+      }
+
+      preparedPeers.forEach((peer, index) => {
+        let peerContainer = document.getElementById(peer.socketID);
+        if (!peerContainer) {
+          peerContainer = document.createElement("div");
+          peerContainer.id = peer.socketID;
+          peerContainer.className = styles.videoContainer;
+          peerContainer.style.gridArea = `peer${index + 1}`;
+          document.getElementById("peer-grid").appendChild(peerContainer);
+        }
+
+        let streamFound = false;
+
+        for (let [key, data] of Object.entries(videoStreams)) {
+          if (peer?.socketID == key) {
+            streamFound = true;
+
+            if (peer?.socketID == ownerData.current?.socketID) {
+              if (!groupOrLocalVideo) {
+                createLocalVideo(data?.stream);
+              } else {
+                createVideo(data?.stream, peer, index);
+              }
+            } else {
+              createVideo(data?.stream, peer, index);
+            }
+          }
+        }
+        if (!streamFound) {
+          createPlaceholderCard(peer, index);
+        }
+      });
+    }
+  }, [peers, videoStreams, isMobile, isActiveScreenShare, currentPage]);
 
   // -- socket listeners --
   const processBroadcast = (data) => {
@@ -335,6 +425,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         break;
       case "GROUP_CALL_PEERS":
         PEERS.current = peers;
+        setPeers(peers);
         break;
       default:
         break;
@@ -535,7 +626,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           createAudio(incomingStream, call, peer);
         } else if (peerType === "videoPeer") {
           let videoPeer = PEERS.current.find((p) => p.videoPeer == call.peer);
-          createVideo(incomingStream, videoPeer, call);
+          attachVideoStream(videoPeer, incomingStream);
         } else if (peerType === "capturePeer") {
           let capturePeer = PEERS.current.find(
             (p) => p.capturePeer == call.peer
@@ -657,6 +748,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     }
     socket.emit("join-room", obj, ({ peers, chats }) => {
       PEERS.current = peers;
+      setPeers(peers);
       ownerData.current = obj;
       connectToUsers(peers);
       setChats(chats);
@@ -1037,7 +1129,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       if (!groupOrLocalVideo) {
         createLocalVideo(videoStream);
       }
-      createVideo(videoStream, ownerData.current);
+      attachVideoStream(ownerData.current, videoStream);
       let eligiblePeers = PEERS.current.filter(
         (peer) => peer.videoPeer !== videoSharePeer.current.id
       );
@@ -1117,20 +1209,20 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const createVideo = (incomingStream, peer) => {
     if (peer && peer.socketID && peer.videoPeer && incomingStream) {
-      attachVideoStream(peer, incomingStream);
+      let existingVideo = document.getElementById(peer?.videoPeer);
+      if (existingVideo) {
+        return;
+      }
       let parentContainer = document.getElementById(peer?.socketID);
       if (parentContainer) {
-        const videoContainer = document.createElement("div");
         const video = document.createElement("video");
-        videoContainer.id = peer?.videoPeer;
         video.srcObject = incomingStream;
         video.autoplay = true;
         video.muted = true;
         video.className = "video";
         video.playsInline = true;
-        video.id = incomingStream.id;
-        videoContainer.appendChild(video);
-        parentContainer.appendChild(videoContainer);
+        video.id = peer?.videoPeer;
+        parentContainer.appendChild(video);
         parentContainer.classList.add(styles.videoActive);
       }
     }
@@ -1189,7 +1281,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         localVideoStream.current = newStream;
         const groupOrLocalVideo = checkForVideoOrLocal(PEERS.current || []);
         if (groupOrLocalVideo) {
-          createVideo(newStream, ownerData.current);
+          attachVideoStream(ownerData.current, newStream);
         } else {
           createLocalVideo(newStream);
         }
@@ -1526,6 +1618,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     setTurnServers([]);
     setDiceAlerts([]);
     setVideoStreams({});
+    setPeers([]);
 
     ownerData.current = {};
     PEERS.current = [];
@@ -1667,10 +1760,66 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     </section>
   );
   // -- draw peer containers --
+  const generateMockPeers = (numberOfPeers) => {
+    const mockPeers = [];
+    for (let i = 0; i < numberOfPeers; i++) {
+      mockPeers.push({
+        socketID: `peer${i + 1}`,
+        userName: `User ${i + 1}`,
+        userIcon: "",
+      });
+    }
+    return mockPeers;
+  };
+  const createPlaceholderCard = (peer, index) => {
+    if (peer && index >= 0) {
+      let existingPlaceholderContainer = document.getElementById(
+        `${peer?.socketID}_placeholder`
+      );
+      if (existingPlaceholderContainer) {
+        return;
+      }
+      let parentContainer = document.getElementById(peer?.socketID);
+      if (parentContainer) {
+        const placeholderContainer = document.createElement("div");
+        placeholderContainer.id = `${peer?.socketID}_placeholder`;
+        const figure = document.createElement("figure");
+
+        const img = document.createElement("img");
+        img.src = peer.img || peer.userIcon;
+        img.alt = peer.name || peer.userName;
+        img.className = styles.peerImage;
+
+        figure.appendChild(img);
+
+        const peerName = document.createElement("p");
+        peerName.className = styles.peerName;
+        peerName.textContent = peer.name || peer.userName;
+
+        placeholderContainer.appendChild(figure);
+        placeholderContainer.appendChild(peerName);
+
+        parentContainer.appendChild(placeholderContainer);
+      }
+    }
+  };
+  const renderPeersForCurrentPage = (peers) => {
+    const startIndex = currentPage * 8;
+    const endIndex = startIndex + 8;
+    let peersForCurrentPage = peers.slice(startIndex, endIndex);
+
+    if (!peersForCurrentPage.includes(ownerData.current)) {
+      peersForCurrentPage.pop();
+      peersForCurrentPage.push(ownerData.current);
+    }
+
+    return peersForCurrentPage;
+  };
+  const isActiveUser = (peer) => peer.socketID === ownerData.current?.socketID;
+
   const RenderPeerContainers = () => {
     const peersPerPage = 8;
 
-    const activeUserId = ownerData.current?.socketID;
     const mobileGridStylesMap = {
       1: {
         columns: "1fr",
@@ -1840,8 +1989,6 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       },
     };
 
-    const isActiveUser = (peer) => peer.socketID === activeUserId;
-
     const preparePeersForMobile = (peers) => {
       if (typeof window !== "undefined") {
         if (isActiveScreenShare) {
@@ -1905,17 +2052,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }
       return [];
     };
-    const generateMockPeers = (numberOfPeers) => {
-      const mockPeers = [];
-      for (let i = 0; i < numberOfPeers; i++) {
-        mockPeers.push({
-          socketID: `peer${i + 1}`,
-          userName: `User ${i + 1}`,
-          userIcon: "",
-        });
-      }
-      return mockPeers;
-    };
+
     const calculateGridStyle = (peerCount) => {
       let gridConfig = {};
 
@@ -1942,29 +2079,10 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       const numberOfPages = Math.ceil((peers.length - 1) / peersPerPage);
       return numberOfPages;
     };
-    const renderPeersForCurrentPage = (peers) => {
-      const startIndex = currentPage * peersPerPage;
-      const endIndex = startIndex + peersPerPage;
-      let peersForCurrentPage = peers.slice(startIndex, endIndex);
-
-      if (!peersForCurrentPage.includes(ownerData.current)) {
-        peersForCurrentPage.pop();
-        peersForCurrentPage.push(ownerData.current);
-      }
-
-      return peersForCurrentPage.map((peer, index) => renderPeer(peer, index));
-    };
-    const renderPeer = (peer, index) => {
-      if (!peer) {
-        return;
-      }
-
-      return <PeerContainer peer={{ ...peer, index }} />;
-    };
 
     const renderPeers = () => {
       let test = false;
-      let testnum = 4;
+      let testnum = 10;
       let peers = PEERS.current || [];
 
       if (test) {
@@ -1991,11 +2109,10 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       if (isActiveScreenShare) {
         return (
           <div
+            id="peer-grid"
             className={styles.flexedPeers}
             style={{ flexDirection: isMobile ? "row" : "column" }}
-          >
-            {peersToRender.map((peer, index) => renderPeer(peer, index))}
-          </div>
+          />
         );
       }
 
@@ -2005,14 +2122,13 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         return (
           <>
             <div
+              id="peer-grid"
               style={{
                 height: "100%",
                 width: "100%",
                 ...calculateGridStyle(renderedPeers.length),
               }}
-            >
-              {renderedPeers}
-            </div>
+            ></div>
             {totalPages > 1 && (
               <>
                 <button
@@ -2038,14 +2154,13 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
 
       return (
         <div
+          id="peer-grid"
           style={{
             height: "100%",
             width: "100%",
             ...calculateGridStyle(peerCount),
           }}
-        >
-          {peersToRender.map((peer, index) => renderPeer(peer, index))}
-        </div>
+        ></div>
       );
     };
 
@@ -2053,7 +2168,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const memoizedPeerContainers = useMemo(() => {
     return <RenderPeerContainers />;
-  }, [PEERS.current, currentPage, isActiveScreenShare]);
+  }, [peers, currentPage, isActiveScreenShare]);
 
   const contentContainerClass = `${styles.ContentContainer} ${
     isMobile ? styles.ContentContainerMobile : ""
