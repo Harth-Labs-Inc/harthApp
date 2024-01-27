@@ -1,7 +1,7 @@
 import { memo } from "react";
 import styles from "../Party.module.scss";
 
-const PeerContainerComponent = ({ peer, videoStream }) => {
+const PeerContainerComponent = ({ peer }) => {
   if (!peer) {
     return null;
   }
@@ -13,29 +13,16 @@ const PeerContainerComponent = ({ peer, videoStream }) => {
       className={styles.videoContainer}
       style={{ gridArea: `peer${peer.index + 1}` }}
     >
-      {videoStream ? (
-        <video
-          className="video"
-          muted
-          ref={(el) =>
-            el &&
-            ((el.srcObject = videoStream),
-            (el.autoplay = true),
-            (el.playsInline = true))
-          }
-        />
-      ) : (
-        <>
-          <figure>
-            <img
-              src={peer?.img || peer?.userIcon}
-              className={styles.peerImage}
-              alt={peer.name || peer?.userName}
-            />
-          </figure>
-          <p className={styles.peerName}>{peer.name || peer?.userName}</p>
-        </>
-      )}
+      <>
+        <figure>
+          <img
+            src={peer?.img || peer?.userIcon}
+            className={styles.peerImage}
+            alt={peer.name || peer?.userName}
+          />
+        </figure>
+        <p className={styles.peerName}>{peer.name || peer?.userName}</p>
+      </>
     </div>
   );
 };
