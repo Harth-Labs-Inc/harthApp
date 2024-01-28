@@ -74,7 +74,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --theme-offset-1: #38383e;
   --theme-offset-2: #212128;
   --font-main: #fefff6;
-  --font-muted: #595961;
+  --font-muted: #616169;
   --border-light: #38383e;
   --border-basic: #48484e;
   --border-heavy: #58585e;
@@ -87,6 +87,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --menu-text: #e8e8ee;
   --menu-path-muted: #58585e;
   --menu-text-muted: #68686e;
+  --gather-tile: #28282e;
   --overlay: rgba(56, 56, 62, 0.50);
 }
 
@@ -338,7 +339,7 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
 
 .slideRight-exit-active,
 .slideLeft-exit-active {
-  background-color: var(--theme-color);
+  background-color: var(--theme-background);
 }
 .enterLeft-enter {
   transform: translateX(100%) !important;
@@ -349,16 +350,16 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
   transition: transform 300ms;
 }
 .gatherTransitionBackground {
-  background: var(--theme-color);
+  background: var(--theme-background);
 }
 .messageTransitionBackground {
-  background: var(--theme-color);
+  background: var(--theme-background);
 }
 .chatTransitionBackground {
-  background: var(--theme-color);
+  background: var(--theme-background);
 }
 .defaultTransitionBackground {
-  background: var(--theme-color);
+  background: var(--theme-background);
 }
 #ReactSimpleImageViewer {
   z-index: 9999 !important;

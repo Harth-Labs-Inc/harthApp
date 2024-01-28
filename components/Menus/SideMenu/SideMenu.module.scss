@@ -14,7 +14,6 @@
   width: 56px;
   height: calc(var(--vh) - ($space * 2));
   min-width: 56px;
-  //background-color: var(--theme-color);
   background-color: $menu_color;
   border: 0;
   margin-left: $space;
@@ -30,7 +29,6 @@
     bottom: 0px;
     height: fit-content;
     width: 100%;
-    //background-color: var(--theme-color);
     background-color: $menu_color;
     z-index: 1;
     padding: 12px 0px 12px 0px;
@@ -143,7 +141,7 @@
     margin: 0;
     @include systemFont;
     font-size: 14px;
-    color: $font_light;
+    color: var(--font-main);
 
     &::after {
       position: absolute;
@@ -152,7 +150,7 @@
       transform: translateX(-50%);
       height: 1px;
       width: calc(100% - 32px);
-      background-color: $border_basic;
+      background-color: var(--border-heavy);
       content: "";
     }
   }
@@ -182,11 +180,11 @@
     &::after {
       position: absolute;
       top: 0;
-      left: calc(50% + 4px);
+      left: 50%;
       transform: translateX(-50%);
       height: 1px;
-      width: calc(100% - 32px);
-      background-color: $border_basic;
+      width: calc(100% - 4px);
+      background-color: var(--border-heavy);
       content: "";
     }
   }

@@ -27,27 +27,27 @@
       width: 100%;
       @include overlayMenuTitle;
       text-align: right;
-      color: $font_light;
+      color: var(--font-main);
     }
 
     path {
-      fill: $font_light;
+      fill: var(--font-main);
     }
   }
 
   &Title {
     @include systemFont;
-    color: $font_light;
+    color: var(--font-main);
     width: calc(100% - 16px);
     margin-top: 24px;
     padding: 4px 0px;
-    border-bottom: 1px solid $border_basic;
+    border-bottom: 1px solid var(--border-basic);
     text-transform: capitalize;
   }
 
   &Text {
     @include systemFont;
-    color: $font_light;
+    color: var(--font-main);
     width: 80%;
     margin-top: 12px;
     text-align: center;
@@ -182,7 +182,7 @@
 
   background-color: transparent;
   @include menuText;
-  color: $font_light;
+  color: var(--font-main);
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
@@ -193,19 +193,17 @@
   .iconHolder {
     height: 24px;
     width: 24px;
+    min-width: 24px;
     path {
-      fill: $border_basic;
+      fill: var(--menu-path-muted);
     }
   }
 
   &Invites {
     color: $font_light;
-    //font-weight: 600;
     justify-content: flex-start;
     gap: 6px;
-    //border: 1px solid $border_basic;
     width: 100%;
-    //height: fit-content;
     padding: 0px 12px 0px 12px;
     margin-bottom: 8px;
     margin-top: 4px;
@@ -300,7 +298,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    border: 1px solid $border_basic;
+    border: 1px solid var(--border-basic);
     border-radius: 8px;
     outline: 0;
     margin: 0;
@@ -309,7 +307,7 @@
 
     p {
       @include eyebrow;
-      color: $font_light;
+      color: var(--font-main);
       padding-left: 4px;
     }
 
@@ -350,7 +348,7 @@
     caret-color: $hot_purple;
     margin: 0;
     &::placeholder {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
@@ -372,7 +370,7 @@
   @include systemFont;
   font-size: 12px;
   letter-spacing: 0;
-  color: $font_muted;
+  color: var(--font-muted);
 }
 
 .spacer {

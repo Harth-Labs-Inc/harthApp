@@ -29,10 +29,10 @@
   position: relative;
   background: linear-gradient(
     45deg,
-    var(--theme-offset-1),
-    var(--theme-offset-1),
-    var(--theme-color),
-    var(--theme-offset-1)
+    var(--theme-background-offset),
+    var(--theme-background-offset),
+    var(--theme-background),
+    var(--theme-background-offset),
   );
   background-size: 200% 100%; /* Double the width of the gradient */
   background-position: 100% 0; /* Start from the right */
@@ -44,7 +44,7 @@
     top: 50%;
     transform: translateY(-50%);
     content: "";
-    background: var(--theme-offset-1);
+    background: var(--theme-background-offset);
     border-radius: 999px;
   }
 
@@ -93,10 +93,10 @@
   position: relative;
   background: linear-gradient(
     45deg,
-    var(--theme-offset-1),
-    var(--theme-offset-1),
-    var(--theme-color),
-    var(--theme-offset-1)
+    var(--theme-background-offset),
+    var(--theme-background-offset),
+    var(--theme-background),
+    var(--theme-background-offset),
   );
   background-size: 200% 100%; 
   background-position: 100% 0;
@@ -108,7 +108,7 @@
     top: 50%;
     transform: translateY(-50%);
     content: "";
-    background: var(--theme-offset-1);
+    background: var(--theme-background-offset);
     border-radius: 999px;
   }
 

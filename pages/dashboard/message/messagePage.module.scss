@@ -61,12 +61,13 @@
 
     img {
       margin-right: -12px;
-      border: 2px solid var(--theme-color);
+      border: 2px solid var(--menu-color);
     }
   }
   button {
     height: 44px;
     width: 44px;
+    min-width: 44px;
     border-radius: 999px;
     margin: 0;
     padding: 8px;
@@ -78,13 +79,13 @@
     -webkit-tap-highlight-color: transparent;
 
     path {
-      fill: var(--path-light);
+      fill: var(--menu-path-muted);
     }
 
     &:active {
-      background-color: var(--theme-offset-1);
+      background-color: var(--menu-color-offset);
       path {
-        fill: var(--path-basic);
+        fill: var(--menu-path);
       }
     }
   }

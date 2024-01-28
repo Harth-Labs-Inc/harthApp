@@ -3,11 +3,9 @@
 
 .Desktop {
   border-radius: $corner_radius;
-  // border-bottom-left-radius: 0;
-  // border-bottom-right-radius: 0;
   width: 320px;
   height: fit-content;
-  background-color: var(--theme-offset-1);
+  background-color: var(--theme-background-offset);
   border: 0;
   overflow: hidden;
   padding: 0px;
@@ -15,10 +13,8 @@
 
 .Mobile {
   border-radius: $corner_radius_mobile;
-  // border-bottom-left-radius: 0;
-  // border-bottom-right-radius: 0;
   width: 100%;
-  background-color: var(--theme-offset-2);
+  background-color: var(--theme-background-offset);
   border: 0;
   overflow: hidden;
   padding: 0px;
@@ -59,7 +55,7 @@
     border: 0;
     border-radius: 0px;
     //overflow: hidden;
-    background-color: var(--theme-offset-1);
+    background-color: var(--gather-tile);
 
     .time {
       @include systemFont;
@@ -111,7 +107,7 @@
     height: 0;
     border-left: 0px solid transparent; /* Adjust size as needed */
     border-right: 50px solid transparent;
-    border-bottom: 100px solid var(--theme-offset-1); /* Color and size of the triangle */
+    border-bottom: 100px solid var(--gather-tile); /* Color and size of the triangle */
 }
 
   .Mobile & {
