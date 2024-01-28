@@ -80,13 +80,13 @@
               top: 3px;
               left: 38px;
               padding: 6px 10px;
-              background-color: $background_reverse;
+              background-color: $background;
               border-radius: 2px;
               @include worksans;
               letter-spacing: 0.05em;
               font-size: 12px;
               font-weight: 400;
-              color: $font_reverse;
+              color: $font_light;
               z-index: 10;
             }
 
@@ -99,7 +99,7 @@
               height: 0;
               border-top: 12px solid transparent;
               border-bottom: 12px solid transparent;
-              border-right: 12px solid $background_reverse;
+              border-right: 12px solid $background;
               z-index: 9;
             }
           }

@@ -14,11 +14,18 @@
   height: 56px;
   min-height: 56px;
   max-height: 56px;
-  background-color: $menu_color;
+  background-color: var(--menu-color);
   border-radius: 0;
   border: 0;
-  color: $font_light;
-  @include topicTitleMobile;
+  color: var(--font-main);
+  @include systemFont;
+  font-size: 16px;
+
+  p {
+    max-width: 100%;
+    max-height: 40px;
+    overflow: hidden;
+  }
 
   .emojiHolder {
     padding-right: 8px;
@@ -26,11 +33,13 @@
     height: fit-content;
     line-height: 100%;
     font-size: 20px;
+    min-width: 20px;
   }
 
   button {
     height: 44px;
     width: 44px;
+    min-width: 44px;
     border-radius: 999px;
     margin: 0;
     padding: 8px;
@@ -42,11 +51,12 @@
     -webkit-tap-highlight-color: transparent;
 
     path {
-      fill: $font_muted;
+      fill: var(--menu-path-muted);
     }
 
     &:active {
-      background-color: $menu_color_offset;
+      fill: var(--menu-path);
+      background-color: var(--menu-color-offset);
     }
   }
 }

@@ -102,7 +102,7 @@
       border-radius: 0;
       justify-content: space-evenly;
       padding: 4px 0px 8px 0px;
-      background-color: $ash;
+      background-color: transparent;
       border-radius: 0;
     }
   }
@@ -125,7 +125,7 @@
       height: 20px;
       width: 20px;
       path {
-        fill: $border_basic;
+        fill: var(--menu-path-muted);  
       }
 
       &UnreadMessage {
@@ -149,7 +149,7 @@
       width: 100%;
       text-align: center;
       user-select: none;
-      color: $font_muted;
+      color: var(--menu-text-muted);
     }
 
     .Mobile & {
@@ -157,9 +157,8 @@
       height: 52px;
       width: 88px;
       padding: 0;
-      padding-top: 0px;
       border-radius: 999px;
-      border: 1px solid transparent;
+      border: 0;
       gap: 4px;
       background-color: transparent;
 
@@ -172,7 +171,7 @@
         @include titleNavMobile;
       }
       &:active {
-        background-color: $menu_color_offset;
+        background-color: var(--menu-offset);
 
       }
     }
@@ -243,7 +242,7 @@
     &.Active {
       .iconHolder {
         path {
-          fill: var(--menu-color);
+          fill: var(--menu-path);
         }
       }
 
@@ -262,7 +261,7 @@
           border-top-left-radius: 8px;
         }
         .title {
-          color: var(--menu-color);
+          color: var(--menu-text);
         }
 
 
@@ -275,7 +274,7 @@
 
       .Mobile & {
         .title {
-          color: $font_light;
+          color: var(--menu-text);
         }
       }
     }
@@ -287,9 +286,9 @@
     bottom: 0;
     height: 76px;
     align-items: flex-start;
-    padding: 0px $outline_mobile 0px $outline_mobile;
+    padding: 0;
     border: 0;
-    background-color: $ash;
+    background-color: var(--menu-color);
 
   }
 

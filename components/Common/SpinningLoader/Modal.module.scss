@@ -9,9 +9,9 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: $ash;
+  background: var(--menu-color);
   &Dark {
-    background: $ash;
+    background: var(--menu-color);
 
     &p {
       color: $font_light;

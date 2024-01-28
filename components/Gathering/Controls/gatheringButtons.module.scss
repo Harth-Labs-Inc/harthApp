@@ -2,7 +2,7 @@
 @import "../../../styles/fonts.scss";
 
 #selected {
-  background-color: $white;
+  background-color: $oxygen;
 }
 
 .OptionsMenu {
@@ -28,7 +28,7 @@
     font-weight: 500;
     letter-spacing: 0;
     text-align: left;
-    background-color: $silver-dark;
+    background-color: $gather_background_offset_2;
     border: 0;
     padding: 6px 8px;
     cursor: pointer;
@@ -36,7 +36,7 @@
     border-radius: 8px;
 
     &:hover {
-      background-color: $white;
+      background-color: $oxygen;
     }
   }
 
@@ -103,7 +103,6 @@
     width: 56px;
     border-radius: 999px;
     &:active {
-      //border: solid 1px $white_80;
       background-color: $black;
     }
   }
@@ -115,7 +114,6 @@
     border-radius: 999px;
 
     &:hover {
-      //border: solid 1px $white_80;
       background-color: $black;
     }
   }
@@ -123,16 +121,13 @@
   &BagButtonTop {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom: solid 1px $white_10;
+    border-bottom: solid 1px $gather_background_offset;
     path {
       fill: $gather_path_heavy;
     }
 
     &:hover {
       background-color: $ash;
-      // path {
-      //     fill: $white_80;
-      // }
     }
   }
 
@@ -147,15 +142,11 @@
 
     &:hover {
       background-color: $gather_background_offset;
-      // path {
-      //     fill: $white_80;
-      // }
     }
   }
 
   &Active {
     &:hover {
-      //border: solid 1px $white_80;
       background-color: $gather_background_offset;
     }
   }
@@ -174,10 +165,6 @@
         fill: $ash_light;
       }
     }
-    // &:hover {
-    //     //border: solid 1px $white_80;
-    //     background-color: $ash;
-    // }
   }
 
   .unreadMsg {
@@ -205,7 +192,6 @@
     border-radius: 999px;
 
     &:active {
-      //border: solid 1px $white_80;
       background-color: $ash_heavy;
     }
   }
@@ -221,7 +207,6 @@
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        //border: solid 1px $white_80;
         background-color: $black;
       }
     }
@@ -241,10 +226,6 @@
         fill: $ash_light;
       }
     }
-    // &:hover {
-    //     //border: solid 1px $white_80;
-    //     background-color: $ash;
-    // }
   }
 
   .unreadMsg {
@@ -317,7 +298,6 @@
   width: 40px;
   padding: 10px;
   border: 0;
-  //border: 1px solid $white_20;
   border-radius: 8px;
   cursor: pointer;
   background-color: transparent;
@@ -336,7 +316,6 @@
   width: 56px;
   padding: 13px;
   border: 0;
-  //border: 1px solid $white_20;
   border-radius: 0px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -386,14 +365,14 @@
   &:hover {
     background-color: $ash;
     path {
-      fill: $white_60;
+      fill: $gather_path;
     }
   }
 
   &Active {
     background-color: $ash;
     path {
-      fill: $white_60;
+      fill: $gather_path;
     }
   }
 }

@@ -87,6 +87,20 @@ const AccountProfile = (props) => {
     document.body.classList.add("light-mode");
     localStorage.setItem("interface-theme", "light-mode");
     setTheme("light-mode");
+
+    // Update the theme-color meta tag for installed app interface
+    const themeColor = '#ffffff'; // Set your light mode theme color here
+    const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMetaTag) {
+      themeColorMetaTag.setAttribute('content', themeColor);
+    } else {
+      // If the meta tag does not exist, create it
+      const metaTag = document.createElement('meta');
+      metaTag.setAttribute('name', 'theme-color');
+      metaTag.setAttribute('content', themeColor);
+      document.head.appendChild(metaTag);
+    }
+
   };
 
   const toggleDarkMode = () => {
@@ -94,6 +108,18 @@ const AccountProfile = (props) => {
     document.body.classList.add("dark-mode");
     localStorage.setItem("interface-theme", "dark-mode");
     setTheme("dark-mode");
+
+    const themeColor = '#38383e'; // theme color
+    const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMetaTag) {
+      themeColorMetaTag.setAttribute('content', themeColor);
+    } else {
+      // If the meta tag does not exist, create it
+      const metaTag = document.createElement('meta');
+      metaTag.setAttribute('name', 'theme-color');
+      metaTag.setAttribute('content', themeColor);
+      document.head.appendChild(metaTag);
+    }
   };
 
   if (!currentTab) {

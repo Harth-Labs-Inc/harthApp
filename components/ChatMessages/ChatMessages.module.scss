@@ -8,7 +8,7 @@
   flex-direction: column;
   height: calc(var(--vh) - 64px);
   width: 100%;
-  background: var(--theme-color);
+  background: var(--theme-background);
   border-radius: $box_radius;
   border-bottom-right-radius: 0;
   margin-top: 0px;
@@ -18,7 +18,7 @@
   .spacer {
     height: 24px;
     width: 100%;
-    background-color: var(--theme-color);
+    background-color: var(--theme-background);
     //background-color: aqua;
   }
 
@@ -28,10 +28,9 @@
     padding: 0px;
     padding-top: 28px;
     padding-bottom: 16px;
-    background-color: var(--theme-color);
 
     .spacer {
-      background-color: var(--theme-mobile-offset);
+      background-color: var(--theme-background);
 
     }
   }
@@ -57,7 +56,6 @@
 
   @media screen and (max-width: 640px) {
     padding-bottom: 124px;
-    //background-color: var(--theme-mobile-offset);
     border-radius: 0px;
   }
 }
@@ -127,7 +125,7 @@
     border: 3px solid transparent;
     margin-top: 4px;
     margin-bottom: 4px;
-    background-color: $white;
+    background-color: $oxygen;
     &:hover {
       border-color: $hot_pink;
     }

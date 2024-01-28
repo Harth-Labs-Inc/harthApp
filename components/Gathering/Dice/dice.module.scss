@@ -43,7 +43,7 @@
       @include systemFont;
       font-weight: 500;
       font-size: 42px;
-      color: $white_90;
+      color: $oxygen;
     }
   }
 
@@ -65,7 +65,7 @@
       @include rubik;
       font-size: 34px;
       font-weight: 500;
-      color: $white;
+      color: $oxygen;
     }
   }
 
@@ -76,18 +76,8 @@
       fill: $ash_light;
     }
     &:hover {
-      // border: solid 3px $white_90;
-      //background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
-      // border: solid 2px transparent;
-      // box-shadow: 4px 9999px 1px $black inset; //interior color
-      // background-image: linear-gradient(
-      //         rgba(255, 255, 255, 0),
-      //         rgba(255, 255, 255, 0)
-      //     ),
-      //     linear-gradient(35deg, $hot_blue, $hot_pink);
-
       path {
-        fill: $white;
+        fill: $oxygen;
       }
     }
   }

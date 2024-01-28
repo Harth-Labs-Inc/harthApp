@@ -232,7 +232,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--theme-color);
+  background-color: var(--theme-background-offset);
   padding: 0px 0px 0px 0px;
   border-bottom: none;
   border-radius: 0;
@@ -249,7 +249,8 @@
     @include chatTextMobile;
     caret-color: $hot_purple;
     color: var(--font-main);
-    background: var(--theme-color);
+    background-color: var(--theme-background-offset);
+    
     border: 0;
     border-radius: 0;
 
@@ -275,15 +276,15 @@
     //border-bottom: 1px solid $border_basic;
     padding: 0;
     overflow: hidden;
-    border-top: 1px solid var(--theme-offset-1);
+    border-top: 1px solid var(--border-light);
   }
 
   &Controls {
     display: flex;
     justify-content: space-between;
-    padding: 6px 4px 14px 4px;
-    background: var(--theme-color);
-    border-top: 1px solid var(--theme-offset-1);
+    padding: 8px 10px 20px 10px;
+    background-color: var(--theme-background-offset);
+    border-top: 1px solid var(--border-light);
 
     &Right,
     &Left {
@@ -304,11 +305,11 @@
         cursor: pointer;
 
         path {
-          fill: var(--path-light);
+          fill: var(--border-basic);
         }
 
         &:active {
-          background-color: var(--theme-offset-1);
+          background-color: var(--theme-background);
           path {
             fill: var(--path-basic);
           }
@@ -400,9 +401,9 @@
   row-gap: 16px;
   justify-content: flex-start;
   width: auto;
-  background-color: var(--theme-color);
+  background-color: var(--theme-background-offset);
   padding: 16px;
-  border-bottom: 1px solid var(--theme-offset-1);
+  border-bottom: 1px solid var(--border-light);
 
   .imageContainer {
     position: relative;
@@ -431,11 +432,11 @@
       top: -8px;
       right: -8px;
       z-index: 2;
-      height: 30px;
-      width: 30px;
+      height: 32px;
+      width: 32px;
       padding: 4px;
       border-radius: 99px;
-      border: 1px solid $hot_purple;
+      border: 0;
       background-color: $black;
       cursor: pointer;
 
@@ -471,7 +472,7 @@
     border-bottom: 1px solid transparent;
     .imageContainer {
       img {
-        background-color: $white;
+        background-color: $oxygen;
       }
     }
   }

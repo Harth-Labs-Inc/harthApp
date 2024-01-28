@@ -113,7 +113,7 @@
     background: transparent;
   }
   to {
-    background: $overlay;
+    background: var(--overlay);
     backdrop-filter: blur(6px);
   }
 }

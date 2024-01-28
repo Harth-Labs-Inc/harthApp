@@ -46,7 +46,6 @@
     border-bottom-left-radius: $box_radius;
     border-bottom-right-radius: $box_radius;
     padding-right: 10px;
-    border-bottom: 1px solid var(--theme-offset-2);
 
 
     &Mobile {
@@ -56,10 +55,7 @@
       justify-content: space-between;
       width: 100%;
       height: 56px;
-      background: $ash;
-      //border-radius: 999px;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 24px;
+      border-radius: 0;
       padding-right: 10px;
       padding-left: 0px;
       border: 0;
@@ -105,7 +101,7 @@
       z-index: 1;
       margin-top: -4px;
       margin-left: -8px;
-      border: 6px solid $ash;
+      border: 6px solid var(--menu-color);
     }
 
     &UnreadMessage {
@@ -143,6 +139,7 @@
     margin: 0;
     padding: 0px;
     border: 0;
+    background-color: var(--menu-color);
 
   }
 }

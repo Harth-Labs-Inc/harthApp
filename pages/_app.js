@@ -61,6 +61,7 @@ function MyApp({ Component, pageProps }) {
       storedTheme = "dark-mode";
     }
     document.body.classList.add(storedTheme);
+    
     document.addEventListener("dragstart", preventDragStart);
 
     const timeoutId = setTimeout(() => {
@@ -81,7 +82,7 @@ function MyApp({ Component, pageProps }) {
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
         <meta property="og:title" content="Härth" key="title" />
-        <meta name="theme-color" content="#28282e" />
+        <meta name="theme-color" content="#38383e" />
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
 

@@ -57,7 +57,8 @@
 
     &Mobile {
       margin-top: -4px;
-      padding: 0px 8px 4px 48px;
+      padding: 0px 8px 0px 56px;
+      gap: 4px;
 
       img {
         width: 36px;
@@ -111,35 +112,33 @@
     }
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--border-light);
+        background-color: var(--theme-background-offset);
       }
     }
   }
 
   &Mobile {
-    padding: 8px 2px 8px 8px;
+    padding: 12px 2px 12px 12px;
     .moreMenu {
       display: none;
     }
     .emojiHolder {
-      width: fit-content;
-      height: fit-content;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      font-size: 36px;
       line-height: 100%;
-      font-size: 28px;
+      overflow: hidden;
     }
     .label {
       @include topicTitleMobile;
-      padding: 0px 8px 0px 0px;
-      //gap: 16px;
+      padding: 0px;
+      gap: 16px;
       span {
         padding: 8px 0px;
-        //border-radius: 99px;
       }
     }
 
-    &::after {
-      width: 94%;
-    }
   }
 
   &Alert {
@@ -151,9 +150,6 @@
   }
 
   &:active {
-    background-color: var(--theme-offset-1);
-    // .label {
-    //     color: $white;
-    // }
+    background-color: var(--theme-background-offset);
   }
 }
