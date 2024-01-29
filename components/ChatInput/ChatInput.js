@@ -512,8 +512,9 @@ const ChatInput = (props) => {
             desiredHeight,
             desiredWidth,
           };
-        } else if (file.type.startsWith("video/")) {
         }
+        //  else if (file.type.startsWith("video/")) {
+        // }
       })
     );
 
