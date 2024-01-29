@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 import styles from "./Modal.module.scss";
 import { HarthLogoLight } from "public/images/harth-logo-light";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
@@ -7,13 +8,20 @@ import { memo } from "react";
 export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
   const router = useRouter();
   const { query } = router;
+  const [theme, setTheme] = useState(null);
+
+  useEffect(() => {
+    // Set theme from localStorage only on client-side
+    const savedTheme = localStorage.getItem("interface-theme");
+    setTheme(savedTheme);
+  }, []);
 
   const Spinner = () => {
     return <div className={styles.spinner} />;
   };
 
   const DisplayLogo = () => {
-    let theme = localStorage?.getItem("interface-theme");
+    //let theme = localStorage?.getItem("interface-theme");
     if ( theme == 'light-mode') {
       return (
         <HarthLogoDark />

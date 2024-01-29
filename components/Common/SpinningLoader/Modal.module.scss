@@ -14,7 +14,7 @@
     background: var(--menu-color);
 
     &p {
-      color: $font_light;
+      color: var(--font-main);
     }
   }
 }
@@ -27,7 +27,7 @@
   .roomName {
     @include roomTitle;
     font-size: 20px;
-    color: $font_light;
+    color: var(--font-main);
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -60,7 +60,7 @@
 
 .message {
   @include systemFont;
-  color: $font_muted;
+  color: var(--font-muted);
   width: 320px;
   text-align: center;
 }

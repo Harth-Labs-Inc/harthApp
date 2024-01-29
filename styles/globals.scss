@@ -39,12 +39,12 @@ $font_light: $oxygen;
 $font_dark: $fuel;
 $font_muted: #6a6a74;
 
-
+$welcome_background: #38383e;
 $background: $ash;
 $background_offset: lighten($ash, 10%);
 $background_offset_1: lighten($ash, 10%);
 
-$menu_color: $ash;
+$menu_color: #38383e;
 $menu_color_offset: darken($ash, 3%);
 
 $button_main: $background_offset_1;
@@ -96,7 +96,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
 .light-mode {
   --theme-color: blue;
   --theme-background: #ffffff; //oxygen
-  --theme-background-offset: #efefef;
+  --theme-background-offset: #eaeaea;
   --theme-background-offset-medium: #e4e4e4;
   --theme-offset-1: #58585e;
   --theme-offset-2: #515158;
@@ -108,7 +108,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --path-light: #6f6f75;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
-  --menu-color: rgb(232, 232, 238);
+  --menu-color: #e8e8ee;
   --menu-offset: #d8d8de;
   --menu-path: #271623;
   --menu-text: #271623;

@@ -89,7 +89,7 @@ const AccountProfile = (props) => {
     setTheme("light-mode");
     //now set the theme color for manifest
     let themeColor = '#e8e8ee'; // menu color
-    localStorage.setItem('stored-theme-color', themeColor);
+
     let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
     if (themeColorMetaTag) {
       themeColorMetaTag.setAttribute('content', themeColor);
@@ -111,7 +111,7 @@ const AccountProfile = (props) => {
 
     //now set the theme color for manifest
     let themeColor = '#38383e'; // menu color
-    localStorage.setItem('stored-theme-color', themeColor);
+
     let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
     if (themeColorMetaTag) {
       themeColorMetaTag.setAttribute('content', themeColor);

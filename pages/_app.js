@@ -61,6 +61,7 @@ function MyApp({ Component, pageProps }) {
       setVhValue();
     }, 1000);
 
+
     return () => {
       clearTimeout(timeoutId);
       document.removeEventListener("dragstart", preventDragStart);
@@ -75,20 +76,25 @@ function MyApp({ Component, pageProps }) {
     }
     document.body.classList.add(storedTheme);
 
+    let themeColor = '#e8e8ee'; //light mode
+    if (storedTheme == "dark-mode") {
+      let themeColor = '#38383e';
+    }
+
     let storedThemeColor = localStorage.getItem('stored-theme-color');
     if (storedThemeColor) {
       let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
 
       if (themeColorMetaTag) {
-        themeColorMetaTag.setAttribute('content', storedThemeColor);
+        themeColorMetaTag.setAttribute('content', themeColor);
       } else {
         // If the meta tag does not exist, create it
         const metaTag = document.createElement('meta');
         metaTag.setAttribute('name', 'theme-color');
-        metaTag.setAttribute('content', storedThemeColor);//
+        metaTag.setAttribute('content', themeColor);//
         document.head.appendChild(metaTag);
       }
-    }
+    } 
   }, []);
 
   return (
