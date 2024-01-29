@@ -10,16 +10,13 @@
 }
 .SideNav {
   position: relative;
-  padding: 12px 0px 96px 0px;
-  width: 56px;
-  height: calc(var(--vh) - ($space * 2));
-  min-width: 56px;
-  background-color: $menu_color;
+  padding: 20px 8px 96px 8px;
+  width: 72px;
+  height: var(--vh);
+  min-width: 72px;
+  background-color: var(--menu-color);
   border: 0;
-  margin-left: $space;
-  margin-top: $space;
-  margin-bottom: $space;
-  border-radius: $corner_radius;
+  margin: 0;
 
   .bottomHolder {
     position: absolute;
@@ -29,12 +26,12 @@
     bottom: 0px;
     height: fit-content;
     width: 100%;
-    background-color: $menu_color;
+    margin-left: -8px;
+    background-color: var(--menu-color);
     z-index: 1;
     padding: 12px 0px 12px 0px;
     gap: 8px;
-    border-bottom-right-radius: $corner_radius;
-    border-bottom-left-radius: $corner_radius;
+
 
     .SettingsButton {
       position: relative;
@@ -52,7 +49,7 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: $border_light;
+          background-color: $border_basic;
           path {
             fill: $gather_path_heavy;
           }
@@ -117,7 +114,7 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: $border_light;
+          background-color: $border_basic;
         }
       }
     }

@@ -120,22 +120,18 @@
       align-items: center;
       height: 100%;
       width: 100%;
-      border: 1px solid $border_basic;
+      border: 0;
       border-radius: 8px;
-      background: transparent;
+      background: var(--border-heavy);
       padding: 2px;
       cursor: pointer;
       path {
-        fill: $border_basic;
+        fill: var(--menu-color);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: $background_offset;
-          border-color: $border_heavy;
-          path {
-            fill: $border_heavy;
-          }
+          background-color: var(--font-muted);
         }
       }
     }

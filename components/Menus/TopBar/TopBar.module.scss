@@ -28,23 +28,21 @@
   position: relative;
   width: 100%;
   background: transparent;
-  padding: 0px 0 0 $space;
+  padding: 0px 0 0 0;
   z-index: 10;
-
+  background: var(--menu-color);
+  border-bottom: 1px solid var(--border-light);
   .background {
     position: relative;
     width: 100%;
     height: 64px;
-    background: var(--theme-color);
+    background: var(--theme-background);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     border-radius: 0;
-    border-top-right-radius: 0;
     border-top-left-radius: $outside_radius;
-    border-bottom-left-radius: $box_radius;
-    border-bottom-right-radius: $box_radius;
     padding-right: 10px;
 
 

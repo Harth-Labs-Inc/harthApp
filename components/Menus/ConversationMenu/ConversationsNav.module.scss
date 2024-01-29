@@ -9,11 +9,9 @@
   height: calc(100% + 8px);
   overflow-y: scroll;
   border: 0;
-  border-radius: $box_radius;
-  border-bottom-left-radius: $outside_radius;
+  border-right: 1px solid var(--border-light);
   margin-right: $space_gap;
-  background: var(--theme-color);
-  border-right: 1px solid var(--theme-offset-2);
+  background: var(--theme-background);
 
   .notopic {
     @include systemFont;
@@ -90,7 +88,7 @@
     }
 
     &:active {
-      background-color: var(--theme-offset-2);
+      background-color: var(--theme-background-offset);
     }
 
     &::before {
@@ -105,7 +103,7 @@
       top: 50%;
       left: 32px;
       transform: translateY(-50%);
-      background-color: var(--theme-offset-2);
+      background-color: var(--menu-color);
       border-radius: 4px;
       @include systemFont;
       font-size: 12px;
@@ -124,7 +122,7 @@
       height: 0;
       border-top: 12px solid transparent;
       border-bottom: 12px solid transparent;
-      border-right: 12px solid var(--theme-offset-2);
+      border-right: 12px solid var(--menu-color);
       z-index: 9;
     }
 

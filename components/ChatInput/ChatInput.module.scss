@@ -52,7 +52,7 @@
   margin-left: 8px;
   display: flex;
   flex-direction: column;
-  background: var(--theme-color);
+  background: var(--theme-background);
   padding: 0px 0px 0px 0px;
   border-bottom: none;
   border-radius: 0;
@@ -96,7 +96,7 @@
     padding: 0;
     overflow: hidden;
     border-radius: 8px;
-    border: 1px solid var(--theme-offset-1);
+    border: 1px solid var(--border-light);
 
   }
 
@@ -104,11 +104,10 @@
     display: flex;
     justify-content: space-between;
     padding: 6px 0px 6px 0px;
-    background: var(--theme-color);
+    background: var(--theme-background);
     //background-color: aqua;
     border: 0;
     border-radius: 0px;
-    border-top: 1px solid var(--theme-color);
     border-bottom-left-radius: $corner_radius;
     border-bottom-right-radius: $corner_radius;
 
@@ -136,7 +135,7 @@
 
         @media (hover: hover) and (pointer: fine) {
           &:hover {
-            background-color: var(--theme-offset-1);
+            background-color: var(--theme-background-offset);
             path {
               fill: var(--path-heavy);
             }
@@ -155,11 +154,11 @@
           color: var(--font-muted);
           padding: 8px 12px;
           margin: auto;
-          border: 1px solid $border_basic;
+          border: 1px solid var(--border-basic);
 
           @media (hover: hover) and (pointer: fine) {
             &:hover {
-              background-color: var(--theme-offset-1);
+              background-color: var(--theme-background-offset);
               color: var(--font-main);
             }
           }
@@ -434,7 +433,7 @@
       z-index: 2;
       height: 32px;
       width: 32px;
-      padding: 4px;
+      padding: 5px;
       border-radius: 99px;
       border: 0;
       background-color: $black;

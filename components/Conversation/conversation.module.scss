@@ -100,17 +100,17 @@
       }
 
       &:hover {
-        background-color: var(--theme-offset-1);
+        background-color: var(--theme-background-offset);
       }
     }
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--theme-offset-1);
+        background-color: var(--theme-background-offset);
 
         .participantElement {
           .avatar {
-            border-color: var(--theme-offset-1);
+            border-color: var(--theme-background-offset);
           }
         }
       }

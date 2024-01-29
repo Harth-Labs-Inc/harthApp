@@ -71,6 +71,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --theme-color: red;
   --theme-background: #18181e; 
   --theme-background-offset: #202027;
+  --theme-background-offset-medium: #28282e;
   --theme-offset-1: #38383e;
   --theme-offset-2: #212128;
   --font-main: #fefff6;
@@ -96,6 +97,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --theme-color: blue;
   --theme-background: #ffffff; //oxygen
   --theme-background-offset: #efefef;
+  --theme-background-offset-medium: #e4e4e4;
   --theme-offset-1: #58585e;
   --theme-offset-2: #515158;
   --font-main: #271623; //fuel
@@ -108,10 +110,10 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --path-heavy: #9f9fa5;
   --menu-color: rgb(232, 232, 238);
   --menu-offset: #d8d8de;
-  --menu-path: #28282e;
-  --menu-text: #28282e;
-  --menu-path-muted: #b8b8be;
-  --menu-text-muted: #a8a8ae;
+  --menu-path: #271623;
+  --menu-text: #271623;
+  --menu-path-muted: #a8a8ae;
+  --menu-text-muted: #98989e;
   --gather-tile: #d8d8de;
   --overlay: rgba(232, 232, 238, 0.70);
 }

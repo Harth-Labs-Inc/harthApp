@@ -287,7 +287,7 @@
         gap: 4px;
         position: relative;
         text-align: center;
-        background-color: var(--border-light);
+        background-color: var(--theme-background-offset-medium);
         border-radius: 99px;
         margin: 0;
         border: 0;
@@ -301,8 +301,6 @@
 
         img {
           width: fit-content;
-          max-width: 36px;
-          max-height: 36px;
           overflow: hidden;
         }
 
@@ -328,12 +326,14 @@
         &Desktop {
           height: 32px;
           max-height: 32px;
-          font-size: 28px;
-          line-height: 28px;
+          font-size: 32px;
+          line-height: 32px;
 
           img {
+            width: 32px;
             max-width: 32px;
             max-height: 32px;
+            min-width: 32px;
           }
 
           @media (hover: hover) and (pointer: fine) {
@@ -347,16 +347,19 @@
         &Mobile {
           height: 36px;
           max-height: 36px;
-          font-size: 32px;
-          line-height: 32px;
+          font-size: 36px;
+          line-height: 36px;
+          padding: 0px 10px 0px 4px;
 
           img {
+            width: 36px;
             max-width: 36px;
             max-height: 36px;
+            min-width: 36px;
           }
 
           &:active {
-            background-color: var(--border-basic);
+            background-color: var(--border-light);
           }
         }
       }
@@ -370,7 +373,7 @@
         margin: 0;
         border: 0;
         user-select: none;
-        background-color: var(--border-light);
+        background-color: var(--theme-background-offset-medium);
 
         svg {
           width: 22px;
@@ -383,7 +386,7 @@
         &Desktop {
           height: 32px;
           &:hover {
-            background-color: var(--border-basic);
+            background-color: var(--border-light);
             cursor: pointer;
             path {
               fill: var(--font-main);
@@ -393,6 +396,10 @@
 
         &Mobile {
           height: 36px;
+          svg {
+            width: 24px;
+            height: 24px;
+          }
           &:active {
             background-color: var(--border-basic);
             path {

@@ -132,14 +132,16 @@
         position: relative;
         &:before {
           position: absolute;
-          top: -2px;
-          right: -2px;
+          top: -3px;
+          right: -3px;
           z-index: 2;
           height: 6px;
           width: 6px;
           content: "";
           background-color: $hot_purple;
           border-radius: 9999px;
+          //border: 2px solid var(--menu-color);
+          
         }
       }
     }
@@ -190,14 +192,14 @@
 
       .iconHolder {
         path {
-          fill: var(--menu-color-muted);
+          fill: var(--menu-path-muted);
         }
       }
 
       .title {
         text-align: left;
         width: fit-content;
-        color: var(--menu-color-muted);
+        color: var(--menu-text-muted);
       }
 
       &Gather {
@@ -227,12 +229,12 @@
         &:hover {
 
           .title {
-            color: var(--menu-color);
+            color: var(--menu-text);
           }
           
           .iconHolder {
             path {
-              fill: var(--menu-color);
+              fill: var(--menu-path);
             }
           }
         }
@@ -251,7 +253,7 @@
         &::after {
           position: absolute;
           content: "";
-          background-color: var(--menu-color);
+          background-color: var(--menu-path);
           height: 2px;
           width: 80px;
           bottom: -14px;
