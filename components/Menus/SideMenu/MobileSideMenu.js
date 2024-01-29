@@ -3,6 +3,7 @@ import { useSocket } from "../../../contexts/socket";
 import { SideModal } from "../../Common";
 import HarthList from "../HarthList/HarthList";
 import { HarthLogoLight } from "public/images/harth-logo-light";
+import { HarthLogoDark } from "public/images/harth-logo-dark";
 import styles from "./SideMenu.module.scss";
 
 import SettingsList from "../AccountSettings/AccountSettings";
@@ -19,7 +20,6 @@ const MobileSideNav = (props) => {
 
   const [ShowSettingsNav, setShowSettingsNav] = useState(false);
   const [currentTab, setCurrentTab] = useState("");
-
   const { comms, selectedcomm, changeHarthFromClick } = useComms();
   const { unreadMessagesRef, unreadConvMessagesRef } = useSocket();
 
@@ -63,13 +63,28 @@ const MobileSideNav = (props) => {
     return null;
   };
 
+  const DisplayLogo = () => {
+    let theme = localStorage?.getItem("interface-theme");
+    if ( theme == 'light-mode') {
+      return (
+        <HarthLogoDark />
+      );
+    }
+    return (
+      <HarthLogoLight />
+    );
+  };
+
+
+
   if (!mobileMenuOpen) return;
+
 
   return (
     <SideModal id="mobileSideMenuContainer" onToggleModal={onToggleMenu}>
       <div className={styles.sideNavMobile}>
         <div className={styles.headerImage}>
-          <HarthLogoLight />
+          <DisplayLogo />
         </div>
         <div className={styles.text}>Your groups</div>
         <DisplaySettingsNav />

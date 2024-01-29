@@ -69,12 +69,12 @@
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: var(--theme-offset-2);
+      background-color: var(--theme-background-offset);
     }
   }
 
   &:active {
-    background-color: var(--theme-offset-2);
+    background-color: var(--theme-background-offset);
   }
   &.Editing {
     background-color: $hot_pink;
@@ -108,6 +108,19 @@
   column-gap: 10px;
   border: 0;
 
+  
+  .UserIcon {
+    height: fit-content;
+    width: fit-content;
+    border-radius: 50%;
+    user-select: none;
+    img {
+      height: 30px;
+      width: 30px;
+      margin-top: 2px;
+    }
+  }
+
   &Desktop {
     padding: 8px 20px 12px 20px;
 
@@ -121,19 +134,16 @@
 
   &Mobile {
     padding: 8px 12px 12px 12px;
-  }
-
-  .UserIcon {
-    height: fit-content;
-    width: fit-content;
-    border-radius: 50%;
-    user-select: none;
-    img {
-      height: 30px;
-      width: 30px;
-      margin-top: 2px;
+    column-gap: 8px;
+    .UserIcon {
+      img {
+        width: 36px;
+        height: 36px;
+      }
     }
   }
+
+
   .emoji-mart {
     position: absolute;
     top: 40px;
@@ -277,7 +287,7 @@
         gap: 4px;
         position: relative;
         text-align: center;
-        background-color: var(--theme-offset-1);
+        background-color: var(--border-light);
         border-radius: 99px;
         margin: 0;
         border: 0;
@@ -329,7 +339,7 @@
           @media (hover: hover) and (pointer: fine) {
             &:hover {
               cursor: pointer;
-              background-color: var(--theme-offset-2);
+              background-color: var(--border-basic);
             }
           }
         }
@@ -346,7 +356,7 @@
           }
 
           &:active {
-            background-color: var(--theme-offset-2);
+            background-color: var(--border-basic);
           }
         }
       }
@@ -360,8 +370,8 @@
         margin: 0;
         border: 0;
         user-select: none;
-        background-color: var(--theme-offset-1);
-        //border: 1px solid $border_basic;
+        background-color: var(--border-light);
+
         svg {
           width: 22px;
           height: 22px;
@@ -373,7 +383,7 @@
         &Desktop {
           height: 32px;
           &:hover {
-            background-color: var(--theme-offset-2);
+            background-color: var(--border-basic);
             cursor: pointer;
             path {
               fill: var(--font-main);
@@ -384,7 +394,7 @@
         &Mobile {
           height: 36px;
           &:active {
-            background-color: var(--theme-offset-2);
+            background-color: var(--border-basic);
             path {
               fill: var(--font-main);
             }
@@ -430,7 +440,7 @@
           path {
             fill: var(--font-main);
           }
-          background-color: var(--theme-offset-1);
+          background-color: var(--border-light);
         }
       }
 
@@ -438,7 +448,7 @@
         path {
           fill: var(--font-main);
         }
-        background-color: var(--theme-offset-1);
+        background-color: var(--border-light);
       }
     }
   }

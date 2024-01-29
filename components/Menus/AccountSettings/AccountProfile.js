@@ -87,15 +87,15 @@ const AccountProfile = (props) => {
     document.body.classList.add("light-mode");
     localStorage.setItem("interface-theme", "light-mode");
     setTheme("light-mode");
-
-    // Update the theme-color meta tag for installed app interface
-    const themeColor = '#ffffff'; // Set your light mode theme color here
-    const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+    //now set the theme color for manifest
+    let themeColor = '#e8e8ee'; // menu color
+    localStorage.setItem('stored-theme-color', themeColor);
+    let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
     if (themeColorMetaTag) {
       themeColorMetaTag.setAttribute('content', themeColor);
     } else {
       // If the meta tag does not exist, create it
-      const metaTag = document.createElement('meta');
+      let metaTag = document.createElement('meta');
       metaTag.setAttribute('name', 'theme-color');
       metaTag.setAttribute('content', themeColor);
       document.head.appendChild(metaTag);
@@ -109,16 +109,19 @@ const AccountProfile = (props) => {
     localStorage.setItem("interface-theme", "dark-mode");
     setTheme("dark-mode");
 
-    const themeColor = '#38383e'; // theme color
-    const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+    //now set the theme color for manifest
+    let themeColor = '#38383e'; // menu color
+    localStorage.setItem('stored-theme-color', themeColor);
+    let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
     if (themeColorMetaTag) {
       themeColorMetaTag.setAttribute('content', themeColor);
     } else {
       // If the meta tag does not exist, create it
-      const metaTag = document.createElement('meta');
+      let metaTag = document.createElement('meta');
       metaTag.setAttribute('name', 'theme-color');
       metaTag.setAttribute('content', themeColor);
       document.head.appendChild(metaTag);
+      
     }
   };
 

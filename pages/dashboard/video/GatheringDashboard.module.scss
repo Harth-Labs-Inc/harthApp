@@ -60,7 +60,7 @@
   .gatheringSection {
     position: relative;
     @include eyebrow;
-    color: $font_light;
+    color: var(--font-main);
     width: fit-content;
     user-select: none;
     margin-left: $space;
@@ -74,7 +74,7 @@
     font-size: 11px;
     padding: 0px 0px 12px 0px;
     width: fit-content;
-    color: $font_light;
+    color: var(--font-main);
     user-select: none;
     margin-left: $space_mobile;
   }

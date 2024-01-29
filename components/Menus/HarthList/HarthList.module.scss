@@ -199,18 +199,18 @@
         min-width: 52px;
         border-radius: 999px;
         border: 0;
-        border: 1px solid $border_light;
+        border: 1px solid var(--menu-offset);
       }
     }
 
     &Active {
-      background-color: $border_basic;
+      background-color: var(--menu-offset);
     }
 
     &Name {
       width: 100%;
       @include harthTitle;
-      color: $font_light;
+      color: var(--font-main);
       font-size: 18px;
       margin-left: 4px;
       text-align: left;
@@ -220,7 +220,7 @@
     }
 
     &:active {
-      background-color: $background_offset;
+      background-color: var(--menu-offset);
     }
 
     &SettingsButton {
@@ -235,12 +235,12 @@
       padding: 8px;
       border: 0;
       border-radius: 999px;
-      background: $ash;
+      background: var(--border-light);
       margin-right: 4px;
       z-index: 1;
 
       path {
-        fill: $font_muted;
+        fill: var(--menu-path);
       }
     }
 
@@ -255,7 +255,7 @@
         height: 16px;
         width: 16px;
         content: "";
-        background-color: $menu_color;
+        background-color: var(--menu-color);
         border-radius: 9999px;
       }
       &:after {
@@ -292,15 +292,15 @@
       width: 100%;
       border: 0;
       border-radius: 999px;
-      background: $border_basic;
+      background: var(--border-light);
       padding: 2px;
 
       path {
-        fill: $menu_color;
+        fill: var(--menu-color);
       }
 
       &:active {
-        background-color: $border_light;
+        background-color: var(--border-basic);
       }
     }
   }

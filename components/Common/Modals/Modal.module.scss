@@ -8,7 +8,7 @@
     $menu_color,
     transparent
   );
-  backdrop-filter: blur(30px);
+  backdrop-filter: blur(2px);
   animation-name: none !important;
   animation-duration: 0s !important;
 }
@@ -114,7 +114,7 @@
   }
   to {
     background: var(--overlay);
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(2px);
   }
 }
 

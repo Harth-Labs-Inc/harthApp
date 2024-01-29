@@ -43,7 +43,7 @@
     border-radius: 999px;
     margin: 0;
     padding: 8px;
-    background-color: transparent;
+    background: transparent;
     border: 0;
     outline: none;
     outline-style: none;
@@ -55,8 +55,10 @@
     }
 
     &:active {
-      fill: var(--menu-path);
-      background-color: var(--menu-color-offset);
+      path {
+        fill: var(--menu-path);
+      }
+      background: var(--menu-offset);
     }
   }
 }

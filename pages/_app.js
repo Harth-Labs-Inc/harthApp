@@ -54,23 +54,41 @@ function MyApp({ Component, pageProps }) {
     };
 
     setVhValue();
+    document.addEventListener("dragstart", preventDragStart);
+    
 
+    const timeoutId = setTimeout(() => {
+      setVhValue();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("dragstart", preventDragStart);
+    };
+  }, []);
+
+  useEffect(() => {
     let storedTheme = localStorage.getItem("interface-theme");
     if (!storedTheme) {
       localStorage.setItem("interface-theme", "dark-mode");
       storedTheme = "dark-mode";
     }
     document.body.classList.add(storedTheme);
-    
-    document.addEventListener("dragstart", preventDragStart);
 
-    const timeoutId = setTimeout(() => {
-      setVhValue();
-    }, 1000);
-    return () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener("dragstart", preventDragStart);
-    };
+    let storedThemeColor = localStorage.getItem('stored-theme-color');
+    if (storedThemeColor) {
+      let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+
+      if (themeColorMetaTag) {
+        themeColorMetaTag.setAttribute('content', storedThemeColor);
+      } else {
+        // If the meta tag does not exist, create it
+        const metaTag = document.createElement('meta');
+        metaTag.setAttribute('name', 'theme-color');
+        metaTag.setAttribute('content', storedThemeColor);//
+        document.head.appendChild(metaTag);
+      }
+    }
   }, []);
 
   return (
