@@ -80,6 +80,7 @@ self.addEventListener("push", function (event) {
     data: {
       url: data.openUrl,
     },
+    tag: data.harthID,
   };
 
   event.waitUntil(self.registration.showNotification(data.title, options));

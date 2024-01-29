@@ -1417,7 +1417,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const getLocalCaptureStream = async () => {
     const defaultConstraints = {
       video: true,
-      audio: false,
+      audio: true,
     };
 
     const desiredConstraints = {
@@ -1427,7 +1427,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         height: { ideal: 1080, max: 1080 },
         logicalSurface: true,
       },
-      audio: false,
+      audio: true,
     };
 
     try {
@@ -1488,6 +1488,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     video.srcObject = incomingStream;
     video.autoplay = true;
     video.muted = true;
+    video.controls = true;
     video.className = "video";
     video.playsInline = true;
     videoContainer.appendChild(video);
