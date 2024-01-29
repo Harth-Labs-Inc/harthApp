@@ -634,7 +634,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const getLocalCaptureStream = async () => {
     const defaultConstraints = {
       video: true,
-      audio: false,
+      audio: true,
     };
 
     const desiredConstraints = {
@@ -644,7 +644,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         height: { ideal: 1080, max: 1080 },
         logicalSurface: true,
       },
-      audio: false,
+      audio: true,
     };
 
     try {
@@ -1084,7 +1084,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         video.muted = true;
         video.className = "video";
         video.playsInline = true;
-
+        video.controls = true;
         if (shouldFullScreen) {
           backButton.innerText = "<";
           backButton.className = styles.backButton;
