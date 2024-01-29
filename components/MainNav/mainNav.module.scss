@@ -61,7 +61,7 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: var(--theme-offset-2);
+          background: var(--menu-offset);
 
           .iconHolder {
             path {

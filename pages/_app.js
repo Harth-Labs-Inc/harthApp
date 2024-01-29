@@ -82,20 +82,18 @@ function MyApp({ Component, pageProps }) {
       setThemeColor('#e8e8ee');
     }
 
-    let storedThemeColor = localStorage.getItem('stored-theme-color');
-    if (storedThemeColor) {
-      let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+    let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
 
-      if (themeColorMetaTag) {
-        themeColorMetaTag.setAttribute('content', themeColor);
-      } else {
-        // If the meta tag does not exist, create it
-        const metaTag = document.createElement('meta');
-        metaTag.setAttribute('name', 'theme-color');
-        metaTag.setAttribute('content', themeColor);//
-        document.head.appendChild(metaTag);
-      }
-    } 
+    if (themeColorMetaTag) {
+      themeColorMetaTag.setAttribute('content', themeColor);
+    } else {
+      // If the meta tag does not exist, create it
+      const metaTag = document.createElement('meta');
+      metaTag.setAttribute('name', 'theme-color');
+      metaTag.setAttribute('content', themeColor);//
+      document.head.appendChild(metaTag);
+    }
+     
   }, []);
 
   return (

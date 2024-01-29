@@ -68,12 +68,9 @@ $gather_path_heavy: lighten($gather_background, 50%);
 
 //dark color scheme
 .dark-mode {
-  --theme-color: red;
   --theme-background: #18181e; 
   --theme-background-offset: #202027;
   --theme-background-offset-medium: #28282e;
-  --theme-offset-1: #38383e;
-  --theme-offset-2: #212128;
   --font-main: #fefff6;
   --font-muted: #616169;
   --border-light: #38383e;
@@ -94,12 +91,9 @@ $gather_path_heavy: lighten($gather_background, 50%);
 
 //light color theme
 .light-mode {
-  --theme-color: blue;
   --theme-background: #ffffff; //oxygen
   --theme-background-offset: #eaeaea;
   --theme-background-offset-medium: #e4e4e4;
-  --theme-offset-1: #58585e;
-  --theme-offset-2: #515158;
   --font-main: #271623; //fuel
   --font-muted: #696971;
   --border-light: #c8c8ce;

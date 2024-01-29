@@ -128,7 +128,7 @@
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--theme-offset-2);
+        background-color: var(--theme-background-offset);
 
         &::before {
           opacity: 1;
