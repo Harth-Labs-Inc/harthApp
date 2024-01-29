@@ -27,7 +27,11 @@ export default async (req, res) => {
   }
 
   let encryptedMessages = encryptMessages(obj.msg);
-  let insertResult = await createMessage(db, encryptedMessages);
+  let insertResult = await createMessage(
+    db,
+    encryptedMessages,
+    obj.hasAttachments
+  );
   if (!insertResult) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
@@ -53,7 +57,11 @@ const encryptMessages = (data) => {
   return data;
 };
 
-const createMessage = async (db, data) => {
+const createMessage = async (db, data, hasAttachments) => {
+  if (!hasAttachments) {
+    delete data.pendingID;
+    delete data.status;
+  }
   try {
     const msgCreated = await db.collection("messages").insertOne(data);
     recordNewRelicEvents(msgCreated.insertedId, data);

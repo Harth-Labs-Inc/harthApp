@@ -26,7 +26,7 @@ import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
 import { sendPushNotification } from "requests/subscriptions";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
-import { generatePushMessage, getBaseUrl } from "services/helper";
+import { generateID, generatePushMessage, getBaseUrl } from "services/helper";
 
 const isIOS = () => {
   if (typeof navigator !== "undefined") {
@@ -56,7 +56,12 @@ const ChatInput = (props) => {
 
   const { user } = useAuth();
   const { selectedcomm, selectedTopic, selectedCommRef } = useComms();
-  const { emitUpdate, setIncomingMsg, setNewAlerts, socketID } = useSocket();
+  const {
+    emitUpdate,
+    socketID,
+    setIncomingMsgPreview,
+    setFinalMessageForPreview,
+  } = useSocket();
 
   const {
     selectedEdit,
@@ -468,6 +473,74 @@ const ChatInput = (props) => {
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: msg });
     setEmojiPicker(!emojiPickerState);
   };
+  const addPendingMessagePreview = (newMessage) => {
+    setIncomingMsgPreview({
+      ...newMessage,
+      updateType: "new message",
+      socketID: socketID,
+      _id: newMessage.pendingID,
+    });
+    setAllowBlur(true);
+    setUploadingAttachments([]);
+    setAttachments([]);
+    setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
+    setIsSubmitting(false);
+    calcHeight(true);
+    resetHeight();
+  };
+  const createImagePreview = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = (e) => reject(e);
+      reader.readAsDataURL(file);
+    });
+  };
+  const getAttachmentpreviews = async (files) => {
+    const previews = await Promise.all(
+      files.map(async (file) => {
+        if (file.type.startsWith("image/")) {
+          const previewUrl = await createImagePreview(file);
+          const { desiredHeight, desiredWidth } =
+            await calculateImageDimensions(file);
+          return {
+            name: file.name,
+            fileType: file.type,
+            previewUrl,
+            file,
+            isPreview: true,
+            desiredHeight,
+            desiredWidth,
+          };
+        } else if (file.type.startsWith("video/")) {
+        }
+      })
+    );
+
+    return previews;
+  };
+  const calculateImageDimensions = (file) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        let desiredWidth = img.width;
+        let desiredHeight = img.height;
+
+        if (img.width > 280) {
+          desiredHeight = (img.height / img.width) * 280;
+          desiredWidth = 280;
+        }
+
+        resolve({ desiredWidth, desiredHeight });
+      };
+      img.onerror = reject;
+
+      const reader = new FileReader();
+      reader.onload = (e) => (img.src = e.target.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
   const sendMessagge = async () => {
     if (selectedTopic && selectedcomm && user) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
@@ -487,72 +560,42 @@ const ChatInput = (props) => {
           attachments: [],
           replies: [],
           reactionsData: [],
+          status: "pending",
+          pendingID: generateID(),
+          renderKey: generateID(),
         };
-
-        const data = await saveMessage(newMessage);
         const hasAttachments = attachments.length > 0;
+
+        addPendingMessagePreview({
+          ...newMessage,
+          attachments: await getAttachmentpreviews(attachments),
+        });
+
+        const data = await saveMessage(newMessage, attachments.length);
         let { id, ok } = data;
         if (ok) {
+          const oldId = newMessage.pendingID;
+          delete newMessage.pendingID;
+          delete newMessage.status;
           if (id) {
-            newMessage._id = id;
+            newMessage._id = data.id;
           }
           if (hasAttachments) {
-            uploadAttacments(id, newMessage);
+            uploadAttacments(id, newMessage, oldId);
           } else {
-            broadcastMessage(newMessage);
-            resetHeight();
+            broadcastMessage(newMessage, oldId);
           }
-        }
-        try {
-          let pushmessage = generatePushMessage({
-            ...newMessage,
-            pushTitle: `${newMessage.creator_name}`,
-            env: process.env.NODE_ENV,
-            ignoreSelf: true,
-            type: "chat",
-          });
-
-          if (!pushmessage.message) {
-            pushmessage.message = "";
-
-            if (hasAttachments) {
-              pushmessage.message = "Check out the new image!";
-            }
-          }
-
-          getTopicsRecieverIds(newMessage).then(({ userIDsToNotify }) => {
-            if (userIDsToNotify && userIDsToNotify.length) {
-              let apiURL;
-              let baseURL = getBaseUrl();
-              if (baseURL.includes("harth.social")) {
-                apiURL =
-                  "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
-              } else {
-                apiURL =
-                  "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
-              }
-              pushmessage.receiverIds = userIDsToNotify;
-              sendPushNotification(pushmessage, apiURL);
-            }
-          });
-        } catch (error) {
-          console.log(error);
         }
       }
     }
     return true;
   };
-  const broadcastMessage = async (message) => {
-    setAllowBlur(true);
-    setUploadingAttachments([]);
-    setAttachments([]);
+  const broadcastMessage = async (message, oldId, hasAttachments) => {
     message.updateType = "new message";
     message.socketID = socketID;
-    setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
-    setIncomingMsg(message);
-    setNewAlerts(message, "chat");
-    setIsSubmitting(false);
-    calcHeight(true);
+
+    setFinalMessageForPreview({ oldId, message });
+
     let { ok } = await sendUnreadMessages(message);
     if (ok) {
       let unreadmessage = {};
@@ -566,11 +609,47 @@ const ChatInput = (props) => {
         console.error(err);
       }
     });
+    try {
+      let pushmessage = generatePushMessage({
+        ...message,
+        pushTitle: `${message.creator_name}`,
+        env: process.env.NODE_ENV,
+        ignoreSelf: true,
+        type: "chat",
+      });
+
+      if (!pushmessage.message) {
+        pushmessage.message = "";
+
+        if (hasAttachments) {
+          pushmessage.message = "Check out the new image!";
+        }
+      }
+
+      getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
+        if (userIDsToNotify && userIDsToNotify.length) {
+          let apiURL;
+          let baseURL = getBaseUrl();
+          if (baseURL.includes("harth.social")) {
+            apiURL =
+              "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
+          } else {
+            apiURL =
+              "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
+          }
+          pushmessage.receiverIds = userIDsToNotify;
+          sendPushNotification(pushmessage, apiURL);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const uploadAttacments = async (id, message) => {
+  const uploadAttacments = async (id, message, oldId) => {
     let promises = [];
     attachments.forEach((file, idx) => {
       setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
+      const isLastImage = idx === attachments.length - 1;
       promises.push(
         new Promise(async (res) => {
           let extention = file.name.split(".").pop();
@@ -583,9 +662,8 @@ const ChatInput = (props) => {
             const name = `${baseName}.${extention}`;
             const data = await getUploadURL(name, file.type, bucket);
             const { uploadURL } = data;
-            const result = await putVideoInBucket(uploadURL, file);
-            console.log(result);
-            await addKeyToDB(id, name, file.type);
+            await putVideoInBucket(uploadURL, file);
+            await addKeyToDB(id, name, file.type, null, null, isLastImage);
             res({
               name: name,
               fileType: file.type,
@@ -612,7 +690,14 @@ const ChatInput = (props) => {
                 let { status } = result;
                 if (status == 200) {
                   if (isGif) {
-                    await addKeyToDB(id, thumbnail, file.type);
+                    await addKeyToDB(
+                      id,
+                      thumbnail,
+                      file.type,
+                      null,
+                      null,
+                      isLastImage
+                    );
                     res({
                       name: thumbnail,
                       fileType: file.type,
@@ -629,7 +714,8 @@ const ChatInput = (props) => {
                       thumbnail,
                       file.type,
                       desiredHeight,
-                      desiredWidth
+                      desiredWidth,
+                      isLastImage
                     );
                     res({
                       name: thumbnail,
@@ -649,8 +735,7 @@ const ChatInput = (props) => {
 
     const outputs = await Promise.all(promises);
     message.attachments = outputs;
-    broadcastMessage(message);
-    resetHeight();
+    broadcastMessage(message, oldId, true);
   };
   const updateMsg = async () => {
     let msg = selectedEditMsg;

@@ -35,6 +35,8 @@ const MessageWrapper = () => {
     incomingMsgUpdate,
     emitUpdateFromRef,
     newMessageIndicators,
+    incomingMsgPreview,
+    finalMessageForPreview,
   } = useSocket();
   const { user } = useAuth();
 
@@ -91,7 +93,6 @@ const MessageWrapper = () => {
       setScrollLock(false);
     }
   }, [page]);
-
   useEffect(() => {
     setLoading(true);
     setPage(1);
@@ -168,7 +169,6 @@ const MessageWrapper = () => {
       }
     }
   }, [incomingMsg]);
-
   useEffect(() => {
     if (
       incomingMsgUpdate &&
@@ -207,6 +207,26 @@ const MessageWrapper = () => {
       }
     }
   }, [incomingMsgUpdate]);
+
+  useEffect(() => {
+    if (incomingMsgPreview && Object.keys(incomingMsgPreview).length) {
+      if (selectedTopic && incomingMsgPreview.topic_id === selectedTopic._id) {
+        setCurrentMessages((prevState) => {
+          return [incomingMsgPreview, ...prevState];
+        });
+      }
+    }
+  }, [incomingMsgPreview]);
+  useEffect(() => {
+    setCurrentMessages((prevMessages) => {
+      return prevMessages.map((msg) => {
+        if (msg.pendingID === finalMessageForPreview.oldId) {
+          return { ...msg, status: "complete", pendingID: "" };
+        }
+        return msg;
+      });
+    });
+  }, [finalMessageForPreview]);
 
   const sortMessages = (msgs) => {
     return msgs.sort((a, b) => new Date(a.date) - new Date(b.date)).reverse();
@@ -286,7 +306,7 @@ const MessageWrapper = () => {
           <div ref={messagesEndRef} />
           {currentMessages && currentMessages.length > 0 ? (
             currentMessages.map((msg, index) => (
-              <Fragment key={msg?._id}>
+              <Fragment key={msg?.renderKey || msg?._id}>
                 <ChatSingleMessage
                   longPressCoverId="longPressCoverId"
                   slideshowURLRef={slideshowURLRef}

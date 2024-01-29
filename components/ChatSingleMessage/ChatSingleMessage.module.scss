@@ -1,6 +1,35 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
+.isPreviewMessage {
+  opacity: 0.5;
+  border-top: solid 4px transparent;
+  position: relative;
+}
+.isPreviewMessage:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent,     transparent 25%, 
+  $hot_pink 30%, 
+  $hot_pink 70%, 
+  transparent 75%,  
+  transparent 65%,  transparent);
+  background-size: 200% 100%;
+  animation: moveLoader 2s linear infinite;
+}
+
+@keyframes moveLoader {
+  0% {
+      background-position: 100% 0;
+  }
+  100% {
+      background-position: -100% 0;
+  }
+}
 .disabledFlag {
   cursor: not-allowed !important;
   path {
@@ -64,7 +93,7 @@
 .ChatParentContainer {
   max-width: 100%;
   width: 100%;
-  //border-radius: 8px;
+  border-top: 4px solid transparent;
   transform: translateZ(0);
 
   @media (hover: hover) and (pointer: fine) {

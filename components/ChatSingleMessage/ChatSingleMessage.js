@@ -80,6 +80,7 @@ const ChatSingleMessage = (props) => {
     reactionsData = [],
     flagged,
     approvedByAdmin,
+    status,
   } = props.msg;
   const {
     editMessageText,
@@ -201,6 +202,10 @@ const ChatSingleMessage = (props) => {
         slideshowURLRef?.current?.push(...tempAttch);
         const data = await Promise.all(
           attachments.map(async (att) => {
+            if (att.isPreview) {
+              return { ok: 1, downloadURL: att.previewUrl };
+            }
+
             const cachedData = await getAttachment(
               chatMessagesController,
               storeName,
@@ -647,6 +652,7 @@ const ChatSingleMessage = (props) => {
           id={isFirst ? "tourFirstUse_post" : ""}
           ref={messageInfoRef}
           className={`
+          ${status == "pending" && styles.isPreviewMessage}
             ${styles.ChatParentContainer}
             ${isEditing && styles.Editing}
             ${styles.noselect}
@@ -819,13 +825,7 @@ const ChatSingleMessage = (props) => {
                                             `}
                             key={index}
                           >
-                            {isCustom ? (
-                              <img
-                                src={reaction}
-                              />
-                            ) : (
-                              reaction
-                            )}
+                            {isCustom ? <img src={reaction} /> : reaction}
                             <span className={styles.label}>{name}</span>
                           </button>
                         );
@@ -889,6 +889,8 @@ const ChatSingleMessage = (props) => {
       <div
         className={`
     ${styles.ChatParentContainer}
+    ${status == "pending" && styles.isPreviewMessage}
+
     ${isEditing && styles.Editing}
     ${emojiPickerState && styles.EmojiActive}  
   `}
@@ -1059,13 +1061,7 @@ const ChatSingleMessage = (props) => {
                                       `}
                           key={id}
                         >
-                          {isCustom ? (
-                            <img
-                              src={reaction}
-                            />
-                          ) : (
-                            reaction
-                          )}
+                          {isCustom ? <img src={reaction} /> : reaction}
                           <span className={styles.label}>{name}</span>
                         </button>
                       );
