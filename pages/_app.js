@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Work_Sans, Rubik, Raleway } from "next/font/google";
 import Head from "next/head";
@@ -37,6 +38,7 @@ fontClassNames.push(rale.variable);
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+  const [themeColor, setThemeColor] = useState('#38383e'); //light mode
 
   useEffect(() => {
     const setVhValue = () => {
@@ -76,9 +78,8 @@ function MyApp({ Component, pageProps }) {
     }
     document.body.classList.add(storedTheme);
 
-    let themeColor = '#e8e8ee'; //light mode
-    if (storedTheme == "dark-mode") {
-      let themeColor = '#38383e';
+    if (storedTheme == "light-mode") {
+      setThemeColor('#e8e8ee');
     }
 
     let storedThemeColor = localStorage.getItem('stored-theme-color');
