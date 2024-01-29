@@ -44,15 +44,22 @@
       cursor: pointer;
 
       path {
-        fill: $gather_path;
+        fill: var(--border-basic);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: $border_basic;
+          background-color: var(--menu-offset);
           path {
-            fill: $gather_path_heavy;
+            fill: var(--border-heavy);
           }
+        }
+      }
+
+      &:active {
+        background-color: var(--menu-offset);
+        path {
+          fill: var(--border-heavy);
         }
       }
 
@@ -114,7 +121,7 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: $border_basic;
+          background-color: var(--menu-offset);
         }
       }
     }

@@ -26,7 +26,7 @@
   width: 100%;
   height: 80px;
   //margin-bottom: 12px;
-  background: linear-gradient(45deg, $hot_purple, $fuel);
+  background: linear-gradient(45deg, $hot_purple 30%, var(--gather-tile));
   overflow: hidden;
   padding-bottom: 8px;
 

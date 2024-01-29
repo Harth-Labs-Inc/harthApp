@@ -19,20 +19,20 @@
 
 .Desktop {
   position: absolute;
-  top: $space_gap;
-  left: calc(50% + 4px);
+  top: 8px;
+  left: 50%;
   transform: translateX(-50%);
-  border-radius: 0;
+  border-radius: $corner_radius;
   //border-bottom-right-radius: 36px;
-  border-bottom-left-radius: $outside_radius;
+  //border-bottom-left-radius: $outside_radius;
   overflow: hidden;
   border: 0;
   padding: 0px 12px 24px 12px;
-  width: calc(100% - $space);
+  width: calc(100% - 16px);
   //width: fit-content;
   min-width: fit-content;
   height: fit-content;
-  background-color: var(--theme-color);
+  background-color: var(--gather-tile);
 }
 
 .title {

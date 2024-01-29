@@ -177,7 +177,7 @@
   width: 100%;
   height: 48px;
   border: 0;
-  border-radius: 8px;
+  //border-radius: 8px;
   padding: 0px 16px 0px 16px;
 
   background-color: transparent;
@@ -186,7 +186,7 @@
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: $ash;
+      background-color: var(--menu-offset);
     }
   }
 
@@ -217,7 +217,7 @@
   display: flex;
   @include systemFont;
   width: 100%;
-  border: 0px solid $font_light;
+  border: 0px solid var(--font-main);
   border-bottom-width: 1px;
   align-items: flex-end;
   padding-bottom: 4px;
@@ -337,8 +337,8 @@
 
   .inputEdit {
     border-radius: 4px;
-    background-color: $border_basic;
-    border: 1px solid $border_heavy;
+    background-color: var(--border-basic);
+    border: 0;
     height: 56px;
     @include systemFont;
     font-size: 16px;
@@ -360,7 +360,7 @@
   .cancelButton {
     background-color: transparent;
     color: var(--font-muted);
-    border: 1px solid $border_basic;
+    border: 1px solid var(--border-basic);
   }
 }
 
