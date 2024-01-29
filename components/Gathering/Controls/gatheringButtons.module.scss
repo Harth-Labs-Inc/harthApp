@@ -95,15 +95,15 @@
   border-radius: 10px;
   cursor: pointer;
   border: 0;
-  background-color: $ash;
+  background-color: var(--menu-color);
 
   &Large {
-    padding: 10px;
+    padding: 12px;
     height: 56px;
     width: 56px;
     border-radius: 999px;
     &:active {
-      background-color: $black;
+      background-color: var(--menu-offset);
     }
   }
 
@@ -114,7 +114,7 @@
     border-radius: 999px;
 
     &:hover {
-      background-color: $black;
+      background-color: var(--menu-offset);
     }
   }
 

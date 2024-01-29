@@ -12,10 +12,9 @@
     min-height: 52px;
     width: 100%;
     padding: 0px 8px 2px 8px;
-    background-color: $gather_background_offset;
+    background-color: var(--menu-color);
     border: 0;
     z-index: 10;
-    border-bottom: 1px solid $ash_medium;
 
     .leave {
       position: relative;
@@ -31,11 +30,11 @@
 
 
       path {
-        fill: $gather_path;
+        fill: var(--border-heavy);
       }
 
       &:active {
-        background-color: $gather_background_offset;
+        background-color: var(--menu-offset);
       }
     }
 
@@ -53,7 +52,7 @@
       column-gap: 8px;
       @include roomTitle;
       font-size: 16px;
-      color: $font_muted;
+      color: var(--font-muted);
       user-select: none;
     }
   }
@@ -89,7 +88,7 @@
       column-gap: 8px;
       @include roomTitle;
       font-size: 14px;
-      color: $font_muted;
+      color: var(--font-muted);
       user-select: none;
     }
   }
