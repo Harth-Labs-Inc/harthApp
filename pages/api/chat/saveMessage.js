@@ -62,6 +62,7 @@ const createMessage = async (db, data, hasAttachments) => {
     delete data.pendingID;
     delete data.status;
   }
+  data.statusCode = 1;
   try {
     const msgCreated = await db.collection("messages").insertOne(data);
     recordNewRelicEvents(msgCreated.insertedId, data);

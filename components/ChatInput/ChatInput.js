@@ -26,7 +26,14 @@ import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
 import { sendPushNotification } from "requests/subscriptions";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
-import { generateID, generatePushMessage, getBaseUrl } from "services/helper";
+import {
+  deleteAttachment,
+  generateID,
+  generatePushMessage,
+  getBaseUrl,
+  saveAttachment,
+  updateRecordAttachments,
+} from "services/helper";
 
 const isIOS = () => {
   if (typeof navigator !== "undefined") {
@@ -55,7 +62,12 @@ const ChatInput = (props) => {
   let lockedScrollDirection = null;
 
   const { user } = useAuth();
-  const { selectedcomm, selectedTopic, selectedCommRef } = useComms();
+  const {
+    selectedcomm,
+    selectedTopic,
+    selectedCommRef,
+    pendingMessagesController,
+  } = useComms();
   const {
     emitUpdate,
     socketID,
@@ -473,6 +485,7 @@ const ChatInput = (props) => {
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: msg });
     setEmojiPicker(!emojiPickerState);
   };
+  // new upload method ------------------------------------------------------------------------------------
   const addPendingMessagePreview = (newMessage) => {
     setIncomingMsgPreview({
       ...newMessage,
@@ -562,11 +575,13 @@ const ChatInput = (props) => {
           replies: [],
           reactionsData: [],
           status: "pending",
+          statusCode: 0,
           pendingID: generateID(),
           renderKey: generateID(),
         };
         const hasAttachments = attachments.length > 0;
 
+        createPendingIndexRecord(newMessage);
         addPendingMessagePreview({
           ...newMessage,
           attachments: await getAttachmentpreviews(attachments),
@@ -575,9 +590,8 @@ const ChatInput = (props) => {
         const data = await saveMessage(newMessage, attachments.length);
         let { id, ok } = data;
         if (ok) {
+          newMessage.statusCode = 1;
           const oldId = newMessage.pendingID;
-          delete newMessage.pendingID;
-          delete newMessage.status;
           if (id) {
             newMessage._id = data.id;
           }
@@ -596,6 +610,7 @@ const ChatInput = (props) => {
     message.socketID = socketID;
 
     setFinalMessageForPreview({ oldId, message });
+    clearPendingIndexRecord(message);
 
     let { ok } = await sendUnreadMessages(message);
     if (ok) {
@@ -646,11 +661,27 @@ const ChatInput = (props) => {
       console.log(error);
     }
   };
+  const createImageBlob = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const arrayBuffer = reader.result;
+        const blob = new Blob([arrayBuffer], { type: file.type });
+        resolve(blob);
+      };
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file);
+    });
+  };
   const uploadAttacments = async (id, message, oldId) => {
     let promises = [];
-    attachments.forEach((file, idx) => {
+    let tempMessage = { ...message };
+    for (let idx in attachments) {
+      const file = attachments[idx];
       setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
-      const isLastImage = idx === attachments.length - 1;
+
+      const fileBlob = await createImageBlob(file);
+      const isLastImage = idx == attachments.length - 1;
       promises.push(
         new Promise(async (res) => {
           let extention = file.name.split(".").pop();
@@ -661,10 +692,50 @@ const ChatInput = (props) => {
           const isVideo = file.type.includes("video");
           if (isVideo) {
             const name = `${baseName}.${extention}`;
+
+            const updatedAttachments = [...tempMessage.attachments];
+            updatedAttachments[idx] = {
+              name,
+              fileType: file.type,
+              fileBlob,
+              status: "pending",
+            };
+            tempMessage.attachments = updatedAttachments;
+
+            try {
+              updateRecordAttachments(
+                pendingMessagesController,
+                "pendingMessages",
+                tempMessage.pendingID,
+                tempMessage.attachments
+              );
+            } catch (error) {
+              console.log(error);
+            }
+
             const data = await getUploadURL(name, file.type, bucket);
             const { uploadURL } = data;
             await putVideoInBucket(uploadURL, file);
             await addKeyToDB(id, name, file.type, null, null, isLastImage);
+
+            updatedAttachments[idx] = {
+              name,
+              fileType: file.type,
+              status: "complete",
+            };
+            tempMessage.attachments = updatedAttachments;
+
+            try {
+              updateRecordAttachments(
+                pendingMessagesController,
+                "pendingMessages",
+                tempMessage.pendingID,
+                tempMessage.attachments
+              );
+            } catch (error) {
+              console.log(error);
+            }
+
             res({
               name: name,
               fileType: file.type,
@@ -677,6 +748,26 @@ const ChatInput = (props) => {
             const thumbnail = isGif
               ? name
               : `${baseName}_thumbnail.${extention}`;
+
+            const updatedAttachments = [...tempMessage.attachments];
+            updatedAttachments[idx] = {
+              name,
+              fileType: file.type,
+              fileBlob,
+              status: "pending",
+            };
+            tempMessage.attachments = updatedAttachments;
+
+            try {
+              updateRecordAttachments(
+                pendingMessagesController,
+                "pendingMessages",
+                tempMessage.pendingID,
+                tempMessage.attachments
+              );
+            } catch (error) {
+              console.log(error);
+            }
 
             const data = await getUploadURL(name, file.type, bucket);
             const { ok, uploadURL } = data;
@@ -699,6 +790,25 @@ const ChatInput = (props) => {
                       null,
                       isLastImage
                     );
+
+                    updatedAttachments[idx] = {
+                      name: thumbnail,
+                      fileType: file.type,
+                      status: "complete",
+                    };
+                    tempMessage.attachments = updatedAttachments;
+
+                    try {
+                      updateRecordAttachments(
+                        pendingMessagesController,
+                        "pendingMessages",
+                        tempMessage.pendingID,
+                        tempMessage.attachments
+                      );
+                    } catch (error) {
+                      console.log(error);
+                    }
+
                     res({
                       name: thumbnail,
                       fileType: file.type,
@@ -718,6 +828,25 @@ const ChatInput = (props) => {
                       desiredWidth,
                       isLastImage
                     );
+
+                    updatedAttachments[idx] = {
+                      name,
+                      fileType: file.type,
+                      status: "complete",
+                    };
+                    tempMessage.attachments = updatedAttachments;
+
+                    try {
+                      updateRecordAttachments(
+                        pendingMessagesController,
+                        "pendingMessages",
+                        tempMessage.pendingID,
+                        tempMessage.attachments
+                      );
+                    } catch (error) {
+                      console.log(error);
+                    }
+
                     res({
                       name: thumbnail,
                       fileType: file.type,
@@ -732,12 +861,36 @@ const ChatInput = (props) => {
           }
         })
       );
-    });
+    }
 
-    const outputs = await Promise.all(promises);
+    const outputs = await Promise.allSettled(promises);
     message.attachments = outputs;
     broadcastMessage(message, oldId, true);
   };
+  const clearPendingIndexRecord = (newMessage) => {
+    try {
+      deleteAttachment(
+        pendingMessagesController,
+        "pendingMessages",
+        newMessage.pendingID
+      );
+    } catch (error) {
+      console.log("Failed to save attachment:", error);
+    }
+  };
+  const createPendingIndexRecord = (newMessage) => {
+    try {
+      saveAttachment(
+        pendingMessagesController,
+        "pendingMessages",
+        newMessage.pendingID,
+        newMessage
+      );
+    } catch (error) {
+      console.log("Failed to save attachment:", error);
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------
   const updateMsg = async () => {
     let msg = selectedEditMsg;
     msg.message = topicInputs[selectedTopic?._id];

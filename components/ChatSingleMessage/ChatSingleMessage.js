@@ -60,6 +60,7 @@ const ChatSingleMessage = (props) => {
   const [showMessageInfoMobile, setShowMessageInfoMobile] = useState(false);
   const [showFlagConfirmation, setShowFlagConfirmation] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
+  const [pendingPreviews, setPendingPreviews] = useState([]);
 
   const touchEndTimestamp = useRef(0);
   const touchThreshold = 100;
@@ -81,6 +82,7 @@ const ChatSingleMessage = (props) => {
     flagged,
     approvedByAdmin,
     status,
+    pendingID,
   } = props.msg;
   const {
     editMessageText,
@@ -110,6 +112,7 @@ const ChatSingleMessage = (props) => {
     hasApprovedTos,
     initialLoadAllGood,
     chatMessagesController,
+    pendingMessagesController,
   } = useComms();
 
   const { activeTour, startTour, skipStep, tourKey } = useTourManager();
@@ -246,6 +249,9 @@ const ChatSingleMessage = (props) => {
       }
     };
 
+    if (!attachments.length) {
+      return;
+    }
     FetchDownloadURL();
     return () => {
       setUrls([]);
@@ -359,6 +365,40 @@ const ChatSingleMessage = (props) => {
       document.removeEventListener("click", clickOutside);
     };
   }, [showMessageInfoMobile]);
+
+  useEffect(() => {
+    if (status == "pending" && pendingID && pendingMessagesController) {
+      getAttachment(pendingMessagesController, "pendingMessages", pendingID)
+        .then((record) => {
+          if (record) {
+            const attachments = record.data.attachments;
+            console.log("Record found in indexedDB:", attachments);
+
+            const processAttachments = async () => {
+              const attachmentUrls = [];
+              for (let idx = 0; idx < attachments.length; idx++) {
+                const attachment = attachments[idx];
+                if (attachment.status === "pending" && attachment.fileBlob) {
+                  const url = URL.createObjectURL(attachment.fileBlob);
+                  attachmentUrls.push({
+                    ...attachment,
+                    downloadURL: url,
+                  });
+                }
+              }
+              setPendingPreviews(attachmentUrls);
+            };
+
+            if (attachments.length) {
+              processAttachments();
+            }
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking indexedDB:", error);
+        });
+    }
+  }, [status, pendingID, pendingMessagesController]);
 
   const handleTouchStart = () => {
     if (!showLongPressMenu) {
@@ -779,7 +819,81 @@ const ChatSingleMessage = (props) => {
                         );
                       }
                     )}
+                    {(pendingPreviews || []).map(
+                      (
+                        { fileType, downloadURL, desiredWidth, desiredHeight },
+                        idx
+                      ) => {
+                        if (fileType.includes("video")) {
+                          return (
+                            <video
+                              key={idx}
+                              width="280"
+                              height="280"
+                              controls
+                              playsInline
+                              muted
+                              src={downloadURL}
+                              type={fileType}
+                            ></video>
+                          );
+                        }
 
+                        return downloadURL ? (
+                          <Image
+                            key={idx}
+                            className="active-image"
+                            src={downloadURL}
+                            width={
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280
+                            }
+                            height={desiredHeight || 280}
+                            placeholder="blur"
+                            blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                              shimmer(
+                                desiredWidth && desiredWidth <= 280
+                                  ? desiredWidth
+                                  : 280,
+                                desiredHeight || 280
+                              )
+                            )}`}
+                            alt="message image"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            onTouchStart={(event) => event.stopPropagation()}
+                            onTouchEnd={(event) => event.stopPropagation()}
+                          />
+                        ) : (
+                          <Image
+                            key={idx}
+                            className="active-image"
+                            src={`data:image/svg+xml;base64,${toBase64(
+                              shimmer(
+                                desiredWidth && desiredWidth <= 280
+                                  ? desiredWidth
+                                  : 280,
+                                desiredHeight || 280
+                              )
+                            )}`}
+                            width={
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280
+                            }
+                            height={desiredHeight || 280}
+                            alt="message image"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            onTouchStart={(event) => event.stopPropagation()}
+                            onTouchEnd={(event) => event.stopPropagation()}
+                          />
+                        );
+                      }
+                    )}
                     <div id={`message-content${messageID}`}>
                       {formatMessage(message)}
                       <LinkPreview
@@ -995,6 +1109,81 @@ const ChatSingleMessage = (props) => {
                           onClick={(e) => {
                             e.stopPropagation();
                             openImageSlideShow(attachments[idx]);
+                          }}
+                          onTouchStart={(event) => event.stopPropagation()}
+                          onTouchEnd={(event) => event.stopPropagation()}
+                        />
+                      ) : (
+                        <Image
+                          key={idx}
+                          className="active-image"
+                          src={`data:image/svg+xml;base64,${toBase64(
+                            shimmer(
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280,
+                              desiredHeight || 280
+                            )
+                          )}`}
+                          width={
+                            desiredWidth && desiredWidth <= 280
+                              ? desiredWidth
+                              : 280
+                          }
+                          height={desiredHeight || 280}
+                          alt="message image"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          onTouchStart={(event) => event.stopPropagation()}
+                          onTouchEnd={(event) => event.stopPropagation()}
+                        />
+                      );
+                    }
+                  )}
+                  {(pendingPreviews || []).map(
+                    (
+                      { fileType, downloadURL, desiredWidth, desiredHeight },
+                      idx
+                    ) => {
+                      if (fileType.includes("video")) {
+                        return (
+                          <video
+                            key={idx}
+                            width="280"
+                            height="280"
+                            controls
+                            playsInline
+                            muted
+                            src={downloadURL}
+                            type={fileType}
+                          ></video>
+                        );
+                      }
+
+                      return downloadURL ? (
+                        <Image
+                          key={idx}
+                          className="active-image"
+                          src={downloadURL}
+                          width={
+                            desiredWidth && desiredWidth <= 280
+                              ? desiredWidth
+                              : 280
+                          }
+                          height={desiredHeight || 280}
+                          placeholder="blur"
+                          blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                            shimmer(
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280,
+                              desiredHeight || 280
+                            )
+                          )}`}
+                          alt="message image"
+                          onClick={(e) => {
+                            e.stopPropagation();
                           }}
                           onTouchStart={(event) => event.stopPropagation()}
                           onTouchEnd={(event) => event.stopPropagation()}

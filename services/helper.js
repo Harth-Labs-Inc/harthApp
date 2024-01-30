@@ -114,6 +114,42 @@ export const saveAttachment = (db, storeName, attachmentName, data) => {
   store.put(record, attachmentName);
 };
 
+export const deleteAttachment = (db, storeName, attachmentName) => {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readwrite");
+    const store = transaction.objectStore(storeName);
+    const deleteRequest = store.delete(attachmentName);
+    deleteRequest.onsuccess = () => resolve();
+    deleteRequest.onerror = () => reject(deleteRequest.error);
+  });
+};
+
+export const updateRecordAttachments = (
+  db,
+  storeName,
+  entryKey,
+  updatedAttachments
+) => {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readwrite");
+    const store = transaction.objectStore(storeName);
+
+    const getRequest = store.get(entryKey);
+    getRequest.onsuccess = () => {
+      const entry = getRequest.result;
+      if (entry) {
+        entry.data.attachments = updatedAttachments;
+
+        const putRequest = store.put(entry, entryKey);
+        putRequest.onsuccess = () => resolve();
+        putRequest.onerror = () => reject(putRequest.error);
+      }
+    };
+
+    getRequest.onerror = () => reject(getRequest.error);
+  });
+};
+
 export const copyToClipboard = (text) => {
   return new Promise((resolve) => {
     if (!navigator || !navigator.clipboard) {
