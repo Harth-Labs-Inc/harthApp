@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Work_Sans, Rubik, Raleway } from "next/font/google";
 import Head from "next/head";
