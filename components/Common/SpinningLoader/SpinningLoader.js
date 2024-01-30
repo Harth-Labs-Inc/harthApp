@@ -4,6 +4,7 @@ import styles from "./Modal.module.scss";
 import { HarthLogoLight } from "public/images/harth-logo-light";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { memo } from "react";
+import Cookies from "js-cookie";
 
 export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
   const router = useRouter();
@@ -12,7 +13,7 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
 
   useEffect(() => {
     // Set theme from localStorage only on client-side
-    const savedTheme = localStorage.getItem("interface-theme");
+    const savedTheme = Cookies.get("theme");
     setTheme(savedTheme);
   }, []);
 
@@ -21,15 +22,10 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
   };
 
   const DisplayLogo = () => {
-    //let theme = localStorage?.getItem("interface-theme");
-    if ( theme == 'light-mode') {
-      return (
-        <HarthLogoDark />
-      );
+    if (theme == "light-mode") {
+      return <HarthLogoDark />;
     }
-    return (
-      <HarthLogoLight />
-    );
+    return <HarthLogoLight />;
   };
 
   if (spinnerOnly) {

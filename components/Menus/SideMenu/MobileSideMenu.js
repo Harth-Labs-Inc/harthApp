@@ -5,7 +5,7 @@ import HarthList from "../HarthList/HarthList";
 import { HarthLogoLight } from "public/images/harth-logo-light";
 import { HarthLogoDark } from "public/images/harth-logo-dark";
 import styles from "./SideMenu.module.scss";
-
+import Cookies from "js-cookie";
 import SettingsList from "../AccountSettings/AccountSettings";
 import { useState } from "react";
 import SettingsMenu from "../AccountSettings";
@@ -64,21 +64,14 @@ const MobileSideNav = (props) => {
   };
 
   const DisplayLogo = () => {
-    let theme = localStorage?.getItem("interface-theme");
-    if ( theme == 'light-mode') {
-      return (
-        <HarthLogoDark />
-      );
+    let theme = Cookies.get("theme");
+    if (theme == "light-mode") {
+      return <HarthLogoDark />;
     }
-    return (
-      <HarthLogoLight />
-    );
+    return <HarthLogoLight />;
   };
 
-
-
   if (!mobileMenuOpen) return;
-
 
   return (
     <SideModal id="mobileSideMenuContainer" onToggleModal={onToggleMenu}>

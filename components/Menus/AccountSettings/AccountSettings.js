@@ -9,6 +9,7 @@ import SubSettings from "./SubSettings";
 import { useSocket } from "contexts/socket";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 import { IconInviteEmail } from "resources/icons/IconInviteEmail";
+import Cookies from "js-cookie";
 
 const SettingsList = ({ toggleCurrentTab }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -30,17 +31,12 @@ const SettingsList = ({ toggleCurrentTab }) => {
   };
 
   const DisplayLogo = () => {
-    let theme = localStorage?.getItem("interface-theme");
-    if ( theme == 'light-mode') {
-      return (
-        <HarthLogoDark />
-      );
+    let theme = Cookies.get("theme");
+    if (theme == "light-mode") {
+      return <HarthLogoDark />;
     }
-    return (
-      <HarthLogoLight />
-    );
+    return <HarthLogoLight />;
   };
-
 
   return (
     <div className={styles.SettingsContainer}>

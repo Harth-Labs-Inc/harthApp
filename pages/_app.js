@@ -3,12 +3,14 @@ import { useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Work_Sans, Rubik, Raleway } from "next/font/google";
 import Head from "next/head";
+import App from "next/app";
 import "../styles/Styles.modules.scss";
 import { AuthProvider } from "../contexts/auth";
 import { ResponsiveProvider } from "../contexts/mobile";
 import { CreateGatheringFormProvider as GatheringFormProvider } from "../pages/dashboard/video/GatherForm/GatheringFormContext";
 import { CreateGatheringFormProvider as GatheringEditFormProvider } from "../pages/dashboard/video/GatherEditForm/GatheringFormContext";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 const fontClassNames = [];
 // google fonts
@@ -36,9 +38,22 @@ fontClassNames.push(work_Sans.variable);
 fontClassNames.push(rubik.variable);
 fontClassNames.push(rale.variable);
 
-function MyApp({ Component, pageProps }) {
+const themeColors = {
+  "light-mode": {
+    backgroundColor: "#e8e8ee",
+    bodyClass: "light-mode",
+    metaThemeColor: "#e8e8ee",
+  },
+  "dark-mode": {
+    backgroundColor: "#38383e",
+    bodyClass: "dark-mode",
+    metaThemeColor: "#38383e",
+  },
+};
+
+function MyApp({ Component, pageProps, theme }) {
+  console.log("theme: ", theme);
   const router = useRouter();
-  const [themeColor, setThemeColor] = useState('#38383e'); //light mode
 
   useEffect(() => {
     const setVhValue = () => {
@@ -57,12 +72,10 @@ function MyApp({ Component, pageProps }) {
 
     setVhValue();
     document.addEventListener("dragstart", preventDragStart);
-    
 
     const timeoutId = setTimeout(() => {
       setVhValue();
     }, 1000);
-
 
     return () => {
       clearTimeout(timeoutId);
@@ -71,30 +84,14 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    let storedTheme = localStorage.getItem("interface-theme");
-    if (!storedTheme) {
-      localStorage.setItem("interface-theme", "dark-mode");
-      storedTheme = "dark-mode";
-    }
-    document.body.classList.add(storedTheme);
+    if (theme) {
+      document.body.classList.add(themeColors[theme]?.bodyClass);
 
-    if (storedTheme == "light-mode") {
-      setThemeColor('#e8e8ee');
+      if (!Cookies.get("theme")) {
+        Cookies.set("theme", theme, { expires: 365 });
+      }
     }
-
-    let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
-
-    if (themeColorMetaTag) {
-      themeColorMetaTag.setAttribute('content', themeColor);
-    } else {
-      // If the meta tag does not exist, create it
-      const metaTag = document.createElement('meta');
-      metaTag.setAttribute('name', 'theme-color');
-      metaTag.setAttribute('content', themeColor);//
-      document.head.appendChild(metaTag);
-    }
-     
-  }, []);
+  }, [theme]);
 
   return (
     <main className={`${fontClassNames.join(" ")}`}>
@@ -105,12 +102,19 @@ function MyApp({ Component, pageProps }) {
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
         <meta property="og:title" content="Härth" key="title" />
-        <meta name="theme-color" content="#38383e" />
+        <meta name="theme-color" content={themeColors[theme]?.metaThemeColor} />
+        theme
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-
-        <link rel="manifest" href="/manifest.json" />
-
+        {/* <link rel="manifest" href="/manifest.json" /> */}
+        <link
+          rel="manifest"
+          href={
+            theme === "dark-mode"
+              ? "/manifest-dark.json"
+              : "/manifest-light.json"
+          }
+        />
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
         <link
           rel="apple-touch-icon"
@@ -132,7 +136,6 @@ function MyApp({ Component, pageProps }) {
           sizes="180x180"
           href="/icons/apple-touch-icon-180x180.png"
         />
-
       </Head>
       <ResponsiveProvider>
         <AuthProvider>
@@ -147,5 +150,23 @@ function MyApp({ Component, pageProps }) {
     </main>
   );
 }
+
+MyApp.getInitialProps = async (appContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  const req = appContext.ctx.req;
+  let cookies = {};
+  if (req && req.headers.cookie) {
+    req.headers.cookie.split(";").forEach((cookie) => {
+      const parts = cookie.match(/(.*?)=(.*)$/);
+      if (parts) {
+        cookies[parts[1].trim()] = (parts[2] || "").trim();
+      }
+    });
+  }
+
+  const theme = cookies.theme || "dark-mode";
+
+  return { ...appProps, theme };
+};
 
 export default MyApp;
