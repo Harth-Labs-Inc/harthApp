@@ -30,7 +30,7 @@
   .line {
     flex-grow: 1;
     margin: 0 4px;
-    background-color: $border_basic;
+    background-color: var(--border-light);
     height: 3px;
   }
 
@@ -48,21 +48,21 @@
     text-align: left;
     margin-top: 8px;
     margin-bottom: 12px;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   .textEntry {
     width: 90%;
     border-radius: 6px;
-    background-color: $background_offset_1;
+    background-color: var(--border-light);
     border: 0;
     height: 56px;
     padding-left: 12px;
-    color: $font_light;
+    color: var(--font-main);
     font-size: 16px;
     caret-color: $hot_purple;
     &::placeholder {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
@@ -72,7 +72,7 @@
     @include systemFont;
     font-size: 12px;
     padding-top: 4px;
-    color: $font_muted;
+    color: var(--font-muted);
   }
 
   .form {
@@ -97,27 +97,27 @@
     .backButton {
       height: 48px;
       border-radius: 999px;
-      border: 1px solid $border_heavy;
-      background-color: $menu_color;
+      border: 1px solid var(--border-heavy);
+      background-color: transparent;
 
       path {
-        fill: $border_heavy;
+        fill: var(--border-heavy);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: $background_offset;
-          path {
-            fill: $font_muted;
-          }
+          background: var(--menu-offset);
+          // path {
+          //   fill: var(--font-main);
+          // }
         }
       }
 
       &:active {
-        background: $background_offset;
-        path {
-          fill: $font_muted;
-        }
+        background: var(--menu-offset);
+        // path {
+        //   fill: $font_muted;
+        // }
       }
     }
 

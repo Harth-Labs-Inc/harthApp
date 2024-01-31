@@ -130,7 +130,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
 
               <input
                 {...register("topicName", { required: true })}
-                placeholder="games, memes, soccer, ect..."
+                placeholder="games, memes, soccer, etc..."
                 type="text"
                 autoComplete="off"
               />

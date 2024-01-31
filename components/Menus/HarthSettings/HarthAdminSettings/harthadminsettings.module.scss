@@ -11,14 +11,15 @@
     width: 72px;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border-light);
   }
 }
 
 .justTitle {
   @include harthTitle;
   font-size: 24px;
-  color: $font_light;
+  color: var(--font-main);
   text-align: center;
   margin-top: 16px;
   margin-bottom: 16px;
@@ -43,19 +44,19 @@
     width: 256px;
     height: 48px;
     padding: 0px 2px 0px 8px;
-    background-color: $background_offset_1;
-    //border: 1px solid $ash_medium;
+    background-color: var(--border-light);
     border-radius: 8px;
     @include harthTitle;
     overflow: hidden;
     font-size: 20px;
-    color: $font_light;
+    color: var(--font-main);
+    border: 0;
   }
   .formSubmit {
     width: 256px;
     height: 48px;
     //padding: 8px;
-    background-color: $border_basic;
+    background-color: var(--border-basic);
     border-radius: 999px;
     color: $font_light;
     @include systemFont;
@@ -70,7 +71,7 @@
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         background-color: $hot_purple;
-        color: $font_light;
+        color: var(--font-main);
       }
     }
 

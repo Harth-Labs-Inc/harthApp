@@ -9,43 +9,39 @@
   .header {
     text-align: left !important;
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     width: 100%;
     margin-bottom: 24px;
   }
 
   .label {
     @include systemFont;
-    font-size: 14px;
-    font-weight: 400;
-    //letter-spacing: 0.02em;
     text-align: center;
     margin-bottom: 4px;
     margin-top: 12px;
-    color: $font_light;
+    color: var(--font-main);
     text-align: left;
   }
 
   input {
     border-radius: 4px;
-    background-color: $background_offset_1;
+    background-color: var(--border-light);
     border: 0;
     height: 56px;
     padding: 0px 12px;
-    @include rubik;
-    font-weight: 400;
+    @include systemFont;
     font-size: 16px;
-    color: $font_light;
+    color: var(--font-main);
     caret-color: $hot_purple;
     &::placeholder {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
   input[type="date"] {
     width: 240px;
-    background-color: $background_offset_1;
-    color: $font_light;
+    background-color: var(--border-light);
+    color: var(--font-main);
     @include systemFont;
     font-size: 16px;
   }
@@ -64,7 +60,7 @@
   .small {
     @include systemFont;
     font-size: 12px;
-    color: $font_muted;
+    color: var(--font-muted);
     text-align: left;
     margin-top: 10px;
   }
@@ -86,27 +82,29 @@
       height: 48px;
       max-width: 88px;
       border-radius: 999px;
-      border: 1px solid $border_heavy;
+      border: 1px solid var(--border-basic);
       background: transparent;
 
       path {
-        fill: $border_heavy;
+        fill: var(--border-basic);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: $background_offset;
+          background: var(--border-light);
+          border-color: var(--border-heavy);
           path {
-            fill: $font_muted;
+            fill: var(--border-heavy);
           }
         }
       }
 
       &:active {
-        background: $background_offset;
-        path {
-          fill: $font_muted;
-        }
+        background: var(--border-light);
+          border-color: var(--border-heavy);
+          path {
+            fill: var(--border-heavy);
+          }
       }
     }
 
@@ -121,10 +119,10 @@
     width: 100%;
     text-align: center;
     margin: 12px 0px;
-    color: $font_muted;
+    color: var(--font-muted);
 
     a {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 

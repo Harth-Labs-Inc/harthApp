@@ -45,7 +45,7 @@ $background_offset: lighten($ash, 10%);
 $background_offset_1: lighten($ash, 10%);
 
 $menu_color: #38383e;
-$menu_color_offset: darken($ash, 3%);
+$menu_color_offset: darken($menu_color, 5%);
 
 $button_main: $background_offset_1;
 $button_main_press: $hot_purple;
@@ -56,7 +56,8 @@ $border_heavy: #58585e;
 
 $path_basic: lighten($ash, 18%);
 
-$modal_border: #000;
+$modal_border: #98989e;
+
 
 
 // Gathering Colors
@@ -72,11 +73,11 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --theme-background-offset: #202027;
   --theme-background-offset-medium: #28282e;
   --font-main: #fefff6;
-  --font-muted: #616169;
+  --font-muted: #68686e;
   --border-ultralight: #303037;
-  --border-light: #38383e;
-  --border-basic: #48484e;
-  --border-heavy: #58585e;
+  --border-light: #48484e;
+  --border-basic: #58585e;
+  --border-heavy: #68686e;
   --path-light: #4f4f55;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
@@ -88,6 +89,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --menu-text-muted: #68686e;
   --gather-tile: #28282e;
   --overlay: rgba(56, 56, 62, 0.50);
+  --modal-border: #68686e;
 }
 
 //light color theme
@@ -112,6 +114,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --menu-text-muted: #98989e;
   --gather-tile: #d8d8de;
   --overlay: rgba(232, 232, 238, 0.50);
+  --modal-border: #98989e;
 }
 
 // Black
@@ -179,9 +182,9 @@ $outline_mobile: 0px;
 }
 
 @mixin buttonSecondary {
-  background: $menu_color;
-  color: $font_muted;
-  border: 1px solid $border_heavy;
+  background: transparent;
+  color: var(--font-muted);
+  border: 1px solid var(--border-heavy);
   @include systemFont;
   letter-spacing: 0.02em;
   font-size: 16px;
@@ -194,13 +197,13 @@ $outline_mobile: 0px;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background: $background_offset;
-      color: $font_light;
+      background: var(--menu-offset);
+      color: var(--font-main);
     }
   }
 
   &:active {
-    background: $background_offset;
+    background: var(--menu-offset);
   }
 }
 

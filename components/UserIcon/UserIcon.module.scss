@@ -19,18 +19,16 @@
 
   &Image {
     position: relative;
-
     font-size: 48px;
     line-height: 48px;
     border-radius: 50%;
     overflow: hidden;
 
     &:before {
-      // @include font-icon($icon-user);
       @include x-y-center;
       z-index: 2;
 
-      color: $font_muted;
+      color: var(--font-main);
     }
   }
 
@@ -38,14 +36,12 @@
     .userIconImage {
       height: 44px;
       width: 44px;
-      //margin-right: 8px;
     }
   }
   &Small {
     .userIconImage {
       height: 36px;
       width: 36px;
-      //margin-right: 2px;
     }
   }
 }

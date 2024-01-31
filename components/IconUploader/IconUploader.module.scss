@@ -24,7 +24,7 @@
   }
 
   &.Circle {
-    border-color: $border_basic;
+    border-color: var(--border-basic);
     height: 88px;
     width: 88px;
     border-radius: 50%;
@@ -34,7 +34,6 @@
       width: 80px;
       object-fit: cover;
       border-radius: 9999px;
-      //border: 1px solid $border_light;
     }
     .iconHolder {
       top: -10px;
@@ -52,7 +51,6 @@
       height: 72px;
       object-fit: cover;
       border-radius: 999px;
-      //border: 1px solid $border_light;
     }
 
     .iconHolder {

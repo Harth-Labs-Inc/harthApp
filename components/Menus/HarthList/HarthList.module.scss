@@ -288,15 +288,16 @@
       width: 100%;
       border: 0;
       border-radius: 999px;
-      background: var(--border-light);
+      background: var(--border-basic);
+      //background: red;
       padding: 2px;
 
       path {
-        fill: var(--menu-color);
+        fill: var(--menu-offset);
       }
 
       &:active {
-        background-color: var(--border-basic);
+        background-color: var(--font-muted);
       }
     }
   }

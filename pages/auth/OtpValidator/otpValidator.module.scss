@@ -7,7 +7,7 @@
 
   h3 {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     text-align: left !important;
     width: 100%;
     margin: 0;
@@ -16,7 +16,7 @@
     text-align: center !important;
     width: 100%;
     @include systemFont;
-    color: $font_light;
+    color: var(--font-main);
     font-size: 18px;
     font-weight: 600;
     margin: 0;
@@ -34,8 +34,8 @@
       height: 100%;
       width: 100%;
       z-index: 1;
-      backdrop-filter: blur(2px);
       pointer-events: none;
+      backdrop-filter: blur(1px);
 
       &::after {
         content: "";
@@ -69,16 +69,14 @@
 
   &Text {
     @include systemFont;
-    font-size: 14px;
-    color: $font_light;
+    color: var(--font-main);
     margin: 12px 0 16px;
     text-align: center;
   }
   &SubText {
     @include systemFont;
-    font-size: 14px;
     margin-top: 4px;
-    color: $font_muted;
+    color: var(--font-muted);
     text-align: center;
   }
 
@@ -97,7 +95,6 @@
     width: 80px;
     max-width: 80px;
     margin-bottom: 40px;
-    //margin-top: 28px;
     margin-right: auto;
     margin-left: auto;
   }

@@ -1,15 +1,14 @@
 import { useContext, useState } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import InviteComp from "../AccountSettings/Invite";
-import { HarthLogoLight } from "public/images/harth-logo-light";
-import { HarthLogoDark } from "public/images/harth-logo-dark";
+import { DisplayLogo } from "components/Common/DisplayLogo/DisplayLogo";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
 import { useSocket } from "contexts/socket";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 import { IconInviteEmail } from "resources/icons/IconInviteEmail";
-import Cookies from "js-cookie";
+
 
 const SettingsList = ({ toggleCurrentTab }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -30,13 +29,6 @@ const SettingsList = ({ toggleCurrentTab }) => {
     setShowInviteModal(!showInviteModal);
   };
 
-  const DisplayLogo = () => {
-    let theme = Cookies.get("theme");
-    if (theme == "light-mode") {
-      return <HarthLogoDark />;
-    }
-    return <HarthLogoLight />;
-  };
 
   return (
     <div className={styles.SettingsContainer}>

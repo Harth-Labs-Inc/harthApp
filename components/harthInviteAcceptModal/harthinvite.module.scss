@@ -12,7 +12,6 @@
   width: 100%;
   max-height: 580px;
   overflow-y: scroll;
-  //row-gap: 16px;
   margin-left: auto;
   margin-right: auto;
 
@@ -30,7 +29,7 @@
   .line {
     flex-grow: 1;
     margin: 0 10px;
-    background-color: $ash;
+    background-color: var(--border-light);
     height: 3px;
   }
 
@@ -44,7 +43,7 @@
 
   .title {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     width: 100%;
     text-align: left;
     margin-top: 0px;
@@ -63,23 +62,23 @@
       position: relative;
       width: 72px;
       height: 72px;
-      border-radius: 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-light);
     }
 
     .harthTitle {
       position: relative;
       @include harthTitle;
-      color: $font_light;
+      color: var(--font-main);
       font-size: 24px;
     }
   }
 
   .footer {
     @include systemFont;
-    color: $font_muted;
+    color: var(--font-muted);
     width: 100%;
     padding: 0px 0px;
-    font-size: 14px;
     text-align: center;
     flex-wrap: wrap;
   }

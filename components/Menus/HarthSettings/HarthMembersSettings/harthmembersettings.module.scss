@@ -14,13 +14,13 @@
     column-gap: 12px;
     justify-content: space-between;
     align-items: center;
-    background-color: $menu_color;
+    background-color: var(--menu-offset);
     width: 100%;
     height: 56px;
     padding: 4px 8px 4px 8px;
     border-radius: 12px;
     margin-top: 8px;
-    border: 2px solid $border_basic;
+    border: 2px solid var(--border-heavy);
 
     &Active {
       border-bottom-left-radius: 0px;
@@ -35,7 +35,7 @@
       @include chatProfile;
       font-weight: 400;
       font-size: 16px;
-      color: $font_light;
+      color: var(--font-main);
       width: 100%;
       //padding-top: 10px;
       p {
@@ -65,18 +65,18 @@
       padding: 6px;
 
       path {
-        fill: $font_light;
+        fill: var(--font-main);
       }
 
       &Desktop {
         &:hover {
-          background: $border_basic;
+          background: var(--border-basic);
         }
       }
 
       &Mobile {
         &:active {
-          background: $border_basic;
+          background: var(--border-basic);
         }
       }
     }
@@ -90,14 +90,14 @@
     justify-content: space-between;
 
     align-items: center;
-    background-color: $menu_color;
+    background-color: var(--menu-offset);
     padding: 0px 16px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     border: 0px;
-    border: 2px solid $border_basic;
+    border: 2px solid var(--border-heavy);
     border-top: 0;
     gap: 6px;
 
@@ -112,7 +112,7 @@
         @include systemFont;
         font-size: 12px;
         letter-spacing: 0;
-        color: $font_light;
+        color: var(--font-main);
       }
     }
 
@@ -134,11 +134,11 @@
     border-radius: 12px;
     padding: 0px 8px 0px 8px;
     background-color: transparent;
-    border: 2px dashed $border_basic;
+    border: 2px dashed var(--border-basic);
     margin-top: 8px;
     @include chatProfile;
     font-weight: 400;
-    color: $font_muted;
+    color: var(--font-muted);
 
     .numberHolder {
       display: flex;
@@ -151,8 +151,8 @@
       border-radius: 9999px;
       align-items: center;
       justify-content: center;
-      background-color: $border_basic;
-      color: $font_muted;
+      background-color: var(--border-basic);
+      color: var(--font-muted);
       @include systemFont;
       font-size: 20px;
       font-weight: 700;

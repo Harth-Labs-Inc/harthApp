@@ -2,10 +2,8 @@ import { useComms } from "../../../contexts/comms";
 import { useSocket } from "../../../contexts/socket";
 import { SideModal } from "../../Common";
 import HarthList from "../HarthList/HarthList";
-import { HarthLogoLight } from "public/images/harth-logo-light";
-import { HarthLogoDark } from "public/images/harth-logo-dark";
+import { DisplayLogo } from "components/Common/DisplayLogo/DisplayLogo";
 import styles from "./SideMenu.module.scss";
-import Cookies from "js-cookie";
 import SettingsList from "../AccountSettings/AccountSettings";
 import { useState } from "react";
 import SettingsMenu from "../AccountSettings";
@@ -61,14 +59,6 @@ const MobileSideNav = (props) => {
       );
     }
     return null;
-  };
-
-  const DisplayLogo = () => {
-    let theme = Cookies.get("theme");
-    if (theme == "light-mode") {
-      return <HarthLogoDark />;
-    }
-    return <HarthLogoLight />;
   };
 
   if (!mobileMenuOpen) return;

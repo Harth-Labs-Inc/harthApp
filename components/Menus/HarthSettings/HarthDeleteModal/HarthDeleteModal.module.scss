@@ -13,7 +13,7 @@
   max-width: 360px;
   margin-left: auto;
   margin-right: auto;
-  color: $font_light;
+  color: var(--font-main);
 
   .title {
     @include overlayMenuTitle;
@@ -21,15 +21,15 @@
     text-align: center;
     margin-top: 8px;
     margin-bottom: 20px;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   .harthImage {
     height: 72px;
     width: 72px;
-    border-radius: 8px;
+    border-radius: 999px;
     margin-top: 12px;
-    border: 1px solid $border_light;
+    border: 1px solid var(--border-basic);
   }
   .harthName {
     margin-top: -6px;
@@ -37,13 +37,13 @@
     font-weight: 500;
     @include harthTitle;
     font-size: 20px;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   .text {
     width: 90%;
     text-align: center;
-    color: $font_muted;
+    color: var(--font-muted);
     font-size: 12px;
   }
 
