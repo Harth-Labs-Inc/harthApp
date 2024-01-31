@@ -50,8 +50,7 @@ const themeColors = {
   },
 };
 
-function MyApp({ Component, pageProps, theme }) {
-  console.log("theme: ", theme);
+function MyApp({ Component, pageProps, theme, hadPreferedTheme }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -82,15 +81,21 @@ function MyApp({ Component, pageProps, theme }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (theme) {
-      document.body.classList.add(themeColors[theme]?.bodyClass);
+  const userTheme = hadPreferedTheme
+    ? theme
+    : Cookies.get("theme") || "dark-mode";
 
-      if (!Cookies.get("theme")) {
-        Cookies.set("theme", theme, { expires: 365 });
-      }
+  if (!Cookies.get("theme")) {
+    Cookies.set("theme", userTheme, { expires: 365 });
+  }
+
+  if (typeof document !== "undefined" && userTheme) {
+    const currentBodyClass = document.body.className;
+    const newBodyClass = themeColors[userTheme]?.bodyClass;
+    if (!currentBodyClass || currentBodyClass !== newBodyClass) {
+      document.body.classList.add(newBodyClass);
     }
-  }, [theme]);
+  }
 
   return (
     <main className={`${fontClassNames.join(" ")}`}>
@@ -101,15 +106,17 @@ function MyApp({ Component, pageProps, theme }) {
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
         <meta property="og:title" content="Härth" key="title" />
-        <meta name="theme-color" content={themeColors[theme]?.metaThemeColor} />
+        <meta
+          name="theme-color"
+          content={themeColors[userTheme]?.metaThemeColor}
+        />
         theme
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        {/* <link rel="manifest" href="/manifest.json" /> */}
         <link
           rel="manifest"
           href={
-            theme === "dark-mode"
+            userTheme === "dark-mode"
               ? "/manifest-dark.json"
               : "/manifest-light.json"
           }
@@ -154,6 +161,7 @@ MyApp.getInitialProps = async (appContext) => {
   const appProps = await App.getInitialProps(appContext);
   const req = appContext.ctx.req;
   let cookies = {};
+
   if (req && req.headers.cookie) {
     req.headers.cookie.split(";").forEach((cookie) => {
       const parts = cookie.match(/(.*?)=(.*)$/);
@@ -162,10 +170,10 @@ MyApp.getInitialProps = async (appContext) => {
       }
     });
   }
-
+  const hadPreferedTheme = cookies.theme || false;
   const theme = cookies.theme || "dark-mode";
 
-  return { ...appProps, theme };
+  return { ...appProps, theme, hadPreferedTheme };
 };
 
 export default MyApp;
