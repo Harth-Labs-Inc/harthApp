@@ -16,7 +16,7 @@
   @include systemFont;
   font-size: 14px;
   z-index: 25;
-  color: $font_light;
+  color: var(--font-main);
 
   .title {
     @include overlayMenuTitle;
@@ -30,7 +30,7 @@
   .text {
     width: 90%;
     text-align: center;
-    color: $font_muted;
+    color: var(--font-muted);
     font-size: 12px;
   }
 

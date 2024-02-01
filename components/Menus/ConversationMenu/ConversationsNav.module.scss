@@ -49,7 +49,7 @@
     position: relative;
     @include smallTitle;
     text-transform: uppercase;
-    color: $font_light;
+    color: var(--font-main);
     user-select: none;
     margin-left: 8px;
     margin-top: 12px;

@@ -125,7 +125,7 @@
         font-weight: 400;
         height: 56px;
         width: 100%;
-        color: $font_light;
+        color: var(--font-main);
         background-color: var(--border-light);
         border: 0;
         border-radius: 6px;
@@ -198,17 +198,11 @@
       @media (hover: hover) and (pointer: fine) {
         &:hover {
           background: var(--menu-offset);
-          // path {
-          //   fill: var(--font-main);
-          // }
         }
       }
 
       &:active {
         background: var(--menu-offset);
-        // path {
-        //   fill: $font_muted;
-        // }
       }
     }
 

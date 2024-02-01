@@ -28,6 +28,12 @@
   border: 0;
   outline: 0;
 
+  svg {
+    path {
+      fill: var(--font-main);
+    }
+  }
+
   &Button {
     display: flex;
     align-items: center;

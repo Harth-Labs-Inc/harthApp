@@ -58,7 +58,7 @@
     //padding: 8px;
     background-color: var(--border-basic);
     border-radius: 999px;
-    color: $font_light;
+    color: var(--font-main);
     @include systemFont;
     font-size: 16px;
     border: 0;

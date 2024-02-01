@@ -106,18 +106,18 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: $background_offset;
+          background: var(--border-heavy);
           path {
-            fill: $font_muted;
+            fill: var(--font-muted);
           }
         }
       }
 
       &:active {
-        background: $background_offset;
-        path {
-          fill: $font_muted;
-        }
+        background: var(--border-heavy);
+          path {
+            fill: var(--font-muted);
+          }
       }
     }
 

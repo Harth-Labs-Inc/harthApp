@@ -122,7 +122,7 @@
       width: 100%;
       border: 0;
       border-radius: 8px;
-      background: var(--border-heavy);
+      background: var(--border-basic);
       padding: 2px;
       cursor: pointer;
       path {
@@ -131,7 +131,7 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: var(--font-muted);
+          background-color: var(--border-heavy);
         }
       }
     }

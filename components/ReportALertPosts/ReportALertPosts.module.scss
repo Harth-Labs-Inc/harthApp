@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   border-left: 1px solid $border_light;
-  color: $font_light;
+  color: var(--font-main);
   //border-bottom: 1px solid $border_light;
   @include topicTitle;
   font-size: 14px;

@@ -2,13 +2,16 @@
 @import "../../../styles/globals.scss";
 
 .Desktop {
-  border-radius: $corner_radius;
+  border-radius: $corner_radius_mobile;
   width: 320px;
   height: fit-content;
   background-color: var(--theme-background-offset);
   border: 0;
   overflow: hidden;
   padding: 0px;
+  box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.05),
+        0 2px 2px hsl(0deg 0% 0% / 0.05); 
 }
 
 .Mobile {
@@ -18,7 +21,9 @@
   border: 0;
   overflow: hidden;
   padding: 0px;
-
+  box-shadow:
+  0 1px 1px hsl(0deg 0% 0% / 0.075),
+  0 2px 2px hsl(0deg 0% 0% / 0.075); 
 }
 
 .Top {

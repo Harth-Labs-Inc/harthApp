@@ -486,13 +486,12 @@
   padding: 12px;
   padding-bottom: 6px;
   background-color: transparent;
-  //border-radius: 12px;
   width: 100%;
   max-width: 460px;
   user-select: none;
   height: 256px;
   overflow: hidden;
-  //border: 1px solid $ash;
+  color: var(--font-main);
 
   &::after {
     content: "";
@@ -513,8 +512,6 @@
     height: 16px;
     overflow: hidden;
     padding: 0px;
-    //margin-bottom: 6px;
-    //background: aqua;
 
     img {
       margin: 0;
@@ -522,7 +519,6 @@
       height: 16px;
       border-radius: 999px;
       background-color: transparent;
-      //overflow: hidden;
       object-fit: contain;
     }
 
@@ -534,11 +530,9 @@
       text-overflow: ellipsis;
       display: inline-block;
       font-size: 12px;
-      //line-height: 100%;
       font-weight: 500;
       letter-spacing: 0;
       color: var(--font-main);
-      //background-color: aquamarine;
     }
   }
 
@@ -619,7 +613,7 @@
     font-size: 12px;
     letter-spacing: 0em;
     padding: 0;
-    color: $font_muted;
+    color: var(--font-muted);
     max-height: 25px;
     margin-top: 2px;
   }
@@ -630,8 +624,7 @@
   padding: 24px 32px 20px 20px;
   gap: 20px;
   margin-top: 10px;
-  background-color: $oxygen;
-  border: 1px solid $border_basic;
+  border: 1px solid var(--border-basic);
   border-radius: 12px;
   width: fit-content;
   max-width: 100%;
@@ -649,7 +642,7 @@
     width: 24px;
     min-width: 24px;
     path {
-      fill: $border_basic;
+      fill: var(--border-basic);
     }
   }
 }

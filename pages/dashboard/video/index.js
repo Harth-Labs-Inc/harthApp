@@ -221,6 +221,15 @@ const Video = () => {
             createScheduleRoom={triggerNewRoom}
           />
 
+          {((scheduledcallRooms.length > 0 ) || ((callRooms || []).length > 0))?
+            (null) : (
+              <div className={styles.placeholderImage}>
+                <img src="/images/home_group.png" />
+              </div>
+            )
+          }
+
+
           {(callRooms || []).map((room, idx) => {
             let owner = false;
             if (room?.hostName === creator?.name) {

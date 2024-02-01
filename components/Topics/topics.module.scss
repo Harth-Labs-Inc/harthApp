@@ -82,7 +82,7 @@
       padding: 0;
       transform: rotate(90deg);
       border-radius: 999px;
-      background-color: var(--border-light);
+      background-color: transparent;
       border: 1px solid transparent;
 
       cursor: pointer;
@@ -100,7 +100,7 @@
   }
 
   &Active {
-    background-color: var(--border-light);
+    background-color: var(--border-ultralight);
     .label {
       color: var(--font-main);
     }

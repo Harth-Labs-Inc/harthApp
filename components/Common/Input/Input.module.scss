@@ -9,11 +9,11 @@
     margin: 0 0 4px;
     padding: 6px;
     border: 0;
-    border-bottom: 1px solid $border_basic;
+    color: var(--font-main);
     text-transform: none;
 
     &::placeholder {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
@@ -41,10 +41,10 @@
     padding: 8px 0px 8px 0px;
     border: 0;
     border-bottom: 1px solid $fuel;
-    color: $ash;
+    color: var(--font-main);
 
     &::placeholder {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
