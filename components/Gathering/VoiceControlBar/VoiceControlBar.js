@@ -138,27 +138,26 @@ const VoiceControlBar = (props) => {
                 </header>
             ) : (
                 <header className={styles.desktop}>
-                    <div className={styles.leftGroup}>
                     <LeaveButtonStream onPress={onLeaveHandler} />
-                        <div className={styles.optionsContainer}>
-                            <div className={styles.mainButton}>
-                                <MicButtonStream
-                                    onPress={onToggleAudio}
-                                    audioList={audioList}
-                                    changeAudioDevice={changeAudioDevice}
-                                    clearAudioList={() => setAudioList(null)}
-                                    isOn={hasAudioStream}
-                                />
-                            </div>
-                            {AudioDeviceListCount.current > 1 ? (
-                                    <MoreButtonStream
-                                        onPress={onToggleAudioDevicesModal}
-                                        isActive={!!audioList}
-                                    />
-
-                            ) : null}
+                    <div className={styles.optionsContainer}>
+                        <div className={styles.mainButton}>
+                            <MicButtonStream
+                                onPress={onToggleAudio}
+                                audioList={audioList}
+                                changeAudioDevice={changeAudioDevice}
+                                clearAudioList={() => setAudioList(null)}
+                                isOn={hasAudioStream}
+                            />
                         </div>
+                        {AudioDeviceListCount.current > 1 ? (
+                                <MoreButtonStream
+                                    onPress={onToggleAudioDevicesModal}
+                                    isActive={!!audioList}
+                                />
+
+                        ) : null}
                     </div>
+                    <div className={styles.spacer} />
                 </header>
             )}
 

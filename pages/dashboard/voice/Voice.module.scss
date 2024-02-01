@@ -41,7 +41,7 @@
   width: 100%;
   border: 0;
   padding: 0;
-  background: var(--theme-background);
+  background: var(--menu-color);
 
   @media (max-width: 640px) {
     height: var(--vh);
@@ -50,12 +50,10 @@
   }
 
   .ContentContainer {
-    position: relative;
     display: flex;
     flex-direction: row;
-    height: calc(100% - 80px);
+    height: 100%;
     width: 100%;
-    background: var(--theme-background);
 
     &Mobile {
       border-top: 0;
@@ -67,8 +65,9 @@
     .leftSide {
       width: 256px;
       min-width: 256px;
+      height: 100%;
       user-select: none;
-      background: transparent;
+      background: var(--theme-background);
       padding: 0;
       
       &Mobile {
@@ -79,8 +78,9 @@
     }
 
     .leftContainer {
+      position: relative;
       width: 100%;
-      height: calc(100% - 38px);
+      height: calc(100% - 118px);
       user-select: none;
       overflow-y: scroll;
       background: var(--theme-background);
@@ -442,7 +442,7 @@
       padding: 0px 0px 0px 0px;
       border: 0;
       background: var(--theme-background);
-      border-left: 1px solid var(--border-light);
+      border-left: 1px solid var(--border-ultralight);
       margin: 0;
 
       &Mobile {

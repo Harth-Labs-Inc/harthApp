@@ -13,7 +13,7 @@
   flex-direction: column;
   row-gap: 0px;
   margin: 0px 0px 0px 0px;
-  background: var(--theme-background-offset);
+  background: var(--theme-background);
   padding: 8px 8px 16px 8px;
   
   &.Mobile {
@@ -35,10 +35,11 @@
     max-height: calc(var(--vh) * 0.5);
     margin: 0;
     padding: 8px 12px;
+    border-radius: 8px;
     @include chatText;
-    color: $font_light;
-    background: $ash_heavy;
-    border: 0;
+    color: var(--font-main);
+    background: var(--theme-background);
+    border: 1px solid var(--border-light);
     caret-color: $hot_salmon;
 
     white-space: pre-wrap; /* CSS3 */
@@ -49,7 +50,7 @@
 
     &::placeholder {
       @include chatText;
-      color: $font_muted;
+      color: var(--font-muted);
     }
 
     &.Mobile {
@@ -92,12 +93,13 @@
     border-radius: 0px;
     padding: 0;
     overflow: hidden;
+
   }
 
   &Controls {
     display: flex;
     justify-content: space-between;
-    padding: 0px;
+    padding: 4px 4px 4px 4px;
 
     &.Mobile {
       display: flex;
@@ -112,31 +114,43 @@
       position: relative;
       display: flex;
       flex-direction: row;
-      column-gap: 12px;
+      column-gap: 2px;
 
       > button {
         position: relative;
         margin: 0 0px;
         height: 36px;
-        width: 36px;
+        width: 52px;
+        border-radius: 99px;
         padding: 6px;
         background-color: transparent;
-        border-radius: 8px;
         border: 0px;
         cursor: pointer;
 
         path {
-          fill: $gather_path;
+          fill: var(--border-basic);
+        }
+
+        &:active {
+          background-color: var(--menu-offset);
+          path {
+            fill: var(--path-basic);
+          }
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+          &:hover {
+            background-color: var(--menu-offset);
+          path {
+            fill: var(--path-basic);
+          }
+          }
         }
 
         &Mobile {
           height: 40px;
           width: 40px;
           padding: 8px;
-        }
-
-        &:hover {
-          background-color: $ash_heavy;
         }
 
         &.EditCancel {
@@ -158,8 +172,9 @@
         }
 
         &.SendActive {
+          background-color: $hot_purple;
           path {
-            fill: $hot_pink;
+            fill: $oxygen;
           }
         }
 
