@@ -453,17 +453,27 @@
       padding: 0px 0px 0px 0px;
       border: 0;
       background: var(--theme-background);
-      border-left: 1px solid var(--border-ultralight);
+      border-left: 1px solid var(--menu-color);
       margin: 0;
 
       &Mobile {
         position: absolute;
         left: 100%;
         top: 52px;
-        height: calc(100% - 40px);
+        height: calc(100% - 120px);
         width: 100%;
         margin: 0;
         border: 0;
+
+        &::after {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 1px;
+          content: "";
+          background-color: var(--menu-color);
+        }
       }
 
       &Open {
