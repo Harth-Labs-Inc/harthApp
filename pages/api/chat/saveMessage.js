@@ -6,11 +6,6 @@ const crypto = require("crypto");
 
 /* eslint-disable */
 export default async (req, res) => {
-  const authToken = req.headers["x-auth-token"];
-  if (!authToken) {
-    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
-  }
-
   let obj;
   try {
     obj = JSON.parse(req.body);
@@ -20,6 +15,13 @@ export default async (req, res) => {
 
   const client = await getClientWithCheck(clientPromise);
   const db = client.db("blarg");
+
+  const authToken = req.headers["x-auth-token"];
+  if (!authToken) {
+    await db.command({ ping: 1 });
+    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
+  }
+
   const user = await authenticateUser(db, authToken);
 
   if (!user) {

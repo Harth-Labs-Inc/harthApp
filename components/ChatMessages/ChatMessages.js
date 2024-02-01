@@ -197,7 +197,6 @@ const MessageWrapper = () => {
                 incomingMsgUpdate.approvedByAdmin;
               tempMsgs[index].approvedByAdminKeepBlurred =
                 incomingMsgUpdate.approvedByAdminKeepBlurred;
-              tempMsgs[index].flames = incomingMsgUpdate.flames;
               tempMsgs[index].message = incomingMsgUpdate.message;
             }
             setCurrentMessages(tempMsgs);
@@ -221,7 +220,12 @@ const MessageWrapper = () => {
     setCurrentMessages((prevMessages) => {
       return prevMessages.map((msg) => {
         if (msg.pendingID === finalMessageForPreview.oldId) {
-          return { ...msg, status: "complete", pendingID: "" };
+          return {
+            ...msg,
+            status: "complete",
+            _id: finalMessageForPreview.message._id,
+            isUploading: false,
+          };
         }
         return msg;
       });

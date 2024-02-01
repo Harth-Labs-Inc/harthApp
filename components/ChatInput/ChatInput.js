@@ -569,7 +569,6 @@ const ChatInput = (props) => {
           bookmarked: false,
           date: new Date(),
           message: topicInputs[selectedTopic?._id],
-          flames: [],
           reactions: [],
           attachments: [],
           replies: [],
@@ -578,6 +577,7 @@ const ChatInput = (props) => {
           statusCode: 0,
           pendingID: generateID(),
           renderKey: generateID(),
+          numOfAttchmts: attachments.length,
         };
         const hasAttachments = attachments.length > 0;
 
@@ -585,6 +585,7 @@ const ChatInput = (props) => {
         addPendingMessagePreview({
           ...newMessage,
           attachments: await getAttachmentpreviews(attachments),
+          isUploading: true,
         });
 
         const data = await saveMessage(newMessage, attachments.length);
@@ -625,41 +626,41 @@ const ChatInput = (props) => {
         console.error(err);
       }
     });
-    try {
-      let pushmessage = generatePushMessage({
-        ...message,
-        pushTitle: `${message.creator_name}`,
-        env: process.env.NODE_ENV,
-        ignoreSelf: true,
-        type: "chat",
-      });
+    // try {
+    //   let pushmessage = generatePushMessage({
+    //     ...message,
+    //     pushTitle: `${message.creator_name}`,
+    //     env: process.env.NODE_ENV,
+    //     ignoreSelf: true,
+    //     type: "chat",
+    //   });
 
-      if (!pushmessage.message) {
-        pushmessage.message = "";
+    //   if (!pushmessage.message) {
+    //     pushmessage.message = "";
 
-        if (hasAttachments) {
-          pushmessage.message = "Check out the new image!";
-        }
-      }
+    //     if (hasAttachments) {
+    //       pushmessage.message = "Check out the new image!";
+    //     }
+    //   }
 
-      getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
-        if (userIDsToNotify && userIDsToNotify.length) {
-          let apiURL;
-          let baseURL = getBaseUrl();
-          if (baseURL.includes("harth.social")) {
-            apiURL =
-              "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
-          } else {
-            apiURL =
-              "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
-          }
-          pushmessage.receiverIds = userIDsToNotify;
-          sendPushNotification(pushmessage, apiURL);
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    //   getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
+    //     if (userIDsToNotify && userIDsToNotify.length) {
+    //       let apiURL;
+    //       let baseURL = getBaseUrl();
+    //       if (baseURL.includes("harth.social")) {
+    //         apiURL =
+    //           "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
+    //       } else {
+    //         apiURL =
+    //           "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
+    //       }
+    //       pushmessage.receiverIds = userIDsToNotify;
+    //       sendPushNotification(pushmessage, apiURL);
+    //     }
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   const createImageBlob = (file) => {
     return new Promise((resolve, reject) => {
@@ -676,65 +677,58 @@ const ChatInput = (props) => {
   const uploadAttacments = async (id, message, oldId) => {
     let promises = [];
     let tempMessage = { ...message };
+    const bucket = "topic-message-attachments";
+
+    const updateAttachmentStatus = (idx, udpateObj) => {
+      const updatedAttachments = [...tempMessage.attachments];
+      updatedAttachments[idx] = udpateObj;
+      tempMessage.attachments = updatedAttachments;
+
+      try {
+        updateRecordAttachments(
+          pendingMessagesController,
+          "pendingMessages",
+          tempMessage.pendingID,
+          tempMessage.attachments
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     for (let idx in attachments) {
       const file = attachments[idx];
       setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
-
-      const fileBlob = await createImageBlob(file);
-      const isLastImage = idx == attachments.length - 1;
       promises.push(
         new Promise(async (res) => {
-          let extention = file.name.split(".").pop();
+          const fileBlob = await createImageBlob(file);
+          const isLastImage = idx == attachments.length - 1;
+          const extention = file.name.split(".").pop();
+          const isVideo = file.type.includes("video");
           const baseName = `${selectedcomm._id}-${selectedTopic._id}-${id}_${
             idx + 1
           }`;
-          const bucket = "topic-message-attachments";
-          const isVideo = file.type.includes("video");
+
           if (isVideo) {
             const name = `${baseName}.${extention}`;
 
-            const updatedAttachments = [...tempMessage.attachments];
-            updatedAttachments[idx] = {
+            updateAttachmentStatus(idx, {
               name,
               fileType: file.type,
               fileBlob,
               status: "pending",
-            };
-            tempMessage.attachments = updatedAttachments;
-
-            try {
-              updateRecordAttachments(
-                pendingMessagesController,
-                "pendingMessages",
-                tempMessage.pendingID,
-                tempMessage.attachments
-              );
-            } catch (error) {
-              console.log(error);
-            }
+            });
 
             const data = await getUploadURL(name, file.type, bucket);
             const { uploadURL } = data;
             await putVideoInBucket(uploadURL, file);
             await addKeyToDB(id, name, file.type, null, null, isLastImage);
 
-            updatedAttachments[idx] = {
+            updateAttachmentStatus(idx, {
               name,
               fileType: file.type,
               status: "complete",
-            };
-            tempMessage.attachments = updatedAttachments;
-
-            try {
-              updateRecordAttachments(
-                pendingMessagesController,
-                "pendingMessages",
-                tempMessage.pendingID,
-                tempMessage.attachments
-              );
-            } catch (error) {
-              console.log(error);
-            }
+            });
 
             res({
               name: name,
@@ -745,29 +739,17 @@ const ChatInput = (props) => {
             const name = isGif
               ? `${baseName}.${extention}`
               : `${baseName}_full.${extention}`;
+
             const thumbnail = isGif
               ? name
               : `${baseName}_thumbnail.${extention}`;
 
-            const updatedAttachments = [...tempMessage.attachments];
-            updatedAttachments[idx] = {
+            updateAttachmentStatus(idx, {
               name,
               fileType: file.type,
               fileBlob,
               status: "pending",
-            };
-            tempMessage.attachments = updatedAttachments;
-
-            try {
-              updateRecordAttachments(
-                pendingMessagesController,
-                "pendingMessages",
-                tempMessage.pendingID,
-                tempMessage.attachments
-              );
-            } catch (error) {
-              console.log(error);
-            }
+            });
 
             const data = await getUploadURL(name, file.type, bucket);
             const { ok, uploadURL } = data;
@@ -791,23 +773,11 @@ const ChatInput = (props) => {
                       isLastImage
                     );
 
-                    updatedAttachments[idx] = {
+                    updateAttachmentStatus(idx, {
                       name: thumbnail,
                       fileType: file.type,
                       status: "complete",
-                    };
-                    tempMessage.attachments = updatedAttachments;
-
-                    try {
-                      updateRecordAttachments(
-                        pendingMessagesController,
-                        "pendingMessages",
-                        tempMessage.pendingID,
-                        tempMessage.attachments
-                      );
-                    } catch (error) {
-                      console.log(error);
-                    }
+                    });
 
                     res({
                       name: thumbnail,
@@ -829,23 +799,11 @@ const ChatInput = (props) => {
                       isLastImage
                     );
 
-                    updatedAttachments[idx] = {
+                    updateAttachmentStatus(idx, {
                       name,
                       fileType: file.type,
                       status: "complete",
-                    };
-                    tempMessage.attachments = updatedAttachments;
-
-                    try {
-                      updateRecordAttachments(
-                        pendingMessagesController,
-                        "pendingMessages",
-                        tempMessage.pendingID,
-                        tempMessage.attachments
-                      );
-                    } catch (error) {
-                      console.log(error);
-                    }
+                    });
 
                     res({
                       name: thumbnail,

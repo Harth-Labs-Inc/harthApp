@@ -61,6 +61,7 @@ const ChatSingleMessage = (props) => {
   const [showFlagConfirmation, setShowFlagConfirmation] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [pendingPreviews, setPendingPreviews] = useState([]);
+  const [hasFailed, setHasFailed] = useState(false);
 
   const touchEndTimestamp = useRef(0);
   const touchThreshold = 100;
@@ -83,6 +84,7 @@ const ChatSingleMessage = (props) => {
     approvedByAdmin,
     status,
     pendingID,
+    isUploading,
   } = props.msg;
   const {
     editMessageText,
@@ -367,29 +369,49 @@ const ChatSingleMessage = (props) => {
   }, [showMessageInfoMobile]);
 
   useEffect(() => {
-    if (status == "pending" && pendingID && pendingMessagesController) {
+    if (
+      !isUploading &&
+      status == "pending" &&
+      pendingID &&
+      pendingMessagesController
+    ) {
       getAttachment(pendingMessagesController, "pendingMessages", pendingID)
         .then((record) => {
           if (record) {
             const attachments = record.data.attachments;
-            console.log("Record found in indexedDB:", attachments);
+            console.log("Record found in indexedDB:", attachments, record.data);
 
             const processAttachments = async () => {
               const attachmentUrls = [];
-              for (let idx = 0; idx < attachments.length; idx++) {
+              let hasFailed = false;
+
+              for (let idx = 0; idx < record.data.numOfAttchmts; idx++) {
                 const attachment = attachments[idx];
-                if (attachment.status === "pending" && attachment.fileBlob) {
+                if (
+                  attachment &&
+                  attachment.status === "pending" &&
+                  attachment.fileBlob
+                ) {
                   const url = URL.createObjectURL(attachment.fileBlob);
                   attachmentUrls.push({
                     ...attachment,
                     downloadURL: url,
                   });
+                } else {
+                  attachmentUrls.push({
+                    ...attachment,
+                    downloadURL: "",
+                    fileType: "image/png",
+                  });
+
+                  hasFailed = true;
                 }
               }
               setPendingPreviews(attachmentUrls);
+              setHasFailed(hasFailed);
             };
 
-            if (attachments.length) {
+            if (attachments.length || record.data.numOfAttchmts) {
               processAttachments();
             }
           }
@@ -398,7 +420,7 @@ const ChatSingleMessage = (props) => {
           console.error("Error checking indexedDB:", error);
         });
     }
-  }, [status, pendingID, pendingMessagesController]);
+  }, [status, pendingID, pendingMessagesController, isUploading]);
 
   const handleTouchStart = () => {
     if (!showLongPressMenu) {
@@ -692,7 +714,13 @@ const ChatSingleMessage = (props) => {
           id={isFirst ? "tourFirstUse_post" : ""}
           ref={messageInfoRef}
           className={`
-          ${status == "pending" && styles.isPreviewMessage}
+          ${
+            hasFailed
+              ? styles.isFailedMessage
+              : status == "pending"
+                ? styles.isPreviewMessage
+                : ""
+          }
             ${styles.ChatParentContainer}
             ${isEditing && styles.Editing}
             ${styles.noselect}
@@ -966,6 +994,13 @@ const ChatSingleMessage = (props) => {
                     </div>
                   </div>
                 )}
+                {hasFailed && (
+                  <div className={styles.overlay}>
+                    <div className={styles.flagMessageRed}>
+                      Something went wrong.
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -1003,7 +1038,13 @@ const ChatSingleMessage = (props) => {
       <div
         className={`
     ${styles.ChatParentContainer}
-    ${status == "pending" && styles.isPreviewMessage}
+    ${
+      hasFailed
+        ? styles.isFailedMessage
+        : status == "pending"
+          ? styles.isPreviewMessage
+          : ""
+    }
 
     ${isEditing && styles.Editing}
     ${emojiPickerState && styles.EmojiActive}  
@@ -1274,6 +1315,13 @@ const ChatSingleMessage = (props) => {
                     This post has been flagged by a user as inappropriate.
                     <br />
                     Your group's owner can review it for approval.
+                  </div>
+                </div>
+              )}
+              {hasFailed && (
+                <div className={styles.overlay}>
+                  <div className={styles.flagMessageRed}>
+                    Something went wrong.
                   </div>
                 </div>
               )}

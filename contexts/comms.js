@@ -246,7 +246,7 @@ export const CommsProvider = ({
   }, [comms]);
 
   const startPromotionPoll = () => {
-    const pollInterval = 300000;
+    const pollInterval = 600000;
 
     const checkForDifferences = (current, fetched) => {
       const fieldsToCheck = ["admin", "owner"];

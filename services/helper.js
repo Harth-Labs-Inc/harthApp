@@ -124,6 +124,32 @@ export const deleteAttachment = (db, storeName, attachmentName) => {
   });
 };
 
+export const updateRecordStatusCode = (
+  db,
+  storeName,
+  entryKey,
+  updatedStatusCode
+) => {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readwrite");
+    const store = transaction.objectStore(storeName);
+
+    const getRequest = store.get(entryKey);
+    getRequest.onsuccess = () => {
+      const entry = getRequest.result;
+      if (entry) {
+        entry.data.statusCode = updatedStatusCode;
+
+        const putRequest = store.put(entry, entryKey);
+        putRequest.onsuccess = () => resolve();
+        putRequest.onerror = () => reject(putRequest.error);
+      }
+    };
+
+    getRequest.onerror = () => reject(getRequest.error);
+  });
+};
+
 export const updateRecordAttachments = (
   db,
   storeName,
