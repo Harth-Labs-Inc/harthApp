@@ -626,41 +626,41 @@ const ChatInput = (props) => {
         console.error(err);
       }
     });
-    // try {
-    //   let pushmessage = generatePushMessage({
-    //     ...message,
-    //     pushTitle: `${message.creator_name}`,
-    //     env: process.env.NODE_ENV,
-    //     ignoreSelf: true,
-    //     type: "chat",
-    //   });
+    try {
+      let pushmessage = generatePushMessage({
+        ...message,
+        pushTitle: `${message.creator_name}`,
+        env: process.env.NODE_ENV,
+        ignoreSelf: true,
+        type: "chat",
+      });
 
-    //   if (!pushmessage.message) {
-    //     pushmessage.message = "";
+      if (!pushmessage.message) {
+        pushmessage.message = "";
 
-    //     if (hasAttachments) {
-    //       pushmessage.message = "Check out the new image!";
-    //     }
-    //   }
+        if (hasAttachments) {
+          pushmessage.message = "Check out the new image!";
+        }
+      }
 
-    //   getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
-    //     if (userIDsToNotify && userIDsToNotify.length) {
-    //       let apiURL;
-    //       let baseURL = getBaseUrl();
-    //       if (baseURL.includes("harth.social")) {
-    //         apiURL =
-    //           "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
-    //       } else {
-    //         apiURL =
-    //           "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
-    //       }
-    //       pushmessage.receiverIds = userIDsToNotify;
-    //       sendPushNotification(pushmessage, apiURL);
-    //     }
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
+      getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
+        if (userIDsToNotify && userIDsToNotify.length) {
+          let apiURL;
+          let baseURL = getBaseUrl();
+          if (baseURL.includes("harth.social")) {
+            apiURL =
+              "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
+          } else {
+            apiURL =
+              "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
+          }
+          pushmessage.receiverIds = userIDsToNotify;
+          sendPushNotification(pushmessage, apiURL);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   const createImageBlob = (file) => {
     return new Promise((resolve, reject) => {
