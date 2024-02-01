@@ -95,7 +95,7 @@
   border-radius: 10px;
   cursor: pointer;
   border: 0;
-  background-color: var(--menu-color);
+  background-color: transparent;
 
   &Large {
     padding: 12px;
@@ -156,8 +156,10 @@
   }
 
   &Muted {
+    background: $hot_red;
     path {
-      fill: $alert_red;
+      fill: blue;
+
     }
 
     &Camera {

@@ -38,13 +38,11 @@
   align-items: center;
   justify-content: space-evenly;
   grid-area: header;
-  padding: 8px 8px 8px 8px;
-  margin-bottom: 16px;
-  //height:104px;
+  padding: 8px 8px 20px 8px;
   border: 0;
   width: 100%;
-  background-color: $ash;
-  border-top: 1px solid $ash_medium;
+  background-color: var(--menu-color);
+  border-top: 1px solid var(--border-ultralight);
 
   .spacerLarge {
     display: flex;

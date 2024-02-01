@@ -20,7 +20,7 @@ const GatherHeader = (props) => {
   return (
     <>
       {modal ? (
-        <Modal show={modal} onToggleModal={showMobileMenu} isDark={true}>
+        <Modal show={modal} onToggleModal={showMobileMenu}>
           <div className={styles.leaveMenu}>
             <button
               className={styles.menuItem}
