@@ -8,31 +8,24 @@ $oxygen: #fefff6;
 
 // Hot Blue
 $hot_blue: #0d75ca;
-//$hot_blue: #80d2ed;
 
 // Hot Green
 $hot_green: #3cc8a3;
-//$hot_green: #61c4be;
 
 // Hot Purple
 $hot_purple: #aa68c8;
-//$hot_purple: #c79ac6;
 
 // Hot Pink
 $hot_pink: #d96fab;
-//$hot_pink: #f28dba;
 
 // Hot Orange
 $hot_orange: #fd823a;
-//$hot_orange: #f8aa7d;
 
 // Hot Red
 $hot_red: #e11934;
-//$hot_red: #f2757c;
 
+// Hot Red
 $hot_salmon: #ff6b66;
-
-$alert_red: #bb0000;
 
 
 $font_light: $oxygen;
@@ -95,7 +88,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
 //light color theme
 .light-mode {
   --theme-background: #ffffff; //oxygen
-  --theme-background-offset: #eaeaea;
+  --theme-background-offset: #f8f8fa;
   --theme-background-offset-medium: #e4e4e4;
   --font-main: #271623; //fuel
   --font-muted: #696971;

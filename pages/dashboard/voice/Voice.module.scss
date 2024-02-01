@@ -67,7 +67,7 @@
       min-width: 256px;
       height: 100%;
       user-select: none;
-      background: var(--theme-background);
+      background: var(--theme-background-offset);
       padding: 0;
       
       &Mobile {
@@ -83,8 +83,7 @@
       height: calc(100% - 118px);
       user-select: none;
       overflow-y: scroll;
-      background: var(--theme-background);
-      padding: 8px 4px;
+      padding: 12px 4px 12px 8px;
 
       &Mobile {
         width: 100%;
@@ -102,8 +101,6 @@
       border-left: 4px solid transparent;
       background-color: transparent;
       margin-bottom: 6px;
-      border-top-left-radius: 3px;
-      border-bottom-left-radius: 3px;
 
       .topContainer {
         display: flex;
@@ -117,9 +114,21 @@
 
         .volumeButton {
           font-size: 18px;
-          background-color: aqua;
+          text-align: center;
+          width: 32px;
+          height: 32px;
+          padding: 7px;
+          border-radius: 999px;
           border: 0;
           cursor: pointer;
+          background-color: transparent;
+
+          @media (hover: hover) and (pointer: fine) {
+            &:hover {
+            background-color: var(--theme-background-offset);
+            }
+          }
+
         }
       }
 
@@ -148,59 +157,61 @@
         display: flex;
         align-items: center;
         padding: 4px;
-        margin: 8px 0px;
+        padding-left: 28px;
+        padding-right: 0px;
+        margin: 8px 0px 12px 0px;
 
         input[type="range"] {
-          height: 20px;
+          height: 24px;
           width: 100%;
           border: 0;
           border-radius: 0;
           -webkit-appearance: none;
         }
         input[type="range"]::-webkit-slider-thumb {
-          height: 20px;
-          width: 20px;
-          margin-top: -7px;
-          background: $hot_pink;
-          border-radius: 50%;
+          height: 24px;
+          width: 32px;
+          margin-top: -9px;
+          background: $hot_purple;
+          border-radius: 99px;
           cursor: pointer;
-          box-shadow: 0 1px 2px $gather_background_offset;
+          box-shadow: 0 1px 1px var(--border-basic);
           -webkit-appearance: none;
         }
         input[type="range"]::-moz-range-thumb {
-          height: 20px;
-          width: 20px;
-          background: $hot_pink;
-          border: 0;
-          border-radius: 50%;
+          height: 24px;
+          width: 32px;
+          margin-top: -9px;
+          background: $hot_purple;
+          border-radius: 99px;
           cursor: pointer;
-          box-shadow: 0 1px 2px $gather_background_offset;
+          box-shadow: 0 1px 2px var(--border-basic);
         }
 
         input[type="range"]::-webkit-slider-runnable-track {
           width: 100%;
           height: 6px;
           animate: 0.2s;
-          background: $gather_path;
+          background: var(--border-basic);
           border-radius: 100px;
           cursor: pointer;
         }
         input[type="range"]::-webkit-progress-value {
-          background-color: $oxygen;
+          background-color: var(--border-heavy);
         }
 
         input[type="range"]::-moz-range-track {
           width: 100%;
           height: 6px;
           animate: 0.2s;
-          background: $gather_path;
+          background: var(--border-basic);
           border: 0;
           border-radius: 100px;
           cursor: pointer;
         }
         input[type="range"]::-moz-range-progress {
           height: 6px;
-          background-color: $oxygen;
+          background-color: var(--border-heavy);
           border-radius: 100px;
         }
 
@@ -228,7 +239,7 @@
           &:before {
             font-family: "icomoon";
             content: "\e901";
-            color: $alert_red;
+            color: $hot_red;
             font-weight: normal;
             font-variant: normal;
             text-transform: none;
@@ -402,7 +413,7 @@
           &:before {
             font-family: "icomoon";
             content: "\e901";
-            color: $alert_red;
+            color: $hot_red;
             font-weight: normal;
             font-variant: normal;
             text-transform: none;
