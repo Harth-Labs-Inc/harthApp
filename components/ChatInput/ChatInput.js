@@ -33,6 +33,7 @@ import {
   getBaseUrl,
   saveAttachment,
   updateRecordAttachments,
+  updateRecordDbID,
 } from "services/helper";
 
 const isIOS = () => {
@@ -595,6 +596,16 @@ const ChatInput = (props) => {
           const oldId = newMessage.pendingID;
           if (id) {
             newMessage._id = data.id;
+            try {
+              updateRecordDbID(
+                pendingMessagesController,
+                "pendingMessages",
+                newMessage.pendingID,
+                data.id
+              );
+            } catch (error) {
+              console.log(error);
+            }
           }
           if (hasAttachments) {
             uploadAttacments(id, newMessage, oldId);
@@ -746,6 +757,7 @@ const ChatInput = (props) => {
 
             updateAttachmentStatus(idx, {
               name,
+              thumbnail,
               fileType: file.type,
               fileBlob,
               status: "pending",

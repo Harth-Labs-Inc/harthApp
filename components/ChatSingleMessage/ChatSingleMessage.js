@@ -1,8 +1,18 @@
 import { useState, useEffect, useContext, useRef, Fragment } from "react";
 import Image from "next/image";
 import { MobileContext } from "contexts/mobile";
-import { getDownloadURL } from "../../requests/s3";
-import { deleteMessage, updateMessage, flagPost } from "../../requests/chat";
+import {
+  compressImage,
+  getDownloadURL,
+  getUploadURL,
+  putImageInBucket,
+} from "../../requests/s3";
+import {
+  deleteMessage,
+  updateMessage,
+  flagPost,
+  addKeyToDB,
+} from "../../requests/chat";
 import {
   updateConversationMessage,
   deleteConversationMessage,
@@ -20,6 +30,7 @@ import {
   generateID,
   getAttachment,
   saveAttachment,
+  updateRecordAttachments,
 } from "services/helper";
 import { CustomMessageContextMenu } from "components/CustomMessageContextMenu/CustomMessageContextMenu";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
@@ -101,6 +112,8 @@ const ChatSingleMessage = (props) => {
     isFirst,
     longPressCoverId,
   } = props;
+
+  const [statusState, setStatusState] = useState(status);
 
   const { user } = useAuth();
   const { emitUpdate, newMessageIndicators } = useSocket();
@@ -368,6 +381,126 @@ const ChatSingleMessage = (props) => {
     };
   }, [showMessageInfoMobile]);
 
+  const sendAttachments = async (message = {}) => {
+    const { attachments, numOfAttchmts, pendingID } = message;
+    let tempMessage = { ...message };
+    const bucket = "topic-message-attachments";
+
+    const updateAttachmentStatus = (idx, udpateObj) => {
+      const updatedAttachments = [...tempMessage.attachments];
+      updatedAttachments[idx] = udpateObj;
+      tempMessage.attachments = updatedAttachments;
+
+      try {
+        updateRecordAttachments(
+          pendingMessagesController,
+          "pendingMessages",
+          tempMessage.pendingID,
+          tempMessage.attachments
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const promises = [];
+
+    for (let idx = 0; idx < numOfAttchmts; idx++) {
+      const attachment = attachments[idx];
+      const isLastImage = idx == attachments.length - 1;
+      if (
+        attachment &&
+        attachment.status === "pending" &&
+        attachment.fileBlob
+      ) {
+        promises.push(
+          new Promise(async (res) => {
+            const { name, thumbnail, fileBlob, fileType } = attachment;
+            try {
+              const isGif = fileType === "image/gif";
+
+              const data = await getUploadURL(name, fileType, bucket);
+              console.log(data, "data");
+              const { ok, uploadURL } = data;
+              if (ok) {
+                let reader = new FileReader();
+                reader.addEventListener("loadend", async () => {
+                  let result = await putImageInBucket(
+                    uploadURL,
+                    reader,
+                    fileType
+                  );
+                  let { status } = result;
+                  console.log(status, "status");
+
+                  if (status == 200) {
+                    if (isGif) {
+                      await addKeyToDB(
+                        message._id,
+                        thumbnail,
+                        fileType,
+                        null,
+                        null,
+                        isLastImage
+                      );
+
+                      updateAttachmentStatus(idx, {
+                        name: thumbnail,
+                        fileType: fileType,
+                        status: "complete",
+                      });
+
+                      res({
+                        name: thumbnail,
+                        fileType: fileType,
+                      });
+                    } else {
+                      let { desiredHeight, desiredWidth } = await compressImage(
+                        name,
+                        thumbnail,
+                        bucket,
+                        fileType
+                      );
+                      await addKeyToDB(
+                        message._id,
+                        thumbnail,
+                        fileType,
+                        desiredHeight,
+                        desiredWidth,
+                        isLastImage
+                      );
+
+                      updateAttachmentStatus(idx, {
+                        name,
+                        fileType: fileType,
+                        status: "complete",
+                      });
+
+                      res({
+                        name: thumbnail,
+                        fileType: fileType,
+                        desiredHeight,
+                        desiredWidth,
+                      });
+                    }
+                  }
+                });
+                reader.readAsArrayBuffer(fileBlob);
+              }
+            } catch (error) {
+              console.error("Error sending attachment:", error);
+            }
+          })
+        );
+      }
+    }
+
+    const outputs = await Promise.allSettled(promises);
+    console.log(outputs);
+    setStatusState("complete");
+    console.log("remove pending if all good");
+  };
+
   useEffect(() => {
     if (
       !isUploading &&
@@ -408,6 +541,13 @@ const ChatSingleMessage = (props) => {
                 }
               }
               setPendingPreviews(attachmentUrls);
+              const hasDbID = record.data._id;
+              if (!hasFailed && hasDbID) {
+                sendAttachments(record.data);
+              }
+              if (!hasDbID) {
+                hasFailed = true;
+              }
               setHasFailed(hasFailed);
             };
 
@@ -421,6 +561,12 @@ const ChatSingleMessage = (props) => {
         });
     }
   }, [status, pendingID, pendingMessagesController, isUploading]);
+
+  useEffect(() => {
+    if (statusState !== status) {
+      setStatusState(status);
+    }
+  }, [status]);
 
   const handleTouchStart = () => {
     if (!showLongPressMenu) {
@@ -717,7 +863,7 @@ const ChatSingleMessage = (props) => {
           ${
             hasFailed
               ? styles.isFailedMessage
-              : status == "pending"
+              : statusState == "pending"
                 ? styles.isPreviewMessage
                 : ""
           }
@@ -1041,7 +1187,7 @@ const ChatSingleMessage = (props) => {
     ${
       hasFailed
         ? styles.isFailedMessage
-        : status == "pending"
+        : statusState == "pending"
           ? styles.isPreviewMessage
           : ""
     }
