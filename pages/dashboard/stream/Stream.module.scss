@@ -637,6 +637,7 @@
       margin-left: 4px;
       overflow: hidden;
       z-index: 100;
+      border: 1px solid var(--menu-color);
       &Mobile {
         position: absolute;
         right: -100%;
