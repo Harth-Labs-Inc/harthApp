@@ -2,7 +2,7 @@
 @import "../../styles/fonts.scss";
 
 .isFailedMessage{
-  border-top: solid 4px $alert_red !important;
+  border-top: solid 4px $hot_red !important;
 }
 .isPreviewMessage {
   opacity: 0.5;
@@ -75,10 +75,10 @@
     @include systemFont;
     font-size: 12px;
     border-radius: 8px;
-    color: $alert_red;
+    color: $hot_red;
     background-color: black;
     padding: 8px 12px;
-    border: 1px solid $alert_red;
+    border: 1px solid $hot_red;
     text-align: center;
   }
 }
