@@ -17,7 +17,7 @@ export default async (req, res) => {
   } catch (e) {
     obj = req.body;
   }
-  let { id, name, fileType, desiredHeight, desiredWidth } = obj;
+  let { id, name, fileType, desiredHeight, desiredWidth, isLastImage } = obj;
 
   const pushToMessage = (
     db,
@@ -25,18 +25,24 @@ export default async (req, res) => {
     name,
     fileType,
     desiredHeight,
-    desiredWidth
+    desiredWidth,
+    isLastImage
   ) => {
     return new Promise((resolve) => {
       let mongo = require("mongodb");
       let o_id = new mongo.ObjectId(id);
+      let updateOperation = {
+        $push: {
+          attachments: { name, fileType, desiredHeight, desiredWidth },
+        },
+      };
+      if (isLastImage) {
+        updateOperation["$set"] = { status: "", pendingID: "" };
+      }
+
       db.collection("messages").updateMany(
         { _id: o_id },
-        {
-          $push: {
-            attachments: { name, fileType, desiredHeight, desiredWidth },
-          },
-        },
+        updateOperation,
         function (err, attchAdded) {
           if (err) {
             resolve(false);
@@ -61,7 +67,8 @@ export default async (req, res) => {
     name,
     fileType,
     desiredHeight,
-    desiredWidth
+    desiredWidth,
+    isLastImage
   );
   if (!getResult) {
     return res.json({ ok: 0, msg: "something went wrong" });

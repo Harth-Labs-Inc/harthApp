@@ -267,7 +267,6 @@ export const ConversationMessages = () => {
                 incomingConversationMsgUpdate.approvedByAdmin;
               tempMsgs[index].approvedByAdminKeepBlurred =
                 incomingConversationMsgUpdate.approvedByAdminKeepBlurred;
-              tempMsgs[index].flames = incomingConversationMsgUpdate.flames;
               tempMsgs[index].message = incomingConversationMsgUpdate.message;
             }
             setCurrentMessages(tempMsgs);

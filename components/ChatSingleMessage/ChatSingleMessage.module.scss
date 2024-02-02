@@ -1,6 +1,38 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
+.isFailedMessage{
+  border-top: solid 4px $alert_red !important;
+}
+.isPreviewMessage {
+  opacity: 0.5;
+  border-top: solid 4px transparent;
+  position: relative;
+}
+.isPreviewMessage:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent,     transparent 25%, 
+  $hot_purple 30%, 
+  $hot_purple 70%, 
+  transparent 75%,  
+  transparent 65%,  transparent);
+  background-size: 200% 100%;
+  animation: moveLoader 2s linear infinite;
+}
+
+@keyframes moveLoader {
+  0% {
+      background-position: 100% 0;
+  }
+  100% {
+      background-position: -100% 0;
+  }
+}
 .disabledFlag {
   cursor: not-allowed !important;
   path {
@@ -39,6 +71,16 @@
     border: 1px solid $hot_purple;
     text-align: center;
   }
+  .flagMessageRed{
+    @include systemFont;
+    font-size: 12px;
+    border-radius: 8px;
+    color: $alert_red;
+    background-color: black;
+    padding: 8px 12px;
+    border: 1px solid $alert_red;
+    text-align: center;
+  }
 }
 
 .mobileInfo {
@@ -64,7 +106,7 @@
 .ChatParentContainer {
   max-width: 100%;
   width: 100%;
-  //border-radius: 8px;
+  border-top: 4px solid transparent;
   transform: translateZ(0);
 
   @media (hover: hover) and (pointer: fine) {
@@ -242,7 +284,6 @@
         cursor: pointer;
         width: fit-content;
         max-width: 280px;
-        //height: auto;
         max-height: 320px;
       }
 

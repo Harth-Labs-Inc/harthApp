@@ -143,7 +143,7 @@ export const sendUnreadMessages = async (msg) => {
     return { ok: 0 };
   }
 };
-export const saveMessage = async (msg) => {
+export const saveMessage = async (msg, hasAttachments) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -151,6 +151,7 @@ export const saveMessage = async (msg) => {
       `/api/chat/saveMessage`,
       {
         msg,
+        hasAttachments,
       },
       {
         headers: {
@@ -345,7 +346,8 @@ export const addKeyToDB = async (
   name,
   fileType,
   desiredHeight,
-  desiredWidth
+  desiredWidth,
+  isLastImage
 ) => {
   try {
     const token = localStorage.getItem("token");
@@ -358,6 +360,7 @@ export const addKeyToDB = async (
         fileType,
         desiredHeight,
         desiredWidth,
+        isLastImage,
       },
       {
         headers: {

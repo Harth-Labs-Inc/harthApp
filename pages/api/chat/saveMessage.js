@@ -6,11 +6,6 @@ const crypto = require("crypto");
 
 /* eslint-disable */
 export default async (req, res) => {
-  const authToken = req.headers["x-auth-token"];
-  if (!authToken) {
-    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
-  }
-
   let obj;
   try {
     obj = JSON.parse(req.body);
@@ -20,6 +15,13 @@ export default async (req, res) => {
 
   const client = await getClientWithCheck(clientPromise);
   const db = client.db("blarg");
+
+  const authToken = req.headers["x-auth-token"];
+  if (!authToken) {
+    await db.command({ ping: 1 });
+    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
+  }
+
   const user = await authenticateUser(db, authToken);
 
   if (!user) {
@@ -27,7 +29,11 @@ export default async (req, res) => {
   }
 
   let encryptedMessages = encryptMessages(obj.msg);
-  let insertResult = await createMessage(db, encryptedMessages);
+  let insertResult = await createMessage(
+    db,
+    encryptedMessages,
+    obj.hasAttachments
+  );
   if (!insertResult) {
     return res.json({ ok: 0, msg: "something went wrong" });
   }
@@ -53,7 +59,12 @@ const encryptMessages = (data) => {
   return data;
 };
 
-const createMessage = async (db, data) => {
+const createMessage = async (db, data, hasAttachments) => {
+  if (!hasAttachments) {
+    delete data.pendingID;
+    delete data.status;
+  }
+  data.statusCode = 1;
   try {
     const msgCreated = await db.collection("messages").insertOne(data);
     recordNewRelicEvents(msgCreated.insertedId, data);
