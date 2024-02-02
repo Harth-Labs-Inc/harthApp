@@ -2,9 +2,8 @@ import { useComms } from "../../../contexts/comms";
 import { useSocket } from "../../../contexts/socket";
 import { SideModal } from "../../Common";
 import HarthList from "../HarthList/HarthList";
-import { HarthLogoLight } from "public/images/harth-logo-light";
+import { DisplayLogo } from "components/Common/DisplayLogo/DisplayLogo";
 import styles from "./SideMenu.module.scss";
-
 import SettingsList from "../AccountSettings/AccountSettings";
 import { useState } from "react";
 import SettingsMenu from "../AccountSettings";
@@ -19,7 +18,6 @@ const MobileSideNav = (props) => {
 
   const [ShowSettingsNav, setShowSettingsNav] = useState(false);
   const [currentTab, setCurrentTab] = useState("");
-
   const { comms, selectedcomm, changeHarthFromClick } = useComms();
   const { unreadMessagesRef, unreadConvMessagesRef } = useSocket();
 
@@ -69,7 +67,7 @@ const MobileSideNav = (props) => {
     <SideModal id="mobileSideMenuContainer" onToggleModal={onToggleMenu}>
       <div className={styles.sideNavMobile}>
         <div className={styles.headerImage}>
-          <HarthLogoLight />
+          <DisplayLogo />
         </div>
         <div className={styles.text}>Your groups</div>
         <DisplaySettingsNav />

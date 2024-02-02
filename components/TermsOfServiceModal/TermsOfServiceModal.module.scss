@@ -12,14 +12,14 @@
 
   .header {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     margin-bottom: 36px;
   }
   .label {
     @include systemFont;
     text-align: center !important;
     padding: 0px 16px 24px 16px;
-    color: $font_muted;
+    color: var(--font-muted);
   }
   p {
     font-size: 15px;
@@ -27,15 +27,13 @@
   }
   label {
     @include systemFont;
-    color: $font_light;
+    color: var(--font-main);
     display: flex;
     justify-content: space-between;
     margin-bottom: 24px;
   }
   span {
     width: 74%;
-    //margin-left: auto;
-    //margin-right: auto;
     @include systemFont;
     font-size: 16px;
   }
@@ -50,8 +48,8 @@
   }
   .checkboxContainer {
     position: relative;
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
   }
   .customCheckboxIcon {
     width: 100%;
@@ -94,7 +92,7 @@
   .small {
     @include systemFont;
     font-size: 12px;
-    color: $font_muted;
+    color: var(--font-muted);
     text-align: center;
   }
 
@@ -114,26 +112,28 @@
     .backButton {
       height: 48px;
       border-radius: 999px;
-      border: 1px solid $border_heavy;
-      background-color: $menu_color;
+      border: 1px solid var(--border-basic);
+      background-color: transparent;
 
       path {
-        fill: $border_heavy;
+        fill: var(--border-basic);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          border-color: $font_muted;
+          border-color: var(--border-heavy);
+          background-color: var(--menu-offset);
           path {
-            fill: $font_muted;
+            fill: var(--border-heavy);
           }
         }
       }
 
       &:active {
-        border-color: $font_muted;
+        border-color: var(--border-heavy);
+        background-color: var(--menu-offset);
         path {
-          fill: $font_muted;
+          fill: var(--border-heavy);
         }
       }
     }
@@ -150,10 +150,10 @@
     width: 316px;
     text-align: center;
     margin: 12px auto 20px;
-    color: $font_muted;
+    color: var(--font-muted);
 
     a {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 

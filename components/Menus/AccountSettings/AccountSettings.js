@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
 import { MobileContext } from "../../../contexts/mobile";
 import InviteComp from "../AccountSettings/Invite";
-import { HarthLogoLight } from "public/images/harth-logo-light";
+import { DisplayLogo } from "components/Common/DisplayLogo/DisplayLogo";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
 import { useSocket } from "contexts/socket";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 import { IconInviteEmail } from "resources/icons/IconInviteEmail";
+
 
 const SettingsList = ({ toggleCurrentTab }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -28,6 +29,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
     setShowInviteModal(!showInviteModal);
   };
 
+
   return (
     <div className={styles.SettingsContainer}>
       {showInviteModal ? (
@@ -38,7 +40,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
       ) : null}
       {!isMobile ? (
         <div className={styles.headerImage}>
-          <HarthLogoLight />
+          <DisplayLogo />
         </div>
       ) : null}
 

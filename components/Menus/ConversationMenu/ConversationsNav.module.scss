@@ -3,17 +3,15 @@
 
 .ConversationsNav {
   position: relative;
-  width: 248px;
-  min-width: 248px;
+  width: 256px;
+  min-width: 256px;
   padding: 12px 8px 0px 8px;
   height: calc(100% + 8px);
   overflow-y: scroll;
   border: 0;
-  border-radius: $box_radius;
-  border-bottom-left-radius: $outside_radius;
+  border-right: 1px solid var(--border-ultralight);
   margin-right: $space_gap;
-  background: var(--theme-color);
-  border-right: 1px solid var(--theme-offset-2);
+  background: var(--theme-background);
 
   .notopic {
     @include systemFont;
@@ -35,7 +33,7 @@
     border-radius: 0px;
     margin-left: auto;
     margin-right: auto;
-    background: var(--theme-color);
+    background: var(--theme-background);
 
     .notopic {
       @include systemFont;
@@ -51,7 +49,7 @@
     position: relative;
     @include smallTitle;
     text-transform: uppercase;
-    color: $font_light;
+    color: var(--font-main);
     user-select: none;
     margin-left: 8px;
     margin-top: 12px;
@@ -90,7 +88,7 @@
     }
 
     &:active {
-      background-color: var(--theme-offset-2);
+      background-color: var(--theme-background-offset);
     }
 
     &::before {
@@ -105,7 +103,7 @@
       top: 50%;
       left: 32px;
       transform: translateY(-50%);
-      background-color: var(--theme-offset-2);
+      background-color: var(--menu-color);
       border-radius: 4px;
       @include systemFont;
       font-size: 12px;
@@ -124,13 +122,13 @@
       height: 0;
       border-top: 12px solid transparent;
       border-bottom: 12px solid transparent;
-      border-right: 12px solid var(--theme-offset-2);
+      border-right: 12px solid var(--menu-color);
       z-index: 9;
     }
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--theme-offset-2);
+        background-color: var(--theme-background-offset);
 
         &::before {
           opacity: 1;
@@ -154,7 +152,7 @@
     border-radius: 99px;
     border: 0;
     padding: 4px;
-    margin-left: 18px;
+    margin-left: 20px;
     margin-top: 16px;
     margin-bottom: 40px;
     transition: opacity;
@@ -166,7 +164,10 @@
     }
 
     &:active {
-      background-color: var(--theme-offset-2);
+      path {
+        fill: var(--border-heavy);
+      }
+      background-color: var(--theme-background-offset);
     }
   }
 }

@@ -2,27 +2,28 @@
 @import "../../../styles/globals.scss";
 
 .Desktop {
-  border-radius: $corner_radius;
-  // border-bottom-left-radius: 0;
-  // border-bottom-right-radius: 0;
+  border-radius: $corner_radius_mobile;
   width: 320px;
   height: fit-content;
-  background-color: var(--theme-mobile-offset);
+  background-color: var(--theme-background-offset);
   border: 0;
   overflow: hidden;
   padding: 0px;
+  box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.05),
+        0 2px 2px hsl(0deg 0% 0% / 0.05); 
 }
 
 .Mobile {
   border-radius: $corner_radius_mobile;
-  // border-bottom-left-radius: 0;
-  // border-bottom-right-radius: 0;
   width: 100%;
-  background-color: var(--theme-offset-2);
+  background-color: var(--theme-background-offset);
   border: 0;
   overflow: hidden;
   padding: 0px;
-
+  box-shadow:
+  0 1px 1px hsl(0deg 0% 0% / 0.075),
+  0 2px 2px hsl(0deg 0% 0% / 0.075); 
 }
 
 .Top {
@@ -30,7 +31,7 @@
   width: 100%;
   height: 80px;
   //margin-bottom: 12px;
-  background: linear-gradient(45deg, $hot_purple, $fuel);
+  background: linear-gradient(45deg, $hot_purple 30%, var(--gather-tile));
   overflow: hidden;
   padding-bottom: 8px;
 
@@ -59,7 +60,7 @@
     border: 0;
     border-radius: 0px;
     //overflow: hidden;
-    background-color: var(--theme-offset-1);
+    background-color: var(--gather-tile);
 
     .time {
       @include systemFont;
@@ -111,7 +112,7 @@
     height: 0;
     border-left: 0px solid transparent; /* Adjust size as needed */
     border-right: 50px solid transparent;
-    border-bottom: 100px solid var(--theme-offset-1); /* Color and size of the triangle */
+    border-bottom: 100px solid var(--gather-tile); /* Color and size of the triangle */
 }
 
   .Mobile & {
@@ -129,7 +130,6 @@
   flex-direction: column;
   width: 100%;
   padding: 8px 16px;
-  //border: 2px solid var(--theme-color);
   border-top: 0;
   border-bottom-right-radius: $corner_radius;
   border-bottom-left-radius: $corner_radius;

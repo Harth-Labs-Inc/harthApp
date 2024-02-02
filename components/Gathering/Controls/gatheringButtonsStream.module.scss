@@ -2,7 +2,8 @@
 @import "../../../styles/fonts.scss";
 
 #selected {
-  background-color: $white;
+  background-color: var(--border-ultralight);
+  border-color: $hot_green;
 }
 
 .OptionsMenu {
@@ -19,7 +20,7 @@
     flex-direction: column;
     gap: 8px;
     padding: 8px 8px;
-    background-color: $black;
+    background-color: var(--menu-color);
     border-radius: 8px;
   }
 
@@ -28,32 +29,35 @@
     font-weight: 500;
     letter-spacing: 0;
     text-align: left;
-    background-color: $silver-dark;
+    background-color: var(--border-light);
     border: 0;
+    border-left: 4px solid transparent;
     padding: 6px 8px;
     cursor: pointer;
     transition: background-color 0.3s;
-    border-radius: 8px;
+    border-radius: 4px;
 
-    &:hover {
-      background-color: $white;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: var(--border-ultralight);
+      }
     }
   }
 
   &:before {
     position: absolute;
-    top: -3px;
-    left: -3px;
+    top: -2px;
+    left: -2px;
     z-index: 0;
-    height: calc(100% + 6px);
-    width: calc(100% + 6px);
+    height: calc(100% + 4px);
+    width: calc(100% + 4px);
     content: "";
     background-image: linear-gradient(
         rgba(255, 255, 255, 0),
         rgba(255, 255, 255, 0)
       ),
       linear-gradient(35deg, $hot_blue, $hot_pink);
-    border-radius: 8px;
+    border-radius: 10px;
   }
 }
 
@@ -86,17 +90,20 @@
 .basicButton {
   position: relative;
 
+  path {
+    fill: var(--font-muted);
+  }
+
   &Mobile {
     
-    height: 52px;
-    width: 52px;
+    height: 56px;
+    width: 56px;
     border: 0;
     background-color: transparent;
     border-radius: 999px;
     padding: 10px;
     &:active {
-      //border: solid 1px $white_80;
-      background-color: $ash_heavy;
+      background-color: var(--border-light);
     }
   }
 
@@ -112,60 +119,27 @@
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: $gather_background_offset_2;
+        background-color: var(--border-ultralight);
       }
-    }
-  }
-
-  &BagButtonTop {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: solid 1px $white_10;
-    path {
-      fill: $white_50;
-    }
-
-    &:hover {
-      background-color: $ash;
-      // path {
-      //     fill: $white_80;
-      // }
-    }
-  }
-
-  &BagButtonBottom {
-    border: solid 1px transparent;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-
-    path {
-      fill: $white_50;
-    }
-
-    &:hover {
-      background-color: $ash;
-      // path {
-      //     fill: $white_80;
-      // }
     }
   }
 
   &Active {
     &:hover {
-      //border: solid 1px $white_80;
-      background-color: $ash;
+      background-color: var(--border-light);
     }
   }
 
   &MicOn {
     path {
-      fill: $gather_path;
+      fill: var(--font-muted);
     }
   }
 
   &Muted {
+    background-color: $hot_red;
     path {
-      fill: $alert_red;
+      fill: $oxygen;
     }
 
     &Camera {
@@ -173,10 +147,7 @@
         fill: $ash_light;
       }
     }
-    // &:hover {
-    //     //border: solid 1px $white_80;
-    //     background-color: $ash;
-    // }
+
   }
 
   .unreadMsg {
@@ -197,15 +168,14 @@
 
   &Mobile {
     padding: 10px;
-    height: 52px;
-    width: 52px;
+    height: 56px;
+    width: 56px;
     border: 0;
     background-color: transparent;
     border-radius: 999px;
 
     &:active {
-      //border: solid 1px $white_80;
-      background-color: $ash_heavy;
+      background-color: var(--border-light);
     }
   }
 
@@ -216,45 +186,32 @@
     border: 0;
     border-radius: 99px;
     cursor: pointer;
-    background: $ash;
+    background: var(--menu-color);
+    z-index: 10;
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        //border: solid 1px $white_80;
-        background-color: $black;
+        background-color: var(--menu-offset);
       }
     }
   }
 
   &Active {
-    background-color: $ash_heavy;
-  }
+    //background-color: var(--theme-background);
 
-  &Muted {
     path {
-      fill: $alert_red;
+      fill: $hot_purple;
     }
-
-    &Camera {
-      path {
-        fill: $ash_light;
-      }
-    }
-    // &:hover {
-    //     //border: solid 1px $white_80;
-    //     background-color: $ash;
-    // }
   }
 
   .unreadMsg {
     position: absolute;
-    top: 3px;
-    right: 3px;
-    height: 10px;
-    width: 10px;
+    top: 6px;
+    right: 6px;
+    height: 6px;
+    width: 6px;
     font-size: 0;
-    background-color: $hot_pink;
-    border: 2px solid $ash;
+    background-color: $hot_purple;
     border-radius: 50%;
   }
 }
@@ -265,13 +222,11 @@
   width: 40px;
   padding: 10px;
   border: 0;
-  //border: 1px solid $white_20;
   border-radius: 8px;
   cursor: pointer;
   background-color: transparent;
-  background-color: $white_5;
   path {
-    fill: $white_50;
+    fill: $gather_background_offset;
   }
   &:active {
     background-color: $ash;
@@ -280,42 +235,50 @@
 
 .moreButton {
   position: absolute;
-  top: -2px;
-  right: -2px;
+  top: -4px;
+  right: -4px;
   border-radius: 99px;
   cursor: pointer;
   border: 0;
-  background: $gather_background_offset;
+  background: var(--menu-offset);
   transform: rotate(90deg);
   padding: 0px;
   height: 18px;
   width: 18px;
 
   path {
-    fill: $gather_path;
+    fill: var(--border-basic);
   }
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: $gather_background_offset_2;
+      background-color: var(--border-light);
+
+      path {
+        fill: var(--border-heavy);
+      }
     }
   }
 
   &Active {
-    background-color: $gather_background_offset_2;
+    background-color: var(--border-light);
+
+    path {
+      fill: var(--border-heavy);
+    }
   }
 }
 
 .defaultIcon {
   path {
-    fill: $ash_light;
+    fill: var(--border-heavy);
   }
 }
 
 .streamButton {
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background: $ash_heavy;
+      background: var(--menu-offset);
 
       &::before {
         position: absolute;
@@ -332,7 +295,7 @@
         -o-transform: translateX(-50%);
         transform: translateX(-50%);
         padding: 6px 10px;
-        background-color: $black;
+        background-color: $hot_purple;
         border-radius: 2px;
         @include worksans;
         letter-spacing: 0.05em;
@@ -356,7 +319,7 @@
         height: 0;
         border-left: 12px solid transparent;
         border-right: 12px solid transparent;
-        border-top: 12px solid $black;
+        border-top: 12px solid $hot_purple;
         z-index: 9;
       }
     }
@@ -368,7 +331,7 @@
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       path {
-        fill: $alert_red;
+        fill: $hot_red;
       }
       &::before {
         position: absolute;
@@ -385,13 +348,13 @@
         -o-transform: translateX(-50%);
         transform: translateX(-50%);
         padding: 6px 10px;
-        background-color: $black;
+        background-color: $hot_purple;
         border-radius: 2px;
         @include worksans;
         letter-spacing: 0.05em;
         font-size: 12px;
         font-weight: 300;
-        color: $font_light;
+        color: $oxygen;
         z-index: 10;
       }
 
@@ -409,7 +372,7 @@
         height: 0;
         border-left: 12px solid transparent;
         border-right: 12px solid transparent;
-        border-top: 12px solid $black;
+        border-top: 12px solid $hot_purple;
         z-index: 9;
       }
     }

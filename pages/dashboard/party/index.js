@@ -499,7 +499,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         if (info?.userName === userName) {
           let micElement = document.getElementById("owner-mic");
           if (micElement) {
-            micElement.style.fill = userData.isTalking ? "#3cc8a3" : "#a8a8ae";
+            micElement.style.fill = userData.isTalking ? "#3cc8a3" : "#88888e";
           }
         } else {
           let element =
@@ -508,7 +508,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
 
           if (element) {
             element.style.border = userData.isTalking
-              ? "1px solid #e46eb1"
+              ? "1px solid #3cc8a3"
               : "1px solid rgba(255, 255, 255, 0.1)";
           }
         }

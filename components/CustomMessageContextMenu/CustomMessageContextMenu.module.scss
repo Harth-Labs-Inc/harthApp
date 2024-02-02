@@ -15,7 +15,7 @@
     z-index: 12;
     height: var(--vh);
     width: 100vw;
-    background: $overlay;
+    background: var(--overlay);
     top: 0;
     left: 0;
   }
@@ -29,8 +29,8 @@
   flex-direction: column;
   align-items: center;
   padding: 8px;
-  color: $font_light;
-  background-color: $menu_color;
+  color: var(--font-main);
+  background-color: var(--menu-color);
   border-radius: 8px;
 
   &Button {
@@ -38,13 +38,12 @@
     display: flex;
     align-items: center;
     padding: 6px 8px;
-    color: $font_light;
-    background-color: $background_offset_1;
+    color: var(--font-main);
+    background-color: var(--border-basic);
     border: 0;
     border-radius: 8px;
     cursor: pointer;
-    @include worksans;
-    font-size: 14px;
+    @include systemFont;
     user-select: none;
     &:not(:last-of-type) {
       margin-bottom: 8px;
@@ -57,12 +56,12 @@
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: $border_basic;
+        background-color: var(--border-heavy);
       }
     }
 
     &:active {
-      background-color: $border_basic;
+      background-color: var(--border-heavy);
     }
   }
 
@@ -72,21 +71,22 @@
     border-radius: 12px;
     width: 100%;
     margin: 0; 
-    background: $menu_color;
-    border-top: 1px solid $modal_border;
-    border-bottom: 1px solid $modal_border;
+    background: var(--menu-color);
+    border-top: 1px solid var(--modal-border);
+    border-bottom: 1px solid var(--modal-border);
     border-radius: 0;
     transition: max-height 0.5s linear;
     overflow: hidden;
     max-height: 180px; /* Start with a height of 0 */
     margin-top: -36px;    
+
     button {
       height: 52px;
       width: 240px;
       font-size: 16px;
       user-select: none;
       border-radius: 8px;
-      color: $font_light;
+      color: var(--font-main);
       padding-left: 12px;
 
       svg {
@@ -95,7 +95,7 @@
       }
 
       path {
-        fill: $font_light;
+        fill: var(--font-main);
       }
     }
 
@@ -107,11 +107,11 @@
       width: 40px;
       border-radius: 99px;
       background-color: transparent;
-      border: 2px solid $border_basic;
+      border: 2px solid var(--border-basic);
       padding: 0;
 
       path {
-        fill: $border_basic;
+        fill: var(--border-basic);
       }
       svg {
         width: 100%;

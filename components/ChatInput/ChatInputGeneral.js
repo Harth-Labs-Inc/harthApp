@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import { MobileContext } from "contexts/mobile";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { IconSend } from "../../resources/icons/IconSend";
@@ -17,6 +18,7 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
   const attRefs = useRef([]);
   const originalHeightRef = useRef();
   const [hasInput, setHasInput] = useState(false);
+  const { isMobile } = useContext(MobileContext);
 
   useEffect(() => {
     if (attachments.length > 0) {
@@ -144,7 +146,8 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
       messageText.trim().length === 0 && attachments.length == 0;
 
     return (
-      <div id={styles.ChatInputControlsRight}>
+      <div id={styles.ChatInputControlsRight}
+      className={isMobile ? styles.Mobile : styles.Desktop}>
         <button
           className={hasInput ? styles.SendActive : styles.SendMessage}
           disabled={isDisabled}
@@ -175,7 +178,9 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
   };
 
   return (
-    <div id={styles.ChatInput}>
+    <div id={styles.ChatInput}
+      className={isMobile ? styles.Mobile : styles.Desktop}
+      >
       <div className={styles.entryBox}>
         <ImageHolder
           attachments={attachments}
@@ -186,6 +191,7 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
         />
         <textarea
           id={styles.ChatInputText}
+          className={isMobile ? styles.Mobile : styles.Desktop}
           ref={textRef}
           spellCheck="true"
           onChange={(e) => {
@@ -227,8 +233,12 @@ const ChatInputGeneral = ({ onSubmitHandler, uploadingAttachments = [] }) => {
           placeholder="say something"
         ></textarea>
       </div>
-        <div id={styles.ChatInputControls}>
-          <div id={styles.ChatInputControlsLeft}>
+        <div id={styles.ChatInputControls}
+        className={isMobile ? styles.Mobile : styles.Desktop}
+        >
+          <div id={styles.ChatInputControlsLeft}
+            className={isMobile ? styles.Mobile : styles.Desktop}
+          >
             <button
               className={styles.AttachEmoji}
               onClick={triggerPicker}

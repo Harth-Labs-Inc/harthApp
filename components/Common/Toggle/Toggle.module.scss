@@ -12,7 +12,7 @@
       border-radius: 9999px;
       border: 0;
       margin: 0;
-      background-color: $border_basic;
+      background-color: var(--border-basic);
       transition: background-color 0.3s;
     }
 
@@ -30,7 +30,7 @@
         //content:attr(tagText);
         content: "";
         display: none;
-        background-color: $ash_medium;
+        background-color: var(--border-heavy);
         border-radius: 50%;
         transition: all 0s;
       }
@@ -40,7 +40,7 @@
         z-index: 2;
         height: 100%;
         width: 100%;
-        background-color: $ash_medium;
+        background-color: var(--path-heavy);
         border-radius: 50%;
         transition: background-color 0.3s;
       }
@@ -66,7 +66,7 @@
   &Checked {
     .ToggleContainer {
       &Background {
-        background-color: $border_basic;
+        background-color: var(--border-basic);
       }
       &Circle {
         left: calc(100% - 20px);

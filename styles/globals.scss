@@ -8,50 +8,37 @@ $oxygen: #fefff6;
 
 // Hot Blue
 $hot_blue: #0d75ca;
-//$hot_blue: #80d2ed;
 
 // Hot Green
 $hot_green: #3cc8a3;
-//$hot_green: #61c4be;
 
 // Hot Purple
 $hot_purple: #aa68c8;
-//$hot_purple: #c79ac6;
 
 // Hot Pink
 $hot_pink: #d96fab;
-//$hot_pink: #f28dba;
 
 // Hot Orange
 $hot_orange: #fd823a;
-//$hot_orange: #f8aa7d;
 
 // Hot Red
 $hot_red: #e11934;
-//$hot_red: #f2757c;
 
+// Hot Red
 $hot_salmon: #ff6b66;
 
-$alert_red: #bb0000;
-
-$test_color: var(--primary-color, #ff0000);
 
 $font_light: $oxygen;
 $font_dark: $fuel;
 $font_muted: #6a6a74;
 
-// Default Colors / Dark Mode
-$font_reverse: yellow;
-
+$welcome_background: #38383e;
 $background: $ash;
-$background_reverse: #fff;
-$basic_offset: $ash;
 $background_offset: lighten($ash, 10%);
 $background_offset_1: lighten($ash, 10%);
-$background_sidebar: blue;
 
-$menu_color: $ash;
-$menu_color_offset: darken($ash, 3%);
+$menu_color: #38383e;
+$menu_color_offset: darken($menu_color, 5%);
 
 $button_main: $background_offset_1;
 $button_main_press: $hot_purple;
@@ -62,7 +49,8 @@ $border_heavy: #58585e;
 
 $path_basic: lighten($ash, 18%);
 
-$modal_border: #000;
+$modal_border: #98989e;
+
 
 
 // Gathering Colors
@@ -74,56 +62,53 @@ $gather_path_heavy: lighten($gather_background, 50%);
 
 //dark color scheme
 .dark-mode {
-  --theme-color: #18181e;
-  --theme-reverse: #fefff6;
-  --theme-offset-1: #38383e;
-  --theme-offset-2: #212128;
-  --theme-offset-3: #1c1c22;
-  --theme-mobile-offset: #111118;
+  --theme-background: #18181e; 
+  --theme-background-offset: #202027;
+  --theme-background-offset-medium: #28282e;
   --font-main: #fefff6;
-  --font-reverse: #271623;
-  --font-muted: #595961;
-  --border-light: #38383e;
+  --font-muted: #68686e;
+  --border-ultralight: #303037;
+  --border-light: #48484e;
   --border-basic: #58585e;
-  --border-heavy: #78787e;
+  --border-heavy: #68686e;
   --path-light: #4f4f55;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
-  --menu-color: #a8a8ae;
-  --menu-color-muted: #48484e;
+  --menu-color: #38383e;
+  --menu-offset: #28282e;
+  --menu-path: #e8e8ee;
+  --menu-text: #e8e8ee;
+  --menu-path-muted: #58585e;
+  --menu-text-muted: #68686e;
+  --gather-tile: #28282e;
+  --overlay: rgba(56, 56, 62, 0.50);
+  --modal-border: #68686e;
 }
 
 //light color theme
 .light-mode {
-  --theme-color: #48484e;
-  --theme-reverse: #fefff6;
-  --theme-offset-1: #58585e;
-  --theme-offset-2: #515158;
-  --theme-offset-3: #4c4c52;
-  --theme-mobile-offset: #313138;
-  --font-main: #fefff6;
-  --font-reverse: #271623;
-  --font-muted: #898991;
-  --border-light: #58585e;
-  --border-basic: #78787e;
-  --border-heavy: #98989e;
+  --theme-background: #ffffff; //oxygen
+  --theme-background-offset: #f8f8fa;
+  --theme-background-offset-medium: #e4e4e4;
+  --font-main: #271623; //fuel
+  --font-muted: #696971;
+  --border-ultralight: #d8d8de;
+  --border-light: #c8c8ce;
+  --border-basic: #a8a8ae;
+  --border-heavy: #88888e;
   --path-light: #6f6f75;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
-  --menu-color: #d8d8de;
-  --menu-color-muted: #78787e;
+  --menu-color: #e8e8ee;
+  --menu-offset: #d8d8de;
+  --menu-path: #271623;
+  --menu-text: #271623;
+  --menu-path-muted: #a8a8ae;
+  --menu-text-muted: #98989e;
+  --gather-tile: #d8d8de;
+  --overlay: rgba(232, 232, 238, 0.50);
+  --modal-border: #98989e;
 }
-
-// White
-$white: #ffffff;
-$white_90: rgba(255, 255, 255, 0.9);
-$white_80: rgba(255, 255, 255, 0.8);
-$white_60: rgba(255, 255, 255, 0.6);
-$white_50: rgba(255, 255, 255, 0.5);
-$white_40: rgba(255, 255, 255, 0.4);
-$white_20: rgba(255, 255, 255, 0.2);
-$white_10: rgba(255, 255, 255, 0.1);
-$white_5: rgba(255, 255, 255, 0.05);
 
 // Black
 $black: #000000;
@@ -134,17 +119,14 @@ $black_80: rgba(0, 0, 0, 0.8);
 $ash_heavy: darken($ash, 5%);
 $ash_medium: lighten($ash, 10%);
 $ash_light: lighten($ash, 20%);
-$ash_10: rgba(40, 40, 40, 0.1);
 
-// Silvers
-$silver-dark: #929ca8;
 
 // ========================
 // Basics
 // ========================
 
 $corner_radius: 8px;
-$corner_radius_mobile: 10px;
+$corner_radius_mobile: 16px;
 
 $box_radius: 0px;
 $outside_radius: 20px;
@@ -154,12 +136,7 @@ $space_gap: 0px;
 $space_mobile: 10px;
 $outline_mobile: 0px;
 
-$overlay: rgba(40, 40, 46, 0.50);
-// linear-gradient(
-//   rgba(0, 0, 0, 0.4),
-//   rgba(48, 48, 48, 0.6),
-//   rgba(0, 0, 0, 0.4)
-// );
+
 
 // ========================
 // Mixins
@@ -198,9 +175,9 @@ $overlay: rgba(40, 40, 46, 0.50);
 }
 
 @mixin buttonSecondary {
-  background: $menu_color;
-  color: $font_muted;
-  border: 1px solid $border_heavy;
+  background: transparent;
+  color: var(--font-muted);
+  border: 1px solid var(--border-heavy);
   @include systemFont;
   letter-spacing: 0.02em;
   font-size: 16px;
@@ -213,13 +190,13 @@ $overlay: rgba(40, 40, 46, 0.50);
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background: $background_offset;
-      color: $font_light;
+      background: var(--menu-offset);
+      color: var(--font-main);
     }
   }
 
   &:active {
-    background: $background_offset;
+    background: var(--menu-offset);
   }
 }
 
@@ -364,7 +341,7 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
 
 .slideRight-exit-active,
 .slideLeft-exit-active {
-  background-color: var(--theme-color);
+  background-color: var(--theme-background);
 }
 .enterLeft-enter {
   transform: translateX(100%) !important;
@@ -375,16 +352,16 @@ $overlay_dark: rgba(0, 0, 0, 0.7);
   transition: transform 300ms;
 }
 .gatherTransitionBackground {
-  background: var(--theme-color);
+  background: var(--theme-background);
 }
 .messageTransitionBackground {
-  background: var(--theme-color);
+  background: var(--theme-background);
 }
 .chatTransitionBackground {
-  background: var(--theme-color);
+  background: var(--theme-background);
 }
 .defaultTransitionBackground {
-  background: var(--theme-color);
+  background: var(--theme-background);
 }
 #ReactSimpleImageViewer {
   z-index: 9999 !important;

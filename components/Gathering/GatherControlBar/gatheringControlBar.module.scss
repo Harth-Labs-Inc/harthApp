@@ -9,8 +9,8 @@
   grid-area: header;
   padding: 8px 16px 8px 16px;
   border: 0;
-  background-color: transparent;
-  //column-gap: 16px;
+  background-color: var(--menu-color);
+  border-top: 1px solid var(--border-ultralight);
 
   .optionsContainer {
     position: relative;
@@ -45,8 +45,8 @@
   padding: 4px 8px 20px 0px;
   border: 0;
   width: 100%;
-  background-color: $ash;
-  border-top: 1px solid $ash_medium;
+  background-color: var(--menu-color);
+  border-top: 1px solid var(--border-ultralight);
 
   .spacerLarge {
     display: flex;

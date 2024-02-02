@@ -30,7 +30,7 @@
   .line {
     flex-grow: 1;
     margin: 0 4px;
-    background-color: $border_basic;
+    background-color: var(--border-basic);
     height: 3px;
   }
 
@@ -44,7 +44,7 @@
 
   .title {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     width: 100%;
     text-align: left;
     margin-top: 0px;
@@ -54,16 +54,16 @@
   input {
     width: 90%;
     border-radius: 6px;
-    background-color: $background_offset_1;
+    background-color: var(--menu-offset);
     border: 0;
     height: 56px;
     padding-left: 12px;
-    color: $font_light;
+    color: var(--font-main);
     caret-color: $hot_purple;
     @include systemFont;
     font-size: 16px;
     &::placeholder {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
@@ -73,7 +73,7 @@
     @include systemFont;
     font-size: 12px;
     padding-top: 4px;
-    color: $font_muted;
+    color: var(--font-muted);
   }
 
   .form {
@@ -97,27 +97,27 @@
     .backButton {
       height: 48px;
       border-radius: 999px;
-      border: 1px solid $border_heavy;
-      background-color: $menu_color;
+      border: 1px solid var(--border-basic);
+      background-color: transparent;
 
       path {
-        fill: $border_heavy;
+        fill: var(--border-heavy);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: $background_offset;
+          background: var(--border-heavy);
           path {
-            fill: $font_muted;
+            fill: var(--font-muted);
           }
         }
       }
 
       &:active {
-        background: $background_offset;
-        path {
-          fill: $font_muted;
-        }
+        background: var(--border-heavy);
+          path {
+            fill: var(--font-muted);
+          }
       }
     }
 

@@ -6,7 +6,7 @@
   max-width: 360px;
   margin-left: auto;
   margin-right: auto;
-  max-height: 500px;
+  max-height: 100vh;
   overflow-y: scroll;
 
   .title {
@@ -15,34 +15,33 @@
     text-align: left;
     margin-top: 8px;
     margin-bottom: 24x;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   &SubTitle {
     @include systemFont;
     margin-top: 16px;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   &DateTime {
     display: flex;
     justify-content: space-between;
-    color: $font_light;
+    color: var(--font-main);
     width: 100%;
 
     input {
       width: 168px;
       height: 48px;
-      background-color: $background_offset_1;
-      color: $font_light;
+      background-color: var(--border-light);
+      color: var(--font-main);
       @include systemFont;
-      font-size: 14px;
       border: 0;
       border-radius: 6px;
       padding-left: 8px;
     }
     ::-webkit-calendar-picker-indicator {
-      background-color: $border_heavy;
+      background-color: var(--border-light);
       padding: 8px;
       border-radius: 4px;
       cursor: pointer;
@@ -52,18 +51,18 @@
   &Input {
     text-align: center;
     @include roomTitle;
-    color: $font_light;
+    color: var(--font-main);
     border: 0;
     border-radius: 6px;
     height: 48px;
-    background: $background_offset_1;
+    background: var(--border-light);
     resize: none;
     padding: 8px;
     margin-bottom: -16px;
 
     caret-color: $hot_purple;
     &::placeholder {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
@@ -72,13 +71,17 @@
     height: 64px;
     @include systemFont;
     font-size: 14px;
-    color: $font_light;
+    color: var(--font-main);
     border: 0;
     border-radius: 6px;
-    background: $background_offset_1;
+    background: var(--border-light);
     padding: 12px;
     word-wrap: normal;
     resize: none;
+
+    &::placeholder {
+      color: var(--font-muted);
+    }
   }
 
   &Type {
@@ -91,14 +94,15 @@
       @include systemFont;
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      gap: 6px;
       width: 112px;
-      color: $font_muted;
+      color: var(--font-muted);
       background: transparent;
       border: 0;
       border-radius: 999px;
       cursor: pointer;
-      padding: 4px 0px 4px 8px;
+      padding: 4px 0px 4px 0px;
       svg {
         height: 32px;
         width: 32px;
@@ -112,15 +116,42 @@
         visibility: hidden;
       }
 
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          color: var(--font-main);
+          svg {
+            opacity: 1;
+            filter: grayscale(0);
+          }
+        }
+      }
+
       &.Active {
-        color: $font_light;
-        background-color: $border_light;
+        color: var(--font-main);
+        background-color: var(--border-basic);
         svg {
           opacity: 1;
           filter: grayscale(0);
         }
       }
     }
+  }
+
+  .LabelHolder {
+    width: fit-content;
+    @include systemFont;
+    color: var(--font-main);
+    font-size: 12px;
+    line-height: 10px;
+    text-align: center;
+    user-select: none;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 999px;
+    overflow: hidden;
+    padding: 6px 8px 12px 8px;
+  
   }
 
   &Buttons {
@@ -135,26 +166,26 @@
       padding: 10px;
       border: 0;
       border-radius: 999px;
-      background: $button_main;
+      background: transparent;
 
       path {
-        fill: $border_heavy;
+        fill: var(--border-heavy);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: $alert_red;
+          background: var(--border-light);
 
           path {
-            fill: $font_light;
+            fill: var(--font-main);
           }
         }
       }
 
       &:active {
-        background: $alert_red;
+        background: var(--border-light);
         path {
-          fill: $font_light;
+          fill: var(--font-main);
         }
       }
     }

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import styles from "./Modal.module.scss";
-import { HarthLogoLight } from "public/images/harth-logo-light";
 import { memo } from "react";
+import { DisplayLogo } from "../DisplayLogo/DisplayLogo";
 
 export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
   const router = useRouter();
@@ -33,7 +33,7 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
   return (
     <div className={`${styles.Maincontainer}`}>
       <div className={`${styles.content}`}>
-        <HarthLogoLight />
+        <DisplayLogo />
 
         <Spinner />
       </div>

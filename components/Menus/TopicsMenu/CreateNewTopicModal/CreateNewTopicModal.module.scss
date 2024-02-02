@@ -24,7 +24,7 @@
     text-align: left;
     margin-top: 8px;
     margin-bottom: 40px;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   .reminder {
@@ -49,8 +49,7 @@
       border: 2px solid $hot_purple;
       width: 220px;
       @include systemFont;
-      font-size: 14px;
-      color: $font_light;
+      color: var(--font-main);
       border-radius: 12px;
       padding: 8px;
       text-align: center;
@@ -76,16 +75,16 @@
       height: 56px;
       border-radius: 8px;
       border: 0;
-      background-color: $background_offset_1;
+      background-color: var(--border-light);
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: $hot_purple;
+          background-color: var(--border-basic);
         }
       }
 
       &:active {
-        background-color: $hot_purple;
+        background-color: var(--border-basic);
       }
     }
 
@@ -99,14 +98,14 @@
       font-weight: 400;
       height: 56px;
       width: 100%;
-      color: $font_light;
-      background-color: $background_offset_1;
+      color: var(--font-main);
+      background-color: var(--border-light);
       border: 0;
       border-radius: 6px;
       padding-left: 12px;
       caret-color: $hot_purple;
       &::placeholder {
-        color: $font_muted;
+        color: var(--font-muted);
       }
     }
   }

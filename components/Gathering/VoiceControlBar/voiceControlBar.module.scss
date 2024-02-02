@@ -7,27 +7,18 @@
   align-items: center;
   justify-content: space-between;
   grid-area: header;
-  padding: 0px 8px 0px 0px;
+  padding: 8px 8px 9px 8px;
   border: 0;
-  background-color: transparent;
-  //column-gap: 16px;
-  border-top: 1px solid $ash_medium;
+  background-color: var(--menu-color);
+  border-top: 1px solid var(--border-ultralight);
 
   .optionsContainer {
     position: relative;
   }
 
-  .leftGroup {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: $gather_background_offset;
-    width: fit-content;
-    padding: 8px 16px;
-    gap: 18px;
-    border-radius: 999px;
-    margin-left: auto;
-    margin-right: auto;
+  .spacer {
+    width: 56px;
+    content: "";
   }
 }
 
@@ -38,13 +29,12 @@
   align-items: center;
   justify-content: space-evenly;
   grid-area: header;
-  padding: 8px 8px 8px 8px;
-  margin-bottom: 16px;
-  //height:104px;
+  padding: 8px 8px 20px 8px;
   border: 0;
   width: 100%;
-  background-color: $ash;
-  border-top: 1px solid $ash_medium;
+  background-color: var(--menu-color);
+  border-top: 1px solid var(--border-ultralight);
+
 
   .spacerLarge {
     display: flex;

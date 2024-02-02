@@ -2,13 +2,7 @@
 @import "../../../styles/globals.scss";
 
 .ignoreFadeIn {
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    $menu_color,
-    transparent
-  );
-  backdrop-filter: blur(30px);
+  background: var(--overlay);
   animation-name: none !important;
   animation-duration: 0s !important;
 }
@@ -42,9 +36,9 @@
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     padding: 0px;
-    background-color: $menu_color;
-    border-top: 1px solid $modal_border;
-    border-bottom: 1px solid $modal_border;
+    background-color: var(--menu-color);
+    border-top: 1px solid var(--border-heavy);
+    border-bottom: 1px solid var(--border-heavy);
     opacity: 0;
     animation: pop 0.3s ease-out forwards;
 
@@ -79,7 +73,7 @@
     top: 0;
     height: var(--vh);
     width: 330px;
-    background-color: $menu_color;
+    background-color: var(--menu-color);
     overflow: hidden;
     padding-bottom: 28px;
     border-radius: 0px;
@@ -92,13 +86,13 @@
       content: "";
       width: 1px;
       height: 100%;
-      background: linear-gradient(transparent, $modal_border 16%, $modal_border 84%, transparent);
+      background: linear-gradient(transparent, var(--border-heavy) 16%, var(--border-heavy) 84%, transparent);
       animation: border-fadein .5s ease-in forwards;
     }
   }
 
   &Block {
-    background: $menu_color;
+    background: var(--menu-color);
     border: 0;
     animation: blur-in-block 0.3s ease-out forwards;
   }
@@ -113,8 +107,7 @@
     background: transparent;
   }
   to {
-    background: $overlay;
-    backdrop-filter: blur(6px);
+    background: var(--overlay);
   }
 }
 
@@ -123,7 +116,7 @@
     background-color: transparent;
   }
   to {
-    background-color: $menu_color;
+    background-color: var(--menu-color);
   }
 }
 

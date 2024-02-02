@@ -13,7 +13,6 @@
   padding: 0px 8px 0px 0px;
   border: 0;
   background-color: transparent;
-  //column-gap: 16px;
 
   .optionsContainer {
     position: relative;
@@ -23,11 +22,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: $ash;
+    background: var(--menu-color);
     width: 240px;
     padding: 6px 10px;
-    border-top: 1px solid $ash_medium;
-    border-right: 1px solid $ash_medium;
+    border-top: 1px solid var(--border-ultralight);
   }
 
   .leaveButton {
@@ -111,14 +109,14 @@
     &:hover {
       background-color: $ash;
       path {
-        fill: $white_60;
+        fill: $gather_path;
       }
     }
 
     &Active {
       background-color: $ash;
       path {
-        fill: $white_60;
+        fill: $gather_path;
       }
     }
   }
@@ -135,8 +133,8 @@
   border-radius: 0;
   border: 0;
   width: 100%;
-  background-color: $ash;
-  border-top: 1px solid $ash_medium;
+  background-color: var(--menu-color);
+  border-top: 1px solid var(--border-ultralight);
 
   .spacerLarge {
     display: flex;

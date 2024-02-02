@@ -17,7 +17,7 @@
   width: 100%;
   height: 100%;
   position: relative;
-  //border-radius: 9999px;
+  border-radius: 16px;
   cursor: pointer;
   border: solid 3px transparent;
   background-origin: border-box;
@@ -43,7 +43,7 @@
       @include systemFont;
       font-weight: 500;
       font-size: 42px;
-      color: $white_90;
+      color: $oxygen;
     }
   }
 
@@ -62,10 +62,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      @include rubik;
+      @include systemFont;
       font-size: 34px;
       font-weight: 500;
-      color: $white;
+      color: $oxygen;
     }
   }
 
@@ -73,21 +73,11 @@
     //box-shadow: 4px 9999px 1px $ash inset; //interior color
 
     path {
-      fill: $ash_light;
+      fill: $oxygen;
     }
     &:hover {
-      // border: solid 3px $white_90;
-      //background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(35deg, $hot_blue, $hot_pink);
-      // border: solid 2px transparent;
-      // box-shadow: 4px 9999px 1px $black inset; //interior color
-      // background-image: linear-gradient(
-      //         rgba(255, 255, 255, 0),
-      //         rgba(255, 255, 255, 0)
-      //     ),
-      //     linear-gradient(35deg, $hot_blue, $hot_pink);
-
       path {
-        fill: $white;
+        fill: $oxygen;
       }
     }
   }
@@ -114,8 +104,8 @@
   right: 0px;
   padding: 0;
   text-align: center;
-  @include worksans;
-  color: $font_muted;
+  @include systemFont;
+  color: $oxygen;
   background: transparent;
   cursor: pointer;
   border: 0;
@@ -124,9 +114,9 @@
     height: 32px;
     width: 32px;
     padding-left: 2px;
-    font-size: 16px;
+    font-size: 20px;
     .x {
-      font-size: 12px;
+      font-size: 14px;
       //margin-right: 1px;
     }
 

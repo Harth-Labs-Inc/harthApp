@@ -355,7 +355,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               if (micElement) {
                 micElement.style.fill = userData.isTalking
                   ? "#3cc8a3"
-                  : "#a8a8ae";
+                  : "#88888e";
               }
             } else if (userData.isTalking) {
               let element = document.getElementById(info?.socketID);

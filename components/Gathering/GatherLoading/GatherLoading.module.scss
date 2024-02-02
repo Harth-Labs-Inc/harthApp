@@ -4,7 +4,7 @@
   display: flex;
   height: 232px;
   width: 330px;
-  background-color: $white_10;
+  background-color: transparent;
   border-radius: 24px;
   border: 0;
   overflow: hidden;
@@ -16,7 +16,7 @@
     width: 56px;
     min-width: 56px;
     height: 100%;
-    background-color: $white_10;
+    background-color: $gather_background_offset;
   }
 
   .right {
@@ -25,7 +25,7 @@
     row-gap: 4px;
     width: 100%;
     height: 100%;
-    background-color: $ash_10;
+    background-color: $gather_background_offset;
     padding: 24px 12px;
     gap: 8px;
 
@@ -33,7 +33,7 @@
       height: 36px;
       width: 90%;
       border-radius: 9999px;
-      background-color: $white_10;
+      background-color: $gather_background_offset;
     }
 
     .middleContent {
@@ -48,7 +48,7 @@
       min-width: 72px;
       height: 100%;
       border: 0;
-      border-right: 1px solid $white_10;
+      border-right: 1px solid $gather_background_offset;
       align-items: center;
       gap: 4px;
 
@@ -56,14 +56,14 @@
         height: 32px;
         width: 80%;
         border-radius: 9999px;
-        background-color: $white_10;
+        background-color: $gather_background_offset;
       }
 
       .date {
         height: 24px;
         width: 60%;
         border-radius: 9999px;
-        background-color: $white_10;
+        background-color: $gather_background_offset;
       }
     }
 
@@ -80,7 +80,7 @@
         height: 20px;
         width: 80%;
         border-radius: 9999px;
-        background-color: $white_10;
+        background-color: $gather_background_offset;
       }
 
       .peopleHolder {
@@ -92,7 +92,7 @@
           height: 36px;
           width: 36px;
           border-radius: 9999px;
-          background-color: $white_10;
+          background-color: $gather_background_offset;
         }
       }
     }

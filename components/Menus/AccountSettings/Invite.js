@@ -219,6 +219,7 @@ const InviteComp = (props) => {
                   <input
                     ref={emailInputRef}
                     type="text"
+                    autoCapitalize="none"
                     placeholder="email@email.com"
                     value={emailInput}
                     onChange={handleInputChange}

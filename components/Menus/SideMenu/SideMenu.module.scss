@@ -10,17 +10,13 @@
 }
 .SideNav {
   position: relative;
-  padding: 12px 0px 96px 0px;
-  width: 56px;
-  height: calc(var(--vh) - ($space * 2));
-  min-width: 56px;
-  //background-color: var(--theme-color);
-  background-color: $menu_color;
+  padding: 20px 8px 96px 8px;
+  width: 72px;
+  height: var(--vh);
+  min-width: 72px;
+  background-color: var(--menu-color);
   border: 0;
-  margin-left: $space;
-  margin-top: $space;
-  margin-bottom: $space;
-  border-radius: $corner_radius;
+  margin: 0;
 
   .bottomHolder {
     position: absolute;
@@ -30,13 +26,12 @@
     bottom: 0px;
     height: fit-content;
     width: 100%;
-    //background-color: var(--theme-color);
-    background-color: $menu_color;
+    margin-left: -8px;
+    background-color: var(--menu-color);
     z-index: 1;
     padding: 12px 0px 12px 0px;
     gap: 8px;
-    border-bottom-right-radius: $corner_radius;
-    border-bottom-left-radius: $corner_radius;
+
 
     .SettingsButton {
       position: relative;
@@ -49,15 +44,22 @@
       cursor: pointer;
 
       path {
-        fill: $gather_path;
+        fill: var(--border-basic);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: $border_light;
+          background-color: var(--menu-offset);
           path {
-            fill: $gather_path_heavy;
+            fill: var(--border-heavy);
           }
+        }
+      }
+
+      &:active {
+        background-color: var(--menu-offset);
+        path {
+          fill: var(--border-heavy);
         }
       }
 
@@ -80,13 +82,13 @@
               top: 3px;
               left: 38px;
               padding: 6px 10px;
-              background-color: $background_reverse;
+              background-color: $background;
               border-radius: 2px;
               @include worksans;
               letter-spacing: 0.05em;
               font-size: 12px;
               font-weight: 400;
-              color: $font_reverse;
+              color: $font_light;
               z-index: 10;
             }
 
@@ -99,7 +101,7 @@
               height: 0;
               border-top: 12px solid transparent;
               border-bottom: 12px solid transparent;
-              border-right: 12px solid $background_reverse;
+              border-right: 12px solid $background;
               z-index: 9;
             }
           }
@@ -119,7 +121,7 @@
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: $border_light;
+          background-color: var(--menu-offset);
         }
       }
     }
@@ -143,7 +145,7 @@
     margin: 0;
     @include systemFont;
     font-size: 14px;
-    color: $font_light;
+    color: var(--font-main);
 
     &::after {
       position: absolute;
@@ -152,7 +154,7 @@
       transform: translateX(-50%);
       height: 1px;
       width: calc(100% - 32px);
-      background-color: $border_basic;
+      background-color: var(--border-heavy);
       content: "";
     }
   }
@@ -182,11 +184,11 @@
     &::after {
       position: absolute;
       top: 0;
-      left: calc(50% + 4px);
+      left: 50%;
       transform: translateX(-50%);
       height: 1px;
-      width: calc(100% - 32px);
-      background-color: $border_basic;
+      width: calc(100% - 4px);
+      background-color: var(--border-light);
       content: "";
     }
   }

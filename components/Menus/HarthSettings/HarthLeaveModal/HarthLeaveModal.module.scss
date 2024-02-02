@@ -20,15 +20,15 @@
     text-align: center;
     margin-top: 8px;
     margin-bottom: 20px;
-    color: $font_light;
+    color: var(--font-main);
     text-transform: uppercase;
   }
 
   .harthImage {
     height: 56px;
     width: 56px;
-    border-radius: 8px;
-    border: 1px solid $border_basic;
+    border-radius: 999px;
+    border: 1px solid var(--border-light);
     margin-top: 12px;
   }
   .harthName {
@@ -36,14 +36,14 @@
     margin-bottom: 12px;
     @include harthTitle;
     font-size: 28px;
+    color: var(--font-main);
   }
 
   .text {
     width: 90%;
     text-align: center;
-    color: $font_muted;
+    color: var(--font-muted);
     font-size: 14px;
-    //text-transform:capitalize;
   }
 
   .form {

@@ -6,7 +6,7 @@ import {
 } from "../../../requests/userApi";
 import { Button, BackButton, EditButton, Modal } from "../../Common";
 import OtpValidator from "../../../pages/auth/OtpValidator";
-
+import Cookies from "js-cookie";
 import styles from "./SettingsMenu.module.scss";
 
 const AccountProfile = (props) => {
@@ -18,7 +18,7 @@ const AccountProfile = (props) => {
   const [originalData, setOriginalData] = useState({ ...user });
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [error, setError] = useState("");
-  const [theme, setTheme] = useState(localStorage?.getItem("interface-theme"));
+  const [theme, setTheme] = useState(Cookies.get("theme"));
 
   const toggleCurrentSetting = (name) => {
     setCurrentTab(name);
@@ -85,15 +85,42 @@ const AccountProfile = (props) => {
   const toggleLightMode = () => {
     document.body.classList.remove("dark-mode");
     document.body.classList.add("light-mode");
-    localStorage.setItem("interface-theme", "light-mode");
+    Cookies.set("theme", "light-mode", { expires: 365 });
     setTheme("light-mode");
+    //now set the theme color for manifest
+    let themeColor = "#e8e8ee"; // menu color
+
+    let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMetaTag) {
+      themeColorMetaTag.setAttribute("content", themeColor);
+    } else {
+      // If the meta tag does not exist, create it
+      let metaTag = document.createElement("meta");
+      metaTag.setAttribute("name", "theme-color");
+      metaTag.setAttribute("content", themeColor);
+      document.head.appendChild(metaTag);
+    }
   };
 
   const toggleDarkMode = () => {
     document.body.classList.remove("light-mode");
     document.body.classList.add("dark-mode");
-    localStorage.setItem("interface-theme", "dark-mode");
+    Cookies.set("theme", "dark-mode", { expires: 365 });
     setTheme("dark-mode");
+
+    //now set the theme color for manifest
+    let themeColor = "#38383e"; // menu color
+
+    let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMetaTag) {
+      themeColorMetaTag.setAttribute("content", themeColor);
+    } else {
+      // If the meta tag does not exist, create it
+      let metaTag = document.createElement("meta");
+      metaTag.setAttribute("name", "theme-color");
+      metaTag.setAttribute("content", themeColor);
+      document.head.appendChild(metaTag);
+    }
   };
 
   if (!currentTab) {
@@ -128,7 +155,6 @@ const AccountProfile = (props) => {
 
             <div className={styles.SettingsContainerTitle}>Interface</div>
             <div className={styles.themeHolder}>
-
               <button
                 className={`${styles.theme} ${
                   theme === "dark-mode" ? styles.active : ""
@@ -148,7 +174,6 @@ const AccountProfile = (props) => {
                 <p>Light Mode</p>
                 <img src="/images/lightmode.png" />
               </button>
-
             </div>
           </div>
         </div>

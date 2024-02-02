@@ -40,14 +40,15 @@
     .avatar {
       height: 38px;
       width: 38px;
+      min-width: 38px;
       border-radius: 9999px;
       border: 0;
-      border: 2px solid var(--theme-color);
+      border: 1px solid var(--border-light);
       user-select: none;
 
       &Mobile {
-        height: 48px;
-        width: 48px;
+        height: 52px;
+        width: 52px;
       }
     }
   }
@@ -65,11 +66,11 @@
     }
 
     &:active {
-      background-color: var(--theme-offset-1);
+      background-color: var(--theme-background-offset);
 
       .participantElement {
         .avatar {
-          border-color: var(--theme-offset-1);
+          border-color: var(--theme-background-offset);
         }
       }
     }
@@ -99,17 +100,17 @@
       }
 
       &:hover {
-        background-color: var(--theme-offset-1);
+        background-color: var(--theme-background-offset);
       }
     }
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--theme-offset-1);
+        background-color: var(--theme-background-offset);
 
         .participantElement {
           .avatar {
-            border-color: var(--theme-offset-1);
+            border-color: var(--theme-background-offset);
           }
         }
       }

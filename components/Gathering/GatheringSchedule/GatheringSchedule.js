@@ -202,7 +202,23 @@ const GatheringSchedule = (props) => {
                         />
                     </label>
                 </div>
-
+                <div className={styles.LabelHolder}>
+                        {watchType == "voice" && (
+                            <p>
+                                Voice and text chat
+                            </p>
+                        )}
+                        {watchType == "stream" && (
+                            <p>
+                                Stream games and video
+                            </p>
+                        )}
+                        {watchType == "party" && (
+                            <p>
+                                Video chat
+                            </p>
+                        )}
+                    </div>
                 <p className={styles.GatheringScheduleSubTitle}>
                     Enter a description (optional)
                 </p>
