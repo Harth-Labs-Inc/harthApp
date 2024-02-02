@@ -4,17 +4,29 @@ import { HarthLogoLight } from "public/images/harth-logo-light";
 import Cookies from "js-cookie";
 
 export const DisplayLogo = () => {
-    const [theme, setTheme] = useState(null);
+  const [theme, setTheme] = useState(Cookies.get("theme"));
 
-    useEffect(() => {
-        const savedTheme = Cookies.get('theme');
-        setTheme(savedTheme);
-    }, []);
+  const updateTheme = () => {
+    const savedTheme = Cookies.get("theme");
+    setTheme(savedTheme);
+  };
 
+  useEffect(() => {
+    const bodyObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === "class") {
+          updateTheme();
+        }
+      });
+    });
 
-    if (theme == "dark-mode") {
-        return <HarthLogoLight />;
-    }
+    bodyObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
 
-    return <HarthLogoDark />;
+    return () => bodyObserver.disconnect();
+  }, []);
+
+  return theme === "dark-mode" ? <HarthLogoLight /> : <HarthLogoDark />;
 };

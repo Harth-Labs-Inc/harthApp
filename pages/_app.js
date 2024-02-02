@@ -83,7 +83,7 @@ function MyApp({ Component, pageProps, theme, hadPreferedTheme }) {
 
   const userTheme = hadPreferedTheme
     ? theme
-    : Cookies.get("theme") || "dark-mode";
+    : Cookies.get("theme") || "light-mode";
 
   if (!Cookies.get("theme")) {
     Cookies.set("theme", userTheme, { expires: 365 });
@@ -171,7 +171,7 @@ MyApp.getInitialProps = async (appContext) => {
     });
   }
   const hadPreferedTheme = cookies.theme || false;
-  const theme = cookies.theme || "dark-mode";
+  const theme = cookies.theme || "light-mode";
 
   return { ...appProps, theme, hadPreferedTheme };
 };
