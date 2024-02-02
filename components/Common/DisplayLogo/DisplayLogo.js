@@ -3,8 +3,8 @@ import { HarthLogoDark } from "public/images/harth-logo-dark";
 import { HarthLogoLight } from "public/images/harth-logo-light";
 import Cookies from "js-cookie";
 
-export const DisplayLogo = () => {
-  const [theme, setTheme] = useState(Cookies.get("theme"));
+export const DisplayLogo = ({ userTheme }) => {
+  const [theme, setTheme] = useState(userTheme || Cookies.get("theme"));
 
   const updateTheme = () => {
     const savedTheme = Cookies.get("theme");

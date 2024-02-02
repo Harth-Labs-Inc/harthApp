@@ -147,7 +147,11 @@ function MyApp({ Component, pageProps, theme, hadPreferedTheme }) {
         <AuthProvider>
           <GatheringFormProvider>
             <GatheringEditFormProvider>
-              <Component key={router.asPath} {...pageProps} />
+              <Component
+                key={router.asPath}
+                {...pageProps}
+                userTheme={userTheme}
+              />
             </GatheringEditFormProvider>
           </GatheringFormProvider>
         </AuthProvider>
