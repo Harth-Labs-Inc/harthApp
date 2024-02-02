@@ -11,7 +11,7 @@ aws.config = {
 };
 const s3 = new aws.S3();
 const maxImageWidth = 280;
-
+const maxHeight = 320;
 /* eslint-disable */
 const getFileForConversion = (params) => {
   return s3.getObject(params).promise();
@@ -19,12 +19,19 @@ const getFileForConversion = (params) => {
 const compress = (buffer, format = "jpeg", quality = 97) => {
   return new Promise(async (resolve) => {
     try {
-      const { width } = await Sharp(buffer).metadata();
-      const desiredWidth = width > maxImageWidth ? maxImageWidth : null;
+      const metadata = await Sharp(buffer).metadata();
+      const scaleWidth =
+        metadata.width > maxImageWidth ? maxImageWidth / metadata.width : 1;
+      const scaleHeight =
+        metadata.height > maxHeight ? maxHeight / metadata.height : 1;
+      const scale = Math.min(scaleWidth, scaleHeight);
+
+      const desiredWidth = Math.round(metadata.width * scale);
+      const desiredHeight = Math.round(metadata.height * scale);
 
       const compressedBuffer = await Sharp(buffer)
         .rotate()
-        .resize(desiredWidth, null)
+        .resize(desiredWidth, desiredHeight)
         .toFormat(format, { quality })
         .toBuffer();
 

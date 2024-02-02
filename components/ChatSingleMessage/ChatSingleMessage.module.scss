@@ -2,7 +2,7 @@
 @import "../../styles/fonts.scss";
 
 .isFailedMessage{
-  border-top: solid 4px red !important;
+  border-top: solid 4px $alert_red !important;
 }
 .isPreviewMessage {
   opacity: 0.5;
@@ -17,8 +17,8 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, transparent,     transparent 25%, 
-  $hot_pink 30%, 
-  $hot_pink 70%, 
+  $hot_purple 30%, 
+  $hot_purple 70%, 
   transparent 75%,  
   transparent 65%,  transparent);
   background-size: 200% 100%;
@@ -274,7 +274,6 @@
         cursor: pointer;
         width: fit-content;
         max-width: 280px;
-        height: 100%;
         max-height: 320px;
       }
 

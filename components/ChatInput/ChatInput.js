@@ -347,7 +347,6 @@ const ChatInput = (props) => {
       lockedScrollDirection = scrollDirection;
     }
   };
-
   const textAreaTouchStart = () => {
     const textarea = textRef.current;
     if (textarea.scrollTop === 0) {
@@ -502,21 +501,45 @@ const ChatInput = (props) => {
     calcHeight(true);
     resetHeight();
   };
-  const createImagePreview = (file) => {
+  const createImagePreviewAndCalculateDimensions = (file) => {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target.result);
-      reader.onerror = (e) => reject(e);
-      reader.readAsDataURL(file);
+      const img = new Image();
+      img.onload = () => {
+        let desiredWidth = img.width;
+        let desiredHeight = img.height;
+
+        const maxWidth = 280;
+        const maxHeight = 320;
+        const widthRatio = img.width / maxWidth;
+        const heightRatio = img.height / maxHeight;
+        const maxRatio = Math.max(widthRatio, heightRatio);
+
+        if (maxRatio > 1) {
+          desiredWidth = img.width / maxRatio;
+          desiredHeight = img.height / maxRatio;
+        }
+
+        const previewUrl = URL.createObjectURL(file);
+
+        resolve({
+          previewUrl,
+          desiredWidth,
+          desiredHeight,
+        });
+      };
+      img.onerror = () => {
+        reject(new Error("Failed to load image for dimensions calculation."));
+        URL.revokeObjectURL(img.src);
+      };
+      img.src = URL.createObjectURL(file);
     });
   };
   const getAttachmentpreviews = async (files) => {
     const previews = await Promise.all(
       files.map(async (file) => {
         if (file.type.startsWith("image/")) {
-          const previewUrl = await createImagePreview(file);
-          const { desiredHeight, desiredWidth } =
-            await calculateImageDimensions(file);
+          const { previewUrl, desiredHeight, desiredWidth } =
+            await createImagePreviewAndCalculateDimensions(file);
           return {
             name: file.name,
             fileType: file.type,
@@ -527,34 +550,46 @@ const ChatInput = (props) => {
             desiredWidth,
           };
         }
-        //  else if (file.type.startsWith("video/")) {
-        // }
       })
     );
 
     return previews;
   };
-  const calculateImageDimensions = (file) => {
+
+  const createImageBlob = (file) => {
     return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => {
-        let desiredWidth = img.width;
-        let desiredHeight = img.height;
-
-        if (img.width > 280) {
-          desiredHeight = (img.height / img.width) * 280;
-          desiredWidth = 280;
-        }
-
-        resolve({ desiredWidth, desiredHeight });
-      };
-      img.onerror = reject;
-
       const reader = new FileReader();
-      reader.onload = (e) => (img.src = e.target.result);
+      reader.onload = () => {
+        const arrayBuffer = reader.result;
+        const blob = new Blob([arrayBuffer], { type: file.type });
+        resolve(blob);
+      };
       reader.onerror = reject;
-      reader.readAsDataURL(file);
+      reader.readAsArrayBuffer(file);
     });
+  };
+  const clearPendingIndexRecord = (newMessage) => {
+    try {
+      deleteAttachment(
+        pendingMessagesController,
+        "pendingMessages",
+        newMessage.pendingID
+      );
+    } catch (error) {
+      console.log("Failed to save attachment:", error);
+    }
+  };
+  const createPendingIndexRecord = (newMessage) => {
+    try {
+      saveAttachment(
+        pendingMessagesController,
+        "pendingMessages",
+        newMessage.pendingID,
+        newMessage
+      );
+    } catch (error) {
+      console.log("Failed to save attachment:", error);
+    }
   };
   const sendMessagge = async () => {
     if (selectedTopic && selectedcomm && user) {
@@ -617,82 +652,17 @@ const ChatInput = (props) => {
     }
     return true;
   };
-  const broadcastMessage = async (message, oldId, hasAttachments) => {
-    message.updateType = "new message";
-    message.socketID = socketID;
-
-    setFinalMessageForPreview({ oldId, message });
-    clearPendingIndexRecord(message);
-
-    let { ok } = await sendUnreadMessages(message);
-    if (ok) {
-      let unreadmessage = {};
-      unreadmessage.updateType = "reload unreads";
-      unreadmessage.topic_id = selectedTopic._id;
-      unreadmessage.user_id = user._id;
-      emitUpdate(selectedCommRef.current?._id, unreadmessage, () => {});
-    }
-    emitUpdate(selectedcomm?._id, message, async (err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
-    try {
-      let pushmessage = generatePushMessage({
-        ...message,
-        pushTitle: `${message.creator_name}`,
-        env: process.env.NODE_ENV,
-        ignoreSelf: true,
-        type: "chat",
-      });
-
-      if (!pushmessage.message) {
-        pushmessage.message = "";
-
-        if (hasAttachments) {
-          pushmessage.message = "Check out the new image!";
-        }
-      }
-
-      getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
-        if (userIDsToNotify && userIDsToNotify.length) {
-          let apiURL;
-          let baseURL = getBaseUrl();
-          if (baseURL.includes("harth.social")) {
-            apiURL =
-              "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
-          } else {
-            apiURL =
-              "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
-          }
-          pushmessage.receiverIds = userIDsToNotify;
-          sendPushNotification(pushmessage, apiURL);
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const createImageBlob = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const arrayBuffer = reader.result;
-        const blob = new Blob([arrayBuffer], { type: file.type });
-        resolve(blob);
-      };
-      reader.onerror = reject;
-      reader.readAsArrayBuffer(file);
-    });
-  };
   const uploadAttacments = async (id, message, oldId) => {
     let promises = [];
     let tempMessage = { ...message };
     const bucket = "topic-message-attachments";
 
     const updateAttachmentStatus = (idx, udpateObj) => {
+      if (tempMessage.ignoreBlob) {
+        return;
+      }
       const updatedAttachments = [...tempMessage.attachments];
-      updatedAttachments[idx] = udpateObj;
+      updatedAttachments[idx] = { ...updatedAttachments[idx], ...udpateObj };
       tempMessage.attachments = updatedAttachments;
 
       try {
@@ -712,7 +682,10 @@ const ChatInput = (props) => {
       setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
       promises.push(
         new Promise(async (res) => {
-          const fileBlob = await createImageBlob(file);
+          createImageBlob(file).then((fileBlob) => {
+            updateAttachmentStatus(idx, { fileBlob });
+          });
+
           const isLastImage = idx == attachments.length - 1;
           const extention = file.name.split(".").pop();
           const isVideo = file.type.includes("video");
@@ -726,7 +699,6 @@ const ChatInput = (props) => {
             updateAttachmentStatus(idx, {
               name,
               fileType: file.type,
-              fileBlob,
               status: "pending",
             });
 
@@ -759,7 +731,6 @@ const ChatInput = (props) => {
               name,
               thumbnail,
               fileType: file.type,
-              fileBlob,
               status: "pending",
             });
 
@@ -835,29 +806,63 @@ const ChatInput = (props) => {
 
     const outputs = await Promise.allSettled(promises);
     message.attachments = outputs;
+    tempMessage.ignoreBlob = true;
     broadcastMessage(message, oldId, true);
   };
-  const clearPendingIndexRecord = (newMessage) => {
-    try {
-      deleteAttachment(
-        pendingMessagesController,
-        "pendingMessages",
-        newMessage.pendingID
-      );
-    } catch (error) {
-      console.log("Failed to save attachment:", error);
+  const broadcastMessage = async (message, oldId, hasAttachments) => {
+    message.updateType = "new message";
+    message.socketID = socketID;
+
+    setFinalMessageForPreview({ oldId, message });
+    clearPendingIndexRecord(message);
+
+    let { ok } = await sendUnreadMessages(message);
+    if (ok) {
+      let unreadmessage = {};
+      unreadmessage.updateType = "reload unreads";
+      unreadmessage.topic_id = selectedTopic._id;
+      unreadmessage.user_id = user._id;
+      emitUpdate(selectedCommRef.current?._id, unreadmessage, () => {});
     }
-  };
-  const createPendingIndexRecord = (newMessage) => {
+    emitUpdate(selectedcomm?._id, message, async (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
     try {
-      saveAttachment(
-        pendingMessagesController,
-        "pendingMessages",
-        newMessage.pendingID,
-        newMessage
-      );
+      let pushmessage = generatePushMessage({
+        ...message,
+        pushTitle: `${message.creator_name}`,
+        env: process.env.NODE_ENV,
+        ignoreSelf: true,
+        type: "chat",
+      });
+
+      if (!pushmessage.message) {
+        pushmessage.message = "";
+
+        if (hasAttachments) {
+          pushmessage.message = "Check out the new image!";
+        }
+      }
+
+      getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
+        if (userIDsToNotify && userIDsToNotify.length) {
+          let apiURL;
+          let baseURL = getBaseUrl();
+          if (baseURL.includes("harth.social")) {
+            apiURL =
+              "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
+          } else {
+            apiURL =
+              "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
+          }
+          pushmessage.receiverIds = userIDsToNotify;
+          sendPushNotification(pushmessage, apiURL);
+        }
+      });
     } catch (error) {
-      console.log("Failed to save attachment:", error);
+      console.log(error);
     }
   };
   // -------------------------------------------------------------------------------------------------------
