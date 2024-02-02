@@ -19,6 +19,7 @@
     height: fit-content;
     line-height: 100%;
     font-size: 24px;
+    text-align: center;
   }
 
   .label {
@@ -126,7 +127,7 @@
       min-width: 36px;
       font-size: 36px;
       line-height: 100%;
-      overflow: hidden;
+      //overflow: hidden;
     }
     .label {
       @include topicTitleMobile;
