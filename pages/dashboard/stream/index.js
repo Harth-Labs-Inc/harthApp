@@ -1086,7 +1086,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         video.playsInline = true;
         video.controls = true;
         if (shouldFullScreen) {
-          backButton.innerText = "<";
+          backButton.innerText = "←";
           backButton.className = styles.backButton;
           backButton.onclick = () => {
             let stopButton = document.getElementById(
@@ -1102,7 +1102,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           muteButton.innerText = "Unmute";
           muteButton.onclick = () => {
             video.muted = !video.muted;
-            muteButton.innerText = video.muted ? "Unmute" : "Mute";
+            muteButton.innerText = video.muted ? "UnMute" : "Mute";
           };
           videoContainer.appendChild(muteButton);
         }
@@ -1598,7 +1598,6 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
                             ${isMobile ? styles.streamContainerMobile : null}
                             `}
           ></section>
-
           <section
             id="chatContainer"
             className={` ${styles.ChatPanelContainer} 

@@ -26,12 +26,12 @@
     height: var(--vh);
     border-radius: 0;
     padding: 0px;
-    padding-top: 120px;
-    padding-bottom: 16px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 
     .spacer {
-      background-color: var(--theme-background);
-
+      background-color: transparent;
+      height: 52px;
     }
   }
 }
@@ -55,7 +55,7 @@
   }
 
   @media screen and (max-width: 640px) {
-    padding-bottom: 48px;
+    padding-bottom: 140px;
     border-radius: 0px;
   }
 }
@@ -264,7 +264,6 @@
     position: absolute;
     bottom: 0;
     z-index: 2;
-    //background: #28282e;
   }
 
   &Desktop {

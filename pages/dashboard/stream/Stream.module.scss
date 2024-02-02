@@ -56,13 +56,18 @@
     height: 100%;
     margin-top: -52px;
     width: 100%;
-    background-color: var(--border-basic);
+    background-color: var(--theme-background);
+    background-image: url('/images/room_stream.png'); /* Path to your image */
+    background-size: 240px auto; /* Set width to 300px and height to auto */
+    background-position: calc(50% + 120px) center; /* Center the background image */
+    background-repeat: no-repeat;
 
     &Mobile {
       margin-top: 0;
       flex-direction: column-reverse;
       justify-content: flex-end;
       height: calc(100% - 108px);
+      background-image: none;
     }
 
     .leftContainer {
@@ -115,32 +120,39 @@
       }
     }
     .backButton {
-      background-color: #28282e;
+      background-color: var(--menu-color);
       position: absolute;
       z-index: 2;
-      top: 3%;
-      left: 3%;
+      top: 16px;
+      left: 16px;
       border: none;
-      border-radius: 50%;
-      font-size: 15px;
-      border: 1px solid #404049;
-      color: #404049;
-      height: 30px;
-      width: 30px;
+      border-radius: 99px;
+      padding: 0px;
+      font-size: 20px;
+      line-height: 30px;
+      border: 1px solid var(--border-heavy);
+      color: var(--border-heavy);
+      height: 36px;
+      width: 36px;
       cursor: pointer;
+
+      &:active {
+        background-color: var(menu-offset);
+      }
     }
+
     .muteButton {
-      background-color: #28282e;
+      background-color: var(--menu-color);
       position: absolute;
       z-index: 2;
       bottom: 3%;
       left: 3%;
       border: none;
       border-radius: 4px;
-      border: 1px solid #404049;
-      color: #404049;
+      border: 1px solid var(--border-heavy);
+      color: var(--border-heavy);
       font-size: 16px;
-      padding: 3px;
+      padding: 4px 6px;
     }
     .fullscreenVideoContainer {
       position: fixed;
@@ -148,7 +160,7 @@
       width: 100vw;
       left: 0;
       z-index: 10;
-      background-color: #1c1c20;
+      background-color: var(--menu-color);
       top: 0;
 
       video {
