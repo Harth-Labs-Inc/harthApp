@@ -17,7 +17,7 @@
   width: 100%;
   height: 100%;
   position: relative;
-  //border-radius: 9999px;
+  border-radius: 16px;
   cursor: pointer;
   border: solid 3px transparent;
   background-origin: border-box;
@@ -62,7 +62,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      @include rubik;
+      @include systemFont;
       font-size: 34px;
       font-weight: 500;
       color: $oxygen;
@@ -73,7 +73,7 @@
     //box-shadow: 4px 9999px 1px $ash inset; //interior color
 
     path {
-      fill: $ash_light;
+      fill: $oxygen;
     }
     &:hover {
       path {
@@ -104,8 +104,8 @@
   right: 0px;
   padding: 0;
   text-align: center;
-  @include worksans;
-  color: $font_muted;
+  @include systemFont;
+  color: $oxygen;
   background: transparent;
   cursor: pointer;
   border: 0;
@@ -114,9 +114,9 @@
     height: 32px;
     width: 32px;
     padding-left: 2px;
-    font-size: 16px;
+    font-size: 20px;
     .x {
-      font-size: 12px;
+      font-size: 14px;
       //margin-right: 1px;
     }
 

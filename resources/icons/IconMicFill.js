@@ -1,4 +1,4 @@
-export const IconMicFill = ({ fill = "#2F1D2A", hasGradient = true }) => (
+export const IconMicFill = ({ fill = "#88888e", hasGradient = true }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="100%"

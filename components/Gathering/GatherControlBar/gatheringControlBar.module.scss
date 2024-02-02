@@ -7,10 +7,10 @@
   align-items: center;
   justify-content: space-between;
   grid-area: header;
-  padding: 8px 16px 8px 16px;
+  padding: 8px 12px 8px 12px;
   border: 0;
-  background-color: transparent;
-  //column-gap: 16px;
+  background-color: var(--menu-color);
+  border-top: 1px solid var(--border-ultralight);
 
   .optionsContainer {
     position: relative;
@@ -46,6 +46,7 @@
   border: 0;
   width: 100%;
   background-color: var(--menu-color);
+  border-top: 1px solid var(--border-ultralight);
 
   .spacerLarge {
     display: flex;

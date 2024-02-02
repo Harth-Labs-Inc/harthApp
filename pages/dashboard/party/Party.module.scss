@@ -10,8 +10,7 @@
   width: 100%;
   border: 0;
   padding: 0px 0px 0px 0px;
-  background: linear-gradient(180deg, $background, #18181e);
-  border-top: 1px solid $ash_medium;
+  background: var(--theme-background);
 
   @media (max-width: 640px) {
     height: var(--vh);
@@ -45,7 +44,6 @@
       width: 100%;
       text-align: center;
       user-select: none;
-      // background-color: green;
       background-color: transparent;
 
       &.peerContainerChatOpen {
@@ -79,8 +77,8 @@
       position: relative;
       height: 100%;
       width: 100%;
-      border: 1px solid $ash;
-      background-color: $gather_background_offset_2;
+      border: 1px solid transparent;
+      background-color: var(--border-light);
       justify-content: center;
       flex-direction: column;
       min-height: 120px;
@@ -92,8 +90,9 @@
         justify-content: center;
       }
       .peerName {
-        color: $oxygen;
-        @include topicTitle;
+        color: var(--font-main);
+        @include systemFont;
+        font-weight: 500;
       }
 
       .peerImage {
@@ -135,22 +134,16 @@
       padding: 6px;
       border-radius: 999px;
       border: none;
-      background-color: $ash;
+      background-color: var(--border-basic);
 
       svg {
         path {
-          fill: $gather_path;
+          fill: var(--font-muted);
         }
       }
 
       &:active {
-        background-color: $ash_heavy;
-
-        svg {
-          path {
-            fill: $oxygen;
-          }
-        }
+        background-color: var(--border-heavy);
       }
     }
     .peerswitcherPrev{
@@ -162,22 +155,16 @@
       padding: 6px;
       border-radius: 999px;
       border: none;
-      background-color: $ash;
+      background-color: var(--border-basic);
 
       svg {
         path {
-          fill: $gather_path;
+          fill: var(--font-muted);
         }
       }
 
       &:active {
-        background-color: $ash_heavy;
-
-        svg {
-          path {
-            fill: $oxygen;
-          }
-        }
+        background-color: var(--border-heavy);
       }
     }
 
@@ -228,20 +215,19 @@
     .ChatPanelContainer {
       position: absolute;
       right: 0;
-      top: 0;
+      top: 12px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 100%;
-      border: 1px solid $ash_medium;
-      border-right: 0;
+      height: calc(100% - 24px);
+      //border: 1px solid $ash_medium;
+      border: 0;
       margin: 0;
-      border-bottom-left-radius: 16px;
-      border-top-left-radius: 16px;
+      border-radius: 16px;
       width: 0px;
       visibility: hidden;
       transition: width 0.3s ease-in-out;
-      background: $ash_heavy;
+      background: var(--theme-background);
       overflow: hidden;
       z-index: 1001;
 
@@ -270,9 +256,11 @@
         top: 0px;
         left: 100%;
         z-index: 98;
-        height: calc(100% - 25px);
+        height: 100%;
         border: 0;
         border-radius: 0;
+        background-color: var(--theme-background);
+
         &.ChatPanelContainerOpen {
           width: 100%;
           //margin-left: 10px;

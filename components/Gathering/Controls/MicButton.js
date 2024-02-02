@@ -57,7 +57,7 @@ export const MicButton = (props) => {
       >
         {isOn ? (
           <div height="100%" width="100%">
-            <IconMicFill hasGradient={true} />
+            <IconMicFill hasGradient={false} />
           </div>
         ) : (
           <div height="100%" width="100%">
