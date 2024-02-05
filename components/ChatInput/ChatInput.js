@@ -534,6 +534,46 @@ const ChatInput = (props) => {
       img.src = URL.createObjectURL(file);
     });
   };
+  const createPlayableVideoAndCalculateDimensions = (file) => {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement("video");
+      video.preload = "metadata";
+
+      video.onloadedmetadata = () => {
+        const maxWidth = 280;
+        const maxHeight = 320;
+        let desiredWidth = video.videoWidth;
+        let desiredHeight = video.videoHeight;
+        const widthRatio = desiredWidth / maxWidth;
+        const heightRatio = desiredHeight / maxHeight;
+        const maxRatio = Math.max(widthRatio, heightRatio);
+
+        if (maxRatio > 1) {
+          desiredWidth /= maxRatio;
+          desiredHeight /= maxRatio;
+        }
+
+        const videoUrl = URL.createObjectURL(file);
+
+        resolve({
+          previewUrl: videoUrl,
+          desiredWidth,
+          desiredHeight,
+          fileType: file.type,
+          name: file.name,
+          isPreview: true,
+        });
+      };
+
+      video.onerror = () => {
+        reject(new Error("Failed to load video for dimensions calculation."));
+        URL.revokeObjectURL(video.src);
+      };
+
+      video.src = URL.createObjectURL(file);
+    });
+  };
+
   const getAttachmentpreviews = async (files) => {
     const previews = await Promise.all(
       files.map(async (file) => {
@@ -550,12 +590,24 @@ const ChatInput = (props) => {
             desiredWidth,
           };
         }
+        if (file.type.startsWith("video/")) {
+          const { previewUrl, desiredHeight, desiredWidth } =
+            await createPlayableVideoAndCalculateDimensions(file);
+          return {
+            name: file.name,
+            fileType: file.type,
+            previewUrl,
+            file,
+            isPreview: true,
+            desiredHeight,
+            desiredWidth,
+          };
+        }
       })
     );
 
     return previews;
   };
-
   const createImageBlob = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
