@@ -269,7 +269,7 @@ export const MapBar = (props) => {
               <div className={styles.icon}>
                 <IconMap />
               </div>
-              <div className={styles.label}>Place a picture of a game board or a map in this space for all to view</div>
+              <div className={styles.label}>Add a game board, dungeon map, or any other image. Everyone in your gathering will be able to see it.</div>
               <Button
                 tier="primary"
                 size="small"

@@ -461,6 +461,7 @@
     top: -8px;
     right: 16px;
     background-color: var(--border-light);
+    background-color: var(--menu-color);
     border-radius: 8px;
     padding: 4px;
     border: 0;
@@ -480,15 +481,15 @@
       overflow: hidden;
 
       path {
-        fill: var(--path-heavy);
+        fill: var(--border-heavy);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
           path {
-            fill: var(--font-main);
+            fill: var(--font-muted);
           }
-          background-color: var(--border-light);
+          background-color: var(--menu-offset);
         }
       }
 
