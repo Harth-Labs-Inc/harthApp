@@ -37,8 +37,8 @@
     transform: translate3d(-50%, -50%, 0);
     padding: 0px;
     background-color: var(--menu-color);
-    border-top: 1px solid var(--border-heavy);
-    border-bottom: 1px solid var(--border-heavy);
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
     opacity: 0;
     animation: pop 0.3s ease-out forwards;
 
@@ -86,7 +86,7 @@
       content: "";
       width: 1px;
       height: 100%;
-      background: linear-gradient(transparent, var(--border-heavy) 16%, var(--border-heavy) 84%, transparent);
+      background: linear-gradient(transparent, var(--border-light) 16%, var(--border-light) 84%, transparent);
       animation: border-fadein .5s ease-in forwards;
     }
   }

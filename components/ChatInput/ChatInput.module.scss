@@ -130,14 +130,14 @@
         cursor: pointer;
 
         path {
-          fill: var(--path-light);
+          fill: var(--border-basic);
         }
 
         @media (hover: hover) and (pointer: fine) {
           &:hover {
             background-color: var(--theme-background-offset);
             path {
-              fill: var(--path-heavy);
+              fill: var(--border-heavy);
             }
           }
         }
@@ -310,7 +310,7 @@
         &:active {
           background-color: var(--theme-background);
           path {
-            fill: var(--path-basic);
+            fill: var(--boder-heavy);
           }
         }
 
