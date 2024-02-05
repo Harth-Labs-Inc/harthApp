@@ -84,14 +84,14 @@
         cursor: pointer;
 
         path {
-          fill: var(--path-light);
+          fill: var(--border-basic);
         }
 
         @media (hover: hover) and (pointer: fine) {
           &:hover {
             background-color: var(--theme-background-offset);
             path {
-              fill: var(--path-heavy);
+              fill: var(--border-heavy);
             }
           }
         }

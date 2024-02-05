@@ -93,12 +93,18 @@
     .now {
       @include systemFont;
       font-weight: 800;
-      font-size: 30px;
-      line-height: 30px;
-      letter-spacing: 0;
+      font-size: 28px;
+      line-height: 28px;
+      letter-spacing: 0.03em;
       color: $hot_green;
       text-transform: capitalize;
       text-align: center;
+      
+      text-shadow: 
+        -2px -2px 0 $oxygen,  
+        2px -2px 0 $oxygen,
+        -2px 2px 0 $oxygen,
+        2px 2px 0 $oxygen; 
     }
 
   }
