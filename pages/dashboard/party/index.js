@@ -17,6 +17,7 @@ import { useAuth } from "contexts/auth";
 import { getHarthByID } from "requests/community";
 import { compressImage, getUploadURL, putImageInBucket } from "requests/s3";
 import { SpinningLoader } from "../../../components/Common/SpinningLoader/SpinningLoader";
+import Cookies from "js-cookie";
 /* eslint-disable */
 
 const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
@@ -2177,7 +2178,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   return (
     <>
       <div id="initialLoader">
-        <SpinningLoader gatherRoom={true} />
+        <SpinningLoader gatherRoom={true} userTheme={Cookies.get("theme")} />
       </div>
       <main id="PartyWindow" className={styles.PartyWindow}>
         <button

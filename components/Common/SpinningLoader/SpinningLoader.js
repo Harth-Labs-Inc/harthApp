@@ -3,7 +3,7 @@ import styles from "./Modal.module.scss";
 import { memo } from "react";
 import { DisplayLogo } from "../DisplayLogo/DisplayLogo";
 
-export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
+export const SpinningLoader = memo(({ spinnerOnly, gatherRoom, userTheme }) => {
   const router = useRouter();
   const { query } = router;
 
@@ -33,7 +33,7 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
   return (
     <div className={`${styles.Maincontainer}`}>
       <div className={`${styles.content}`}>
-        <DisplayLogo />
+        <DisplayLogo userTheme={userTheme} />
 
         <Spinner />
       </div>

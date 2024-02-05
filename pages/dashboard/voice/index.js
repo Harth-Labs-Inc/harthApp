@@ -17,7 +17,7 @@ import {
   putImageInBucket,
 } from "../../../requests/s3";
 import { SpinningLoader } from "../../../components/Common/SpinningLoader/SpinningLoader";
-
+import Cookies from "js-cookie";
 /* eslint-disable */
 
 const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
@@ -1318,7 +1318,9 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
 
   return (
     <>
-      {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
+      {!isFinishedInitialSetup ? (
+        <SpinningLoader gatherRoom={true} userTheme={Cookies.get("theme")} />
+      ) : null}
       <main className={styles.VoiceWindow}>
         <button
           id="mobile_minimized_closer"

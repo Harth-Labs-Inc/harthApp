@@ -9,7 +9,7 @@ import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeade
 import ChatInputGeneral from "../../../components/ChatInput/ChatInputGeneral";
 import ChatMessagesGeneral from "../../../components/ChatMessages/ChatMessagesGeneral";
 import { SpinningLoader } from "../../../components/Common/SpinningLoader/SpinningLoader";
-
+import Cookies from "js-cookie";
 import { getHarthByID } from "../../../requests/community";
 import {
   compressImage,
@@ -1555,7 +1555,9 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   }
   return (
     <>
-      {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
+      {!isFinishedInitialSetup ? (
+        <SpinningLoader gatherRoom={true} userTheme={Cookies.get("theme")} />
+      ) : null}
       <main className={styles.streamWindow}>
         <button
           id="mobile_minimized_closer"
