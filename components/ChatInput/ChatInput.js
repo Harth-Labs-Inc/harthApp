@@ -573,7 +573,6 @@ const ChatInput = (props) => {
       video.src = URL.createObjectURL(file);
     });
   };
-
   const getAttachmentpreviews = async (files) => {
     const previews = await Promise.all(
       files.map(async (file) => {
@@ -857,7 +856,9 @@ const ChatInput = (props) => {
     }
 
     const outputs = await Promise.allSettled(promises);
-    message.attachments = outputs;
+    const resolvedAttachments = outputs.map((result) => result.value);
+
+    message.attachments = resolvedAttachments;
     tempMessage.ignoreBlob = true;
     broadcastMessage(message, oldId, true);
   };
@@ -868,6 +869,8 @@ const ChatInput = (props) => {
     setFinalMessageForPreview({ oldId, message });
     clearPendingIndexRecord(message);
 
+    message.status = "complete";
+    message.statusCode = 1;
     let { ok } = await sendUnreadMessages(message);
     if (ok) {
       let unreadmessage = {};

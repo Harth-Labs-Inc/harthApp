@@ -920,7 +920,7 @@ const ChatSingleMessage = (props) => {
                   >
                     {(attachments || []).map(
                       ({ desiredWidth, desiredHeight, fileType }, idx) => {
-                        if (fileType.includes("video")) {
+                        if (fileType?.includes("video")) {
                           return (
                             <video
                               key={idx}
@@ -998,7 +998,7 @@ const ChatSingleMessage = (props) => {
                         { fileType, downloadURL, desiredWidth, desiredHeight },
                         idx
                       ) => {
-                        if (fileType.includes("video")) {
+                        if (fileType?.includes("video")) {
                           return (
                             <video
                               key={idx}
@@ -1257,7 +1257,7 @@ const ChatSingleMessage = (props) => {
                 <div className={styles.Content}>
                   {(attachments || []).map(
                     ({ desiredWidth, desiredHeight, fileType }, idx) => {
-                      if (fileType.includes("video")) {
+                      if (fileType?.includes("video")) {
                         return (
                           <video
                             key={idx}
@@ -1333,7 +1333,7 @@ const ChatSingleMessage = (props) => {
                       { fileType, downloadURL, desiredWidth, desiredHeight },
                       idx
                     ) => {
-                      if (fileType.includes("video")) {
+                      if (fileType?.includes("video")) {
                         return (
                           <video
                             key={idx}
