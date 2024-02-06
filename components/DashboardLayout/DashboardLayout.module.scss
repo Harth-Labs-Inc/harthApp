@@ -212,8 +212,9 @@
   padding: 0px 0px 0px 0px;
   background: var(--menu-color);
   animation: slideInFromLeft 0.3s forwards;
+  z-index: 500;
   @media (max-width: 640px) {
     height: var(--vh);
-    z-index: 500;
+ 
   }
 }
