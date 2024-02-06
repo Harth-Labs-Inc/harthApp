@@ -39,7 +39,7 @@ export default async (req, res) => {
     }
 
     sendCustomNewRelicEvent({ data, title });
-    console.log("saving event", response);
+    console.log("saving event");
 
     return res.json({
       msg: "successful",
