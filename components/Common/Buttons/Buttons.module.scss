@@ -54,18 +54,7 @@
   }
 }
 
-.backButton {
-  position: relative;
-  padding: 8px 8px;
-  border: 1px solid var(--path-heavy);
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background-color: transparent;
-  path {
-    fill: var(--path-heavy);
-  }
-}
+
 
 .editButton {
   position: relative;
@@ -230,6 +219,29 @@
   &:hover {
     background-color: var(--border-basic);
   }
+}
+
+.backButton {
+  width: 48px;
+  min-width: 48px;
+  max-height: 48px;
+  padding: 8px;
+  border: 1px solid var(--border-basic);
+  border-radius: 999px;
+  cursor: pointer;
+  background-color: transparent;
+  
+  svg {
+    path {
+      fill: var(--border-heavy);
+    }
+  }
+
+  &:active {
+    background-color: var(--menu-offset);
+
+  }
+
 }
 
 @keyframes spinner {

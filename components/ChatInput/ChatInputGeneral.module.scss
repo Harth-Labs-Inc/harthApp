@@ -230,9 +230,7 @@
             height: fit-content;
             background-color: transparent;
             border: 0;
-            @include systemFont;
-            font-size: 14px;
-  
+            @include systemFont;  
             border-radius: 99px;
             color: var(--font-muted);
             padding: 8px 12px;

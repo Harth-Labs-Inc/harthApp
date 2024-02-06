@@ -110,6 +110,24 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --modal-border: #98989e;
 }
 
+.text-reg {
+  --chat-font-size: 14px;
+  --chat-font-size-mobile: 16px;
+  --topic-font-size: 14px;
+  --topic-font-size-mobile: 18px;
+  --system-font-size: 14px;
+  --system-font-size-mobile: 16px;
+}
+
+.text-large {
+  --chat-font-size: 16px;
+  --chat-font-size-mobile: 20px;
+  --topic-font-size: 18px;
+  --topic-font-size-mobile: 22px;
+  --system-font-size: 16px;
+  --system-font-size-mobile: 20px;
+}
+
 // Black
 $black: #000000;
 $black_60: rgba(0, 0, 0, 0.6);

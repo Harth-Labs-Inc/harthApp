@@ -12,6 +12,7 @@
   width: 100%;
   height: 100%;
   padding: 8px 0px 8px 0px;
+  overflow-y: scroll;
 
   &Header {
     display: flex;
@@ -247,7 +248,6 @@
   padding: 0px 12px;
   @include systemFont;
   letter-spacing: 0;
-  font-size: 14px;
   color: var(--font-main);
   background: transparent;
   border-radius: 6px;
@@ -313,6 +313,76 @@
       width: 100%;
       border-radius: 8px;
       border: 1px solid var(--border-light);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-color: $hot_purple;
+      }
+    }
+
+    &:active {
+      border-color: $hot_purple;
+    }
+  }
+}
+
+.textSizeHolder {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 8px 36px 64px 12px;
+  gap: 8px;
+
+  .active{
+    border-color: $hot_purple !important;
+  }
+
+  .theme {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 3px solid var(--border-light);
+    color: var(--font-main);
+    border-radius: 8px;
+    outline: 0;
+    margin: 0;
+    gap: 6px;
+    padding: 8px 8px 8px 12px;
+    width: 100%;
+
+    p {
+      @include eyebrow;
+      color: var(--font-main);
+    }
+
+    .regText {
+      text-align: left;
+      @include chatText;
+      font-size: 14px;
+      
+
+      &Mobile {
+        text-align: left;
+        @include chatTextMobile;
+        font-size: 16px;
+      }
+
+    }
+
+    .largeText {
+      text-align: left;
+      @include chatText;
+      font-size: 16px;
+
+      &Mobile {
+        text-align: left;
+        @include chatTextMobile;
+        font-size: 20px;
+      }
+
     }
 
     @media (hover: hover) and (pointer: fine) {

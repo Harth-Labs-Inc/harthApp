@@ -103,11 +103,11 @@
       top: 50%;
       left: 32px;
       transform: translateY(-50%);
-      background-color: var(--menu-color);
+      background-color: $hot_purple;
       border-radius: 4px;
       @include systemFont;
       font-size: 12px;
-      color: var(--font-main);
+      color: $oxygen;
       z-index: 10;
     }
 
@@ -122,7 +122,7 @@
       height: 0;
       border-top: 12px solid transparent;
       border-bottom: 12px solid transparent;
-      border-right: 12px solid var(--menu-color);
+      border-right: 12px solid $hot_purple;
       z-index: 9;
     }
 
