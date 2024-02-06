@@ -1066,7 +1066,7 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         const videoContainer = document.createElement("div");
         const video = document.createElement("video");
         const backButton = document.createElement("button");
-        const muteButton = document.createElement("button");
+        // const muteButton = document.createElement("button");
 
         videoContainer.className = shouldFullScreen
           ? styles.fullscreenVideoContainer
@@ -1092,13 +1092,13 @@ const Stream = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           };
           videoContainer.appendChild(backButton);
 
-          muteButton.className = styles.muteButton;
-          muteButton.innerText = "Unmute";
-          muteButton.onclick = () => {
-            video.muted = !video.muted;
-            muteButton.innerText = video.muted ? "UnMute" : "Mute";
-          };
-          videoContainer.appendChild(muteButton);
+          // muteButton.className = styles.muteButton;
+          // muteButton.innerText = "Unmute";
+          // muteButton.onclick = () => {
+          //   video.muted = !video.muted;
+          //   muteButton.innerText = video.muted ? "UnMute" : "Mute";
+          // };
+          // videoContainer.appendChild(muteButton);
         }
 
         videoContainer.appendChild(video);
