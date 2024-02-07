@@ -182,7 +182,7 @@
   padding: 0px 16px 0px 16px;
 
   background-color: transparent;
-  @include menuText;
+  @include systemFont;
   color: var(--font-main);
 
   @media (hover: hover) and (pointer: fine) {
