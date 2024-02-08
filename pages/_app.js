@@ -50,7 +50,14 @@ const themeColors = {
   },
 };
 
-function MyApp({ Component, pageProps, theme, hadPreferedTheme }) {
+function MyApp({
+  Component,
+  pageProps,
+  theme,
+  hadPreferedTheme,
+  hadPreferedTextSize,
+  textSize,
+}) {
   const router = useRouter();
 
   useEffect(() => {
@@ -84,9 +91,16 @@ function MyApp({ Component, pageProps, theme, hadPreferedTheme }) {
   const userTheme = hadPreferedTheme
     ? theme
     : Cookies.get("theme") || "light-mode";
+  const userTextSize = hadPreferedTextSize
+    ? textSize
+    : Cookies.get("textSize") || "text-reg";
 
   if (!Cookies.get("theme")) {
     Cookies.set("theme", userTheme, { expires: 365 });
+  }
+
+  if (!Cookies.get("textSize")) {
+    Cookies.set("textSize", userTextSize, { expires: 365 });
   }
 
   if (typeof document !== "undefined" && userTheme) {
@@ -94,6 +108,19 @@ function MyApp({ Component, pageProps, theme, hadPreferedTheme }) {
     const newBodyClass = themeColors[userTheme]?.bodyClass;
     if (!currentBodyClass || currentBodyClass !== newBodyClass) {
       document.body.classList.add(newBodyClass);
+    }
+  }
+
+  if (typeof document !== "undefined") {
+    const currentBodyClass = document.body.className;
+
+    const newBodyClassTheme = themeColors[userTheme]?.bodyClass;
+    if (!currentBodyClass || currentBodyClass !== newBodyClassTheme) {
+      document.body.className = newBodyClassTheme;
+    }
+
+    if (!currentBodyClass || !currentBodyClass.includes(userTextSize)) {
+      document.body.classList.add(userTextSize);
     }
   }
 
@@ -174,10 +201,20 @@ MyApp.getInitialProps = async (appContext) => {
       }
     });
   }
+
   const hadPreferedTheme = cookies.theme || false;
   const theme = cookies.theme || "light-mode";
 
-  return { ...appProps, theme, hadPreferedTheme };
+  const hadPreferedTextSize = cookies.textSize || false;
+  const textSize = cookies.textSize || "text-reg";
+
+  return {
+    ...appProps,
+    theme,
+    hadPreferedTheme,
+    hadPreferedTextSize,
+    textSize,
+  };
 };
 
 export default MyApp;
