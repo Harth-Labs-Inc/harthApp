@@ -148,7 +148,6 @@
           background-color: transparent;
           border: 0;
           @include systemFont;
-          font-size: 14px;
           font-weight: 500;
           border-radius: 24px;
           color: var(--font-muted);
@@ -174,7 +173,7 @@
         &:before {
           @include x-y-center;
           color: $font_muted;
-          font-size: 16px;
+          @include systemFont;
         }
 
         &.SendMessage {
@@ -194,7 +193,7 @@
     .input-style-wrapper {
       button {
         font-family: "Times New Roman", Times, serif;
-        font-size: 18px;
+        @include systemFont;
       }
       .style-bold {
         font-weight: bold;
@@ -320,8 +319,6 @@
           background-color: transparent;
           border: 0;
           @include systemFont;
-          font-size: 14px;
-
           border-radius: 99px;
           color: var(--font-muted);
           padding: 8px 12px;
@@ -339,7 +336,7 @@
         &:before {
           @include x-y-center;
           color: var(--font-muted);
-          font-size: 16px;
+          @include systemFont;
         }
 
         &.SendMessage {
@@ -359,7 +356,7 @@
     .input-style-wrapper {
       button {
         font-family: "Times New Roman", Times, serif;
-        font-size: 18px;
+        @include systemFont;
       }
       .style-bold {
         font-weight: bold;

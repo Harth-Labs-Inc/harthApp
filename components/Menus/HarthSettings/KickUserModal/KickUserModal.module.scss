@@ -37,7 +37,7 @@
     margin-top: -6px;
     margin-bottom: 12px;
     font-weight: 500;
-    @include topicTitleActive;
+    @include topicTitle;
     font-size: 20px;
     color: var(--font-main);;
   }

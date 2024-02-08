@@ -115,7 +115,7 @@ export default async (req, res) => {
           html: `  <div style="height: 600px; width: 355px; margin: 50px auto">
       <h3
         style="
-          background: #2f1d2a;
+          background: #282828;
           padding: 0%;
           height: 120px;
           text-align: center;

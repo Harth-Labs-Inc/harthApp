@@ -102,7 +102,6 @@
           background-color: transparent;
           border: 0;
           @include systemFont;
-          font-size: 14px;
           font-weight: 500;
           border-radius: 24px;
           color: var(--font-muted);
@@ -274,8 +273,6 @@
           background-color: transparent;
           border: 0;
           @include systemFont;
-          font-size: 14px;
-
           border-radius: 99px;
           color: var(--font-muted);
           padding: 8px 12px;

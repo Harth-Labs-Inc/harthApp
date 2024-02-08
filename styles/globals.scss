@@ -2,7 +2,7 @@
 @import "./utility/ui-mixins";
 
 //Consolodated
-$fuel: #271623;
+$fuel: #271623; 
 $ash: #28282e;
 $oxygen: #fefff6;
 
@@ -108,6 +108,24 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --gather-tile: #d8d8de;
   --overlay: rgba(232, 232, 238, 0.50);
   --modal-border: #98989e;
+}
+
+.text-reg {
+  --chat-font-size: 14px;
+  --chat-font-size-mobile: 16px;
+  --topic-font-size: 14px;
+  --topic-font-size-mobile: 18px;
+  --system-font-size: 14px;
+  --system-font-size-mobile: 16px;
+}
+
+.text-large {
+  --chat-font-size: 16px;
+  --chat-font-size-mobile: 20px;
+  --topic-font-size: 18px;
+  --topic-font-size-mobile: 22px;
+  --system-font-size: 16px;
+  --system-font-size-mobile: 20px;
 }
 
 // Black

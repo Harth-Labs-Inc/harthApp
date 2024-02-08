@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAuth } from "../../../contexts/auth";
 import {
   saveAcountSettingsUpdates,
@@ -8,6 +8,7 @@ import { Button, BackButton, EditButton, Modal } from "../../Common";
 import OtpValidator from "../../../pages/auth/OtpValidator";
 import Cookies from "js-cookie";
 import styles from "./SettingsMenu.module.scss";
+import { MobileContext } from "contexts/mobile";
 
 const AccountProfile = (props) => {
   const { toggleCurrentPage } = props;
@@ -19,6 +20,8 @@ const AccountProfile = (props) => {
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [error, setError] = useState("");
   const [theme, setTheme] = useState(Cookies.get("theme"));
+  const [textSize, setTextSize] = useState(Cookies.get("textSize"));
+  const { isMobile } = useContext(MobileContext);
 
   const toggleCurrentSetting = (name) => {
     setCurrentTab(name);
@@ -123,6 +126,20 @@ const AccountProfile = (props) => {
     }
   };
 
+  const toggleTextReg = () => {
+    document.body.classList.remove("text-large");
+    document.body.classList.add("text-reg");
+    Cookies.set("textSize", "text-reg", { expires: 365 });
+    setTextSize("text-reg");
+  };
+
+  const toggleTextLarge = () => {
+    document.body.classList.remove("text-reg");
+    document.body.classList.add("text-large");
+    Cookies.set("textSize", "text-large", { expires: 365 });
+    setTextSize("text-large");
+  };
+
   if (!currentTab) {
     return (
       <>
@@ -138,20 +155,6 @@ const AccountProfile = (props) => {
               <p>{user.email}</p>
               <EditButton clickHandler={() => toggleCurrentSetting("email")} />
             </div>
-
-            {/* <div className={styles.SettingsContainerTitle}>Full Name</div>
-            <div className={styles.optionHolder}>
-              {user.fullName}
-              <EditButton
-                clickHandler={() => toggleCurrentSetting("fullName")}
-              />
-            </div> */}
-
-            {/* <div className={styles.SettingsContainerTitle}>Birthday</div>
-            <div className={styles.optionHolder}>
-              {user.dob}
-              <EditButton clickHandler={() => toggleCurrentSetting("dob")} />
-            </div> */}
 
             <div className={styles.SettingsContainerTitle}>Interface</div>
             <div className={styles.themeHolder}>
@@ -173,6 +176,30 @@ const AccountProfile = (props) => {
               >
                 <p>Light Mode</p>
                 <img src="/images/lightmode.png" />
+              </button>
+            </div>
+
+
+            <div className={styles.SettingsContainerTitle}>Chat Text Size</div>
+            <div className={styles.textSizeHolder}>
+              <button
+                className={`${styles.theme} ${
+                  textSize === "text-reg" ? styles.active : ""
+                }`}
+                onClick={toggleTextReg}
+              >
+                <p>Reg Text</p>
+                <span className={isMobile ? styles.regTextMobile : styles.regText}>The quick brown fox jumps over the lazy dog.</span>
+              </button>
+
+              <button
+                className={`${styles.theme} ${
+                  textSize === "text-large" ? styles.active : ""
+                }`}
+                onClick={toggleTextLarge}
+              >
+                <p>Large Text</p>
+                <span className={isMobile ? styles.largeTextMobile : styles.largeText}>The quick brown fox jumps over the lazy dog.</span>
               </button>
             </div>
           </div>

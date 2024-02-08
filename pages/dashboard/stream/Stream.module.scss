@@ -123,8 +123,8 @@
       background-color: var(--menu-color);
       position: absolute;
       z-index: 2;
-      top: 16px;
-      left: 16px;
+      top: 2px;
+      left: 2px;
       border: none;
       border-radius: 99px;
       padding: 0px;
@@ -133,7 +133,7 @@
       border: 1px solid var(--border-heavy);
       color: var(--border-heavy);
       height: 36px;
-      width: 36px;
+      width: 44px;
       cursor: pointer;
 
       &:active {
