@@ -1136,7 +1136,7 @@ const ChatSingleMessage = (props) => {
                     <div className={styles.flagMessage}>
                       This post has been flagged by a user as inappropriate.
                       <br />
-                      Your group's owner can review it for approval.
+                      Your space's owner can review it for approval.
                     </div>
                   </div>
                 )}
@@ -1460,7 +1460,7 @@ const ChatSingleMessage = (props) => {
                   <div className={styles.flagMessage}>
                     This post has been flagged by a user as inappropriate.
                     <br />
-                    Your group's owner can review it for approval.
+                    Your space's owner can review it for approval.
                   </div>
                 </div>
               )}

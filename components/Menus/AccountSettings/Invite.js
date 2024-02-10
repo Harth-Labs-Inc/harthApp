@@ -154,7 +154,7 @@ const InviteComp = (props) => {
               <div className={styles.InviteList}>
                 <div className={styles.harthdropdown}>
                   <label className={styles.labelText} htmlFor="harthSelect">
-                    Select a group
+                    Select a space
                   </label>
                   <div
                     className={styles.dropdownheader}

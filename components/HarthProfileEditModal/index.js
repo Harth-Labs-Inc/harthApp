@@ -189,7 +189,7 @@ const HarthProfileEditModal = ({ hidden, setHidden, harth, profile }) => {
           />
           <div
             className={styles.helpText}
-          >{`This is your display name for the group, ${harth.name}.`}
+          >{`This is your display name for this space, ${harth.name}.`}
           </div>
           <div className={styles.buttonBar}>
             <Button

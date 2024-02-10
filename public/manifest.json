@@ -2,7 +2,7 @@
   "short_name": "Härth",
   "name": "Härth",
   "orientation": "portrait",
-  "description": "Härth is the place where friends gather. Create your own group, invite your friends, and have a space all your own.",
+  "description": "Härth is the place where friends gather. Create your own space, invite your friends, and have a place all your own.",
   "id": "/",
   "icons": [
     {
@@ -89,8 +89,8 @@
   "start_url": "https://www.harth.social/",
   "display": "fullscreen",
   "scope": "/",
-  "background_color": "#000",
-  "theme_color": "#000",
+  "background_color": "#e8e8ee",
+  "theme_color": "#e8e8ee",
   "dir": "ltr",
   "lang": "en",
   "categories": ["social"],

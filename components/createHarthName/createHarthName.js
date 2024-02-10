@@ -66,7 +66,7 @@ export default function CreateHarthName({
       <div className={styles.mainContainer}>
         <div className={styles.title}>
           Create a<br />
-          new group
+          new space
         </div>
         <div className={styles.lineParent}>
           <div className={`${styles.line} ${styles.lineActive}`}></div>
@@ -96,7 +96,7 @@ export default function CreateHarthName({
             maxLength={20}
           />
           {errors.harthName ? (
-            <ErrorMessage errorMsg="You must set a group name." />
+            <ErrorMessage errorMsg="You must set a name for your space." />
           ) : (
             <div className={styles.helpText}>{footer}</div>
           )}

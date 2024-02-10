@@ -155,7 +155,7 @@ const AccountProfile = (props) => {
               <p>{user.email}</p>
               <EditButton clickHandler={() => toggleCurrentSetting("email")} />
             </div>
-
+{/* 
             <div className={styles.SettingsContainerTitle}>Interface</div>
             <div className={styles.themeHolder}>
               <button
@@ -177,7 +177,7 @@ const AccountProfile = (props) => {
                 <p>Light Mode</p>
                 <img src="/images/lightmode.png" />
               </button>
-            </div>
+            </div> */}
 
 
             <div className={styles.SettingsContainerTitle}>Chat Text Size</div>

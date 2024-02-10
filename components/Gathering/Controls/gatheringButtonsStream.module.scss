@@ -351,10 +351,8 @@
         padding: 6px 10px;
         background-color: $hot_purple;
         border-radius: 2px;
-        @include worksans;
-        letter-spacing: 0.05em;
+        @include systemFont;
         font-size: 12px;
-        font-weight: 300;
         color: $oxygen;
         z-index: 10;
       }
