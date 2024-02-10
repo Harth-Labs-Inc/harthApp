@@ -19,7 +19,7 @@ const AccountProfile = (props) => {
   const [originalData, setOriginalData] = useState({ ...user });
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [error, setError] = useState("");
-  const [theme, setTheme] = useState(Cookies.get("theme"));
+  // const [theme, setTheme] = useState(Cookies.get("theme"));
   const [textSize, setTextSize] = useState(Cookies.get("textSize"));
   const { isMobile } = useContext(MobileContext);
 
@@ -85,46 +85,46 @@ const AccountProfile = (props) => {
     }
   };
 
-  const toggleLightMode = () => {
-    document.body.classList.remove("dark-mode");
-    document.body.classList.add("light-mode");
-    Cookies.set("theme", "light-mode", { expires: 365 });
-    setTheme("light-mode");
-    //now set the theme color for manifest
-    let themeColor = "#e8e8ee"; // menu color
+  // const toggleLightMode = () => {
+  //   document.body.classList.remove("dark-mode");
+  //   document.body.classList.add("light-mode");
+  //   Cookies.set("theme", "light-mode", { expires: 365 });
+  //   setTheme("light-mode");
+  //   //now set the theme color for manifest
+  //   let themeColor = "#e8e8ee"; // menu color
 
-    let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
-    if (themeColorMetaTag) {
-      themeColorMetaTag.setAttribute("content", themeColor);
-    } else {
-      // If the meta tag does not exist, create it
-      let metaTag = document.createElement("meta");
-      metaTag.setAttribute("name", "theme-color");
-      metaTag.setAttribute("content", themeColor);
-      document.head.appendChild(metaTag);
-    }
-  };
+  //   let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+  //   if (themeColorMetaTag) {
+  //     themeColorMetaTag.setAttribute("content", themeColor);
+  //   } else {
+  //     // If the meta tag does not exist, create it
+  //     let metaTag = document.createElement("meta");
+  //     metaTag.setAttribute("name", "theme-color");
+  //     metaTag.setAttribute("content", themeColor);
+  //     document.head.appendChild(metaTag);
+  //   }
+  // };
 
-  const toggleDarkMode = () => {
-    document.body.classList.remove("light-mode");
-    document.body.classList.add("dark-mode");
-    Cookies.set("theme", "dark-mode", { expires: 365 });
-    setTheme("dark-mode");
+  // const toggleDarkMode = () => {
+  //   document.body.classList.remove("light-mode");
+  //   document.body.classList.add("dark-mode");
+  //   Cookies.set("theme", "dark-mode", { expires: 365 });
+  //   setTheme("dark-mode");
 
-    //now set the theme color for manifest
-    let themeColor = "#38383e"; // menu color
+  //   //now set the theme color for manifest
+  //   let themeColor = "#38383e"; // menu color
 
-    let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
-    if (themeColorMetaTag) {
-      themeColorMetaTag.setAttribute("content", themeColor);
-    } else {
-      // If the meta tag does not exist, create it
-      let metaTag = document.createElement("meta");
-      metaTag.setAttribute("name", "theme-color");
-      metaTag.setAttribute("content", themeColor);
-      document.head.appendChild(metaTag);
-    }
-  };
+  //   let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+  //   if (themeColorMetaTag) {
+  //     themeColorMetaTag.setAttribute("content", themeColor);
+  //   } else {
+  //     // If the meta tag does not exist, create it
+  //     let metaTag = document.createElement("meta");
+  //     metaTag.setAttribute("name", "theme-color");
+  //     metaTag.setAttribute("content", themeColor);
+  //     document.head.appendChild(metaTag);
+  //   }
+  // };
 
   const toggleTextReg = () => {
     document.body.classList.remove("text-large");
