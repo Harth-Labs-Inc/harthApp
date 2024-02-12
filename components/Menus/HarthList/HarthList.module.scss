@@ -42,7 +42,7 @@
         &:hover {
           //padding: 2px;
           opacity: 1;
-          border-color: $border_heavy;
+          border-color: var(--border-heavy);
         }
       }
     }
@@ -65,12 +65,12 @@
       height: 56px;
       button {
         opacity: 1;
-        border-color: $oxygen;
+        border-color: var(--font-main);
         transform: scale(1.2);
 
         @media (hover: hover) and (pointer: fine) {
           &:hover {
-            border-color: $oxygen;
+            border-color: var(--font-main);
           }
         }
       }
@@ -84,10 +84,10 @@
         transform: translateY(-50%);
         left: 5px;
         z-index: 1;
-        height: 12px;
-        width: 12px;
+        height: 10px;
+        width: 10px;
         content: "";
-        background-color: $background;
+        background-color: var(--menu-color);
         border-radius: 9999px;
       }
       &:after {
@@ -120,22 +120,18 @@
       align-items: center;
       height: 100%;
       width: 100%;
-      border: 1px solid $border_basic;
+      border: 0;
       border-radius: 8px;
-      background: transparent;
+      background: var(--border-basic);
       padding: 2px;
       cursor: pointer;
       path {
-        fill: $border_basic;
+        fill: var(--menu-color);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: $background_offset;
-          border-color: $border_heavy;
-          path {
-            fill: $border_heavy;
-          }
+          background-color: var(--border-heavy);
         }
       }
     }
@@ -199,18 +195,18 @@
         min-width: 52px;
         border-radius: 999px;
         border: 0;
-        border: 1px solid $border_light;
+        border: 1px solid var(--menu-offset);
       }
     }
 
     &Active {
-      background-color: $border_basic;
+      background-color: var(--menu-offset);
     }
 
     &Name {
       width: 100%;
       @include harthTitle;
-      color: $font_light;
+      color: var(--font-main);
       font-size: 18px;
       margin-left: 4px;
       text-align: left;
@@ -220,7 +216,7 @@
     }
 
     &:active {
-      background-color: $background_offset;
+      background-color: var(--menu-offset);
     }
 
     &SettingsButton {
@@ -235,12 +231,12 @@
       padding: 8px;
       border: 0;
       border-radius: 999px;
-      background: $ash;
+      background: var(--border-light);
       margin-right: 4px;
       z-index: 1;
 
       path {
-        fill: $font_muted;
+        fill: var(--menu-path);
       }
     }
 
@@ -255,7 +251,7 @@
         height: 16px;
         width: 16px;
         content: "";
-        background-color: $background;
+        background-color: var(--menu-color);
         border-radius: 9999px;
       }
       &:after {
@@ -291,16 +287,17 @@
       height: 100%;
       width: 100%;
       border: 0;
-      border-radius: 8px;
-      background: $border_basic;
-      padding: 1px;
+      border-radius: 999px;
+      background: var(--border-basic);
+      //background: red;
+      padding: 2px;
 
       path {
-        fill: $background;
+        fill: var(--menu-offset);
       }
 
       &:active {
-        background-color: $border_light;
+        background-color: var(--font-muted);
       }
     }
   }

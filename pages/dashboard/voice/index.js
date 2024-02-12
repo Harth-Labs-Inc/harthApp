@@ -1,8 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-import Script from "next/script";
-import { generateID } from "services/helper";
+import { generateID, getBaseUrl } from "services/helper";
 import { MobileContext } from "contexts/mobile";
 import VoiceControlBar from "components/Gathering/VoiceControlBar/VoiceControlBar";
 import GatherHeader from "../../../components/Gathering/GatherHeader/GatherHeader";
@@ -18,7 +17,7 @@ import {
   putImageInBucket,
 } from "../../../requests/s3";
 import { SpinningLoader } from "../../../components/Common/SpinningLoader/SpinningLoader";
-
+import Cookies from "js-cookie";
 /* eslint-disable */
 
 const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
@@ -46,6 +45,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const [playingStreams, setPlayingStreams] = useState({});
   const [userID, setUserID] = useState("");
   const [isFinishedInitialSetup, setIsFinishedInitialSetup] = useState(false);
+  const [isPeerJsLoaded, setIsPeerJsLoaded] = useState(false);
 
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -95,6 +95,19 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     requestWakeLock();
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
+    if (typeof window !== "undefined" && !window.Peer) {
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js";
+      script.async = true;
+
+      script.onload = () => {
+        setIsPeerJsLoaded(true);
+      };
+
+      document.body.appendChild(script);
+    } else if (window.Peer) {
+      setIsPeerJsLoaded(true);
+    }
     return () => {
       if (wakeLock !== null) {
         wakeLock.release().then(() => {
@@ -147,13 +160,20 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               setUserID(creator?._id);
             }
             const URLS = videoSocketUrls;
+            let connectionURL = "";
+            let baseURL = getBaseUrl();
+            if (baseURL.includes("qa.hrth.app")) {
+              connectionURL = URLS["qa"];
+            } else {
+              connectionURL = URLS[process.env.NODE_ENV] || URLS["development"];
+            }
             axios
-              .get(`${URLS[process.env.NODE_ENV]}/api/get-turn-credentials`)
+              .get(`${connectionURL}/api/get-turn-credentials`)
               .then((responseData) => {
                 setTurnServers(responseData.data.token.iceServers);
                 const token = localStorage.getItem("token");
                 setSocket(
-                  io.connect(URLS[process.env.NODE_ENV], {
+                  io.connect(connectionURL, {
                     transports: ["websocket"],
                     query: {
                       token,
@@ -215,7 +235,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
               roomId: roomId,
               date: new Date(),
               creator_name: "Admin",
-              flames: [],
               reactions: [],
               attachments: [],
               hidden: true,
@@ -330,9 +349,15 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         if (info && ownerData.current) {
           userInfo.current = info;
           if (info.code == "isTalking") {
-            console.log("user change");
             let userData = info[info?.userName];
-            if (userData.isTalking) {
+            if (info?.userName === ownerData.current?.userName) {
+              let micElement = document.getElementById("owner-mic");
+              if (micElement) {
+                micElement.style.fill = userData.isTalking
+                  ? "#3cc8a3"
+                  : "#88888e";
+              }
+            } else if (userData.isTalking) {
               let element = document.getElementById(info?.socketID);
               if (!element) {
                 let myElement = document.getElementById(info?.peerId);
@@ -367,12 +392,17 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   }, [socket]);
 
   useEffect(() => {
-    if (socketID && !audioSharePeer.current) {
-      if (userName && roomId && typeof window !== "undefined") {
-        createPeerObjects({ userName, userIcon, roomId });
-      }
+    if (
+      isPeerJsLoaded &&
+      socketID &&
+      !audioSharePeer.current &&
+      userName &&
+      roomId &&
+      typeof window !== "undefined"
+    ) {
+      createPeerObjects({ userName, userIcon, roomId });
     }
-  }, [socketID]);
+  }, [isPeerJsLoaded, socketID, userName, roomId]);
 
   useEffect(() => {
     let tempactiveCallRoom = {};
@@ -409,98 +439,57 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     };
   }, [showChatPannel]);
 
-  const getLocalAudioStream = async (
-    constraints = {
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        codec: "opus",
-      },
+  const getLocalAudioStream = async () => {
+    const defaultConstraints = {
+      audio: true,
       video: false,
-    }
-  ) => {
-    return new Promise((resolve) => {
-      async function run() {
-        let lastUsedAudioDeviceID = localStorage.getItem(
-          "lastUsedAudioDeviceID"
-        );
-        if (lastUsedAudioDeviceID) {
-          constraints.audio.deviceId = {
-            exact: lastUsedAudioDeviceID,
-          };
-          try {
-            let stream = await navigator.mediaDevices.getUserMedia(constraints);
+    };
 
-            try {
-              const audioCtx = new AudioContext();
-              localStreamSource.current =
-                audioCtx.createMediaStreamSource(stream);
-              localStreamAnalyser.current = audioCtx.createAnalyser();
-              localStreamAnalyser.current.fftSize = 2048;
-              localStreamSource.current.connect(localStreamAnalyser.current);
+    const desiredConstraints = {
+      audio: { echoCancellation: true, noiseSuppression: true, codec: "opus" },
+      video: false,
+    };
 
-              startDetectSpeaking();
-            } catch (error) {
-              if (stream) {
-                resolve(stream);
-              }
-              resolve(false);
-            }
-            resolve(stream);
-          } catch (error) {
-            try {
-              delete constraints.audio.deviceId;
-              let stream = await navigator.mediaDevices.getUserMedia(
-                constraints
-              );
-
-              try {
-                const audioCtx = new AudioContext();
-                localStreamSource.current =
-                  audioCtx.createMediaStreamSource(stream);
-                localStreamAnalyser.current = audioCtx.createAnalyser();
-                localStreamAnalyser.current.fftSize = 2048;
-                localStreamSource.current.connect(localStreamAnalyser.current);
-
-                startDetectSpeaking();
-              } catch (error) {
-                if (stream) {
-                  resolve(stream);
-                }
-                resolve(false);
-              }
-              resolve(stream);
-            } catch (error) {
-              resolve(false);
-            }
-          }
-        } else {
-          try {
-            let stream = await navigator.mediaDevices.getUserMedia(constraints);
-
-            try {
-              const audioCtx = new AudioContext();
-              localStreamSource.current =
-                audioCtx.createMediaStreamSource(stream);
-              localStreamAnalyser.current = audioCtx.createAnalyser();
-              localStreamAnalyser.current.fftSize = 2048;
-              localStreamSource.current.connect(localStreamAnalyser.current);
-
-              startDetectSpeaking();
-            } catch (error) {
-              if (stream) {
-                resolve(stream);
-              }
-              resolve(false);
-            }
-            resolve(stream);
-          } catch (error) {
-            resolve(false);
-          }
-        }
+    try {
+      const lastUsedAudioDeviceID = localStorage.getItem(
+        "lastUsedAudioDeviceID"
+      );
+      if (lastUsedAudioDeviceID) {
+        desiredConstraints.audio.deviceId = { exact: lastUsedAudioDeviceID };
       }
-      run();
-    });
+
+      const stream =
+        await navigator.mediaDevices.getUserMedia(desiredConstraints);
+      setupAudioContext(stream);
+      return stream;
+    } catch (error) {
+      console.warn("Error with desired constraints:", error);
+
+      if (
+        error.name === "OverconstrainedError" ||
+        error.name === "NotAllowedError"
+      ) {
+        try {
+          let fallbackStream =
+            await navigator.mediaDevices.getUserMedia(defaultConstraints);
+          setupAudioContext(fallbackStream);
+          return fallbackStream;
+        } catch (fallbackError) {
+          console.warn("Error with fallback constraints:", fallbackError);
+          return null;
+        }
+      } else {
+        return null;
+      }
+    }
+  };
+  const setupAudioContext = (stream) => {
+    const audioCtx = new AudioContext();
+    localStreamSource.current = audioCtx.createMediaStreamSource(stream);
+    localStreamAnalyser.current = audioCtx.createAnalyser();
+    localStreamAnalyser.current.fftSize = 2048;
+    localStreamSource.current.connect(localStreamAnalyser.current);
+    startDetectSpeaking();
   };
   const startDetectSpeaking = () => {
     if (detectSpeakingIntervalId.current !== null) {
@@ -524,7 +513,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           console.log("talking");
           socket &&
             socket.emit(
-              "set-user-is-speaking",
+              "set-user-speaking",
               {
                 harthId,
                 socketID,
@@ -543,7 +532,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         ) {
           socket &&
             socket.emit(
-              "set-user-is-not-speaking",
+              "set-user-not-speaking",
               {
                 harthId,
                 socketID,
@@ -562,45 +551,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       clearInterval(detectSpeakingIntervalId.current);
       detectSpeakingIntervalId.current = null;
     }
-  };
-  const getLocalCaptureStream = async (
-    constraints = {
-      video: {
-        cursor: "always",
-        width: { ideal: 1920, max: 1920 },
-        height: { ideal: 1080, max: 1080 },
-        frameRate: { ideal: 60, max: 60 },
-        logicalSurface: true,
-      },
-      audio: false,
-    }
-  ) => {
-    return new Promise((resolve) => {
-      async function run() {
-        try {
-          let capture = await navigator.mediaDevices.getDisplayMedia(
-            constraints
-          );
-
-          if (capture) {
-            capture.getTracks().forEach((track) => {
-              if (track) {
-                track.onended = () => {
-                  disconnectCaptures();
-                };
-              }
-            });
-
-            resolve(capture);
-          } else {
-            resolve(false);
-          }
-        } catch (error) {
-          resolve(false);
-        }
-      }
-      run();
-    });
   };
   const createPeerConnection = (conf) => {
     return new Promise((resolve, reject) => {
@@ -680,7 +630,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const joinRoomSocket = (obj) => {
     socket &&
-      socket.emit("group-call-join-request", obj, ({ peers, chats }) => {
+      socket.emit("join-room", obj, ({ peers, chats }) => {
         PEERS.current = peers;
         ownerData.current = obj;
         triggerUpdate();
@@ -723,7 +673,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         roomId: roomId,
         date: new Date(),
         creator_name: "Admin",
-        flames: [],
         reactions: [],
         attachments: [],
         ...obj,
@@ -765,27 +714,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
         roomId: roomId,
         date: new Date(),
         creator_name: "Admin",
-        flames: [],
-        reactions: [],
-        attachments: [],
-        ...ownerData.current,
-      };
-      sendNewChatMessage(newMsg);
-    }
-  };
-  const sendAcceptInvites = async () => {
-    let captureStream = await getLocalCaptureStream();
-    if (captureStream) {
-      localCaptureStream.current = captureStream;
-      createCapture(captureStream, ownerData.current, true);
-      let newMsg = {
-        value: `${userName} enabled screen share`,
-        code: 1,
-        userName: userName,
-        roomId: roomId,
-        date: new Date(),
-        creator_name: "Admin",
-        flames: [],
         reactions: [],
         attachments: [],
         ...ownerData.current,
@@ -858,7 +786,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       roomId: roomId,
       date: new Date(),
       creator_name: "Admin",
-      flames: [],
       reactions: [],
       attachments: [],
       deleteID: id,
@@ -889,7 +816,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       roomId: roomId,
       date: new Date(),
       creator_name: "Admin",
-      flames: [],
       reactions: [],
       attachments: [],
       deleteID: id,
@@ -910,7 +836,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     localStreamSource.current?.disconnect();
     socket &&
       socket.emit(
-        "set-user-is-not-speaking",
+        "set-user-not-speaking",
         {
           harthId,
           socketID,
@@ -929,18 +855,9 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       connectAudioToUsers();
     }
   };
-  const toggleCapture = async () => {
-    if (localCaptureStream.current) {
-      setScreenShareActive(false);
-      disconnectCaptures();
-    } else {
-      setScreenShareActive(true);
-      sendAcceptInvites();
-    }
-  };
   const sendNewChatMessage = (message) => {
     socket &&
-      socket.emit("send-chat-message", message, () => {
+      socket.emit("send-chat", message, () => {
         setChats((prevChats) => [message, ...(prevChats || [])]);
       });
   };
@@ -1019,7 +936,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           roomId: roomId,
           date: new Date(),
           creator_name: "Admin",
-          flames: [],
           reactions: [],
           attachments: [],
           ignoreInChat: true,
@@ -1051,7 +967,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
                     roomId: roomId,
                     date: new Date(),
                     creator_name: "Admin",
-                    flames: [],
                     reactions: [],
                     attachments: [],
                     ignoreInChat: true,
@@ -1258,7 +1173,7 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     reset();
     return new Promise((res, rej) => {
       socket &&
-        socket.emit("group-call-user-left", data, (response) => {
+        socket.emit("user-left-room", data, (response) => {
           if (response.ok) {
             res(true);
             try {
@@ -1317,24 +1232,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       }
     }
   };
-  // const toggleHDSwitch = () => {
-  //   try {
-  //     navigator.mediaDevices.getUserMedia({ audio: false, video: true });
-
-  //     navigator.mediaDevices.enumerateDevices().then((devices) => {
-  //       devices.forEach((device) => {
-  //         try {
-  //           if (device.kind == "videoinput") {
-  //             //   console.log(device, device?.getCapabilities());
-  //           }
-  //         } catch (error) {}
-  //       });
-  //     });
-  //   } catch (error) {
-  //     setNotHDCapable(true);
-  //   }
-  // };
-  // volume controls for users
   const volumeSliderHandler = (e, peer) => {
     const { value } = e.target;
     if (userInfo.current[peer.name]) {
@@ -1346,7 +1243,6 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       triggerUpdate();
     }
   };
- 
   const createVolumeSlider = (peer) => {
     const parentContainer = document.getElementById(peer?.socketID);
     if (parentContainer) {
@@ -1422,8 +1318,9 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
 
   return (
     <>
-      <Script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js" preload />
-      {!isFinishedInitialSetup ? <SpinningLoader gatherRoom={true} /> : null}
+      {!isFinishedInitialSetup ? (
+        <SpinningLoader gatherRoom={true} userTheme={Cookies.get("theme")} />
+      ) : null}
       <main className={styles.VoiceWindow}>
         <button
           id="mobile_minimized_closer"
@@ -1431,43 +1328,41 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           style={{ display: "none" }}
         />
 
-
         <section className={styles.ContentContainer} id="video-container">
           <section
             className={`${styles.leftSide} ${
               isMobile && styles.leftSideMobile
             }`}
           >
-                    <GatherHeader
-          gatheringName={activeCallRoom?.roomName}
-          selectedHarthIcon={selectedHarth?.iconKey}
-          leaveMethod={leaveRoom}
-          minimizeHandler={minimizeHandler}
-          type="voice"
-        />
-        <section 
-          id="leftcontainer"
-          className={`${styles.leftContainer} ${
-            isMobile && styles.leftContainerMobile
-          }`}
-        ></section>
-        
-        {!isMobile ? (
-          <>
-          <VoiceControlBar
-            onLeaveHandler={leaveRoom}
-            onToggleAudio={toggleAudio}
-            onToggleChat={isMobile && toggleChat}
-            unreadMsg={unreadMsg}
-            changeAudioDevice={changeAudioDevice}
-            roomId={roomId}
-            userInfo={(userInfo.current || {})[userName]}
-            roomType="voice"
-            hasAudioStream={localAudioStream.current}
-          />
-          </>
-        ) : (null)}
+            <GatherHeader
+              gatheringName={activeCallRoom?.roomName}
+              selectedHarthIcon={selectedHarth?.iconKey}
+              leaveMethod={leaveRoom}
+              minimizeHandler={minimizeHandler}
+              type="voice"
+            />
+            <section
+              id="leftcontainer"
+              className={`${styles.leftContainer} ${
+                isMobile && styles.leftContainerMobile
+              }`}
+            ></section>
 
+            {!isMobile ? (
+              <>
+                <VoiceControlBar
+                  onLeaveHandler={leaveRoom}
+                  onToggleAudio={toggleAudio}
+                  onToggleChat={isMobile && toggleChat}
+                  unreadMsg={unreadMsg}
+                  changeAudioDevice={changeAudioDevice}
+                  roomId={roomId}
+                  userInfo={(userInfo.current || {})[userName]}
+                  roomType="voice"
+                  hasAudioStream={localAudioStream.current}
+                />
+              </>
+            ) : null}
           </section>
 
           <section
@@ -1484,24 +1379,22 @@ const Voice = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
           </section>
         </section>
         <>
-        {isMobile ? (
-          <>
-          <VoiceControlBar
-            onLeaveHandler={leaveRoom}
-            onToggleAudio={toggleAudio}
-            onToggleChat={isMobile && toggleChat}
-            unreadMsg={unreadMsg}
-            changeAudioDevice={changeAudioDevice}
-            roomId={roomId}
-            userInfo={(userInfo.current || {})[userName]}
-            roomType="voice"
-            hasAudioStream={localAudioStream.current}
-          />
-          </>
-        ) : (null)}
-
+          {isMobile ? (
+            <>
+              <VoiceControlBar
+                onLeaveHandler={leaveRoom}
+                onToggleAudio={toggleAudio}
+                onToggleChat={isMobile && toggleChat}
+                unreadMsg={unreadMsg}
+                changeAudioDevice={changeAudioDevice}
+                roomId={roomId}
+                userInfo={(userInfo.current || {})[userName]}
+                roomType="voice"
+                hasAudioStream={localAudioStream.current}
+              />
+            </>
+          ) : null}
         </>
-
       </main>
     </>
   );

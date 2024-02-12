@@ -9,18 +9,16 @@
   width: 360px;
   max-width: 100%;
   margin: 0 auto;
-  //padding: 24px 24px 56px 24px;
   overflow: hidden;
   overflow-y: auto;
-  background-color: $background;
-  //color: $font_light;
+  background-color: var(--menu-color);
   h4 {
     margin: 0;
     margin-top: -12px;
     font-size: 24px !important;
     @include systemFont;
     font-weight: 500;
-    color: $font_light;
+    color: var(--font-main);
   }
   a {
     color: inherit;
@@ -29,7 +27,7 @@
     text-align: center !important;
     margin: 30px 0px;
     @include systemFont;
-    color: $font_muted;
+    color: var(--font-muted);
   }
 
 
@@ -61,7 +59,7 @@
   .small {
     @include systemFont;
     font-size: 12px;
-    color: $font_muted;
+    color: var(--font-muted);
     text-align: center;
   }
 
@@ -80,10 +78,10 @@
     width: 316px;
     text-align: center;
     margin: 12px auto 20px;
-    color: $font_muted;
+    color: var(--font-muted);
 
     a {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 

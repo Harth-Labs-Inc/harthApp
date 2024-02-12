@@ -28,7 +28,7 @@
 
   &Active {
     &:before {
-      color: $hot_pink;
+      color: $hot_purple;
     }
   }
 }
@@ -40,13 +40,12 @@
   height: 100vh;
   width: 100%;
   border: 0;
-  //border-top: 1px solid $ash_medium;
   padding: 0px 0px 0px 0px;
-  background: $ash_heavy;
+  background: var(--theme-background);
 
   @media (max-width: 640px) {
     height: var(--vh);
-
+    border: 0;
     z-index: 500;
   }
 
@@ -54,34 +53,41 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    height: calc(100% - 77px);
+    height: 100%;
+    margin-top: -52px;
     width: 100%;
-    //padding-top: 8px;
+    background-color: var(--theme-background);
+    background-image: url('/images/room_stream.png'); /* Path to your image */
+    background-size: 240px auto; /* Set width to 300px and height to auto */
+    background-position: calc(50% + 120px) center; /* Center the background image */
+    background-repeat: no-repeat;
 
     &Mobile {
+      margin-top: 0;
       flex-direction: column-reverse;
       justify-content: flex-end;
       height: calc(100% - 108px);
+      background-image: none;
     }
 
     .leftContainer {
       width: 240px;
       min-width: 240px;
-      background: $ash;
+      background: var(--theme-background-offset);
       user-select: none;
-      padding-top: 36px;
-      padding-left: 8px;
-      border-right: 1px solid $ash_medium;
-      //margin-top: -40px;
+      padding-top: 64px;
+      padding-left: 4px;
+      border-right: 1px solid var(--menu-color);
+      height: 100%;
       overflow-y: scroll;
 
       &Mobile {
         width: 100%;
-        //max-height: 50%;
         margin: 0;
         overflow: auto;
         padding-top: 16px;
-        background: $ash_heavy;
+        padding-left: 8px;
+        background: var(--theme-background);
         border: 0;
       }
     }
@@ -114,32 +120,39 @@
       }
     }
     .backButton {
-      background-color: #28282e;
+      background-color: var(--menu-color);
       position: absolute;
       z-index: 2;
-      top: 3%;
-      left: 3%;
+      top: 2px;
+      left: 2px;
       border: none;
-      border-radius: 50%;
-      font-size: 15px;
-      border: 1px solid #404049;
-      color: #404049;
-      height: 30px;
-      width: 30px;
+      border-radius: 99px;
+      padding: 0px;
+      font-size: 20px;
+      line-height: 30px;
+      border: 1px solid var(--border-heavy);
+      color: var(--border-heavy);
+      height: 36px;
+      width: 44px;
       cursor: pointer;
+
+      &:active {
+        background-color: var(menu-offset);
+      }
     }
+
     .muteButton {
-      background-color: #28282e;
+      background-color: var(--menu-color);
       position: absolute;
       z-index: 2;
       bottom: 3%;
       left: 3%;
       border: none;
       border-radius: 4px;
-      border: 1px solid #404049;
-      color: #404049;
+      border: 1px solid var(--border-heavy);
+      color: var(--border-heavy);
       font-size: 16px;
-      padding: 3px;
+      padding: 4px 6px;
     }
     .fullscreenVideoContainer {
       position: fixed;
@@ -147,7 +160,7 @@
       width: 100vw;
       left: 0;
       z-index: 10;
-      background-color: #1c1c20;
+      background-color: var(--menu-color);
       top: 0;
 
       video {
@@ -193,7 +206,7 @@
     .userContainer {
       position: relative;
       width: 100%;
-      padding: 2px 8px;
+      padding: 4px 4px 4px 12px;
       border-left: 4px solid transparent;
       background-color: transparent;
       margin-bottom: 6px;
@@ -212,21 +225,37 @@
 
         .volumeButton {
           font-size: 18px;
-          background-color: transparent;
+          text-align: center;
+          width: 32px;
+          height: 32px;
+          padding: 7px;
+          border-radius: 999px;
           border: 0;
           cursor: pointer;
+          background-color: transparent;
+
+          @media (hover: hover) and (pointer: fine) {
+            &:hover {
+              background-color: var(--border-ultralight);
+            }
+          }
+
+          &:active {
+            background-color: var(--border-ultralight);
+          }
+
         }
       }
 
       .peerName {
-        color: $font_light;
+        color: var(--font-main);
         @include topicTitle;
       }
 
       .peerImage {
         height: 32px;
         width: 32px;
-        margin-right: 8px;
+        margin-right: 6px;
         border-radius: 50%;
         object-fit: cover;
         border: 0;
@@ -238,66 +267,65 @@
 
       .sliderContainer {
         position: relative;
-        //right: -50%;
         z-index: 99;
         display: flex;
         align-items: center;
         padding: 4px;
+        padding-left: 36px;
         margin: 8px 0px;
-        //border: 2px solid $white_10;
-        //background-color: $white_80;
 
         input[type="range"] {
-          height: 20px;
+          height: 32px;
           width: 100%;
           border: 0;
           border-radius: 0;
           -webkit-appearance: none;
+          margin-left: auto;
         }
         input[type="range"]::-webkit-slider-thumb {
-          height: 20px;
-          width: 20px;
-          margin-top: -7px;
-          background: $hot_pink;
-          border-radius: 50%;
+          height: 24px;
+          width: 32px;
+          margin-top: -9px;
+          background: $hot_purple;
+          border-radius: 99px;
           cursor: pointer;
-          box-shadow: 0 1px 2px $white_20;
+          box-shadow: 0 1px 2px var(--border-heavy);
           -webkit-appearance: none;
         }
         input[type="range"]::-moz-range-thumb {
-          height: 20px;
-          width: 20px;
-          background: $hot_pink;
-          border: 0;
-          border-radius: 50%;
+          height: 24px;
+          width: 40px;
+          margin-top: -9px;
+          background: $hot_purple;
+          border-radius: 99px;
           cursor: pointer;
-          box-shadow: 0 1px 2px $white_20;
+          box-shadow: 0 1px 2px var(--border-heavy);
         }
 
         input[type="range"]::-webkit-slider-runnable-track {
           width: 100%;
           height: 6px;
           animate: 0.2s;
-          background: $white_50;
+          background: var(--border-basic);
           border-radius: 100px;
           cursor: pointer;
         }
         input[type="range"]::-webkit-progress-value {
-          background-color: $white;
+          background-color: var(--border-heavy);
         }
 
         input[type="range"]::-moz-range-track {
           width: 100%;
           height: 6px;
           animate: 0.2s;
-          background: $white_50;
+          background: var(--border-basic);
           border: 0;
           border-radius: 100px;
           cursor: pointer;
         }
         input[type="range"]::-moz-range-progress {
           height: 6px;
-          background-color: $white;
+          background-color: var(--font-main);
           border-radius: 100px;
         }
 
@@ -325,7 +353,7 @@
           &:before {
             font-family: "icomoon";
             content: "\e901";
-            color: $alert_red;
+            color: $hot_red;
             font-weight: normal;
             font-variant: normal;
             text-transform: none;
@@ -339,21 +367,21 @@
         display: block;
         margin: 4px 0 0 auto;
         padding: 8px 12px;
-        color: $hot_salmon;
-        @include worksans;
+        color: $oxygen;
+        @include systemFont;
         font-size: 12px;
         font-weight: 500;
         letter-spacing: 0.02em;
         line-height: 125%;
-        background: $ash_heavy;
+        background: $hot_purple;
         border: 0;
         border-radius: 99px;
         cursor: pointer;
 
         @media (hover: hover) and (pointer: fine) {
           &:hover {
-            background: $hot_salmon;
-            color: $font_light;
+            background: var(--font-main);
+            color: var(--theme-background);
           }
         }
       }
@@ -380,7 +408,7 @@
     .userContainerMobile {
       position: relative;
       width: 100%;
-      padding: 2px 12px 2px 8px;
+      padding: 4px 12px 4px 8px;
       border-left: 4px solid transparent;
       background-color: transparent;
       margin-bottom: 10px;
@@ -398,23 +426,33 @@
         }
 
         .volumeButton {
-          font-size: 18px;
-          background-color: transparent;
+          font-size: 24px;
+          text-align: center;
+          width: 48px;
+          height: 48px;
+          padding: 11px;
+          border-radius: 999px;
           border: 0;
           cursor: pointer;
+          background-color: transparent;
+
+          &:active {
+            background-color: var(--border-light);
+          }
+
         }
       }
 
       .peerName {
-        color: $font_light;
+        color: var(--font-main);
         @include topicTitleMobile;
       }
 
       .peerImage {
-        height: 40px;
-        width: 40px;
+        height: 48px;
+        width: 48px;
         margin-right: 12px;
-        border-radius: 50%;
+        border-radius: 999px;
         object-fit: cover;
         border: 0;
       }
@@ -425,66 +463,65 @@
 
       .sliderContainer {
         position: relative;
-        //right: -50%;
         z-index: 99;
         display: flex;
         align-items: center;
         padding: 4px;
+        padding-left: 56px;
         margin: 8px 0px;
-        //border: 2px solid $white_10;
-        //background-color: $white_80;
 
         input[type="range"] {
-          height: 20px;
+          height: 32px;
           width: 100%;
           border: 0;
           border-radius: 0;
           -webkit-appearance: none;
+          margin-left: auto;
         }
         input[type="range"]::-webkit-slider-thumb {
-          height: 20px;
-          width: 20px;
-          margin-top: -7px;
-          background: $hot_pink;
-          border-radius: 50%;
+          height: 24px;
+          width: 40px;
+          margin-top: -9px;
+          background: $hot_purple;
+          border-radius: 99px;
           cursor: pointer;
-          box-shadow: 0 1px 2px $white_20;
+          box-shadow: 0 1px 2px var(--border-heavy);
           -webkit-appearance: none;
         }
         input[type="range"]::-moz-range-thumb {
-          height: 20px;
-          width: 20px;
-          background: $hot_pink;
-          border: 0;
-          border-radius: 50%;
+          height: 24px;
+          width: 40px;
+          margin-top: -9px;
+          background: $hot_purple;
+          border-radius: 99px;
           cursor: pointer;
-          box-shadow: 0 1px 2px $white_20;
+          box-shadow: 0 1px 2px var(--border-heavy);
         }
 
         input[type="range"]::-webkit-slider-runnable-track {
           width: 100%;
           height: 6px;
           animate: 0.2s;
-          background: $white_50;
+          background: var(--border-basic);
           border-radius: 100px;
           cursor: pointer;
         }
         input[type="range"]::-webkit-progress-value {
-          background-color: $white;
+          background-color: var(--border-heavy);
         }
 
         input[type="range"]::-moz-range-track {
           width: 100%;
           height: 6px;
           animate: 0.2s;
-          background: $white_50;
+          background: var(--border-basic);
           border: 0;
           border-radius: 100px;
           cursor: pointer;
         }
         input[type="range"]::-moz-range-progress {
           height: 6px;
-          background-color: $white;
+          background-color: var(--font-main);
           border-radius: 100px;
         }
 
@@ -512,7 +549,7 @@
           &:before {
             font-family: "icomoon";
             content: "\e901";
-            color: $alert_red;
+            color: $hot_red;
             font-weight: normal;
             font-variant: normal;
             text-transform: none;
@@ -524,25 +561,24 @@
 
       .playButton {
         display: block;
-        margin: 4px 0 0 auto;
-        padding: 8px 12px;
-        color: $hot_salmon;
-        @include worksans;
-        font-size: 12px;
+        margin: 8px 4px 0 auto;
+        padding: 12px 20px;
+        color: $oxygen;
+        @include systemFont;
+        font-size: 14px;
         font-weight: 500;
         letter-spacing: 0.02em;
         line-height: 125%;
-        background: $ash_heavy;
+        background: $hot_purple;
         border: 0;
         border-radius: 99px;
         cursor: pointer;
 
-        @media (hover: hover) and (pointer: fine) {
-          &:hover {
-            background: $hot_salmon;
-            color: $font_light;
-          }
+        &:active {
+          background: var(--font-main);
+          color: var(--theme-background);
         }
+      
       }
 
       audio {
@@ -570,7 +606,7 @@
       flex: 1;
       flex-direction: column;
       padding: 0;
-      margin-left: 8px;
+      //background-color: aqua;
       &Mobile {
         flex: unset;
         max-height: 50%;
@@ -584,30 +620,42 @@
     }
 
     .ChatPanelContainer {
-      position: relative;
+      position: absolute;
+      top: 12px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: calc(100% - 50px);
-      width: 0;
+      height: calc(100% - 64px);
+      max-width: 400px;
       visibility: hidden;
       transition: width 0.3s ease-in-out;
       padding: 0px 0px 0px 0px;
-      border: 1px solid $ash_medium;
-      background: $ash_heavy;
+      border: 0;
+      background: var(--theme-background);
       border-radius: 12px;
       margin: 0;
+      margin-left: 4px;
       overflow: hidden;
-
+      z-index: 100;
+      border: 1px solid var(--menu-color);
       &Mobile {
         position: absolute;
         right: -100%;
         width: 100%;
-        height: calc(100% - 52px);
+        height: calc(100% - 24px);
         margin: 0 0px;
-        margin-top: 8px;
         border-radius: 0;
         border: 0;
+
+        &::after {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 1px;
+          content: "";
+          background-color: var(--menu-color);
+        }
       }
 
       &Open {

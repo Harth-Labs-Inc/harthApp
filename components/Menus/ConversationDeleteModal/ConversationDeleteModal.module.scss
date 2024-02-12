@@ -21,21 +21,21 @@
   .conversation {
     @include topicTitle;
     font-size: 18px;
-    background-color: $border_basic;
+    background-color: var(--border-basic);
     width: fit-content;
     padding: 12px 16px;
-    color: $font_light;
+    color: var(--font-main);
     border-radius: 999px;
   }
 
   .subtext {
     font-size: 12px;
     padding: 0px 24px;
-    color: $font_muted;
+    color: var(--font-muted);
   }
   .title {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     width: 100%;
     text-align: left;
     margin-top: 8px;

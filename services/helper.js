@@ -61,8 +61,15 @@ export const cleanupDB = async (db, storeName) => {
   const transaction = db.transaction(storeName, "readwrite");
   const store = transaction.objectStore(storeName);
 
-  const TTL_VALUE =
-    storeName === "avatar" ? 30 * 24 * 60 * 60 * 1000 : 5 * 24 * 60 * 60 * 1000;
+  let TTL_VALUE;
+
+  if (storeName === "avatar") {
+    TTL_VALUE = 30 * 24 * 60 * 60 * 1000; // 30 days
+  } else if (storeName === "pendingMessages") {
+    TTL_VALUE = 2 * 24 * 60 * 60 * 1000; // 2 days
+  } else {
+    TTL_VALUE = 5 * 24 * 60 * 60 * 1000; // 5 days
+  }
 
   const getAllKeysRequest = store.getAllKeys();
   await new Promise((resolve, reject) => {
@@ -112,6 +119,89 @@ export const saveAttachment = (db, storeName, attachmentName, data) => {
   const store = transaction.objectStore(storeName);
   const record = { data, timestamp: Date.now() };
   store.put(record, attachmentName);
+};
+
+export const deleteAttachment = (db, storeName, attachmentName) => {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readwrite");
+    const store = transaction.objectStore(storeName);
+    const deleteRequest = store.delete(attachmentName);
+    deleteRequest.onsuccess = () => resolve();
+    deleteRequest.onerror = () => reject(deleteRequest.error);
+  });
+};
+
+export const updateRecordDbID = (db, storeName, entryKey, updatedID) => {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readwrite");
+    const store = transaction.objectStore(storeName);
+
+    const getRequest = store.get(entryKey);
+    getRequest.onsuccess = () => {
+      const entry = getRequest.result;
+      if (entry) {
+        entry.data._id = updatedID;
+
+        const putRequest = store.put(entry, entryKey);
+        putRequest.onsuccess = () => resolve();
+        putRequest.onerror = () => reject(putRequest.error);
+      }
+    };
+
+    getRequest.onerror = () => reject(getRequest.error);
+  });
+};
+
+export const updateRecordStatusCode = (
+  db,
+  storeName,
+  entryKey,
+  updatedStatusCode
+) => {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readwrite");
+    const store = transaction.objectStore(storeName);
+
+    const getRequest = store.get(entryKey);
+    getRequest.onsuccess = () => {
+      const entry = getRequest.result;
+      if (entry) {
+        entry.data.statusCode = updatedStatusCode;
+
+        const putRequest = store.put(entry, entryKey);
+        putRequest.onsuccess = () => resolve();
+        putRequest.onerror = () => reject(putRequest.error);
+      }
+    };
+
+    getRequest.onerror = () => reject(getRequest.error);
+  });
+};
+
+export const updateRecordAttachments = (
+  db,
+  storeName,
+  entryKey,
+  updatedAttachments
+) => {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(storeName, "readwrite");
+    const store = transaction.objectStore(storeName);
+
+    const getRequest = store.get(entryKey);
+    getRequest.onsuccess = () => {
+      const entry = getRequest.result;
+      if (entry) {
+        entry.data.attachments = updatedAttachments;
+
+        const putRequest = store.put(entry, entryKey);
+        putRequest.onsuccess = () => resolve();
+        putRequest.onerror = () => reject(putRequest.error);
+      }
+    };
+
+    getRequest.onerror = () => reject(getRequest.error);
+  });
 };
 
 export const copyToClipboard = (text) => {

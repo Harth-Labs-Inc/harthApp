@@ -12,19 +12,18 @@
 
   .helpText {
     @include systemFont;
-    color: $font_light;
+    color: var(--font-main);
     margin-bottom: 4px;
   }
 
   p {
     @include topicTitle;
-    font-weight: 500;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   .title {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     width: 100%;
     text-align: left;
     margin-top: 0px;
@@ -40,7 +39,7 @@
       flex-direction: column;
       gap: 16px;
       position: relative;
-      background-color: $border_light;
+      background-color: var(--border-light);
       overflow-y: scroll;
       height: 220px;
       padding: 16px;
@@ -53,7 +52,7 @@
 
         .imageHolder {
           padding: 0px 0px 0px 12px;
-          border-left: 1px solid $font_light;
+          border-left: 1px solid var(--font-main);
 
           img {
             position: relative;
@@ -74,9 +73,9 @@
           appearance: none;
           width: 32px;
           height: 32px;
-          border: 2px solid $font_light;
+          border: 2px solid var(--font-main);
           border-radius: 8px;
-          background-color: $border_basic;
+          background-color: var(--border-light);
           //box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
           &::before {
@@ -92,7 +91,7 @@
           }
 
           &:hover {
-            background-color: $background_offset;
+            background-color: var(--border-basic);
           }
         }
 

@@ -26,7 +26,15 @@ import ImageHolder from "./ImageHolder";
 import styles from "./ChatInput.module.scss";
 import { sendPushNotification } from "requests/subscriptions";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
-import { generatePushMessage } from "services/helper";
+import {
+  deleteAttachment,
+  generateID,
+  generatePushMessage,
+  getBaseUrl,
+  saveAttachment,
+  updateRecordAttachments,
+  updateRecordDbID,
+} from "services/helper";
 
 const isIOS = () => {
   if (typeof navigator !== "undefined") {
@@ -55,8 +63,18 @@ const ChatInput = (props) => {
   let lockedScrollDirection = null;
 
   const { user } = useAuth();
-  const { selectedcomm, selectedTopic, selectedCommRef } = useComms();
-  const { emitUpdate, setIncomingMsg, setNewAlerts, socketID } = useSocket();
+  const {
+    selectedcomm,
+    selectedTopic,
+    selectedCommRef,
+    pendingMessagesController,
+  } = useComms();
+  const {
+    emitUpdate,
+    socketID,
+    setIncomingMsgPreview,
+    setFinalMessageForPreview,
+  } = useSocket();
 
   const {
     selectedEdit,
@@ -329,7 +347,6 @@ const ChatInput = (props) => {
       lockedScrollDirection = scrollDirection;
     }
   };
-
   const textAreaTouchStart = () => {
     const textarea = textRef.current;
     if (textarea.scrollTop === 0) {
@@ -346,7 +363,7 @@ const ChatInput = (props) => {
   const calcHeight = (reset) => {
     const textarea = textRef.current;
 
-    if (reset) {
+    if (reset && textarea) {
       textarea.style.height = "48px";
       textarea.style.overflowY = "auto";
       return;
@@ -468,6 +485,163 @@ const ChatInput = (props) => {
     setTopicInputs({ ...topicInputs, [selectedTopic?._id]: msg });
     setEmojiPicker(!emojiPickerState);
   };
+  // new upload method ------------------------------------------------------------------------------------
+  const addPendingMessagePreview = (newMessage) => {
+    setIncomingMsgPreview({
+      ...newMessage,
+      updateType: "new message",
+      socketID: socketID,
+      _id: newMessage.pendingID,
+    });
+    setAllowBlur(true);
+    setUploadingAttachments([]);
+    setAttachments([]);
+    setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
+    setIsSubmitting(false);
+    calcHeight(true);
+    resetHeight();
+  };
+  const createImagePreviewAndCalculateDimensions = (file) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        let desiredWidth = img.width;
+        let desiredHeight = img.height;
+
+        const maxWidth = 280;
+        const maxHeight = 320;
+        const widthRatio = img.width / maxWidth;
+        const heightRatio = img.height / maxHeight;
+        const maxRatio = Math.max(widthRatio, heightRatio);
+
+        if (maxRatio > 1) {
+          desiredWidth = img.width / maxRatio;
+          desiredHeight = img.height / maxRatio;
+        }
+
+        const previewUrl = URL.createObjectURL(file);
+
+        resolve({
+          previewUrl,
+          desiredWidth,
+          desiredHeight,
+        });
+      };
+      img.onerror = () => {
+        reject(new Error("Failed to load image for dimensions calculation."));
+        URL.revokeObjectURL(img.src);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  };
+  const createPlayableVideoAndCalculateDimensions = (file) => {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement("video");
+      video.preload = "metadata";
+
+      video.onloadedmetadata = () => {
+        const maxWidth = 280;
+        const maxHeight = 320;
+        let desiredWidth = video.videoWidth;
+        let desiredHeight = video.videoHeight;
+        const widthRatio = desiredWidth / maxWidth;
+        const heightRatio = desiredHeight / maxHeight;
+        const maxRatio = Math.max(widthRatio, heightRatio);
+
+        if (maxRatio > 1) {
+          desiredWidth /= maxRatio;
+          desiredHeight /= maxRatio;
+        }
+
+        const videoUrl = URL.createObjectURL(file);
+
+        resolve({
+          previewUrl: videoUrl,
+          desiredWidth,
+          desiredHeight,
+          fileType: file.type,
+          name: file.name,
+          isPreview: true,
+        });
+      };
+
+      video.onerror = () => {
+        reject(new Error("Failed to load video for dimensions calculation."));
+        URL.revokeObjectURL(video.src);
+      };
+
+      video.src = URL.createObjectURL(file);
+    });
+  };
+  const getAttachmentpreviews = async (files) => {
+    const previews = await Promise.all(
+      files.map(async (file) => {
+        if (file.type.startsWith("image/")) {
+          const { previewUrl, desiredHeight, desiredWidth } =
+            await createImagePreviewAndCalculateDimensions(file);
+          return {
+            name: file.name,
+            fileType: file.type,
+            previewUrl,
+            file,
+            isPreview: true,
+            desiredHeight,
+            desiredWidth,
+          };
+        }
+        if (file.type.startsWith("video/")) {
+          const { previewUrl, desiredHeight, desiredWidth } =
+            await createPlayableVideoAndCalculateDimensions(file);
+          return {
+            name: file.name,
+            fileType: file.type,
+            previewUrl,
+            file,
+            isPreview: true,
+            desiredHeight,
+            desiredWidth,
+          };
+        }
+      })
+    );
+
+    return previews;
+  };
+  const createImageBlob = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const arrayBuffer = reader.result;
+        const blob = new Blob([arrayBuffer], { type: file.type });
+        resolve(blob);
+      };
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file);
+    });
+  };
+  const clearPendingIndexRecord = (newMessage) => {
+    try {
+      deleteAttachment(
+        pendingMessagesController,
+        "pendingMessages",
+        newMessage.pendingID
+      );
+    } catch (error) {
+      console.log("Failed to save attachment:", error);
+    }
+  };
+  const createPendingIndexRecord = (newMessage) => {
+    try {
+      saveAttachment(
+        pendingMessagesController,
+        "pendingMessages",
+        newMessage.pendingID,
+        newMessage
+      );
+    } catch (error) {
+      console.log("Failed to save attachment:", error);
+    }
+  };
   const sendMessagge = async () => {
     if (selectedTopic && selectedcomm && user) {
       let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
@@ -482,101 +656,114 @@ const ChatInput = (props) => {
           bookmarked: false,
           date: new Date(),
           message: topicInputs[selectedTopic?._id],
-          flames: [],
           reactions: [],
           attachments: [],
           replies: [],
           reactionsData: [],
+          status: "pending",
+          statusCode: 0,
+          pendingID: generateID(),
+          renderKey: generateID(),
+          numOfAttchmts: attachments.length,
         };
-
-        const data = await saveMessage(newMessage);
         const hasAttachments = attachments.length > 0;
+
+        createPendingIndexRecord(newMessage);
+        addPendingMessagePreview({
+          ...newMessage,
+          attachments: await getAttachmentpreviews(attachments),
+          isUploading: true,
+        });
+
+        const data = await saveMessage(newMessage, attachments.length);
         let { id, ok } = data;
         if (ok) {
+          newMessage.statusCode = 1;
+          const oldId = newMessage.pendingID;
           if (id) {
-            newMessage._id = id;
+            newMessage._id = data.id;
+            try {
+              updateRecordDbID(
+                pendingMessagesController,
+                "pendingMessages",
+                newMessage.pendingID,
+                data.id
+              );
+            } catch (error) {
+              console.log(error);
+            }
           }
           if (hasAttachments) {
-            uploadAttacments(id, newMessage);
+            uploadAttacments(id, newMessage, oldId);
           } else {
-            broadcastMessage(newMessage);
-            resetHeight();
+            broadcastMessage(newMessage, oldId);
           }
-        }
-        try {
-          let pushmessage = generatePushMessage({
-            ...newMessage,
-            pushTitle: `${newMessage.creator_name}`,
-            env: process.env.NODE_ENV,
-            ignoreSelf: true,
-            type: "chat",
-          });
-
-          if (!pushmessage.message) {
-            pushmessage.message = "";
-
-            if (hasAttachments) {
-              pushmessage.message = "Check out the new image!";
-            }
-          }
-
-          getTopicsRecieverIds(newMessage).then(({ userIDsToNotify }) => {
-            if (userIDsToNotify && userIDsToNotify.length) {
-              pushmessage.receiverIds = userIDsToNotify;
-              sendPushNotification(pushmessage);
-            }
-          });
-        } catch (error) {
-          console.log(error);
         }
       }
     }
     return true;
   };
-  const broadcastMessage = async (message) => {
-    setAllowBlur(true);
-    setUploadingAttachments([]);
-    setAttachments([]);
-    message.updateType = "new message";
-    message.socketID = socketID;
-    setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
-    setIncomingMsg(message);
-    setNewAlerts(message, "chat");
-    setIsSubmitting(false);
-    calcHeight(true);
-    let { ok } = await sendUnreadMessages(message);
-    if (ok) {
-      let unreadmessage = {};
-      unreadmessage.updateType = "reload unreads";
-      unreadmessage.topic_id = selectedTopic._id;
-      unreadmessage.user_id = user._id;
-      emitUpdate(selectedCommRef.current?._id, unreadmessage, () => {});
-    }
-    emitUpdate(selectedcomm?._id, message, async (err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
-  };
-  const uploadAttacments = async (id, message) => {
+  const uploadAttacments = async (id, message, oldId) => {
     let promises = [];
-    attachments.forEach((file, idx) => {
+    let tempMessage = { ...message };
+    const bucket = "topic-message-attachments";
+
+    const updateAttachmentStatus = (idx, udpateObj) => {
+      if (tempMessage.ignoreBlob) {
+        return;
+      }
+      const updatedAttachments = [...tempMessage.attachments];
+      updatedAttachments[idx] = { ...updatedAttachments[idx], ...udpateObj };
+      tempMessage.attachments = updatedAttachments;
+
+      try {
+        updateRecordAttachments(
+          pendingMessagesController,
+          "pendingMessages",
+          tempMessage.pendingID,
+          tempMessage.attachments
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    for (let idx in attachments) {
+      const file = attachments[idx];
       setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
       promises.push(
         new Promise(async (res) => {
-          let extention = file.name.split(".").pop();
+          createImageBlob(file).then((fileBlob) => {
+            updateAttachmentStatus(idx, { fileBlob });
+          });
+
+          const isLastImage = idx == attachments.length - 1;
+          const extention = file.name.split(".").pop();
+          const isVideo = file.type.includes("video");
           const baseName = `${selectedcomm._id}-${selectedTopic._id}-${id}_${
             idx + 1
           }`;
-          const bucket = "topic-message-attachments";
-          const isVideo = file.type.includes("video");
+
           if (isVideo) {
             const name = `${baseName}.${extention}`;
+
+            updateAttachmentStatus(idx, {
+              name,
+              fileType: file.type,
+              status: "pending",
+            });
+
             const data = await getUploadURL(name, file.type, bucket);
             const { uploadURL } = data;
-            const result = await putVideoInBucket(uploadURL, file);
-            console.log(result);
-            await addKeyToDB(id, name, file.type);
+            await putVideoInBucket(uploadURL, file);
+            await addKeyToDB(id, name, file.type, null, null, isLastImage);
+
+            updateAttachmentStatus(idx, {
+              name,
+              fileType: file.type,
+              status: "complete",
+            });
+
             res({
               name: name,
               fileType: file.type,
@@ -586,9 +773,17 @@ const ChatInput = (props) => {
             const name = isGif
               ? `${baseName}.${extention}`
               : `${baseName}_full.${extention}`;
+
             const thumbnail = isGif
               ? name
               : `${baseName}_thumbnail.${extention}`;
+
+            updateAttachmentStatus(idx, {
+              name,
+              thumbnail,
+              fileType: file.type,
+              status: "pending",
+            });
 
             const data = await getUploadURL(name, file.type, bucket);
             const { ok, uploadURL } = data;
@@ -603,7 +798,21 @@ const ChatInput = (props) => {
                 let { status } = result;
                 if (status == 200) {
                   if (isGif) {
-                    await addKeyToDB(id, thumbnail, file.type);
+                    await addKeyToDB(
+                      id,
+                      thumbnail,
+                      file.type,
+                      null,
+                      null,
+                      isLastImage
+                    );
+
+                    updateAttachmentStatus(idx, {
+                      name: thumbnail,
+                      fileType: file.type,
+                      status: "complete",
+                    });
+
                     res({
                       name: thumbnail,
                       fileType: file.type,
@@ -620,8 +829,16 @@ const ChatInput = (props) => {
                       thumbnail,
                       file.type,
                       desiredHeight,
-                      desiredWidth
+                      desiredWidth,
+                      isLastImage
                     );
+
+                    updateAttachmentStatus(idx, {
+                      name,
+                      fileType: file.type,
+                      status: "complete",
+                    });
+
                     res({
                       name: thumbnail,
                       fileType: file.type,
@@ -636,13 +853,74 @@ const ChatInput = (props) => {
           }
         })
       );
-    });
+    }
 
-    const outputs = await Promise.all(promises);
-    message.attachments = outputs;
-    broadcastMessage(message);
-    resetHeight();
+    const outputs = await Promise.allSettled(promises);
+    const resolvedAttachments = outputs.map((result) => result.value);
+
+    message.attachments = resolvedAttachments;
+    tempMessage.ignoreBlob = true;
+    broadcastMessage(message, oldId, true);
   };
+  const broadcastMessage = async (message, oldId, hasAttachments) => {
+    message.updateType = "new message";
+    message.socketID = socketID;
+
+    setFinalMessageForPreview({ oldId, message });
+    clearPendingIndexRecord(message);
+
+    message.status = "complete";
+    message.statusCode = 1;
+    let { ok } = await sendUnreadMessages(message);
+    if (ok) {
+      let unreadmessage = {};
+      unreadmessage.updateType = "reload unreads";
+      unreadmessage.topic_id = selectedTopic._id;
+      unreadmessage.user_id = user._id;
+      emitUpdate(selectedCommRef.current?._id, unreadmessage, () => {});
+    }
+    emitUpdate(selectedcomm?._id, message, async (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+    try {
+      let pushmessage = generatePushMessage({
+        ...message,
+        pushTitle: `${message.creator_name}`,
+        env: process.env.NODE_ENV,
+        ignoreSelf: true,
+        type: "chat",
+      });
+
+      if (!pushmessage.message) {
+        pushmessage.message = "";
+
+        if (hasAttachments) {
+          pushmessage.message = "Check out the new image!";
+        }
+      }
+
+      getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
+        if (userIDsToNotify && userIDsToNotify.length) {
+          let apiURL;
+          let baseURL = getBaseUrl();
+          if (baseURL.includes("harth.social")) {
+            apiURL =
+              "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
+          } else {
+            apiURL =
+              "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
+          }
+          pushmessage.receiverIds = userIDsToNotify;
+          sendPushNotification(pushmessage, apiURL);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // -------------------------------------------------------------------------------------------------------
   const updateMsg = async () => {
     let msg = selectedEditMsg;
     msg.message = topicInputs[selectedTopic?._id];

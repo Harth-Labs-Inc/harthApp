@@ -29,7 +29,7 @@ const DashboardLayout = dynamic(
   }
 );
 
-const dashboard = () => {
+const dashboard = ({ userTheme }) => {
   const [swReg, setSwReg] = useState(null);
   const [invitedHarth, setInvitedHarth] = useState(null);
   const [newHarth, setNewHarth] = useState(null);
@@ -397,7 +397,7 @@ const dashboard = () => {
   };
 
   if (loading) {
-    return <SpinningLoader />;
+    return <SpinningLoader userTheme={userTheme} />;
   }
 
   if (user) {
@@ -442,7 +442,7 @@ const dashboard = () => {
         <>
           {keepSpinning ? (
             <div id="pushSpinner">
-              <SpinningLoader />
+              <SpinningLoader userTheme={userTheme} />
             </div>
           ) : null}
           <CommsProvider
@@ -473,7 +473,7 @@ const dashboard = () => {
                   <CreateHarthName
                     talkingHeadMsg="give your new group a name and an image"
                     footer="Don't stress. You can change your group name and image at any time."
-                    placeholder="greedy gamers, spellslingers, etc..."
+                    placeholder="goofy gamers, family time, etc..."
                     submitText="Next"
                     closeHandler={async () => {
                       let result = await getComms(user);

@@ -9,7 +9,7 @@
   z-index: 301;
 }
 .mainContainer {
-  position: realtive;
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 360px;
@@ -34,7 +34,7 @@
   .line {
     flex-grow: 1;
     margin: 0 4px;
-    background-color: $border_basic;
+    background-color: var(--border-light);
     height: 3px;
   }
 
@@ -48,7 +48,7 @@
 
   .title {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     width: 100%;
     text-align: left;
     margin-top: 0px;
@@ -77,8 +77,7 @@
       border: 2px solid $hot_purple;
       width: 220px;
       @include systemFont;
-      font-size: 14px;
-      color: $font_light;
+      color: var(--font-main);
       border-radius: 12px;
       padding: 8px;
       text-align: center;
@@ -103,7 +102,7 @@
         height: 56px;
         border-radius: 8px;
         border: 0;
-        background-color: $background_offset_1;
+        background-color: var(--border-light);
 
         @media (hover: hover) and (pointer: fine) {
           &:hover {
@@ -126,14 +125,14 @@
         font-weight: 400;
         height: 56px;
         width: 100%;
-        color: $font_light;
-        background-color: $background_offset_1;
+        color: var(--font-main);
+        background-color: var(--border-light);
         border: 0;
         border-radius: 6px;
         padding-left: 12px;
         caret-color: $hot_purple;
         &::placeholder {
-          color: $font_muted;
+          color: var(--font-muted);
         }
       }
     }
@@ -164,7 +163,7 @@
     @include systemFont;
     font-size: 12px;
     padding-top: 4px;
-    color: $font_muted;
+    color: var(--font-muted);
     margin-top: 8px;
   }
 
@@ -189,27 +188,21 @@
     .backButton {
       height: 48px;
       border-radius: 999px;
-      border: 1px solid $border_heavy;
-      background-color: $background;
+      border: 1px solid var(--border-heavy);
+      background-color: transparent;
 
       path {
-        fill: $border_heavy;
+        fill: var(--border-heavy);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: $background_offset;
-          path {
-            fill: $font_muted;
-          }
+          background: var(--menu-offset);
         }
       }
 
       &:active {
-        background: $background_offset;
-        path {
-          fill: $font_muted;
-        }
+        background: var(--menu-offset);
       }
     }
 

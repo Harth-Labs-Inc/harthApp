@@ -32,7 +32,7 @@ const HarthLeaveModal = ({ setHidden, submitHarthChange, harth }) => {
                     />
                     <Button
                         type="submit"
-                        text="Remove"
+                        text="Leave"
                         className={styles.submitButton}
                     />
                 </div>

@@ -12,17 +12,51 @@
 
 .gatheringPage {
   position: relative;
-  background: $background;
+  //background: $background;
   height: 100%;
   width: 100%;
   overflow-y: scroll;
   padding: calc(112px + $space) 0px $space 0px;
   margin-top: 0px;
 
+  // background-image: url('/images/gather-back-desk.png'); /* Path to your image */
+  // background-size: contain; /* This will cover the entire div without stretching */
+  // background-repeat: no-repeat; /* This will prevent the image from repeating */
+  // background-position: right bottom; /* This centers the image in the div */
+  .placeholderImage {
+    position: absolute;
+    width: 360px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 24px;
+    padding: 0px;
+    opacity: .15;
+    // animation: wobble 20s ease-in-out infinite;
+    // animation-delay: 2s;
+
+    img {
+      margin-top: -40px;
+      width: 100%;
+      filter: grayscale(100%);
+    }
+  }
+
   &Mobile {
     padding: calc(354px + $space_mobile) 0px 136px 0px;
     margin-top: 0px;
-    //background: var(--theme-mobile-offset);
+
+    .placeholderImage {
+      width: 90%;
+      margin-top: 30%;
+      padding: 24px 24px;
+      opacity: .15;
+
+      img {
+        margin-top: -80px;
+      }
+  
+    }
     
     &::after {
       display: none;
@@ -60,7 +94,7 @@
   .gatheringSection {
     position: relative;
     @include eyebrow;
-    color: $font_light;
+    color: var(--font-main);
     width: fit-content;
     user-select: none;
     margin-left: $space;
@@ -74,8 +108,21 @@
     font-size: 11px;
     padding: 0px 0px 12px 0px;
     width: fit-content;
-    color: $font_light;
+    color: var(--font-main);
     user-select: none;
     margin-left: $space_mobile;
   }
 }
+
+@keyframes wobble {
+    0%, 100% {
+        transform: translateY(50%) translateX(-50%);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateY(48%) translateX(-50%);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateY(52%) translateX(-50%);
+    }
+}
+

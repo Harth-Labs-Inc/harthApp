@@ -17,7 +17,7 @@
     @include systemFont;
     font-weight: 500;
     text-transform: uppercase;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   .topic {
@@ -25,7 +25,7 @@
     font-weight: 700;
     font-size: 28px;
     background-color: transparent;
-    color: $font_light;
+    color: var(--font-main);
     border: 0;
     margin-top: 12px;
     margin-bottom: 12px;
@@ -34,11 +34,11 @@
   .subtext {
     @include systemFont;
     padding: 0px 8px;
-    color: $font_light;
+    color: var(--font-main);
   }
   .title {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     width: 100%;
     text-align: left;
     margin-top: 0px;

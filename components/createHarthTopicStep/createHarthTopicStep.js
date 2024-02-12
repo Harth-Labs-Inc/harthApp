@@ -145,7 +145,7 @@ export default function CreateHarthTopicStep({ closeHandler, ignoreFadeIn }) {
 
               <input
                 {...register("topicName", { required: true })}
-                placeholder="games, memes, food, ect..."
+                placeholder="games, memes, food, etc..."
                 type="text"
                 autoComplete="off"
               />

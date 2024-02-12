@@ -1,11 +1,22 @@
 import clientPromise from "../../../util/mongodb";
 import getClientWithCheck from "../../../util/getMongoClientWithCheck";
+import aws from "aws-sdk";
+import { authenticateUser } from "util/authMiddleware";
 
-import jwt from "jsonwebtoken";
+aws.config = {
+  accessKeyId: process.env.AWS_ACCESS,
+  secretAccessKey: process.env.AWS_SECRET,
+  region: "us-east-2",
+};
 
 /* eslint-disable */
 
 export default async (req, res) => {
+  const authToken = req.headers["x-auth-token"];
+  if (!authToken) {
+    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
+  }
+
   let obj;
   try {
     obj = JSON.parse(req.body);
@@ -13,70 +24,20 @@ export default async (req, res) => {
     obj = req.body;
   }
 
-  const aws = require("aws-sdk");
-
   let s3Params = {
     Bucket: obj.bucket,
     Key: obj.name,
     ContentType: obj.type,
   };
-  aws.config = {
-    accessKeyId: process.env.AWS_ACCESS,
-    secretAccessKey: process.env.AWS_SECRET,
-    region: "us-east-2",
-  };
-  const client = await getClientWithCheck(clientPromise);
 
+  const client = await getClientWithCheck(clientPromise);
   const db = client.db("blarg");
 
-  // authentication ---------------------------------
-  const findUser = (db, id) => {
-    return new Promise((resolve, reject) => {
-      let mongo = require("mongodb");
-      let o_id = new mongo.ObjectID(id);
-      db.collection("users")
-        .find({ _id: o_id })
-        .toArray(function (err, results) {
-          if (err) {
-            resolve(false);
-          }
-          resolve(results[0]);
-        });
-    });
-  };
-  const decode = (tokn) => {
-    return new Promise((resolve, reject) => {
-      resolve(jwt.verify(tokn, process.env.SECRET));
-    });
-  };
-  let authToken = req.headers["x-auth-token"];
-  if (!authToken) {
-    return res.json({ msg: "No token Found", ok: 0, lockDown: true });
-  }
-  let decodedToken = await decode(authToken);
-  if (!decodedToken) {
-    return res.json({ msg: "bad token", ok: 0, lockDown: true });
-  }
-  let { userId } = decodedToken;
-  if (!userId) {
-    return res.json({ msg: "Invalid Token", ok: 0, lockDown: true });
-  }
-  let user = await findUser(db, userId);
-  if (!user || !user.token || user == "undefined") {
-    return res
-      .status(401)
-      .json({ msg: "No User Found", ok: 0, lockDown: true });
-  }
-  if (user.token != authToken) {
-    return res.status(401).json({ msg: "bad token", ok: 0, lockDown: true });
-  }
-  if (new Date() > new Date(user.token_expiration)) {
-    return res
-      .status(401)
-      .json({ msg: "expired token", ok: 0, lockDown: true });
-  }
-  // passed authentication ------------------------------------------
+  const user = await authenticateUser(db, authToken);
 
+  if (!user) {
+    return res.status(401).json({ msg: "bad auth", ok: 0, lockDown: true });
+  }
   const s3 = new aws.S3();
   let uploadURL = s3.getSignedUrl("putObject", s3Params);
 

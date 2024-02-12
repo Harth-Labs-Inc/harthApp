@@ -12,7 +12,7 @@
     z-index: 12;
     height: var(--vh);
     width: 100vw;
-    background: $overlay;
+    background: var(--overlay);
   }
 }
 
@@ -22,23 +22,28 @@
   display: flex;
   flex-direction: column;
   padding: 8px;
-  color: $font_light;
-  background-color: $ash;
+  color: var(--font-main);
+  background-color: var(--menu-color);
   border-radius: 8px;
   border: 0;
   outline: 0;
+
+  svg {
+    path {
+      fill: var(--font-main);
+    }
+  }
 
   &Button {
     display: flex;
     align-items: center;
     padding: 6px 8px;
-    color: $font_light;
-    background-color: $background_offset_1;
+    color: var(--font-main);
+    background-color: var(--border-basic);
     border: 0;
     border-radius: 6px;
     cursor: pointer;
-    @include worksans;
-    font-size: 14px;
+    @include systemFont;
 
     &:not(:last-of-type) {
       margin-bottom: 8px;
@@ -51,12 +56,12 @@
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: $border_basic;
+        background-color: var(--border-heavy);
       }
     }
 
     &:active {
-      background-color: $border_basic;
+      background-color: var(--border-heavy);
     }
   }
 
@@ -66,9 +71,9 @@
     width: calc(100% + 8px);
     border: 0;
     border-radius: 0;
-    background-color: $background;
-    border-top: 1px solid $modal_border;
-    border-bottom: 1px solid $modal_border;
+    background-color: var(--menu-color);
+    border-top: 1px solid var(--modal-border);
+    border-bottom: 1px solid var(--modal-border);
     margin-top: -36px;
 
 
@@ -84,7 +89,7 @@
         margin-right: 12px;
 
         path {
-          fill: $font_light;
+          fill: var(--font-main);
         }
       }
     }

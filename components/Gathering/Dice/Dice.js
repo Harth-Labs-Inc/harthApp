@@ -41,7 +41,7 @@ export const Dice = (props) => {
   };
 
   const incrementMultiplier = () => {
-    if (multiplier >= 4) {
+    if (multiplier >= 6) {
       setMultiplier(1);
     } else {
       setMultiplier(multiplier + 1);

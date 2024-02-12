@@ -2,13 +2,7 @@
 @import "../../../styles/globals.scss";
 
 .ignoreFadeIn {
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    $background,
-    transparent
-  );
-  backdrop-filter: blur(30px);
+  background: var(--overlay);
   animation-name: none !important;
   animation-duration: 0s !important;
 }
@@ -38,13 +32,13 @@
   &Mid {
     position: absolute;
     width: 100%;
-    top: 44%;
+    top: 48%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     padding: 0px;
-    background-color: $background;
-    border-top: 1px solid $modal_border;
-    border-bottom: 1px solid $modal_border;
+    background-color: var(--menu-color);
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
     opacity: 0;
     animation: pop 0.3s ease-out forwards;
 
@@ -78,10 +72,10 @@
     position: absolute;
     top: 0;
     height: var(--vh);
-    width: 356px;
-    background-color: $background;
+    width: 330px;
+    background-color: var(--menu-color);
     overflow: hidden;
-    padding-bottom: 28px;
+    padding-bottom: 4px;
     border-radius: 0px;
 
     &::after{
@@ -92,13 +86,13 @@
       content: "";
       width: 1px;
       height: 100%;
-      background: linear-gradient(transparent, $border_light 16%, $border_light 84%, transparent);
+      background: linear-gradient(transparent, var(--border-light) 16%, var(--border-light) 84%, transparent);
       animation: border-fadein .5s ease-in forwards;
     }
   }
 
   &Block {
-    background: $background;
+    background: var(--menu-color);
     border: 0;
     animation: blur-in-block 0.3s ease-out forwards;
   }
@@ -113,7 +107,7 @@
     background: transparent;
   }
   to {
-    background: $overlay;
+    background: var(--overlay);
   }
 }
 
@@ -122,7 +116,7 @@
     background-color: transparent;
   }
   to {
-    background-color: $background;
+    background-color: var(--menu-color);
   }
 }
 

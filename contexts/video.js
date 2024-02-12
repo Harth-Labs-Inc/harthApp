@@ -2,7 +2,7 @@ import { createContext, useState, useContext, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { videoSocketUrls } from "../constants/urls";
 import { getScheduledCallRooms, deleteScheduledRoom } from "../requests/rooms";
-import { combineDateTime } from "../services/helper";
+import { combineDateTime, getBaseUrl } from "../services/helper";
 import { useComms } from "./comms";
 import { useSocket } from "./socket";
 import { useAuth } from "./auth";
@@ -36,11 +36,18 @@ export const VideoProvider = ({ children }) => {
     if (document.hidden || !user || !navigator.onLine) return;
     isReconnecting = true;
     const token = localStorage.getItem("token");
-    const URL = videoSocketUrls[process.env.NODE_ENV];
+    const URLS = videoSocketUrls;
+    let connectionURL = "";
+    let baseURL = getBaseUrl();
+    if (baseURL.includes("qa.hrth.app")) {
+      connectionURL = URLS["qa"];
+    } else {
+      connectionURL = URLS[process.env.NODE_ENV];
+    }
 
     disconnectSocket();
 
-    const tempSocket = io.connect(URL, {
+    const tempSocket = io.connect(connectionURL, {
       transports: ["websocket"],
       query: { token },
       reconnection: false,
@@ -130,12 +137,14 @@ export const VideoProvider = ({ children }) => {
 
     socket.on("broadcast", (data) => {
       let { event, groupCallRooms, peers } = data;
+      let id = data.harthID || data.harthId;
+
       switch (event) {
         case "GROUP_CALL_ROOMS":
           if (
-            data.harthID &&
+            id &&
             selectedCommRef.current &&
-            data.harthID == selectedCommRef.current._id
+            id == selectedCommRef.current._id
           ) {
             setCallRooms(groupCallRooms);
           }
@@ -263,9 +272,9 @@ export const VideoProvider = ({ children }) => {
   };
   const createEmptyRoom = (data, cb) => {
     if (socket) {
-      socket.emit("create-call-room", data, cb);
+      socket.emit("create-room", data, cb);
     } else if (socketRef.current) {
-      socketRef.current.emit("create-call-room", data, cb);
+      socketRef.current.emit("create-room", data, cb);
     }
   };
   return (

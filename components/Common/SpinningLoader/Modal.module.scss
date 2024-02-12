@@ -3,18 +3,18 @@
 
 .Maincontainer {
   position: fixed;
-  z-index: 10000000000000000000000000;
+  z-index: 10000;
   top: 0;
   left: 0;
-  height: var(--vh);
+  height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: $background;
+  background: var(--menu-color);
   &Dark {
-    background: $background;
+    background: var(--menu-color);
 
     &p {
-      color: $font_light;
+      color: var(--font-main);
     }
   }
 }
@@ -26,10 +26,12 @@
 
   .roomName {
     @include roomTitle;
-    color: $font_light;
+    font-size: 20px;
+    color: var(--font-main);
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    max-width: 320px;
   }
 }
 .spinner {
@@ -54,6 +56,13 @@
     border-radius: 50%;
     animation: spinner 1s ease infinite;
   }
+}
+
+.message {
+  @include systemFont;
+  color: var(--font-muted);
+  width: 320px;
+  text-align: center;
 }
 
 @keyframes spinner {

@@ -2,26 +2,28 @@
 @import "../../../styles/globals.scss";
 
 .Desktop {
-  border-radius: $corner_radius;
-  // border-bottom-left-radius: 0;
-  // border-bottom-right-radius: 0;
+  border-radius: $corner_radius_mobile;
   width: 320px;
   height: fit-content;
-  background-color: var(--theme-mobile-offset);
+  background-color: var(--theme-background-offset);
   border: 0;
   overflow: hidden;
   padding: 0px;
+  box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.05),
+        0 2px 2px hsl(0deg 0% 0% / 0.05); 
 }
 
 .Mobile {
   border-radius: $corner_radius_mobile;
-  // border-bottom-left-radius: 0;
-  // border-bottom-right-radius: 0;
   width: 100%;
-  background-color: var(--theme-mobile-offset);
+  background-color: var(--theme-background-offset);
   border: 0;
   overflow: hidden;
   padding: 0px;
+  box-shadow:
+  0 1px 1px hsl(0deg 0% 0% / 0.075),
+  0 2px 2px hsl(0deg 0% 0% / 0.075); 
 }
 
 .Top {
@@ -29,7 +31,7 @@
   width: 100%;
   height: 80px;
   //margin-bottom: 12px;
-  background: linear-gradient(45deg, $hot_purple, $fuel);
+  background: linear-gradient(45deg, $hot_purple 30%, var(--gather-tile));
   overflow: hidden;
   padding-bottom: 8px;
 
@@ -54,11 +56,11 @@
     width: 140px;
     height: 80px;
     min-height: 80px;
-    padding: 0px 0px;
+    padding: 0px 0px 0px 8px;
     border: 0;
     border-radius: 0px;
-    overflow: hidden;
-    background-color: var(--theme-color);
+    //overflow: hidden;
+    background-color: var(--gather-tile);
 
     .time {
       @include systemFont;
@@ -91,21 +93,41 @@
     .now {
       @include systemFont;
       font-weight: 800;
-      font-size: 30px;
-      line-height: 30px;
-      letter-spacing: 0;
+      font-size: 28px;
+      line-height: 28px;
+      letter-spacing: 0.03em;
       color: $hot_green;
       text-transform: capitalize;
       text-align: center;
+      
+      text-shadow: 
+        -2px -2px 0 $oxygen,  
+        2px -2px 0 $oxygen,
+        -2px 2px 0 $oxygen,
+        2px 2px 0 $oxygen; 
     }
+
   }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0px; /* Position at the bottom of the container */
+    left: 139px; /* Center horizontally */
+    width: 0;
+    height: 0;
+    border-left: 0px solid transparent; /* Adjust size as needed */
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid var(--gather-tile); /* Color and size of the triangle */
+}
 
   .Mobile & {
     height: 96px;
-
+    
     .Info {
       height: 96px;
     }
+    
   }
 }
 
@@ -114,7 +136,6 @@
   flex-direction: column;
   width: 100%;
   padding: 8px 16px;
-  //border: 2px solid var(--theme-color);
   border-top: 0;
   border-bottom-right-radius: $corner_radius;
   border-bottom-left-radius: $corner_radius;
@@ -220,6 +241,7 @@
       .Desktop & {
         &:hover {
           background: $hot_purple;
+          border-color: $hot_purple;
           path {
             fill: $font_light;
           }
@@ -229,6 +251,7 @@
       .Mobile & {
         &:active {
           background: $hot_purple;
+          border-color: $hot_purple;
           path {
             fill: $font_light;
           }

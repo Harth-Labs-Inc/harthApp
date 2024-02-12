@@ -14,13 +14,13 @@
   display: flex;
   flex-direction: column;
   border-left: 1px solid $border_light;
-  color: $font_light;
+  color: var(--font-main);
   //border-bottom: 1px solid $border_light;
   @include topicTitle;
   font-size: 14px;
   font-weight: 500;
   width: 100%;
-  background-color: var(--theme-color);
+  background-color: var(--theme-background);
 }
 
 .Header {
@@ -47,7 +47,7 @@
     }
 
     &:active {
-      background-color: var(--theme-offset-1);
+      background-color: var(--theme-background-offset);
     }
   }
   p {
@@ -101,7 +101,7 @@
     color: var(--font-muted);
 
     &:active {
-      background: var(--theme-offset-2);
+      background: var(--theme-background-offset);
     }
   }
 

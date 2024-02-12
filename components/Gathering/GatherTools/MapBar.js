@@ -4,7 +4,6 @@ import Draggable from "react-draggable";
 import OutsideClickHandler from "components/Common/Modals/OutsideClick";
 import styles from "./gatherTools.module.scss";
 import { IconClose } from "../../../resources/icons/IconClose";
-
 import { Button } from "../../Common";
 import { IconMap } from "../../../resources/icons/IconMap";
 
@@ -196,11 +195,11 @@ export const MapBar = (props) => {
                 <div className={styles.icon}>
                   <IconMap />
                 </div>
-                <div className={styles.label}>Game Board</div>
+                <div className={styles.label}>Add a game board, dungeon map, or any other image. Everyone in your gathering will be able to see it. </div>
                 <Button
                   tier="primary"
                   size="small"
-                  text="add an image"
+                  text="Add an Image"
                   onClick={clickHandler}
                 />
               </div>
@@ -270,7 +269,7 @@ export const MapBar = (props) => {
               <div className={styles.icon}>
                 <IconMap />
               </div>
-              <div className={styles.label}>Game Board</div>
+              <div className={styles.label}>Add a game board, dungeon map, or any other image. Everyone in your gathering will be able to see it.</div>
               <Button
                 tier="primary"
                 size="small"

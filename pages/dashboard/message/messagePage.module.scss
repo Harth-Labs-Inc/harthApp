@@ -4,26 +4,18 @@
 .ConversationMessages {
   display: flex;
   width: 100%;
-  padding: $space;
-  padding-top: calc($space / 2);
 }
 
 .topicHolderMobile {
   position: relative;
   height: 100%;
-  //overflow: auto;
-  //background-color: #ee5500;
 }
 
 .chatHolderMobile {
-  //position: relative;
   position: absolute;
   top: 0px;
   right: 0px;
   z-index: 11;
-  //height: 100%;
-  //width: 100%;
-  //overflow: auto;
   background-color: #ee5500;
 }
 
@@ -43,17 +35,16 @@
   justify-content: space-between;
   width: 100%;
   padding: 0px 8px;
-  height: 60px;
-  min-height: 60px;
-  max-height: 60px;
-  background-color: var(--theme-color);
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  background-color: var(--menu-color);
   color: $fuel;
   font-size: 14px;
   font-weight: 600;
-  @include topicTitleActive;
-  border-radius: 999px;
-  border: 3px solid $background;
-  border-top: 0;
+  @include topicTitle;
+  border-radius: 0;
+  border: 0;
 
   .people {
     display: flex;
@@ -63,12 +54,13 @@
 
     img {
       margin-right: -12px;
-      border: 2px solid var(--theme-color);
+      border: 2px solid var(--menu-color);
     }
   }
   button {
     height: 44px;
     width: 44px;
+    min-width: 44px;
     border-radius: 999px;
     margin: 0;
     padding: 8px;
@@ -80,13 +72,13 @@
     -webkit-tap-highlight-color: transparent;
 
     path {
-      fill: var(--path-light);
+      fill: var(--border-heavy);
     }
 
     &:active {
-      background-color: var(--theme-offset-1);
+      background-color: var(--menu-offset);
       path {
-        fill: var(--path-basic);
+        fill: var(--menu-path);
       }
     }
   }

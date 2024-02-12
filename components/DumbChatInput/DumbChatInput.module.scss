@@ -6,7 +6,7 @@
   margin-left: 8px;
   display: flex;
   flex-direction: column;
-  background: var(--theme-color);
+  background: var(--theme-background);
   padding: 0px 0px 0px 0px;
   border-bottom: none;
   border-radius: 0;
@@ -34,6 +34,11 @@
     white-space: -o-pre-wrap; /* Opera 7 */
     word-wrap: break-word; /* Internet Explorer 5.5+ */
 
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+
     &::placeholder {
       @include chatText;
       color: var(--font-muted);
@@ -45,7 +50,7 @@
     padding: 0;
     overflow: hidden;
     border-radius: 8px;
-    border: 1px solid var(--theme-offset-1);
+    border: 1px solid var(--border-light);
 
   }
 
@@ -53,11 +58,10 @@
     display: flex;
     justify-content: space-between;
     padding: 6px 0px 6px 0px;
-    background: var(--theme-color);
+    background: var(--theme-background);
     //background-color: aqua;
     border: 0;
     border-radius: 0px;
-    border-top: 1px solid var(--theme-color);
     border-bottom-left-radius: $corner_radius;
     border-bottom-right-radius: $corner_radius;
 
@@ -80,14 +84,14 @@
         cursor: pointer;
 
         path {
-          fill: var(--path-light);
+          fill: var(--border-basic);
         }
 
         @media (hover: hover) and (pointer: fine) {
           &:hover {
-            background-color: var(--theme-offset-1);
+            background-color: var(--theme-background-offset);
             path {
-              fill: var(--path-heavy);
+              fill: var(--border-heavy);
             }
           }
         }
@@ -98,17 +102,16 @@
           background-color: transparent;
           border: 0;
           @include systemFont;
-          font-size: 14px;
           font-weight: 500;
           border-radius: 24px;
           color: var(--font-muted);
           padding: 8px 12px;
           margin: auto;
-          border: 1px solid $border_basic;
+          border: 1px solid var(--border-basic);
 
           @media (hover: hover) and (pointer: fine) {
             &:hover {
-              background-color: var(--theme-offset-1);
+              background-color: var(--theme-background-offset);
               color: var(--font-main);
             }
           }
@@ -181,7 +184,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--theme-color);
+  background-color: var(--theme-background-offset);
   padding: 0px 0px 0px 0px;
   border-bottom: none;
   border-radius: 0;
@@ -198,7 +201,8 @@
     @include chatTextMobile;
     caret-color: $hot_purple;
     color: var(--font-main);
-    background: var(--theme-color);
+    background-color: var(--theme-background-offset);
+    
     border: 0;
     border-radius: 0;
 
@@ -207,6 +211,11 @@
     white-space: -pre-wrap; /* Opera 4-6 */
     white-space: -o-pre-wrap; /* Opera 7 */
     word-wrap: break-word; /* Internet Explorer 5.5+ */
+
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 
     &::placeholder {
       @include chatTextMobile;
@@ -219,15 +228,15 @@
     //border-bottom: 1px solid $border_basic;
     padding: 0;
     overflow: hidden;
-    border-top: 1px solid var(--theme-offset-1);
+    border-top: 1px solid var(--border-light);
   }
 
   &Controls {
     display: flex;
     justify-content: space-between;
-    padding: 6px 4px 14px 4px;
-    background: var(--theme-color);
-    border-top: 1px solid var(--theme-offset-1);
+    padding: 8px 10px 20px 10px;
+    background-color: var(--theme-background-offset);
+    border-top: 1px solid var(--border-light);
 
     &Right,
     &Left {
@@ -248,11 +257,11 @@
         cursor: pointer;
 
         path {
-          fill: var(--path-light);
+          fill: var(--border-basic);
         }
 
         &:active {
-          background-color: var(--theme-offset-1);
+          background-color: var(--theme-background);
           path {
             fill: var(--path-basic);
           }
@@ -264,8 +273,6 @@
           background-color: transparent;
           border: 0;
           @include systemFont;
-          font-size: 14px;
-
           border-radius: 99px;
           color: var(--font-muted);
           padding: 8px 12px;
@@ -344,9 +351,9 @@
   row-gap: 16px;
   justify-content: flex-start;
   width: auto;
-  background-color: var(--theme-color);
+  background-color: var(--theme-background-offset);
   padding: 16px;
-  border-bottom: 1px solid var(--theme-offset-1);
+  border-bottom: 1px solid var(--border-light);
 
   .imageContainer {
     position: relative;
@@ -375,11 +382,11 @@
       top: -8px;
       right: -8px;
       z-index: 2;
-      height: 30px;
-      width: 30px;
+      height: 32px;
+      width: 32px;
       padding: 4px;
       border-radius: 99px;
-      border: 1px solid $hot_purple;
+      border: 0;
       background-color: $black;
       cursor: pointer;
 
@@ -415,7 +422,7 @@
     border-bottom: 1px solid transparent;
     .imageContainer {
       img {
-        background-color: $white;
+        background-color: $oxygen;
       }
     }
   }

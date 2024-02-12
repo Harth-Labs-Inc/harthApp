@@ -11,15 +11,21 @@
   justify-content: space-between;
   width: 100%;
   padding: 0px 8px;
-  height: 60px;
-  min-height: 60px;
-  max-height: 60px;
-  background-color: var(--theme-color);
-  border-radius: 999px;
-  border: 3px solid $background;
-  border-top: 0;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  background-color: var(--menu-color);
+  border-radius: 0;
+  border: 0;
   color: var(--font-main);
-  @include topicTitleMobile;
+  @include systemFont;
+  font-size: 16px;
+
+  p {
+    max-width: 100%;
+    max-height: 40px;
+    overflow: hidden;
+  }
 
   .emojiHolder {
     padding-right: 8px;
@@ -27,15 +33,17 @@
     height: fit-content;
     line-height: 100%;
     font-size: 20px;
+    min-width: 20px;
   }
 
   button {
     height: 44px;
     width: 44px;
+    min-width: 44px;
     border-radius: 999px;
     margin: 0;
     padding: 8px;
-    background-color: transparent;
+    background: transparent;
     border: 0;
     outline: none;
     outline-style: none;
@@ -43,11 +51,14 @@
     -webkit-tap-highlight-color: transparent;
 
     path {
-      fill: var(--path-basic);
+      fill: var(--border-heavy);
     }
 
     &:active {
-      background-color: var(--theme-offset-1);
+      path {
+        fill: var(--menu-path);
+      }
+      background: var(--menu-offset);
     }
   }
 }

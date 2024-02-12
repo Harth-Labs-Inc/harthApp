@@ -15,7 +15,7 @@
   @include systemFont;
   font-size: 16px;
   z-index: 25;
-  color: $font_light;
+  color: var(--font-main);
 
   .title {
     @include overlayMenuTitle;
@@ -23,7 +23,7 @@
     text-align: center;
     margin-top: 8px;
     margin-bottom: 20px;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   .userImage {
@@ -31,7 +31,7 @@
     width: 56px;
     border-radius: 999px;
     margin-top: 0px;
-    border: 1px solid $border_basic;
+    border: 1px solid var(--border-basic);
   }
   .userName {
     margin-top: -6px;
@@ -43,7 +43,7 @@
   .text {
     width: 90%;
     text-align: center;
-    color: $font_muted;
+    color: var(--font-muted);
     font-size: 12px;
   }
 

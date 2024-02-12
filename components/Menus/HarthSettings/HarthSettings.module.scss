@@ -25,7 +25,7 @@
     margin: auto;
     padding-bottom: 80px;
     p {
-      color: $font_muted;
+      color: var(--font-muted);
       @include systemFont;
     }
   }
@@ -40,7 +40,7 @@
 
     .title {
       @include systemFont;
-      color: $font_light;
+      color: var(--font-main);
       width: 100%;
       text-align: left;
       padding: 0px 0px 0px 8px;
@@ -49,7 +49,7 @@
 
     .harthName {
       @include harthTitle;
-      color: $font_light;
+      color: var(--font-main);
       font-size: 24px;
       width: 100%;
       text-align: left;
@@ -62,12 +62,18 @@
     .buttonHolder {
       position: absolute;
       right: -12px;
-      top: -12px;
+      top: -6px;
 
       button {
-        width: 40px;
+        width: 56px;
         height: 40px;
-        padding: 7px;
+        padding: 4px;
+
+        svg {
+          height: 32px;
+          width: 32px;
+        }
+
       }
     }
   }
@@ -79,7 +85,7 @@
     column-gap: 0px;
     border: 0;
     padding: 0px 0px;
-    border-bottom: 1px solid $border_basic;
+    border-bottom: 1px solid var(--border-basic);
 
     .tabButton {
       position: relative;
@@ -90,7 +96,7 @@
       gap: 4px;
       @include systemFont;
       font-size: 12px;
-      color: $font_muted;
+      color: var(--font-muted);
       width: fit-content;
       height: 48px;
       padding: 4px 12px 0px 12px;
@@ -105,14 +111,14 @@
         width: 20px;
       }
       path {
-        fill: $font_muted;
+        fill: var(--font-muted);
       }
 
       &Active {
-        border-color: $font_light;
-        color: $font_light;
+        border-color: var(--font-main);
+        color: var(--font-main);
         path {
-          fill: $font_light;
+          fill: var(--font-main);
         }
       }
     }

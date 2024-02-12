@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAuth } from "../../../contexts/auth";
 import {
   saveAcountSettingsUpdates,
@@ -6,8 +6,9 @@ import {
 } from "../../../requests/userApi";
 import { Button, BackButton, EditButton, Modal } from "../../Common";
 import OtpValidator from "../../../pages/auth/OtpValidator";
-
+import Cookies from "js-cookie";
 import styles from "./SettingsMenu.module.scss";
+import { MobileContext } from "contexts/mobile";
 
 const AccountProfile = (props) => {
   const { toggleCurrentPage } = props;
@@ -18,7 +19,9 @@ const AccountProfile = (props) => {
   const [originalData, setOriginalData] = useState({ ...user });
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [error, setError] = useState("");
-  const [theme, setTheme] = useState(localStorage?.getItem("interface-theme"));
+  // const [theme, setTheme] = useState(Cookies.get("theme"));
+  const [textSize, setTextSize] = useState(Cookies.get("textSize"));
+  const { isMobile } = useContext(MobileContext);
 
   const toggleCurrentSetting = (name) => {
     setCurrentTab(name);
@@ -82,18 +85,59 @@ const AccountProfile = (props) => {
     }
   };
 
-  const toggleLightMode = () => {
-    document.body.classList.remove("dark-mode");
-    document.body.classList.add("light-mode");
-    localStorage.setItem("interface-theme", "light-mode");
-    setTheme("light-mode");
+  // const toggleLightMode = () => {
+  //   document.body.classList.remove("dark-mode");
+  //   document.body.classList.add("light-mode");
+  //   Cookies.set("theme", "light-mode", { expires: 365 });
+  //   setTheme("light-mode");
+  //   //now set the theme color for manifest
+  //   let themeColor = "#e8e8ee"; // menu color
+
+  //   let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+  //   if (themeColorMetaTag) {
+  //     themeColorMetaTag.setAttribute("content", themeColor);
+  //   } else {
+  //     // If the meta tag does not exist, create it
+  //     let metaTag = document.createElement("meta");
+  //     metaTag.setAttribute("name", "theme-color");
+  //     metaTag.setAttribute("content", themeColor);
+  //     document.head.appendChild(metaTag);
+  //   }
+  // };
+
+  // const toggleDarkMode = () => {
+  //   document.body.classList.remove("light-mode");
+  //   document.body.classList.add("dark-mode");
+  //   Cookies.set("theme", "dark-mode", { expires: 365 });
+  //   setTheme("dark-mode");
+
+  //   //now set the theme color for manifest
+  //   let themeColor = "#38383e"; // menu color
+
+  //   let themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+  //   if (themeColorMetaTag) {
+  //     themeColorMetaTag.setAttribute("content", themeColor);
+  //   } else {
+  //     // If the meta tag does not exist, create it
+  //     let metaTag = document.createElement("meta");
+  //     metaTag.setAttribute("name", "theme-color");
+  //     metaTag.setAttribute("content", themeColor);
+  //     document.head.appendChild(metaTag);
+  //   }
+  // };
+
+  const toggleTextReg = () => {
+    document.body.classList.remove("text-large");
+    document.body.classList.add("text-reg");
+    Cookies.set("textSize", "text-reg", { expires: 365 });
+    setTextSize("text-reg");
   };
 
-  const toggleDarkMode = () => {
-    document.body.classList.remove("light-mode");
-    document.body.classList.add("dark-mode");
-    localStorage.setItem("interface-theme", "dark-mode");
-    setTheme("dark-mode");
+  const toggleTextLarge = () => {
+    document.body.classList.remove("text-reg");
+    document.body.classList.add("text-large");
+    Cookies.set("textSize", "text-large", { expires: 365 });
+    setTextSize("text-large");
   };
 
   if (!currentTab) {
@@ -108,26 +152,22 @@ const AccountProfile = (props) => {
           <div className={styles.sectionContainer}>
             <div className={styles.SettingsContainerTitle}>Email</div>
             <div className={styles.optionHolder}>
-              {user.email}
+              <p>{user.email}</p>
               <EditButton clickHandler={() => toggleCurrentSetting("email")} />
             </div>
-
-            {/* <div className={styles.SettingsContainerTitle}>Full Name</div>
-            <div className={styles.optionHolder}>
-              {user.fullName}
-              <EditButton
-                clickHandler={() => toggleCurrentSetting("fullName")}
-              />
-            </div> */}
-
-            {/* <div className={styles.SettingsContainerTitle}>Birthday</div>
-            <div className={styles.optionHolder}>
-              {user.dob}
-              <EditButton clickHandler={() => toggleCurrentSetting("dob")} />
-            </div> */}
-
+{/* 
             <div className={styles.SettingsContainerTitle}>Interface</div>
             <div className={styles.themeHolder}>
+              <button
+                className={`${styles.theme} ${
+                  theme === "dark-mode" ? styles.active : ""
+                }`}
+                onClick={toggleDarkMode}
+              >
+                <p>Dark Mode</p>
+                <img src="/images/darkmode.png" />
+              </button>
+
               <button
                 className={`${styles.theme} ${
                   theme === "light-mode" ? styles.active : ""
@@ -137,15 +177,29 @@ const AccountProfile = (props) => {
                 <p>Light Mode</p>
                 <img src="/images/lightmode.png" />
               </button>
+            </div> */}
+
+
+            <div className={styles.SettingsContainerTitle}>Chat Text Size</div>
+            <div className={styles.textSizeHolder}>
+              <button
+                className={`${styles.theme} ${
+                  textSize === "text-reg" ? styles.active : ""
+                }`}
+                onClick={toggleTextReg}
+              >
+                <p>Reg Text</p>
+                <span className={isMobile ? styles.regTextMobile : styles.regText}>The quick brown fox jumps over the lazy dog.</span>
+              </button>
 
               <button
                 className={`${styles.theme} ${
-                  theme === "dark-mode" ? styles.active : ""
+                  textSize === "text-large" ? styles.active : ""
                 }`}
-                onClick={toggleDarkMode}
+                onClick={toggleTextLarge}
               >
-                <p>Dark Mode</p>
-                <img src="/images/darkmode.png" />
+                <p>Large Text</p>
+                <span className={isMobile ? styles.largeTextMobile : styles.largeText}>The quick brown fox jumps over the lazy dog.</span>
               </button>
             </div>
           </div>

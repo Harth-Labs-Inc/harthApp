@@ -10,7 +10,7 @@
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
   width: 330px;
-  background-color: $background;
+  background-color: var(--menu-color);
   border-radius: 24px;
   border: 4px solid $hot_purple;
   padding: 24px;
@@ -27,7 +27,7 @@
     width: 100%;
     @include overlayMenuTitle;
     font-size: 40px;
-    color: $font_light;
+    color: var(--font-main);
     text-align: left;
   }
 
@@ -35,7 +35,7 @@
     width: 100%;
     @include systemFont;
     font-size: 16px;
-    color: $font_light;
+    color: var(--font-main);
     text-align: center;
     margin-bottom: 48px;
     margin-top: 40px;
@@ -47,7 +47,7 @@
     @include systemFont;
     letter-spacing: 0;
     font-size: 16px;
-    color: $alert_red;
+    color: $hot_red;
     text-align: center;
     margin-bottom: 48px;
     margin-top: 40px;
@@ -62,31 +62,9 @@
 
   button {
     @include buttonPrimary;
-
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: $button_main_press;
-      }
-    }
-
-    &:active {
-      background: $button_main_press;
-    }
   }
 
   .cancel {
     @include buttonSecondary;
-
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: $button_main_press;
-        color: $background;
-      }
-    }
-
-    &:active {
-      background: $button_main_press;
-      color: $background;
-    }
   }
 }

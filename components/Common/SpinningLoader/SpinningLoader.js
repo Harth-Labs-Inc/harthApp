@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import styles from "./Modal.module.scss";
-import { HarthLogoLight } from "public/images/harth-logo-light";
 import { memo } from "react";
+import { DisplayLogo } from "../DisplayLogo/DisplayLogo";
 
-export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
+export const SpinningLoader = memo(({ spinnerOnly, gatherRoom, userTheme }) => {
   const router = useRouter();
   const { query } = router;
 
@@ -19,9 +19,13 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
       <div className={`${styles.Maincontainer} ${styles.MaincontainerDark}`}>
         <div className={`${styles.content}`}>
           <p className={`${styles.roomName}`}>
-            {query?.room_name}
+            Joining {query?.room_name || "room"}
           </p>
           <Spinner />
+          <div className={styles.message}>
+            P2P Audio and Video is an experimental feature. Unexpected glitches
+            may occur.
+          </div>
         </div>
       </div>
     );
@@ -29,7 +33,7 @@ export const SpinningLoader = memo(({ spinnerOnly, gatherRoom }) => {
   return (
     <div className={`${styles.Maincontainer}`}>
       <div className={`${styles.content}`}>
-        <HarthLogoLight />
+        <DisplayLogo userTheme={userTheme} />
 
         <Spinner />
       </div>

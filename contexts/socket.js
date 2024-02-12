@@ -34,7 +34,10 @@ const APP_VERSION = "1.1.2";
 /* eslint-disable */
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
+
+  const [finalMessageForPreview, setFinalMessageForPreview] = useState({});
   const [incomingMsg, setIncomingMsg] = useState({});
+  const [incomingMsgPreview, setIncomingMsgPreview] = useState({});
   const [incomingMsgUpdate, setIncomingMsgUpdate] = useState({});
   const [incomingRoomUpdate, setIncomingRoomUpdate] = useState({});
   const [incomingTopic, setIncomingTopic] = useState({});
@@ -730,6 +733,10 @@ export const SocketProvider = ({ children }) => {
         incomingMsgUpdate,
         incomingTopic,
         incomingMsg,
+        setIncomingMsgPreview,
+        incomingMsgPreview,
+        setFinalMessageForPreview,
+        finalMessageForPreview,
         incomingRoom,
         incomingRoomUpdate,
         unreadMsg,

@@ -62,8 +62,8 @@ self.addEventListener("push", function (event) {
     dir: "ltr",
     lang: "en-US",
     vibrate: [100, 50, 200],
-    badge: "/icons/icon-96x96.png",
-    icon: "/icons/icon-150x150.png",
+    badge: "/icons/notification-android.png",
+    icon: "/icons/notification-android.png",
     data: { url: "https://www.harth.social/" },
   };
 
@@ -75,11 +75,12 @@ self.addEventListener("push", function (event) {
     dir: "ltr",
     lang: "en-US",
     vibrate: [100, 50, 200],
-    badge: "/icons/icon-96x96.png",
-    icon: data.creatorImage || "/icons/icon-150x150.png",
+    badge: "/icons/notification-android.png",
+    icon: data.creatorImage || "/icons/notification-android.png",
     data: {
       url: data.openUrl,
     },
+    tag: data.harthID,
   };
 
   event.waitUntil(self.registration.showNotification(data.title, options));

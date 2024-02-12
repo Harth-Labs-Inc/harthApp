@@ -11,7 +11,8 @@
   //width: 320px;
   width: 100%;
   height: 100%;
-  padding: 8px 16px 8px 16px;
+  padding: 8px 0px 8px 0px;
+  overflow-y: scroll;
 
   &Header {
     display: flex;
@@ -19,34 +20,35 @@
     align-items: center;
     width: 100%;
     background-color: transparent;
-    color: $font_light;
+    color: var(--font-main);
     padding-right: 16px;
+    padding-left: 16px;
     padding-bottom: 16px;
     p {
       width: 100%;
       @include overlayMenuTitle;
       text-align: right;
-      color: $font_light;
+      color: var(--font-main);
     }
 
     path {
-      fill: $font_light;
+      fill: var(--font-main);
     }
   }
 
   &Title {
     @include systemFont;
-    color: $font_light;
+    color: var(--font-main);
     width: calc(100% - 16px);
     margin-top: 24px;
     padding: 4px 0px;
-    border-bottom: 1px solid $border_basic;
+    border-bottom: 1px solid var(--border-basic);
     text-transform: capitalize;
   }
 
   &Text {
     @include systemFont;
-    color: $font_light;
+    color: var(--font-main);
     width: 80%;
     margin-top: 12px;
     text-align: center;
@@ -86,7 +88,7 @@
 
       &Name {
         @include harthTitle;
-        color: $font_light;
+        color: var(--font-main);
       }
     }
 
@@ -118,7 +120,7 @@
         white-space: nowrap;
         @include worksans;
         font-size: 13px;
-        color: $font_muted;
+        color: var(--font-main);
         user-select: text;
       }
 
@@ -176,38 +178,34 @@
   width: 100%;
   height: 48px;
   border: 0;
-  border-radius: 8px;
+  //border-radius: 8px;
   padding: 0px 16px 0px 16px;
 
   background-color: transparent;
-  @include menuText;
-  color: $font_light;
+  @include systemFont;
+  color: var(--font-main);
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: $ash;
+      background-color: var(--menu-offset);
     }
   }
 
   .iconHolder {
     height: 24px;
     width: 24px;
+    min-width: 24px;
     path {
-      fill: $border_basic;
+      fill: var(--menu-path-muted);
     }
   }
 
   &Invites {
-    color: $font_light;
-    //font-weight: 600;
     justify-content: flex-start;
     gap: 6px;
-    //border: 1px solid $border_basic;
     width: 100%;
-    //height: fit-content;
     padding: 0px 12px 0px 12px;
-    margin-bottom: 8px;
-    margin-top: 4px;
+    margin-top: 8px;
 
     .iconInvite {
       height: 36px;
@@ -220,7 +218,7 @@
   display: flex;
   @include systemFont;
   width: 100%;
-  border: 0px solid $font_light;
+  border: 0px solid var(--font-main);
   border-bottom-width: 1px;
   align-items: flex-end;
   padding-bottom: 4px;
@@ -244,34 +242,38 @@
   column-gap: 4px;
   justify-content: space-between;
   align-items: center;
-  width: calc(100% - 16px);
+  width: 100%;
+  max-width: 100%;
   height: 56px;
   padding: 0px 12px;
   @include systemFont;
-  font-weight: 700;
   letter-spacing: 0;
-  font-size: 16px;
-  color: $font_light;
+  color: var(--font-main);
   background: transparent;
   border-radius: 6px;
-  text-wrap: wrap;
+
+  p {
+    max-width: calc(100% - 40px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 
   path {
-    fill: $font_light;
+    fill: var(--font-main);
   }
 
   button {
     &:hover {
       background-color: $button_main_press;
       path {
-        fill: $background;
+        fill: $menu_color;
       }
     }
 
     &:active {
       background-color: $button_main_press;
       path {
-        fill: $background;
+        fill: $menu_color;
       }
     }
   }
@@ -281,8 +283,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: calc(100% - 16px);
-  padding: 8px 12px;
+  width: 100%;
+  padding: 8px 36px 8px 12px;
   gap: 8px;
 
   .active{
@@ -294,7 +296,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    border: 1px solid $border_basic;
+    border: 3px solid var(--border-light);
     border-radius: 8px;
     outline: 0;
     margin: 0;
@@ -303,13 +305,84 @@
 
     p {
       @include eyebrow;
-      color: $font_light;
+      color: var(--font-main);
       padding-left: 4px;
     }
 
     img {
-      width: 256px;
+      width: 100%;
       border-radius: 8px;
+      border: 1px solid var(--border-light);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-color: $hot_purple;
+      }
+    }
+
+    &:active {
+      border-color: $hot_purple;
+    }
+  }
+}
+
+.textSizeHolder {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 8px 36px 64px 12px;
+  gap: 8px;
+
+  .active{
+    border-color: $hot_purple !important;
+  }
+
+  .theme {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 3px solid var(--border-light);
+    color: var(--font-main);
+    border-radius: 8px;
+    outline: 0;
+    margin: 0;
+    gap: 6px;
+    padding: 8px 8px 8px 12px;
+    width: 100%;
+
+    p {
+      @include eyebrow;
+      color: var(--font-main);
+    }
+
+    .regText {
+      text-align: left;
+      @include chatText;
+      font-size: 14px;
+      
+
+      &Mobile {
+        text-align: left;
+        @include chatTextMobile;
+        font-size: 16px;
+      }
+
+    }
+
+    .largeText {
+      text-align: left;
+      @include chatText;
+      font-size: 16px;
+
+      &Mobile {
+        text-align: left;
+        @include chatTextMobile;
+        font-size: 20px;
+      }
+
     }
 
     @media (hover: hover) and (pointer: fine) {
@@ -335,16 +408,16 @@
 
   .inputEdit {
     border-radius: 4px;
-    background-color: $border_basic;
-    border: 1px solid $border_heavy;
+    background-color: var(--border-basic);
+    border: 0;
     height: 56px;
     @include systemFont;
     font-size: 16px;
-    color: $font_light;
+    color: var(--font-main);
     caret-color: $hot_purple;
     margin: 0;
     &::placeholder {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
@@ -357,8 +430,8 @@
   }
   .cancelButton {
     background-color: transparent;
-    color: $font_muted;
-    border: 1px solid $border_basic;
+    color: var(--font-muted);
+    border: 1px solid var(--border-basic);
   }
 }
 
@@ -366,7 +439,7 @@
   @include systemFont;
   font-size: 12px;
   letter-spacing: 0;
-  color: $font_muted;
+  color: var(--font-muted);
 }
 
 .spacer {

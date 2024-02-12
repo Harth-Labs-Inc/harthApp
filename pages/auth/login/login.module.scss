@@ -7,7 +7,7 @@
 
   h3 {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     text-align: left !important;
     width: 100%;
     margin: 0;
@@ -16,36 +16,31 @@
 
   .label {
     @include systemFont;
-    font-size: 14px;
-    font-weight: 400;
-    //letter-spacing: 0.02em;
     text-align: center;
     margin-bottom: 4px;
     margin-top: 4px;
-    color: $font_light;
+    color: var(--font-main);
     text-align: left;
   }
 
   input {
     border-radius: 4px;
-    background-color: $background_offset_1;
+    background-color: var(--border-light);
     border: 0;
     height: 56px;
     padding: 0px 12px;
-    @include rubik;
-    font-weight: 400;
+    @include systemFont;
     font-size: 16px;
-    color: $font_light;
+    color: var(--font-main);
     caret-color: $hot_purple;
     &::placeholder {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
   .logoHolder {
     width: 280px;
     max-width: 280px;
-    //height: 56px;
     margin-top: 16px;
     display: flex;
     justify-content: center;
@@ -55,13 +50,11 @@
     }
   }
   .greeting {
-    @include rubik;
-    font-size: 14px;
-    font-weight: 400;
+    @include systemFont;
     text-align: center;
     margin-bottom: 64px;
     margin-top: 8px;
-    color: $font_light;
+    color: var(--font-main);
   }
 
   .formBottom {
@@ -75,10 +68,10 @@
     text-align: center;
     width: 280px;
     margin: 8px auto 28px;
-    color: $font_muted;
+    color: var(--font-muted);
 
     a {
-      color: $font_muted;
+      color: var(--font-muted);
     }
   }
 
@@ -93,17 +86,16 @@
 
   .accountCreateAlert {
     position: relative;
-    @include worksans;
+    @include systemFont;
     font-size: 12px;
-    font-weight: 500;
     text-align: center;
     width: 260px;
-    color: $border_heavy;
+    color: var(--font-muted);
     margin: auto;
     margin-top: 16px;
     margin-bottom: 8px;
-    background-color: $border_light;
-    border: 1px solid $border_basic;
+    background-color: var(--border-light);
+    border: 1px solid var(--border-basic);
     border-radius: 16px;
     padding: 8px 12px;
 
@@ -111,12 +103,10 @@
       display: block;
       margin: 4px auto;
       background-color: transparent;
-      color: $fuel;
+      color: var(--font-main);
       text-decoration: underline;
       border: none;
-      @include worksans;
-      font-size: 12px;
-      font-weight: 400;
+      @include systemFont;
       padding: 4px 4px;
       border-radius: 8px;
       cursor: pointer;
@@ -135,26 +125,28 @@
       height: 48px;
       border-radius: 999px;
       max-width: 88px;
-      border: 1px solid $border_heavy;
-      background-color: $background;
+      border: 1px solid var(--border-basic);
+      background-color: transparent;
 
       path {
-        fill: $border_heavy;
+        fill: var(--border-basic);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: $background_offset;
+          background: var(--border-light);
+          border-color: var(--border-heavy);
           path {
-            fill: $font_muted;
+            fill: var(--border-heavy);
           }
         }
       }
 
       &:active {
-        background: $background_offset;
+        background: var(--border-light);
+        border-color: var(--border-heavy);
         path {
-          fill: $font_muted;
+          fill: var(--border-heavy);
         }
       }
     }

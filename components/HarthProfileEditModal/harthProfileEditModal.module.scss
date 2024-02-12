@@ -7,7 +7,7 @@
   margin-right: auto;
   .title {
     @include overlayMenuTitle;
-    color: $font_light;
+    color: var(--font-main);
     width: 100%;
     text-align: left;
     margin-bottom: 32px;
@@ -25,7 +25,7 @@
 
   .label {
     @include systemFont;
-    color: $font_light;
+    color: var(--font-main);
     width: 90%;
     font-size: 14px;
     margin-top: 24px;
@@ -39,8 +39,8 @@
     height: 48px;
     border-radius: 6px;
     border: 0;
-    color: $font_light;
-    background: $border_basic;
+    color: var(--font-main);
+    background: var(--border-light);
   }
 
   .form {
@@ -55,7 +55,7 @@
     width: 100%;
     margin: 4px auto;
 
-    color: $font_muted;
+    color: var(--font-muted);
     @include systemFont;
     font-size: 12px;
     overflow-wrap: anywhere;

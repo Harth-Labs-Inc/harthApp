@@ -1,8 +1,18 @@
 import { useState, useEffect, useContext, useRef, Fragment } from "react";
 import Image from "next/image";
 import { MobileContext } from "contexts/mobile";
-import { getDownloadURL } from "../../requests/s3";
-import { deleteMessage, updateMessage, flagPost } from "../../requests/chat";
+import {
+  compressImage,
+  getDownloadURL,
+  getUploadURL,
+  putImageInBucket,
+} from "../../requests/s3";
+import {
+  deleteMessage,
+  updateMessage,
+  flagPost,
+  addKeyToDB,
+} from "../../requests/chat";
 import {
   updateConversationMessage,
   deleteConversationMessage,
@@ -20,6 +30,7 @@ import {
   generateID,
   getAttachment,
   saveAttachment,
+  updateRecordAttachments,
 } from "services/helper";
 import { CustomMessageContextMenu } from "components/CustomMessageContextMenu/CustomMessageContextMenu";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
@@ -60,6 +71,8 @@ const ChatSingleMessage = (props) => {
   const [showMessageInfoMobile, setShowMessageInfoMobile] = useState(false);
   const [showFlagConfirmation, setShowFlagConfirmation] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
+  const [pendingPreviews, setPendingPreviews] = useState([]);
+  const [hasFailed, setHasFailed] = useState(false);
 
   const touchEndTimestamp = useRef(0);
   const touchThreshold = 100;
@@ -80,6 +93,9 @@ const ChatSingleMessage = (props) => {
     reactionsData = [],
     flagged,
     approvedByAdmin,
+    status,
+    pendingID,
+    isUploading,
   } = props.msg;
   const {
     editMessageText,
@@ -97,6 +113,8 @@ const ChatSingleMessage = (props) => {
     longPressCoverId,
   } = props;
 
+  const [statusState, setStatusState] = useState(status);
+
   const { user } = useAuth();
   const { emitUpdate, newMessageIndicators } = useSocket();
   const {
@@ -109,6 +127,7 @@ const ChatSingleMessage = (props) => {
     hasApprovedTos,
     initialLoadAllGood,
     chatMessagesController,
+    pendingMessagesController,
   } = useComms();
 
   const { activeTour, startTour, skipStep, tourKey } = useTourManager();
@@ -201,6 +220,10 @@ const ChatSingleMessage = (props) => {
         slideshowURLRef?.current?.push(...tempAttch);
         const data = await Promise.all(
           attachments.map(async (att) => {
+            if (att.isPreview) {
+              return { ok: 1, downloadURL: att.previewUrl };
+            }
+
             const cachedData = await getAttachment(
               chatMessagesController,
               storeName,
@@ -241,6 +264,9 @@ const ChatSingleMessage = (props) => {
       }
     };
 
+    if (!attachments.length) {
+      return;
+    }
     FetchDownloadURL();
     return () => {
       setUrls([]);
@@ -354,6 +380,193 @@ const ChatSingleMessage = (props) => {
       document.removeEventListener("click", clickOutside);
     };
   }, [showMessageInfoMobile]);
+
+  const sendAttachments = async (message = {}) => {
+    const { attachments, numOfAttchmts, pendingID } = message;
+    let tempMessage = { ...message };
+    const bucket = "topic-message-attachments";
+
+    const updateAttachmentStatus = (idx, udpateObj) => {
+      const updatedAttachments = [...tempMessage.attachments];
+      updatedAttachments[idx] = udpateObj;
+      tempMessage.attachments = updatedAttachments;
+
+      try {
+        updateRecordAttachments(
+          pendingMessagesController,
+          "pendingMessages",
+          tempMessage.pendingID,
+          tempMessage.attachments
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const promises = [];
+
+    for (let idx = 0; idx < numOfAttchmts; idx++) {
+      const attachment = attachments[idx];
+      const isLastImage = idx == attachments.length - 1;
+      if (
+        attachment &&
+        attachment.status === "pending" &&
+        attachment.fileBlob
+      ) {
+        promises.push(
+          new Promise(async (res) => {
+            const { name, thumbnail, fileBlob, fileType } = attachment;
+            try {
+              const isGif = fileType === "image/gif";
+
+              const data = await getUploadURL(name, fileType, bucket);
+              console.log(data, "data");
+              const { ok, uploadURL } = data;
+              if (ok) {
+                let reader = new FileReader();
+                reader.addEventListener("loadend", async () => {
+                  let result = await putImageInBucket(
+                    uploadURL,
+                    reader,
+                    fileType
+                  );
+                  let { status } = result;
+                  console.log(status, "status");
+
+                  if (status == 200) {
+                    if (isGif) {
+                      await addKeyToDB(
+                        message._id,
+                        thumbnail,
+                        fileType,
+                        null,
+                        null,
+                        isLastImage
+                      );
+
+                      updateAttachmentStatus(idx, {
+                        name: thumbnail,
+                        fileType: fileType,
+                        status: "complete",
+                      });
+
+                      res({
+                        name: thumbnail,
+                        fileType: fileType,
+                      });
+                    } else {
+                      let { desiredHeight, desiredWidth } = await compressImage(
+                        name,
+                        thumbnail,
+                        bucket,
+                        fileType
+                      );
+                      await addKeyToDB(
+                        message._id,
+                        thumbnail,
+                        fileType,
+                        desiredHeight,
+                        desiredWidth,
+                        isLastImage
+                      );
+
+                      updateAttachmentStatus(idx, {
+                        name,
+                        fileType: fileType,
+                        status: "complete",
+                      });
+
+                      res({
+                        name: thumbnail,
+                        fileType: fileType,
+                        desiredHeight,
+                        desiredWidth,
+                      });
+                    }
+                  }
+                });
+                reader.readAsArrayBuffer(fileBlob);
+              }
+            } catch (error) {
+              console.error("Error sending attachment:", error);
+            }
+          })
+        );
+      }
+    }
+
+    const outputs = await Promise.allSettled(promises);
+    console.log(outputs);
+    setStatusState("complete");
+    console.log("remove pending if all good");
+  };
+
+  useEffect(() => {
+    if (
+      !isUploading &&
+      status == "pending" &&
+      pendingID &&
+      pendingMessagesController
+    ) {
+      getAttachment(pendingMessagesController, "pendingMessages", pendingID)
+        .then((record) => {
+          if (record) {
+            const attachments = record.data.attachments;
+            console.log("Record found in indexedDB:", attachments, record.data);
+
+            const processAttachments = async () => {
+              const attachmentUrls = [];
+              let hasFailed = false;
+
+              for (let idx = 0; idx < record.data.numOfAttchmts; idx++) {
+                const attachment = attachments[idx];
+                if (
+                  attachment &&
+                  attachment.status === "pending" &&
+                  attachment.fileBlob
+                ) {
+                  const url = URL.createObjectURL(attachment.fileBlob);
+                  attachmentUrls.push({
+                    ...attachment,
+                    downloadURL: url,
+                  });
+                } else {
+                  attachmentUrls.push({
+                    ...attachment,
+                    downloadURL: "",
+                    fileType: "image/png",
+                  });
+
+                  hasFailed = true;
+                }
+              }
+              setPendingPreviews(attachmentUrls);
+              const hasDbID = record.data._id;
+              if (!hasFailed && hasDbID) {
+                sendAttachments(record.data);
+              }
+              if (!hasDbID) {
+                hasFailed = true;
+              }
+              setHasFailed(hasFailed);
+            };
+
+            if (attachments.length || record.data.numOfAttchmts) {
+              processAttachments();
+            }
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking indexedDB:", error);
+        });
+    }
+  }, [status, pendingID, pendingMessagesController, isUploading]);
+
+  useEffect(() => {
+    if (statusState !== status) {
+      setStatusState(status);
+    }
+  }, [status]);
 
   const handleTouchStart = () => {
     if (!showLongPressMenu) {
@@ -647,6 +860,13 @@ const ChatSingleMessage = (props) => {
           id={isFirst ? "tourFirstUse_post" : ""}
           ref={messageInfoRef}
           className={`
+          ${
+            hasFailed
+              ? styles.isFailedMessage
+              : statusState == "pending"
+                ? styles.isPreviewMessage
+                : ""
+          }
             ${styles.ChatParentContainer}
             ${isEditing && styles.Editing}
             ${styles.noselect}
@@ -700,7 +920,7 @@ const ChatSingleMessage = (props) => {
                   >
                     {(attachments || []).map(
                       ({ desiredWidth, desiredHeight, fileType }, idx) => {
-                        if (fileType.includes("video")) {
+                        if (fileType?.includes("video")) {
                           return (
                             <video
                               key={idx}
@@ -773,7 +993,81 @@ const ChatSingleMessage = (props) => {
                         );
                       }
                     )}
+                    {(pendingPreviews || []).map(
+                      (
+                        { fileType, downloadURL, desiredWidth, desiredHeight },
+                        idx
+                      ) => {
+                        if (fileType?.includes("video")) {
+                          return (
+                            <video
+                              key={idx}
+                              width="280"
+                              height="280"
+                              controls
+                              playsInline
+                              muted
+                              src={downloadURL}
+                              type={fileType}
+                            ></video>
+                          );
+                        }
 
+                        return downloadURL ? (
+                          <Image
+                            key={idx}
+                            className="active-image"
+                            src={downloadURL}
+                            width={
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280
+                            }
+                            height={desiredHeight || 280}
+                            placeholder="blur"
+                            blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                              shimmer(
+                                desiredWidth && desiredWidth <= 280
+                                  ? desiredWidth
+                                  : 280,
+                                desiredHeight || 280
+                              )
+                            )}`}
+                            alt="message image"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            onTouchStart={(event) => event.stopPropagation()}
+                            onTouchEnd={(event) => event.stopPropagation()}
+                          />
+                        ) : (
+                          <Image
+                            key={idx}
+                            className="active-image"
+                            src={`data:image/svg+xml;base64,${toBase64(
+                              shimmer(
+                                desiredWidth && desiredWidth <= 280
+                                  ? desiredWidth
+                                  : 280,
+                                desiredHeight || 280
+                              )
+                            )}`}
+                            width={
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280
+                            }
+                            height={desiredHeight || 280}
+                            alt="message image"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            onTouchStart={(event) => event.stopPropagation()}
+                            onTouchEnd={(event) => event.stopPropagation()}
+                          />
+                        );
+                      }
+                    )}
                     <div id={`message-content${messageID}`}>
                       {formatMessage(message)}
                       <LinkPreview
@@ -819,16 +1113,7 @@ const ChatSingleMessage = (props) => {
                                             `}
                             key={index}
                           >
-                            {isCustom ? (
-                              <img
-                                src={reaction}
-                                style={{
-                                  height: "70%",
-                                }}
-                              />
-                            ) : (
-                              reaction
-                            )}
+                            {isCustom ? <img src={reaction} /> : reaction}
                             <span className={styles.label}>{name}</span>
                           </button>
                         );
@@ -851,7 +1136,14 @@ const ChatSingleMessage = (props) => {
                     <div className={styles.flagMessage}>
                       This post has been flagged by a user as inappropriate.
                       <br />
-                      Your group's owner can review it for approval.
+                      Your space's owner can review it for approval.
+                    </div>
+                  </div>
+                )}
+                {hasFailed && (
+                  <div className={styles.overlay}>
+                    <div className={styles.flagMessageRed}>
+                      Something went wrong.
                     </div>
                   </div>
                 )}
@@ -892,6 +1184,14 @@ const ChatSingleMessage = (props) => {
       <div
         className={`
     ${styles.ChatParentContainer}
+    ${
+      hasFailed
+        ? styles.isFailedMessage
+        : statusState == "pending"
+          ? styles.isPreviewMessage
+          : ""
+    }
+
     ${isEditing && styles.Editing}
     ${emojiPickerState && styles.EmojiActive}  
   `}
@@ -957,7 +1257,7 @@ const ChatSingleMessage = (props) => {
                 <div className={styles.Content}>
                   {(attachments || []).map(
                     ({ desiredWidth, desiredHeight, fileType }, idx) => {
-                      if (fileType.includes("video")) {
+                      if (fileType?.includes("video")) {
                         return (
                           <video
                             key={idx}
@@ -1028,6 +1328,81 @@ const ChatSingleMessage = (props) => {
                       );
                     }
                   )}
+                  {(pendingPreviews || []).map(
+                    (
+                      { fileType, downloadURL, desiredWidth, desiredHeight },
+                      idx
+                    ) => {
+                      if (fileType?.includes("video")) {
+                        return (
+                          <video
+                            key={idx}
+                            width="280"
+                            height="280"
+                            controls
+                            playsInline
+                            muted
+                            src={downloadURL}
+                            type={fileType}
+                          ></video>
+                        );
+                      }
+
+                      return downloadURL ? (
+                        <Image
+                          key={idx}
+                          className="active-image"
+                          src={downloadURL}
+                          width={
+                            desiredWidth && desiredWidth <= 280
+                              ? desiredWidth
+                              : 280
+                          }
+                          height={desiredHeight || 280}
+                          placeholder="blur"
+                          blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                            shimmer(
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280,
+                              desiredHeight || 280
+                            )
+                          )}`}
+                          alt="message image"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          onTouchStart={(event) => event.stopPropagation()}
+                          onTouchEnd={(event) => event.stopPropagation()}
+                        />
+                      ) : (
+                        <Image
+                          key={idx}
+                          className="active-image"
+                          src={`data:image/svg+xml;base64,${toBase64(
+                            shimmer(
+                              desiredWidth && desiredWidth <= 280
+                                ? desiredWidth
+                                : 280,
+                              desiredHeight || 280
+                            )
+                          )}`}
+                          width={
+                            desiredWidth && desiredWidth <= 280
+                              ? desiredWidth
+                              : 280
+                          }
+                          height={desiredHeight || 280}
+                          alt="message image"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          onTouchStart={(event) => event.stopPropagation()}
+                          onTouchEnd={(event) => event.stopPropagation()}
+                        />
+                      );
+                    }
+                  )}
                   <div id={`message-content${messageID}`}>
                     {formatMessage(message)}
                     <LinkPreview message={message} messageID={messageID} />
@@ -1062,16 +1437,7 @@ const ChatSingleMessage = (props) => {
                                       `}
                           key={id}
                         >
-                          {isCustom ? (
-                            <img
-                              src={reaction}
-                              style={{
-                                height: "70%",
-                              }}
-                            />
-                          ) : (
-                            reaction
-                          )}
+                          {isCustom ? <img src={reaction} /> : reaction}
                           <span className={styles.label}>{name}</span>
                         </button>
                       );
@@ -1094,7 +1460,14 @@ const ChatSingleMessage = (props) => {
                   <div className={styles.flagMessage}>
                     This post has been flagged by a user as inappropriate.
                     <br />
-                    Your group's owner can review it for approval.
+                    Your space's owner can review it for approval.
+                  </div>
+                </div>
+              )}
+              {hasFailed && (
+                <div className={styles.overlay}>
+                  <div className={styles.flagMessageRed}>
+                    Something went wrong.
                   </div>
                 </div>
               )}

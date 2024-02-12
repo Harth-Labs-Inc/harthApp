@@ -68,7 +68,7 @@ export default function HarthInviteAcceptModal({
           ignoreFadeIn={ignoreFadeIn}
         >
           <div className={styles.mainContainer}>
-            <div className={styles.title}>Join a Group</div>
+            <div className={styles.title}>Join a space</div>
             <div className={styles.lineParent}>
               <div className={`${styles.line} ${styles.lineActive}`}></div>
               <div className={styles.line}></div>

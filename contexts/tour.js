@@ -21,28 +21,27 @@ const stepObjects = {
       styles: {
         options: {
           zIndex: 10000,
-          backgroundColor: "#271623",
-          arrowColor: "#271623",
+          backgroundColor: "#aa68c8",
+          arrowColor: "#aa68c8",
         },
         buttonClose: {
           display: "none",
         },
         buttonNext: {
-          backgroundColor: "#aa68c8",
+          backgroundColor: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
+          color: "#271623",
           padding: "12px 16px",
         },
         buttonBack: {
-          color: "#28282e",
+          color: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
+          color: "#271623",
           padding: "12px 16px",
         },
         buttonSkip: {
-          color: "#28282e",
+          color: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
           padding: "12px 16px",
         },
       },
@@ -61,28 +60,26 @@ const stepObjects = {
       styles: {
         options: {
           zIndex: 10000,
-          backgroundColor: "#271623",
-          arrowColor: "#271623",
+          backgroundColor: "#aa68c8",
+          arrowColor: "#aa68c8",
         },
         buttonClose: {
           display: "none",
         },
         buttonNext: {
-          backgroundColor: "#aa68c8",
+          backgroundColor: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
+          color: "#271623",
           padding: "12px 16px",
         },
         buttonBack: {
-          color: "#28282e",
+          color: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
           padding: "12px 16px",
         },
         buttonSkip: {
-          color: "#28282e",
+          color: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
           padding: "12px 16px",
         },
       },
@@ -92,31 +89,31 @@ const stepObjects = {
       target: "#tourFirstUse_harthPageSwitcher",
       content: (
         <TalkingHead
-          text="Switch between topics, gatherings, and messages for your current group"
+          text="Switch between topics, gatherings, and messages for your current space"
           isSmall={true}
           isTour={true}
         />
       ),
       disableBeacon: true,
+      showProgress: false,
       styles: {
         options: {
           zIndex: 10000,
-          backgroundColor: "#271623",
-          arrowColor: "#271623",
+          backgroundColor: "#aa68c8",
+          arrowColor: "#aa68c8",
         },
         buttonClose: {
           display: "none",
         },
         buttonNext: {
-          backgroundColor: "#aa68c8",
+          backgroundColor: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
+          color: "#271623",
           padding: "12px 16px",
         },
         buttonBack: {
-          color: "#28282e",
+          color: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
           padding: "12px 16px",
         },
       },
@@ -133,17 +130,20 @@ const stepObjects = {
           isTour={true} />
       ),
       disableBeacon: true,
+      showProgress: false,
       styles: {
         options: {
           zIndex: 10000,
+          backgroundColor: "#aa68c8",
+          arrowColor: "#aa68c8",
         },
         buttonClose: {
           display: "none",
         },
         buttonNext: {
-          backgroundColor: "#aa68c8",
+          backgroundColor: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
+          color: "#271623",
           padding: "12px 16px",
         },
         buttonBack: {
@@ -163,17 +163,20 @@ const stepObjects = {
           isTour={true} />
       ),
       disableBeacon: true,
+      showProgress: false,
       styles: {
         options: {
+          backgroundColor: "#aa68c8",
+          arrowColor: "#aa68c8",
           zIndex: 10000,
         },
         buttonClose: {
           display: "none",
         },
         buttonNext: {
-          backgroundColor: "#aa68c8",
+          backgroundColor: "#fefff6",
           borderRadius: "99px",
-          color: "#fafafa",
+          color: "#271623",
           padding: "12px 16px",
         },
         buttonBack: {

@@ -1,6 +1,38 @@
 @import "../../styles/globals.scss";
 @import "../../styles/fonts.scss";
 
+.isFailedMessage{
+  border-top: solid 4px $hot_red !important;
+}
+.isPreviewMessage {
+  opacity: 0.5;
+  border-top: solid 4px transparent;
+  position: relative;
+}
+.isPreviewMessage:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent,     transparent 25%, 
+  $hot_purple 30%, 
+  $hot_purple 70%, 
+  transparent 75%,  
+  transparent 65%,  transparent);
+  background-size: 200% 100%;
+  animation: moveLoader 2s linear infinite;
+}
+
+@keyframes moveLoader {
+  0% {
+      background-position: 100% 0;
+  }
+  100% {
+      background-position: -100% 0;
+  }
+}
 .disabledFlag {
   cursor: not-allowed !important;
   path {
@@ -34,9 +66,19 @@
     font-size: 12px;
     border-radius: 8px;
     color: $hot_purple;
-    background-color: $background;
+    background-color: black;
     padding: 8px 12px;
     border: 1px solid $hot_purple;
+    text-align: center;
+  }
+  .flagMessageRed{
+    @include systemFont;
+    font-size: 12px;
+    border-radius: 8px;
+    color: $hot_red;
+    background-color: black;
+    padding: 8px 12px;
+    border: 1px solid $hot_red;
     text-align: center;
   }
 }
@@ -64,17 +106,17 @@
 .ChatParentContainer {
   max-width: 100%;
   width: 100%;
-  //border-radius: 8px;
+  border-top: 4px solid transparent;
   transform: translateZ(0);
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: var(--theme-offset-3);
+      background-color: var(--theme-background-offset);
     }
   }
 
   &:active {
-    background-color: var(--theme-offset-3);
+    background-color: var(--theme-background-offset);
   }
   &.Editing {
     background-color: $hot_pink;
@@ -108,6 +150,19 @@
   column-gap: 10px;
   border: 0;
 
+  
+  .UserIcon {
+    height: fit-content;
+    width: fit-content;
+    border-radius: 50%;
+    user-select: none;
+    img {
+      height: 30px;
+      width: 30px;
+      margin-top: 2px;
+    }
+  }
+
   &Desktop {
     padding: 8px 20px 12px 20px;
 
@@ -121,19 +176,16 @@
 
   &Mobile {
     padding: 8px 12px 12px 12px;
-  }
-
-  .UserIcon {
-    height: fit-content;
-    width: fit-content;
-    border-radius: 50%;
-    user-select: none;
-    img {
-      height: 30px;
-      width: 30px;
-      margin-top: 2px;
+    column-gap: 8px;
+    .UserIcon {
+      img {
+        width: 36px;
+        height: 36px;
+      }
     }
   }
+
+
   .emoji-mart {
     position: absolute;
     top: 40px;
@@ -232,7 +284,6 @@
         cursor: pointer;
         width: fit-content;
         max-width: 280px;
-        //height: auto;
         max-height: 320px;
       }
 
@@ -276,11 +327,8 @@
         align-items: center;
         gap: 4px;
         position: relative;
-        height: 36px;
-        font-size: 24px;
-        line-height: 36px;
         text-align: center;
-        background-color: var(--theme-offset-1);
+        background-color: var(--theme-background-offset-medium);
         border-radius: 99px;
         margin: 0;
         border: 0;
@@ -291,6 +339,12 @@
           color: var(--font-main);
           @include reactionLabel;
         }
+
+        img {
+          width: fit-content;
+          overflow: hidden;
+        }
+
         &Owner {
           //background-color: $ash_medium;
           //.label {
@@ -311,23 +365,47 @@
         }
 
         &Desktop {
+          height: 32px;
+          max-height: 32px;
+          font-size: 32px;
+          line-height: 32px;
+
+          img {
+            width: 32px;
+            max-width: 32px;
+            max-height: 32px;
+            min-width: 32px;
+          }
+
           @media (hover: hover) and (pointer: fine) {
             &:hover {
               cursor: pointer;
-              background-color: var(--theme-offset-2);
+              background-color: var(--border-basic);
             }
           }
         }
 
         &Mobile {
+          height: 36px;
+          max-height: 36px;
+          font-size: 36px;
+          line-height: 36px;
+          padding: 0px 10px 0px 4px;
+
+          img {
+            width: 36px;
+            max-width: 36px;
+            max-height: 36px;
+            min-width: 36px;
+          }
+
           &:active {
-            background-color: var(--theme-offset-2);
+            background-color: var(--border-light);
           }
         }
       }
 
       &AddReaction {
-        height: 32px;
         width: 44px;
         background-color: transparent;
         padding: 0;
@@ -336,8 +414,8 @@
         margin: 0;
         border: 0;
         user-select: none;
-        background-color: var(--theme-offset-1);
-        //border: 1px solid $border_basic;
+        background-color: var(--theme-background-offset-medium);
+
         svg {
           width: 22px;
           height: 22px;
@@ -347,8 +425,9 @@
         }
 
         &Desktop {
+          height: 32px;
           &:hover {
-            background-color: var(--theme-offset-2);
+            background-color: var(--border-light);
             cursor: pointer;
             path {
               fill: var(--font-main);
@@ -357,8 +436,13 @@
         }
 
         &Mobile {
+          height: 36px;
+          svg {
+            width: 24px;
+            height: 24px;
+          }
           &:active {
-            background-color: var(--theme-offset-2);
+            background-color: var(--border-basic);
             path {
               fill: var(--font-main);
             }
@@ -377,6 +461,7 @@
     top: -8px;
     right: 16px;
     background-color: var(--border-light);
+    background-color: var(--menu-color);
     border-radius: 8px;
     padding: 4px;
     border: 0;
@@ -396,15 +481,15 @@
       overflow: hidden;
 
       path {
-        fill: var(--path-heavy);
+        fill: var(--border-heavy);
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
           path {
-            fill: var(--font-main);
+            fill: var(--font-muted);
           }
-          background-color: var(--theme-offset-1);
+          background-color: var(--menu-offset);
         }
       }
 
@@ -412,7 +497,7 @@
         path {
           fill: var(--font-main);
         }
-        background-color: var(--theme-offset-1);
+        background-color: var(--border-light);
       }
     }
   }
@@ -443,13 +528,12 @@
   padding: 12px;
   padding-bottom: 6px;
   background-color: transparent;
-  //border-radius: 12px;
   width: 100%;
   max-width: 460px;
   user-select: none;
   height: 256px;
   overflow: hidden;
-  //border: 1px solid $ash;
+  color: var(--font-main);
 
   &::after {
     content: "";
@@ -470,8 +554,6 @@
     height: 16px;
     overflow: hidden;
     padding: 0px;
-    //margin-bottom: 6px;
-    //background: aqua;
 
     img {
       margin: 0;
@@ -479,7 +561,6 @@
       height: 16px;
       border-radius: 999px;
       background-color: transparent;
-      //overflow: hidden;
       object-fit: contain;
     }
 
@@ -491,11 +572,9 @@
       text-overflow: ellipsis;
       display: inline-block;
       font-size: 12px;
-      //line-height: 100%;
       font-weight: 500;
       letter-spacing: 0;
       color: var(--font-main);
-      //background-color: aquamarine;
     }
   }
 
@@ -576,7 +655,7 @@
     font-size: 12px;
     letter-spacing: 0em;
     padding: 0;
-    color: $font_muted;
+    color: var(--font-muted);
     max-height: 25px;
     margin-top: 2px;
   }
@@ -587,8 +666,7 @@
   padding: 24px 32px 20px 20px;
   gap: 20px;
   margin-top: 10px;
-  background-color: $white;
-  border: 1px solid $border_basic;
+  border: 1px solid var(--border-basic);
   border-radius: 12px;
   width: fit-content;
   max-width: 100%;
@@ -606,7 +684,7 @@
     width: 24px;
     min-width: 24px;
     path {
-      fill: $border_basic;
+      fill: var(--border-basic);
     }
   }
 }

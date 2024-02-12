@@ -51,6 +51,8 @@ export const CommsProvider = ({
   const [indexAvatarController, setIndexAvatarController] = useState(null);
   const [linkController, setLinkController] = useState(null);
   const [chatMessagesController, setChatMessagesController] = useState(null);
+  const [pendingMessagesController, setPendingMessagesController] =
+    useState(null);
 
   const [showAdminPromotionModal, setShowAdminPromotionModal] = useState(false);
 
@@ -117,16 +119,19 @@ export const CommsProvider = ({
         { dbName: "Avatar_Attachments", storeName: "avatar" },
         { dbName: "LinkPreviewCache", storeName: "previews" },
         { dbName: "Attachments", storeName: "chat" },
+        { dbName: "PendingMessagesDB", storeName: "pendingMessages" },
       ];
       try {
         const dbPromises = dbConfigs.map((config) =>
           openDB(config.dbName, config.storeName)
         );
-        const [avatarDB, linkDB, chatDB] = await Promise.all(dbPromises);
+        const [avatarDB, linkDB, chatDB, pendingMessagesDB] =
+          await Promise.all(dbPromises);
 
         setIndexAvatarController(avatarDB);
         setLinkController(linkDB);
         setChatMessagesController(chatDB);
+        setPendingMessagesController(pendingMessagesDB);
       } catch (error) {
         console.error("Error opening databases", error);
       }
@@ -241,7 +246,7 @@ export const CommsProvider = ({
   }, [comms]);
 
   const startPromotionPoll = () => {
-    const pollInterval = 300000;
+    const pollInterval = 600000;
 
     const checkForDifferences = (current, fetched) => {
       const fieldsToCheck = ["admin", "owner"];
@@ -808,6 +813,7 @@ export const CommsProvider = ({
       value={{
         imageCacheRef: imageCacheRef.current,
         chatMessagesController,
+        pendingMessagesController,
         linkController,
         indexAvatarController,
         initialLoadAllGood,

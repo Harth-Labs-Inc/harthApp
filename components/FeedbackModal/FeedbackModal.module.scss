@@ -9,7 +9,6 @@
     margin-top: 8px;
     margin-bottom: 8px;
     @include systemFont;
-    font-size: 14px;
   }
 }
 .mainContainer {
@@ -42,7 +41,7 @@
     font-size: 16px;
     padding: 12px 24px;
     background: $button_main;
-    color: $background;
+    color: $menu_color;
     border: 0;
     border-radius: 999px;
     margin-bottom: 0px;
@@ -66,7 +65,7 @@
 .innerContainer {
   position: relative;
   width: 360px;
-  background-color: $background;
+  background-color: $menu_color;
   border: 1px solid $border_basic;
   padding: 20px;
   //border-radius: 8px;
@@ -108,7 +107,6 @@
   width: 100%;
   label {
     @include systemFont;
-    font-size: 14px;
     color: $font_light;
   }
   textarea {
@@ -141,9 +139,8 @@
   button {
     border-radius: 99px;
     border: none;
-    color: $background;
+    color: $menu_color;
     @include systemFont;
-    font-size: 14px;
     background: $button_main;
     padding: 10px 16px;
   }

@@ -19,6 +19,7 @@
     height: fit-content;
     line-height: 100%;
     font-size: 24px;
+    text-align: center;
   }
 
   .label {
@@ -57,7 +58,8 @@
 
     &Mobile {
       margin-top: -4px;
-      padding: 0px 8px 4px 48px;
+      padding: 0px 8px 0px 56px;
+      gap: 4px;
 
       img {
         width: 36px;
@@ -68,11 +70,11 @@
   }
 
   &Desktop {
-    padding: 6px 2px 6px 8px;
+    padding: 6px 24px 6px 8px;
     .moreMenu {
       position: absolute;
       visibility: hidden;
-      right: 4px;
+      right: -20px;
       border: 0;
       width: 24px;
       min-width: 24px;
@@ -89,20 +91,17 @@
         fill: var(--path-basic);
       }
 
-      &:hover {
-        background-color: var(--theme-offset-1);
-      }
     }
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--theme-offset-1);
+        background-color: var(--theme-background-offset);
       }
     }
   }
 
   &Active {
-    background-color: var(--border-light);
+    background-color: var(--border-ultralight);
     .label {
       color: var(--font-main);
     }
@@ -117,44 +116,38 @@
   }
 
   &Mobile {
-    padding: 8px 2px 8px 8px;
+    padding: 8px 2px 8px 12px;
+    margin-bottom: 10px;
     .moreMenu {
       display: none;
     }
     .emojiHolder {
-      width: fit-content;
-      height: fit-content;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      font-size: 36px;
       line-height: 100%;
-      font-size: 28px;
+      //overflow: hidden;
     }
     .label {
       @include topicTitleMobile;
-      padding: 0px 8px 0px 0px;
-      //gap: 16px;
+      padding: 0px;
+      gap: 16px;
       span {
         padding: 8px 0px;
-        //background: $background;
-        //border-radius: 99px;
       }
     }
 
-    &::after {
-      width: 94%;
-    }
   }
 
   &Alert {
     .label {
-      //@include topicTitleActive;
       font-weight: 700;
       color: var(--font-main);
     }
   }
 
   &:active {
-    background-color: var(--theme-offset-1);
-    // .label {
-    //     color: $white;
-    // }
+    background-color: var(--theme-background-offset);
   }
 }

@@ -1,16 +1,16 @@
 import styles from "./welcome.module.scss";
 import { Button, Modal } from "Common";
 import { useRouter } from "next/router";
-import { HarthLogoLight } from "public/images/harth-logo-light";
+import { DisplayLogo } from "components/Common/DisplayLogo/DisplayLogo";
 
-const Welcome = () => {
+const Welcome = ({ userTheme }) => {
   const router = useRouter();
   return (
     <Modal blockBackground={true} onToggleModal={() => {}} ignoreFadeIn={true}>
       <div className={`${styles.welcomeModule} ${styles.fadeIn}`}>
         <div>
           <div className={styles.logoHolder}>
-            <HarthLogoLight />
+            <DisplayLogo userTheme={userTheme} />
           </div>
           <div className={styles.greeting}>Where friends gather</div>
           <figure>

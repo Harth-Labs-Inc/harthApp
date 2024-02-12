@@ -38,19 +38,18 @@ export default async (req, res) => {
             style="
               width: 100%;
               padding: 0;
-              padding-top: 24px;
-              padding-bottom: 24px;
+              padding-top: 0px;
+              padding-bottom: 0px;
               text-align: center;
               margin: 0;
-              background: #2f1d2a;
             "
           >
               <img 
-                src="https://images.squarespace-cdn.com/content/6324af2b1cf55f7c7acccaa1/985d2269-17fb-4e14-9125-da3a0d86339c/Ha%CC%88rth-Logo-Light.png?content-type=image%2Fpng" 
+                src="https://images.squarespace-cdn.com/content/6324af2b1cf55f7c7acccaa1/3d8ba910-0421-4be9-bb6b-a1612ea3ef61/email_splash.png?content-type=image%2Fpng" 
                 alt="Harth Logo"
                 style="
                   padding: 0;
-                  height: 36px;
+                  width: 355px;
                   margin-left: auto;
                   margin-right: auto;
                 "

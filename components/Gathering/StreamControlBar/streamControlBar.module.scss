@@ -2,15 +2,17 @@
 @import "../../../styles/fonts.scss";
 
 .desktop {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   grid-area: header;
-  padding: 0px 12px 0px 0px;
+  padding: 0px 8px 0px 0px;
   border: 0;
   background-color: transparent;
-  //column-gap: 16px;
 
   .optionsContainer {
     position: relative;
@@ -20,11 +22,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: $ash;
+    background: var(--menu-color);
     width: 240px;
-    padding: 6px 8px;
-    border-top: 1px solid $ash_medium;
-    border-right: 1px solid $ash_medium;
+    padding: 6px 10px;
+    border-top: 1px solid var(--border-ultralight);
   }
 
   .leaveButton {
@@ -57,13 +58,11 @@
           -o-transform: translateX(-50%);
           transform: translateX(-50%);
           padding: 6px 10px;
-          background-color: $black;
+          background-color: $hot_purple;
           border-radius: 2px;
-          @include worksans;
-          letter-spacing: 0.05em;
+          @include systemFont;
           font-size: 12px;
-          font-weight: 300;
-          color: $font_light;
+          color: $oxygen;
           z-index: 10;
         }
 
@@ -81,7 +80,7 @@
           height: 0;
           border-left: 12px solid transparent;
           border-right: 12px solid transparent;
-          border-top: 12px solid $black;
+          border-top: 12px solid $oxygen;
           z-index: 9;
         }
       }
@@ -108,14 +107,14 @@
     &:hover {
       background-color: $ash;
       path {
-        fill: $white_60;
+        fill: $gather_path;
       }
     }
 
     &Active {
       background-color: $ash;
       path {
-        fill: $white_60;
+        fill: $gather_path;
       }
     }
   }
@@ -128,13 +127,12 @@
   align-items: center;
   justify-content: space-evenly;
   grid-area: header;
-  padding: 8px 8px 8px 8px;
-  margin-left: 8px;
-  margin-bottom: 16px;
-  border-radius: 999px;
+  padding: 8px 8px 24px 8px;
+  border-radius: 0;
   border: 0;
-  width: calc(100% - 16px);
-  background-color: $ash;
+  width: 100%;
+  background-color: var(--menu-color);
+  border-top: 1px solid var(--border-ultralight);
 
   .spacerLarge {
     display: flex;
