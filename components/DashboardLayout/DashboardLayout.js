@@ -251,7 +251,7 @@ const DashboardLayout = (props) => {
                 <p>
                   Alert!!<br/><br/>
 
-                The previous Owner has left the group and you have been promoted to the group Owner.
+                The previous Owner has left the space and you have been promoted to the space Owner.
                 </p>
                 <div className={styles.updateContainer}></div>
               </div>
@@ -360,7 +360,7 @@ const DashboardLayout = (props) => {
                 <p>
                   Alert!!<br/><br/>
 
-                The previous Owner has left the group and you have been promoted to the group Owner.
+                The previous Owner has left the space and you have been promoted to the new Owner.
                 </p>
                 <div className={styles.updateContainer}></div>
               </div>

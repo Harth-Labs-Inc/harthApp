@@ -89,7 +89,7 @@ const stepObjects = {
       target: "#tourFirstUse_harthPageSwitcher",
       content: (
         <TalkingHead
-          text="Switch between topics, gatherings, and messages for your current group"
+          text="Switch between topics, gatherings, and messages for your current space"
           isSmall={true}
           isTour={true}
         />

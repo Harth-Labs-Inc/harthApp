@@ -222,18 +222,18 @@
 }
 
 .backButton {
-  width: 48px;
-  min-width: 48px;
-  max-height: 48px;
+  width: 40px;
+  min-width: 40px;
+  max-height: 40px;
   padding: 8px;
-  border: 1px solid var(--border-basic);
+  border: 1px solid var(--font-main);
   border-radius: 999px;
   cursor: pointer;
   background-color: transparent;
   
   svg {
     path {
-      fill: var(--border-heavy);
+      fill: var(--font-main);
     }
   }
 

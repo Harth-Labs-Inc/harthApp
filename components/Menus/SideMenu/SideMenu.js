@@ -222,8 +222,8 @@ const SideNav = (props) => {
       ) : null}
       {showCreateHarthNameModal ? (
         <CreateHarthName
-          talkingHeadMsg="Give your group a name and an image"
-          footer="Don't stress. You can change your group name and image at any time."
+          talkingHeadMsg="Give your space a name and an image"
+          footer="Don't stress. You can change your space name and image at any time."
           placeholder="greedy gamers, spellslingers, etc..."
           submitText="Next"
           closeHandler={() => setShowCreateHarthNameModal(false)}
@@ -234,8 +234,8 @@ const SideNav = (props) => {
       ) : null}
       {showCreateHarthProfileModal ? (
         <CreateHarthProfile
-          talkingHeadMsg={`Tell me what you want to be called in this group`}
-          footer="You have a different name and profile image for every group you join"
+          talkingHeadMsg={`Tell me what you want to be called in this space`}
+          footer="You have a different name and profile image for every space you join"
           placeholder="your name"
           submitText="Create"
           submitHandler={() => {
