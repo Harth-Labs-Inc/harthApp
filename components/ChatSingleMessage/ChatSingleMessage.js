@@ -736,7 +736,7 @@ const ChatSingleMessage = (props) => {
     }
     return null;
   };
-  const ExistingReactionClickHandler = (data, isReactionOwner, e) => {
+  const ExistingReactionClickHandler = (data, isReactionOwner, e, isCustom) => {
     e.stopPropagation();
     if (!isReactionOwner) {
       props.msg.reactionsData.push({
@@ -745,6 +745,7 @@ const ChatSingleMessage = (props) => {
         name: profile?.name,
         iconKey: profile?.iconKey,
         userId: profile.userId,
+        isCustom,
       });
     } else {
       let index = -1;
@@ -1097,7 +1098,8 @@ const ChatSingleMessage = (props) => {
                               ExistingReactionClickHandler(
                                 data,
                                 isReactionOwner,
-                                e
+                                e,
+                                isCustom
                               )
                             }
                             className={` 
@@ -1113,7 +1115,14 @@ const ChatSingleMessage = (props) => {
                                             `}
                             key={index}
                           >
-                            {isCustom ? <img src={reaction} /> : reaction}
+                            {isCustom ||
+                            reaction.includes(
+                              "custom-emoji.s3.us-east-2.amazonaws.com"
+                            ) ? (
+                              <img src={reaction} />
+                            ) : (
+                              reaction
+                            )}
                             <span className={styles.label}>{name}</span>
                           </button>
                         );
@@ -1423,7 +1432,8 @@ const ChatSingleMessage = (props) => {
                             ExistingReactionClickHandler(
                               data,
                               isReactionOwner,
-                              e
+                              e,
+                              isCustom
                             )
                           }
                           className={` 
@@ -1437,7 +1447,14 @@ const ChatSingleMessage = (props) => {
                                       `}
                           key={id}
                         >
-                          {isCustom ? <img src={reaction} /> : reaction}
+                          {isCustom ||
+                          reaction.includes(
+                            "custom-emoji.s3.us-east-2.amazonaws.com"
+                          ) ? (
+                            <img src={reaction} />
+                          ) : (
+                            reaction
+                          )}
                           <span className={styles.label}>{name}</span>
                         </button>
                       );
