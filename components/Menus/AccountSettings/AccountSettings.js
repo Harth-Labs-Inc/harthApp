@@ -5,18 +5,26 @@ import { DisplayLogo } from "components/Common/DisplayLogo/DisplayLogo";
 import { IconChevronRight } from "../../../resources/icons/IconChevronRight";
 import styles from "./SettingsMenu.module.scss";
 import SubSettings from "./SubSettings";
-import { useSocket } from "contexts/socket";
+// import { useSocket } from "contexts/socket";
 import { FeedbackModal } from "components/FeedbackModal/FeedbackModal";
 import { IconInviteEmail } from "resources/icons/IconInviteEmail";
-
+import { useAuth } from "contexts/auth";
+import { removeSubscription } from "requests/subscriptions";
 
 const SettingsList = ({ toggleCurrentTab }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const { isMobile } = useContext(MobileContext);
-  const { APP_VERSION } = useSocket();
+  // const { APP_VERSION } = useSocket();
 
-  const signOut = () => {
+  const { user } = useAuth();
+
+  const signOut = async () => {
+    const subDeviceKey = localStorage.getItem("deviceKey");
+
+    if (subDeviceKey && user?._id) {
+      await removeSubscription({ subDeviceKey, userId: user._id });
+    }
     localStorage.removeItem("token");
     window.location.pathname = "/";
   };
@@ -28,7 +36,6 @@ const SettingsList = ({ toggleCurrentTab }) => {
   const toggleInviteModal = () => {
     setShowInviteModal(!showInviteModal);
   };
-
 
   return (
     <div className={styles.SettingsContainer}>
@@ -83,7 +90,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
         Sign Out
       </button>
 
-      <p className={styles.appVersion}>App version: {APP_VERSION}</p>
+      {/* <p className={styles.appVersion}>App version: {APP_VERSION}</p> */}
     </div>
   );
 };

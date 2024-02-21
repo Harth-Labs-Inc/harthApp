@@ -1,6 +1,23 @@
 import api from "../services/api";
 
 /* eslint-disable */
+
+export const removeSubscription = async (data) => {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await api.post(`/api/subscriptions/removeSubscription`, data, {
+      headers: {
+        "x-auth-token": token,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    if (error?.response?.status === 401) {
+      window.location.reload();
+    }
+    return { ok: 0 };
+  }
+};
 export const sendPushNotification = async (data, fetchURL) => {
   try {
     const token = localStorage.getItem("token");
