@@ -519,7 +519,7 @@ export const SocketProvider = ({ children }) => {
   const rebuildData = (shouldPullNewData) => {
     fetchUnreadData(user);
     if (shouldPullNewData) {
-      changeSelectedCommFromChild(selectedCommRef.current, true);
+      changeSelectedCommFromChild(selectedCommRef.current, true, true);
     }
   };
   const partialReloadFromBlock = async () => {
