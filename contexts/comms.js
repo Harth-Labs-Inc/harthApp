@@ -185,6 +185,31 @@ export const CommsProvider = ({
       let startingConv;
 
       startingConv = conversations[0];
+
+      let storedHarthData = localStorage.getItem("harthData");
+      if (storedHarthData) {
+        try {
+          const parsedStoredHarthData = JSON.parse(storedHarthData);
+          if (parsedStoredHarthData) {
+            const matchingHarth =
+              parsedStoredHarthData[selectedCommRef.current?._id] || {};
+
+            if (matchingHarth.selected_Conv) {
+              const matchingConv = matchingHarth.selected_Conv;
+              if (matchingConv) {
+                for (let member of matchingConv.users) {
+                  if (member.userId == user._id) {
+                    startingConv = matchingConv;
+                  }
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
       let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
         "openFromPush"
       );
@@ -228,6 +253,30 @@ export const CommsProvider = ({
       localStorage.removeItem("selectedTopicId");
     }
   }, [selectedTopic]);
+
+  useEffect(() => {
+    if (selectedConversation?._id) {
+      let storedData = localStorage.getItem("harthData");
+
+      try {
+        storedData = JSON.parse(storedData);
+      } catch (error) {
+        console.log(error);
+        storedData = {};
+      }
+      if (!storedData) {
+        storedData = {};
+      }
+      storedData[selectedcomm?._id] = {
+        ...(storedData[selectedcomm?._id] || {}),
+        selected_Conv: selectedConversation,
+      };
+      localStorage.setItem("harthData", JSON.stringify(storedData));
+      localStorage.setItem("selectedConvId", selectedConversation._id);
+    } else {
+      localStorage.removeItem("selectedConvId");
+    }
+  }, [selectedConversation, selectedcomm?._id]);
 
   useEffect(() => {
     let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
@@ -487,8 +536,11 @@ export const CommsProvider = ({
       run();
     });
   };
-  const fetchConversations = async (comid, repullMessages) => {
-    setIsLoadingConversations(true);
+  const fetchConversations = async (comid, repullMessages, ignoreLoader) => {
+    if (!ignoreLoader) {
+      setIsLoadingConversations(true);
+    }
+
     let result = await getConversations(comid, user._id);
     const { ok, conversations } = result;
     if (ok) {
@@ -496,6 +548,28 @@ export const CommsProvider = ({
 
       if (!isMobile || repullMessages) {
         startingConv = conversations[0];
+        let storedHarthData = localStorage.getItem("harthData");
+        if (storedHarthData) {
+          try {
+            const parsedStoredHarthData = JSON.parse(storedHarthData);
+            if (parsedStoredHarthData) {
+              const matchingHarth = parsedStoredHarthData[comid] || {};
+
+              if (matchingHarth.selected_Conv) {
+                const matchingConv = matchingHarth.selected_Conv;
+                if (matchingConv) {
+                  for (let member of matchingConv.users) {
+                    if (member.userId == user._id) {
+                      startingConv = matchingConv;
+                    }
+                  }
+                }
+              }
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
       }
       let shouldOpenFromPush = new URL(window.location.href).searchParams.get(
         "openFromPush"
@@ -518,8 +592,11 @@ export const CommsProvider = ({
     }
     return;
   };
-  const grabTopics = async (comid, repullMessages) => {
-    setIsLoadingTopics(true);
+  const grabTopics = async (comid, repullMessages, ignoreLoader) => {
+    if (!ignoreLoader) {
+      setIsLoadingTopics(true);
+    }
+
     let result = await getTopics(comid, user._id);
 
     const { ok, topics } = result;
@@ -710,7 +787,7 @@ export const CommsProvider = ({
     grabTopics(com._id, isInChatOrDM && repullMessages);
     grabRooms();
   };
-  const changeSelectedCommFromChild = (com, repullMessages) => {
+  const changeSelectedCommFromChild = (com, repullMessages, ignoreLoader) => {
     let isInChatOrDM = localStorage.getItem("isInChatOrDM");
     let selectedPage = localStorage.getItem("selectedPage");
 
@@ -718,11 +795,11 @@ export const CommsProvider = ({
       selectedPage = currentPage;
     }
     if (selectedPage === "message" && com?._id) {
-      fetchConversations(com._id, isInChatOrDM && repullMessages);
+      fetchConversations(com._id, isInChatOrDM && repullMessages, ignoreLoader);
       resetTopics();
     }
     if (selectedPage === "chat" && com?._id) {
-      grabTopics(com._id, isInChatOrDM && repullMessages);
+      grabTopics(com._id, isInChatOrDM && repullMessages, ignoreLoader);
       resetConversations();
     }
     if (selectedPage === "gather") {
