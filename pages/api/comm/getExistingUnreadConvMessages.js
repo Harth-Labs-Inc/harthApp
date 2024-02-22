@@ -38,11 +38,9 @@ export default async (req, res) => {
 
   const convs = await getConvsByIds(db, uniqueConvIds);
   const convMutedStatus = {};
+  let userid = user._id.toString();
   convs.forEach((conv) => {
-    convMutedStatus[conv._id.toString()] = isConvMutedForUser(
-      conv,
-      decodedToken.userId
-    );
+    convMutedStatus[conv._id.toString()] = isConvMutedForUser(conv, userid);
   });
 
   let filteredResults = fetchResults.filter(
