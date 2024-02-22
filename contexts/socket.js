@@ -87,70 +87,66 @@ export const SocketProvider = ({ children }) => {
   let ispullingVersioning = false;
   // let isCacheUpdateScheduled = false;
 
-  const connectSocket = useCallback(
-    (shouldPullNewData) => {
-      if (document.hidden || !user || !navigator.onLine) return;
+  const connectSocket = useCallback(() => {
+    if (document.hidden || !user || !navigator.onLine) return;
+    isReconnecting = true;
+    const token = localStorage.getItem("token");
+    const URL = socketUrls[process.env.NODE_ENV];
 
-      isReconnecting = true;
-      const token = localStorage.getItem("token");
-      const URL = socketUrls[process.env.NODE_ENV];
+    disconnectSocket();
 
+    const tempSocket = io.connect(URL, {
+      transports: ["websocket"],
+      query: { token },
+      reconnection: false,
+    });
+
+    tempSocket.on("connect", () => {
+      if (document.hidden) {
+        tempSocket.close();
+        return;
+      }
+
+      socketRef.current = tempSocket;
+      setSocket(tempSocket);
+      setReconnected((prev) => !prev);
+      setupListeners(tempSocket, user);
+      // checkForCacheUpdate();
+      isReconnecting = false;
+      currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
+      if (user) {
+        const timestamp = new Date();
+        saveNewRelicEvent("activeUserConnect", {
+          userId: user._id,
+          createdAt: timestamp.toISOString(),
+        });
+      }
+    });
+
+    const handleErrorOrDisconnect = (message) => {
+      isReconnecting = false;
       disconnectSocket();
+      setTimeout(() => {
+        tryReconnect();
+      }, currentReconnectInterval);
+      currentReconnectInterval = Math.min(
+        currentReconnectInterval * 2,
+        MAX_RECONNECT_INTERVAL
+      );
+    };
 
-      const tempSocket = io.connect(URL, {
-        transports: ["websocket"],
-        query: { token },
-        reconnection: false,
-      });
+    tempSocket.on("connect_error", (error) => {
+      handleErrorOrDisconnect("Connection error: " + error);
+    });
+    tempSocket.on("error", (err) => {
+      handleErrorOrDisconnect("Socket encountered an error: " + err);
+    });
+    tempSocket.on("disconnect", (reason) => {
+      handleErrorOrDisconnect("Socket disconnected due to: " + reason);
+    });
 
-      tempSocket.on("connect", () => {
-        if (document.hidden) {
-          tempSocket.close();
-          return;
-        }
-        rebuildData(shouldPullNewData);
-        socketRef.current = tempSocket;
-        setSocket(tempSocket);
-        setReconnected((prev) => !prev);
-        setupListeners(tempSocket, user);
-        // checkForCacheUpdate();
-        isReconnecting = false;
-        currentReconnectInterval = INITIAL_RECONNECT_INTERVAL;
-        if (user) {
-          const timestamp = new Date();
-          saveNewRelicEvent("activeUserConnect", {
-            userId: user._id,
-            createdAt: timestamp.toISOString(),
-          });
-        }
-      });
-
-      const handleErrorOrDisconnect = (message) => {
-        isReconnecting = false;
-        disconnectSocket();
-        setTimeout(() => {
-          tryReconnect();
-        }, currentReconnectInterval);
-        currentReconnectInterval = Math.min(
-          currentReconnectInterval * 2,
-          MAX_RECONNECT_INTERVAL
-        );
-      };
-
-      tempSocket.on("connect_error", (error) => {
-        handleErrorOrDisconnect("Connection error: " + error);
-      });
-      tempSocket.on("error", (err) => {
-        handleErrorOrDisconnect("Socket encountered an error: " + err);
-      });
-      tempSocket.on("disconnect", (reason) => {
-        handleErrorOrDisconnect("Socket disconnected due to: " + reason);
-      });
-
-      return tempSocket;
-    },
-    [user]
-  );
+    return tempSocket;
+  }, [user]);
 
   const disconnectSocket = () => {
     if (socketRef.current) {
@@ -167,7 +163,8 @@ export const SocketProvider = ({ children }) => {
       navigator.onLine &&
       !socketRef.current?.connected
     ) {
-      connectSocket(true);
+      rebuildData(true);
+      connectSocket();
     }
   }, [connectSocket]);
 
@@ -345,7 +342,6 @@ export const SocketProvider = ({ children }) => {
 
           deleteResult.then(({ topics }) => {
             if (topics) {
-              console.log(activeTopicId, incomingUpdate?.topic?._id);
               if (activeTopicId === incomingUpdate?.topic?._id) {
                 setSelectedTopic(topics[0] || {});
               }
