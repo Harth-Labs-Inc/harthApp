@@ -133,21 +133,23 @@ function MyApp({
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
         <meta property="og:title" content="Härth" key="title" />
-        <meta
+        {/* <meta
           name="theme-color"
           content={themeColors[userTheme]?.metaThemeColor}
-        />
+        /> */}
+        <meta name="theme-color" content="#e8e8ee" />
         theme
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <link
+        <link rel="manifest" href="/manifest.json" />
+        {/* <link
           rel="manifest"
           href={
             userTheme === "dark-mode"
               ? "/manifest-dark.json"
               : "/manifest-light.json"
           }
-        />
+        /> */}
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
         <link
           rel="apple-touch-icon"

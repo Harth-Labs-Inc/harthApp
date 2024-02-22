@@ -40,11 +40,10 @@ export default async (req, res) => {
   const topics = await getTopicsByIds(db, uniqueTopicIds);
 
   const topicMutedStatus = {};
+
+  let userid = user._id.toString();
   topics.forEach((topic) => {
-    topicMutedStatus[topic._id.toString()] = isTopicMutedForUser(
-      topic,
-      decodedToken.userId
-    );
+    topicMutedStatus[topic._id.toString()] = isTopicMutedForUser(topic, userid);
   });
 
   let filteredResults = fetchResults.filter(
