@@ -14,10 +14,11 @@
   height: fit-content;
   background-color: var(--gather-tile);
   padding: 4px 16px 16px 16px;
+  border: 1px solid var(--menu-offset);
 
   box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.075),
-        0 2px 2px hsl(0deg 0% 0% / 0.075); 
+        0 1px 1px var(--shadow-color),
+        0 2px 2px var(--shadow-color); 
 }
 
 .Desktop {
@@ -37,8 +38,8 @@
   height: fit-content;
   background-color: var(--gather-tile);
   box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.05),
-        0 2px 2px hsl(0deg 0% 0% / 0.05); 
+        0 1px 1px var(--shadow-color),
+        0 2px 2px var(--shadow-color); 
 }
 
 .title {
@@ -96,7 +97,7 @@
       font-size: 18px;
       font-weight: 500;
       border-radius: 999px;
-      background-color: var(--theme-background-offset);
+      background-color: var(--gather-tile-offset);
       border: 0;
       height: 40px;
       color: var(--font-main);

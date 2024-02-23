@@ -328,21 +328,27 @@
         gap: 4px;
         position: relative;
         text-align: center;
-        background-color: var(--theme-background-offset-medium);
+        background-color: var(--theme-background-offset);
+        background-color: transparent;
         border-radius: 99px;
         margin: 0;
         border: 0;
         user-select: none;
-        padding: 0px 10px 0px 8px;
+        //padding: 0px 10px 0px 8px;
 
         .label {
           color: var(--font-main);
           @include reactionLabel;
         }
 
-        img {
-          width: fit-content;
-          overflow: hidden;
+        .icon {
+
+          border: 1px solid var(--theme-background-offset);
+          img {
+            width: fit-content;
+            overflow: hidden;
+          }
+
         }
 
         &Owner {
@@ -367,14 +373,39 @@
         &Desktop {
           height: 32px;
           max-height: 32px;
-          font-size: 32px;
-          line-height: 32px;
+          padding: 0;
+          gap: 0px;
+          .icon {
+            position: relative;
+            background-color: var(--theme-background);
+            width: 44px;
+            height: 36px;
+            font-size: 30px;
+            line-height: 36px;
+            border-radius: 999px;
+            border: 1px solid var(--border-ultralight); //var(--theme-background-offset);
+            box-shadow:
+              0px 1px 1px var(--shadow-color),
+              1px 2px 2px var(--shadow-color),
+              2px 4px 4px var(--shadow-color);
 
-          img {
-            width: 32px;
-            max-width: 32px;
-            max-height: 32px;
-            min-width: 32px;
+            img {
+              width: 32px;
+              max-width: 32px;
+              max-height: 32px;
+              min-width: 32px;
+            }
+
+
+          }
+
+          .label {
+            position: relative;
+            padding: 0px 8px 0px 4px;
+            background-color: transparent;
+            text-shadow: 0 1px 1px var(--shadow-color),
+            0 2px 2px var(--shadow-color);
+            rotate: -10deg;
           }
 
           @media (hover: hover) and (pointer: fine) {
@@ -388,15 +419,17 @@
         &Mobile {
           height: 36px;
           max-height: 36px;
-          font-size: 36px;
-          line-height: 36px;
           padding: 0px 10px 0px 4px;
 
-          img {
-            width: 36px;
-            max-width: 36px;
-            max-height: 36px;
-            min-width: 36px;
+          .icon {
+            font-size: 36px;
+            line-height: 36px;
+            img {
+              width: 36px;
+              max-width: 36px;
+              max-height: 36px;
+              min-width: 36px;
+            }
           }
 
           &:active {

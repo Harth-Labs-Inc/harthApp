@@ -10,20 +10,20 @@
   overflow: hidden;
   padding: 0px;
   box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.05),
-        0 2px 2px hsl(0deg 0% 0% / 0.05); 
+        0 1px 1px var(--shadow-color),
+        0 2px 2px var(--shadow-color); 
 }
 
 .Mobile {
   border-radius: $corner_radius_mobile;
   width: 100%;
-  background-color: var(--theme-background-offset);
-  border: 0;
+  background-color: var(--menu-color);
+  border: 1px solid var(--gather-tile-offset);
   overflow: hidden;
   padding: 0px;
   box-shadow:
-  0 1px 1px hsl(0deg 0% 0% / 0.075),
-  0 2px 2px hsl(0deg 0% 0% / 0.075); 
+  0 1px 1px var(--shadow-color),
+  0 2px 2px var(--shadow-color); 
 }
 
 .Top {
@@ -112,13 +112,13 @@
   &::after {
     content: "";
     position: absolute;
-    top: 0px; /* Position at the bottom of the container */
-    left: 139px; /* Center horizontally */
+    top: 0px; 
+    left: 139px; 
     width: 0;
     height: 0;
-    border-left: 0px solid transparent; /* Adjust size as needed */
+    border-left: 0px solid transparent; 
     border-right: 50px solid transparent;
-    border-bottom: 100px solid var(--gather-tile); /* Color and size of the triangle */
+    border-bottom: 100px solid var(--gather-tile); 
 }
 
   .Mobile & {
