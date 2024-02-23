@@ -169,29 +169,32 @@ export const SocketProvider = ({ children }) => {
   }, [connectSocket]);
 
   useEffect(() => {
-    connectSocket();
+    if (user) {
+      fetchUnreadData(user);
+      connectSocket();
 
-    function handleChange() {
-      tryReconnect();
-      // if (!isCacheUpdateScheduled) {
-      //   isCacheUpdateScheduled = true;
-      //   requestAnimationFrame(() => {
-      //     checkForCacheUpdate();
-      //     isCacheUpdateScheduled = false;
-      //   });
-      // }
-    }
+      function handleChange() {
+        tryReconnect();
+        // if (!isCacheUpdateScheduled) {
+        //   isCacheUpdateScheduled = true;
+        //   requestAnimationFrame(() => {
+        //     checkForCacheUpdate();
+        //     isCacheUpdateScheduled = false;
+        //   });
+        // }
+      }
 
-    window.addEventListener("visibilitychange", handleChange);
-    window.addEventListener("online", handleChange);
-    window.addEventListener("focus", handleChange);
-    return () => {
-      window.removeEventListener("visibilitychange", handleChange);
-      window.removeEventListener("online", handleChange);
+      window.addEventListener("visibilitychange", handleChange);
+      window.addEventListener("online", handleChange);
       window.addEventListener("focus", handleChange);
-      disconnectSocket();
-    };
-  }, [connectSocket, tryReconnect]);
+      return () => {
+        window.removeEventListener("visibilitychange", handleChange);
+        window.removeEventListener("online", handleChange);
+        window.addEventListener("focus", handleChange);
+        disconnectSocket();
+      };
+    }
+  }, [connectSocket, tryReconnect, user]);
 
   // ------------------------ socket logic --------------------------------
 
