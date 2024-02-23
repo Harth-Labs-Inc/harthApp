@@ -45,6 +45,7 @@ export const LinkPreview = ({ message }) => {
     "x.com",
     "facebook.com",
     "facebookuserprivacysettlement.com",
+    "pcpartpicker.com",
   ]);
 
   const isBlacklisted = (url) => {
