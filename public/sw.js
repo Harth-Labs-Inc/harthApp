@@ -1,53 +1,63 @@
-importScripts(
-  "https://storage.googleapis.com/workbox-cdn/releases/6.3.0/workbox-sw.js"
-);
-workbox.setConfig({ debug: false });
+const staticVersion = "1.1.2";
 
 self.addEventListener("install", (event) => {
-  self.skipWaiting();
+  event.waitUntil(self.skipWaiting());
 });
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    clients.claim(),
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (
-            [
-              "css-cache",
-              "js-cache",
-              "version-cache",
-              "html-cache",
-              "json-cache",
-            ].includes(cacheName)
-          ) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    Promise.all([
+      self.clients.claim(),
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== staticVersion) {
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      }),
+    ])
   );
+});
+self.addEventListener("fetch", (event) => {
+  const requestUrl = new URL(event.request.url);
+
+  if (
+    event.request.method === "POST" ||
+    requestUrl.pathname.endsWith("/sw.js")
+  ) {
+    return;
+  }
+
+  if (requestUrl.pathname.match(/\.(css|js|html|woff2)$/i)) {
+    event.respondWith(
+      caches.open(staticVersion).then((cache) => {
+        return cache.match(event.request).then((response) => {
+          const fetchPromise = fetch(event.request)
+            .then((networkResponse) => {
+              cache.put(event.request, networkResponse.clone());
+              return networkResponse;
+            })
+            .catch((error) => {
+              console.error("Fetch failed:", error);
+              return response;
+            });
+          return response || fetchPromise;
+        });
+      })
+    );
+  }
 });
 self.addEventListener("message", function (event) {
   if (event.data === "ping") {
     event.source.postMessage("pong");
   }
   if (event.data && event.data.type === "UPDATE_VERSION") {
-    const cachesToDelete = [
-      "html-cache",
-      "css-cache",
-      "json-cache",
-      "js-cache",
-      "version-cache",
-    ];
-
     caches
       .keys()
       .then((cacheNames) => {
         return Promise.all(
-          cacheNames
-            .filter((cacheName) => cachesToDelete.includes(cacheName))
-            .map((cacheName) => caches.delete(cacheName))
+          cacheNames.map((cacheName) => caches.delete(cacheName))
         );
       })
       .then(() => {
@@ -91,82 +101,3 @@ self.addEventListener("notificationclick", function (event) {
     clients.openWindow(event.notification.data.url);
   }
 });
-
-const { precaching, routing, strategies } = workbox;
-precaching.precacheAndRoute([]);
-
-// CacheFirst -- images / fonts
-// Cache font files
-workbox.routing.registerRoute(
-  /\.(woff|woff2|ttf|otf)$/i,
-  new workbox.strategies.CacheFirst({
-    cacheName: "font-cache",
-    plugins: [
-      new workbox.expiration.ExpirationPlugin({
-        maxAgeSeconds: 7 * 24 * 60 * 60,
-      }),
-    ],
-  })
-);
-// Cache image files
-// workbox.routing.registerRoute(
-//   ({ request }) =>
-//     request.destination === "image" &&
-//     request.url.includes("community-profile-images"),
-//   new workbox.strategies.CacheFirst({
-//     cacheName: "aws-profile-icon-cache",
-//     plugins: [
-//       new workbox.expiration.ExpirationPlugin({
-//         maxEntries: 60,
-//         maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-//       }),
-//     ],
-//   })
-// );
-// workbox.routing.registerRoute(
-//   /\.(png|jpg|jpeg|gif|svg)$/i,
-//   new workbox.strategies.CacheFirst({
-//     cacheName: "image-cache",
-//     plugins: [
-//       new workbox.expiration.ExpirationPlugin({
-//         maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-//       }),
-//     ],
-//   })
-// );
-// Stale while revalidate
-// Cache CSS files
-routing.registerRoute(
-  /\.css$/,
-  new strategies.NetworkFirst({
-    cacheName: "css-cache",
-  })
-);
-// // Cache js files
-workbox.routing.registerRoute(
-  /\.js$/i,
-  new workbox.strategies.NetworkFirst({
-    cacheName: "js-cache",
-  })
-);
-// // network first
-// // Cache html files
-workbox.routing.registerRoute(
-  /\.html$/i,
-  new workbox.strategies.NetworkFirst({
-    cacheName: "html-cache",
-  })
-);
-// // Cache json files
-workbox.routing.registerRoute(
-  /\.json$/i,
-  new workbox.strategies.NetworkFirst({
-    cacheName: "json-cache",
-  })
-);
-workbox.routing.registerRoute(
-  /version\.txt$/,
-  new workbox.strategies.NetworkFirst({
-    cacheName: "version-cache",
-  })
-);
