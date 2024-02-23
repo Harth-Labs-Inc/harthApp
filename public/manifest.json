@@ -87,7 +87,7 @@
     }
   ],
   "start_url": "https://www.harth.social/",
-  "display": "fullscreen",
+  "display": "standalone",
   "scope": "/",
   "background_color": "#e8e8ee",
   "theme_color": "#e8e8ee",
