@@ -22,14 +22,11 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const requestUrl = new URL(event.request.url);
 
-  if (
-    event.request.method === "POST" ||
-    requestUrl.pathname.endsWith("/sw.js")
-  ) {
+  if (event.request.method === "POST") {
     return;
   }
 
-  if (requestUrl.pathname.match(/\.(css|js|html|woff2)$/i)) {
+  if (requestUrl.pathname.match(/\.(css|js|html|woff2|json)$/i)) {
     event.respondWith(
       caches.open(staticVersion).then((cache) => {
         return cache.match(event.request).then((response) => {
