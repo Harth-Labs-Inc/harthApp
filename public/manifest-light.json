@@ -91,7 +91,6 @@
   "scope": "/",
   "background_color": "#e8e8ee",
   "theme_color": "#e8e8ee",
-  "dir": "ltr",
   "lang": "en",
   "categories": ["social"],
   "launch_handler": {
