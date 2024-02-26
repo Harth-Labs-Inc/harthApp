@@ -44,6 +44,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   const [peers, setPeers] = useState([]);
   const [videoStreams, setVideoStreams] = useState({});
 
+  const isIntentionalDisconnect = useRef(false);
   const wakeLockRef = useRef(null);
   const ownerData = useRef({});
   const PEERS = useRef([]);
@@ -605,14 +606,15 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
       peer.on("open", () => resolve(peer));
       peer.on("error", (error) => reject(error));
       peer.on("close", () => {
-        console.warn("Peer disconnected. Reconnecting...");
-        reconnectPeer(peer, conf)
-          .then(() => {
-            console.warn("Reconnected successfully.");
-          })
-          .catch((error) => {
-            console.warn("Reconnection failed:", error);
-          });
+        if (!isIntentionalDisconnect.current) {
+          reconnectPeer(peer, conf)
+            .then(() => {
+              console.warn("Reconnected successfully.");
+            })
+            .catch((error) => {
+              console.warn("Reconnection failed:", error);
+            });
+        }
       });
     });
   };
@@ -1613,6 +1615,18 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
     setVideoStreams({});
     setPeers([]);
 
+    isIntentionalDisconnect.current = true;
+
+    [
+      audioSharePeer.current,
+      videoSharePeer.current,
+      ScreenSharePeer.current,
+    ].forEach((peer) => {
+      if (peer && !peer.destroyed) {
+        peer.destroy();
+      }
+    });
+
     ownerData.current = {};
     PEERS.current = [];
     audioSharePeer.current = null;
@@ -1638,7 +1652,7 @@ const Party = ({ closeActiveRoomFromMobile, minimizeHandler }) => {
   };
   const leaveRoom = async () => {
     reset();
-
+    isIntentionalDisconnect.current = false;
     try {
       await leaveGroupCall({ roomId, userName, socketID });
       handleWindowClose();

@@ -82,7 +82,13 @@ const dashboard = ({ userTheme }) => {
   ] = useState(false);
 
   useEffect(() => {
-    if (navigator && "serviceWorker" in navigator) {
+    if (
+      navigator &&
+      "serviceWorker" in navigator &&
+      location &&
+      location?.hostname !== "localhost" &&
+      location?.hostname !== "127.0.0.1"
+    ) {
       navigator.serviceWorker
         .register("/sw.js")
         .then((registration) => {
