@@ -26,7 +26,11 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (requestUrl.pathname.match(/\.(css|js|html|woff2|json)$/i)) {
+  if (
+    requestUrl.pathname.match(
+      /\.(css|js|html|woff|woff2|ttf|otf|png|jpg|jpeg|gif|svg|json)$/i
+    )
+  ) {
     event.respondWith(
       caches.open(staticVersion).then((cache) => {
         return cache.match(event.request).then((response) => {

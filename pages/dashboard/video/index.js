@@ -148,13 +148,22 @@ const Video = () => {
       });
 
       try {
+        let apiURL;
+        let baseURL = getBaseUrl();
+        if (baseURL.includes("harth.social")) {
+          apiURL =
+            "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
+        } else {
+          apiURL =
+            "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
+        }
         let pushmessage = generatePushMessage(pushData);
         let receiverIds = selectedcomm?.users
           .filter((obj) => obj.userId !== user._id)
           .map((obj) => obj.userId);
 
         pushmessage.receiverIds = receiverIds;
-        sendPushNotification(pushmessage);
+        sendPushNotification(pushmessage, apiURL);
       } catch (error) {
         console.log(error);
       }
@@ -221,14 +230,12 @@ const Video = () => {
             createScheduleRoom={triggerNewRoom}
           />
 
-          {((scheduledcallRooms.length > 0 ) || ((callRooms || []).length > 0))?
-            (null) : (
-              <div className={styles.placeholderImage}>
-                <img src="/images/home_group.png" />
-              </div>
-            )
-          }
-
+          {scheduledcallRooms.length > 0 ||
+          (callRooms || []).length > 0 ? null : (
+            <div className={styles.placeholderImage}>
+              <img src="/images/home_group.png" />
+            </div>
+          )}
 
           {(callRooms || []).map((room, idx) => {
             let owner = false;
