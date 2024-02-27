@@ -31,7 +31,7 @@ self.addEventListener("fetch", (event) => {
 
   if (
     requestUrl.pathname.match(
-      /\.(css|js|html|woff|woff2|ttf|otf|png|jpg|jpeg|gif|svg)$/i
+      /\.(css|js|html|woff|woff2|ttf|otf|png|jpg|jpeg|gif|svg|json)$/i
     )
   ) {
     event.respondWith(
