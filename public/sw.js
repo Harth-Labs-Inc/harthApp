@@ -22,10 +22,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const requestUrl = new URL(event.request.url);
 
-  if (
-    event.request.method === "POST" ||
-    requestUrl.pathname.endsWith("/sw.js")
-  ) {
+  if (event.request.method === "POST") {
     return;
   }
 
