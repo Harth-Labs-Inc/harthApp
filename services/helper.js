@@ -68,7 +68,7 @@ export const cleanupDB = async (db, storeName) => {
   } else if (storeName === "pendingMessages") {
     TTL_VALUE = 2 * 24 * 60 * 60 * 1000; // 2 days
   } else {
-    TTL_VALUE = 5 * 24 * 60 * 60 * 1000; // 5 days
+    TTL_VALUE = 15 * 24 * 60 * 60 * 1000; // 15 days
   }
 
   const getAllKeysRequest = store.getAllKeys();
