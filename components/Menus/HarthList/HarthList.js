@@ -1,12 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
-
 import { MobileContext } from "../../../contexts/mobile";
 import { useAuth } from "../../../contexts/auth";
 import { IconAdd } from "../../../resources/icons/IconAdd";
 import { IconFireFill } from "../../../resources/icons/IconFireFill";
 import { Modal } from "../../Common/Modals/Modal";
 import HarthSettings from "../../Menus/HarthSettings/HarthSettings";
-import { IconHome } from "resources/icons/IconHome";
 
 import styles from "./HarthList.module.scss";
 import {
@@ -16,6 +14,7 @@ import {
   saveAttachment,
 } from "services/helper";
 import { getDownloadURL } from "requests/s3";
+import { IconSettings } from "resources/icons/IconSettings";
 
 const HarthList = ({
   comms,
@@ -226,7 +225,7 @@ const HarthList = ({
                     onClick={handleHarthMenu}
                     aria-label="Current Harth Settings"
                   >
-                    <IconHome />
+                    <IconSettings />
                   </button>
                 ) : null}
               </li>

@@ -1,6 +1,5 @@
 import { useState, useContext, useEffect } from "react";
 import { MobileContext } from "../../contexts/mobile";
-import { IconHome } from "resources/icons/IconHome";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
@@ -13,6 +12,7 @@ import { IconForumNoFill } from "resources/icons/IconForumNoFill";
 import styles from "./mainNav.module.scss";
 import { useSocket } from "../../contexts/socket";
 import { useTourManager } from "contexts/tour";
+import { IconSettings } from "resources/icons/IconSettings";
 
 /* eslint-disable */
 const MainNav = (props) => {
@@ -142,7 +142,7 @@ const MainNav = (props) => {
             >
               <p>{selectedcomm?.name}</p>
               <div className={styles.iconHolder}>
-                <IconHome />
+                <IconSettings />
               </div>
             </button>
           </div>
@@ -181,7 +181,7 @@ const MainNav = (props) => {
 
                 `}
             >
-              {(currentPage == "chat") ? <IconTopicFill /> : <IconTopicNoFill />}
+              {currentPage == "chat" ? <IconTopicFill /> : <IconTopicNoFill />}
             </div>
             <div className={styles.title}>Topics</div>
           </button>
@@ -210,7 +210,7 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              {(currentPage == "gather") ? <IconFireFill /> : <IconFireNoFill />}
+              {currentPage == "gather" ? <IconFireFill /> : <IconFireNoFill />}
             </div>
             <div className={styles.title}>Gather</div>
           </button>
@@ -240,7 +240,11 @@ const MainNav = (props) => {
                             }
                             `}
             >
-              {(currentPage == "message") ? <IconForumFill /> : <IconForumNoFill />}
+              {currentPage == "message" ? (
+                <IconForumFill />
+              ) : (
+                <IconForumNoFill />
+              )}
             </div>
             <div className={styles.title}>Messages</div>
           </button>

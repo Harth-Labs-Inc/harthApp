@@ -22,7 +22,12 @@ const UserIcon = ({
 
   const { user } = useAuth();
 
-  const { selectedcomm, indexAvatarController, imageCacheRef } = useComms();
+  const {
+    selectedcomm,
+    indexAvatarController,
+    imageCacheRef,
+    imageCheckCacheRef,
+  } = useComms();
 
   useEffect(() => {
     if (size === "small") {
@@ -34,6 +39,15 @@ const UserIcon = ({
 
   useEffect(() => {
     const storeName = "avatar";
+
+    const loadImageAndCheck = (img) => {
+      return new Promise((resolve) => {
+        const tempImage = new Image();
+        tempImage.onload = () => resolve(true);
+        tempImage.onerror = () => resolve(false);
+        tempImage.src = img;
+      });
+    };
 
     const extractFileNameFromUrl = (url) => {
       const s3BucketUrl =
@@ -55,8 +69,18 @@ const UserIcon = ({
       if (img && indexAvatarController) {
         const keyName = extractFileNameFromUrl(img);
         if (imageCacheRef[keyName]) {
-          setImageUrl(imageCacheRef[keyName]);
-          return;
+          let isGood;
+          if (!imageCheckCacheRef[keyName]) {
+            isGood = await loadImageAndCheck(imageCacheRef[keyName]);
+          } else {
+            isGood = true;
+          }
+
+          if (isGood) {
+            imageCheckCacheRef[keyName] = true;
+            setImageUrl(imageCacheRef[keyName]);
+            return;
+          }
         }
 
         const cachedData = await getAttachment(
@@ -67,8 +91,18 @@ const UserIcon = ({
 
         if (cachedData && cachedData.data) {
           const url = URL.createObjectURL(cachedData.data);
-          imageCacheRef[keyName] = url;
-          setImageUrl(url);
+          let isGood;
+          if (!imageCheckCacheRef[keyName]) {
+            isGood = await loadImageAndCheck(url);
+          } else {
+            isGood = true;
+          }
+
+          if (isGood) {
+            imageCheckCacheRef[keyName] = true;
+            imageCacheRef[keyName] = url;
+            setImageUrl(url);
+          }
         } else {
           if (
             img.startsWith(
@@ -93,7 +127,17 @@ const UserIcon = ({
                     imageBlob
                   );
                   const url = URL.createObjectURL(imageBlob);
-                  setImageUrl(url);
+                  let isGood;
+                  if (!imageCheckCacheRef[keyName]) {
+                    isGood = await loadImageAndCheck(url);
+                  } else {
+                    isGood = true;
+                  }
+                  if (isGood) {
+                    imageCheckCacheRef[keyName] = true;
+                    imageCacheRef[keyName] = url;
+                    setImageUrl(url);
+                  }
                 } catch (error) {
                   console.log("Failed to save attachment:", error);
                 }
@@ -102,7 +146,10 @@ const UserIcon = ({
               console.log("Failed to fetch or save image:", error);
             }
           } else {
-            setImageUrl(img);
+            let isGood = await loadImageAndCheck(img);
+            if (isGood) {
+              setImageUrl(img);
+            }
           }
         }
       }

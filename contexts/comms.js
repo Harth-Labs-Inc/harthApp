@@ -57,6 +57,8 @@ export const CommsProvider = ({
   const [showAdminPromotionModal, setShowAdminPromotionModal] = useState(false);
 
   const imageCacheRef = useRef({});
+  const imageCheckCacheRef = useRef({});
+
   const stopPollingRef = useRef();
 
   function clearCacheForId(cache, id) {
@@ -889,6 +891,7 @@ export const CommsProvider = ({
     <CommsContext.Provider
       value={{
         imageCacheRef: imageCacheRef.current,
+        imageCheckCacheRef: imageCheckCacheRef.current,
         chatMessagesController,
         pendingMessagesController,
         linkController,
