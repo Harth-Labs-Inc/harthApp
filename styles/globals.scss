@@ -81,20 +81,21 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --menu-path-muted: #58585e;
   --menu-text-muted: #68686e;
   --gather-tile: #28282e;
-  --overlay: rgba(56, 56, 62, 0.50);
+  --overlay: linear-gradient(rgba(56, 56, 62, 0.20), rgba(0, 0, 0, 0.10) 20%, rgba(0, 0, 0, 0.10) 80%, rgba(56, 56, 62, 0.20));
   --modal-border: #68686e;
   --shadow-color: hsl(0deg 0% 0% / 0.075);
 }
 
 //light color theme
 .light-mode {
-  --theme-background: #f0f0f6; //oxygen
-  --theme-background-offset: #e8e8ee;
+  --theme-background: #f8f8ff; 
+  --theme-background-offset: #f0f0f7;
   --theme-background-offset-medium: #e4e4e4;
   --font-main: #271623; //fuel
   --font-muted: #696971;
+  --font-placeholder: #aea6ac;
   --border-ultralight: #e4e4ea;
-  --border-light: #c8c8ce;
+  --border-light: #d8d8de;
   --border-basic: #a8a8ae;
   --border-heavy: #88888e;
   --path-light: #6f6f75;
@@ -106,11 +107,16 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --menu-text: #271623;
   --menu-path-muted: #a8a8ae;
   --menu-text-muted: #98989e;
-  --gather-tile: #e0e0e7;
-  --gather-tile-offset: #d0d0d7;
-  --overlay: rgba(232, 232, 238, 0.50);
+  --gather-tile: #f0f0f7;
+  --gather-tile-offset: #e8e8ef;
+  --overlay: linear-gradient(rgba(232, 232, 238, 0.60), rgba(0, 0, 0, 0.10) 20%, rgba(0, 0, 0, 0.10) 80%, rgba(232, 232, 238, 0.60));
   --modal-border: #98989e;
   --shadow-color: hsl(0deg 0% 0% / 0.1);
+  --shadow-1: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  --shadow-1-up: rgba(0, 0, 0, 0.1) 0px -1px 3px 0px, rgba(0, 0, 0, 0.06) 0px -1px 2px 0px;
+  --shadow-2: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  --shadow-2-up: rgba(0, 0, 0, 0.1) 0px -4px 6px -1px, rgba(0, 0, 0, 0.06) 0px -2px 4px -1px;
+  --shadow-3: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
 .text-reg {
@@ -229,6 +235,7 @@ $outline_mobile: 0px;
   color: $font_light;
 
   @media (hover: hover) and (pointer: fine) {
+    color: $font_light;
     &:hover {
       background: linear-gradient(
         45deg,
@@ -239,6 +246,7 @@ $outline_mobile: 0px;
   }
 
   &:active {
+    color: $font_light;
     background: linear-gradient(
       45deg,
       darken($hot_purple, 30%),

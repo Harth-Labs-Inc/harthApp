@@ -140,11 +140,11 @@ const MainNav = (props) => {
               onClick={handleHarthMenu}
               aria-label="Current Harth Settings"
             >
-              <p>{selectedcomm?.name}</p>
               <div className={styles.iconHolder}>
                 <IconHome />
               </div>
             </button>
+            <span className={styles.title}>{selectedcomm?.name}</span>
           </div>
         )}
         <div

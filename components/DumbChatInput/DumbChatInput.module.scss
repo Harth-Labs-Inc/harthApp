@@ -184,24 +184,25 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: var(--theme-background-offset);
+  background-color: var(--theme-background);
   padding: 0px 0px 0px 0px;
   border-bottom: none;
   border-radius: 0;
+  box-shadow: var(--shadow-1-up);
 
   &Text {
     resize: none;
     display: block;
     width: 100%;
-    min-height: 56px;
-    height: 56px;
+    min-height: 60px;
+    height: 60px;
     max-height: calc(var(--vh) * 0.5);
     margin: 0;
     padding: 8px 16px;
     @include chatTextMobile;
     caret-color: $hot_purple;
     color: var(--font-main);
-    background-color: var(--theme-background-offset);
+    background-color: var(--theme-background);
     
     border: 0;
     border-radius: 0;
@@ -228,15 +229,15 @@
     //border-bottom: 1px solid $border_basic;
     padding: 0;
     overflow: hidden;
-    border-top: 1px solid var(--border-light);
+    //border-top: 1px solid var(--border-light);
   }
 
   &Controls {
     display: flex;
     justify-content: space-between;
     padding: 8px 10px 20px 10px;
-    background-color: var(--theme-background-offset);
-    border-top: 1px solid var(--border-light);
+    background-color: var(--theme-background);
+    border-top: 1px solid var(--border-ultralight);
 
     &Right,
     &Left {
@@ -263,7 +264,7 @@
         &:active {
           background-color: var(--theme-background);
           path {
-            fill: var(--path-basic);
+            fill: var(--boder-heavy);
           }
         }
 
@@ -290,7 +291,7 @@
         &:before {
           @include x-y-center;
           color: var(--font-muted);
-          font-size: 16px;
+          @include systemFont;
         }
 
         &.SendMessage {
@@ -310,7 +311,7 @@
     .input-style-wrapper {
       button {
         font-family: "Times New Roman", Times, serif;
-        font-size: 18px;
+        @include systemFont;
       }
       .style-bold {
         font-weight: bold;
@@ -365,7 +366,7 @@
       border-radius: 8px;
       height: 100px;
       max-width: 140px;
-      border: 1px solid $hot_purple;
+      border: 1px solid var(--font-main);
       object-fit: contain;
     }
     .video {
@@ -374,7 +375,7 @@
       border-radius: 8px;
       height: 80px;
       max-width: 180px;
-      border: 1px solid $hot_purple;
+      border: 1px solid var(--font-main);
       object-fit: contain;
     }
     button {
@@ -384,9 +385,9 @@
       z-index: 2;
       height: 32px;
       width: 32px;
-      padding: 4px;
+      padding: 5px;
       border-radius: 99px;
-      border: 0;
+      border: 2px solid var(--theme-background-offset);
       background-color: $black;
       cursor: pointer;
 

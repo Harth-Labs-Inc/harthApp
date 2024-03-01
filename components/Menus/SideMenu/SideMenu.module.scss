@@ -17,6 +17,7 @@
   background-color: var(--menu-color);
   border: 0;
   margin: 0;
+ // z-index: 11;
 
   .bottomHolder {
     position: absolute;
@@ -25,8 +26,7 @@
     align-items: center;
     bottom: 0px;
     height: fit-content;
-    width: 100%;
-    margin-left: -8px;
+    width: calc(100% - 12px);
     background-color: var(--menu-color);
     z-index: 1;
     padding: 12px 0px 12px 0px;

@@ -2,16 +2,16 @@
 @import "../../../styles/globals.scss";
 
 .Desktop {
-  border-radius: $corner_radius_mobile;
+  border-radius: $corner_radius;
   width: 320px;
   height: fit-content;
   background-color: var(--theme-background-offset);
-  border: 0;
+  border: 1px solid var(--gather-tile-offset);
+  border-bottom: 0;
+  
   overflow: hidden;
   padding: 0px;
-  box-shadow:
-        0 1px 1px var(--shadow-color),
-        0 2px 2px var(--shadow-color); 
+  box-shadow: var(--shadow-1);
 }
 
 .Mobile {
@@ -19,11 +19,10 @@
   width: 100%;
   background-color: var(--menu-color);
   border: 1px solid var(--gather-tile-offset);
+  border-bottom: 0;
   overflow: hidden;
   padding: 0px;
-  box-shadow:
-  0 1px 1px var(--shadow-color),
-  0 2px 2px var(--shadow-color); 
+  box-shadow: var(--shadow-1);
 }
 
 .Top {
@@ -31,7 +30,7 @@
   width: 100%;
   height: 80px;
   //margin-bottom: 12px;
-  background: linear-gradient(45deg, $hot_purple 30%, var(--gather-tile));
+  background: linear-gradient(45deg, $hot_purple 50%, var(--gather-tile));
   overflow: hidden;
   padding-bottom: 8px;
 
@@ -139,6 +138,10 @@
   border-top: 0;
   border-bottom-right-radius: $corner_radius;
   border-bottom-left-radius: $corner_radius;
+  border-top: 1px solid var(--border-ultralight);
+  //background-color: var(--theme-background);
+  background: linear-gradient(45deg, var(--theme-background), var(--theme-background-offset));
+
 
   .name {
     width: 100%;
@@ -150,10 +153,9 @@
 
   .description {
     @include systemFont;
-    color: var(--font-main);
-    opacity: 0.7;
+    color: var(--font-muted);
     font-weight: 300;
-    font-size: 14px;
+    letter-spacing: 0.05em;
   }
 
   .AttendeeWrapper {
@@ -260,42 +262,77 @@
     }
 
     &Submit {
+      background: linear-gradient(45deg, $hot_purple, darken($hot_purple, 30%));
+      color: $oxygen;
+      @include systemFont;
+      letter-spacing: 0.02em;
+      margin: 0;
+      padding: 0px 18px;
       border-radius: 999px;
+      cursor: pointer;
       width: 136px;
-      height: 100%;
-      color: var(--font-muted);
-      background-color: transparent;
-      border: 1px solid var(--border-basic);
+      height: 40px;
+      border: 1px solid transparent;
       outline: none;
       outline-style: none;
       -moz-outline-style: none;
       -webkit-tap-highlight-color: transparent;
-      cursor: pointer;
-      @include systemFont;
       font-size: 14px;
       text-align: center;
       text-transform: capitalize;
       user-select: none;
 
+
       .Desktop & {
-        &:hover {
-          background: $hot_purple;
-          color: $font_light;
-          path {
-            fill: $font_light;
+        @media (hover: hover) and (pointer: fine) {
+          &:hover {
+            background: linear-gradient(
+              45deg,
+              darken($hot_purple, 30%),
+              darken($hot_purple, 30%)
+            );
           }
         }
+      }
+      .Mobile & {
+        //
       }
 
-      .Mobile & {
-        &:active {
-          background: $hot_purple;
-          color: $font_light;
-          path {
-            fill: $font_light;
+      &:active {
+        background: linear-gradient(
+          45deg,
+          darken($hot_purple, 30%),
+          darken($hot_purple, 30%)
+        );
+      }
+
+      &Active {
+        color: var(--font-muted);
+        background: transparent;
+        border-color: var(--border-basic);
+
+        .Desktop & {
+          @media (hover: hover) and (pointer: fine) {
+            &:hover {
+              color: var(--font-main);
+              background: var(--gather-tile);
+              border-color: var(--font-muted);
+            }
           }
         }
+
+        .Mobile & {
+          //
+        }
+  
+          &:active {
+              color: var(--font-main);
+              background: var(--gather-tile);
+              border-color: var(--font-muted);
+          }
+
       }
+
     }
   }
 

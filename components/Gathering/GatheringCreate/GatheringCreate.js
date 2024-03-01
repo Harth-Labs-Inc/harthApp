@@ -53,7 +53,7 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
 
                 <div className={styles.Entry}>
                     <input
-                        placeholder="room name"
+                        placeholder="enter a room name"
                         autoComplete="off"
                         autoCapitalize="off"
                         {...register("roomName", { required: true })}

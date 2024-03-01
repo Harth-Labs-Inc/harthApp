@@ -32,15 +32,15 @@
   &Mid {
     position: absolute;
     width: 100%;
-    top: 48%;
+    top: 47%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     padding: 0px;
-    background-color: var(--menu-color);
+    background-color: var(--menu-color); //var(--menu-color);
     border-top: 1px solid var(--border-light);
-    border-bottom: 1px solid var(--border-light);
     opacity: 0;
     animation: pop 0.3s ease-out forwards;
+    box-shadow: var(--shadow-3);
 
     &Dark {
       background-color: $ash;
@@ -52,6 +52,7 @@
 
     &Block {
       border: 0;
+      box-shadow: none;
     }
 
     &Top {
@@ -77,6 +78,7 @@
     overflow: hidden;
     padding-bottom: 4px;
     border-radius: 0px;
+    box-shadow: var(--shadow-3);
 
     &::after{
       position: absolute;
