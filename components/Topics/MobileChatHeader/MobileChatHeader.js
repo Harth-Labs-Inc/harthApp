@@ -89,9 +89,11 @@ const MobileChatHeader = ({ handleMobileChat, selectedTopic }) => {
         members: [
           ...(openEditTopicMenu.topic.members || []).map((usr) => {
             if (usr.user_id == user._id) {
+              let isHidden = !usr.hidden;
               return {
                 ...usr,
-                hidden: !usr.hidden,
+                hidden: isHidden,
+                muted: isHidden,
               };
             } else {
               return usr;

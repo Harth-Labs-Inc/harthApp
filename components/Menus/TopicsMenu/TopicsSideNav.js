@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, Fragment } from "react";
 import { useComms } from "../../../contexts/comms";
 import { useAuth } from "../../../contexts/auth";
 import { useSocket } from "../../../contexts/socket";
@@ -191,9 +191,11 @@ const TopicsNav = (props) => {
         members: [
           ...(openEditTopicMenu.topic.members || []).map((usr) => {
             if (usr.user_id == user._id) {
+              let isHidden = !usr.hidden;
               return {
                 ...usr,
-                hidden: !usr.hidden,
+                hidden: isHidden,
+                muted: isHidden,
               };
             } else {
               return usr;
@@ -420,7 +422,7 @@ const TopicsNav = (props) => {
                   isShort = true;
                 }
                 return (
-                  <>
+                  <Fragment key={topic?._id}>
                     <p className={styles.spacer} />
                     <TopicListElement
                       clickHandler={changeSelectedTopic}
@@ -435,7 +437,7 @@ const TopicsNav = (props) => {
                       toggleTopicEditModal={toggleTopicEditModal}
                       isHidden={true}
                     />
-                  </>
+                  </Fragment>
                 );
               })}
           </div>
