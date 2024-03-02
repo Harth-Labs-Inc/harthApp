@@ -64,9 +64,9 @@ $gather_path_heavy: lighten($gather_background, 50%);
 .dark-mode {
   --theme-background: #18181e; 
   --theme-background-offset: #202027;
-  --theme-background-offset-medium: #28282e;
   --font-main: #fefff6;
   --font-muted: #68686e;
+  --font-placeholder: #48484e;
   --border-ultralight: #303037;
   --border-light: #48484e;
   --border-basic: #58585e;
@@ -81,16 +81,22 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --menu-path-muted: #58585e;
   --menu-text-muted: #68686e;
   --gather-tile: #28282e;
-  --overlay: linear-gradient(rgba(56, 56, 62, 0.20), rgba(0, 0, 0, 0.10) 20%, rgba(0, 0, 0, 0.10) 80%, rgba(56, 56, 62, 0.20));
-  --modal-border: #68686e;
-  --shadow-color: hsl(0deg 0% 0% / 0.075);
+  --gather-tile-offset: #38383e;
+  --overlay: linear-gradient(to bottom, transparent, rgba(13, 117, 202, .1), transparent 80%),
+  linear-gradient(to bottom, transparent 20%, rgba(217, 111, 171, .1), transparent),
+  linear-gradient(to bottom, transparent, rgba(0, 0, 0, .1), transparent),
+  rgba(232, 232, 238, .7);
+  --shadow-1: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  --shadow-1-up: rgba(0, 0, 0, 0.1) 0px -1px 3px 0px, rgba(0, 0, 0, 0.06) 0px -1px 2px 0px;
+  --shadow-2: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  --shadow-2-up: rgba(0, 0, 0, 0.1) 0px -4px 6px -1px, rgba(0, 0, 0, 0.06) 0px -2px 4px -1px;
+  --shadow-3: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
 //light color theme
 .light-mode {
   --theme-background: #f8f8ff; 
   --theme-background-offset: #f0f0f7;
-  --theme-background-offset-medium: #e4e4e4;
   --font-main: #271623; //fuel
   --font-muted: #696971;
   --font-placeholder: #beb6bc;
@@ -113,10 +119,6 @@ $gather_path_heavy: lighten($gather_background, 50%);
   linear-gradient(to bottom, transparent 20%, rgba(217, 111, 171, .1), transparent),
   linear-gradient(to bottom, transparent, rgba(0, 0, 0, .1), transparent),
   rgba(232, 232, 238, .7);
-  
-  //radial-gradient(rgba(232, 232, 238, 0.4) 20%, var(--border-basic), rgba(232, 232, 238, 0.4) 80%);
-  --modal-border: #98989e;
-  --shadow-color: hsl(0deg 0% 0% / 0.1);
   --shadow-1: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   --shadow-1-up: rgba(0, 0, 0, 0.1) 0px -1px 3px 0px, rgba(0, 0, 0, 0.06) 0px -1px 2px 0px;
   --shadow-2: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;

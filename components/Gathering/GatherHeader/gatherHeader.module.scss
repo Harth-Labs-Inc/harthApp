@@ -16,9 +16,7 @@
     border: 0;
     z-index: 10;
     border-bottom: 1px solid var(--border-ultralight);
-    box-shadow:
-      0 1px 1px var(--shadow-color),
-      0 2px 2px var(--shadow-color);
+    box-shadow: var(--shadow-2);
 
     .leave {
       position: relative;
@@ -117,9 +115,7 @@
     border: 0;
     z-index: 10;
     border-bottom: 1px solid var(--border-ultralight);
-    box-shadow:
-      0 1px 1px var(--shadow-color),
-      0 2px 2px var(--shadow-color);
+    box-shadow: var(--shadow-2);
 
     .leave {
       position: relative;
@@ -213,9 +209,7 @@
     border: 0;
     z-index: 10;
     border-bottom: 1px solid var(--border-ultralight);
-    box-shadow:
-      0 1px 1px var(--shadow-color),
-      0 2px 2px var(--shadow-color);
+    box-shadow: var(--shadow-2);
 
     .leave {
       position: relative;

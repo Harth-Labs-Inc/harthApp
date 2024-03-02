@@ -204,10 +204,7 @@
       width: 36px;
       margin-right: 8px;
       border-radius: 999px;
-      box-shadow:
-        0 1px 1px var(--shadow-color),
-        0 2px 2px var(--shadow-color),
-        0 4px 4px var(--shadow-color);
+      box-shadow: var(--shadow-1);
       border: 0;
       &hover {
         border-color: initial;
