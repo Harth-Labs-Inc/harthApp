@@ -234,10 +234,15 @@
       background: var(--border-light);
       margin-right: 4px;
       z-index: 1;
+      svg {
+        transform: rotate(-10deg);
+      }
+      
 
       path {
         fill: var(--menu-path);
       }
+
     }
 
     &UnreadMessage {

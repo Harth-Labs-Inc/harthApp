@@ -16,14 +16,6 @@
     min-width: 220px;
     max-width: 280px;
 
-    .title {
-      position: relative;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      @include harthTitle;
-      font-size: 26px;
-      color: var(--font-main);
-    }
   }
 
   &HarthButton {
@@ -32,28 +24,32 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      height: 36px;
+      justify-content: center;
+      height: 52px;
       border: 0;
-      width: 36px;
-      min-width: 36px;
-      padding: 3px;
+      gap: 8px;
+      width: fit-content;
+      min-width: 80px;
+      padding: 4px 12px 4px 24px;
       cursor: pointer;
       white-space: nowrap;
       user-select: none;
       background: transparent;
-      background: var(--border-ultralight);
-      border-radius: 999px;
-      border: 2px solid var(--font-main);
-      border-color: transparent;
+      border-radius: 14px;
+      border: 0;
+      //border-color: transparent;
 
       .iconHolder {
-        width: 100%;
-        height: 100%;
-        padding-bottom: 1px;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 16px;
+        height: 16px;
+        transform: rotate(-10deg);
 
         svg {
-          height: 100%;
-          width: 100%;
+          height: 16px;
+          width: 16px;
         }
 
         path {
@@ -61,13 +57,22 @@
         }
       }
 
+      .title {
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include harthTitle;
+        font-size: 26px;
+        color: var(--font-main);
+      }
+
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: var(--font-main);
-
+          background: var(--menu-color);
           .iconHolder {
+    
             path {
-              fill: var(--theme-background);
+              fill: $hot_purple;
             }
           }
         }

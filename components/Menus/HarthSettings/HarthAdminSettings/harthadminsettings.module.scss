@@ -41,44 +41,24 @@
 
   .textEntry {
     margin: 0;
+    margin-top: 24px;
     width: 256px;
     height: 48px;
     padding: 0px 2px 0px 8px;
-    background-color: var(--border-light);
+    background-color: var(--theme-background);
+    box-shadow: var(--shadow-1);
     border-radius: 8px;
     @include harthTitle;
     overflow: hidden;
     font-size: 20px;
     color: var(--font-main);
     border: 0;
+    text-align: center;
   }
   .formSubmit {
     width: 256px;
     height: 48px;
-    //padding: 8px;
-    background-color: var(--border-basic);
-    border-radius: 999px;
-    color: var(--font-main);
-    @include systemFont;
-    font-size: 16px;
-    border: 0;
-    outline: none;
-    outline-style: none;
-    -moz-outline-style: none;
-    -webkit-tap-highlight-color: transparent;
-    cursor: pointer;
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: $hot_purple;
-        color: var(--font-main);
-      }
-    }
-
-    &:active {
-      background-color: $hot_purple;
-      color: $font_light;
-    }
   }
 }
 
@@ -95,7 +75,9 @@
   }
 
   .leaveButton {
-    margin-top: 20px;
+    margin-top: 64px;
+    height: 36px;
+    @include systemFont;
   }
 }
 

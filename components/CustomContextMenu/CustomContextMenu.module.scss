@@ -39,7 +39,8 @@
     align-items: center;
     padding: 6px 8px;
     color: var(--font-main);
-    background-color: var(--border-basic);
+    background-color: var(--theme-background);
+    box-shadow: var(--shadow-1);
     border: 0;
     border-radius: 6px;
     cursor: pointer;
@@ -56,12 +57,12 @@
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--border-heavy);
+        background-color: var(--border-basic);
       }
     }
 
     &:active {
-      background-color: var(--border-heavy);
+      background-color: var(--border-basic);
     }
   }
 
@@ -72,17 +73,16 @@
     border: 0;
     border-radius: 0;
     background-color: var(--menu-color);
-    border-top: 1px solid var(--modal-border);
-    border-bottom: 1px solid var(--modal-border);
     margin-top: -36px;
 
 
     button {
-      height: 48px;
+      height: 52px;
       width: 264px;
       font-size: 16px;
       margin-left: auto;
       margin-right: auto;
+      padding: 0px 16px;
 
       svg {
         width: 24px;

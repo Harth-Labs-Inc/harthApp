@@ -39,7 +39,7 @@
       flex-direction: column;
       gap: 16px;
       position: relative;
-      background-color: var(--border-light);
+      background-color: var(--theme-background);
       overflow-y: scroll;
       height: 220px;
       padding: 16px;
@@ -73,9 +73,9 @@
           appearance: none;
           width: 32px;
           height: 32px;
-          border: 2px solid var(--font-main);
+          border: 2px solid var(--font-muted);
           border-radius: 8px;
-          background-color: var(--border-light);
+          background-color: transparent;
           //box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
           &::before {

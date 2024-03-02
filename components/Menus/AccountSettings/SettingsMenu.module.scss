@@ -53,6 +53,11 @@
     margin-top: 12px;
     text-align: center;
   }
+
+  .bottomSpacer {
+    height: 28px;
+    min-height: 28px;
+  }
 }
 
 .InviteList {
@@ -408,7 +413,8 @@
 
   .inputEdit {
     border-radius: 4px;
-    background-color: var(--border-basic);
+    background-color: var(--theme-background);
+    box-shadow: var(--shadow-1);
     border: 0;
     height: 56px;
     @include systemFont;

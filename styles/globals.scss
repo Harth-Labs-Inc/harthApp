@@ -7,7 +7,7 @@ $ash: #28282e;
 $oxygen: #fefff6;
 
 // Hot Blue
-$hot_blue: #0d75ca;
+$hot_blue: rgb(13, 117, 202);
 
 // Hot Green
 $hot_green: #3cc8a3;
@@ -93,7 +93,7 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --theme-background-offset-medium: #e4e4e4;
   --font-main: #271623; //fuel
   --font-muted: #696971;
-  --font-placeholder: #aea6ac;
+  --font-placeholder: #beb6bc;
   --border-ultralight: #e4e4ea;
   --border-light: #d8d8de;
   --border-basic: #a8a8ae;
@@ -109,7 +109,12 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --menu-text-muted: #98989e;
   --gather-tile: #f0f0f7;
   --gather-tile-offset: #e8e8ef;
-  --overlay: linear-gradient(rgba(232, 232, 238, 0.60), rgba(0, 0, 0, 0.10) 20%, rgba(0, 0, 0, 0.10) 80%, rgba(232, 232, 238, 0.60));
+  --overlay: linear-gradient(to bottom, transparent, rgba(13, 117, 202, .1), transparent 80%),
+  linear-gradient(to bottom, transparent 20%, rgba(217, 111, 171, .1), transparent),
+  linear-gradient(to bottom, transparent, rgba(0, 0, 0, .1), transparent),
+  rgba(232, 232, 238, .7);
+  
+  //radial-gradient(rgba(232, 232, 238, 0.4) 20%, var(--border-basic), rgba(232, 232, 238, 0.4) 80%);
   --modal-border: #98989e;
   --shadow-color: hsl(0deg 0% 0% / 0.1);
   --shadow-1: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;

@@ -75,16 +75,18 @@
       height: 56px;
       border-radius: 8px;
       border: 0;
-      background-color: var(--border-light);
+      background-color: var(--theme-background);
+      box-shadow: var(--shadow-1);
+
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background-color: var(--border-basic);
+          background-color: var(--border-light);
         }
       }
 
       &:active {
-        background-color: var(--border-basic);
+        background-color: var(--border-light);
       }
     }
 
@@ -99,7 +101,9 @@
       height: 56px;
       width: 100%;
       color: var(--font-main);
-      background-color: var(--border-light);
+      background-color: var(--theme-background);
+      box-shadow: var(--shadow-1);
+
       border: 0;
       border-radius: 6px;
       padding-left: 12px;

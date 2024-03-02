@@ -132,17 +132,6 @@
       }
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: var(--border-light);
-
-        .participantElement {
-          .avatar {
-            border-color: var(--border-light);
-          }
-        }
-      }
-    }
   }
 
   &Alert {

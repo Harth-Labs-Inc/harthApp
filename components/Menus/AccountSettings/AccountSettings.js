@@ -89,6 +89,7 @@ const SettingsList = ({ toggleCurrentTab }) => {
       <button className={styles.menuItem} onClick={() => signOut()}>
         Sign Out
       </button>
+      <div className={styles.bottomSpacer}></div>
 
       {/* <p className={styles.appVersion}>App version: {APP_VERSION}</p> */}
     </div>

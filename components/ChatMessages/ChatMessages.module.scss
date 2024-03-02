@@ -114,6 +114,8 @@
     a {
       @include url;
       color: $hot_blue;
+      text-shadow: 1px 1px 0px $oxygen;
+      ;
       //font-size: 13px;
     }
   }

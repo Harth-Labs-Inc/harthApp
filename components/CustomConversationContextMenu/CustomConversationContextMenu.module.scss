@@ -14,17 +14,19 @@
   padding: 8px;
   color: $oxygen;
   backdrop-filter: blur(18px);
-  background-color: var(--overlay);
+  background-color: var(--menu-color);
   border-radius: 8px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-2);
 
   &Button {
     display: flex;
-    padding: 6px 8px;
-    color: $oxygen;
-    background-color: $background_offset;
+    padding: 8px 12px;
+    color: var(--font-main);
+    background-color: var(--theme-background);
+    box-shadow: var(--shadow-1);
     border: 0;
     border-radius: 6px;
+    align-items: center;
     cursor: pointer;
 
     &:not(:last-of-type) {
@@ -34,10 +36,20 @@
     svg {
       width: 16px;
       margin-right: 6px;
+      
+      path {
+        fill: var(--font-main);
+      }
     }
 
-    &:hover {
-      background-color: $black;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: var(--border-light);
+      }
+    }
+
+    &:active {
+      background-color: var(--border-light);
     }
   }
 }

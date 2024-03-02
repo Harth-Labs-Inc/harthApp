@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
+import { MobileContext } from "contexts/mobile";
 import { useRouter } from "next/router";
 import { addUser, sendOtpEmailToUser } from "../../../requests/userApi";
 import TermsOfServiceModal from "components/TermsOfServiceModal/TermsOfServiceModal";
@@ -40,11 +41,13 @@ const TOS = () => {
     router.push("/auth/OtpValidator");
   };
 
+  const { isMobile } = useContext(MobileContext);
+
   if (!newUser) {
     return null;
   }
   return (
-    <Modal blockBackground={true}>
+    <Modal blockBackground={true} alignTop={isMobile ? true : false}>
       
       <TermsOfServiceModal
         buttonText="Create an Account"

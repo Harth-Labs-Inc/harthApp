@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { MobileContext } from "../../contexts/mobile";
-import { IconHome } from "resources/icons/IconHome";
+import { IconSpaceFill } from "resources/icons/IconSpaceFill";
 import { Modal } from "../Common/Modals/Modal";
 import HarthSettings from "../Menus/HarthSettings/HarthSettings";
 import { useComms } from "../../contexts/comms";
@@ -141,10 +141,11 @@ const MainNav = (props) => {
               aria-label="Current Harth Settings"
             >
               <div className={styles.iconHolder}>
-                <IconHome />
+                <IconSpaceFill />
               </div>
+            
+              <span className={styles.title}>{selectedcomm?.name}</span>
             </button>
-            <span className={styles.title}>{selectedcomm?.name}</span>
           </div>
         )}
         <div
