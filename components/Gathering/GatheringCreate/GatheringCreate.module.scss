@@ -233,7 +233,7 @@
   gap: 4px;
   //background: linear-gradient(45deg, $hot_purple, var(--gather-tile-offset));
   //box-shadow: var(--shadow-1);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-ultralight);
 
 
   svg {
@@ -262,6 +262,19 @@
     }
   }
 
+  &Active {
+    background: $hot_purple;
+    color: $font_light;
+    border-color: $hot_purple;
+
+    svg {
+      path {
+        fill: $font_light;
+      }
+    }
+    
+  }
+
   .Desktop & {
     font-size: 12px;
     @media (hover: hover) and (pointer: fine) {
@@ -270,8 +283,10 @@
         color: $font_light;
         border-color: $hot_purple;
 
-        path {
-          fill: $font_light;
+        svg {
+          path {
+            fill: $font_light;
+          }
         }
       }
     }
@@ -289,11 +304,14 @@
 
     &:active {
       background: $hot_purple;
-      color: $font_light;
+        color: $font_light;
+        border-color: $hot_purple;
 
-      path {
-        fill: $font_light;
-      }
+        svg {
+          path {
+            fill: $font_light;
+          }
+        }
     }
   }
 }
