@@ -26,8 +26,7 @@
   width: 100%;
   background-color: var(--menu-color);
   border: 0;
-  border-top: 1px solid var(--modal-border);
-  border-bottom: 1px solid var(--modal-border);
+  box-shadow: var(--shadow-3);
   .content {
     width: 100%;
     max-width: 360px;

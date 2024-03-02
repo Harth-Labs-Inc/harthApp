@@ -45,9 +45,9 @@ const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <linearGradient id="g">
-      <stop stop-color="rgba(200, 200, 200, .1)" offset="20%" />
-      <stop stop-color="rgba(200, 200, 200, .2)" offset="50%" />
-      <stop stop-color="rgba(200, 200, 200, .1)" offset="70%" />
+      <stop stop-color="rgba(13, 117, 202, .2)" offset="20%" />
+      <stop stop-color="rgba(13, 117, 202, .3)" offset="50%" />
+      <stop stop-color="rgba(13, 117, 202, .2)" offset="70%" />
     </linearGradient>
   </defs>
   
@@ -1119,10 +1119,10 @@ const ChatSingleMessage = (props) => {
                             reaction.includes(
                               "custom-emoji.s3.us-east-2.amazonaws.com"
                             ) ? (
-                              <img src={reaction} />
-                            ) : (
-                              reaction
-                            )}
+                            <span className={styles.icon}><img src={reaction} /></span>
+                          ) : (
+                            <span className={styles.icon}>{reaction}</span>
+                          )}
                             <span className={styles.label}>{name}</span>
                           </button>
                         );
@@ -1451,9 +1451,9 @@ const ChatSingleMessage = (props) => {
                           reaction.includes(
                             "custom-emoji.s3.us-east-2.amazonaws.com"
                           ) ? (
-                            <img src={reaction} />
+                            <span className={styles.icon}><img src={reaction} /></span>
                           ) : (
-                            reaction
+                            <span className={styles.icon}>{reaction}</span>
                           )}
                           <span className={styles.label}>{name}</span>
                         </button>

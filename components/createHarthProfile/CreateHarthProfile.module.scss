@@ -54,7 +54,8 @@
   input {
     width: 90%;
     border-radius: 6px;
-    background-color: var(--menu-offset);
+    background-color: var(--theme-background);
+    box-shadow: var(--shadow-1);
     border: 0;
     height: 56px;
     padding-left: 12px;

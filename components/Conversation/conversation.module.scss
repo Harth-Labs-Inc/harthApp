@@ -117,7 +117,8 @@
     }
   }
   &Active {
-    background-color: var(--border-light);
+    background-color: var(--theme-background-offset);
+    box-shadow: var(--shadow-1);
     .moreMenu {
       visibility: visible;
     }
@@ -131,17 +132,6 @@
       }
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: var(--border-light);
-
-        .participantElement {
-          .avatar {
-            border-color: var(--border-light);
-          }
-        }
-      }
-    }
   }
 
   &Alert {

@@ -12,17 +12,14 @@
 
 .gatheringPage {
   position: relative;
-  //background: $background;
-  height: 100%;
+  background: var(--theme-background);
+  height: calc(100% + 8px);
   width: 100%;
   overflow-y: scroll;
   padding: calc(112px + $space) 0px $space 0px;
   margin-top: 0px;
+  box-shadow: var(--shadow-1);
 
-  // background-image: url('/images/gather-back-desk.png'); /* Path to your image */
-  // background-size: contain; /* This will cover the entire div without stretching */
-  // background-repeat: no-repeat; /* This will prevent the image from repeating */
-  // background-position: right bottom; /* This centers the image in the div */
   .placeholderImage {
     position: absolute;
     width: 360px;
@@ -43,8 +40,9 @@
   }
 
   &Mobile {
-    padding: calc(354px + $space_mobile) 0px 136px 0px;
+    padding: calc(376px) 0px 136px 0px;
     margin-top: 0px;
+    height: 100%;
 
     .placeholderImage {
       width: 90%;
@@ -67,7 +65,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     margin-top: 0px;
     padding: 0px $space;
     &ActiveList {

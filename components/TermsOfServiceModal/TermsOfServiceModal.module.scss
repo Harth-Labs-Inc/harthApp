@@ -58,7 +58,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: transparent;
+    background-color: var(--theme-background);
     border: 2px solid $hot_purple;
     border-radius: 7px;
     cursor: pointer;

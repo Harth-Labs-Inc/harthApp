@@ -53,6 +53,11 @@
     margin-top: 12px;
     text-align: center;
   }
+
+  .bottomSpacer {
+    height: 28px;
+    min-height: 28px;
+  }
 }
 
 .InviteList {
@@ -83,7 +88,7 @@
         width: 48px;
         margin-right: 12px;
         border-radius: 8px;
-        box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075);
+        box-shadow: var(--shadow-1);
       }
 
       &Name {
@@ -408,7 +413,8 @@
 
   .inputEdit {
     border-radius: 4px;
-    background-color: var(--border-basic);
+    background-color: var(--theme-background);
+    box-shadow: var(--shadow-1);
     border: 0;
     height: 56px;
     @include systemFont;

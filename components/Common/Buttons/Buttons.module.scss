@@ -34,7 +34,7 @@
   border-radius: 99px;
   cursor: pointer;
   transition: all 0.2s;
-  background-color: var(--border-basic);
+  background-color: var(--font-main);
 
   path {
     fill: var(--menu-color);
@@ -42,15 +42,19 @@
   &Desktop {
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--border-heavy);
+        background-color: var(--font-muted);
       }
     }
   }
 
   &Mobile {
     &:active {
-      background-color: var(--border-heavy);
+      background-color: var(--font-muted);
     }
+  }
+  
+  &:active {
+    background-color: var(--border-heavy);
   }
 }
 

@@ -11,8 +11,11 @@
   &TitleHolder {
     display: flex;
     width: fit-content;
+    align-items: center;
+    gap: 8px;
     min-width: 220px;
     max-width: 280px;
+
   }
 
   &HarthButton {
@@ -21,18 +24,40 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: center;
       height: 52px;
       border: 0;
+      gap: 8px;
       width: fit-content;
-      max-width: 100%;
-      padding: 0px 20px 0px 6px;
+      min-width: 80px;
+      padding: 4px 12px 4px 24px;
       cursor: pointer;
       white-space: nowrap;
       user-select: none;
       background: transparent;
-      border-radius: 8px;
+      border-radius: 14px;
+      border: 0;
+      //border-color: transparent;
 
-      p {
+      .iconHolder {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 16px;
+        height: 16px;
+        transform: rotate(-10deg);
+
+        svg {
+          height: 16px;
+          width: 16px;
+        }
+
+        path {
+          fill: var(--font-main);
+        }
+      }
+
+      .title {
         position: relative;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -41,37 +66,21 @@
         color: var(--font-main);
       }
 
-      .iconHolder {
-        position: absolute;
-        top: 2px;
-        right: 4px;
-        margin: 0;
-        //background-color: aqua;
-        padding: 0;
-
-        svg {
-          height: 16px;
-          width: 16px;
-        }
-
-        path {
-          fill: var(--path-light);
-        }
-      }
-
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: var(--menu-offset);
-
+          background: var(--menu-color);
           .iconHolder {
+    
             path {
-              fill: var(--path-heavy);
+              fill: $hot_purple;
             }
           }
         }
       }
     }
   }
+
+
 
   &Pages {
     display: flex;
@@ -104,9 +113,7 @@
       padding: 4px 0px 8px 0px;
       background-color: transparent;
       border-radius: 0;
-      box-shadow:
-        0 -1px 1px hsl(0deg 0% 0% / 0.075),
-        0 -2px 2px hsl(0deg 0% 0% / 0.075);
+      box-shadow: var(--shadow-2-up);
     }
   }
 
@@ -257,7 +264,7 @@
           position: absolute;
           content: "";
           background-color: var(--menu-path);
-          height: 2px;
+          height: 3px;
           width: 80px;
           bottom: -14px;
           left: 50%;

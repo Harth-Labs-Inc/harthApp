@@ -20,6 +20,7 @@
   color: var(--font-main);
   @include systemFont;
   font-size: 16px;
+  box-shadow: var(--shadow-2);
 
   p {
     max-width: 100%;

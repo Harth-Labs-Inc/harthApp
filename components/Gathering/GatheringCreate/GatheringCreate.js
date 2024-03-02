@@ -2,13 +2,13 @@ import { useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { IconClock } from "resources/icons/IconClock";
 import { IconPlayCircle } from "resources/icons/IconPlayCircle";
-//import { IconChevronRight } from "resources/icons/IconChevronRight";
 import { GatheringButton } from "./GatheringButton";
 import { MobileContext } from "../../../contexts/mobile";
 import styles from "./GatheringCreate.module.scss";
 
 const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
     const [activeButton, setActiveButton] = useState("voice");
+    const [textEntered, setTextEntered] = useState(false);
     const isScheduleRoom = useRef(false);
     const { isMobile } = useContext(MobileContext);
 
@@ -39,6 +39,10 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
         }
     };
 
+    const handleInputChange = (e) => {
+        setTextEntered(e.target.value.length > 0);
+    };
+
     return (
         <div
             className={`
@@ -53,11 +57,12 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
 
                 <div className={styles.Entry}>
                     <input
-                        placeholder="room name"
+                        placeholder="enter a room name"
                         autoComplete="off"
                         autoCapitalize="off"
                         {...register("roomName", { required: true })}
                         maxLength={64}
+                        onChange={handleInputChange}
                     />  
                     {errors.roomName ?
                         <span>Room name is required</span>
@@ -124,7 +129,10 @@ const GatheringCreate = ({ createScheduleRoom, createRoomFormSubmit }) => {
                     <button
                         type="submit"
                         id="submit_button"
-                        className={styles.Submit}
+                        className={`
+                            ${styles.Submit}
+                            ${textEntered ? styles.SubmitActive : null}
+                            `}
                         // onClick={() =>
                         //     createRoomFormSubmit({
                         //         roomName,

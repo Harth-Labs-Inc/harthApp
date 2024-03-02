@@ -13,6 +13,8 @@
   margin-right: $space_gap;
   background: var(--theme-background);
 
+  box-shadow: var(--shadow-1);
+
   .notopic {
     @include systemFont;
     color: var(--font-muted);
@@ -21,6 +23,7 @@
     text-align: left;
     padding: 12px 12px 8px 12px;
   }
+
 
   &Mobile {
     border: 0;

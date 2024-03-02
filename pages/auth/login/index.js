@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
+import { MobileContext } from "contexts/mobile";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { IconChevronLeft } from "resources/icons/IconChevronLeft";
@@ -11,6 +12,9 @@ import { useAuth } from "contexts/auth";
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { isMobile } = useContext(MobileContext);
+  const inputRef = useRef(null);
+
   const {
     register,
     handleSubmit,
@@ -19,6 +23,10 @@ const Login = () => {
 
   const router = useRouter();
   const { setNewUser } = useAuth();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const submitHandler = async (data) => {
     setIsSubmitting(true);
@@ -35,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <Modal blockBackground={true} onToggleModal={() => {}} ignoreFadeIn={true}>
+    <Modal blockBackground={true} alignTop={isMobile ? true : false} onToggleModal={() => {}} ignoreFadeIn={true}>
       <div className={`${styles.loginModule} ${styles.fadeIn}`}>
         <h3>Sign In</h3>
         <form onSubmit={handleSubmit(submitHandler)}>
@@ -46,6 +54,10 @@ const Login = () => {
             autoCapitalize="off"
             spellCheck="false"
             autoCorrect="off"
+            ref={(e) => {
+              register("email").ref(e);
+              inputRef.current = e;
+            }}
           />
           <ErrorMessage
             errorMsg={

@@ -5,6 +5,7 @@ import { IconAdd } from "../../../resources/icons/IconAdd";
 import { IconFireFill } from "../../../resources/icons/IconFireFill";
 import { Modal } from "../../Common/Modals/Modal";
 import HarthSettings from "../../Menus/HarthSettings/HarthSettings";
+import { IconSpaceFill } from "resources/icons/IconSpaceFill";
 
 import styles from "./HarthList.module.scss";
 import {
@@ -225,7 +226,7 @@ const HarthList = ({
                     onClick={handleHarthMenu}
                     aria-label="Current Harth Settings"
                   >
-                    <IconSettings />
+                    <IconSpaceFill />
                   </button>
                 ) : null}
               </li>

@@ -3,7 +3,8 @@ import { useComms } from "../../../contexts/comms";
 import { CloseButton } from "Common";
 import { IconNotificationsNoFill } from "../../../resources/icons/IconNotificationsNoFill";
 import { IconNotificationsFill } from "../../../resources/icons/IconNotificationsFill";
-import IconAdminPanel from "../../../resources/icons/IconAdminPanel";
+import { IconSpaceFill } from "resources/icons/IconSpaceFill";
+import { IconSpaceNoFill } from "resources/icons/IconSpaceNoFill";
 import { IconAccountNoFill } from "../../../resources/icons/IconAccountNoFill";
 import { IconAccountFill } from "../../../resources/icons/IconAccountFill";
 import { getHarthByID } from "../../../requests/community";
@@ -83,7 +84,7 @@ const HarthSettings = (props) => {
               changePageHandler("admin");
             }}
           >
-            {currentPage == "admin" ? <IconAdminPanel /> : <IconAdminPanel />}
+            {currentPage == "admin" ? <IconSpaceFill /> : <IconSpaceNoFill />}
             Details
           </button>
 
