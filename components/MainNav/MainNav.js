@@ -13,7 +13,6 @@ import { IconForumNoFill } from "resources/icons/IconForumNoFill";
 import styles from "./mainNav.module.scss";
 import { useSocket } from "../../contexts/socket";
 import { useTourManager } from "contexts/tour";
-import { IconSettings } from "resources/icons/IconSettings";
 
 /* eslint-disable */
 const MainNav = (props) => {

@@ -15,7 +15,6 @@ import {
   saveAttachment,
 } from "services/helper";
 import { getDownloadURL } from "requests/s3";
-import { IconSettings } from "resources/icons/IconSettings";
 
 const HarthList = ({
   comms,
