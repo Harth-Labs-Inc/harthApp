@@ -25,12 +25,12 @@
       border: 0;
       width: fit-content;
       max-width: 100%;
-      padding: 0px 20px 0px 6px;
+      padding: 4px 24px 4px 12px;
       cursor: pointer;
       white-space: nowrap;
       user-select: none;
       background: transparent;
-      border-radius: 8px;
+      border-radius: 14px;
 
       p {
         position: relative;
@@ -43,8 +43,8 @@
 
       .iconHolder {
         position: absolute;
-        top: 2px;
-        right: 4px;
+        top: 4px;
+        right: 6px;
         margin: 0;
         //background-color: aqua;
         padding: 0;
@@ -55,17 +55,17 @@
         }
 
         path {
-          fill: var(--path-light);
+          fill: var(--font-main);
         }
       }
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: var(--menu-offset);
+          background: var(--menu-color);
 
           .iconHolder {
             path {
-              fill: var(--path-heavy);
+              fill: $hot_purple;
             }
           }
         }
@@ -104,9 +104,7 @@
       padding: 4px 0px 8px 0px;
       background-color: transparent;
       border-radius: 0;
-      box-shadow:
-        0 -1px 1px hsl(0deg 0% 0% / 0.075),
-        0 -2px 2px hsl(0deg 0% 0% / 0.075);
+      box-shadow: var(--shadow-2-up);
     }
   }
 
@@ -143,8 +141,6 @@
           content: "";
           background-color: $hot_purple;
           border-radius: 9999px;
-          //border: 2px solid var(--menu-color);
-          
         }
       }
     }
@@ -257,7 +253,7 @@
           position: absolute;
           content: "";
           background-color: var(--menu-path);
-          height: 2px;
+          height: 3px;
           width: 80px;
           bottom: -14px;
           left: 50%;

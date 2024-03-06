@@ -31,8 +31,6 @@
   padding: 0px 0 0 0;
   z-index: 10;
   background: var(--menu-color);
-  border-bottom: 1px solid var(--border-ultralight);
-
 
   .background {
     position: relative;
@@ -46,8 +44,9 @@
     border-radius: 0;
     border-top-left-radius: $outside_radius;
     padding-right: 10px;
-
-
+    padding-left: 4px;
+    box-shadow: var(--shadow-1);
+    border-top: 1px solid var(--menu-offset);
 
     &Mobile {
       display: flex;
@@ -60,10 +59,7 @@
       padding-right: 10px;
       padding-left: 0px;
       border: 0;
-
-      &::after {
-        opacity: 0;
-      }
+      box-shadow: none;
     }
   }
 
@@ -103,6 +99,28 @@
       margin-top: -4px;
       margin-left: -8px;
       border: 6px solid var(--menu-color);
+      background-color: var(--menu-color);
+    }
+
+    &::before {
+      position: absolute;
+      content: "";
+      top: -5px;
+      left: 0;
+      width: 76px;
+      height: 76px;
+      border-radius: 999px;
+      background-color: var(--menu-color);
+      box-shadow: var(--shadow-2);
+    }
+    &::after{
+      position: absolute;
+      content: "";
+      top: -4px;
+      left: 0;
+      width: 100%;
+      height: 62px;
+      background-color: var(--menu-color);
     }
 
     &UnreadMessage {
@@ -141,9 +159,7 @@
     padding: 0px;
     border: 0;
     background-color: var(--menu-color);
-    box-shadow:
-    0 1px 1px hsl(0deg 0% 0% / 0.075),
-    0 2px 2px hsl(0deg 0% 0% / 0.075);
+    box-shadow: var(--shadow-2);
   }
 }
 .titleHolder {
