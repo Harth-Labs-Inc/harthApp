@@ -129,6 +129,19 @@
       }
     }
   }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: -$outside_radius;
+    content: "";
+    height: 100%;
+    width: $outside_radius;
+    border-top-left-radius: $outside_radius;
+    box-shadow: var(--shadow-1);
+    background-color: var(--menu-color);
+
+  }
 }
 
 .sideNavMobile {

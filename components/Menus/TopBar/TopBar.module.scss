@@ -31,6 +31,7 @@
   padding: 0px 0 0 0;
   z-index: 10;
   background: var(--menu-color);
+  border-top-left-radius: $outside_radius;
 
   .background {
     position: relative;
@@ -45,8 +46,9 @@
     border-top-left-radius: $outside_radius;
     padding-right: 10px;
     padding-left: 4px;
-    box-shadow: var(--shadow-1);
     border-top: 1px solid var(--menu-offset);
+    border-bottom: 1px solid var(--border-ultralight);
+
 
     &Mobile {
       display: flex;
@@ -159,6 +161,7 @@
     padding: 0px;
     border: 0;
     background-color: var(--menu-color);
+    border-radius: 0;
     box-shadow: var(--shadow-2);
   }
 }
