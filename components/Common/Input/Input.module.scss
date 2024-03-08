@@ -11,9 +11,11 @@
     border: 0;
     color: var(--font-main);
     text-transform: none;
+    box-shadow: var(--shadow-1);
+    background-color: var(--theme-background);
 
     &::placeholder {
-      color: var(--font-muted);
+      color: var(--font-placeholder);
     }
   }
 
