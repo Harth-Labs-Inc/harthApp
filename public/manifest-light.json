@@ -86,7 +86,7 @@
             "type": "image/png"
         }
     ],
-    "start_url": "https://harth.social/",
+    "start_url": "https://www.harth.social/",
     "display": "fullscreen",
     "scope": "/",
     "background_color": "#e8e8ee",

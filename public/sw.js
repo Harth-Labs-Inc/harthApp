@@ -71,7 +71,7 @@ self.addEventListener("push", function (event) {
         vibrate: [100, 50, 200],
         badge: "/icons/notification-android.png",
         icon: "/icons/notification-android.png",
-        data: { url: "https://harth.social/" },
+        data: { url: "https://www.harth.social/" },
     };
 
     if (event.data) {

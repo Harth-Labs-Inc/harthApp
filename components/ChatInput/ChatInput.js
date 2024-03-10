@@ -5,20 +5,20 @@ import { IconImage } from "../../resources/icons/IconImage";
 import { MobileContext } from "contexts/mobile";
 
 import {
-  saveMessage,
-  sendUnreadMessages,
-  updateMessage,
-  getTopicsRecieverIds,
+    saveMessage,
+    sendUnreadMessages,
+    updateMessage,
+    getTopicsRecieverIds,
 } from "../../requests/chat";
 import { useComms } from "../../contexts/comms";
 import { useAuth } from "../../contexts/auth";
 import { useSocket } from "../../contexts/socket";
 
 import {
-  getUploadURL,
-  putImageInBucket,
-  compressImage,
-  putVideoInBucket,
+    getUploadURL,
+    putImageInBucket,
+    compressImage,
+    putVideoInBucket,
 } from "../../requests/s3";
 import { addKeyToDB } from "../../requests/chat";
 
@@ -27,1143 +27,1204 @@ import styles from "./ChatInput.module.scss";
 import { sendPushNotification } from "requests/subscriptions";
 import { EmojiWrapper } from "components/EmojiWrapper/EmojiWrapper";
 import {
-  deleteAttachment,
-  generateID,
-  generatePushMessage,
-  getBaseUrl,
-  saveAttachment,
-  updateRecordAttachments,
-  updateRecordDbID,
+    deleteAttachment,
+    generateID,
+    generatePushMessage,
+    getBaseUrl,
+    saveAttachment,
+    updateRecordAttachments,
+    updateRecordDbID,
 } from "services/helper";
 
 const isIOS = () => {
-  if (typeof navigator !== "undefined") {
-    if (navigator.userAgentData) {
-      return navigator.userAgentData.platform === "iOS";
-    }
+    if (typeof navigator !== "undefined") {
+        if (navigator.userAgentData) {
+            return navigator.userAgentData.platform === "iOS";
+        }
 
-    return /iPad|iPhone|iPod/.test(navigator.userAgent);
-  }
-  return false;
+        return /iPad|iPhone|iPod/.test(navigator.userAgent);
+    }
+    return false;
 };
 
 const ChatInput = (props) => {
-  const [attachments, setAttachments] = useState([]);
-  const [emojiPickerState, setEmojiPicker] = useState(false);
-  const [selectedEditMsg, setSelectedEditMsg] = useState({});
-  const [uploadingAttachments, setUploadingAttachments] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { isMobile } = useContext(MobileContext);
-  const [altKey, setAltKey] = useState(false);
-  const [allowBlur, setAllowBlur] = useState(false);
-  const [offsetY, setOffsetY] = useState(0);
-  let startY = null;
-  let prevY = null;
-  let scrollPositionRef = useRef(null);
-  let lockedScrollDirection = null;
+    const [attachments, setAttachments] = useState([]);
+    const [emojiPickerState, setEmojiPicker] = useState(false);
+    const [selectedEditMsg, setSelectedEditMsg] = useState({});
+    const [uploadingAttachments, setUploadingAttachments] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { isMobile } = useContext(MobileContext);
+    const [altKey, setAltKey] = useState(false);
+    const [allowBlur, setAllowBlur] = useState(false);
+    const [offsetY, setOffsetY] = useState(0);
+    let startY = null;
+    let prevY = null;
+    let scrollPositionRef = useRef(null);
+    let lockedScrollDirection = null;
 
-  const { user } = useAuth();
-  const {
-    selectedcomm,
-    selectedTopic,
-    selectedCommRef,
-    pendingMessagesController,
-  } = useComms();
-  const {
-    emitUpdate,
-    socketID,
-    setIncomingMsgPreview,
-    setFinalMessageForPreview,
-  } = useSocket();
+    const { user } = useAuth();
+    const {
+        selectedcomm,
+        selectedTopic,
+        selectedCommRef,
+        pendingMessagesController,
+    } = useComms();
+    const {
+        emitUpdate,
+        socketID,
+        setIncomingMsgPreview,
+        setFinalMessageForPreview,
+    } = useSocket();
 
-  const {
-    selectedEdit,
-    topicInputs,
-    setTopicInputs,
-    resetEdit,
-    toggleEditing,
-    toggleOverlay,
-  } = props;
+    const {
+        selectedEdit,
+        topicInputs,
+        setTopicInputs,
+        resetEdit,
+        toggleEditing,
+        toggleOverlay,
+    } = props;
 
-  const inputBoxContainerRef = useRef();
-  const textRef = useRef();
-  const fileRef = useRef();
-  const attRefs = useRef([]);
-  const originalHeightRef = useRef();
-  const lastTriggered = useRef(null);
-  const lastTriggeredImage = useRef(null);
-  const resizeInitialShift = useRef(false);
-  const currentHeightRef = useRef(0);
-  const ignoreNextResize = useRef(false);
-  let closeTimer = null;
+    const inputBoxContainerRef = useRef();
+    const textRef = useRef();
+    const fileRef = useRef();
+    const attRefs = useRef([]);
+    const originalHeightRef = useRef();
+    const lastTriggered = useRef(null);
+    const lastTriggeredImage = useRef(null);
+    const resizeInitialShift = useRef(false);
+    const currentHeightRef = useRef(0);
+    const ignoreNextResize = useRef(false);
+    let closeTimer = null;
 
-  const [ios, setIos] = useState(false);
+    const [ios, setIos] = useState(false);
 
-  useEffect(() => {
-    setIos(isIOS());
-  }, []);
+    useEffect(() => {
+        setIos(isIOS());
+    }, []);
 
-  useEffect(() => {
-    if (attachments.length > 0) {
-      attachments.forEach((file, idx) => {
-        if (file && file instanceof Blob) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            const { result } = e.target;
-            attRefs.current[idx].src = result;
-          };
-          reader.readAsDataURL(file);
+    useEffect(() => {
+        if (attachments.length > 0) {
+            attachments.forEach((file, idx) => {
+                if (file && file instanceof Blob) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        const { result } = e.target;
+                        attRefs.current[idx].src = result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    attRefs.current[idx].src = "";
+                }
+            });
+        }
+    }, [attachments]);
+
+    useEffect(() => {
+        originalHeightRef.current = textRef.current.style.height;
+        if (isMobile) {
+            const handleChange = () => {
+                if (document.hidden) {
+                    const messageContainer =
+                        document.getElementById("messageResizer");
+                    const chatHeaderContainer =
+                        document.getElementById("chatHeader");
+                    setAllowBlur(true);
+                    setOffsetY(0);
+                    ignoreNextResize.current = false;
+                    resizeInitialShift.current = false;
+                    if (messageContainer) {
+                        messageContainer.style.transform = "";
+                    }
+                    if (chatHeaderContainer) {
+                        chatHeaderContainer.style.transform = "";
+                    }
+                    if (textRef.current) {
+                        textRef.current.blur();
+                    }
+                }
+            };
+            const handleResize = () => {
+                const vh = parseInt(
+                    getComputedStyle(document.documentElement).getPropertyValue(
+                        "--vh"
+                    ),
+                    10
+                );
+                const currentHeight = window.innerHeight;
+                const heightDifference = vh - currentHeight;
+                const isFocused = textRef.current === document.activeElement;
+                const messageContainer =
+                    document.getElementById("messageResizer");
+                const chatHeaderContainer =
+                    document.getElementById("chatHeader");
+                const metaViewport = document.querySelector(
+                    "meta[name=viewport]"
+                );
+
+                if (currentHeight < vh) {
+                    document.documentElement.style.setProperty(
+                        "overflow",
+                        "auto"
+                    );
+                    metaViewport.setAttribute(
+                        "content",
+                        `height=${vh}, width=device-width, initial-scale=1.0`
+                    );
+                } else {
+                    metaViewport.setAttribute(
+                        "content",
+                        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+                    );
+                }
+
+                if (isFocused) {
+                    if (!resizeInitialShift.current) {
+                        if (heightDifference > 0) {
+                            setOffsetY(-heightDifference);
+                            if (messageContainer) {
+                                messageContainer.style.transform = `translateY(${-heightDifference}px)`;
+                            }
+                            if (chatHeaderContainer) {
+                                chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
+                            }
+                        } else {
+                            setOffsetY(heightDifference);
+                            if (messageContainer) {
+                                messageContainer.style.transform = `translateY(${heightDifference}px)`;
+                            }
+                            if (chatHeaderContainer) {
+                                chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
+                            }
+                        }
+                        if (heightDifference !== 0) {
+                            resizeInitialShift.current = true;
+                        }
+                    } else {
+                        if (ignoreNextResize.current) {
+                            if (closeTimer) {
+                                clearTimeout(closeTimer);
+                            }
+                            ignoreNextResize.current = false;
+                            setOffsetY(0);
+                            if (messageContainer) {
+                                messageContainer.style.transform = "";
+                            }
+                            if (chatHeaderContainer) {
+                                chatHeaderContainer.style.transform = "";
+                            }
+                            resizeInitialShift.current = false;
+                        } else {
+                            ignoreNextResize.current = true;
+                            closeTimer = setTimeout(() => {
+                                ignoreNextResize.current = false;
+                                setOffsetY(0);
+                                if (messageContainer) {
+                                    messageContainer.style.transform = "";
+                                }
+                                if (chatHeaderContainer) {
+                                    chatHeaderContainer.style.transform = "";
+                                }
+                                resizeInitialShift.current = false;
+                            }, 150);
+                        }
+                    }
+                } else {
+                    setOffsetY(0);
+                    if (messageContainer) {
+                        messageContainer.style.transform = "";
+                    }
+                    if (chatHeaderContainer) {
+                        chatHeaderContainer.style.transform = "";
+                    }
+                }
+                currentHeightRef.current = currentHeight;
+            };
+
+            textRef.current?.addEventListener(
+                "touchstart",
+                textAreaTouchStart,
+                {
+                    passive: false,
+                }
+            );
+            textRef.current?.addEventListener("focus", () => {
+                window.addEventListener("touchmove", touchScroll, {
+                    passive: false,
+                });
+                window.addEventListener("touchstart", windowTouchStart, {
+                    passive: false,
+                });
+                window.addEventListener("touchend", windowTouchEnd);
+            });
+            textRef.current?.addEventListener("blur", () => {
+                window.removeEventListener("touchstart", windowTouchStart);
+                window.removeEventListener("touchmove", touchScroll);
+            });
+
+            window.addEventListener("visibilitychange", handleChange);
+            window.addEventListener("resize", handleResize);
+
+            return () => {
+                textRef.current?.removeEventListener(
+                    "touchstart",
+                    textAreaTouchStart
+                );
+                textRef.current?.removeEventListener("focus", touchScroll);
+                textRef.current?.removeEventListener("blur", touchScroll);
+                window.removeEventListener("touchstart", textAreaTouchStart);
+                window.removeEventListener("touchmove", touchScroll);
+                window.removeEventListener("resize", handleResize);
+                window.removeEventListener("visibilitychange", handleChange);
+                window.removeEventListener("touchstart", windowTouchStart);
+            };
+        }
+    }, [isMobile]);
+
+    useEffect(() => {
+        setTopicInputs({
+            ...topicInputs,
+            [selectedTopic?._id]: selectedEdit?.message,
+        });
+        setSelectedEditMsg(selectedEdit);
+    }, [selectedEdit]);
+
+    useEffect(() => {
+        if (selectedEditMsg?._id) {
+            textRef.current.focus();
+        }
+    }, [selectedEditMsg?._id]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                inputBoxContainerRef.current &&
+                !inputBoxContainerRef.current.contains(event.target)
+            ) {
+                setAllowBlur(true);
+            }
+        };
+
+        document.addEventListener("touchstart", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("touchstart", handleClickOutside);
+        };
+    }, [inputBoxContainerRef]);
+
+    const windowTouchStart = (e) => {
+        startY = e.touches[0].clientY;
+        prevY = startY;
+    };
+    const windowTouchEnd = () => {
+        startY = null;
+        prevY = null;
+        lockedScrollDirection = null;
+    };
+    const touchScroll = (e) => {
+        if (!startY) {
+            return;
+        }
+
+        const textarea = textRef.current;
+        const isScrollable = textarea.scrollHeight > textarea.clientHeight;
+        let position = scrollPositionRef.current;
+
+        if (textarea && textarea === document.activeElement && !isScrollable) {
+            e.preventDefault();
+            return;
+        }
+
+        const touchOriginatedFromTextarea = e.target === textarea;
+        if (
+            textarea &&
+            textarea === document.activeElement &&
+            !touchOriginatedFromTextarea
+        ) {
+            e.preventDefault();
+            return;
+        }
+
+        let scrollDirection;
+
+        const currentY = e.touches[0].clientY;
+        if (currentY > prevY) {
+            scrollDirection = "up";
+        } else if (currentY < prevY) {
+            scrollDirection = "down";
+        }
+
+        if (position == "bottom") {
+            if (lockedScrollDirection !== "up") {
+                e.preventDefault();
+            }
+        }
+
+        prevY = currentY;
+        if (!lockedScrollDirection && scrollDirection) {
+            lockedScrollDirection = scrollDirection;
+        }
+    };
+    const textAreaTouchStart = () => {
+        const textarea = textRef.current;
+        if (textarea.scrollTop === 0) {
+            scrollPositionRef.current = "top";
+        } else if (
+            textarea.scrollHeight - textarea.scrollTop ===
+            textarea.clientHeight
+        ) {
+            scrollPositionRef.current = "bottom";
         } else {
-          attRefs.current[idx].src = "";
+            scrollPositionRef.current = "null";
         }
-      });
-    }
-  }, [attachments]);
+    };
+    const calcHeight = (reset) => {
+        const textarea = textRef.current;
 
-  useEffect(() => {
-    originalHeightRef.current = textRef.current.style.height;
-    if (isMobile) {
-      const handleChange = () => {
-        if (document.hidden) {
-          const messageContainer = document.getElementById("messageResizer");
-          const chatHeaderContainer = document.getElementById("chatHeader");
-          setAllowBlur(true);
-          setOffsetY(0);
-          ignoreNextResize.current = false;
-          resizeInitialShift.current = false;
-          if (messageContainer) {
-            messageContainer.style.transform = "";
-          }
-          if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = "";
-          }
-          if (textRef.current) {
-            textRef.current.blur();
-          }
+        if (reset && textarea) {
+            textarea.style.height = "48px";
+            textarea.style.overflowY = "auto";
+            return;
         }
-      };
-      const handleResize = () => {
-        const vh = parseInt(
-          getComputedStyle(document.documentElement).getPropertyValue("--vh"),
-          10
+
+        const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+        const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
+        const paddingBottom = parseInt(
+            getComputedStyle(textarea).paddingBottom
         );
-        const currentHeight = window.innerHeight;
-        const heightDifference = vh - currentHeight;
-        const isFocused = textRef.current === document.activeElement;
+        const minHeight = lineHeight + paddingTop + paddingBottom;
+
+        textarea.style.height = "auto";
+        textarea.style.overflowY = "hidden";
+
+        textarea.offsetHeight;
+
+        const scrollHeight = textarea.scrollHeight;
+        const newHeight = Math.max(minHeight, scrollHeight);
+
+        if (newHeight > 360) {
+            textarea.style.height = "360px";
+            textarea.style.overflowY = "scroll";
+        } else {
+            textarea.style.height = `${newHeight}px`;
+            textarea.style.overflowY = "auto";
+        }
+    };
+    const handleBlur = (e) => {
         const messageContainer = document.getElementById("messageResizer");
         const chatHeaderContainer = document.getElementById("chatHeader");
-        const metaViewport = document.querySelector("meta[name=viewport]");
 
-        if (currentHeight < vh) {
-          document.documentElement.style.setProperty("overflow", "auto");
-          metaViewport.setAttribute(
-            "content",
-            `height=${vh}, width=device-width, initial-scale=1.0`
-          );
-        } else {
-          metaViewport.setAttribute(
-            "content",
-            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-          );
-        }
-
-        if (isFocused) {
-          if (!resizeInitialShift.current) {
-            if (heightDifference > 0) {
-              setOffsetY(-heightDifference);
-              if (messageContainer) {
-                messageContainer.style.transform = `translateY(${-heightDifference}px)`;
-              }
-              if (chatHeaderContainer) {
-                chatHeaderContainer.style.transform = `translateY(${-heightDifference}px)`;
-              }
-            } else {
-              setOffsetY(heightDifference);
-              if (messageContainer) {
-                messageContainer.style.transform = `translateY(${heightDifference}px)`;
-              }
-              if (chatHeaderContainer) {
-                chatHeaderContainer.style.transform = `translateY(${heightDifference}px)`;
-              }
+        if (!isMobile || allowBlur) {
+            if (toggleOverlay) {
+                toggleOverlay(false);
             }
-            if (heightDifference !== 0) {
-              resizeInitialShift.current = true;
-            }
-          } else {
-            if (ignoreNextResize.current) {
-              if (closeTimer) {
-                clearTimeout(closeTimer);
-              }
-              ignoreNextResize.current = false;
-              setOffsetY(0);
-              if (messageContainer) {
+            resizeInitialShift.current = false;
+            ignoreNextResize.current = false;
+            setOffsetY(0);
+            if (messageContainer) {
                 messageContainer.style.transform = "";
-              }
-              if (chatHeaderContainer) {
-                chatHeaderContainer.style.transform = "";
-              }
-              resizeInitialShift.current = false;
-            } else {
-              ignoreNextResize.current = true;
-              closeTimer = setTimeout(() => {
-                ignoreNextResize.current = false;
-                setOffsetY(0);
-                if (messageContainer) {
-                  messageContainer.style.transform = "";
-                }
-                if (chatHeaderContainer) {
-                  chatHeaderContainer.style.transform = "";
-                }
-                resizeInitialShift.current = false;
-              }, 150);
             }
-          }
-        } else {
-          setOffsetY(0);
-          if (messageContainer) {
-            messageContainer.style.transform = "";
-          }
-          if (chatHeaderContainer) {
-            chatHeaderContainer.style.transform = "";
-          }
+            if (chatHeaderContainer) {
+                chatHeaderContainer.style.transform = "";
+            }
+            return;
         }
-        currentHeightRef.current = currentHeight;
-      };
 
-      textRef.current?.addEventListener("touchstart", textAreaTouchStart, {
-        passive: false,
-      });
-      textRef.current?.addEventListener("focus", () => {
-        window.addEventListener("touchmove", touchScroll, {
-          passive: false,
-        });
-        window.addEventListener("touchstart", windowTouchStart, {
-          passive: false,
-        });
-        window.addEventListener("touchend", windowTouchEnd);
-      });
-      textRef.current?.addEventListener("blur", () => {
-        window.removeEventListener("touchstart", windowTouchStart);
-        window.removeEventListener("touchmove", touchScroll);
-      });
-
-      window.addEventListener("visibilitychange", handleChange);
-      window.addEventListener("resize", handleResize);
-
-      return () => {
-        textRef.current?.removeEventListener("touchstart", textAreaTouchStart);
-        textRef.current?.removeEventListener("focus", touchScroll);
-        textRef.current?.removeEventListener("blur", touchScroll);
-        window.removeEventListener("touchstart", textAreaTouchStart);
-        window.removeEventListener("touchmove", touchScroll);
-        window.removeEventListener("resize", handleResize);
-        window.removeEventListener("visibilitychange", handleChange);
-        window.removeEventListener("touchstart", windowTouchStart);
-      };
-    }
-  }, [isMobile]);
-
-  useEffect(() => {
-    setTopicInputs({
-      ...topicInputs,
-      [selectedTopic?._id]: selectedEdit?.message,
-    });
-    setSelectedEditMsg(selectedEdit);
-  }, [selectedEdit]);
-
-  useEffect(() => {
-    if (selectedEditMsg?._id) {
-      textRef.current.focus();
-    }
-  }, [selectedEditMsg?._id]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        inputBoxContainerRef.current &&
-        !inputBoxContainerRef.current.contains(event.target)
-      ) {
-        setAllowBlur(true);
-      }
-    };
-
-    document.addEventListener("touchstart", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
-  }, [inputBoxContainerRef]);
-
-  const windowTouchStart = (e) => {
-    startY = e.touches[0].clientY;
-    prevY = startY;
-  };
-  const windowTouchEnd = () => {
-    startY = null;
-    prevY = null;
-    lockedScrollDirection = null;
-  };
-  const touchScroll = (e) => {
-    if (!startY) {
-      return;
-    }
-
-    const textarea = textRef.current;
-    const isScrollable = textarea.scrollHeight > textarea.clientHeight;
-    let position = scrollPositionRef.current;
-
-    if (textarea && textarea === document.activeElement && !isScrollable) {
-      e.preventDefault();
-      return;
-    }
-
-    const touchOriginatedFromTextarea = e.target === textarea;
-    if (
-      textarea &&
-      textarea === document.activeElement &&
-      !touchOriginatedFromTextarea
-    ) {
-      e.preventDefault();
-      return;
-    }
-
-    let scrollDirection;
-
-    const currentY = e.touches[0].clientY;
-    if (currentY > prevY) {
-      scrollDirection = "up";
-    } else if (currentY < prevY) {
-      scrollDirection = "down";
-    }
-
-    if (position == "bottom") {
-      if (lockedScrollDirection !== "up") {
         e.preventDefault();
-      }
-    }
+        textRef.current.focus();
 
-    prevY = currentY;
-    if (!lockedScrollDirection && scrollDirection) {
-      lockedScrollDirection = scrollDirection;
-    }
-  };
-  const textAreaTouchStart = () => {
-    const textarea = textRef.current;
-    if (textarea.scrollTop === 0) {
-      scrollPositionRef.current = "top";
-    } else if (
-      textarea.scrollHeight - textarea.scrollTop ===
-      textarea.clientHeight
-    ) {
-      scrollPositionRef.current = "bottom";
-    } else {
-      scrollPositionRef.current = "null";
-    }
-  };
-  const calcHeight = (reset) => {
-    const textarea = textRef.current;
-
-    if (reset && textarea) {
-      textarea.style.height = "48px";
-      textarea.style.overflowY = "auto";
-      return;
-    }
-
-    const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
-    const paddingTop = parseInt(getComputedStyle(textarea).paddingTop);
-    const paddingBottom = parseInt(getComputedStyle(textarea).paddingBottom);
-    const minHeight = lineHeight + paddingTop + paddingBottom;
-
-    textarea.style.height = "auto";
-    textarea.style.overflowY = "hidden";
-
-    textarea.offsetHeight;
-
-    const scrollHeight = textarea.scrollHeight;
-    const newHeight = Math.max(minHeight, scrollHeight);
-
-    if (newHeight > 360) {
-      textarea.style.height = "360px";
-      textarea.style.overflowY = "scroll";
-    } else {
-      textarea.style.height = `${newHeight}px`;
-      textarea.style.overflowY = "auto";
-    }
-  };
-  const handleBlur = (e) => {
-    const messageContainer = document.getElementById("messageResizer");
-    const chatHeaderContainer = document.getElementById("chatHeader");
-
-    if (!isMobile || allowBlur) {
-      if (toggleOverlay) {
-        toggleOverlay(false);
-      }
-      resizeInitialShift.current = false;
-      ignoreNextResize.current = false;
-      setOffsetY(0);
-      if (messageContainer) {
-        messageContainer.style.transform = "";
-      }
-      if (chatHeaderContainer) {
-        chatHeaderContainer.style.transform = "";
-      }
-      return;
-    }
-
-    e.preventDefault();
-    textRef.current.focus();
-
-    setAllowBlur(false);
-  };
-  const resetHeight = () => {
-    textRef.current.style.height = originalHeightRef.current;
-    textRef.current.style.overflowY = "auto";
-  };
-  const getPastedData = (e) => {
-    const { files } = e.clipboardData;
-    if (files[0]) {
-      addAttachment(files[0]);
-    }
-  };
-  const openFileSelector = () => {
-    const now = Date.now();
-    if (lastTriggeredImage.current && now - lastTriggeredImage.current < 300) {
-      return;
-    }
-
-    lastTriggeredImage.current = now;
-    setAllowBlur(true);
-    fileRef.current.click();
-  };
-  const addAttachment = (file) => {
-    setAttachments((prevAttch) => [...prevAttch, file]);
-  };
-  const removeAttachment = (idx) => {
-    const tempAttachments = [...attachments];
-    tempAttachments.splice(idx, 1);
-    setAttachments([...tempAttachments]);
-  };
-  const dropHandler = (e) => {
-    e.preventDefault();
-    const { files } = e.dataTransfer;
-    console.log(files, "drop handler");
-    addAttachment(files[0]);
-  };
-  const EmojiPicker = () => {
-    if (emojiPickerState) {
-      return (
-        <div className={styles.EmojiPicker}>
-          <EmojiWrapper
-            addEmoji={addEmoji}
-            closeWrapper={triggerPicker}
-          ></EmojiWrapper>
-        </div>
-      );
-    }
-    return null;
-  };
-  const inputHandler = (e) => {
-    const { value } = e.target;
-    setTopicInputs({ ...topicInputs, [selectedTopic?._id]: value });
-    setAllowBlur(false);
-  };
-  const cancelEdit = () => {
-    setUploadingAttachments([]);
-    setAttachments([]);
-    setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
-    setSelectedEditMsg({});
-    resetEdit();
-    toggleEditing();
-    calcHeight(true);
-  };
-  const addEmoji = (e) => {
-    let text = topicInputs[selectedTopic?._id];
-    if (!text || text == "undefined") {
-      text = "";
-    }
-    let msg = text + e.native;
-    setTopicInputs({ ...topicInputs, [selectedTopic?._id]: msg });
-    setEmojiPicker(!emojiPickerState);
-  };
-  // new upload method ------------------------------------------------------------------------------------
-  const addPendingMessagePreview = (newMessage) => {
-    setIncomingMsgPreview({
-      ...newMessage,
-      updateType: "new message",
-      socketID: socketID,
-      _id: newMessage.pendingID,
-    });
-    setAllowBlur(true);
-    setUploadingAttachments([]);
-    setAttachments([]);
-    setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
-    setIsSubmitting(false);
-    calcHeight(true);
-    resetHeight();
-  };
-  const createImagePreviewAndCalculateDimensions = (file) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => {
-        let desiredWidth = img.width;
-        let desiredHeight = img.height;
-
-        const maxWidth = 280;
-        const maxHeight = 320;
-        const widthRatio = img.width / maxWidth;
-        const heightRatio = img.height / maxHeight;
-        const maxRatio = Math.max(widthRatio, heightRatio);
-
-        if (maxRatio > 1) {
-          desiredWidth = img.width / maxRatio;
-          desiredHeight = img.height / maxRatio;
+        setAllowBlur(false);
+    };
+    const resetHeight = () => {
+        textRef.current.style.height = originalHeightRef.current;
+        textRef.current.style.overflowY = "auto";
+    };
+    const getPastedData = (e) => {
+        const { files } = e.clipboardData;
+        if (files[0]) {
+            addAttachment(files[0]);
+        }
+    };
+    const openFileSelector = () => {
+        const now = Date.now();
+        if (
+            lastTriggeredImage.current &&
+            now - lastTriggeredImage.current < 300
+        ) {
+            return;
         }
 
-        const previewUrl = URL.createObjectURL(file);
-
-        resolve({
-          previewUrl,
-          desiredWidth,
-          desiredHeight,
+        lastTriggeredImage.current = now;
+        setAllowBlur(true);
+        fileRef.current.click();
+    };
+    const addAttachment = (file) => {
+        setAttachments((prevAttch) => [...prevAttch, file]);
+    };
+    const removeAttachment = (idx) => {
+        const tempAttachments = [...attachments];
+        tempAttachments.splice(idx, 1);
+        setAttachments([...tempAttachments]);
+    };
+    const dropHandler = (e) => {
+        e.preventDefault();
+        const { files } = e.dataTransfer;
+        console.log(files, "drop handler");
+        addAttachment(files[0]);
+    };
+    const EmojiPicker = () => {
+        if (emojiPickerState) {
+            return (
+                <div className={styles.EmojiPicker}>
+                    <EmojiWrapper
+                        addEmoji={addEmoji}
+                        closeWrapper={triggerPicker}
+                    ></EmojiWrapper>
+                </div>
+            );
+        }
+        return null;
+    };
+    const inputHandler = (e) => {
+        const { value } = e.target;
+        setTopicInputs({ ...topicInputs, [selectedTopic?._id]: value });
+        setAllowBlur(false);
+    };
+    const cancelEdit = () => {
+        setUploadingAttachments([]);
+        setAttachments([]);
+        setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
+        setSelectedEditMsg({});
+        resetEdit();
+        toggleEditing();
+        calcHeight(true);
+    };
+    const addEmoji = (e) => {
+        let text = topicInputs[selectedTopic?._id];
+        if (!text || text == "undefined") {
+            text = "";
+        }
+        let msg = text + e.native;
+        setTopicInputs({ ...topicInputs, [selectedTopic?._id]: msg });
+        setEmojiPicker(!emojiPickerState);
+    };
+    // new upload method ------------------------------------------------------------------------------------
+    const addPendingMessagePreview = (newMessage) => {
+        setIncomingMsgPreview({
+            ...newMessage,
+            updateType: "new message",
+            socketID: socketID,
+            _id: newMessage.pendingID,
         });
-      };
-      img.onerror = () => {
-        reject(new Error("Failed to load image for dimensions calculation."));
-        URL.revokeObjectURL(img.src);
-      };
-      img.src = URL.createObjectURL(file);
-    });
-  };
-  const createPlayableVideoAndCalculateDimensions = (file) => {
-    return new Promise((resolve, reject) => {
-      const video = document.createElement("video");
-      video.preload = "metadata";
+        setAllowBlur(true);
+        setUploadingAttachments([]);
+        setAttachments([]);
+        setTopicInputs({ ...topicInputs, [selectedTopic?._id]: "" });
+        setIsSubmitting(false);
+        calcHeight(true);
+        resetHeight();
+    };
+    const createImagePreviewAndCalculateDimensions = (file) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                let desiredWidth = img.width;
+                let desiredHeight = img.height;
 
-      video.onloadedmetadata = () => {
-        const maxWidth = 280;
-        const maxHeight = 320;
-        let desiredWidth = video.videoWidth;
-        let desiredHeight = video.videoHeight;
-        const widthRatio = desiredWidth / maxWidth;
-        const heightRatio = desiredHeight / maxHeight;
-        const maxRatio = Math.max(widthRatio, heightRatio);
+                const maxWidth = 280;
+                const maxHeight = 320;
+                const widthRatio = img.width / maxWidth;
+                const heightRatio = img.height / maxHeight;
+                const maxRatio = Math.max(widthRatio, heightRatio);
 
-        if (maxRatio > 1) {
-          desiredWidth /= maxRatio;
-          desiredHeight /= maxRatio;
-        }
+                if (maxRatio > 1) {
+                    desiredWidth = img.width / maxRatio;
+                    desiredHeight = img.height / maxRatio;
+                }
 
-        const videoUrl = URL.createObjectURL(file);
+                const previewUrl = URL.createObjectURL(file);
 
-        resolve({
-          previewUrl: videoUrl,
-          desiredWidth,
-          desiredHeight,
-          fileType: file.type,
-          name: file.name,
-          isPreview: true,
+                resolve({
+                    previewUrl,
+                    desiredWidth,
+                    desiredHeight,
+                });
+            };
+            img.onerror = () => {
+                reject(
+                    new Error(
+                        "Failed to load image for dimensions calculation."
+                    )
+                );
+                URL.revokeObjectURL(img.src);
+            };
+            img.src = URL.createObjectURL(file);
         });
-      };
+    };
+    const createPlayableVideoAndCalculateDimensions = (file) => {
+        return new Promise((resolve, reject) => {
+            const video = document.createElement("video");
+            video.preload = "metadata";
 
-      video.onerror = () => {
-        reject(new Error("Failed to load video for dimensions calculation."));
-        URL.revokeObjectURL(video.src);
-      };
+            video.onloadedmetadata = () => {
+                const maxWidth = 280;
+                const maxHeight = 320;
+                let desiredWidth = video.videoWidth;
+                let desiredHeight = video.videoHeight;
+                const widthRatio = desiredWidth / maxWidth;
+                const heightRatio = desiredHeight / maxHeight;
+                const maxRatio = Math.max(widthRatio, heightRatio);
 
-      video.src = URL.createObjectURL(file);
-    });
-  };
-  const getAttachmentpreviews = async (files) => {
-    const previews = await Promise.all(
-      files.map(async (file) => {
-        if (file.type.startsWith("image/")) {
-          const { previewUrl, desiredHeight, desiredWidth } =
-            await createImagePreviewAndCalculateDimensions(file);
-          return {
-            name: file.name,
-            fileType: file.type,
-            previewUrl,
-            file,
-            isPreview: true,
-            desiredHeight,
-            desiredWidth,
-          };
-        }
-        if (file.type.startsWith("video/")) {
-          const { previewUrl, desiredHeight, desiredWidth } =
-            await createPlayableVideoAndCalculateDimensions(file);
-          return {
-            name: file.name,
-            fileType: file.type,
-            previewUrl,
-            file,
-            isPreview: true,
-            desiredHeight,
-            desiredWidth,
-          };
-        }
-      })
-    );
+                if (maxRatio > 1) {
+                    desiredWidth /= maxRatio;
+                    desiredHeight /= maxRatio;
+                }
 
-    return previews;
-  };
-  const createImageBlob = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const arrayBuffer = reader.result;
-        const blob = new Blob([arrayBuffer], { type: file.type });
-        resolve(blob);
-      };
-      reader.onerror = reject;
-      reader.readAsArrayBuffer(file);
-    });
-  };
-  const clearPendingIndexRecord = (newMessage) => {
-    try {
-      deleteAttachment(
-        pendingMessagesController,
-        "pendingMessages",
-        newMessage.pendingID
-      );
-    } catch (error) {
-      console.log("Failed to save attachment:", error);
-    }
-  };
-  const createPendingIndexRecord = (newMessage) => {
-    try {
-      saveAttachment(
-        pendingMessagesController,
-        "pendingMessages",
-        newMessage.pendingID,
-        newMessage
-      );
-    } catch (error) {
-      console.log("Failed to save attachment:", error);
-    }
-  };
-  const sendMessagge = async () => {
-    if (selectedTopic && selectedcomm && user) {
-      let creator = selectedcomm.users.find((usr) => usr.userId === user._id);
-      if (creator) {
-        setIsSubmitting(true);
-        let newMessage = {
-          creator_id: user?._id,
-          creator_name: creator.name,
-          creator_image: creator.iconKey,
-          topic_id: selectedTopic?._id,
-          comm_id: selectedcomm?._id,
-          bookmarked: false,
-          date: new Date(),
-          message: topicInputs[selectedTopic?._id],
-          reactions: [],
-          attachments: [],
-          replies: [],
-          reactionsData: [],
-          status: "pending",
-          statusCode: 0,
-          pendingID: generateID(),
-          renderKey: generateID(),
-          numOfAttchmts: attachments.length,
-        };
-        const hasAttachments = attachments.length > 0;
+                const videoUrl = URL.createObjectURL(file);
 
-        createPendingIndexRecord(newMessage);
-        addPendingMessagePreview({
-          ...newMessage,
-          attachments: await getAttachmentpreviews(attachments),
-          isUploading: true,
+                resolve({
+                    previewUrl: videoUrl,
+                    desiredWidth,
+                    desiredHeight,
+                    fileType: file.type,
+                    name: file.name,
+                    isPreview: true,
+                });
+            };
+
+            video.onerror = () => {
+                reject(
+                    new Error(
+                        "Failed to load video for dimensions calculation."
+                    )
+                );
+                URL.revokeObjectURL(video.src);
+            };
+
+            video.src = URL.createObjectURL(file);
         });
+    };
+    const getAttachmentpreviews = async (files) => {
+        const previews = await Promise.all(
+            files.map(async (file) => {
+                if (file.type.startsWith("image/")) {
+                    const { previewUrl, desiredHeight, desiredWidth } =
+                        await createImagePreviewAndCalculateDimensions(file);
+                    return {
+                        name: file.name,
+                        fileType: file.type,
+                        previewUrl,
+                        file,
+                        isPreview: true,
+                        desiredHeight,
+                        desiredWidth,
+                    };
+                }
+                if (file.type.startsWith("video/")) {
+                    const { previewUrl, desiredHeight, desiredWidth } =
+                        await createPlayableVideoAndCalculateDimensions(file);
+                    return {
+                        name: file.name,
+                        fileType: file.type,
+                        previewUrl,
+                        file,
+                        isPreview: true,
+                        desiredHeight,
+                        desiredWidth,
+                    };
+                }
+            })
+        );
 
-        const data = await saveMessage(newMessage, attachments.length);
-        let { id, ok } = data;
-        if (ok) {
-          newMessage.statusCode = 1;
-          const oldId = newMessage.pendingID;
-          if (id) {
-            newMessage._id = data.id;
-            try {
-              updateRecordDbID(
+        return previews;
+    };
+    const createImageBlob = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const arrayBuffer = reader.result;
+                const blob = new Blob([arrayBuffer], { type: file.type });
+                resolve(blob);
+            };
+            reader.onerror = reject;
+            reader.readAsArrayBuffer(file);
+        });
+    };
+    const clearPendingIndexRecord = (newMessage) => {
+        try {
+            deleteAttachment(
+                pendingMessagesController,
+                "pendingMessages",
+                newMessage.pendingID
+            );
+        } catch (error) {
+            console.log("Failed to save attachment:", error);
+        }
+    };
+    const createPendingIndexRecord = (newMessage) => {
+        try {
+            saveAttachment(
                 pendingMessagesController,
                 "pendingMessages",
                 newMessage.pendingID,
-                data.id
-              );
-            } catch (error) {
-              console.log(error);
-            }
-          }
-          if (hasAttachments) {
-            uploadAttacments(id, newMessage, oldId);
-          } else {
-            broadcastMessage(newMessage, oldId);
-          }
+                newMessage
+            );
+        } catch (error) {
+            console.log("Failed to save attachment:", error);
         }
-      }
-    }
-    return true;
-  };
-  const uploadAttacments = async (id, message, oldId) => {
-    let promises = [];
-    let tempMessage = { ...message };
-    const bucket = "topic-message-attachments";
-
-    const updateAttachmentStatus = (idx, udpateObj) => {
-      if (tempMessage.ignoreBlob) {
-        return;
-      }
-      const updatedAttachments = [...tempMessage.attachments];
-      updatedAttachments[idx] = { ...updatedAttachments[idx], ...udpateObj };
-      tempMessage.attachments = updatedAttachments;
-
-      try {
-        updateRecordAttachments(
-          pendingMessagesController,
-          "pendingMessages",
-          tempMessage.pendingID,
-          tempMessage.attachments
-        );
-      } catch (error) {
-        console.log(error);
-      }
     };
+    const sendMessagge = async () => {
+        if (selectedTopic && selectedcomm && user) {
+            let creator = selectedcomm.users.find(
+                (usr) => usr.userId === user._id
+            );
+            if (creator) {
+                setIsSubmitting(true);
+                let newMessage = {
+                    creator_id: user?._id,
+                    creator_name: creator.name,
+                    creator_image: creator.iconKey,
+                    topic_id: selectedTopic?._id,
+                    comm_id: selectedcomm?._id,
+                    bookmarked: false,
+                    date: new Date(),
+                    message: topicInputs[selectedTopic?._id],
+                    reactions: [],
+                    attachments: [],
+                    replies: [],
+                    reactionsData: [],
+                    status: "pending",
+                    statusCode: 0,
+                    pendingID: generateID(),
+                    renderKey: generateID(),
+                    numOfAttchmts: attachments.length,
+                };
+                const hasAttachments = attachments.length > 0;
 
-    for (let idx in attachments) {
-      const file = attachments[idx];
-      setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
-      promises.push(
-        new Promise(async (res) => {
-          createImageBlob(file).then((fileBlob) => {
-            updateAttachmentStatus(idx, { fileBlob });
-          });
+                createPendingIndexRecord(newMessage);
+                addPendingMessagePreview({
+                    ...newMessage,
+                    attachments: await getAttachmentpreviews(attachments),
+                    isUploading: true,
+                });
 
-          const isLastImage = idx == attachments.length - 1;
-          const extention = file.name.split(".").pop();
-          const isVideo = file.type.includes("video");
-          const baseName = `${selectedcomm._id}-${selectedTopic._id}-${id}_${
-            idx + 1
-          }`;
-
-          if (isVideo) {
-            const name = `${baseName}.${extention}`;
-
-            updateAttachmentStatus(idx, {
-              name,
-              fileType: file.type,
-              status: "pending",
-            });
-
-            const data = await getUploadURL(name, file.type, bucket);
-            const { uploadURL } = data;
-            await putVideoInBucket(uploadURL, file);
-            await addKeyToDB(id, name, file.type, null, null, isLastImage);
-
-            updateAttachmentStatus(idx, {
-              name,
-              fileType: file.type,
-              status: "complete",
-            });
-
-            res({
-              name: name,
-              fileType: file.type,
-            });
-          } else {
-            const isGif = file.type === "image/gif";
-            const name = isGif
-              ? `${baseName}.${extention}`
-              : `${baseName}_full.${extention}`;
-
-            const thumbnail = isGif
-              ? name
-              : `${baseName}_thumbnail.${extention}`;
-
-            updateAttachmentStatus(idx, {
-              name,
-              thumbnail,
-              fileType: file.type,
-              status: "pending",
-            });
-
-            const data = await getUploadURL(name, file.type, bucket);
-            const { ok, uploadURL } = data;
-            if (ok) {
-              let reader = new FileReader();
-              reader.addEventListener("loadend", async () => {
-                let result = await putImageInBucket(
-                  uploadURL,
-                  reader,
-                  file.type
-                );
-                let { status } = result;
-                if (status == 200) {
-                  if (isGif) {
-                    await addKeyToDB(
-                      id,
-                      thumbnail,
-                      file.type,
-                      null,
-                      null,
-                      isLastImage
-                    );
-
-                    updateAttachmentStatus(idx, {
-                      name: thumbnail,
-                      fileType: file.type,
-                      status: "complete",
-                    });
-
-                    res({
-                      name: thumbnail,
-                      fileType: file.type,
-                    });
-                  } else {
-                    let { desiredHeight, desiredWidth } = await compressImage(
-                      name,
-                      thumbnail,
-                      bucket,
-                      file.type
-                    );
-                    await addKeyToDB(
-                      id,
-                      thumbnail,
-                      file.type,
-                      desiredHeight,
-                      desiredWidth,
-                      isLastImage
-                    );
-
-                    updateAttachmentStatus(idx, {
-                      name,
-                      fileType: file.type,
-                      status: "complete",
-                    });
-
-                    res({
-                      name: thumbnail,
-                      fileType: file.type,
-                      desiredHeight,
-                      desiredWidth,
-                    });
-                  }
+                const data = await saveMessage(newMessage, attachments.length);
+                let { id, ok } = data;
+                if (ok) {
+                    newMessage.statusCode = 1;
+                    const oldId = newMessage.pendingID;
+                    if (id) {
+                        newMessage._id = data.id;
+                        try {
+                            updateRecordDbID(
+                                pendingMessagesController,
+                                "pendingMessages",
+                                newMessage.pendingID,
+                                data.id
+                            );
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    }
+                    if (hasAttachments) {
+                        uploadAttacments(id, newMessage, oldId);
+                    } else {
+                        broadcastMessage(newMessage, oldId);
+                    }
                 }
-              });
-              reader.readAsArrayBuffer(file);
             }
-          }
-        })
-      );
-    }
-
-    const outputs = await Promise.allSettled(promises);
-    const resolvedAttachments = outputs.map((result) => result.value);
-
-    message.attachments = resolvedAttachments;
-    tempMessage.ignoreBlob = true;
-    broadcastMessage(message, oldId, true);
-  };
-  const broadcastMessage = async (message, oldId, hasAttachments) => {
-    message.updateType = "new message";
-    message.socketID = socketID;
-
-    setFinalMessageForPreview({ oldId, message });
-    clearPendingIndexRecord(message);
-
-    message.status = "complete";
-    message.statusCode = 1;
-    let { ok } = await sendUnreadMessages(message);
-    if (ok) {
-      let unreadmessage = {};
-      unreadmessage.updateType = "reload unreads";
-      unreadmessage.topic_id = selectedTopic._id;
-      unreadmessage.user_id = user._id;
-      emitUpdate(selectedCommRef.current?._id, unreadmessage, () => {});
-    }
-    emitUpdate(selectedcomm?._id, message, async (err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
-    try {
-      let pushmessage = generatePushMessage({
-        ...message,
-        pushTitle: `${message.creator_name}`,
-        env: process.env.NODE_ENV,
-        ignoreSelf: true,
-        type: "chat",
-      });
-
-      if (!pushmessage.message) {
-        pushmessage.message = "";
-
-        if (hasAttachments) {
-          pushmessage.message = "Check out the new image!";
         }
-      }
-
-      getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
-        if (userIDsToNotify && userIDsToNotify.length) {
-          let apiURL;
-          let baseURL = getBaseUrl();
-          if (baseURL.includes("harth.social")) {
-            apiURL =
-              "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
-          } else {
-            apiURL =
-              "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
-          }
-          pushmessage.receiverIds = userIDsToNotify;
-          sendPushNotification(pushmessage, apiURL);
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  // -------------------------------------------------------------------------------------------------------
-  const updateMsg = async () => {
-    let msg = selectedEditMsg;
-    msg.message = topicInputs[selectedTopic?._id];
-    await updateMessage(msg);
-    msg.updateType = "message update";
-    msg.action = "update";
-    emitUpdate(selectedcomm?._id, msg, async (err, status) => {
-      if (err) {
-        console.error(err);
-      }
-      let { ok } = status;
-      if (ok) {
-        cancelEdit();
-      }
-    });
-  };
-  const submitMessageLogic = () => {
-    let isDisabled =
-      ((topicInputs && topicInputs[selectedTopic?._id]) || "").trim().length ===
-        0 && attachments.length == 0;
-
-    if (isSubmitting) {
-      isDisabled = true;
-    }
-
-    if (!isDisabled) {
-      if (Object.keys(selectedEditMsg).length > 0) {
-        updateMsg();
-      } else {
-        sendMessagge();
-      }
-    }
-  };
-  const MessageSubmits = () => {
-    let isDisabled =
-      ((topicInputs && topicInputs[selectedTopic?._id]) || "").trim().length ===
-        0 && attachments.length == 0;
-
-    const isEditing = Object.keys(selectedEditMsg).length > 0;
-
-    const sendMessageOrCancelEdit = () => {
-      if (isDisabled) {
-        cancelEdit();
-      } else if (isEditing) {
-        updateMsg();
-      } else {
-        submitMessageLogic();
-      }
+        return true;
     };
+    const uploadAttacments = async (id, message, oldId) => {
+        let promises = [];
+        let tempMessage = { ...message };
+        const bucket = "topic-message-attachments";
 
-    return (
-      <div
-        id={
-          isMobile
-            ? styles.ChatInputMobileControlsRight
-            : styles.ChatInputControlsRight
+        const updateAttachmentStatus = (idx, udpateObj) => {
+            if (tempMessage.ignoreBlob) {
+                return;
+            }
+            const updatedAttachments = [...tempMessage.attachments];
+            updatedAttachments[idx] = {
+                ...updatedAttachments[idx],
+                ...udpateObj,
+            };
+            tempMessage.attachments = updatedAttachments;
+
+            try {
+                updateRecordAttachments(
+                    pendingMessagesController,
+                    "pendingMessages",
+                    tempMessage.pendingID,
+                    tempMessage.attachments
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        for (let idx in attachments) {
+            const file = attachments[idx];
+            setUploadingAttachments((prevAttchs) => [...prevAttchs, file.name]);
+            promises.push(
+                new Promise(async (res) => {
+                    createImageBlob(file).then((fileBlob) => {
+                        updateAttachmentStatus(idx, { fileBlob });
+                    });
+
+                    const isLastImage = idx == attachments.length - 1;
+                    const extention = file.name.split(".").pop();
+                    const isVideo = file.type.includes("video");
+                    const baseName = `${selectedcomm._id}-${
+                        selectedTopic._id
+                    }-${id}_${idx + 1}`;
+
+                    if (isVideo) {
+                        const name = `${baseName}.${extention}`;
+
+                        updateAttachmentStatus(idx, {
+                            name,
+                            fileType: file.type,
+                            status: "pending",
+                        });
+
+                        const data = await getUploadURL(
+                            name,
+                            file.type,
+                            bucket
+                        );
+                        const { uploadURL } = data;
+                        await putVideoInBucket(uploadURL, file);
+                        await addKeyToDB(
+                            id,
+                            name,
+                            file.type,
+                            null,
+                            null,
+                            isLastImage
+                        );
+
+                        updateAttachmentStatus(idx, {
+                            name,
+                            fileType: file.type,
+                            status: "complete",
+                        });
+
+                        res({
+                            name: name,
+                            fileType: file.type,
+                        });
+                    } else {
+                        const isGif = file.type === "image/gif";
+                        const name = isGif
+                            ? `${baseName}.${extention}`
+                            : `${baseName}_full.${extention}`;
+
+                        const thumbnail = isGif
+                            ? name
+                            : `${baseName}_thumbnail.${extention}`;
+
+                        updateAttachmentStatus(idx, {
+                            name,
+                            thumbnail,
+                            fileType: file.type,
+                            status: "pending",
+                        });
+
+                        const data = await getUploadURL(
+                            name,
+                            file.type,
+                            bucket
+                        );
+                        const { ok, uploadURL } = data;
+                        if (ok) {
+                            let reader = new FileReader();
+                            reader.addEventListener("loadend", async () => {
+                                let result = await putImageInBucket(
+                                    uploadURL,
+                                    reader,
+                                    file.type
+                                );
+                                let { status } = result;
+                                if (status == 200) {
+                                    if (isGif) {
+                                        await addKeyToDB(
+                                            id,
+                                            thumbnail,
+                                            file.type,
+                                            null,
+                                            null,
+                                            isLastImage
+                                        );
+
+                                        updateAttachmentStatus(idx, {
+                                            name: thumbnail,
+                                            fileType: file.type,
+                                            status: "complete",
+                                        });
+
+                                        res({
+                                            name: thumbnail,
+                                            fileType: file.type,
+                                        });
+                                    } else {
+                                        let { desiredHeight, desiredWidth } =
+                                            await compressImage(
+                                                name,
+                                                thumbnail,
+                                                bucket,
+                                                file.type
+                                            );
+                                        await addKeyToDB(
+                                            id,
+                                            thumbnail,
+                                            file.type,
+                                            desiredHeight,
+                                            desiredWidth,
+                                            isLastImage
+                                        );
+
+                                        updateAttachmentStatus(idx, {
+                                            name,
+                                            fileType: file.type,
+                                            status: "complete",
+                                        });
+
+                                        res({
+                                            name: thumbnail,
+                                            fileType: file.type,
+                                            desiredHeight,
+                                            desiredWidth,
+                                        });
+                                    }
+                                }
+                            });
+                            reader.readAsArrayBuffer(file);
+                        }
+                    }
+                })
+            );
         }
-      >
-        {isSubmitting && (
-          <div className={styles.LoadingContainer}>
-            {/* <button
+
+        const outputs = await Promise.allSettled(promises);
+        const resolvedAttachments = outputs.map((result) => result.value);
+
+        message.attachments = resolvedAttachments;
+        tempMessage.ignoreBlob = true;
+        broadcastMessage(message, oldId, true);
+    };
+    const broadcastMessage = async (message, oldId, hasAttachments) => {
+        message.updateType = "new message";
+        message.socketID = socketID;
+
+        setFinalMessageForPreview({ oldId, message });
+        clearPendingIndexRecord(message);
+
+        message.status = "complete";
+        message.statusCode = 1;
+        let { ok } = await sendUnreadMessages(message);
+        if (ok) {
+            let unreadmessage = {};
+            unreadmessage.updateType = "reload unreads";
+            unreadmessage.topic_id = selectedTopic._id;
+            unreadmessage.user_id = user._id;
+            emitUpdate(selectedCommRef.current?._id, unreadmessage, () => {});
+        }
+        emitUpdate(selectedcomm?._id, message, async (err) => {
+            if (err) {
+                console.error(err);
+            }
+        });
+        try {
+            let pushmessage = generatePushMessage({
+                ...message,
+                pushTitle: `${message.creator_name}`,
+                env: process.env.NODE_ENV,
+                ignoreSelf: true,
+                type: "chat",
+            });
+
+            if (!pushmessage.message) {
+                pushmessage.message = "";
+
+                if (hasAttachments) {
+                    pushmessage.message = "Check out the new image!";
+                }
+            }
+
+            getTopicsRecieverIds(message).then(({ userIDsToNotify }) => {
+                if (userIDsToNotify && userIDsToNotify.length) {
+                    let apiURL;
+                    let baseURL = getBaseUrl();
+                    if (baseURL.includes("www.harth.social")) {
+                        apiURL =
+                            "https://9b3xwdd227.execute-api.us-east-2.amazonaws.com/default/harth_web-push";
+                    } else {
+                        apiURL =
+                            "https://7ob71eq865.execute-api.us-east-2.amazonaws.com/default/dev-harth_web-push";
+                    }
+                    pushmessage.receiverIds = userIDsToNotify;
+                    sendPushNotification(pushmessage, apiURL);
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    // -------------------------------------------------------------------------------------------------------
+    const updateMsg = async () => {
+        let msg = selectedEditMsg;
+        msg.message = topicInputs[selectedTopic?._id];
+        await updateMessage(msg);
+        msg.updateType = "message update";
+        msg.action = "update";
+        emitUpdate(selectedcomm?._id, msg, async (err, status) => {
+            if (err) {
+                console.error(err);
+            }
+            let { ok } = status;
+            if (ok) {
+                cancelEdit();
+            }
+        });
+    };
+    const submitMessageLogic = () => {
+        let isDisabled =
+            ((topicInputs && topicInputs[selectedTopic?._id]) || "").trim()
+                .length === 0 && attachments.length == 0;
+
+        if (isSubmitting) {
+            isDisabled = true;
+        }
+
+        if (!isDisabled) {
+            if (Object.keys(selectedEditMsg).length > 0) {
+                updateMsg();
+            } else {
+                sendMessagge();
+            }
+        }
+    };
+    const MessageSubmits = () => {
+        let isDisabled =
+            ((topicInputs && topicInputs[selectedTopic?._id]) || "").trim()
+                .length === 0 && attachments.length == 0;
+
+        const isEditing = Object.keys(selectedEditMsg).length > 0;
+
+        const sendMessageOrCancelEdit = () => {
+            if (isDisabled) {
+                cancelEdit();
+            } else if (isEditing) {
+                updateMsg();
+            } else {
+                submitMessageLogic();
+            }
+        };
+
+        return (
+            <div
+                id={
+                    isMobile
+                        ? styles.ChatInputMobileControlsRight
+                        : styles.ChatInputControlsRight
+                }
+            >
+                {isSubmitting && (
+                    <div className={styles.LoadingContainer}>
+                        {/* <button
               onClick={cancelEdit}
               className={styles.CancelButton}
               aria-label="cancel sending message"
             >
               cancel
             </button> */}
-            <div className={styles.Spinner}></div>
-          </div>
-        )}
-        {!isSubmitting && isEditing && (
-          <>
-            <button
-              onClick={cancelEdit}
-              className={styles.EditCancel}
-              aria-label="cancel edit chat message"
-            >
-              cancel
-            </button>
-            <button
-              className={styles.SendActive}
-              aria-label="send chat message"
-              onClick={sendMessageOrCancelEdit}
-            >
-              <IconSend />
-            </button>
-          </>
-        )}
-        {!isSubmitting && !isEditing && (
-          <button
-            disabled={isDisabled}
-            className={
-              topicInputs[selectedTopic?._id] || attachments.length > 0
-                ? styles.SendActive
-                : ""
-            }
-            aria-label="send chat message"
-            onClick={sendMessageOrCancelEdit}
-          >
-            <IconSend />
-          </button>
-        )}
-      </div>
-    );
-  };
-  const triggerPicker = () => {
-    const now = Date.now();
-    if (lastTriggered.current && now - lastTriggered.current < 300) {
-      return;
-    }
-
-    lastTriggered.current = now;
-    setAllowBlur(true);
-    setEmojiPicker((prevState) => !prevState);
-  };
-
-  return (
-    <div
-      ref={inputBoxContainerRef}
-      id={isMobile ? styles.ChatInputMobile : styles.ChatInput}
-      style={{ transform: `translateY(${offsetY}px)`, zIndex: 2 }}
-    >
-      <div className={styles.entryBox}>
-        <ImageHolder
-          attachments={attachments}
-          removeAttachment={removeAttachment}
-          attRefs={attRefs}
-          uploading={uploadingAttachments}
-        />
-        <textarea
-          id={isMobile ? styles.ChatInputMobileText : styles.ChatInputText}
-          placeholder="say something"
-          ref={textRef}
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck="true"
-          onBlur={handleBlur}
-          onChange={(e) => {
-            inputHandler(e);
-            calcHeight();
-          }}
-          onFocus={() => {
-            if (toggleOverlay) {
-              toggleOverlay(true);
-            }
-
-            setAllowBlur(false);
-            calcHeight();
-          }}
-          value={(topicInputs && topicInputs[selectedTopic?._id]) || ""}
-          onKeyDown={(e) => {
-            let input = topicInputs[selectedTopic?._id] || "";
-            if (e.altKey) {
-              setAltKey(true);
-            }
-            if (e.key === "Enter" && altKey) {
-              input = input + "\r\n";
-              setTopicInputs({
-                ...topicInputs,
-                [selectedTopic?._id]: input,
-              });
-            } else if (e.key === "Enter" && isMobile) {
-              input = input + "\n";
-              setTopicInputs({
-                ...topicInputs,
-                [selectedTopic?._id]: input,
-              });
-            } else if (
-              e.key === "Enter" &&
-              !e.shiftKey &&
-              input.trim().length > 0
-            ) {
-              e.preventDefault();
-              submitMessageLogic();
-            }
-          }}
-          onKeyUp={() => {
-            setAltKey(false);
-          }}
-          onPaste={getPastedData}
-          onDragEnter={(e) => {
-            e.preventDefault();
-            return false;
-          }}
-          onDragOver={(e) => {
-            e.preventDefault();
-          }}
-          onDrop={(e) => {
-            e.preventDefault();
-            dropHandler(e);
-          }}
-          onDragLeave={(e) => {
-            e.preventDefault();
-          }}
-        ></textarea>
-      </div>
-      <div
-        id={
-          isMobile ? styles.ChatInputMobileControls : styles.ChatInputControls
+                        <div className={styles.Spinner}></div>
+                    </div>
+                )}
+                {!isSubmitting && isEditing && (
+                    <>
+                        <button
+                            onClick={cancelEdit}
+                            className={styles.EditCancel}
+                            aria-label="cancel edit chat message"
+                        >
+                            cancel
+                        </button>
+                        <button
+                            className={styles.SendActive}
+                            aria-label="send chat message"
+                            onClick={sendMessageOrCancelEdit}
+                        >
+                            <IconSend />
+                        </button>
+                    </>
+                )}
+                {!isSubmitting && !isEditing && (
+                    <button
+                        disabled={isDisabled}
+                        className={
+                            topicInputs[selectedTopic?._id] ||
+                            attachments.length > 0
+                                ? styles.SendActive
+                                : ""
+                        }
+                        aria-label="send chat message"
+                        onClick={sendMessageOrCancelEdit}
+                    >
+                        <IconSend />
+                    </button>
+                )}
+            </div>
+        );
+    };
+    const triggerPicker = () => {
+        const now = Date.now();
+        if (lastTriggered.current && now - lastTriggered.current < 300) {
+            return;
         }
-      >
+
+        lastTriggered.current = now;
+        setAllowBlur(true);
+        setEmojiPicker((prevState) => !prevState);
+    };
+
+    return (
         <div
-          id={
-            isMobile
-              ? styles.ChatInputMobileControlsLeft
-              : styles.ChatInputControlsLeft
-          }
+            ref={inputBoxContainerRef}
+            id={isMobile ? styles.ChatInputMobile : styles.ChatInput}
+            style={{ transform: `translateY(${offsetY}px)`, zIndex: 2 }}
         >
-          <button
-            onMouseDown={triggerPicker}
-            onTouchStart={triggerPicker}
-            aria-label="add emoji reaction"
-          >
-            <IconAddReactionNoFill />
-          </button>
-          <EmojiPicker />
-          <button
-            aria-label="attach an image"
-            {...(ios
-              ? { onClick: openFileSelector }
-              : {
-                  onMouseDown: openFileSelector,
-                  onTouchStart: openFileSelector,
-                })}
-          >
-            <IconImage />
-          </button>
-          <input
-            ref={fileRef}
-            type="file"
-            id="file-input"
-            accept="image/*,video/mp4,video/webm,video/ogg,video/x-msvideo,video/quicktime,video/x-matroska,video/x-flv,video/3gpp,video/3gpp2,video/mpeg,video/x-ms-wmv"
-            onChange={(e) => {
-              const { files } = e.target;
-              addAttachment(files[0]);
-            }}
-            style={{ display: "none" }}
-          />
+            <div className={styles.entryBox}>
+                <ImageHolder
+                    attachments={attachments}
+                    removeAttachment={removeAttachment}
+                    attRefs={attRefs}
+                    uploading={uploadingAttachments}
+                />
+                <textarea
+                    id={
+                        isMobile
+                            ? styles.ChatInputMobileText
+                            : styles.ChatInputText
+                    }
+                    placeholder="say something"
+                    ref={textRef}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck="true"
+                    onBlur={handleBlur}
+                    onChange={(e) => {
+                        inputHandler(e);
+                        calcHeight();
+                    }}
+                    onFocus={() => {
+                        if (toggleOverlay) {
+                            toggleOverlay(true);
+                        }
+
+                        setAllowBlur(false);
+                        calcHeight();
+                    }}
+                    value={
+                        (topicInputs && topicInputs[selectedTopic?._id]) || ""
+                    }
+                    onKeyDown={(e) => {
+                        let input = topicInputs[selectedTopic?._id] || "";
+                        if (e.altKey) {
+                            setAltKey(true);
+                        }
+                        if (e.key === "Enter" && altKey) {
+                            input = input + "\r\n";
+                            setTopicInputs({
+                                ...topicInputs,
+                                [selectedTopic?._id]: input,
+                            });
+                        } else if (e.key === "Enter" && isMobile) {
+                            input = input + "\n";
+                            setTopicInputs({
+                                ...topicInputs,
+                                [selectedTopic?._id]: input,
+                            });
+                        } else if (
+                            e.key === "Enter" &&
+                            !e.shiftKey &&
+                            input.trim().length > 0
+                        ) {
+                            e.preventDefault();
+                            submitMessageLogic();
+                        }
+                    }}
+                    onKeyUp={() => {
+                        setAltKey(false);
+                    }}
+                    onPaste={getPastedData}
+                    onDragEnter={(e) => {
+                        e.preventDefault();
+                        return false;
+                    }}
+                    onDragOver={(e) => {
+                        e.preventDefault();
+                    }}
+                    onDrop={(e) => {
+                        e.preventDefault();
+                        dropHandler(e);
+                    }}
+                    onDragLeave={(e) => {
+                        e.preventDefault();
+                    }}
+                ></textarea>
+            </div>
+            <div
+                id={
+                    isMobile
+                        ? styles.ChatInputMobileControls
+                        : styles.ChatInputControls
+                }
+            >
+                <div
+                    id={
+                        isMobile
+                            ? styles.ChatInputMobileControlsLeft
+                            : styles.ChatInputControlsLeft
+                    }
+                >
+                    <button
+                        onMouseDown={triggerPicker}
+                        onTouchStart={triggerPicker}
+                        aria-label="add emoji reaction"
+                    >
+                        <IconAddReactionNoFill />
+                    </button>
+                    <EmojiPicker />
+                    <button
+                        aria-label="attach an image"
+                        {...(ios
+                            ? { onClick: openFileSelector }
+                            : {
+                                  onMouseDown: openFileSelector,
+                                  onTouchStart: openFileSelector,
+                              })}
+                    >
+                        <IconImage />
+                    </button>
+                    <input
+                        ref={fileRef}
+                        type="file"
+                        id="file-input"
+                        accept="image/*,video/mp4,video/webm,video/ogg,video/x-msvideo,video/quicktime,video/x-matroska,video/x-flv,video/3gpp,video/3gpp2,video/mpeg,video/x-ms-wmv"
+                        onChange={(e) => {
+                            const { files } = e.target;
+                            addAttachment(files[0]);
+                        }}
+                        style={{ display: "none" }}
+                    />
+                </div>
+                <MessageSubmits />
+            </div>
         </div>
-        <MessageSubmits />
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ChatInput;
