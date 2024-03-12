@@ -1055,7 +1055,7 @@ const ChatInput = (props) => {
           placeholder="say something"
           ref={textRef}
           autoComplete="off"
-          autoCorrect="off"
+          //autoCorrect="off"
           spellCheck="true"
           onBlur={handleBlur}
           onChange={(e) => {
