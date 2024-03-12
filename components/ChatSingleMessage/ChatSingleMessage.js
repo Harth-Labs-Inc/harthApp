@@ -1119,10 +1119,10 @@ const ChatSingleMessage = (props) => {
                             reaction.includes(
                               "custom-emoji.s3.us-east-2.amazonaws.com"
                             ) ? (
-                              <img src={reaction} />
-                            ) : (
-                              reaction
-                            )}
+                            <span className={styles.icon}><img src={reaction} /></span>
+                          ) : (
+                            <span className={styles.icon}>{reaction}</span>
+                          )}
                             <span className={styles.label}>{name}</span>
                           </button>
                         );
@@ -1448,15 +1448,15 @@ const ChatSingleMessage = (props) => {
                           key={id}
                         >
                           {isCustom ||
-                          reaction.includes(
-                            "custom-emoji.s3.us-east-2.amazonaws.com"
-                          ) ? (
-                            <img src={reaction} />
+                            reaction.includes(
+                              "custom-emoji.s3.us-east-2.amazonaws.com"
+                            ) ? (
+                            <span className={styles.icon}><img src={reaction} /></span>
                           ) : (
-                            reaction
+                            <span className={styles.icon}>{reaction}</span>
                           )}
-                          <span className={styles.label}>{name}</span>
-                        </button>
+                            <span className={styles.label}>{name}</span>
+                          </button>
                       );
                     })}
 
