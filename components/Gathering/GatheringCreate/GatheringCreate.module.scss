@@ -14,10 +14,10 @@
   height: fit-content;
   background-color: var(--gather-tile);
   padding: 4px 16px 16px 16px;
+  border: 1px solid var(--gather-tile-offset);
+  border-bottom: 0;
 
-  box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.075),
-        0 2px 2px hsl(0deg 0% 0% / 0.075); 
+  box-shadow: var(--shadow-1); 
 }
 
 .Desktop {
@@ -25,20 +25,16 @@
   top: 8px;
   left: 50%;
   transform: translateX(-50%);
-  border-radius: $corner_radius_mobile;
-  //border-bottom-right-radius: 36px;
-  //border-bottom-left-radius: $outside_radius;
+  border-radius: $corner_radius;
   overflow: hidden;
-  border: 0;
+  border: 1px solid var(--gather-tile-offset);
+  border-bottom: 0;
   padding: 0px 12px 24px 12px;
   width: calc(100% - 16px);
-  //width: fit-content;
   min-width: fit-content;
   height: fit-content;
   background-color: var(--gather-tile);
-  box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.05),
-        0 2px 2px hsl(0deg 0% 0% / 0.05); 
+  box-shadow: var(--shadow-1); 
 }
 
 .title {
@@ -49,6 +45,7 @@
   text-align: center;
 
   .Mobile & {
+    padding-top: 12px;
     color: var(--font-muted);
     font-size: 12px;
     margin-bottom: 16px;
@@ -93,11 +90,11 @@
       text-align: center;
       width: 100%;
       @include roomTitle;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 500;
-      border-radius: 999px;
-      background-color: var(--theme-background-offset);
-      border: 0;
+      border-radius: 8px;
+      background-color: var(--theme-background);
+      border: 1px solid var(--border-ultralight);
       height: 40px;
       color: var(--font-main);
       caret-color: $hot_purple;
@@ -105,7 +102,7 @@
       text-transform: none;
 
       &::placeholder {
-        color: var(--font-muted);
+        color: var(--font-placeholder);
       }
     }
 
@@ -130,7 +127,7 @@
 
       input {
         height: 56px;
-        font-size: 22px;
+        font-size: 20px;
       }
 
     }
@@ -206,16 +203,14 @@
   width: 230px;
   height: 48px;
   min-width: 230px;
-  border-radius: 999px;
   padding: 8px;
-
   .Mobile & {
     width: 100%;
     //padding: 16px 16px;
     padding: 0;
     padding-top: 8px;
     height: 56px;
-    background-color: transparent;
+    //background-color: transparent;
   }
 }
 
@@ -225,15 +220,21 @@
   justify-content: center;
   width: 100%;
   height: 32px;
-  color: var(--font-muted);
-  background-color: transparent;
+  color: var(--border-heavy);
+  //background-color: var(--border-light);
+  background-color: var(--theme-background);
   border-radius: 999px;
   cursor: pointer;
   @include systemFont;
-  border: 1px solid var(--border-basic);
+  //border: 1px solid var(--border-basic);
+  border: 0;
   padding: 0px 0px;
   margin: 0;
   gap: 4px;
+  //background: linear-gradient(45deg, $hot_purple, var(--gather-tile-offset));
+  //box-shadow: var(--shadow-1);
+  border: 1px solid var(--border-ultralight);
+
 
   svg {
     width: 20px;
@@ -241,16 +242,37 @@
     margin: 0;
 
     path {
-      fill: var(--font-muted);
+      fill: var(--border-heavy);
     }
   }
 
   &Schedule {
-    //border: 0;
+    //border: 1px solid var(--font-muted);
+    //background-color: var(--border-ultralight);
+    color: var(--border-heavy);
+    svg {
+  
+      path {
+        fill: var(--border-heavy);
+      }
+    }
 
     .Mobile & {
-      border: 1px solid var(--border-basic);
+      //border: 1px solid var(--border-basic);
     }
+  }
+
+  &Active {
+    background: $hot_purple;
+    color: $font_light;
+    border-color: $hot_purple;
+
+    svg {
+      path {
+        fill: $font_light;
+      }
+    }
+    
   }
 
   .Desktop & {
@@ -261,8 +283,10 @@
         color: $font_light;
         border-color: $hot_purple;
 
-        path {
-          fill: $font_light;
+        svg {
+          path {
+            fill: $font_light;
+          }
         }
       }
     }
@@ -280,11 +304,14 @@
 
     &:active {
       background: $hot_purple;
-      color: $font_light;
+        color: $font_light;
+        border-color: $hot_purple;
 
-      path {
-        fill: $font_light;
-      }
+        svg {
+          path {
+            fill: $font_light;
+          }
+        }
     }
   }
 }
@@ -315,7 +342,7 @@
   .Desktop & {
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background: var(--border-basic);
+        background: var(--gather-tile-offset);
       }
     }
   }
@@ -326,7 +353,7 @@
     padding: 2px;
 
     &:active {
-      background-color: var(--border-light);
+      background-color: var(--gather-tile-offset);
     }
   }
 
