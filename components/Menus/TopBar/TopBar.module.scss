@@ -31,7 +31,8 @@
   padding: 0px 0 0 0;
   z-index: 10;
   background: var(--menu-color);
-
+  border-top-left-radius: $outside_radius;
+  
   .background {
     position: relative;
     width: 100%;
@@ -47,7 +48,6 @@
     padding-left: 4px;
     box-shadow: var(--shadow-1);
     border-top: 1px solid var(--menu-offset);
-    
 
     &Mobile {
       display: flex;
@@ -114,11 +114,8 @@
       width: 76px;
       height: 76px;
       border-radius: 999px;
-      background-color: aqua;
+      background-color: var(--menu-color);
       box-shadow: var(--shadow-2);
-
-
-      //z-index: 2;
     }
     &::after{
       position: absolute;
@@ -129,7 +126,6 @@
       height: 62px;
       background-color: var(--menu-color);
 
-      //z-index: 3;
     }
 
     &UnreadMessage {
@@ -168,6 +164,7 @@
     padding: 0px;
     border: 0;
     background-color: var(--menu-color);
+    border-radius: 0;
     box-shadow: var(--shadow-2);
   }
 }

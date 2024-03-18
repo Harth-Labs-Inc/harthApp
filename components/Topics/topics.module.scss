@@ -101,18 +101,20 @@
   }
 
   &Active {
-    background-color: var(--border-ultralight);
+    background-color: var(--theme-background-offset);
     .label {
       color: var(--font-main);
+      font-weight: 500;
     }
     .moreMenu {
       visibility: visible;
     }
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: var(--border-light);
-      }
-    }
+    box-shadow: var(--shadow-1);
+    // @media (hover: hover) and (pointer: fine) {
+    //   &:hover {
+    //     background-color: var(--border-light);
+    //   }
+    // }
   }
 
   &Mobile {

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { checkForMatchingEmail } from "../../../requests/userApi";
@@ -13,7 +13,7 @@ const CreateAccount = () => {
   const router = useRouter();
   const { isMobile } = useContext(MobileContext);
   const { setNewUser } = useAuth();
-
+  const inputRef = useRef(null);
   const [submissionType, setSubmissionType] = useState();
   const [customErrors, setCustomErrors] = useState({
     email: "",
@@ -24,6 +24,10 @@ const CreateAccount = () => {
 
   useEffect(() => {
     setTodayMax(new Date().toISOString().split("T")[0]);
+  }, []);
+
+  useEffect(() => {
+    inputRef.current.focus();
   }, []);
 
   function calculateAge(birthdate) {
@@ -96,6 +100,10 @@ const CreateAccount = () => {
                 /* eslint-disable-next-line */
                 pattern: /.*\@.*\.\w{2,3}/g,
               })}
+              ref={(e) => {
+                register("email").ref(e);
+                inputRef.current = e;
+              }}
               type="email"
               placeholder="Email"
               autoCapitalize="off"

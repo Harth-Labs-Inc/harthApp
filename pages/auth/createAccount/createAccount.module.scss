@@ -25,7 +25,7 @@
 
   input {
     border-radius: 4px;
-    background-color: var(--border-light);
+    background-color: var(--theme-background);
     border: 0;
     height: 56px;
     padding: 0px 12px;
@@ -33,17 +33,19 @@
     font-size: 16px;
     color: var(--font-main);
     caret-color: $hot_purple;
+    box-shadow: var(--shadow-1);
     &::placeholder {
-      color: var(--font-muted);
+      color: var(--font-placeholder);
     }
   }
 
   input[type="date"] {
     width: 240px;
-    background-color: var(--border-light);
+    background-color: var(--theme-background);
     color: var(--font-main);
     @include systemFont;
     font-size: 16px;
+    box-shadow: var(--shadow-1);
   }
   ::-webkit-calendar-picker-indicator {
     background-color: transparent;

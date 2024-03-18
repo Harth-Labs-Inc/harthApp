@@ -263,6 +263,7 @@ const DumbChatInput = (props) => {
           placeholder="say something"
           ref={textRef}
           spellCheck="true"
+          autoComplete="off"
           onChange={(e) => {
             inputHandler(e);
             calcHeight();

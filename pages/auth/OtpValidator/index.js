@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { MobileContext } from "contexts/mobile";
 import { useRouter } from "next/router";
 import { useAuth } from "../../../contexts/auth";
 import {
@@ -22,7 +23,7 @@ const OtpValidator = (props) => {
   } = props;
   const router = useRouter();
   const { getInitialData, newUser: tempUser } = useAuth();
-
+  const { isMobile } = useContext(MobileContext);
   const [newUser, setNewUser] = useState();
   const [hasResent, setHasResent] = useState(false);
   /* eslint-disable-next-line */
@@ -104,7 +105,7 @@ const OtpValidator = (props) => {
   }
 
   return (
-    <Modal blockBackground={true} onToggleModal={() => {}} ignoreFadeIn={true}>
+    <Modal blockBackground={true} alignTop={isMobile ? true : false} onToggleModal={() => {}} ignoreFadeIn={true}>
       <div className={`${styles.OtpModule} ${styles.fadeIn}`}>
         <h3>Security Check</h3>
         <figure>

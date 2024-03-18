@@ -43,7 +43,7 @@
       min-width: 38px;
       border-radius: 9999px;
       border: 0;
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--theme-background-offset);
       user-select: none;
 
       &Mobile {
@@ -79,6 +79,17 @@
   &Desktop {
     margin-bottom: 4px;
 
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: var(--theme-background-offset);
+
+        .participantElement {
+          .avatar {
+            border-color: var(--theme-background-offset);
+          }
+        }
+      }
+    }
     .moreMenu {
       position: absolute;
       visibility: hidden;
@@ -98,50 +109,38 @@
       path {
         fill: var(--path-basic);
       }
-
-      &:hover {
-        background-color: var(--theme-background-offset);
-      }
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: var(--theme-background-offset);
 
-        .participantElement {
-          .avatar {
-            border-color: var(--theme-background-offset);
-          }
-        }
-      }
-    }
   }
   &Active {
-    background-color: var(--border-light);
+    background-color: var(--theme-background-offset);
+    box-shadow: var(--shadow-1);
     .moreMenu {
       visibility: visible;
     }
     .label {
       color: var(--font-main);
+      font-weight: 500;
     }
 
     .participantElement {
       .avatar {
-        border-color: var(--border-light);
+        border-color: var(--theme-background-offset);
       }
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: var(--border-light);
+    // @media (hover: hover) and (pointer: fine) {
+    //   &:hover {
+    //     background-color: var(--border-light);
 
-        .participantElement {
-          .avatar {
-            border-color: var(--border-light);
-          }
-        }
-      }
-    }
+    //     .participantElement {
+    //       .avatar {
+    //         border-color: var(--border-light);
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   &Alert {
