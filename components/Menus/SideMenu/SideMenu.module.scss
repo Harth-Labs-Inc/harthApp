@@ -23,10 +23,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    bottom: 0px;
+    width: calc(100% - 12px);
     height: fit-content;
-    width: 100%;
-    margin-left: -8px;
+
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    
     background-color: var(--menu-color);
     z-index: 1;
     padding: 12px 0px 12px 0px;
@@ -125,6 +128,19 @@
         }
       }
     }
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: -$outside_radius;
+    content: "";
+    height: 100%;
+    width: $outside_radius;
+    border-top-left-radius: $outside_radius;
+    box-shadow: var(--shadow-1);
+    background-color: var(--menu-color);
+
   }
 }
 

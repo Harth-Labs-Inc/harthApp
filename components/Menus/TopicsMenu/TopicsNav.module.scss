@@ -124,10 +124,10 @@
     transition: opacity;
 
     background-color: transparent;
-    border: 1px solid var(--border-basic);
+    border: 1px solid var(--border-light);
 
     path {
-      fill: var(--border-basic);
+      fill: var(--border-light);
     }
 
     &:active {
@@ -171,8 +171,7 @@
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--theme-background-offset);
-        border-color: var(--border-heavy);;
+        border-color: var(--border-heavy);
         path {
           fill: var(--border-heavy);
         }

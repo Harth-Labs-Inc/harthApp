@@ -45,6 +45,8 @@
   @include topicTitle;
   border-radius: 0;
   border: 0;
+  box-shadow: var(--shadow-2);
+
 
   .people {
     display: flex;

@@ -35,8 +35,23 @@
       width: 100%;
       z-index: 1;
       pointer-events: none;
-      backdrop-filter: blur(1px);
+      backdrop-filter: opacity(0.50);
 
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        background-color: var(--menu-color);
+        border-radius: 50%;
+        
+      }
       &::after {
         content: "";
         position: absolute;
