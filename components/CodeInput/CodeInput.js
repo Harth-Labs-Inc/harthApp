@@ -8,6 +8,7 @@ const CodeInput = ({ onChange, codeInput }) => {
             placeholder=""
             validChars="0-9"
             onChange={onChange}
+            autoFocus={true}
             classNames={{
                 container: styles.CodeInputContainer,
                 character: styles.CodeInputCharacter,
