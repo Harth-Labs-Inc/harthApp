@@ -14,7 +14,7 @@
     width: 100%;
     text-align: left;
     margin-top: 8px;
-    margin-bottom: 24x;
+    padding-bottom: 12px;
     color: var(--font-main);
   }
 
@@ -33,7 +33,8 @@
     input {
       width: 168px;
       height: 48px;
-      background-color: var(--border-light);
+      background-color: var(--theme-background);
+      box-shadow: var(--shadow-1);
       color: var(--font-main);
       @include systemFont;
       border: 0;
@@ -55,7 +56,8 @@
     border: 0;
     border-radius: 6px;
     height: 48px;
-    background: var(--border-light);
+    background-color: var(--theme-background);
+    box-shadow: var(--shadow-1);
     resize: none;
     padding: 8px;
     margin-bottom: -16px;
@@ -74,7 +76,8 @@
     color: var(--font-main);
     border: 0;
     border-radius: 6px;
-    background: var(--border-light);
+    background-color: var(--theme-background);
+    box-shadow: var(--shadow-1);
     padding: 12px;
     word-wrap: normal;
     resize: none;
@@ -128,7 +131,8 @@
 
       &.Active {
         color: var(--font-main);
-        background-color: var(--border-basic);
+        background-color: var(--theme-background);
+        box-shadow: var(--shadow-1);
         svg {
           opacity: 1;
           filter: grayscale(0);
@@ -140,7 +144,7 @@
   .LabelHolder {
     width: fit-content;
     @include systemFont;
-    color: var(--font-main);
+    color: var(--font-muted);
     font-size: 12px;
     line-height: 10px;
     text-align: center;

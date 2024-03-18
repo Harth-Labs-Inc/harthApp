@@ -116,8 +116,8 @@ $gather_path_heavy: lighten($gather_background, 50%);
   --menu-text: #271623;
   --menu-path-muted: #a8a8ae;
   --menu-text-muted: #98989e;
-  --gather-tile: #d8d8de;
-  --gather-tile-offset: #e8e8ef;
+  --gather-tile: #ececf2; //#d8d8de;
+  --gather-tile-offset: #e8e8ee;
   --modal-border: #98989e;
   --overlay: linear-gradient(to bottom, transparent, rgba(13, 117, 202, .1), transparent 80%),
   linear-gradient(to bottom, transparent 20%, rgba(217, 111, 171, .1), transparent),

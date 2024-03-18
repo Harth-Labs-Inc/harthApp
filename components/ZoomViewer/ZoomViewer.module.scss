@@ -8,7 +8,7 @@
   z-index: 500000;
   height: 100vh;
   width: 100vw;
-  background-color: $menu_color;
+  background-color: var(--menu-color);
 
   button {
     position: fixed;
@@ -17,9 +17,9 @@
     z-index: 5000000;
     height: 28px;
     width: fit-content;
-    border: 1px solid $ash_light;
-    background: $ash;
-    color: $font_light;
+    border: 1px solid var(--border-basic);
+    background: var(--menu-offset);
+    color: var(--font-main); 
     @include systemFont;
     font-size: 12px;
     text-transform: uppercase;
@@ -35,14 +35,14 @@
     z-index: 5000000;
     height: 28px;
     width: 28px;
-    border: 1px solid $ash_light;
-    background: $ash;
+    border: 1px solid var(--border-basic);
+    background: var(--menu-offset);
     border-radius: 99px;
     padding: 4px;
     cursor: pointer;
 
     path {
-      fill: $font_light;
+      fill: var(--font-main); 
     }
   }
 }
@@ -70,8 +70,8 @@
   top: 50%;
   right: 10px;
   z-index: 500000000;
-  border: 1px solid $ash_light;
-  background-color: $ash;
+  border: 1px solid var(--border-basic);
+  background: var(--menu-offset);
   border-radius: 999px;
   width: 36px;
   height: 36px;
@@ -81,7 +81,7 @@
   cursor: pointer;
 
   path {
-    fill: $font_light;
+    fill: var(--font-main);
   }
 }
 .prevbutton {
@@ -89,8 +89,8 @@
   top: 50%;
   left: 10px;
   z-index: 500000000;
-  border: 1px solid $ash_light;
-  background-color: $ash;
+  border: 1px solid var(--border-basic);
+  background: var(--menu-offset);
   border-radius: 999px;
   width: 36px;
   height: 36px;
@@ -100,6 +100,6 @@
   cursor: pointer;
 
   path {
-    fill: $font_light;
+    fill: var(--font-main);
   }
 }
