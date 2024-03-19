@@ -9,10 +9,9 @@
   background-color: transparent;
 
   &TitleHolder {
-    display: flex;
-    width: fit-content;
-    min-width: 220px;
-    max-width: 280px;
+    width: 340px;
+    min-width: 340px;
+    max-width: 340px;
   }
 
   &HarthButton {
@@ -23,7 +22,7 @@
       align-items: center;
       height: 52px;
       border: 0;
-      width: fit-content;
+      //width: fit-content;
       max-width: 100%;
       padding: 4px 24px 4px 12px;
       cursor: pointer;
@@ -90,7 +89,7 @@
       border: 0;
       margin: 0;
       background: transparent;
-      margin-left: -16px;
+      margin-right: 64px;
     }
     &Mobile {
       position: relative;
@@ -104,7 +103,7 @@
       padding: 4px 0px 8px 0px;
       background-color: transparent;
       border-radius: 0;
-      box-shadow: var(--shadow-2-up);
+      box-shadow: var(--shadow-1-up);
     }
   }
 

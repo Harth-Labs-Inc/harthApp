@@ -160,7 +160,7 @@ export default function CreateHarthTopicStep({ closeHandler, ignoreFadeIn }) {
                 <IconArrowLeft />
               </div>
               <span className={styles.text}>
-                Don&rsquo;t forget to add an emoji!
+                Don&rsquo;t forget to pick an emoji!
               </span>
             </div>
             <div className={styles.helpText}>

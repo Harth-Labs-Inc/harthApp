@@ -46,8 +46,9 @@
     border-top-left-radius: $outside_radius;
     padding-right: 10px;
     padding-left: 4px;
-    box-shadow: var(--shadow-1);
+    //box-shadow: var(--shadow-1);
     border-top: 1px solid var(--menu-offset);
+    border-bottom: 1px solid var(--border-ultralight);
 
     &Mobile {
       display: flex;
