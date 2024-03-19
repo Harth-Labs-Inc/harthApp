@@ -145,7 +145,7 @@ export default function CreateNewTopicModal({ toggleModal }) {
                 <IconArrowLeft />
               </div>
               <span className={styles.text}>
-                Don&rsquo;t forget to add an emoji!
+                Don&rsquo;t forget to pick an emoji!
               </span>
             </div>
             <div className={styles.CreateTopicButtons}>

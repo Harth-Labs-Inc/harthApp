@@ -26,8 +26,7 @@
   width: 100%;
   background-color: var(--menu-color);
   border: 0;
-  border-top: 1px solid var(--modal-border);
-  border-bottom: 1px solid var(--modal-border);
+  box-shadow: var(--shadow-2);
   .content {
     width: 100%;
     max-width: 360px;
@@ -140,7 +139,8 @@
   justify-content: space-between;
   position: relative;
   margin-top: 2px;
-  background-color: var(--border-basic);
+  background-color: var(--theme-background);
+  box-shadow: var(--shadow-1);
 
   img {
     border-radius: 999px;
@@ -167,7 +167,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-left: 1px solid var(--border-heavy);
+  //border-left: 1px solid var(--border-heavy);
   color: var(--font-muted);
 
   padding-left: 8px;
@@ -175,7 +175,7 @@
 }
 .dropdownoptions {
   position: absolute;
-  background-color: var(--border-basic);
+  background-color: var(--theme-background-offset);
   z-index: 1;
   width: 100%;
   left: 0;
@@ -191,7 +191,7 @@
   display: flex;
   margin-bottom: 4px;
   padding: 8px;
-  background-color: var(--border-heavy);
+  background-color: var(--border-light);
   border: 0;
   cursor: pointer;
   border-radius: 6px;
@@ -205,12 +205,12 @@
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      background-color: var(--border-light);
+      background-color: var(--theme-background);
     }
   }
 
   &:active {
-    background-color: var(--border-light);
+    background-color: var(--theme-background);
   }
 }
 
@@ -225,12 +225,6 @@
     border-radius: 999px;
   }
 
-  // label {
-  //     @include systemFont;
-  //     font-size: 24px;
-  //     margin-bottom: 3px;
-  //     color: pink;
-  // }
 }
 .emailinput {
   height: 56px;
@@ -240,14 +234,14 @@
   padding-left: 8px;
   display: flex;
   flex-direction: row;
-  //justify-content: space-between;
   align-items: center;
   position: relative;
   margin-top: 2px;
   margin-bottom: 20px;
   overflow: scroll;
-  background-color: var(--border-light);
+  background-color: var(--theme-background);
   gap: 12px;
+  box-shadow: var(--shadow-1);
 
   input {
     @include systemFont;
@@ -264,8 +258,9 @@
     text-transform: none;
     caret-color: $hot_purple;
 
+
     &::placeholder {
-      color: var(--font-muted);
+      color: var(--font-placeholder);
     }
   }
 }

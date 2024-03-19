@@ -39,7 +39,8 @@
       flex-direction: column;
       gap: 16px;
       position: relative;
-      background-color: var(--border-light);
+      background-color: var(--theme-background);
+      box-shadow: var(--shadow-1);
       overflow-y: scroll;
       height: 220px;
       padding: 16px;
@@ -52,7 +53,7 @@
 
         .imageHolder {
           padding: 0px 0px 0px 12px;
-          border-left: 1px solid var(--font-main);
+          border-left: 1px solid var(--border-light);
 
           img {
             position: relative;
@@ -73,9 +74,9 @@
           appearance: none;
           width: 32px;
           height: 32px;
-          border: 2px solid var(--font-main);
+          border: 2px solid var(--border-light);
           border-radius: 8px;
-          background-color: var(--border-light);
+          background-color: transparent;
           //box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
           &::before {

@@ -234,7 +234,8 @@
   padding: 0px 0px 0px 0px;
   border-bottom: none;
   border-radius: 0;
-  box-shadow: var(--shadow-1-up);
+  //box-shadow: var(--shadow-1-up);
+  border-top: 1px solid var(--border-ultralight);
 
   &Text {
     resize: none;
