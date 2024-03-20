@@ -9,8 +9,8 @@
   background-color: transparent;
 
   &TitleHolder {
-    width: 340px;
-    min-width: 340px;
+    width: fit-content;
+    min-width: 280px;
     max-width: 340px;
   }
 
