@@ -32,7 +32,8 @@
   color: var(--font-main);
   background-color: var(--menu-color);
   border-radius: 8px;
-
+  box-shadow: var(--shadow-2);
+  
   &Button {
     position: relative;
     display: flex;

@@ -40,7 +40,8 @@
     border-radius: 6px;
     border: 0;
     color: var(--font-main);
-    background: var(--border-light);
+    background: var(--theme-background);
+    box-shadow: var(--shadow-1);
   }
 
   .form {
