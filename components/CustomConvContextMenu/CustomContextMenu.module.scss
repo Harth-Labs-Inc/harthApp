@@ -24,16 +24,16 @@
   flex-direction: column;
   padding: 8px;
   color: var(--font-main);
-  background-color: var(--overlay);
+  background-color: var(--menu-color);
   border-radius: 8px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-2);
 
   &Button {
     display: flex;
     align-items: center;
     padding: 6px 8px;
     color: var(--font-main);
-    background-color: var(--border-basic);
+    background-color: var(--theme-background);
     border: 0;
     border-radius: 6px;
     cursor: pointer;
@@ -46,6 +46,10 @@
     svg {
       width: 16px;
       margin-right: 6px;
+      path {
+        fill: var(--font-main);
+      }
+
     }
 
     &:hover {
