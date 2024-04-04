@@ -58,12 +58,12 @@
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: var(--border-basic);
+        background-color: var(--border-light);
       }
     }
 
     &:active {
-      background-color: var(--border-basic);
+      background-color: var(--border-light);
     }
   }
 

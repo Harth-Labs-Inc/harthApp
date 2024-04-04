@@ -42,8 +42,14 @@
       }
     }
 
-    &:hover {
-      background-color: $black;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: var(--border-light);
+      }
+    }
+
+    &:active {
+      background-color: var(--border-light);
     }
   }
 }
