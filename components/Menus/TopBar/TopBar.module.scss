@@ -47,7 +47,7 @@
     padding-right: 10px;
     padding-left: 4px;
     //box-shadow: var(--shadow-1);
-    border-top: 1px solid var(--menu-offset);
+    //border-top: 1px solid var(--menu-offset);
     border-bottom: 1px solid var(--border-ultralight);
 
     &Mobile {
@@ -110,13 +110,13 @@
     &::before {
       position: absolute;
       content: "";
-      top: -5px;
-      left: 0;
-      width: 76px;
-      height: 76px;
+      top: -6px;
+      left: -2px;
+      width: 78px;
+      height: 78px;
       border-radius: 999px;
       background-color: var(--menu-color);
-      box-shadow: var(--shadow-2);
+      border: 1px solid var(--border-light);
     }
     &::after{
       position: absolute;
@@ -126,7 +126,6 @@
       width: 100%;
       height: 62px;
       background-color: var(--menu-color);
-
     }
 
     &UnreadMessage {
@@ -166,7 +165,8 @@
     border: 0;
     background-color: var(--menu-color);
     border-radius: 0;
-    box-shadow: var(--shadow-2);
+    border-bottom: 1px solid var(--border-light);
+    //box-shadow: var(--shadow-2);
   }
 }
 .titleHolder {

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { Analytics } from "@vercel/analytics/react";
-import { Work_Sans, Rubik, Raleway } from "next/font/google";
+import { Work_Sans, Rubik, Raleway, Martel_Sans } from "next/font/google";
 import Head from "next/head";
 import App from "next/app";
 import "../styles/Styles.modules.scss";
@@ -20,6 +20,13 @@ const work_Sans = Work_Sans({
   preload: false,
 });
 
+const martel_sans = Martel_Sans({
+  subsets: ["latin"],
+  variable: "--Martel_Sans-font",
+  weight: ["300", "400", "600", "700", "800"],
+  preload: false,
+});
+
 const rubik = Rubik({
   subsets: ["latin"],
   variable: "--Rubik-font",
@@ -36,17 +43,18 @@ const rale = Raleway({
 fontClassNames.push(work_Sans.variable);
 fontClassNames.push(rubik.variable);
 fontClassNames.push(rale.variable);
+fontClassNames.push(martel_sans.variable);
 
 const themeColors = {
   "light-mode": {
-    backgroundColor: "#e8e8ee",
+    backgroundColor: "#ffffff",
     bodyClass: "light-mode",
-    metaThemeColor: "#e8e8ee",
+    metaThemeColor: "#ffffff",
   },
   "dark-mode": {
-    backgroundColor: "#38383e",
+    backgroundColor: "#000000",
     bodyClass: "dark-mode",
-    metaThemeColor: "#38383e",
+    metaThemeColor: "#000000",
   },
 };
 
@@ -137,7 +145,7 @@ function MyApp({
           name="theme-color"
           content={themeColors[userTheme]?.metaThemeColor}
         /> */}
-        <meta name="theme-color" content="#e8e8ee" />
+        <meta name="theme-color" content="#000000" />
         theme
         <meta name="apple-mobile-web-app-title" content="Härth" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

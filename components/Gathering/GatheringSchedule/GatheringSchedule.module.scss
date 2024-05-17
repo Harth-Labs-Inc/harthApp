@@ -37,7 +37,7 @@
       box-shadow: var(--shadow-1);
       color: var(--font-main);
       @include systemFont;
-      border: 0;
+      border: 1px solid var(--border-light);
       border-radius: 6px;
       padding-left: 8px;
     }
@@ -53,7 +53,7 @@
     text-align: center;
     @include roomTitle;
     color: var(--font-main);
-    border: 0;
+    border: 1px solid var(--border-light);
     border-radius: 6px;
     height: 48px;
     background-color: var(--theme-background);
@@ -74,7 +74,7 @@
     @include systemFont;
     font-size: 14px;
     color: var(--font-main);
-    border: 0;
+    border: 1px solid var(--border-light);
     border-radius: 6px;
     background-color: var(--theme-background);
     box-shadow: var(--shadow-1);
@@ -131,7 +131,7 @@
 
       &.Active {
         color: var(--font-main);
-        background-color: var(--theme-background);
+        background-color: var(--theme-background-offset);
         box-shadow: var(--shadow-1);
         svg {
           opacity: 1;

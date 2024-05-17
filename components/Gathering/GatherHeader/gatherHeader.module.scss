@@ -15,10 +15,7 @@
     background-color: var(--menu-color);
     border: 0;
     z-index: 10;
-    border-bottom: 1px solid var(--border-ultralight);
-    box-shadow:
-      0 1px 1px hsl(0deg 0% 0% / 0.075),
-      0 2px 2px hsl(0deg 0% 0% / 0.075);
+    border-bottom: 1px solid var(--border-light);
 
     .leave {
       position: relative;
@@ -116,10 +113,7 @@
     background-color: var(--menu-color);
     border: 0;
     z-index: 10;
-    border-bottom: 1px solid var(--border-ultralight);
-    box-shadow:
-      0 1px 1px hsl(0deg 0% 0% / 0.075),
-      0 2px 2px hsl(0deg 0% 0% / 0.075);
+    border-bottom: 1px solid var(--border-light);
 
     .leave {
       position: relative;
@@ -212,10 +206,7 @@
     background-color: var(--menu-color);
     border: 0;
     z-index: 10;
-    border-bottom: 1px solid var(--border-ultralight);
-    box-shadow:
-      0 1px 1px hsl(0deg 0% 0% / 0.075),
-      0 2px 2px hsl(0deg 0% 0% / 0.075);
+    border-bottom: 1px solid var(--border-light);
 
     .leave {
       position: relative;
@@ -332,9 +323,11 @@
     height: 64px;
     gap: 16px;
     padding: 0px 16px;
-    border: 0;
+    border: 1px solid var(--border-light);
     border-radius: 8px;
     background-color: var(--theme-background);
+    box-shadow: var(--shadow-1);
+
     svg {
       height: 32px;
       width: 32px;

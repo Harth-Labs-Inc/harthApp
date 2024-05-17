@@ -10,7 +10,7 @@
   width: 100%;
   border: 0;
   background-color: transparent;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   cursor: pointer;
   border-radius: 8px;
 
@@ -20,6 +20,7 @@
     line-height: 100%;
     font-size: 24px;
     text-align: center;
+    margin-top: 2px;
   }
 
   .label {
@@ -70,7 +71,7 @@
   }
 
   &Desktop {
-    padding: 6px 24px 6px 8px;
+    padding: 8px 24px 6px 8px;
     .moreMenu {
       position: absolute;
       visibility: hidden;
@@ -104,7 +105,7 @@
     background-color: var(--theme-background-offset);
     .label {
       color: var(--font-main);
-      font-weight: 500;
+      font-weight: 800;
     }
     .moreMenu {
       visibility: visible;

@@ -62,77 +62,67 @@ $gather_path_heavy: lighten($gather_background, 50%);
 
 //dark color scheme
 .dark-mode {
-  --theme-background: #18181e; 
-  --theme-background-offset: #202027;
-  --theme-background-offset-medium: #28282e;
-  --font-main: #fefff6;
-  --font-muted: #68686e;
-  --font-placeholder: #bebebc;
-  --border-ultralight: #303037;
-  --border-light: #48484e;
-  --border-basic: #58585e;
-  --border-heavy: #68686e;
-  --path-light: #4f4f55;
+  --theme-background: #ffffff; 
+  --theme-background-offset: #f8f8ff;
+  --theme-background-offset-medium: #e8e8eb;
+  --font-main: #271623; //fuel
+  --font-muted: #696971;
+  --font-placeholder: #aeaeac;
+  --border-ultralight: #e8e8ee;
+  --border-light: #d8d8de;
+  --border-basic: #b8b8be;
+  --border-heavy: #98989e;
+  --path-light: #6f6f75;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
-  --menu-color: #38383e;
-  --menu-offset: #28282e;
-  --menu-path: #e8e8ee;
-  --menu-text: #e8e8ee;
-  --menu-path-muted: #58585e;
-  --menu-text-muted: #68686e;
-  --gather-tile: #28282e;
-  --gather-tile-offset: #e8e8ef;
-  --modal-border: #68686e;
-  --overlay: linear-gradient(to bottom, transparent, rgba(13, 117, 202, .1), transparent 80%),
-  linear-gradient(to bottom, transparent 20%, rgba(217, 111, 171, .1), transparent),
-  linear-gradient(to bottom, transparent, rgba(0, 0, 0, .1), transparent),
-  rgba(232, 232, 238, .7);
+  --menu-color: #ffffff;
+  --menu-offset: #f0f0f7;
+  --menu-path: #271623;
+  --menu-text: #271623;
+  --menu-path-muted: #a8a8ae;
+  --menu-text-muted: #98989e;
+  --gather-tile: #ececf2; 
+  --gather-tile-offset: #e8e8ee;
+  --modal-border: #98989e;
+  --overlay: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .03) 5%, rgba(0, 0, 0, .03) 95%,transparent);
   --shadow-1: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  --shadow-1-up: rgba(0, 0, 0, 0.1) 0px -1px 3px 0px, rgba(0, 0, 0, 0.06) 0px -1px 2px 0px;
   --shadow-2: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  --shadow-2-up: rgba(0, 0, 0, 0.1) 0px -4px 6px -1px, rgba(0, 0, 0, 0.06) 0px -2px 4px -1px;
   --shadow-3: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
 //light color theme
 .light-mode {
-  --theme-background: #f8f8ff; 
-  --theme-background-offset: #f0f0f7;
-  --theme-background-offset-medium: #e4e4e4;
+  --theme-background: #ffffff; 
+  --theme-background-offset: #f8f8ff;
+  --theme-background-offset-medium: #e8e8eb;
   --font-main: #271623; //fuel
   --font-muted: #696971;
   --font-placeholder: #aeaeac;
   --border-ultralight: #e8e8ee;
-  --border-light: #c8c8ce;
-  --border-basic: #a8a8ae;
-  --border-heavy: #88888e;
+  --border-light: #d8d8de;
+  --border-basic: #b8b8be;
+  --border-heavy: #98989e;
   --path-light: #6f6f75;
   --path-basic: #7f7f85;
   --path-heavy: #9f9fa5;
-  --menu-color: #e8e8ee;
-  --menu-offset: #d8d8de;
+  --menu-color: #ffffff;
+  --menu-offset: #f0f0f7;
   --menu-path: #271623;
   --menu-text: #271623;
   --menu-path-muted: #a8a8ae;
   --menu-text-muted: #98989e;
-  --gather-tile: #ececf2; //#d8d8de;
+  --gather-tile: #ececf2; 
   --gather-tile-offset: #e8e8ee;
   --modal-border: #98989e;
-  --overlay: linear-gradient(to bottom, transparent, rgba(13, 117, 202, .1), transparent 80%),
-  linear-gradient(to bottom, transparent 20%, rgba(217, 111, 171, .1), transparent),
-  linear-gradient(to bottom, transparent, rgba(0, 0, 0, .1), transparent),
-  rgba(232, 232, 238, .7);
-  --shadow-1: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  --shadow-1-up: rgba(0, 0, 0, 0.1) 0px -1px 3px 0px, rgba(0, 0, 0, 0.06) 0px -1px 2px 0px;
+  --overlay: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .03) 5%, rgba(0, 0, 0, .03) 95%,transparent);
+  --shadow-1: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   --shadow-2: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  --shadow-2-up: rgba(0, 0, 0, 0.1) 0px -4px 6px -1px, rgba(0, 0, 0, 0.06) 0px -2px 4px -1px;
   --shadow-3: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
 .text-reg {
   --chat-font-size: 14px;
-  --chat-font-size-mobile: 16px;
+  --chat-font-size-mobile: 18px;
   --topic-font-size: 14px;
   --topic-font-size-mobile: 18px;
   --system-font-size: 14px;

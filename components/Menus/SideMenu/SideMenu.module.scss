@@ -10,14 +10,17 @@
 }
 .SideNav {
   position: relative;
-  padding: 20px 8px 96px 8px;
+  padding: 20px 8px 104px 8px;
   width: 72px;
-  height: var(--vh);
   min-width: 72px;
-  background-color: var(--menu-color);
-  border: 0;
   margin: 0;
-
+  height: var(--vh);
+  background-color: var(--menu-color);
+  border: 1px solid var(--border-ultralight);
+  border-left: 0;
+  border-top-right-radius: 36px;
+  border-bottom-right-radius: 36px;
+  
   .bottomHolder {
     position: absolute;
     display: flex;
@@ -29,10 +32,12 @@
     bottom: 0px;
     left: 50%;
     transform: translateX(-50%);
-    
+    border-bottom-right-radius: 36px;
     background-color: var(--menu-color);
+    background-color: transparent;
+    //background-color: red;
     z-index: 1;
-    padding: 12px 0px 12px 0px;
+    padding: 12px 0px 20px 0px;
     gap: 8px;
 
 
@@ -130,18 +135,6 @@
     }
   }
 
-  &::after {
-    position: absolute;
-    top: 0;
-    right: -$outside_radius;
-    content: "";
-    height: 100%;
-    width: $outside_radius;
-    border-top-left-radius: $outside_radius;
-    box-shadow: var(--shadow-1);
-    background-color: var(--menu-color);
-
-  }
 }
 
 .sideNavMobile {

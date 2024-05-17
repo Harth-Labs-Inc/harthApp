@@ -87,7 +87,7 @@
 
     &::placeholder {
       @include chatText;
-      color: var(--font-muted);
+      color: var(--font-placeholder);
     }
   }
 
@@ -267,7 +267,7 @@
 
     &::placeholder {
       @include chatTextMobile;
-      color: var(--font-muted);
+      color: var(--font-placeholder);
     }
   }
 

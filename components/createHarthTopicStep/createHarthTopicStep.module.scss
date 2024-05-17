@@ -129,7 +129,7 @@
         color: var(--font-main);
         background-color: var(--theme-background);
         box-shadow: var(--shadow-1);
-        border: 0;
+        border: 1px solid var(--border-light);
         border-radius: 6px;
         padding-left: 12px;
         caret-color: $hot_purple;

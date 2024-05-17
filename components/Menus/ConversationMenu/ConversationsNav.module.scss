@@ -12,8 +12,6 @@
   border-right: 1px solid var(--border-ultralight);
   margin-right: $space_gap;
   background: var(--theme-background);
-  box-shadow: var(--shadow-1);
-
 
   .notopic {
     @include systemFont;
