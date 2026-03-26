@@ -9,8 +9,8 @@ import AWS from "aws-sdk";
 /* eslint-disable */
 
 AWS.config = {
-  accessKeyId: "AKIARIGZHATFWEQ2TU4K",
-  secretAccessKey: "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",
+  accessKeyId: "",
+  secretAccessKey: "",
   region: "us-east-1",
 };
 
